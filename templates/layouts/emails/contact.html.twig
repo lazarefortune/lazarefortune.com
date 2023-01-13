@@ -1,0 +1,12 @@
+{% extends 'layouts/emails/base-email.html.twig' %}
+
+{% block body %}
+
+    <h2>Hello {{ name }}</h2>
+
+    <h4>votre message : </h4>
+    <p>
+        {{ message | raw }}
+    </p>
+
+{% endblock %}
