@@ -851,7 +851,6 @@
                         <label for="message" class="contact__label">Entrez votre message</label>
                         {{ form_widget(formContact.message) }}
                     </div>
-                    <div class="g-recaptcha" data-sitekey="{{ app.request.server.get('RECAPTCHA_KEY') }}"></div>
                     <div>
                         <button type="submit" name="formSubmit" class="button button--flex contact__submit">
                             Envoyer le message

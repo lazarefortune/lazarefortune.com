@@ -21,26 +21,16 @@ class MailerService
      */
     public function sendMail( $to, $name, $subject, $message ) : void
     {
-//        $email = (new TemplatedEmail())
-//            ->from('service@lazarefortune.com')
-//            ->to($to)
-//            ->subject($subject)
-//            ->htmlTemplate('layouts/emails/contact.html.twig')
-//            ->context([
-//                'name' => $name,
-//                'message' => $message,
-//            ]);
-
-        $email = (new Email())
+        $email = (new TemplatedEmail())
             ->from('service@lazarefortune.com')
             ->to($to)
             ->subject($subject)
-            ->text($message)
-            ->html('<p>See Twig integration for better HTML integration!</p>');
-
-
+            ->htmlTemplate('layouts/emails/contact.html.twig')
+            ->context([
+                'name' => $name,
+                'message' => $message,
+            ]);
 
         $this->mailer->send($email);
-
     }
 }
