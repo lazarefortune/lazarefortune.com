@@ -3,14 +3,14 @@
   "build/app.js": "/build/app.js",
   "build/runtime.js": "/build/runtime.js",
   "build/vendors-node_modules_symfony_stimulus-bridge_dist_index_js-node_modules_core-js_modules_es_da-5ab6a8.js": "/build/vendors-node_modules_symfony_stimulus-bridge_dist_index_js-node_modules_core-js_modules_es_da-5ab6a8.js",
-  "build/fonts/Inter-Regular.ttf": "/build/fonts/Inter-Regular.e89cb199.ttf",
-  "build/fonts/Poppins-Regular.ttf": "/build/fonts/Poppins-Regular.35d26b78.ttf",
-  "build/fonts/Inter-SemiBold.ttf": "/build/fonts/Inter-SemiBold.4d56bb21.ttf",
   "build/fonts/Inter-ExtraBold.ttf": "/build/fonts/Inter-ExtraBold.e4a4cb71.ttf",
   "build/fonts/Inter-Black.ttf": "/build/fonts/Inter-Black.143c2842.ttf",
   "build/fonts/Inter-Bold.ttf": "/build/fonts/Inter-Bold.88fa7ae3.ttf",
+  "build/fonts/Inter-SemiBold.ttf": "/build/fonts/Inter-SemiBold.4d56bb21.ttf",
   "build/fonts/Inter-Medium.ttf": "/build/fonts/Inter-Medium.6dcbc9be.ttf",
   "build/fonts/Inter-ExtraLight.ttf": "/build/fonts/Inter-ExtraLight.1815b9a8.ttf",
   "build/fonts/Inter-Thin.ttf": "/build/fonts/Inter-Thin.f341ca51.ttf",
-  "build/fonts/Inter-Light.ttf": "/build/fonts/Inter-Light.eec86646.ttf"
+  "build/fonts/Inter-Light.ttf": "/build/fonts/Inter-Light.eec86646.ttf",
+  "build/fonts/Inter-Regular.ttf": "/build/fonts/Inter-Regular.e89cb199.ttf",
+  "build/fonts/Poppins-Regular.ttf": "/build/fonts/Poppins-Regular.35d26b78.ttf"
 }

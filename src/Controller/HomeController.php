@@ -28,12 +28,35 @@ class HomeController extends AbstractController
             try {
                 $mailerService->sendMail(
                     $contact->getEmail(),
-                    $contact->getName(),
                     $contact->getSubject(),
-                    $contact->getMessage()
+                    'emails/contact/thank-you.html.twig',
+                    [
+                        'name' => $contact->getName(),
+                        'subject' => $contact->getSubject(),
+                        'message' => $contact->getMessage(),
+                    ]
                 );
+
                 $this->addFlash('success', 'Votre message a bien été envoyé');
-            } catch ( TransportExceptionInterface $e ) {
+            } catch ( TransportExceptionInterface|\Exception $e ) {
+                $this->addFlash('danger', 'Une erreur est survenue lors de l\'envoi de votre message');
+            }
+
+            // send mail to admin
+            try {
+                $mailerService->sendMail(
+                    $this->getParameter('app.mailer.admin'),
+                    "Nouveau message de " . $contact->getName(),
+                    'emails/contact/new-message.html.twig',
+                    [
+                        'email' => $contact->getEmail(),
+                        'name' => $contact->getName(),
+                        'subject' => $contact->getSubject(),
+                        'message' => $contact->getMessage(),
+                    ]
+                );
+            }
+            catch ( TransportExceptionInterface|\Exception $e ) {
                 $this->addFlash('danger', 'Une erreur est survenue lors de l\'envoi de votre message');
             }
 

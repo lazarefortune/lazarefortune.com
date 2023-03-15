@@ -1,0 +1,21 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block title %} Nouveau message sur le lazarefortune.com {% endblock %}
+
+{% block content_head %} Bonjour Lazare Fortune, {% endblock %}
+
+{% block content_body %}
+
+    <p>Vous avez reçu un nouveau message sur le site votre site.</p>
+    <p>De : {{ name }} ({{ email }})</p>
+    <p>Objet : {{ subject }}</p>
+    <p>Message : {{ message }}</p>
+
+{% endblock %}
+
+{% block principal_button %}
+{#    {{ include('emails/blocs/_principal_button.html.twig', {#}
+{#        'button_url': url('admin_message_index'),#}
+{#        'button_text': 'Voir le message'#}
+{#    }) }}#}
+{% endblock %}

@@ -3,34 +3,39 @@
 namespace App\Service;
 
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 
 class MailerService
 {
     private MailerInterface $mailer;
+    private $params;
 
-    public function __construct( MailerInterface $mailer )
+    public function __construct( MailerInterface $mailer, ContainerBagInterface $params )
     {
         $this->mailer = $mailer;
+        $this->params = $params;
     }
 
     /**
      * @throws TransportExceptionInterface
+     * @throws \Exception
      */
-    public function sendMail( $to, $name, $subject, $message ) : void
+    public function sendMail( $to, $subject, $template, $context ) : void
     {
-        $email = (new TemplatedEmail())
-            ->from('service@lazarefortune.com')
-            ->to($to)
-            ->subject($subject)
-            ->htmlTemplate('layouts/emails/contact.html.twig')
-            ->context([
-                'name' => $name,
-                'message' => $message,
-            ]);
+        if ( ! $this->params->has( 'app.mailer.sender' ) ) {
+            throw new \Exception( 'app.mailer.sender is not defined in config/services.yaml' );
+        }
+        $sender = $this->params->get( 'app.mailer.sender' );
 
-        $this->mailer->send($email);
+        $email = ( new TemplatedEmail() )
+            ->from( $sender )
+            ->to( $to )
+            ->subject( $subject )
+            ->htmlTemplate( $template )
+            ->context( $context );
+
+        $this->mailer->send( $email );
     }
 }
