@@ -1,0 +1,194 @@
+.flatpickr-calendar {
+  @apply font-inter bg-white border-0 shadow-lg rounded-xl;
+}
+
+.flatpickr-calendar:after,
+.flatpickr-calendar:before {
+  @apply hidden;
+}
+
+.flatpickr-months {
+  @apply p-2;
+}
+
+.flatpickr-innerContainer {
+  @apply p-2 text-sm leading-5;
+}
+
+.dayContainer,
+.flatpickr-days {
+  @apply border-0 w-full min-w-full max-w-full;
+}
+
+.flatpickr-day {
+  @apply rounded-md;
+}
+
+.flatpickr-day:hover {
+  @apply bg-primary-100 border-primary-100 text-primary-600;
+}
+
+span.flatpickr-day.selected,
+.flatpickr-day.selected {
+  @apply bg-primary-500 text-white border-primary-500 font-normal;
+}
+
+.flatpickr-day.selected:hover {
+  @apply bg-primary-600 border-primary-600;
+}
+
+.flatpickr-day.today:not(.selected) {
+  @apply text-primary-600 border-primary-100;
+}
+
+.flatpickr-day.today:not(.selected):hover {
+  @apply bg-primary-100 border-primary-100 text-primary-600;
+}
+
+.flatpickr-day.today.flatpickr-disabled {
+  @apply text-gray-400 border-gray-100;
+}
+
+.flatpickr-months .flatpickr-month {
+  @apply bg-transparent text-gray-500 fill-gray-500 h-11;
+}
+
+.flatpickr-months .flatpickr-next-month,
+.flatpickr-months .flatpickr-prev-month {
+  @apply flex items-center justify-center rounded-xl top-4;
+}
+
+.flatpickr-months .flatpickr-next-month svg,
+.flatpickr-months .flatpickr-prev-month svg {
+  @apply fill-gray-400 h-3 w-3;
+}
+
+.flatpickr-months .flatpickr-next-month:hover,
+.flatpickr-months .flatpickr-prev-month:hover {
+  @apply bg-gray-100;
+}
+
+.flatpickr-months .flatpickr-next-month:hover svg,
+.flatpickr-months .flatpickr-prev-month:hover svg {
+  @apply fill-gray-600;
+}
+
+.flatpickr-months .flatpickr-next-month.flatpickr-prev-month,
+.flatpickr-months .flatpickr-prev-month.flatpickr-prev-month {
+  @apply left-4;
+}
+
+.flatpickr-months .flatpickr-next-month.flatpickr-next-month,
+.flatpickr-months .flatpickr-prev-month.flatpickr-next-month {
+  @apply right-4;
+}
+
+.flatpickr-current-month {
+  @apply font-medium text-inherit;
+}
+
+.flatpickr-current-month .numInputWrapper {
+  @apply rounded-xl w-16;
+}
+
+.flatpickr-current-month .numInputWrapper span.arrowUp {
+  @apply rounded-tr-xl;
+}
+
+.flatpickr-current-month .numInputWrapper span.arrowDown {
+  @apply rounded-br-xl;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months {
+  @apply text-sm leading-5 text-gray-600 font-medium py-2 px-3 mr-2 outline-none rounded-xl appearance-none;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months:hover {
+  @apply bg-gray-100;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months .flatpickr-monthDropdown-month {
+  @apply text-sm leading-5 text-gray-600 font-medium bg-transparent outline-none p-0;
+}
+
+.flatpickr-current-month span.cur-month {
+  @apply text-gray-600 text-sm leading-5 font-medium;
+}
+
+.flatpickr-current-month span.cur-month:hover {
+  @apply bg-gray-100;
+}
+
+.flatpickr-current-month input.cur-year {
+  @apply text-gray-600 text-sm leading-5 py-2 px-3 font-medium outline-none;
+}
+
+.flatpickr-weekdays {
+  @apply bg-white;
+}
+
+span.flatpickr-weekday {
+  @apply bg-white text-gray-700 text-sm leading-5 font-semibold;
+}
+
+.flatpickr-weekdaycontainer {
+  @apply bg-white;
+}
+
+.flatpickr-time {
+  @apply rounded-bl-xl rounded-br-xl;
+}
+
+.flatpickr-calendar.hasTime .flatpickr-time {
+  @apply h-12 leading-10 max-h-12 border-t-2 border-gray-100;
+}
+
+.flatpickr-time .numInputWrapper {
+  @apply h-12;
+}
+
+.flatpickr-time .flatpickr-am-pm {
+  @apply text-gray-600 text-lg font-medium;
+}
+
+.flatpickr-time input.flatpickr-hour,
+.flatpickr-time input.flatpickr-minute {
+  @apply text-gray-600 text-sm font-medium;
+}
+
+.flatpickr-time .flatpickr-am-pm:focus,
+.flatpickr-time .flatpickr-am-pm:hover,
+.flatpickr-time input:focus,
+.flatpickr-time input:hover {
+  @apply bg-transparent;
+}
+
+.numInputWrapper span {
+  @apply border-0;
+}
+
+.numInputWrapper span:hover {
+  @apply bg-gray-100;
+}
+
+.numInputWrapper span.arrowUp {
+  @apply rounded-tr-xl;
+}
+
+.numInputWrapper span.arrowDown {
+  @apply rounded-br-xl;
+}
+
+.numInputWrapper input {
+  @apply text-gray-600 text-sm leading-5 font-medium outline-none;
+}
+
+.numInputWrapper input:focus,
+.numInputWrapper input:hover {
+  @apply bg-transparent;
+}
+
+.numInputWrapper input::-webkit-outer-spin-button,
+.numInputWrapper input::-webkit-inner-spin-button {
+  @apply appearance-none;
+}

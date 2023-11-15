@@ -1,0 +1,118 @@
+/* Base styles for toast notifications */
+.toast-notification {
+  @apply fixed z-50 w-full max-w-xs p-4 text-gray-500 border border-gray-500 bg-gray-50 rounded-lg shadow;
+
+  & .toast-notification-heading {
+    @apply text-sm font-semibold text-gray-900;
+  }
+
+  & .toast-notification-content {
+    @apply text-sm font-normal text-gray-800;
+  }
+
+  & .toast-notification-close {
+    @apply ml-auto inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg -mx-1.5 -my-1.5 bg-gray-50 text-gray-300 p-1.5 hover:text-gray-900 hover:bg-gray-100 focus:ring-gray-300 focus:ring-2;
+  }
+}
+
+/* Positioning */
+.toast-notification-top-right {
+  @apply top-5 right-5;
+}
+
+.toast-notification-top-left {
+  @apply top-5 left-5;
+}
+
+.toast-notification-bottom-left {
+  @apply bottom-5 left-5;
+}
+
+.toast-notification-bottom-right {
+  @apply bottom-5 right-5;
+}
+
+/* Styles for success notification */
+.toast-notification-success {
+  @apply border-green-500 bg-green-50;
+
+  & .toast-notification-heading {
+    @apply text-green-900;
+  }
+
+  & .toast-notification-content {
+    @apply text-green-800;
+  }
+
+  & .toast-notification-close {
+    @apply bg-green-50 text-green-500 hover:bg-green-100 focus:ring-green-300 hover:text-green-900;
+  }
+}
+
+/* Styles for danger notification */
+.toast-notification-danger {
+  @apply border-rose-800 bg-rose-50;
+
+  & .toast-notification-heading {
+    @apply text-rose-900;
+  }
+
+  & .toast-notification-content {
+    @apply text-rose-800;
+  }
+
+  & .toast-notification-close {
+    @apply bg-rose-50 text-rose-500 hover:bg-rose-100 focus:ring-rose-300 hover:text-rose-900;
+  }
+}
+
+/* Styles for warning notification */
+.toast-notification-warning {
+  @apply border-yellow-500 bg-yellow-50;
+
+  & .toast-notification-heading {
+    @apply text-yellow-900;
+  }
+
+  & .toast-notification-content {
+    @apply text-yellow-800;
+  }
+
+  & .toast-notification-close {
+    @apply bg-yellow-50 text-yellow-500 hover:bg-yellow-100 focus:ring-yellow-300 hover:text-yellow-900;
+  }
+}
+
+/* Styles for info notification */
+.toast-notification-info {
+  @apply border-blue-500 bg-blue-50;
+
+  & .toast-notification-heading {
+    @apply text-blue-900;
+  }
+
+  & .toast-notification-content {
+    @apply text-blue-800;
+  }
+
+  & .toast-notification-close {
+    @apply bg-blue-50 text-blue-500 hover:bg-blue-100 focus:ring-blue-300 hover:text-blue-900;
+  }
+}
+
+/* Styles for primary notification */
+.toast-notification-primary {
+  @apply border-primary-500 bg-primary-50;
+
+  & .toast-notification-heading {
+    @apply text-primary-900;
+  }
+
+  & .toast-notification-content {
+    @apply text-primary-800;
+  }
+
+  & .toast-notification-close {
+    @apply bg-primary-50 text-primary-500 hover:bg-primary-100 focus:ring-primary-300 hover:text-primary-900;
+  }
+}

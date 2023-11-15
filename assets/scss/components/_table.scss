@@ -1,0 +1,20 @@
+table.table thead th {
+  @apply whitespace-nowrap align-middle border border-r-0 border-l-0 bg-gray-50 px-6 py-4 text-left text-xs font-medium uppercase tracking-wider text-gray-500;
+}
+
+table.table tbody th,
+table.table tbody td {
+  @apply whitespace-nowrap border-t-0 border-r-0 border-l-0 py-4 px-6 align-middle text-sm;
+}
+
+table.table tbody tr {
+  @apply border-b border-gray-200 hover:bg-gray-100;
+}
+
+table.table .table-active {
+  @apply bg-primary-200/30;
+}
+
+table.table .table-active:hover {
+  @apply bg-primary-200/40;
+}

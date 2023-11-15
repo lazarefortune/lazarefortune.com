@@ -1,0 +1,7 @@
+# translations/messages.fr.yaml
+Symfony is great: J'aime Symfony
+welcome: Bienvenue
+title:
+  home: Accueil
+
+job: je travail chez %company%

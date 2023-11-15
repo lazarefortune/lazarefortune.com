@@ -1,0 +1,89 @@
+.alert {
+  @apply relative rounded-md border-2 border-gray-300 px-4 py-3 text-left text-base text-gray-600;
+  & .alert-heading {
+    @apply font-bold;
+  }
+
+  & .alert-content {
+    @apply text-sm;
+  }
+
+  & .alert-text {
+    @apply text-base;
+  }
+}
+
+.alert-success {
+  @apply border-green-500 bg-green-50;
+  & > i {
+    @apply text-green-500;
+  }
+
+  & .alert-heading {
+    @apply text-green-900;
+  }
+
+  & .alert-content, & .alert-text {
+    @apply text-green-800;
+  }
+}
+
+.alert-danger {
+  @apply border-rose-800 bg-rose-50;
+  & > i {
+    @apply text-rose-500;
+  }
+
+  & .alert-heading {
+    @apply text-rose-900;
+  }
+
+  & .alert-content, & .alert-text {
+    @apply text-rose-800;
+  }
+}
+
+.alert-warning {
+  @apply border-yellow-500 bg-yellow-50;
+  & > i {
+    @apply text-yellow-500;
+  }
+
+  & .alert-heading {
+    @apply text-yellow-900;
+  }
+
+  & .alert-content, & .alert-text {
+    @apply text-yellow-800;
+  }
+}
+
+.alert-info {
+  @apply border-blue-500 bg-blue-50;
+  & > i {
+    @apply text-blue-500;
+  }
+
+  & .alert-heading {
+    @apply text-blue-900;
+  }
+
+  & .alert-content, & .alert-text {
+    @apply text-blue-800;
+  }
+}
+
+.alert-primary {
+  @apply border-primary-500 bg-primary-50;
+  & > i {
+    @apply text-primary-500;
+  }
+
+  & .alert-heading {
+    @apply text-primary-900;
+  }
+
+  & .alert-content, & .alert-text {
+    @apply text-primary-800;
+  }
+}

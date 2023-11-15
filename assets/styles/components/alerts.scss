@@ -1,0 +1,35 @@
+/* Alerte de base */
+.alert {
+  @apply p-4 rounded-none text-base border border-l-6 bg-white text-slate-950 relative dark:bg-darkBg dark:text-dark-text;
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-xl mb-2 font-bold dark:text-dark-text;
+  }
+  h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p {
+    @apply text-base text-slate-600 dark:text-dark-textAlt;
+  }
+  h1 ~ p:not(:first-of-type), h2 ~ p:not(:first-of-type), h3 ~ p:not(:first-of-type), h4 ~ p:not(:first-of-type), h5 ~ p:not(:first-of-type), h6 ~ p:not(:first-of-type) {
+    @apply text-base text-slate-600 dark:text-dark-textAlt;
+  }
+}
+
+/* Tailles */
+.alert-sm {
+  @apply p-2 text-sm border border-l-4 bg-white text-slate-950;
+}
+
+/* Variantes de couleur */
+.alert-info {
+  @apply border-l-primary-900 border-primary-900 dark:border-primary-300;
+}
+
+.alert-warning {
+  @apply border-l-yellow-500 border-yellow-500 dark:border-yellow-400;
+}
+
+.alert-danger {
+  @apply border-l-red-700 border-red-700 dark:border-red-400;
+}
+
+.alert-success {
+  @apply border-l-green-700 border-green-700 dark:border-green-400;
+}

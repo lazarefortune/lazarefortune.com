@@ -1,0 +1,80 @@
+.flatpickr-calendar {
+  font-family: var(--base-font-family);
+  font-size: 16px;
+  color: var(--color-base-200);
+  line-height: 1.6;
+  scroll-margin: 100px 0 0 0;
+  word-break: break-word;
+}
+
+.flatpickr-day:hover {
+  background-color: var(--color-primary-ghost);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+}
+
+.flatpickr-day.selected {
+  background-color: var(--color-primary);
+  color: var(--color-primary-ghost);
+  border: 1px solid var(--color-primary);
+}
+
+.flatpickr-day.selected:hover {
+  background-color: var(--color-primary);
+  color: var(--color-primary-ghost);
+  border: 1px solid var(--color-primary);
+}
+
+.flatpickr-wrap {
+  position: relative;
+}
+
+.flatpickr-wrap input {
+  font-family: var(--base-font-family);
+  font-size: 16px;
+  color: var(--color);
+  line-height: 1.6;
+  scroll-margin: 100px 0 0 0;
+  word-break: break-word;
+
+}
+
+.flatpickr-wrap .input-button {
+  font-family: var(--base-font-family);
+  font-size: 1.7rem;
+  color: var(--color-base-content-light);
+  line-height: 1.6;
+  scroll-margin: 100px 0 0 0;
+  word-break: break-word;
+  position: absolute;
+  top: 0;
+  right: 12px;
+  z-index: 5;
+}
+
+.flatpickr-wrap .input-button:hover {
+  color: var(--color-primary);
+}
+
+.flatpickr-wrap .input-button-clear {
+  display: none;
+  font-family: var(--base-font-family);
+  font-size: 1rem;
+  color: var(--color-base-content-light);
+  line-height: 1.6;
+  scroll-margin: 100px 0 0 0;
+  word-break: break-word;
+  position: absolute;
+  top: 9px;
+  right: 42px;
+  z-index: 5;
+}
+
+.flatpickr-wrap .input-button-clear:hover {
+  color: var(--color-warning);
+}
+
+// si le champ input n'est pas vide alors on affiche le bouton clear sinon on l'affiche pas
+.flatpickr-wrap input .input-button-clear:not(:empty) {
+  display: block;
+}

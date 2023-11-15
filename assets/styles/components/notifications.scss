@@ -1,0 +1,19 @@
+/* notification */
+.callout {
+  @apply rounded-none border-l-4 bg-gray-50 p-4 text-base border-primary-300 dark:bg-darkBg dark:border-primary-300 sm:p-8;
+  .callout-title {
+    @apply mb-3 text-2xl font-bold text-slate-900 dark:text-dark-text;
+  }
+
+  .callout-text {
+    @apply text-base text-slate-600 dark:text-dark-textAlt;
+  }
+}
+
+/* bandeau */
+.notice-info {
+  @apply rounded-none p-4 text-base bg-primary-100 dark:bg-primary-200;
+  p {
+    @apply text-base font-semibold text-primary-800 bg-primary-100 dark:bg-primary-200;
+  }
+}

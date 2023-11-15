@@ -1,19 +1,66 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title 'page' %} | Lazare Fortune</title>
+    <link rel="icon"
+          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    <meta name="description" content="Je suis Lazare Fortune, développeur web junior">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+    <!-- Favicon -->
+    <link rel="icon" href="{{ asset('assets/img/favicons/favicon.ico') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/img/favicons/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/img/favicons/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/img/favicons/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('assets/img/favicons/site.webmanifest') }}">
+
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+<body class="bg-white dark:bg-dark-background text-black dark:text-dark-text">
+{% block body %}{% endblock %}
+
+{% block javascripts_footer %}
+<script type="text/javascript">
+    let darkMode = localStorage.getItem('darkMode');
+    const darkModeToggle = document.querySelector('#dark-mode-toggle');
+
+    const enableDarkMode = () => {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('darkMode', 'enabled');
+    }
+
+    const disableDarkMode = () => {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('darkMode', 'disabled');
+    }
+
+    if (darkMode === 'enabled') {
+        enableDarkMode();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        if (darkMode === 'enabled') {
+            darkModeToggle.checked = true;
+        }
+    });
+
+    darkModeToggle.addEventListener('click', () => {
+        darkMode = localStorage.getItem('darkMode');
+        if (darkMode !== 'enabled') {
+            enableDarkMode();
+        } else {
+            disableDarkMode();
+        }
+    });
+
+</script>
+{% endblock %}
+</body>
 </html>

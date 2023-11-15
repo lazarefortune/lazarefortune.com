@@ -1,0 +1,60 @@
+.select2-container {
+  @apply relative block w-full;
+
+  .select2-selection {
+    @apply relative block w-full bg-white border rounded px-3 py-2 shadow-sm focus:outline-none focus:ring focus:ring-opacity-50;
+
+    &.select2-selection--single {
+      @apply leading-5;
+
+      .select2-selection__rendered {
+        @apply block truncate;
+      }
+
+      .select2-selection__arrow {
+        @apply absolute right-0 top-0 bottom-0 z-10 pointer-events-none;
+
+        & b {
+          @apply block h-5 m-auto mr-2;
+          // Pour l'icône flèche vers le bas, vous pouvez utiliser une icône ou un pseudo-élément pour le créer
+        }
+      }
+    }
+
+    &.select2-selection--multiple {
+      @apply flex flex-wrap items-center w-full rounded-md border border-gray-300 px-4 text-base text-gray-900 placeholder-gray-300 hover:bg-gray-100 focus:border-primary-600 focus:ring-1;
+
+      .select2-selection__choice {
+        @apply inline-block bg-primary-200 border-none rounded-sm px-2 py-2 text-sm text-primary-700 mr-2 mb-2;
+
+        .select2-selection__choice__remove {
+          // remove position absolute
+          @apply relative px-2 py-1  rounded-sm border-none bg-white text-primary-700 hover:bg-gray-200 cursor-pointer;
+          //@apply absolute top-0 left-0 mr-2 p-1 -my-1 h-full;
+        }
+
+        .select2-selection__choice__display {
+          @apply inline-block ml-2;
+        }
+      }
+    }
+  }
+
+  .select2-dropdown {
+    @apply mt-1 absolute w-full bg-white border border-primary-300 rounded shadow-lg z-50;
+
+    .select2-results__option {
+      @apply block px-4 py-2;
+
+      &.select2-results__option--highlighted {
+        @apply bg-primary-600 text-white rounded-sm;
+      }
+    }
+  }
+
+  .select2-search {
+    // Ajoutez ici des styles pour le champ de recherche si nécessaire
+  }
+}
+
+// Si vous souhaitez ajouter des animations, vous pouvez utiliser les classes `transition`, `ease-in-out`, etc. de Tailwind.

@@ -1,0 +1,7 @@
+.card-box {
+  @apply w-full max-w-sm p-4 bg-white border border-slate-100 rounded-lg shadow-md sm:p-8;
+}
+
+.dark .card-box {
+  @apply bg-gray-800 border-gray-700;
+}
