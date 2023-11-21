@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function accueil( Request $request , MailerService $mailerService, EntityManagerInterface $entityManager) : Response
+    public function home( Request $request , MailerService $mailerService, EntityManagerInterface $entityManager) : Response
     {
         $formContact = $this->createForm(ContactType::class);
         $formContact->handleRequest($request);
@@ -67,6 +67,12 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig', [
             'formContact' => $formContact->createView(),
         ]);
+    }
+
+    #[Route('/v2', name: 'app_home_v2')]
+    public function home_version2() : Response
+    {
+        return $this->render('home/index_v2.html.twig');
     }
 
 }

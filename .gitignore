@@ -19,11 +19,12 @@
 
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
-
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
+.DS_Store
+public/.DS_Store
 # IDE
 /.idea
 /.vscode
