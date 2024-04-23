@@ -14,11 +14,6 @@
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 
-###> symfony/phpunit-bridge ###
-.phpunit.result.cache
-/phpunit.xml
-###< symfony/phpunit-bridge ###
-
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 /public/build/
@@ -26,7 +21,23 @@ npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
-###> IDE ###
-/.idea/
-/.vscode/
-###< IDE ###
+.idea
+.vscode
+
+# public uploads files
+/public/uploads/avatars/*
+!/public/uploads/avatars/default.jpg
+public/uploads/images/realisations/*
+!/public/uploads/images/realisations/default.jpg
+
+.DS_Store
+assets/.DS_Store
+
+.htaccess
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###
+
+###> phpstan/phpstan ###
+phpstan.neon
+###< phpstan/phpstan ###
