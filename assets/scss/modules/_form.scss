@@ -1,0 +1,65 @@
+@layer base {
+  [type='text'],
+  [type='email'],
+  [type='url'],
+  [type='password'],
+  [type='number'],
+  [type='date'],
+  [type='datetime-local'],
+  [type='month'],
+  [type='search'],
+  [type='tel'],
+  [type='time'],
+  [type='week'],
+  [multiple],
+  textarea {
+    @apply block w-full rounded-md border-2 border-gray-300 px-3 text-base text-gray-900 placeholder-gray-300 hover:bg-gray-100 focus:border-primary-600 focus:ring-0;
+  }
+
+  // ↓ import here
+  [type='checkbox'],
+  [type='radio'] {
+    @apply h-4 w-4 rounded border-2 border-gray-300 bg-gray-50 text-primary-600 hover:bg-gray-100 focus:ring-primary-500 focus:ring-1;
+  }
+}
+
+.form-input-sm {
+  @apply block w-full rounded-lg border-2 border-gray-300 text-gray-900 py-1.5 focus:border-primary-900 focus:ring-primary-900 dark:placeholder-gray-400 dark:border-gray-900 dark:bg-gray-700 dark:text-white sm:text-base dark:focus:border-primary-500 dark:focus:ring-primary-500;
+}
+
+.form-input-md {
+  @apply block w-full rounded border-2 border-gray-300 text-base text-gray-900 py-2.5 focus:border-primary-900;
+}
+
+select.form-input-md {
+  @apply block w-full rounded border-2 border-gray-300 text-base text-gray-900 py-2.5 focus:border-primary-900 hover:cursor-pointer
+}
+
+.form-input-lg {
+  @apply block w-full rounded-lg border-2 border-gray-300 py-3 text-gray-900 focus:border-primary-900 focus:ring-primary-300 focus:ring focus:ring-offset-0 dark:placeholder-gray-400 dark:border-gray-900 dark:bg-gray-700 dark:text-white sm:text-base dark:focus:border-blue-500 dark:focus:ring-blue-500;
+  //@apply block w-full rounded-lg border border-gray-300 py-3 text-gray-900 focus:border-primary-900 focus:ring-primary-900 dark:placeholder-gray-400 dark:border-gray-900 dark:bg-gray-700 dark:text-white sm:text-lg dark:focus:border-primary-500 dark:focus:ring-primary-500;
+}
+
+.label {
+  @apply mb-1 block text-base text-gray-400 dark:text-white;
+}
+
+.form-checkbox-md {
+  @apply h-6 w-6 rounded border bg-gray-50 border-primary-300 text-primary-900 focus:ring-primary-500 focus:ring-0;
+}
+
+.invalid-feedback {
+  @apply block text-sm font-medium text-red-800;
+}
+
+.form-error {
+  @apply block text-sm font-normal text-red-800;
+}
+
+.form-help {
+  @apply block text-sm font-normal text-gray-500;
+}
+
+.form {
+  @apply mb-8 w-full space-y-4;
+}

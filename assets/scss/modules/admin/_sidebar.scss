@@ -1,0 +1,42 @@
+.sidebar-nav {
+  @apply h-full overflow-auto bg-gray-50 px-6 py-6 pt-16 shadow-none;
+}
+
+.sidebar-section-title {
+  @apply mt-4 mb-2 px-4 text-sm text-slate-400 capitalize;
+}
+
+.sidebar-nav-item {
+  @apply flex w-full cursor-pointer items-center justify-start gap-2 rounded-md px-4 py-2 text-base leading-6 text-gray-600 hover:text-primary-600 hover:cursor-pointer hover:bg-white hover:shadow dark:text-gray-300 dark:hover:text-primary-600;
+}
+
+.sidebar-nav-item.active {
+  @apply leading-6 text-primary-600 hover:bg-white shadow bg-white;
+  img {
+    @apply text-primary-600;
+  }
+}
+
+.sidebar-nav-item i {
+  @apply text-xl;
+}
+
+.sidebar-dropdown-toggle-icon {
+  @apply transform transition-transform duration-300;
+}
+
+.sidebar-dropdown-menu {
+  @apply my-2 space-y-1;
+}
+
+.sidebar-dropdown-menu > .sidebar-nav-item {
+  @apply px-14 py-2;
+}
+
+.sidebar-nav-item-disabled {
+  @apply cursor-not-allowed text-gray-400 hover:bg-transparent hover:text-gray-400;
+}
+
+.sidebar-dropdown-toggle.sidebar-nav-item-disabled + .sidebar-dropdown-menu > .sidebar-nav-item {
+  @apply cursor-not-allowed text-gray-400 hover:bg-transparent hover:text-gray-400;
+}

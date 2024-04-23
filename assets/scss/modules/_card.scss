@@ -1,0 +1,9 @@
+.card {
+  @apply bg-white border border-slate-200 flex flex-col relative rounded;
+  //@apply bg-white border border-[#d5e3ec] flex flex-col relative rounded;
+  transition: .3s;
+}
+
+.card-padding {
+  @apply p-6;
+}

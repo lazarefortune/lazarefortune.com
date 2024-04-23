@@ -1,0 +1,38 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as element %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+
+        Bonjour {{ user.fullname }} !
+        ===============================
+
+        Vous venez de demander la confirmation de votre adresse email sur le site {{ app_name }}.
+        Pour valider votre compte, merci de cliquer sur le lien ci-dessous :
+
+    {% endapply %}
+
+    {{ element.button('Valider mon compte', signedUrl|raw , 'primary') }}
+
+    {% apply markdown_email %}
+        Si vous n'êtes pas à l'origine de la création de ce compte ne tenez pas compte de cet email,
+        il s'agit probablement d'une erreur.
+    {% endapply %}
+
+
+    {% set email_verification_link_section %}
+        {% apply markdown_email %}
+            Si le lien ne fonctionne pas, vous pouvez copier/coller l'adresse suivante dans votre navigateur :
+            [ici]({{ signedUrl|raw }})
+
+            Ce lien expire dans {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+        {% endapply %}
+    {% endset %}
+
+
+    {{ element.section(email_verification_link_section) }}
+
+
+{% endblock %}

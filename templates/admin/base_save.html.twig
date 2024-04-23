@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title 'Dashboard' %} | {{ app_name }}</title>
+
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('favicons/apple-icon-57x57.png') }}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('favicons/apple-icon-60x60.png') }}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('favicons/apple-icon-72x72.png') }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('favicons/apple-icon-76x76.png') }}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('favicons/apple-icon-114x114.png') }}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('favicons/apple-icon-120x120.png') }}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('favicons/apple-icon-144x144.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('favicons/apple-icon-152x152.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicons/apple-icon-180x180.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('favicons/android-icon-192x192.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicons/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('favicons/favicon-96x96.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicons/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('favicons/manifest.json') }}">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="{{ asset('favicons/ms-icon-144x144.png') }}">
+    <meta name="theme-color" content="#ffffff">
+    <!-- jquery-->
+    <script src="{{ asset('js/jquery-3.6.3.min.js') }}"></script>
+
+    <!-- TODO: optimize js => déplacer uniquement dans les pages qui utilisent le drop-file -->
+    <!-- drop-files element script for safari -->
+    <script src="https://unpkg.com/@ungap/custom-elements-builtin"></script>
+
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('admin') }}
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('admin') }}
+    {% endblock %}
+</head>
+<body>
+
+
+<aside id="sidebar"
+       class="fixed top-0 left-0 z-40 h-screen w-72 lg:w-64 -translate-x-full ease-[cubic-bezier(.5,0,0,1)] duration-500 transition-transform lg:translate-x-0">
+    <nav class="sidebar-nav">
+
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="sidebar-section-title">
+                Menu
+            </div>
+
+            <div class="space-y-1">
+                <a href="{{ path('app_home') }}" class="sidebar-nav-item">
+                    {{ icon('undo-2' ) }}
+                    <span class="ml-1">Retour au site</span>
+                </a>
+                <a href="{{ path('app_admin_home') }}" class="sidebar-nav-item {{ menu_active('app_admin_home') }}">
+                    {{ icon('home' ) }}
+                    <span class="ml-1">Accueil</span>
+                </a>
+                <a href="{{ path('app_admin_realisation_index') }}"
+                   class="sidebar-nav-item {{ menu_active('app_admin_realisation') }}">
+                    {{ icon('scissors' ) }}
+                    <span class="ml-1">Réalisations</span>
+                </a>
+                <a href="{{ path('app_admin_clients_index') }}"
+                   class="sidebar-nav-item {{ menu_active('app_admin_clients') }}">
+                    {{ icon('users' ) }}
+                    <span class="ml-1">Clients</span>
+                </a>
+                <a href="{{ path('app_admin_appointment_index') }}"
+                   class="sidebar-nav-item {{ menu_active('app_admin_appointment_') }}">
+                    {{ icon('calendar' ) }}
+                    <span class="ml-1">Rendez-vous</span>
+                </a>
+                <a href="{{ path('app_admin_contact_index') }}"
+                   class="sidebar-nav-item {{ menu_active('app_admin_contact_') }}">
+                    {{ icon('messages-square' ) }}
+                    <span class="ml-1">Messages</span>
+                </a>
+            </div>
+
+            <div class="sidebar-section-title">
+                Gestion du salon
+            </div>
+
+            <div class="space-y-1">
+                <a href="{{ path('app_admin_maintenance') }}" class="sidebar-nav-item sidebar-nav-item-disabled">
+                    {{ icon('wallet') }}
+                    <span class="ml-1">Compte & Revenus</span>
+                </a>
+
+                <button class="sidebar-nav-item sidebar-dropdown-toggle {{ menu_active('app_admin_prestation') }} {{ menu_active('app_admin_category_prestation') }}">
+                    {{ icon('store' ) }}
+                    <span class="ml-1">Services</span>
+                    <span class="float-right flex items-center justify-center sidebar-dropdown-toggle-icon">
+                    {{ icon('chevron-right' ) }}
+                </span>
+                </button>
+                <div class="hidden w-full origin-top-right bg-white sidebar-dropdown-menu">
+                    <a href="{{ path('app_admin_prestation_index') }}"
+                       class="sidebar-nav-item {{ menu_active('app_admin_prestation') }}">
+                        Prestations
+                    </a>
+                    <a href="{{ path('app_admin_category_prestation_index') }}"
+                       class="sidebar-nav-item {{ menu_active('app_admin_category_prestation') }}">
+                        Catégories
+                    </a>
+                </div>
+
+                <a href="{{ path('app_admin_maintenance') }}"
+                   class="sidebar-nav-item sidebar-nav-item-disabled">
+                    {{ icon('badge-percent' ) }}
+                    <span class="ml-1">Promotions</span>
+                </a>
+
+                <button class="sidebar-nav-item sidebar-dropdown-toggle
+                {{ menu_active('app_admin_shop_settings_') }}
+                {{ menu_active('app_admin_offdays_') }}
+                {{ menu_active('app_admin_holidays_') }}">
+                    {{ icon('settings' ) }}
+                    <span class="ml-1">Réglages</span>
+                    <span class="float-right flex items-center justify-center sidebar-dropdown-toggle-icon">
+                        {{ icon('chevron-right' ) }}
+                    </span>
+                </button>
+                <div class="hidden w-full origin-top-right bg-white sidebar-dropdown-menu">
+                    <a href="{{ path('app_admin_offdays_index') }}"
+                       class="sidebar-nav-item {{ menu_active('app_admin_offdays_') }}">
+                        Disponibilités
+                    </a>
+                    <a href="{{ path('app_admin_holidays_index') }}"
+                       class="sidebar-nav-item {{ menu_active('app_admin_holidays_') }}">
+                        Jours off
+                    </a>
+                    <a href="{{ path('app_admin_maintenance') }}"
+                       class="sidebar-nav-item sidebar-nav-item-disabled">
+                        Annonces
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    </nav>
+</aside>
+
+<div class="fixed inset-0 z-10 hidden bg-gray-900 bg-opacity-30 backdrop-blur-[2px]" id="sidebarBackdrop"></div>
+
+<spotlight-bar target=".sidebar-nav a"></spotlight-bar>
+
+<div class="min-h-screen">
+    <div class="fixed z-50 flex w-full items-center justify-between bg-white px-3 py-2 shadow-sm dark:bg-gray-800">
+        <div class="flex items-center">
+            <button id="btnSidebar" type="button" onClick="toggleSidebar"
+                    class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 transition-all duration-300
+                                    focus:ring-opacity-0 focus:ring-0 focus:ring-offset-0
+                                    ">
+                <div id="btnSidebarOpen">
+                    {{ icon('menu') }}
+                </div>
+                <div id="btnSidebarClose" class="hidden">
+                    {{ icon('x') }}
+                </div>
+            </button>
+
+            <a href="{{ path('app_admin_home') }}"
+               class="ml-2 flex items-center gap-2 text-xl font-bold text-primary-600 dark:text-primary-600 sm:ml-9">
+                {{ icon('scissors') }}
+                <span>{{ app_name }}</span>
+            </a>
+        </div>
+
+        <div class="relative mr-2 flex items-center">
+            <button id="userBtn" class="cursor-pointer rounded-full border-2 border-primary-400 p-1">
+                <img class="h-8 w-8 rounded-full" src="{{ asset('images/coiffure.webp') }}"
+                     alt="Your avatar">
+            </button>
+
+            <div id="userDropdown"
+                 class="absolute top-11 right-0 z-10 mt-2 w-48 origin-top-right scale-0 transform overflow-hidden rounded-lg bg-white shadow-xl transition-all duration-100">
+                <div class="px-4 py-2">
+                    <p class="text-base font-medium text-gray-800 dark:text-gray-200">
+                        {{ app.user.fullname }}
+                    </p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                        {{ app.user.email }}
+                    </p>
+                </div>
+
+                <hr class="border-gray-100">
+
+                <div class="px-2 py-2">
+                    <a href="{{ path('app_profile') }}"
+                       class="user-dropdown-menu-item {{ menu_active('app_admin_account') }}">
+                        {{ icon('user' ) }}
+                        <span>Mon compte</span>
+                    </a>
+                </div>
+
+                <hr class="border-gray-100">
+
+                <div class="px-2 py-2">
+                    <a href="{{ path('app_logout') }}"
+                       class="user-dropdown-menu-item">
+                        {{ icon('log-out' ) }}
+                        <span>Déconnexion</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <main class="min-h-screen bg-[#f7fafb] px-3 py-4 pt-20 dark:bg-gray-600 dark:text-gray-50 sm:px-9 lg:ml-64">
+        {% include 'partials/flash.html.twig' with {floating: true, duration: 3} %}
+        {% block body %}{% endblock %}
+        <scroll-top class="scroll-top" hidden="hidden">
+            {{ icon('chevron-up') }}
+        </scroll-top>
+    </main>
+</div>
+
+<!-- Cookie consent -->
+<section class="z-50 fixed bottom-0 w-full bg-gray-50 dark:bg-gray-800 hidden" id="cookie-consent">
+    <div class="container-box px-4 py-8 mx-auto lg:flex lg:items-center lg:gap-x-16">
+        <p class="text-gray-600 dark:text-gray-300">
+            En cliquant sur "Accepter tous les cookies", vous acceptez le stockage de cookies sur votre appareil pour
+            améliorer la navigation sur le site, analyser son utilisation et contribuer à nos efforts de marketing.
+        </p>
+
+        <div class="flex items-center mt-6 gap-x-4 lg:gap-x-8 shrink-0 lg:mt-0">
+            <button id="btn-decline-cookies-consent"
+                    class="w-1/2 text-sm text-gray-800 underline transition-colors duration-300 md:w-auto dark:text-white dark:hover:text-gray-400 hover:text-gray-600 focus:outline-none">
+                Paramètres des cookies
+            </button>
+
+            <button id="btn-agree-cookies-consent" class="text-sm w-1/2 md:w-auto font-medium btn-2sm">
+                Accepter tous les cookies
+            </button>
+        </div>
+    </div>
+</section>
+<!-- /Cookie consent -->
+
+<script type="text/javascript">
+    //--------- COOKIE CONSENT ---------
+    let app_name = '{{ app_name }}';
+    app_name = app_name.toLowerCase().replace(/\s/g, '_');
+    const cookieKeyName = app_name + '_cookie_consent';
+
+    function checkCookieConsent() {
+        return document.cookie.indexOf(cookieKeyName) !== -1;
+    }
+
+    function setCookieConsent(value) {
+        document.cookie = `${cookieKeyName}=${value};max-age=31536000;path=/`;
+    }
+
+    function removeCookieConsent() {
+        document.cookie = `${cookieKeyName}=;max-age=0;path=/`;
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const btnAgreeConsentCookies = document.getElementById('btn-agree-cookies-consent');
+        const btnDeclineCookies = document.getElementById('btn-decline-cookies-consent');
+        const cookieConsent = document.getElementById('cookie-consent');
+
+        btnAgreeConsentCookies.addEventListener('click', function () {
+            setCookieConsent(true);
+            cookieConsent.classList.add('hidden');
+        });
+
+        btnDeclineCookies.addEventListener('click', function () {
+            setCookieConsent(false);
+            cookieConsent.classList.add('hidden');
+        });
+
+        if (!checkCookieConsent()) {
+            cookieConsent.classList.remove('hidden');
+        }
+    });
+
+    //--------- SIDEBAR ---------
+
+    const sidebar = document.getElementById('sidebar');
+    const btnSidebar = document.getElementById('btnSidebar');
+
+    const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+
+    function toggleSidebar() {
+        btnSidebar.classList.toggle('-rotate-90');
+        document.getElementById('btnSidebarOpen').classList.toggle('hidden');
+        document.getElementById('btnSidebarClose').classList.toggle('hidden');
+        sidebarBackdrop.classList.toggle('hidden');
+
+        sidebar.classList.toggle('-translate-x-full');
+        sidebar.classList.toggle('translate-x-0');
+    }
+
+    btnSidebar.addEventListener('click', toggleSidebar);
+
+    sidebarBackdrop.addEventListener('click', toggleSidebar);
+
+    // Show dropdown menu on user button click
+    document.getElementById('userBtn').addEventListener('click', function () {
+        // show dropdown menu with animation
+        document.getElementById('userDropdown').classList.toggle('scale-100');
+    });
+
+
+    document.querySelectorAll('.sidebar-dropdown-toggle').forEach(toggle => {
+
+        if (toggle.classList.contains('active')) {
+            toggle.querySelector('.sidebar-dropdown-toggle-icon').classList.add('rotate-90');
+            toggle.nextElementSibling.classList.remove('hidden');
+        }
+
+        toggle.addEventListener('click', e => {
+            e.preventDefault();
+            const dropdownIcon = toggle.querySelector('.sidebar-dropdown-toggle-icon');
+            if (dropdownIcon) {
+                dropdownIcon.classList.toggle('rotate-90');
+            }
+            const menu = toggle.nextElementSibling;
+            menu.classList.toggle('hidden');
+
+            // Si vous voulez que seul un menu s'affiche à la fois:
+            document.querySelectorAll('.sidebar-dropdown-menu').forEach(dropdown => {
+                if (dropdown !== menu) {
+                    dropdown.classList.add('hidden');
+
+                    // Si vous voulez que le dropdown-icon tourne à chaque fois qu'on clique sur un autre sidebar-dropdown-toggle:
+                    dropdown.previousElementSibling.querySelector('.sidebar-dropdown-toggle-icon').classList.remove('rotate-90');
+                }
+            });
+        });
+    });
+
+
+    // Si on veut cacher le dropdown lorsque l'on clique en dehors:
+    // document.addEventListener('click', e => {
+    //     if (!e.target.closest('.sidebar-dropdown-toggle') && !e.target.closest('.sidebar-dropdown-menu')) {
+    //         document.querySelectorAll('.sidebar-dropdown-menu').forEach(dropdown => {
+    //             dropdown.classList.add('hidden');
+    //             dropdown.previousElementSibling.querySelector('.sidebar-dropdown-toggle-icon').classList.remove('-rotate-180');
+    //         });
+    //     }
+    // });
+
+
+    // En cliquant en dehors du userDropdown on le cache
+    document.addEventListener('click', e => {
+        if (!e.target.closest('#userDropdown') && !e.target.closest('#userBtn')) {
+            document.getElementById('userDropdown').classList.remove('scale-100');
+        }
+    });
+
+</script>
+
+</body>
+</html>

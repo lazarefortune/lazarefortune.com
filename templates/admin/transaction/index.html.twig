@@ -1,0 +1,106 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Transactions{% endblock %}
+
+{% block body %}
+    <div class="dashboard-page-header">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li>
+                    <a href="{{ path('app_admin_home') }}">
+                        <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                             fill="currentColor" viewBox="0 0 20 20">
+                            <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"></path>
+                        </svg>
+                        Accueil
+                    </a>
+                </li>
+                {{ icon('chevron-right') }}
+                <li aria-current="page">
+                    <span>Transactions</span>
+                </li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="block w-full overflow-x-auto border rounded">
+        <table class="table w-full border-collapse items-center bg-transparent">
+            <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Montant
+                </th>
+                <th>
+                    Client
+                </th>
+                <th class="text-center">
+                    Statut
+                </th>
+                <th>
+                    Nb de paiements
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if transactions is empty %}
+                <tr>
+                    <td colspan="7" class="text-center">
+                        Aucune donnée disponible
+                    </td>
+                </tr>
+            {% endif %}
+            {% for transaction in transactions %}
+                <tr>
+                    <td class="flex items-center gap-3">
+                        {{ transaction.id }}
+                    </td>
+                    <td>
+                        {{ transaction.createdAt|date('d/m/Y') }} à {{ transaction.createdAt|date('H:i') }}
+                    </td>
+                    <td>
+                        {{ transaction.amount|price_format }}
+                    </td>
+                    <td>
+                        {{ transaction.client.fullname }}
+                    </td>
+                    <td>
+                        <div class="badge badge-{% if transaction.status == 'completed' %}success{% elseif transaction.status == 'pending' %}warning{% else %}danger{% endif %}">
+                            {% if transaction.status == 'completed' %}
+                                Payé
+                            {% elseif transaction.status == 'pending' %}
+                                En attente
+                            {% else %}
+                                Annulé
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td>
+                        {{ transaction.payments|length }}
+                    </td>
+                    <td>
+                        <a href="{{ path('app_admin_transaction_show', {id: transaction.id}) }}"
+                           class="btn-icon">
+                            {{ icon('eye') }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {#    {% if appointments.getTotalItemCount > 5 %} #}
+    {#        <div class="flex justify-center mt-6"> #}
+    {#            {{ knp_pagination_render(appointments) }} #}
+    {#        </div> #}
+    {#    {% endif %} #}
+{% endblock %}

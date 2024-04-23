@@ -1,3 +1,5 @@
+const {colors: defaultColors} = require('tailwindcss/defaultTheme')
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     darkMode: 'class',
@@ -7,71 +9,44 @@ module.exports = {
     ],
     theme: {
         extend: {
+            animation: {
+                'fade-in': 'fadeIn .7s ease-in-out',
+                'fade-in-left': 'fadeInRight 0.4s ease-in-out',
+            },
+            keyframes: {
+                fadeIn: {
+                    '0%': {
+                        opacity: '0',
+                        transform: 'translateY(10px)',
+                    },
+                    '100%': {
+                        opacity: '1',
+                        transform: 'translateY(0)',
+                    },
+                },
+                fadeInRight: {
+                    '0%': {
+                        opacity: '0',
+                        transform: 'translateX(10px)',
+                    },
+                    '100%': {
+                        opacity: '1',
+                        transform: 'translateX(0)',
+                    },
+                },
+            },
             borderWidth: {
                 'thin': '.5px',
-                '1.5': '1.5px',
-                '6': '6px',
             },
             boxShadow: {
-               'light-basic': '0 2px 4px #d8e1e8',
-                'light-big' : '0 2px 20px #d8e1e8',
-                dark: {
-                  'basic': '0 2px 4px #1d1f42',
-                    'big': '0 2px 20px #1d1f42',
-                },
-                'soft': 'rgba(0, 0, 0, 0.03) 0px 0px 0px 0.5px',
-                'soft-md': 'rgba(0, 0, 0, 0.04) 0px 10px 32px',
-                'soft-xs': '0 0 2px rgba(0, 0, 0, 0.05)',
-                'soft-sm': '0 0 5px rgba(0, 0, 0, 0.05)',
-                'soft-lg': '0 0 20px rgba(0, 0, 0, 0.05)',
-                'soft-xl': '0 0 25px rgba(0, 0, 0, 0.05)',
-                'soft-2xl': '0 0 30px rgba(0, 0, 0, 0.05)',
-                'outline-primary': '0 0 0 3px rgba(132, 61, 255, 0.5)',
-                'outline-secondary': '0 0 0 3px rgba(0, 0, 0, 0.5)',
+                'custom': '0 2px 4px #d8e1e8',
+                'md': '0 2px 4px #d8e1e8',
+            },
+            fontSize: {
+                'md': '0.938rem', // 15px
             },
             colors: {
-                // Couleurs pour le mode clair
-                light: {
-                    background: "#FFFFFF",
-                    text: "#333333",
-                    primary: "#000091",
-                    // Autres couleurs spécifiques au mode clair...
-                },
-                // Couleurs pour le mode sombre
-                dark: {
-                    background: "#171933",
-                    text: "#d4dcff",
-                    textAlt: "#8491c7",
-                    primary: "#3a81d8",
-                    primaryAlt: "#5396e7",
-                    footer: "#1d1f42",
-                    footerAlt: "#26295f",
-
-                    // Autres couleurs spécifiques au mode sombre...
-                },
-                graySoft: "#d8e1e8",
-                darkBg: "#22244d",
-                // dark: "#171933",
-                // darkText: "#d4dcff",
-                // darkTextAlt: "#8491c7",
-                // darkPrimary: "#3a81d8",
-                // darkPrimaryAlt: "#5396e7",
-                // darkBgFooter: "#1d1f42",
-                // darkBgFooterAlt: "#26295f",
-                primary: {
-                    950: "#2c0076",
-                    900: "#000091",
-                    800: "#0000b3",
-                    700: "#0000d6",
-                    600: "#0000ff",
-                    500: "#1a1aff",
-                    400: "#4d4dff",
-                    300: "#8080ff",
-                    200: "#b3b3ff",
-                    100: "#e6e6ff",
-                    50: "#f2f2ff"
-                },
-                primaryOld: {
+                primary2: {
                     "50": "#f3f1ff",
                     "100": "#ebe5ff",
                     "200": "#d9ceff",
@@ -83,6 +58,45 @@ module.exports = {
                     "800": "#5a03d5",
                     "900": "#4b05ad",
                     "950": "#2c0076"
+                },
+                primary: {
+                    "50": "#f3f1ff",
+                    "100": "#ebe5ff",
+                    "200": "#d9ceff",
+                    "300": "#bea6ff",
+                    "400": "#9f75ff",
+                    "500": "#843dff",
+                    "600": "#7916ff",
+                    "700": "#6b04fd",
+                    "800": "#5a03d5",
+                    "900": "#5d21d2",
+                    "950": "#5d21d2",
+                },
+                primaryOld: {
+                    "50": "rgb(248 250 252)",
+                    "100": "rgb(241 243 245)",
+                    "200": "rgb(226 232 240)",
+                    "300": "rgb(203 213 225)",
+                    "400": "rgb(148 163 184)",
+                    "500": "rgb(100 116 139)",
+                    "600": "rgb(71 85 105)",
+                    "700": "rgb(51 65 85)",
+                    "800": "rgb(30 41 59)",
+                    "900": "rgb(15 23 42)",
+                    "950": "rgb(2 6 23)"
+                },
+                secondary: {
+                    "50": "#f8f9fc",
+                    "100": "#f1f3f8",
+                    "200": "#e9eef5",
+                    "300": "#d8e1ef",
+                    "400": "#b6c9e1",
+                    "500": "#93b1d3",
+                    "600": "#7c9ac0",
+                    "700": "#657ea8",
+                    "800": "#4e628f",
+                    "900": "#3d4e74",
+                    "950": "#2b3650"
                 },
                 danger: {
                     "50": "#fff8f8",

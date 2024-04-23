@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Gérer votre rendez-vous
+{% endblock %}
+
+{% block body %}
+    <div class="max-w-5xl mx-auto">
+        {{ form_start(form) }}
+        <div class="space-y-12">
+
+            <div class="border-b border-gray-900/10 pb-12">
+                <h2 class="text-lg font-semibold leading-7 text-gray-900">Votre rendez-vous</h2>
+                <p class="mt-1 text-sm leading-6 text-gray-600">Vous pouvez modifier les informations de votre
+                    rendez-vous.
+                </p>
+
+                <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                    <div class="sm:col-span-4">
+                        {{ form_row(form.date) }}
+                    </div>
+
+                    <div class="sm:col-span-3">
+                        {{ form_row(form.time) }}
+                    </div>
+                </div>
+
+                <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+
+                    <div class="col-span-full">
+                        <label for="about" class="label">
+                            Consignes
+                        </label>
+                        <div class="mt-2">
+                            <textarea id="about" name="about" rows="3"
+                                      class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
+                        </div>
+                        <p class="mt-3 form-help">
+                            Écrivez ici les consignes que vous souhaitez donner à votre coiffeuse.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-b border-gray-900/10 pb-12">
+                <h2 class="text-lg font-semibold leading-7 text-gray-900">Vos informations</h2>
+                <p class="mt-1 text-sm leading-6 text-gray-600">
+                    Pensez à vous connecter pour modifier vos informations personnelles.
+                </p>
+
+                <dl class="divide-y divide-gray-100">
+                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <dt class="text-sm font-medium leading-6 text-gray-900">Nom</dt>
+                        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ appointment.client.fullname }}</dd>
+                    </div>
+                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <dt class="text-sm font-medium leading-6 text-gray-900">Contact</dt>
+                        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ appointment.client.phone }}</dd>
+                    </div>
+                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <dt class="text-sm font-medium leading-6 text-gray-900">Email</dt>
+                        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ appointment.client.email }}</dd>
+                    </div>
+                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <dt class="text-sm font-medium leading-6 text-gray-900">Prestation</dt>
+                        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ appointment.prestation.name }}</dd>
+                    </div>
+                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <dt class="text-sm font-medium leading-6 text-gray-900">Tarif</dt>
+                        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                            {{ appointment.amount }} €
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+
+        <div class="mt-6 flex items-center justify-end gap-x-6">
+            <a href="{{ path('app_appointment_manage', {token: appointment.token}) }}"
+               class="btn-md btn-secondary">Annuler</a>
+            <button type="submit"
+                    class="btn-md btn-primary">
+                Enregistrer
+            </button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+
+
+{% endblock %}
+

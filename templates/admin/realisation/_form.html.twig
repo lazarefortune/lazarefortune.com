@@ -1,0 +1,74 @@
+{{ form_start(form) }}
+<div class="stack">
+    <div class="stack border border-slate-100 px-8 py-6">
+        <div>
+            {{ form_row(form.isOnline) }}
+        </div>
+
+        <div class="grid2">
+            {{ form_row(form.dateRealisation) }}
+
+            {{ form_row(form.duration) }}
+        </div>
+
+        <div class="grid3">
+            {{ form_row(form.amount) }}
+
+        </div>
+        <div class="mt-2">
+            {{ form_row(form.isAmountPublic) }}
+        </div>
+
+
+        {% if app.request.attributes.get('_route') == 'app_admin_realisation_edit' %}
+            {% if realisation.images|length > 0 %}
+                <div class="col-span-full">
+                    <label class="label">Vos images</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:flex-row">
+                        {% for image in realisation.images %}
+                            <div id="image-realisation-{{ image.id }}" class="col-span-1 relative group">
+                                <img src="{{ asset('uploads/images/realisations/' ~ image.name) }}"
+                                     alt="{{ image.name }}"
+                                     class="object-cover  h-48 w-96">
+                                <div class="hidden absolute inset-0 bg-black bg-opacity-50 group-hover:block group-hover:opacity-100 opacity-0 transition-opacity"></div>
+
+                                <a class="absolute top-4 right-4 sm:group-hover:opacity-100 opacity-100 lg:opacity-0 transition-opacity
+                    bg-slate-900 p-2 rounded-full text-white hover:text-white hover:bg-slate-800"
+                                   href="{{ path('app_admin_realisation_delete_image', {'id': image.id}) }}"
+                                   data-delete-image-realisation
+                                   data-token={{ csrf_token('delete' ~ image.id) }}
+                                   data-id="{{ image.id }}"
+                                >
+                                    {{ icon('trash') }}
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+
+        {{ form_row(form.images, {
+            'attr': {
+                'class': 'form-input-md',
+                'is' : 'drop-files',
+                'label': 'Glissez vos images ici ou cliquez ici',
+                'help': 'Vous pouvez ajouter plusieurs images en même temps',
+            },
+            'label': 'Ajouter des images',
+            'label_attr': {
+                'class': 'label'
+            }
+        }) }}
+    </div>
+
+    <div class="text-end">
+        <button type="submit" class="btn-md btn-primary">
+            {{ icon('save') }}
+            <span>
+            {{ button_label|default('Enregistrer') }}
+        </span>
+        </button>
+    </div>
+</div>
+{{ form_end(form) }}

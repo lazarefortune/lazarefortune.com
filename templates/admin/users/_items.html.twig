@@ -1,0 +1,72 @@
+<div class="block w-full overflow-x-auto border rounded">
+    <table class="table w-full border-collapse items-center bg-transparent">
+        <thead>
+        <tr>
+            <th>
+                ID
+            </th>
+            <th>
+                Nom
+            </th>
+            <th>
+                E-mail
+            </th>
+            <th class="text-center">
+                Role(s)
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if rows is empty %}
+            <tr>
+                <td colspan="7" class="text-center">
+                    Aucune donnée disponible
+                </td>
+            </tr>
+        {% endif %}
+        {% for row in rows %}
+            {% set link = path(prefix ~ '_edit', {id: row.id}) %}
+            <tr>
+                <td>
+                    {{ row.id }}
+                </td>
+                <td class="capitalize">
+                    {{ row.fullname }}
+                </td>
+                <td>
+                    {{ row.email }}
+                </td>
+                <td>
+                    <div class="flex justify-start gap-2">
+                        {% for role in row.getRolesWithoutUser %}
+                            <span class="badge badge-{% if role == 'ROLE_ADMIN' %}primary{% else %}secondary{% endif %}">{{ role|replace({'ROLE_': ''}) }}</span>
+                        {% endfor %}
+                    </div>
+                </td>
+                <td>
+                    <a href="{{ path('app_admin_users_edit', {id: row.id}) }}"
+                       class="btn-icon">
+                        {{ icon('pencil') }}
+                    </a>
+                    <button
+                            class="btn-icon modal-button" data-modal-id="modal-id-{{ row.id }}">
+                        {{ icon('trash') }}
+                    </button>
+                </td>
+                {% include 'components/_delete-modal.html.twig' with {
+                    'id': 'modal-id-' ~ row.id,
+                    'title': 'Supprimer l\'utilisateur ' ~ row.fullname,
+                    'content': 'La suppression est irréversible. Voulez-vous continuer ?',
+                    'form_html_element': '<input type="hidden" name="_method" value="DELETE">',
+                    'form_action': path(prefix ~ '_edit', {id: row.id}),
+                    'csrf_value': csrf_token('delete' ~ row.id),
+                    'btn_label': 'Supprimer'
+                } %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

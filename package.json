@@ -4,15 +4,19 @@
         "@babel/preset-env": "^7.16.0",
         "@hotwired/stimulus": "^3.0.0",
         "@symfony/stimulus-bridge": "^3.2.0",
+        "@symfony/ux-chartjs": "file:vendor/symfony/ux-chartjs/assets",
+        "@symfony/ux-live-component": "file:vendor/symfony/ux-live-component/assets",
         "@symfony/webpack-encore": "^4.0.0",
         "autoprefixer": "^10.4.14",
+        "chart.js": "^3.4.1 || ^4.0",
         "core-js": "^3.23.0",
-        "postcss": "^8.4.26",
+        "file-loader": "^6.2.0",
+        "postcss": "^8.4.24",
         "postcss-loader": "^7.3.3",
         "regenerator-runtime": "^0.13.9",
-        "sass": "^1.63.6",
-        "sass-loader": "^13.3.2",
-        "tailwindcss": "^3.3.3",
+        "sass": "^1.69.5",
+        "sass-loader": "^13.2.0",
+        "tailwindcss": "^3.3.2",
         "webpack": "^5.74.0",
         "webpack-cli": "^4.10.0",
         "webpack-notifier": "^1.15.0"
@@ -26,10 +30,19 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "@tailwindcss/forms": "^0.5.4",
+        "@babel/preset-react": "^7.24.1",
+        "@grafikart/drop-files-element": "^1.0.9",
+        "@tailwindcss/forms": "^0.5.3",
+        "filemanager-element": "^0.1.2",
         "flatpickr": "^4.6.13",
-        "select2": "^4.1.0-rc.0",
+        "headless-elements": "^0.0.2",
         "jquery": "^3.6.4",
-        "lucide": "^0.263.0"
+        "lucide": "^0.263.0",
+        "lucide-static": "^0.306.0",
+        "moment": "^2.30.1",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "select2": "^4.1.0-rc.0",
+        "tom-select": "^2.2.2"
     }
 }

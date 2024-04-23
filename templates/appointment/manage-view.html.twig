@@ -1,0 +1,261 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Gérer votre rendez-vous
+{% endblock %}
+
+{% block body %}
+
+    {% include 'partials/flash.html.twig' with {floating: true, duration: 3} %}
+
+    {% if appointment %}
+        <form method="post" action="{{ path('app_appointment_payment_process') }}"
+              class="container-box grid grid-cols-1 sm:grid-cols-3 gap-5 mt-10">
+            <div class="stack-large sm:col-span-2">
+                <div class="stack">
+                    <h3 class="h4">Informations sur le client</h3>
+
+                    <div class="bg-white border border-[#d5e3ec] flex flex-col relative rounded px-4 py-6">
+                        <div class="flex justify-between text-sm mt-4">
+                            <span class="text-slate-500">Nom</span>
+                            <span class="text-slate-900">{{ appointment.client.fullname }}</span>
+                        </div>
+                        <div class="flex justify-between text-sm mt-4">
+                            <span class="text-slate-500">Email</span>
+                            <span class="text-slate-900">{{ appointment.client.email }}</span>
+                        </div>
+                        <div class="flex justify-between text-sm mt-4">
+                            <span class="text-slate-500">Téléphone</span>
+                            <span class="text-slate-900">{{ appointment.client.phone }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="stack">
+                    <h3 class="h4">Rendez-vous</h3>
+
+                    <div class="bg-white border border-[#d5e3ec] flex flex-col relative rounded px-4 py-6">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Date</span>
+                            <span class="text-slate-900">{{ appointment.date|date_format }}</span>
+                        </div>
+                        <div class="flex justify-between text-sm mt-4">
+                            <span class="text-slate-500">Créneau</span>
+                            <span class="text-slate-900">{{ appointment.startTime|date('H:i') }}-{{ appointment.endTime|date('H:i') }}</span>
+                        </div>
+                        <div class="flex justify-between text-sm mt-4">
+                            <span class="text-slate-500">Service</span>
+                            <span class="text-slate-900">{{ appointment.prestation.name }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                {% if not appointment.paid %}
+                    <div class="stack">
+                        <h3 class="h4">Méthode de paiement</h3>
+                        <div class="flex flex-col items-start gap-4">
+                            <ul class="grid w-full gap-3 sm:grid-cols-2">
+                                {% for paymentMethod in paymentMethods %}
+                                    {% if paymentMethod == 'stripe' %}
+                                        <li>
+                                            <input type="radio" id="{{ paymentMethod }}" name="payment-method"
+                                                   value="{{ paymentMethod }}"
+                                                   class="hidden peer" required/>
+                                            <label for="{{ paymentMethod }}"
+                                                   class="inline-flex items-center justify-between w-full p-5 text-slate-500 bg-white border border-slate-200 rounded-lg cursor-pointer peer-checked:border-2 peer-checked:border-slate-900 peer-checked:text-slate-600 hover:text-gray-600 hover:bg-gray-100">
+                                                <div class="block">
+                                                    <div class="w-full flex items-center text-base font-medium text-gray-900 dark:text-white">
+                                                        {{ icon('credit-card') }} <span class="ml-2">Stripe</span>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </li>
+                                    {% elseif paymentMethod == 'cash' %}
+                                        <li>
+                                            <input type="radio" id="{{ paymentMethod }}" name="payment-method"
+                                                   value="{{ paymentMethod }}"
+                                                   class="hidden peer" required/>
+                                            <label for="{{ paymentMethod }}"
+                                                   class="inline-flex items-center justify-between w-full p-5 text-slate-500 bg-white border border-slate-200 rounded-lg cursor-pointer peer-checked:border-2 peer-checked:border-slate-900 peer-checked:text-slate-600 hover:text-gray-600 hover:bg-gray-100">
+                                                <div class="block">
+                                                    <div class="w-full flex items-center text-base font-medium text-gray-900 dark:text-white">
+                                                        {{ icon('circle-dollar-sign') }} <span
+                                                                class="ml-2">Espèces</span>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </li>
+                                    {% else %}
+                                        <li>
+                                            <input type="radio" id="{{ paymentMethod }}" name="payment-method"
+                                                   value="{{ paymentMethod }}"
+                                                   class="hidden peer" required/>
+                                            <label for="{{ paymentMethod }}"
+                                                   class="inline-flex items-center justify-between w-full p-5 text-slate-500 bg-white border border-slate-200 rounded-lg cursor-pointer peer-checked:border-2 peer-checked:border-slate-900 peer-checked:text-slate-600 hover:text-gray-600 hover:bg-gray-100">
+                                                <div class="block">
+                                                    <div class="w-full text-base font-medium text-gray-900 dark:text-white">
+                                                        {{ paymentMethod }}
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="stack-large">
+                <div class="stack">
+                    <h3 class="h4">Détails du paiement</h3>
+
+                    <div class="bg-white border border-[#d5e3ec] flex flex-col relative rounded px-4 py-6">
+                        <dl class="font-normal text-lg text-gray-600 stack">
+                            <div class="flex justify-between text-sm">
+                                <dt class="text-slate-500">Sous-total</dt>
+                                <dd class="text-slate-900">{{ appointment.subTotal|money }}</dd>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <dt class="text-slate-500">Taxes</dt>
+                                <dd class="text-slate-900">{{ 0|money }}</dd>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <dt class="text-slate-500">Réduction</dt>
+                                <dd class="text-slate-900">{{ appointment.appliedDiscount|money }}</dd>
+                            </div>
+                            <div class="flex justify-between border-t border-[#d5e3ec] pt-2 text-lg">
+                                <dt class="text-slate-900 uppercase">Total</dt>
+                                <dd class="font-semibold text-gray-800 {% if appointment.amountPaid %}line-through{% endif %}">{{ appointment.total|money }}</dd>
+                            </div>
+                            {% if appointment.amountPaid and not appointment.paid %}
+                                <div class="flex justify-between text-base">
+                                    <dt class="text-slate-500">Montant payé</dt>
+                                    <dd class="font-bold text-green-500">+{{ appointment.amountPaid|money }}</dd>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <dt class="text-slate-500">Montant dû</dt>
+                                    <dd class="text-slate-900">{{ appointment.remainingAmount|money }}</dd>
+                                </div>
+                            {% endif %}
+                            {% if appointment.paid %}
+                                <div class="flex justify-between text-lg">
+                                    <dt class="text-slate-500">Statut</dt>
+                                    <dd class="text-green-500">Payé</dd>
+                                </div>
+                            {% endif %}
+                        </dl>
+                    </div>
+                </div>
+
+                {% if not appointment.paid %}
+                    <div class="stack">
+                        <h3 class="h4">Compléter votre paiement</h3>
+
+                        <div
+                                class="bg-white border border-[#d5e3ec] flex flex-col relative rounded px-4 py-6">
+                            <input hidden name="appointment-token" value="{{ appointment.accessToken }}">
+                            {% if not appointment.amountPaid %}
+
+                                <p class="text-sm text-slate-500">Vous pouvez payer le total ou partiellement.</p>
+                                <p class="text-sm text-slate-500">Le montant restant sera à payer le jour du
+                                    rendez-vous.</p>
+
+                                <!-- radio buttons -->
+                                <ul class="grid w-full gap-3 mt-4">
+                                    <li>
+                                        <input type="radio" id="payment-strategy-full" name="payment-strategy"
+                                               value="payment-full"
+                                               class="hidden peer" required/>
+                                        <label for="payment-strategy-full"
+                                               class="inline-flex items-center justify-between w-full p-5 text-slate-500 bg-white border border-slate-200 rounded-lg cursor-pointer peer-checked:border-2 peer-checked:border-slate-900 peer-checked:text-slate-600 hover:text-gray-600 hover:bg-gray-100">
+                                            <div class="block">
+                                                <div class="w-full text-base font-medium text-gray-900 dark:text-white">
+                                                    Payer le
+                                                    total
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" id="payment-strategy-partial" name="payment-strategy"
+                                               value="payment-partial"
+                                               class="hidden peer">
+                                        <label for="payment-strategy-partial"
+                                               class="inline-flex items-center justify-between w-full p-5 text-slate-500 bg-white border border-slate-200 rounded-lg cursor-pointer peer-checked:border-2 peer-checked:border-slate-900 peer-checked:text-slate-600 hover:text-gray-600 hover:bg-gray-100">
+                                            <div class="block">
+                                                <div class="w-full text-base font-medium text-gray-900 dark:text-white">
+                                                    Payer un
+                                                    acompte
+                                                </div>
+                                                <div class="w-full text-sm text-slate-500">
+                                                    Minimum {{ (appointment.total/2)|money }}
+                                                </div>
+                                            </div>
+                                        </label>
+
+                                        <input type="number"
+                                               class="mt-4 w-full p-3 border-2 border-slate-900 rounded-lg"
+                                               id="amount" name="amount"
+                                               placeholder="Montant à payer">
+                                    </li>
+                                </ul>
+                            {% else %}
+                                <p class="text-sm text-slate-500">Vous pouvez payer le reste du montant.</p>
+                                <input hidden name="payment-strategy" value="payment-full">
+                            {% endif %}
+
+
+                            <button type="submit"
+                                    class="flex justify-center items-center bg-slate-900 text-white py-2.5 px-1.5 hover:bg-slate-800 hover:text-white rounded mt-8">
+                                Procéder au paiement
+                            </button>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </form>
+    {% else %}
+        <div class="container-box">
+            <img src="{{ asset('images/illustrations/booking-calendar-illustration.svg') }}" alt="" height="300px"
+                 width="300px"
+                 class="mx-auto">
+            <h1 class="h3 text-center">Aucun rendez-vous trouvé</h1>
+            <p class="text-center text-muted">Vous n'avez pas de rendez-vous à gérer pour le moment.</p>
+
+            <div class="mt-6 text-center">
+                <a href="" class="btn-md btn-primary flex gap-3">
+                    {{ icon('calendar-plus', 20) }}
+                    Prendre un rendez-vous
+                </a>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block javascripts__footer %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const amountInput = document.getElementById('amount');
+            const paymentStrategyFull = document.getElementById('payment-strategy-full');
+            const paymentStrategyPartial = document.getElementById('payment-strategy-partial');
+
+            amountInput.classList.add('hidden');
+
+            // check the radio button
+            if (paymentStrategyPartial.checked) {
+                amountInput.classList.remove('hidden');
+            }
+
+            paymentStrategyFull.addEventListener('change', function () {
+                // hide the amount input
+                amountInput.classList.add('hidden');
+                amountInput.value = '';
+            });
+
+            paymentStrategyPartial.addEventListener('change', function () {
+                amountInput.classList.remove('hidden');
+            });
+        });
+
+    </script>
+{% endblock %}

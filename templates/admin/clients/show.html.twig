@@ -1,0 +1,191 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+
+    <div class="dashboard-page-header">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li>
+                    <a href="{{ path('app_admin_home') }}">
+                        <svg class="h-3 w-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                             fill="currentColor" viewBox="0 0 20 20">
+                            <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"></path>
+                        </svg>
+                        Accueil
+                    </a>
+                </li>
+                {{ icon('chevron-right') }}
+                <li aria-current="page">
+                    <a href="{{ path('app_admin_clients_index') }}">
+                        Clients
+                    </a>
+                </li>
+                {{ icon('chevron-right') }}
+                <li aria-current="page">
+                    {{ client.fullname|truncate(18) }}
+                </li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="dashboard-page-table-button">
+        <a href="{{ path('app_admin_clients_edit', {id: client.id}) }}" class="btn btn-primary">
+            {{ icon('pencil') }}
+            <span class="ms-2">Editer</span>
+        </a>
+    </div>
+
+    <nav-tabs class="mb-6 nav-tabs">
+        <a href="#profile"
+           class="tab-link"
+           data-tab-id="profile">
+            {{ icon('user') }}
+            <span class="ml-2">Profile</span>
+        </a>
+        <a href="#appointments"
+           class="tab-link"
+           data-tab-id="appointments">
+            {{ icon('calendar') }}
+            <span class="ml-2">Rendez-vous</span>
+        </a>
+        <a href="#invoices"
+           class="tab-link"
+           data-tab-id="invoices">
+            {{ icon('files') }}
+            <span class="ml-2">Factures & Emails</span>
+        </a>
+    </nav-tabs>
+
+    <div id="profile">
+        <div class="mt-10 mb-10 grid grid-cols-3 gap-6">
+            <div class="col-span-3 sm:col-span-1">
+                <div class="card card-padding">
+                    <!-- title : Informations -->
+                    <div class="flex items-center justify-between">
+                        <h2 class="mb-6 text-lg font-bold text-gray-900 dark:text-white">Informations</h2>
+                    </div>
+
+                    <!-- client informations -->
+                    <div class="flex flex-col">
+                        <div class="mb-4 w-full border-b border-gray-200 dark:border-gray-700">
+                            <h5 class="mb-1 text-base font-medium text-gray-900 dark:text-white">Nom</h5>
+                            <p class="mb-2 text-base text-gray-600 dark:text-gray-400">
+                                {{ client.fullname }}
+                            </p>
+                        </div>
+                        <div class="mb-4 w-full border-b border-gray-200 dark:border-gray-700">
+                            <h5 class="mb-1 text-base font-medium text-gray-900 dark:text-white">Email</h5>
+                            <p class="mb-2 text-base text-gray-600 dark:text-gray-400">
+                                <a href="mailto:{{ client.email }}" class="text-primary-600 hover:text-primary-900">
+                                    {{ client.email }}
+                                </a>
+                            </p>
+                        </div>
+                        <div class="mb-4 w-full border-b border-gray-200 dark:border-gray-700">
+                            <h5 class="mb-1 text-base font-medium text-gray-900 dark:text-white">Phone</h5>
+                            <p class="mb-2 text-base text-gray-600 dark:text-gray-400">
+                                <a href="tel:{{ client.phone }}" class="text-primary-600 hover:text-primary-900">
+                                    {{ client.phone }}
+                                </a>
+                            </p>
+                        </div>
+                        <div class="mb-4 w-full border-b border-gray-200 dark:border-gray-700">
+                            <h5 class="mb-1 text-base font-medium text-gray-900 dark:text-white">Date d'inscription</h5>
+                            <p class="mb-2 text-base text-gray-600 dark:text-gray-400">
+                                {{ client.createdAt|date('d/m/Y à H:i') }}
+                            </p>
+                        </div>
+                        <div class="w-full border-gray-200 dark:border-gray-700">
+                            <h5 class="mb-1 text-base font-medium text-gray-900 dark:text-white">Compte vérifié</h5>
+                            <p class="mb-2 text-base text-gray-600 dark:text-gray-400">
+                                {{ client.isVerified ? 'Oui' : 'Non' }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-span-3 sm:col-span-2">
+                <div class="mb-6 card card-padding">
+                    {{ form_start(emailActionsForm) }}
+                    <h2 class="mb-6 text-lg font-bold text-gray-900 dark:text-white">Emails</h2>
+
+                    <label>
+                        {{ form_widget(emailActionsForm.action, {
+                            'attr': {
+                                'class': 'form-input-md'
+                            }
+                        }) }}
+                    </label>
+
+                    <div class="mt-6">
+                        <button class="btn btn-md btn-primary" type="submit">
+                            Envoyer
+                        </button>
+                    </div>
+                    {{ form_end(emailActionsForm) }}
+                </div>
+
+                <div class="card card-padding">
+                    <h2 class="mb-6 text-lg font-bold text-gray-900 dark:text-white">
+                        Gestion du compte
+                    </h2>
+
+
+                    <div class="text-left">
+                        <button class="btn-md btn-danger modal-button" data-modal-id="modal-id-{{ client.id }}">
+                            Supprimer le compte
+                        </button>
+                    </div>
+
+
+                    <p class="mt-6 text-base text-gray-600 dark:text-gray-400">
+                        Supprimer le compte supprimera toutes les données associées à ce compte.
+                        Cette action est irréversible.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="invoices">
+        <div class="stack-large">
+            <div class="stack">
+                <h1 class="flex items-center text-lg font-bold md:text-xl">
+                    {{ icon('files') }}
+                    <span class="ml-2">Factures</span>
+                </h1>
+
+                <div class="card card-padding">
+                    Les factures seront affichées ici
+                </div>
+            </div>
+
+            <div class="stack">
+                <h1 class="flex items-center text-lg font-bold md:text-xl">
+                    {{ icon('mail') }}
+                    <span class="ml-2">Emails</span>
+                </h1>
+
+                <div class="card card-padding">
+                    Les emails seront affichés ici
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="appointments">
+        <div class="">
+            <h1 class="mb-6 flex items-center text-lg font-bold md:text-xl">
+                {{ icon('calendar') }}
+                <span class="ml-2">Historique des rendez-vous</span>
+            </h1>
+
+            {% include 'admin/appointment/_list.html.twig' with {
+                'appointments': clientAppointments,
+                'emptyMessage': 'Aucun rendez-vous pour ce client.'
+            } %}
+        </div>
+    </div>
+{% endblock %}

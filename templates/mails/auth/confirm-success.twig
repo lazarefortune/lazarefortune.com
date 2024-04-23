@@ -1,0 +1,28 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as element %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+
+        Bonjour {{ user.fullname }} !
+        ===============================
+
+        Nous vous remercions de votre inscription sur {{ app_name }}. Votre adresse email a bien été confirmée.
+        Vous pouvez désormais vous connecter à votre compte et profiter de nos services.
+
+    {% endapply %}
+
+    {{ element.button('Go sur le site', loginUrl) }}
+
+    {% apply markdown_email %}
+        Si vous n'êtes pas à l'origine de la création de ce compte, merci de nous contacter au plus vite.
+    {% endapply %}
+
+    {% apply markdown_email %}
+        Cordialement,
+        L'équipe {{ app_name }}
+    {% endapply %}
+
+{% endblock %}

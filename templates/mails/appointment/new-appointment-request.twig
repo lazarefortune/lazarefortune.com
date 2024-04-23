@@ -1,0 +1,25 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as e %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+
+        ## Bonjour {{ appointment.client.fullname }},
+
+        J'ai bien reçu votre demande de réservation pour le
+        {{ appointment.date|date('d/m/Y') }} sur le créneau de
+        {{ appointment.startTime|date('H:i') }}-{{ appointment.endTime|date('H:i') }}.
+
+        Je reviens vers vous dans les plus brefs délais pour vous confirmer votre réservation.
+
+        Dans l'attente de vous accueillir, je vous souhaite une excellente journée.
+
+        {{ app_name }}.
+
+    {% endapply %}
+
+    {{ e.button('Consulter votre réservation', appointment_url) }}
+
+{% endblock %}

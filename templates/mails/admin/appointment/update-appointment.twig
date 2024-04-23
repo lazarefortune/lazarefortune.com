@@ -1,0 +1,21 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as e %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+
+        ## Bonjour,
+
+        Le rendez-vous de {{ appointment.client.fullname }} a été modifié.
+        Sa nouvelle date est le {{ appointment.date|date('d/m/Y') }}
+        sur le créneau horaire de {{ appointment.startTime|date('H:i') }} à {{ appointment.endTime|date('H:i') }}.
+
+        Tu peux voir les détails de la réservation en cliquant sur le bouton ci-dessous.
+
+    {% endapply %}
+
+    {{ e.button('Consulter les détails', appointment_url) }}
+
+{% endblock %}

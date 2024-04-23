@@ -1,0 +1,33 @@
+@import "tools/typography";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@import "tools/reset";
+@import "tools/layout";
+
+/* Modules */
+@import "modules/admin/page-layout";
+@import "modules/admin/sidebar";
+@import "modules/admin/menu";
+@import "modules/admin/breadcrumb";
+@import "modules/admin/spotlight";
+@import "modules/alert";
+@import "modules/notification";
+@import "modules/button";
+@import "modules/form";
+@import "modules/badge";
+@import "modules/table";
+@import "modules/card";
+@import "modules/payment-card";
+@import "modules/pagination";
+@import "modules/nav-tabs";
+@import "modules/reveal";
+@import "modules/modal";
+@import "modules/scroll-top";
+
+/* Libs */
+@import "libs/flatpickr";
+@import "libs/select2";

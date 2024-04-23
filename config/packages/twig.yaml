@@ -1,6 +1,14 @@
 twig:
-    default_path: '%kernel.project_dir%/templates'
+  form_themes:
+    - 'form/fields.html.twig'
+  default_path: '%kernel.project_dir%/templates'
+  globals:
+    admin_email: '%admin_email%'
+    app_name: '%app.name%'
+    option_service: '@App\Domain\Application\Service\OptionService'
 
 when@test:
-    twig:
-        strict_variables: true
+  twig:
+    strict_variables: true
+
+

@@ -1,0 +1,89 @@
+<div class="block w-full overflow-x-auto border rounded">
+    <table class="table w-full border-collapse items-center bg-transparent">
+        <thead>
+        <tr>
+            <th>
+                Nom
+            </th>
+            <th>
+                E-mail
+            </th>
+            <th>
+                Date d'inscription
+            </th>
+            <th class="text-center">
+                Statut
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if rows is empty %}
+            <tr>
+                <td colspan="7" class="text-center">
+                    Aucune donnée disponible
+                </td>
+            </tr>
+        {% endif %}
+        {% for row in rows %}
+            {% set link = path(prefix ~ '_edit', {id: row.id}) %}
+            <tr>
+                <td class="flex items-center gap-3">
+                    {% if row.avatar %}
+                        <img src="{{ vich_uploader_asset(row, 'avatarFile') }}"
+                             alt="{{ row.firstName ~ ' ' ~ row.lastName }}"
+                             class="rounded-full h-8 w-8">
+                    {% else %}
+                        <div class="rounded-full h-8 w-8 bg-gray-300">
+                            <div class="flex items-center justify-center h-full text-gray-500">
+                                {{ icon('user') }}
+                            </div>
+                        </div>
+                    {% endif %}
+                    <span class="capitalize">{{ row.fullname|capitalize }}</span>
+                </td>
+                <td>
+                    {{ row.email }}
+                </td>
+                <td>
+                    {{ row.createdAt|date_age }}
+                </td>
+                <td>
+                    <div class="badge badge-{% if row.isVerified %}success{% else %}danger{% endif %}">
+                        {% if row.isVerified %}
+                            Vérifié
+                        {% else %}
+                            Non vérifié
+                        {% endif %}
+                    </div>
+                </td>
+                <td>
+                    <a href="{{ path('app_admin_clients_show', {id: row.id}) }}"
+                       class="btn-icon">
+                        {{ icon('eye') }}
+                    </a>
+                    <a href="{{ path('app_admin_clients_edit', {id: row.id}) }}"
+                       class="btn-icon">
+                        {{ icon('pencil') }}
+                    </a>
+                    <button
+                            class="btn-icon modal-button" data-modal-id="modal-id-{{ row.id }}">
+                        {{ icon('trash') }}
+                    </button>
+                </td>
+                {% include 'components/_delete-modal.html.twig' with {
+                    'id': 'modal-id-' ~ row.id,
+                    'title': 'Supprimer le client',
+                    'content': 'La suppression est irréversible. Voulez-vous continuer ?',
+                    'form_html_element': '<input type="hidden" name="_method" value="DELETE">',
+                    'form_action': path(prefix ~ '_edit', {id: row.id}),
+                    'csrf_value': csrf_token('delete' ~ row.id),
+                    'btn_label': 'Supprimer'
+                } %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

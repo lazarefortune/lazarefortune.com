@@ -1,0 +1,16 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as e %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+
+        Nouveau message de {{ name }} :
+        ===============================
+
+    {% endapply %}
+
+    {{ message }}
+
+{% endblock %}

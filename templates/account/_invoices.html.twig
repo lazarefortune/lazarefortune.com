@@ -1,0 +1,24 @@
+<div id="invoices">
+    <div class="stack">
+        <h3 class="h3">Mes factures</h3>
+
+        {% if invoices is empty %}
+            <div class="card card-padding">
+                <img src="{{ asset('images/illustrations/invoices-empty-illustration.svg') }}" alt="" height="300px"
+                     width="300px"
+                     class="mx-auto">
+                <h1 class="h3 text-center">Vous n'avez pas encore de factures</h1>
+                <p class="text-center text-muted">Pourquoi ne pas prendre un rendez-vous ?</p>
+
+                <div class="mt-6 text-center">
+                    <a href="" class="btn-md btn-primary flex gap-3">
+                        {{ icon('calendar-plus') }}
+                        Prendre un rendez-vous
+                    </a>
+                </div>
+            </div>
+        {% else %}
+
+        {% endif %}
+    </div>
+</div>

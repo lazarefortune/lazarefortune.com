@@ -1,0 +1,75 @@
+.spotlight {
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(1.5px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.1s ease;
+}
+
+.spotlight.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.spotlight__bar {
+  position: relative;
+  width: calc(100% - 40px);
+  max-width: 500px;
+  background: #fff;
+  border-radius: 5px;
+  padding: 10px;
+  transform: translateY(-10px);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.spotlight.active .spotlight__bar {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.spotlight__bar input {
+  @apply rounded text-base px-4 w-full;
+}
+
+.spotlight__suggestions {
+  padding: 0 20px 20px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 0 0 5px 5px;
+}
+
+.spotlight__suggestions li {
+  list-style: none;
+  margin-bottom: 2px
+}
+
+.spotlight__suggestions a {
+  display: block;
+  padding: 10px;
+  border-radius: 5px;
+  color: #333;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.spotlight__suggestions li.active a,
+.spotlight__suggestions a:hover {
+  @apply bg-primary-100;
+}
+
+.spotlight__suggestions mark {
+  @apply bg-primary-200;
+}

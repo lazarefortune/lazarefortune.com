@@ -1,6 +1,29 @@
-@import "base/_root";
-@import "../styles/main";
-.container {
-  @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16;
-}
+@import "tools/typography";
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "libs/flatpickr";
+
+/* Tools */
+@import "tools/reset";
+@import "tools/layout";
+@import "tools/animations";
+
+/* Modules */
+@import "modules/accordion";
+@import "modules/alert";
+@import "modules/badge";
+@import "modules/card";
+@import "modules/button";
+@import "modules/form";
+@import "modules/reveal";
+@import "modules/header_nav";
+@import "modules/scroll-top";
+@import "modules/notification";
+@import "modules/nav-tabs";
+@import "modules/modal";
+@import "modules/scrollbar";
+
+/* Libs */

@@ -1,0 +1,330 @@
+{% extends 'admin/base.html.twig' %}
+
+{% import 'admin/appointment/macros.twig' as element %}
+
+{% block body %}
+
+    <div class="dashboard-page-header">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li>
+                    <a href="{{ path('app_admin_home') }}">
+                        <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                             fill="currentColor" viewBox="0 0 20 20">
+                            <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"></path>
+                        </svg>
+                        Accueil
+                    </a>
+                </li>
+                {{ icon('chevron-right') }}
+                <li>
+                    <a href="{{ path('app_admin_appointment_index') }}">
+                        Rendez-vous
+                    </a>
+                </li>
+                {{ icon('chevron-right') }}
+                <li>
+                    <a href="{{ path('app_admin_appointment_show', {'id': appointment.id}) }}">
+                        {{ appointment.id }}
+                    </a>
+                </li>
+                {{ icon('chevron-right') }}
+                <li>
+                    <span aria-current="page">
+                        Paiement
+                    </span>
+                </li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="grid grid-cols-3 gap-6 mt-10 mb-10">
+        <div class="col-span-3 sm:col-span-1">
+            <div class="card card-padding">
+                <!-- title : Informations -->
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-6">Client</h2>
+                </div>
+
+                <!-- client informations -->
+                <div class="flex flex-col">
+                    <div class="w-full border-b border-gray-200 dark:border-gray-700 mb-4">
+                        <h5 class="text-base font-medium text-gray-900 dark:text-white mb-1">Nom</h5>
+                        <p class="text-base text-gray-600 dark:text-gray-400 mb-2">
+                            <a href="{{ path('app_admin_clients_show', {'id': appointment.client.id}) }}">
+                                {{ appointment.client.fullName }}
+                            </a>
+                        </p>
+                    </div>
+                    <div class="w-full border-b border-gray-200 dark:border-gray-700 mb-4">
+                        <h5 class="text-base font-medium text-gray-900 dark:text-white mb-1">Email</h5>
+                        <p class="text-base text-gray-600 dark:text-gray-400 mb-2">
+                            {{ appointment.client.email }}
+                        </p>
+                    </div>
+                    <div class="w-full border-gray-200 dark:border-gray-700">
+                        <h5 class="text-base font-medium text-gray-900 dark:text-white mb-1">Phone</h5>
+                        <p class="text-base text-gray-600 dark:text-gray-400 mb-2">
+                            {{ appointment.client.phone }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-padding mt-6">
+                <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-6">
+                    Détails du rendez-vous
+                </h2>
+
+                <div class="flex flex-col">
+                    <div class="w-full border-b border-gray-200 dark:border-gray-700 mb-4">
+                        <h5 class="text-base font-medium text-gray-900 dark:text-white mb-1">Date</h5>
+                        <p class="text-base text-gray-600 dark:text-gray-400 mb-2">
+                            {{ appointment.date|date('d/m/Y') }}
+                        </p>
+                    </div>
+                    <div class="w-full border-b border-gray-200 dark:border-gray-700 mb-4">
+                        <h5 class="text-base font-medium text-gray-900 dark:text-white mb-1">Créneau</h5>
+                        <p class="text-base text-gray-600 dark:text-gray-400 mb-2">
+                            {{ appointment.startTime|date('H:i') }} - {{ appointment.endTime|date('H:i') }}
+                        </p>
+                    </div>
+                    <div class="w-full border-b border-gray-200 dark:border-gray-700 mb-4">
+                        <h5 class="text-base font-medium text-gray-900 dark:text-white mb-1">Prestation</h5>
+                        <p class="text-base text-gray-600 dark:text-gray-400 mb-2">
+                            {{ appointment.prestation.name }}
+                        </p>
+                    </div>
+                    <div class="w-full border-gray-200 dark:border-gray-700">
+                        <h5 class="text-base font-medium text-gray-900 dark:text-white mb-1">Prix</h5>
+                        <p class="text-base text-gray-600 dark:text-gray-400 mb-2">
+                            {{ appointment.total|price_format }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-span-3 sm:col-span-2">
+            <div class="card card-padding mb-6">
+                <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-6">
+                    Détails du paiement
+                </h2>
+
+                <div class="flex flex-col relative">
+                    <dl class="font-normal text-lg text-gray-600 stack">
+                        <div class="flex justify-between text-sm">
+                            <dt class="text-slate-500">Sous-total</dt>
+                            <dd class="text-slate-900">{{ appointment.subTotal|money }}</dd>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <dt class="text-slate-500">Taxes</dt>
+                            <dd class="text-slate-900">{{ 0|money }}</dd>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <dt class="text-slate-500">Réduction</dt>
+                            <dd class="text-slate-900">{{ appointment.appliedDiscount|money }}</dd>
+                        </div>
+                        <div class="flex justify-between border-t border-[#d5e3ec] pt-2 text-lg">
+                            <dt class="text-slate-900 uppercase">Total</dt>
+                            <dd class="font-semibold text-gray-800 {% if appointment.amountPaid %}line-through{% endif %}">{{ appointment.total|money }}</dd>
+                        </div>
+                        {% if appointment.amountPaid and not appointment.paid %}
+                            <div class="flex justify-between text-base">
+                                <dt class="text-slate-500">Montant payé</dt>
+                                <dd class="font-bold text-green-500">+{{ appointment.amountPaid|money }}</dd>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <dt class="text-slate-500">Montant dû</dt>
+                                <dd class="text-slate-900">{{ appointment.remainingAmount|money }}</dd>
+                            </div>
+                        {% endif %}
+                        {% if appointment.paid %}
+                            <div class="flex justify-between text-lg">
+                                <dt class="text-slate-500">Statut</dt>
+                                <dd class="text-green-500">Payé</dd>
+                            </div>
+                        {% endif %}
+                    </dl>
+                </div>
+            </div>
+
+            {% if appointment.transaction %}
+                <div class="card card-padding mb-6">
+                    <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-6">
+                        Liste des paiements
+                    </h2>
+                    {% if appointment.transaction.payments %}
+                        <h3 class="text-base text-gray-700 font-medium dark:text-white mt-4 mb-5">
+                            Paiements
+                        </h3>
+                        <div class="block w-full overflow-x-auto">
+                            <table class="table w-full border-collapse items-center bg-transparent">
+                                <thead>
+                                <tr>
+                                    <th class="text-left">Montant</th>
+                                    <th class="text-left">Méthode</th>
+                                    <th class="text-left">Date</th>
+                                    <th class="text-left">Statut</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for payment in appointment.transaction.payments %}
+                                    <tr>
+                                        <td>{{ payment.amount|money }}</td>
+                                        <td>{{ payment.paymentMethod }}</td>
+                                        <td>{{ payment.createdAt|date('d/m/Y H:i') }}</td>
+                                        <td>
+                                            <div class="badge badge-{% if payment.status == 'success' %}success
+                                                    {% elseif payment.status == 'pending' %}warning
+                                                    {% else %}danger{% endif %}">
+                                                {{ payment.status }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            {% if not appointment.paid %}
+                <form class="card card-padding" method="post">
+                    <input type="hidden" name="_token"
+                           value="{{ csrf_token('pay_appointment' ~ appointment.id) }}">
+
+                    <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-6">
+                        Paiement
+                    </h2>
+
+                    <h2 class="text-base text-gray-700 dark:text-white">
+                        Mode de paiement
+                    </h2>
+
+                    <div class="stack">
+                        <div class="flex flex-col relative">
+
+                            <!-- radio buttons -->
+                            <ul class="grid grid-cols-none lg:grid-cols-2 w-full gap-3 mt-4">
+                                <li>
+                                    <input type="radio" id="payment-strategy-full" name="payment-strategy"
+                                           value="payment-full"
+                                           class="hidden peer" required/>
+                                    <label for="payment-strategy-full"
+                                           class="inline-flex items-center justify-between w-full p-5 text-slate-500 bg-white border-2 border-slate-100 rounded-lg cursor-pointer peer-checked:border-2 peer-checked:border-primary-900 peer-checked:text-slate-600 hover:text-gray-600 hover:bg-gray-100">
+                                        <div class="block">
+                                            <div class="w-full text-base font-medium text-gray-900 dark:text-white">
+                                                Payer le
+                                                total
+                                            </div>
+                                        </div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" id="payment-strategy-partial" name="payment-strategy"
+                                           value="payment-partial"
+                                           class="hidden peer">
+                                    <label for="payment-strategy-partial"
+                                           class="inline-flex items-center justify-between w-full p-5 text-slate-500 bg-white border-2 border-slate-100 rounded-lg cursor-pointer peer-checked:border-2 peer-checked:border-primary-900 peer-checked:text-slate-600 hover:text-gray-600 hover:bg-gray-100">
+                                        <div class="block">
+                                            <div class="w-full text-base font-medium text-gray-900 dark:text-white">
+                                                Choisir un montant
+                                            </div>
+                                        </div>
+                                    </label>
+
+                                    <input type="text"
+                                           class="mt-4 w-full border border-gray-200 dark:border-gray-700 rounded p-2.5 text-base text-gray-600 dark:text-gray-400 focus:outline-none focus:border-primary-900 focus:ring focus:ring-primary-200 transition duration-150 ease-in-out hidden"
+                                           id="amount" name="amount"
+                                           value="{{ appointment.getRemainingAmount|price_convert }}"
+                                           placeholder=" Montant à payer">
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h2 class="text-base text-gray-700 dark:text-white mt-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+                        Méthode de paiement
+                    </h2>
+
+                    <div class=" flex flex-col relative">
+                        <ul class="grid grid-cols-none lg:grid-cols-2 w-full gap-3 mt-4">
+                            <li>
+                                <input type="radio" id="payment-method-cash" name="payment-method"
+                                       value="cash"
+                                       class="hidden peer" required/>
+                                <label for="payment-method-cash"
+                                       class="inline-flex items-center justify-between w-full p-5 text-slate-500 bg-white
+                                       border-2 border-slate-100 rounded-lg cursor-pointer peer-checked:border-2
+                                       peer-checked:border-primary-900 peer-checked:text-slate-600 hover:text-gray-600 hover:bg-gray-100">
+                                    <div class="block">
+                                        <div class="w-full text-base font-medium text-gray-900 dark:text-white">
+                                            Espèces
+                                        </div>
+                                    </div>
+                                </label>
+                            </li>
+                            <li>
+                                <input type="radio" id="payment-method-card" name="payment-method"
+                                       value="stripe"
+                                       class="hidden peer">
+                                <label for="payment-method-card"
+                                       class="inline-flex items-center justify-between w-full p-5 text-slate-500 bg-white
+                                       border-2 border-slate-100 rounded-lg cursor-pointer peer-checked:border-2
+                                       peer-checked:border-primary-900 peer-checked:text-slate-600 hover:text-gray-600 hover:bg-gray-100">
+                                    <div class="block">
+                                        <div class="w-full text-base font-medium text-gray-900 dark:text-white">
+                                            Carte bancaire
+                                        </div>
+                                    </div>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button type="submit"
+                            class="flex justify-center items-center bg-primary-900 text-white py-2.5 px-1.5 hover:bg-primary-800 hover:text-white rounded mt-8">
+                        Procéder au paiement
+                    </button>
+
+                </form>
+            {% endif %}
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+
+{% block javascripts_bottom %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const amountInput = document.getElementById('amount');
+            const paymentStrategyFull = document.getElementById('payment-strategy-full');
+            const paymentStrategyPartial = document.getElementById('payment-strategy-partial');
+
+            amountInput.classList.add('hidden');
+
+            // check the radio button
+            if (paymentStrategyPartial.checked) {
+                amountInput.classList.remove('hidden');
+            }
+
+            paymentStrategyFull.addEventListener('change', function () {
+                // hide the amount input
+                console.log('full');
+                amountInput.classList.add('hidden');
+                amountInput.value = {{ appointment.remainingAmount|price_convert }};
+            });
+
+            paymentStrategyPartial.addEventListener('change', function () {
+                amountInput.classList.remove('hidden');
+            });
+        });
+
+    </script>
+{% endblock %}

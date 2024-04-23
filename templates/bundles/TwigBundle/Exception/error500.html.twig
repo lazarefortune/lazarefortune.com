@@ -1,0 +1,11 @@
+{% extends 'bundles/TwigBundle/Exception/base_error.html.twig' %}
+
+{% block error_image %}
+    <img src="{{ asset('images/illustrations/500.svg') }}" alt="astronaut image">
+{% endblock %}
+
+{% block error_title 'Quelque chose s\'est mal passé' %}
+
+{% block error_message %}
+    C'est toujours l'heure de la pause café. On devrait être de retour quand tu auras fini ton café.
+{% endblock %}

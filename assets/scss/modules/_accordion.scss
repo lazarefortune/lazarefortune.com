@@ -1,0 +1,41 @@
+.accordion {
+  details {
+    @apply border bg-white rounded-md mb-3 overflow-hidden;
+
+    &[open] {
+      //@apply border-l-2 border-l-primary-700;
+      summary {
+        //@apply bg-primary-100;
+      }
+      p {
+        max-height: 1000px; // TODO: Attention le contenu ne doit pas dépasser cette hauteur
+      }
+    }
+
+    summary {
+      @apply flex items-center justify-between py-4 px-6 cursor-pointer text-base font-semibold;
+      ::marker {
+        content: "";
+      }
+      &::after {
+        content: '▼';
+        @apply text-primary-500;
+        transition: transform 0.2s ease-in-out;
+      }
+
+      &:hover {
+        //@apply bg-primary-50;
+      }
+    }
+
+    &[open] summary::after {
+      transform: rotate(-180deg);
+    }
+
+    p {
+      @apply px-6 py-4 pt-0 duration-200 transition-all ease-in-out text-muted text-sm;
+      max-height: 0;
+      overflow: hidden;
+    }
+  }
+}

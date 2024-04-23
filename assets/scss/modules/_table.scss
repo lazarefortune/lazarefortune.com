@@ -1,0 +1,37 @@
+table.table {
+  //@apply rounded-sm;
+}
+
+table.table thead th {
+  @apply whitespace-nowrap align-middle px-6 py-4 text-left text-sm font-normal uppercase tracking-wider text-gray-500;
+}
+
+table.table thead th:last-child {
+  @apply text-right;
+}
+
+table.table tbody th,
+table.table tbody td {
+  @apply whitespace-nowrap border-t-0 border-r-0 border-l-0 py-4 px-6 align-middle text-base font-normal text-slate-900;
+}
+
+table.table tbody th:last-child,
+table.table tbody td:last-child {
+  @apply text-right;
+}
+
+table.table tbody tr {
+  @apply hover:bg-gray-50;
+}
+
+table.table .table-active {
+  @apply bg-primary-200/30;
+}
+
+table.table .table-active:hover {
+  @apply bg-primary-200/40;
+}
+
+table.table .btn-icon {
+  @apply text-slate-400 hover:text-primary-600;
+}

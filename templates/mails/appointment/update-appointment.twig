@@ -1,0 +1,21 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as e %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+
+        ## Bonjour {{ appointment.client.fullname }},
+
+        Votre rendez-vous a bien été modifié.
+        La nouvelle date et heure de votre rendez-vous est le {{ appointment.date|date('d/m/Y') }} sur le créneau de
+        {{ appointment.startTime|date('H:i') }}-{{ appointment.endTime|date('H:i') }}.
+
+        Je vous remercie pour votre confiance et vous dis à très bientôt.
+
+    {% endapply %}
+
+    {{ e.button('Gérer votre rendez-vous', appointment_url) }}
+
+{% endblock %}

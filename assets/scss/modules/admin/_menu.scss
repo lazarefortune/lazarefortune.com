@@ -1,0 +1,11 @@
+.user-dropdown-menu-item {
+  @apply flex items-center justify-start gap-2 rounded-md px-2 py-2 text-base leading-6 text-gray-500 hover:text-primary-600 hover:bg-primary-200/30 dark:text-gray-400 dark:hover:text-gray-300;
+}
+
+.user-dropdown-menu-item.active {
+  @apply text-base leading-6 text-primary-600 bg-primary-200/30 hover:bg-primary-200/30 dark:text-primary-600 dark:hover:text-primary-600;
+}
+
+.user-dropdown-menu-item i {
+  @apply text-xl;
+}

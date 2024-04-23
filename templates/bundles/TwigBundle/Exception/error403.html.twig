@@ -1,0 +1,12 @@
+{% extends 'bundles/TwigBundle/Exception/base_error.html.twig' %}
+
+{% block error_image %}
+    <img src="{{ asset('images/illustrations/403.png') }}" alt="Accès refusé"/>
+{% endblock %}
+
+{% block error_title 'Page inaccessible' %}
+
+
+{% block error_message %}
+    Oups ! Je crois que tu n'as pas le droit d'accéder à cette page.
+{% endblock %}

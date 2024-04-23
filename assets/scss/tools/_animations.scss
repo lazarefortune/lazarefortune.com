@@ -1,0 +1,96 @@
+// Keyframes
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+// Scroll reveal animations
+.fade {
+  opacity: 0;
+  transform: translateY(30px) !important;
+}
+
+.fade.in {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  transition: .3s cubic-bezier(.5, 0, 0, 1);
+}
+
+.fade-1 {
+  transition-delay: .2s !important;
+}
+
+.fade-2 {
+  transition-delay: .4s !important;
+}
+
+.fade-3 {
+  transition-delay: .6s !important;
+}
+
+.fade-4 {
+  transition-delay: .8s !important;
+}
+
+.fade-out-image {
+  @apply block relative;
+
+  &:before {
+    background: linear-gradient(180deg, hsla(0, 0%, 100%, 0), #ffffff);
+    bottom: -1px;
+    content: "";
+    height: 50%;
+    left: -1px;
+    position: absolute;
+    width: calc(100% + 2px);
+    z-index: 1;
+  }
+}
+
+.background-halo {
+  position: relative;
+}
+
+.border-halo {
+  background: linear-gradient(to bottom right, #35c262, #35c262 20%, #374151 40%), border-box;
+  border: 0 solid transparent;
+  border-radius: .375rem;
+  padding: 1px;
+}
+
+.border-halo.right {
+  background: linear-gradient(to bottom left, #35c262, #35c262 20%, #374151 40%), border-box;
+}
+
+.background-halo.right::after {
+  left: inherit;
+  right: -30%;
+}
+
+.background-halo::after {
+  //background: url(/background-halo.png);
+  //background-repeat: repeat;
+  //background-size: auto;
+  //background-repeat: no-repeat;
+  //background-size: 100% 100%;
+  //content: "";
+  //height: 110%;
+  //left: -30%;
+  //position: absolute;
+  //top: -15%;
+  //width: 100%;
+  //z-index: -1;
+}
+
+.border-halo {
+  background: linear-gradient(to bottom right, #35c262, #35c262 20%, #374151 40%), border-box;
+  border: 0 solid transparent;
+  border-radius: .375rem;
+  padding: 1px;
+}

@@ -1,0 +1,71 @@
+{{ form_start(form , {'attr': {'class': 'stack'}}) }}
+<div class="card card-padding stack">
+    <div class="grid2 stack">
+        {{ form_row(form.client) }}
+        {{ form_row(form.prestation) }}
+    </div>
+
+    <div class="mt-2">
+        {% if form.autoConfirm is defined %}
+            {{ form_row(form.autoConfirm) }}
+        {% endif %}
+    </div>
+
+    <div class="grid2">
+        {{ form_row(form.date, {
+            'attr': {
+                'class': 'form-input-md appointment-date-choice',
+            }
+        }) }}
+    </div>
+
+    <div class="js-slots-target">
+        {% if form.slot is defined %}
+            {{ form_row(form.slot) }}
+        {% endif %}
+        <div class="alert alert-info max-w-md float-start">
+            Veuillez choisir une date et une prestation pour afficher les créneaux disponibles.
+        </div>
+    </div>
+</div>
+
+<div class="slots-container flex flex-col flex-wrap gap-4 mt-4 max-h-64"></div>
+
+<div class="text-end">
+    <button type="submit" class="btn-md btn-primary">
+        {{ icon('save') }}
+        <span>
+            {{ button_label|default('Enregistrer') }}
+        </span>
+    </button>
+</div>
+{{ form_end(form) }}
+
+{% block javascripts_bottom %}
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            const appointmentDateInput = $('.appointment-date-choice');
+            const appointmentPrestationInput = $('#appointment_form_prestation');
+            const slotTarget = $('.js-slots-target');
+
+            function reloadSlots() {
+                const date = appointmentDateInput.val();
+                const prestationId = appointmentPrestationInput.val();
+                let url = '{{ path('app_admin_appointment_slots') }}';
+                url = url + '?date=' + date + '&prestationId=' + prestationId;
+                const data = {
+                    date: date,
+                    _token: '{{ csrf_token('app_admin_appointment_slots') }}'
+                };
+
+                $.get(url, data, function (html) {
+                    slotTarget.html(html).removeClass('hidden')
+                });
+            }
+
+            appointmentDateInput.on('change', reloadSlots);
+            appointmentPrestationInput.on('change', reloadSlots);
+        })
+    </script>
+{% endblock %}

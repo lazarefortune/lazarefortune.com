@@ -1,0 +1,23 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as e %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+
+        ## Bonjour {{ appointment.client.fullname }},
+
+        Je vous confirme votre rendez-vous pour le {{ appointment.date|date('d/m/Y') }}
+        entre {{ appointment.startTime|date('H:i') }} et {{ appointment.endTime|date('H:i') }}.
+
+        ### Informations pratiques
+        - **Adresse** : 11 rue de la République, 69002 Lyon, France
+
+        Je reste à votre disposition pour toute question. À très bientôt !
+
+    {% endapply %}
+
+    {{ e.button('Gérer votre réservation', appointment_url) }}
+
+{% endblock %}

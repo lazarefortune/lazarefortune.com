@@ -1,0 +1,70 @@
+// Pagination classique
+// =============
+.pagination {
+  @apply flex w-full justify-center m-4 overflow-x-auto overflow-y-hidden pt-1 pb-1.5;
+}
+
+.pagination li a,
+.pagination li span {
+  @apply mx-1 my-1 whitespace-nowrap px-2 py-1 text-center;
+}
+
+.pagination li.is-active {
+  @apply text-primary-900;
+}
+
+.pagination span {
+  opacity: 0.6;
+}
+
+.pagination a {
+  @apply bg-white text-slate-950 rounded-sm transition-all ease-in-out duration-100;
+}
+
+.pagination a:hover {
+  @apply bg-primary-100 text-slate-900;
+}
+
+// Variations
+// ==================
+.dashboard .pagination {
+  @apply mt-0 justify-end mb-0;
+
+  li:last-child,
+  li:first-child {
+    display: none;
+  }
+}
+
+// Pagination suiv / prec
+// =============
+.pagination-nav {
+  @apply flex uppercase;
+}
+
+.pagination-nav a + a {
+  @apply relative pl-4;
+}
+
+.pagination-nav a + a::before {
+  content: '';
+  top: calc(50% - 5px);
+  @apply absolute left-2 bg-slate-300 block w-px h-2.5;
+}
+
+.pagination-nav svg {
+  @apply w-3 h-3;
+}
+
+.pagination-nav a {
+  @apply opacity-40;
+}
+
+.pagination-nav a:hover {
+  @apply opacity-60;
+}
+
+.pagination-nav a[rel='prev'] svg {
+  //transform: rotate(180deg);
+  @apply transform rotate-180;
+}
