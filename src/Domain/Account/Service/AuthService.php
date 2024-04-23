@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Client\Service;
+namespace App\Domain\Account\Service;
 
 use App\Domain\Auth\Dto\NewUserData;
 use App\Domain\Auth\Entity\User;
@@ -36,7 +36,6 @@ class AuthService
                     $newUserData->plainPassword
                 )
             )
-            ->setRoles( ['ROLE_CLIENT'] )
             ->setCgu( true );
 
         $this->entityManager->persist( $newUser );

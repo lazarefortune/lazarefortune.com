@@ -3,7 +3,7 @@
 namespace App\Domain\Profile\Service;
 
 use App\Domain\Auth\Entity\User;
-use App\Domain\Client\Service\AuthService;
+use App\Domain\Account\Service\AuthService;
 use App\Domain\Profile\Event\UserDeleteRequestEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;

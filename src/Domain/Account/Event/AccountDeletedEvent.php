@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Domain\Client\Event;
+namespace App\Domain\Account\Event;
 
 use App\Domain\Auth\Entity\User;
 use Symfony\Contracts\EventDispatcher\Event;
 
-class DeleteClientEvent extends Event
+class AccountDeletedEvent extends Event
 {
     public const NAME = 'delete.client';
 

@@ -3,21 +3,15 @@
 namespace App\Http\Controller;
 
 use App\Domain\Auth\Dto\NewUserData;
-use App\Domain\Auth\EmailVerifier;
 use App\Domain\Auth\Entity\User;
-use App\Domain\Auth\Event\EmailConfirmationCompletedEvent;
-use App\Domain\Auth\Event\EmailConfirmationRequestedEvent;
 use App\Domain\Auth\Form\RegistrationForm;
 use App\Domain\Auth\Repository\UserRepository;
 use App\Domain\Auth\Security\AppAuthenticator;
-use App\Domain\Client\Service\AuthService;
+use App\Domain\Account\Service\AuthService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {

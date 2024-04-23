@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Domain\Client\Service;
+namespace App\Domain\Account\Service;
 
 use App\Domain\Appointment\Repository\AppointmentRepository;
 use App\Domain\Auth\Entity\User;
 use App\Domain\Auth\Event\EmailConfirmationRequestedEvent;
 use App\Domain\Auth\Event\UserRegistrationCompletedEvent;
 use App\Domain\Auth\Repository\UserRepository;
-use App\Domain\Client\Event\DeleteClientEvent;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class UserService
