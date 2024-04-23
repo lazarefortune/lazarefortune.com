@@ -3,7 +3,7 @@
 namespace App\Http\Admin\Controller;
 
 use App\Domain\Appointment\Service\AppointmentService;
-use App\Domain\Client\Service\ClientService;
+use App\Domain\Client\Service\UserService;
 use App\Domain\Realisation\Service\RealisationService;
 use App\Http\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +18,7 @@ class PageController extends AbstractController
 
     #[Route( '/dashboard', name: 'home', methods: ['GET'] )]
     public function index(
-        ClientService         $clientService,
+        UserService           $clientService,
         RealisationService    $realisationService,
         AppointmentService    $appointmentService,
         ChartBuilderInterface $chartBuilder

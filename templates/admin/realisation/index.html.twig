@@ -46,12 +46,6 @@
                         Date
                     </th>
                     <th>
-                        Durée
-                    </th>
-                    <th>
-                        Tarif
-                    </th>
-                    <th>
                         Visibilité
                     </th>
                     <th>
@@ -69,11 +63,9 @@
                 {% endif %}
                 {% for realisation in realisations %}
                     <tr>
-                        <td>{{ realisation.dateRealisation|human_date }}</td>
-                        <td>{{ realisation.duration|duration_format }}</td>
-                        <td>{{ realisation.amount|price_format }}</td>
+                        <td>{{ realisation.date|human_date }}</td>
                         <td>
-                            {% if realisation.isOnline %}
+                            {% if realisation.online %}
                                 <span class="badge badge-success">En ligne</span>
                             {% else %}
                                 <span class="badge badge-danger">Hors ligne</span>
@@ -97,7 +89,7 @@
                         {% include 'components/_delete-modal.html.twig' with {
                             'id': 'modal-id-' ~ realisation.id,
                             'title': 'Supprimer la réalisation',
-                            'content': 'Vous êtes sur le point de supprimer la réalisation n°' ~ realisation.id ~ ' du ' ~ realisation.dateRealisation|human_date ~ '.',
+                            'content': 'Vous êtes sur le point de supprimer la réalisation n°' ~ realisation.id ~ ' du ' ~ realisation.date|human_date ~ '.',
                             'form_action': path('app_admin_realisation_delete', {'id': realisation.id}),
                             'csrf_value': csrf_token('delete' ~ realisation.id),
                             'btn_label': 'Supprimer'

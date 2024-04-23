@@ -4,7 +4,7 @@ namespace App\Http\Admin\Controller;
 
 use App\Domain\Auth\Entity\User;
 use App\Domain\Client\Form\EmailActionForm;
-use App\Domain\Client\Service\ClientService;
+use App\Domain\Client\Service\UserService;
 use App\Http\Admin\Data\Crud\ClientCrudData;
 use App\Http\Admin\Data\Crud\UserCrudData;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,6 +54,14 @@ class UserController extends CrudController
     {
         $data = new UserCrudData( $user );
         return $this->crudEdit( $data );
+    }
+
+
+    #[Route( path: '/{id<\d+>}/details', name: 'show', methods: ['GET'] )]
+    public function show( User $user ) : Response
+    {
+        $data = new UserCrudData( $user );
+        return $this->crudShow( $data );
     }
 
     #[Route( path: '/{id<\d+>}', methods: ['DELETE'] )]

@@ -1,5 +1,10 @@
 {% extends 'admin/base.html.twig' %}
 
+{% block title %}
+   {{ entity.fullname }}
+{% endblock %}
+
+
 {% block body %}
 
     <div class="dashboard-page-header">
@@ -16,32 +21,18 @@
                 </li>
                 {{ icon('chevron-right') }}
                 <li>
-                    <a href="{{ path('app_admin_clients_index') }}">
-                        Clients
-                    </a>
+                    <a href="{{ path('app_admin_users_index') }}">
+                        <a href="{{ path('app_admin_users_index') }}">
+                            Utilisateurs
+                        </a>
                 </li>
                 {{ icon('chevron-right') }}
                 <li aria-current="page">
-                    <a href="{{ path('app_admin_clients_show', {id: entity.id}) }}">
-                        {{ entity.id }}
-                    </a>
-                </li>
-                {{ icon('chevron-right') }}
-                <li aria-current="page">
-                    Modifier
+                    {{ entity.fullname }}
                 </li>
             </ol>
         </nav>
     </div>
-
-    <div class="mt-6">
-        {% include 'admin/clients/_form.html.twig' with {
-            form: form,
-            button_label: 'Enregistrer',
-            button_back_to_list: false
-        } %}
-    </div>
-
 
 {% endblock %}
 

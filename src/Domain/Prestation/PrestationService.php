@@ -37,9 +37,12 @@ class PrestationService
         return $this->prestationRepository->findAll();
     }
 
-    public function getPrestationById( int $prestationId )
+    public function getPrestationById( int $prestationId ) : Prestation
     {
-        return $this->prestationRepository->find( $prestationId );
+        /** @var Prestation|null $prestation */
+        $prestation = $this->prestationRepository->find( $prestationId );
+
+        return $prestation;
     }
 
 }

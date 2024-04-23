@@ -81,7 +81,7 @@
                         {{ appointment.startTime|date('H:i') }} - {{ appointment.endTime|date('H:i') }}
                     </td>
                     <td>
-                        <a href="{{ path('app_admin_clients_show', {id: appointment.client.id}) }}">
+                        <a href="{{ path('app_admin_users_show', {id: appointment.client.id}) }}">
                             {{ appointment.client.fullName }}
                         </a>
                     </td>

@@ -22,12 +22,9 @@ class AdminRealisationController extends AbstractController
     #[Route( '/', name: 'index', methods: ['GET'] )]
     public function index( RealisationRepository $realisationRepository ) : Response
     {
-
-//        $this->denyAccessUnlessGranted( 'can_manage_roles' );
-
         $realisations = $realisationRepository->findBy(
             [],
-            ['dateRealisation' => 'DESC']
+            ['date' => 'DESC']
         );
 
         return $this->render( 'admin/realisation/index.html.twig', [
@@ -44,13 +41,11 @@ class AdminRealisationController extends AbstractController
 
         if ( $form->isSubmitted() && $form->isValid() ) {
             $this->uploadImagesForRealisation( $form, $realisation, $entityManager );
+            $date = $form->get( 'date' )->getData();
+            $online = $form->get( 'online' )->getData();
 
-            $dateRealisation = $form->get( 'dateRealisation' )->getData();
-            if ( empty( $dateRealisation ) ) {
-                $realisation->setDateRealisation( new \DateTime() );
-            }
-
-            $realisation->setCreatedAt( new \DateTimeImmutable() );
+            $realisation->setOnline( $online );
+            $realisation->setDate( $date );
 
             $realisationRepository->save( $realisation, true );
 

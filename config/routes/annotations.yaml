@@ -15,3 +15,10 @@ app_controllers:
   resource: ../../src/Http/Controller/*
   type: attribute
   name_prefix: 'app_'
+
+
+education_controllers:
+  name_prefix: education_
+  prefix: /education
+  resource: ../../src/Http/Education/Controller/*
+  type: attribute

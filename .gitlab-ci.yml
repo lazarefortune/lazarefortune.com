@@ -1,0 +1,61 @@
+image: php:8.1-cli
+
+stages:
+  - setup
+  - test
+  - deploy_dev
+  - deploy
+
+cache:
+  paths:
+    - vendor/
+    - node_modules/
+
+setup:
+  stage: setup
+  script:
+    - apt-get update -yqq
+    - apt-get install git unzip libpq-dev postgresql-client -yqq
+    - curl -sS https://getcomposer.org/installer | php
+    - php composer.phar install --prefer-dist --no-ansi --no-interaction --no-scripts
+    - docker-php-ext-install pdo pdo_pgsql
+
+test:
+  stage: test
+  script:
+    - php bin/phpunit
+
+deploy_dev:
+  stage: deploy_dev
+  script:
+    - apt-get update -yqq
+    - apt-get install -yqq openssh-client
+    - apt-get update && apt-get install -y libssl-dev
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - eval "$(ssh-agent -s)"
+    - ssh-add ~/.ssh/id_rsa
+    - ssh-keyscan -p $SSH_PORT -H $SSH_HOST >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST pwd
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html"
+  only:
+    - dev
+
+deploy:
+  stage: deploy
+  script:
+    - apt-get update -yqq
+    - apt-get install -yqq openssh-client
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - eval "$(ssh-agent -s)"
+    - ssh-add ~/.ssh/id_rsa
+    - ssh-keyscan -p $SSH_PORT -H $SSH_HOST >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST pwd
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html"
+  only:
+    - main

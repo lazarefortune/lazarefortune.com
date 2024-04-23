@@ -53,13 +53,8 @@
                 </a>
                 <a href="{{ path('app_admin_realisation_index') }}"
                    class="sidebar-nav-item {{ menu_active('app_admin_realisation') }}">
-                    {{ icon('scissors' ) }}
+                    {{ icon('book-marked' ) }}
                     <span class="ml-1">Portfolio</span>
-                </a>
-                <a href="{{ path('app_admin_clients_index') }}"
-                   class="sidebar-nav-item {{ menu_active('app_admin_clients') }}">
-                    {{ icon('users' ) }}
-                    <span class="ml-1">Clients</span>
                 </a>
                 {% if is_granted('ROLE_SUPER_ADMIN') %}
                     <a href="{{ path('app_admin_users_index') }}"

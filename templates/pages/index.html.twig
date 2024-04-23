@@ -10,13 +10,8 @@
                 <input aria-hidden="true" type="checkbox" name="toggle_nav" id="toggle_nav"
                        class="hidden peer">
                 <div class="relative z-20 flex w-full justify-between md:px-0 lg:w-max">
-                    <a href="" aria-label="logo" class="flex items-center space-x-2">
-                        {# <div aria-hidden="true" class="flex space-x-1"> #}
-                        {#     <div class="h-4 w-4 rounded-full bg-gray-900 dark:bg-white"></div> #}
-                        {#     <div class="h-6 w-2 bg-primary"></div> #}
-                        {# </div> #}
-                        <span class="text-2xl font-bold text-slate-900 dark:text-white">Book<span
-                                    class="text-primary-700">App</span></span>
+                    <a href="">
+                        <img src="{{ asset('images/logo/lazarefortune-logo.svg') }}" alt="logo" class="w-8">
                     </a>
 
                     <div class="relative flex max-h-10 items-center lg:hidden">
@@ -40,12 +35,12 @@
                         <ul class="flex flex-col gap-6 font-medium tracking-wide lg:flex-row lg:gap-0 lg:text-sm">
                             <li>
                                 <a href="" class="block transition hover:text-primary md:px-4">
-                                    <span>Prestations</span>
+                                    <span>Vidéos</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="" class="block transition hover:text-primary md:px-4">
-                                    <span>Abonnements</span>
+                                    <span>Blog</span>
                                 </a>
                             </li>
                             <li>
@@ -83,14 +78,6 @@
                                 >
                             </a>
                         {% endif %}
-                        {#                        <a #}
-                        {#                                href="{{ path('app_login') }}" #}
-                        {#                                class="before:absolute relative before:inset-0 flex h-9 w-full items-center justify-center before:rounded-full px-4 before:transition before:duration-300 before:bg-primary hover:before:scale-105 active:before:scale-95 active:duration-75 sm:w-max" #}
-                        {#                        > #}
-                        {#                            <span class="relative text-sm font-semibold text-white" #}
-                        {#                            >Espace client</span #}
-                        {#                            > #}
-                        {#                        </a> #}
                     </div>
                 </div>
             </div>
@@ -99,7 +86,7 @@
         <div class="mx-auto flex w-full max-w-6xl flex-col-reverse px-4 pt-24 sm:px-6 md:px-8 lg:flex-row lg:items-center lg:justify-between">
             <div class="w-full pr-0 lg:w-1/2 lg:pr-8">
                 <h1 class="text-4xl font-bold lg:gtext-6xl">
-                    Prendre rendez-vous facilement avec <span class="text-primary-600">BookApp</span> !
+                    Apprenez de nouvelles choses avec <span class="text-primary-600">Lazare Fortune</span>
                 </h1>
                 <p class="pt-4 text-lg leading-relaxed text-gray-500 lg:pt-8 lg:text-xl">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aliquid animi atque autem
@@ -108,11 +95,11 @@
                 </p>
                 <div class="flex flex-col flex-wrap gap-x-6 gap-y-4 pt-12 sm:flex-row">
                     <a href="" class="btn btn-primary">
-                        {{ icon('calendar-plus') }}
-                        <span class="ml-2">Prendre rendez-vous</span>
+                        {{ icon('user-round-plus') }}
+                        <span class="ml-2">Créer un compte</span>
                     </a>
                     <a href="" class="btn btn-link">
-                        <span class="">Mes réalisations</span>
+                        <span class="">Voir les tutoriels</span>
                     </a>
                 </div>
             </div>

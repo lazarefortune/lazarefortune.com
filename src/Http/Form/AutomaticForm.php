@@ -62,7 +62,7 @@ class AutomaticForm extends AbstractType
                 $builder->add( $name, ChoiceMultipleType::class, [
                     'label' => 'Rôles',
                     'choices' => [
-                        'Client' => 'ROLE_CLIENT',
+                        'Utilisateur' => 'ROLE_USER',
                         'Admin' => 'ROLE_ADMIN',
                         'Super Admin' => 'ROLE_SUPER_ADMIN',
                     ],

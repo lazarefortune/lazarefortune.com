@@ -44,8 +44,8 @@ class AppointmentForm extends AbstractType
                 ],
                 'query_builder' => function ( \Doctrine\ORM\EntityRepository $er ) {
                     return $er->createQueryBuilder( 'u' )
-                        ->where( 'u.roles LIKE :role' )
-                        ->setParameter( 'role', '%"' . 'ROLE_CLIENT' . '"%' );
+                        ->where( 'u.roles NOT LIKE :role' )
+                        ->setParameter( 'role', '%"' . 'ROLE_SUPER_ADMIN' . '"%' );
                 },
                 'label_attr' => [
                     'class' => 'label'

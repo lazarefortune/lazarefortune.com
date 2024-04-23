@@ -41,7 +41,7 @@
                 </td>
                 <td>
                     <div class="flex justify-start gap-2">
-                        {% for role in row.getRolesWithoutUser %}
+                        {% for role in row.roles %}
                             <span class="badge badge-{% if role == 'ROLE_ADMIN' %}primary{% else %}secondary{% endif %}">{{ role|replace({'ROLE_': ''}) }}</span>
                         {% endfor %}
                     </div>

@@ -173,6 +173,9 @@ class AppointmentService
         return $this->filterConflictingSlots( $slots, $date, $prestation );
     }
 
+    /**
+     * @throws Exception
+     */
     public function getSlotsString( DateTimeInterface $date, Prestation $prestation ) : array
     {
         $slots = $this->getSlots( $date, $prestation );

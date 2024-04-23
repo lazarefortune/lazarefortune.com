@@ -23,7 +23,7 @@ class UserFixtures extends Fixture
         $user->setPhone( '0601020304' );
         $user->setDateOfBirthday( new \DateTime( '1990-01-01' ) );
         $user->setPassword( $this->passwordHasher->hashPassword( $user, 'admin' ) );
-        $user->setRoles( ['ROLE_ADMIN'] );
+        $user->setRoles( ['ROLE_SUPER_ADMIN'] );
         $user->setIsVerified( true );
         $user->setCgu( true );
         $user->setCreatedAt( new \DateTime() );
@@ -40,7 +40,6 @@ class UserFixtures extends Fixture
             $user->setPhone( $faker->phoneNumber );
             $user->setDateOfBirthday( $faker->dateTimeBetween( '-50 years', '-18 years' ) );
             $user->setPassword( $this->passwordHasher->hashPassword( $user, 'password' ) );
-            $user->setRoles( ['ROLE_CLIENT'] );
             $user->setIsVerified( $faker->boolean( 80 ) );
             $user->setCgu( true );
             $user->setCreatedAt( $faker->dateTimeBetween( '-1 year', 'now' ) );

@@ -17,16 +17,10 @@ class Realisation
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?bool $isOnline = null;
-
-    #[ORM\Column( type: Types::INTEGER, nullable: true )]
-    private ?int $amount = null;
-
-    #[ORM\Column( Types::BOOLEAN, nullable: true )]
-    private ?bool $isAmountPublic = null;
+    private ?bool $online = null;
 
     #[ORM\Column( nullable: true )]
-    private ?\DateTime $dateRealisation = null;
+    private ?\DateTime $date = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -34,12 +28,12 @@ class Realisation
     #[ORM\OneToMany( mappedBy: 'realisation', targetEntity: ImageRealisation::class, orphanRemoval: true )]
     private Collection $images;
 
-    #[ORM\Column( type: Types::TIME_MUTABLE, nullable: true )]
-    private ?\DateTimeInterface $duration = null;
-
     public function __construct()
     {
+        $this->online = false;
+        $this->date = new \DateTime();
         $this->images = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId() : ?int
@@ -49,48 +43,24 @@ class Realisation
 
     public function isOnline() : ?bool
     {
-        return $this->isOnline;
+        return $this->online;
     }
 
-    public function setIsOnline( ?bool $isOnline ) : self
+    public function setOnline( ?bool $isOnline ) : self
     {
-        $this->isOnline = $isOnline;
+        $this->online = $isOnline;
 
         return $this;
     }
 
-    public function getAmount() : ?int
+    public function getDate() : ?\DateTime
     {
-        return $this->amount;
+        return $this->date;
     }
 
-    public function setAmount( ?int $amount ) : self
+    public function setDate( ?\DateTime $date ) : self
     {
-        $this->amount = $amount;
-
-        return $this;
-    }
-
-    public function isAmountPublic() : ?bool
-    {
-        return $this->isAmountPublic;
-    }
-
-    public function setIsAmountPublic( ?bool $isAmountPublic ) : self
-    {
-        $this->isAmountPublic = $isAmountPublic;
-
-        return $this;
-    }
-
-    public function getDateRealisation() : ?\DateTime
-    {
-        return $this->dateRealisation;
-    }
-
-    public function setDateRealisation( ?\DateTime $dateRealisation ) : self
-    {
-        $this->dateRealisation = $dateRealisation;
+        $this->date = $date;
 
         return $this;
     }
@@ -133,18 +103,6 @@ class Realisation
                 $image->setRealisation( null );
             }
         }
-
-        return $this;
-    }
-
-    public function getDuration() : ?\DateTimeInterface
-    {
-        return $this->duration;
-    }
-
-    public function setDuration( ?\DateTimeInterface $duration ) : self
-    {
-        $this->duration = $duration;
 
         return $this;
     }

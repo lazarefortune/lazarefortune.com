@@ -1,0 +1,37 @@
+{% extends 'education/base.html.twig' %}
+
+{% block title %}Education{% endblock %}
+
+{% block body %}
+
+    <div class="page-header">
+        <div class="container-box">
+            <div class="stack">
+                <div class="stack max-w-[980px]">
+                    <h1 class="text-3xl text-slate-900 font-medium leading-tight tracking-tighter sm:text-3xl md:text-5xl lg:text-6xl">
+                        Apprenez à coder avec moi
+                    </h1>
+                    <p class="text-xl text-slate-500 max-w-[700px] dark:text-slate-400 sm:text-xl">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et
+                        perferendis eaque, exercitationem praesentium nihil.
+                    </p>
+                </div>
+
+                <div class="mt-4 flex flex-col space-y-4 sm:space-x-4 sm:space-y-0 sm:flex-row md:flex-row">
+                    <a href="{{ path('app_login') }}"
+                       class="btn-md btn-primary">
+                        {{ icon('youtube') }}
+                        <span class="ml-2">
+                        Voir les tutoriels
+                    </span>
+                    </a>
+                    <a href=""
+                       class="btn-md btn-secondary">
+                        Créer un compte
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

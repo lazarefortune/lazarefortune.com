@@ -18,24 +18,10 @@ class RealisationForm extends AbstractType
     public function buildForm( FormBuilderInterface $builder, array $options ) : void
     {
         $builder
-            ->add( 'isOnline', SwitchType::class, [
+            ->add( 'online', SwitchType::class, [
                 'label' => 'Visible sur le site ?',
             ] )
-            ->add( 'amount', PriceType::class, [
-                'attr' => [
-                    'class' => 'form-input-md',
-                ],
-                'label' => 'Tarif',
-                'currency' => 'EUR',
-                'required' => true,
-                'label_attr' => [
-                    'class' => 'label',
-                ],
-            ] )
-            ->add( 'isAmountPublic', SwitchType::class, [
-                'label' => 'Rendre le tarif public ?',
-            ] )
-            ->add( 'dateRealisation', DateType::class, [
+            ->add( 'date', DateType::class, [
                 'required' => true,
                 'widget' => 'single_text',
                 'html5' => false,
@@ -46,17 +32,6 @@ class RealisationForm extends AbstractType
                 'attr' => [
                     'class' => 'flatpickr-date-realisation form-input-md',
                     'data-input' => 'true'
-                ],
-            ] )
-            ->add( 'duration', TimeType::class, [
-                'label' => 'Durée de la réalisation',
-                'required' => true,
-                'widget' => 'single_text',
-                'attr' => [
-                    'class' => 'flatpickr-time-input form-input-md',
-                ],
-                'label_attr' => [
-                    'class' => 'label',
                 ],
             ] )
             ->add( 'images', FileType::class, [
