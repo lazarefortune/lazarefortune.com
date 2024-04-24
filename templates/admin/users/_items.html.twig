@@ -11,6 +11,12 @@
             <th>
                 E-mail
             </th>
+            <th>
+                Ancienneté
+            </th>
+            <th>
+                Statut
+            </th>
             <th class="text-center">
                 Role(s)
             </th>
@@ -38,6 +44,14 @@
                 </td>
                 <td>
                     {{ row.email }}
+                </td>
+                <td>
+                    {{ row.createdAt|date_age }}
+                </td>
+                <td>
+                    <span class="badge badge-{% if row.isVerified %}success{% else %}danger{% endif %}">
+                        {% if row.isVerified %}Vérifié{% else %}Non vérifié{% endif %}
+                    </span>
                 </td>
                 <td>
                     <div class="flex justify-start gap-2">

@@ -30,16 +30,16 @@
         <li class="header-side-auth">
             {% if app.user %}
                 <a href="{{ path('app_profile') }}">
-                    {{ icon('user', 15) }}
+                    {{ icon('user') }}
                     Mon compte
                 </a>
                 <span class="text-muted">·</span>
                 <a href="{{ path('app_logout') }}" class="text-red-900 inline-block">
-                    {{ icon('log-out', 14) }}
+                    {{ icon('log-out') }}
                 </a>
             {% else %}
                 <a href="{{ path('app_register') }}" {{ menu_active_aria('app_register') }}>
-                    {{ icon('user-plus', 15) }}
+                    {{ icon('user-plus') }}
                     S'inscrire</a>
                 <span class="text-muted">·</span>
                 <a href="{{ path('app_login') }}" {{ menu_active_aria('app_login') }}>Se connecter</a>

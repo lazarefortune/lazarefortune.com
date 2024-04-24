@@ -4,33 +4,35 @@
 
 {% block body %}
 
-    <div class="page-header">
-        <div class="container-box">
-            <div class="stack">
-                <div class="stack max-w-[980px]">
-                    <h1 class="text-3xl text-slate-900 font-medium leading-tight tracking-tighter sm:text-3xl md:text-5xl lg:text-6xl">
-                        Apprenez à coder avec moi
-                    </h1>
-                    <p class="text-xl text-slate-500 max-w-[700px] dark:text-slate-400 sm:text-xl">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et
-                        perferendis eaque, exercitationem praesentium nihil.
-                    </p>
-                </div>
-
-                <div class="mt-4 flex flex-col space-y-4 sm:space-x-4 sm:space-y-0 sm:flex-row md:flex-row">
-                    <a href="{{ path('app_login') }}"
-                       class="btn-md btn-primary">
-                        {{ icon('youtube') }}
-                        <span class="ml-2">
-                        Voir les tutoriels
-                    </span>
-                    </a>
-                    <a href=""
-                       class="btn-md btn-secondary">
-                        Créer un compte
-                    </a>
-                </div>
+    <div class="container-box flex w-full flex-col-reverse lg:flex-row lg:items-center lg:justify-between">
+        <div class="w-full pr-0 lg:w-1/2 lg:pr-8">
+            <h1 class="text-4xl font-bold lg:gtext-6xl">
+                Apprenez de nouvelles choses avec <span class="text-primary-600">Lazare Fortune</span>
+            </h1>
+            <p class="pt-4 text-lg leading-relaxed text-gray-500 lg:pt-8 lg:text-xl">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aliquid animi atque autem
+                consectetur consequuntur cumque, delectus doloremque doloribus ducimus ea eius eligendi eos
+                error
+            </p>
+            <div class="flex flex-col flex-wrap gap-x-6 gap-y-4 pt-12 sm:flex-row">
+                {% if app.user %}
+                <a href="" class="btn btn-primary">
+                    {{ icon('youtube') }}
+                    <span class="ml-2">Commencer un cours</span>
+                </a>
+                {% else %}
+                <a href="" class="btn btn-primary">
+                    {{ icon('user-round-plus') }}
+                    <span class="ml-2">Créer un compte</span>
+                </a>
+                {% endif %}
+                <a href="" class="btn btn-link">
+                    <span class="">Voir les tutoriels</span>
+                </a>
             </div>
+        </div>
+        <div class="hidden lg:block lg:w-1/2">
+            <img src="{{ asset('images/education_hero_illustration2.svg') }}" alt="hero" class="w-full">
         </div>
     </div>
 

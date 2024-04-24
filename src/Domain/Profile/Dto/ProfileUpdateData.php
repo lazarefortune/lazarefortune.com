@@ -18,7 +18,6 @@ class ProfileUpdateData
     #[Assert\Length( min: 3, max: 255, minMessage: 'Votre adresse email doit contenir au moins {{ limit }} caractères', maxMessage: 'Votre adresse email doit contenir au maximum {{ limit }} caractères' )]
     public string $email = '';
 
-    #[Assert\NotBlank( message: 'Veuillez renseigner votre numéro de téléphone' )]
     #[Assert\Length( min: 3, max: 255, minMessage: 'Votre numéro de téléphone doit contenir au moins {{ limit }} caractères', maxMessage: 'Votre numéro de téléphone doit contenir au maximum {{ limit }} caractères' )]
     #[Assert\Regex( pattern: '/^((\+)33|0)[1-9](\d{2}){4}$/', message: 'Veuillez renseigner un numéro de téléphone valide' )]
     public ?string $phone = '';

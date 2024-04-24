@@ -28,14 +28,14 @@ class UserService
         return $this->userRepository->findByRole( 'ROLE_CLIENT' );
     }
 
-    public function getCountClients() : int
+    public function getNbUsers() : int
     {
-        return $this->userRepository->countClients();
+        return $this->userRepository->countUsers();
     }
 
-    public function getClientsByMonth() : array
+    public function getMonthlyUsersLastYear() : array
     {
-        return $this->userRepository->countClientsByMonth();
+        return $this->userRepository->countMonthlyUsersLastYear();
     }
 
     /**

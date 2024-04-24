@@ -139,26 +139,26 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $count;
     }
 
-    public function countClients() : int
+    public function countUsers() : int
     {
         return $this->createQueryBuilder( 'u' )
             ->select( 'COUNT(u)' )
-            ->andWhere( 'u.roles LIKE :role' )
-            ->setParameter( 'role', '%ROLE_CLIENT%' )
+            ->andWhere( 'u.roles NOT LIKE :role' )
+            ->setParameter( 'role', '%ROLE_SUPER_ADMIN%' )
             ->getQuery()
             ->getSingleScalarResult();
     }
 
-    public function countClientsByMonth() : array
+    public function countMonthlyUsersLastYear() : array
     {
         $date = new \DateTime();
         $date->modify( '-1 year' );
 
         $result = $this->createQueryBuilder( 'u' )
             ->select( 'COUNT(u) as total, MONTH(u.createdAt) as month' )
-            ->andWhere( 'u.roles LIKE :role' )
+            ->andWhere( 'u.roles NOT LIKE :role' )
             ->andWhere( 'u.createdAt >= :date' )
-            ->setParameter( 'role', '%ROLE_CLIENT%' )
+            ->setParameter( 'role', '%ROLE_SUPER_ADMIN%' )
             ->setParameter( 'date', $date )
             ->groupBy( 'month' )
             ->getQuery()

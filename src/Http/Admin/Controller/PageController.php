@@ -2,8 +2,8 @@
 
 namespace App\Http\Admin\Controller;
 
+use App\Domain\Account\Service\UserService;
 use App\Domain\Appointment\Service\AppointmentService;
-use App\Domain\Client\Service\UserService;
 use App\Domain\Realisation\Service\RealisationService;
 use App\Http\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,8 +25,9 @@ class PageController extends AbstractController
     ) : Response
     {
 
-        $clientsByMonth = $clientService->getClientsByMonth();
+        $monthlyUsersLastYear = $clientService->getMonthlyUsersLastYear();
 
+        # Chart monthly users
         $chart = $chartBuilder->createChart( Chart::TYPE_LINE );
 
         $chart->setData( [
@@ -36,7 +37,7 @@ class PageController extends AbstractController
                     'label' => 'Nouveaux clients',
                     'backgroundColor' => 'rgb(75, 5, 173)',
                     'borderColor' => 'rgb(75, 5, 173)',
-                    'data' => array_values( $clientsByMonth ),
+                    'data' => array_values( $monthlyUsersLastYear ),
                 ],
             ],
         ] );
@@ -50,9 +51,8 @@ class PageController extends AbstractController
             ],
         ] );
 
-
         return $this->render( 'admin/index.html.twig', [
-            'nbClients' => $clientService->getCountClients(),
+            'nbUsers' => $clientService->getNbUsers(),
             'nbRealisations' => $realisationService->getCountRealisations(),
             'nbAppointments' => $appointmentService->getCountAppointments(),
             'chart' => $chart,

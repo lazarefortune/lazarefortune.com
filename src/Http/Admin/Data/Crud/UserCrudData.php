@@ -21,7 +21,6 @@ class UserCrudData extends AutomaticCrudData
     #[Assert\Email]
     public string $email = '';
 
-    #[Assert\NotBlank]
     #[Assert\Length( min: 10 )]
     public string $phone = '';
 

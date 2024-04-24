@@ -29,6 +29,7 @@ class UserUpdateForm extends AbstractType
                 'attr' => [
                     'class' => 'form-input-md'
                 ],
+                'required' => false,
                 'label_attr' => [
                     'class' => 'label'
                 ]
