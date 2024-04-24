@@ -9,6 +9,7 @@
     "ext-iconv": "*",
     "api-platform/core": "^3.2",
     "beberlei/doctrineextensions": "^1.4",
+    "cocur/slugify": "^4.5",
     "doctrine/annotations": "^1.0",
     "doctrine/doctrine-bundle": "^2.8",
     "doctrine/doctrine-migrations-bundle": "^3.2",
