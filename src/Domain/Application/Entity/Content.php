@@ -3,6 +3,7 @@
 namespace App\Domain\Application\Entity;
 
 use App\Domain\Application\Repository\ContentRepository;
+use App\Domain\Attachment\Entity\Attachment;
 use App\Domain\Auth\Entity\User;
 use App\Domain\Course\Entity\Course;
 use App\Domain\Course\Entity\Formation;
@@ -45,6 +46,10 @@ abstract class Content
     #[ORM\Column(type: Types::BOOLEAN, options: ['default' => 0])]
     private bool $online = false;
 
+    #[ORM\ManyToOne(targetEntity: Attachment::class, cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'attachement_id', referencedColumnName: 'id')]
+    private ?Attachment $image = null;
+
     #[ORM\Column(type: Types::BOOLEAN, options: ['default' => 0])]
     private bool $premium = false;
 
@@ -52,12 +57,14 @@ abstract class Content
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     private ?User $author = null;
 
-    #[ORM\ManyToMany(targetEntity: TechnologyUsage::class, mappedBy: 'content', cascade: ['persist'])]
+    #[ORM\OneToMany( mappedBy: 'content', targetEntity: TechnologyUsage::class, cascade: ['persist'] )]
     private Collection $technologyUsages;
 
     public function __construct()
     {
-        $this->technologyUseds = new ArrayCollection();
+        $this->technologyUsages = new ArrayCollection();
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 
     public function getId(): ?int
@@ -165,6 +172,18 @@ abstract class Content
         return $this;
     }
 
+    public function getImage(): ?Attachment
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Attachment $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
     public function isPremium(): bool
     {
         return $this->premium;
@@ -223,6 +242,49 @@ abstract class Content
     public function getSecondaryTechnologies(): array
     {
         return $this->getFilteredTechnology(true);
+    }
+
+    /**
+     * Synchronise les technologies à partir d'un tableau de technology avec des valeurs de version
+     * et de secondary hydraté.
+     *
+     * @return array<TechnologyUsage> Relation TechnologyUsage détachés de l'entité (qu'il faudra supprimer)
+     */
+    public function syncTechnologies(array $technologies): array
+    {
+        $currentTechnologies = $this->getTechnologies();
+
+        // On commence par synchronisé les usages
+        /** @var TechnologyUsage $usage */
+        foreach ($this->getTechnologyUsages() as $usage) {
+            $usage->setVersion($usage->getTechnology()->getVersion());
+            $usage->setSecondary($usage->getTechnology()->isSecondary());
+        }
+
+        // On ajoute les nouveaux usage
+        /** @var Technology[] $newUsage */
+        $newUsage = array_diff($technologies, $currentTechnologies);
+        foreach ($newUsage as $technology) {
+            $usage = (new TechnologyUsage())
+                ->setSecondary($technology->isSecondary())
+                ->setTechnology($technology)
+                ->setVersion($technology->getVersion());
+            $this->addTechnologyUsage($usage);
+        }
+
+        // On supprime les technologies qui n'existe pas dans notre nouvelle liste
+        $removed = [];
+        $newUsage = [];
+        foreach ($this->technologyUsages as $usage) {
+            if (!in_array($usage->getTechnology(), $technologies)) {
+                $removed[] = $usage;
+            } else {
+                $newUsage[] = $usage;
+            }
+        }
+        $this->technologyUsages = new ArrayCollection($newUsage);
+
+        return $removed;
     }
 
     private function getFilteredTechnology(bool $secondary = false): array

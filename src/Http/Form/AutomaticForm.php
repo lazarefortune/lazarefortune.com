@@ -2,19 +2,23 @@
 
 namespace App\Http\Form;
 
+use App\Domain\Attachment\Entity\Attachment;
+use App\Domain\Attachment\Type\AttachmentType;
+use App\Domain\Auth\Entity\User;
+use App\Http\Admin\Form\Field\TechnologiesType;
+use App\Http\Admin\Form\Field\TechnologyChoiceType;
+use App\Http\Admin\Form\Field\UserChoiceType;
 use App\Http\Type\ChoiceMultipleType;
+use App\Http\Type\DateTimeType;
 use App\Http\Type\SwitchType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -29,12 +33,17 @@ class AutomaticForm extends AbstractType
         'float' => NumberType::class,
         'array' => ChoiceType::class,
         UploadedFile::class => FileType::class,
-        \DateTimeInterface::class => DateType::class,
+        User::class => UserChoiceType::class,
+        Attachment::class => AttachmentType::class,
+        \DateTimeInterface::class =>  DateTimeType::class,
     ];
 
     final public const NAMES = [
         'content' => TextareaType::class,
         'description' => TextareaType::class,
+        'mainTechnologies' => TechnologyChoiceType::class,
+        'secondaryTechnologies' => TechnologyChoiceType::class,
+        'requirements' => TechnologyChoiceType::class,
         'short' => TextareaType::class,
         'color' => ColorType::class,
         'links' => TextareaType::class,
@@ -51,11 +60,6 @@ class AutomaticForm extends AbstractType
             $type = $property->getType();
             if ( null === $type ) {
                 return;
-            }
-            if ( 'requirements' === $name ) {
-                $builder->add( 'requirements', ChoiceType::class, [
-                    'multiple' => true,
-                ] );
             }
 
             if ( $name === 'roles' ) {
@@ -79,33 +83,11 @@ class AutomaticForm extends AbstractType
             if ( array_key_exists( $name, self::NAMES ) ) {
                 $builder->add( $name, self::NAMES[$name], [
                     'required' => false,
-                    'label_attr' => [
-                        'class' => 'label',
-                    ],
-                    'attr' => [
-                        'class' => 'form-input-md',
-                    ],
-                ] );
-            } elseif ( $type->getName() === \DateTimeInterface::class ) {
-                $builder->add( $name, DateType::class, [
-                    'required' => false,
-                    'widget' => 'single_text',
-                    'label_attr' => [
-                        'class' => 'label',
-                    ],
-                    'attr' => [
-                        'class' => 'form-input-md flatpickr-date-input',
-                    ],
                 ] );
             } elseif ( array_key_exists( $type->getName(), self::TYPES ) ) {
                 $builder->add( $name, self::TYPES[$type->getName()], [
                     'required' => !$type->allowsNull() && 'bool' !== $type->getName(),
-                    'label_attr' => [
-                        'class' => 'label',
-                    ],
-                    'attr' => [
-                        'class' => 'form-input-md',
-                    ],
+                    'label' => $name,
                 ] );
             } else {
                 throw new \RuntimeException( sprintf( 'Impossible de trouver le champs associé au type %s dans %s::%s', $type->getName(), $data::class, $name ) );

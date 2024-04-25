@@ -17,6 +17,15 @@ const dateConfig = {
     dateFormat: "Y-m-d",
 };
 
+const dateTimeConfig = {
+    ...baseConfig,
+    enableTime: true,
+    noCalendar: false,
+    dateFormat: "Y-m-d H:i",
+    altInput: true,
+    altFormat: "j F Y \\à H\\hi",
+};
+
 const timeConfig = {
     ...baseConfig,
     enableTime: true,
@@ -53,7 +62,8 @@ const customConfigs = [
     {selector: ".flatpickr-service-endTime", options: {...timeConfig, defaultDate: "19:00"}},
 
     // datetime
-    {selector: ".flatpickr-datetime", options: {...dateConfig, ...timeConfig}},
+    {selector: ".flatpickr-datetime", options: {...dateTimeConfig}},
+    {selector: ".flatpickr-datetime-after-today", options: {...dateTimeConfig, minDate: "today"}},
 ];
 
 customConfigs.forEach(config => {

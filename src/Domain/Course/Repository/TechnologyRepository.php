@@ -55,6 +55,15 @@ class TechnologyRepository extends AbstractRepository
             ->getOneOrNullResult();
     }
 
+    public function findByNames(array $names): array
+    {
+        return $this->createQueryBuilder('c')
+            ->where('LOWER(c.name) IN (:name)')
+            ->setParameter('name', array_map(fn (string $name) => strtolower($name), $names))
+            ->getQuery()
+            ->getResult();
+    }
+
     /**
      * Trouve toutes les technologies qui commence par le mot.
      */

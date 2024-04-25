@@ -79,6 +79,7 @@ abstract class CrudController extends BaseController
             $old = clone $entity;
             $data->hydrate();
             $this->em->flush();
+//            dd($entity);
             if ( $this->events['update'] ?? null ) {
                 $this->dispatcher->dispatch( new $this->events['update']( $entity, $old ), $this->events['update']::NAME );
             }

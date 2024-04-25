@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
+#[Vich\Uploadable]
 #[ORM\Entity]
 class Technology
 {
@@ -47,13 +48,13 @@ class Technology
      * @var Collection<int, Technology>
      */
     #[ORM\JoinTable(name: 'technology_requirement')]
-    #[ORM\ManyToMany(targetEntity: Technology::class, mappedBy: 'requiredBy')]
+    #[ORM\ManyToMany(targetEntity: Technology::class, inversedBy: 'requiredBy')]
     private Collection $requirements;
 
     /**
      * @var Collection<int, Technology>
      */
-    #[ORM\ManyToMany(targetEntity: Technology::class, inversedBy: 'requirements')]
+    #[ORM\ManyToMany(targetEntity: Technology::class, mappedBy: 'requirements')]
     private Collection $requiredBy;
 
     #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]

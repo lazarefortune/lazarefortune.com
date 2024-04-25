@@ -86,7 +86,7 @@
             </div>
 
             <div class="space-y-1.5">
-                <a href="" class="sidebar-nav-item">
+                <a href="{{ path('app_admin_course_index') }}" class="sidebar-nav-item {{ menu_active('app_admin_course_') }}">
                     {{ icon('youtube' ) }}
                     <span class="ml-1">Tutoriels</span>
                 </a>
@@ -94,7 +94,7 @@
                     {{ icon('library-big' ) }}
                     <span class="ml-1">Formations</span>
                 </a>
-                <a href="" class="sidebar-nav-item">
+                <a href="{{ path('app_admin_technology_index') }}" class="sidebar-nav-item {{ menu_active('app_admin_technology_') }}">
                     {{ icon('tag' ) }}
                     <span class="ml-1">Technologies</span>
                 </a>

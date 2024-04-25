@@ -14,3 +14,22 @@ vich_uploader:
     #        uri_prefix: /images/products
     #        upload_destination: '%kernel.project_dir%/public/images/products'
     #        namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+
+        attachments:
+            uri_prefix: /uploads/attachments
+            upload_destination: '%kernel.project_dir%/public/uploads/attachments'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+            directory_namer:
+                service: Vich\UploaderBundle\Naming\CurrentDateTimeDirectoryNamer
+                options:
+                    date_time_format: 'Y'
+                    date_time_property: createdAt
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+        icons:
+            uri_prefix: /uploads/icons
+            upload_destination: '%kernel.project_dir%/public/uploads/icons'
+            namer:
+                service: Vich\UploaderBundle\Naming\PropertyNamer
+                options: { property: 'slug' }

@@ -5,6 +5,7 @@ namespace App\Http\Admin\Data;
 use App\Http\Form\AutomaticForm;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
+use Doctrine\Common\Annotations\Annotation\IgnoreAnnotation;
 
 /**
  * @IgnoreAnnotation("template")

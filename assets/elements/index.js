@@ -3,6 +3,7 @@ import {Spotlight} from './admin/Spotlight'
 import {Alert, FloatingAlert} from "./Alert";
 import {AccordionGroup} from "./Accordion";
 import {DropdownButton} from "./Dropdown";
+import InputAttachment from "./admin/InputAttachment";
 
 customElements.define('spotlight-bar', Spotlight)
 customElements.define('nav-tabs', NavTabs)
@@ -12,3 +13,4 @@ customElements.define('alert-floating', FloatingAlert)
 customElements.define('modal-dialog', ModalDialog)
 // customElements.define('accordion-group', AccordionGroup)
 customElements.define('dropdown-button', DropdownButton)
+// customElements.define('input-attachment', InputAttachment)

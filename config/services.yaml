@@ -13,11 +13,16 @@ parameters:
   stripe_public_key: '%env(STRIPE_PUBLISHABLE_KEY)%'
   stripe_secret_key: '%env(STRIPE_SECRET_KEY)%'
 
+  image_resize_key: '%env(resolve:IMAGE_RESIZE_KEY)%'
+
 services:
   # default configuration for services in *this* file
   _defaults:
     autowire: true      # Automatically injects dependencies in your services.
     autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+    public: false
+    bind:
+      $adminPrefix: '%admin_prefix%'
 
   # makes classes in src/ available to be used as services
   # this creates a service per class whose id is the fully-qualified class name
@@ -71,6 +76,9 @@ services:
     arguments:
       $appName: '%app.name%'
       $adminEmail: '%admin_email%'
+
+  App\Infrastructure\Image\ImageResizer:
+    arguments: [ '%image_resize_key%' ]
 
   App\Domain\Application\EventListener\ExceptionListener:
     tags:

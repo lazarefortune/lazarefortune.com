@@ -16,6 +16,7 @@
     "doctrine/orm": "^2.14",
     "erusev/parsedown": "^1.7",
     "knplabs/knp-paginator-bundle": "^6.2",
+    "league/glide": "^2.3",
     "liip/imagine-bundle": "^2.10",
     "nelmio/cors-bundle": "^2.3",
     "phpdocumentor/reflection-docblock": "^5.3",

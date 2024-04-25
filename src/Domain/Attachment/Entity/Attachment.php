@@ -16,7 +16,7 @@ class Attachment
     #[ORM\Column(type: Types::INTEGER)]
     protected ?int $id = null;
 
-    #[Vich\UploadableField(mapping: 'attachments', fileNameProperty: 'filePath', size: 'fileSize')]
+    #[Vich\UploadableField(mapping: 'attachments', fileNameProperty: 'fileName', size: 'fileSize')]
     private ?File $file = null;
 
     #[ORM\Column(type: Types::STRING, length: 255)]

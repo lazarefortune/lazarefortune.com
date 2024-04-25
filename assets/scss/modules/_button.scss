@@ -46,7 +46,7 @@
 }
 
 .btn-primary {
-  @apply border-transparent text-white btn-primary-base bg-primary-900 hover:bg-primary-800 hover:text-white focus:ring-primary-900 focus-visible:outline-primary-600 disabled:bg-primary-200 disabled:text-primary-700;
+  @apply h-11 px-5 text-base btn-base border-transparent text-white btn-primary-base bg-primary-900 hover:bg-primary-800 hover:text-white focus:ring-primary-900 focus-visible:outline-primary-600 disabled:bg-primary-200 disabled:text-primary-700;
 }
 
 //.btn-primary {
