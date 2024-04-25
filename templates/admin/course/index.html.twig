@@ -37,19 +37,27 @@
     <table class="table w-full border-collapse items-center bg-transparent">
         <thead>
             <tr>
-                <th>Titre</th>
-                <th>Slug</th>
-                <th>Image</th>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Technologies</th>
+                <th>Status</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for row in rows %}
                 <tr>
+                    <td>{{ row.id }}</td>
                     <td>{{ row.title }}</td>
-                    <td>{{ row.slug }}</td>
                     <td>
-{#                        <img src="{{ vich_uploader_asset(row, 'imageFile') }}" alt="{{ row.title }}" class="img-thumbnail" style="max-width: 100px;">#}
+                        {{ row.technologies|join(', ') }}
+                    </td>
+                    <td>
+                        {% if row.online %}
+                            <span class="badge badge-success">Publié</span>
+                        {% else %}
+                            <span class="badge badge-danger">Brouillon</span>
+                        {% endif %}
                     </td>
                     <td>
                         <a href="{{ path(prefix ~ '_edit', {id: row.id}) }}" class="btn-icon">
