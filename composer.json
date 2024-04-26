@@ -15,6 +15,7 @@
     "doctrine/doctrine-migrations-bundle": "^3.2",
     "doctrine/orm": "^2.14",
     "erusev/parsedown": "^1.7",
+    "illuminate/collections": "^10.48",
     "knplabs/knp-paginator-bundle": "^6.2",
     "league/glide": "^2.3",
     "liip/imagine-bundle": "^2.10",

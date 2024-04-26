@@ -4,6 +4,7 @@ import {Alert, FloatingAlert} from "./Alert";
 import {AccordionGroup} from "./Accordion";
 import {DropdownButton} from "./Dropdown";
 import InputAttachment from "./admin/InputAttachment";
+import {ChaptersEditor} from "./admin/ChaptersEditor";
 
 customElements.define('spotlight-bar', Spotlight)
 customElements.define('nav-tabs', NavTabs)
@@ -11,6 +12,7 @@ customElements.define('scroll-top', ScrollTop)
 customElements.define('alert-message', Alert)
 customElements.define('alert-floating', FloatingAlert)
 customElements.define('modal-dialog', ModalDialog)
+customElements.define('chapters-editor', ChaptersEditor, { extends: 'textarea' })
 // customElements.define('accordion-group', AccordionGroup)
 customElements.define('dropdown-button', DropdownButton)
-// customElements.define('input-attachment', InputAttachment)
+customElements.define('input-attachment', InputAttachment, { extends: 'input' })

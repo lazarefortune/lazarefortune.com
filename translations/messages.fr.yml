@@ -9,7 +9,6 @@ slug: URL
 Author: Auteur
 author: Auteur
 Online: En ligne ?
-online: En ligne ?
 Main technologies: Technologies
 Secondary technologies: Technologies secondaires
 Source file: Sources
@@ -27,3 +26,5 @@ Youtube: Youtube
 youtube: Youtube
 name: Nom
 imageFile: Image
+Short: Résumé
+online: En ligne

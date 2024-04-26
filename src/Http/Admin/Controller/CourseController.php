@@ -5,6 +5,7 @@ namespace App\Http\Admin\Controller;
 
 use App\Domain\Course\Entity\Course;
 use App\Http\Admin\Data\Crud\CourseCrudData;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,7 +32,9 @@ class CourseController extends CrudController
             ->addSelect('tu', 't')
             ->leftJoin('row.technologyUsages', 'tu')
             ->leftJoin('tu.technology', 't')
-            ->orderBy('row.createdAt', 'DESC');
+            ->orderBy('row.createdAt', 'DESC')
+            ->setMaxResults(10)
+        ;
         if ($request->query->has('technology')) {
             $query
                 ->andWhere('t.slug = :technology')
@@ -66,5 +69,20 @@ class CourseController extends CrudController
         }
 
         return $response;
+    }
+
+    #[Route(path: '/{id<\d+>}', methods: ['DELETE'])]
+    public function delete(Course $course, EventDispatcherInterface $dispatcher): Response
+    {
+        $course->setOnline(false);
+        $course->setUpdatedAt(new \DateTime());
+        $this->em->flush();
+        $this->addFlash('success', 'Le tutoriel a bien été mis hors ligne');
+
+        if ($this->events['delete'] ?? null) {
+            $dispatcher->dispatch(new $this->events['delete']($course));
+        }
+
+        return $this->redirectBack(($this->routePrefix.'_index'));
     }
 }

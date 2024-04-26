@@ -40,13 +40,13 @@
                 <thead>
                 <tr>
                     <th>
-                        ID
+                        {{ sort_by(rows, 'ID', 'row.id') }}
                     </th>
                     <th>
-                        NOM
+                        {{ sort_by(rows, 'Nom', 'row.name') }}
                     </th>
                     <th>
-                        Tutoriels
+                        {{ sort_by(rows, 'Nombre de tutos', 'count') }}
                     </th>
                     <th>
                         Actions
@@ -103,9 +103,5 @@
         </div>
     </div>
 
-    {% if rows.getTotalItemCount > 5 %}
-        <div class="flex justify-center mt-6">
-            {{ knp_pagination_render(rows) }}
-        </div>
-    {% endif %}
+    {{ paginate(rows) }}
 {% endblock %}

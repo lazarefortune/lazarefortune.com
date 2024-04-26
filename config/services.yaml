@@ -52,6 +52,8 @@ services:
 
   App\Helper\MinutesToTimeHelper: ~
 
+  Knp\Bundle\PaginatorBundle\Helper\Processor: ~
+
   App\Infrastructure\Mailing\MailService:
     arguments:
       $senderEmail: '%sender_email%'

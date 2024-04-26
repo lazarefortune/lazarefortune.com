@@ -29,6 +29,7 @@ class TechnologyController extends CrudController
             ->groupBy('row.id')
             ->orderBy('row.id', 'DESC')
             ->addSelect('COUNT(usage.technology) as count')
+            ->setMaxResults(5)
         ;
 
         return $this->crudIndex($query);

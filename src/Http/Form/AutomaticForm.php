@@ -5,6 +5,7 @@ namespace App\Http\Form;
 use App\Domain\Attachment\Entity\Attachment;
 use App\Domain\Attachment\Type\AttachmentType;
 use App\Domain\Auth\Entity\User;
+use App\Http\Admin\Form\ChaptersForm;
 use App\Http\Admin\Form\Field\TechnologiesType;
 use App\Http\Admin\Form\Field\TechnologyChoiceType;
 use App\Http\Admin\Form\Field\UserChoiceType;
@@ -44,6 +45,7 @@ class AutomaticForm extends AbstractType
         'mainTechnologies' => TechnologyChoiceType::class,
         'secondaryTechnologies' => TechnologyChoiceType::class,
         'requirements' => TechnologyChoiceType::class,
+        'chapters' => ChaptersForm::class,
         'short' => TextareaType::class,
         'color' => ColorType::class,
         'links' => TextareaType::class,

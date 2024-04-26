@@ -36,6 +36,7 @@
         "filemanager-element": "^0.1.2",
         "flatpickr": "^4.6.13",
         "headless-elements": "^0.0.2",
+        "htm": "^3.1.1",
         "jquery": "^3.6.4",
         "lucide": "^0.263.0",
         "lucide-static": "^0.306.0",
@@ -43,6 +44,7 @@
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "select2": "^4.1.0-rc.0",
+        "sortablejs": "^1.15.2",
         "tom-select": "^2.2.2"
     }
 }

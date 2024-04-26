@@ -20,7 +20,7 @@
                 </li>
                 {{ icon('chevron-right') }}
                 <li>
-                    <span>Tutoriels</span>
+                    <span>Formations</span>
                 </li>
             </ol>
         </nav>
@@ -35,16 +35,16 @@
 
     <div class="block w-full overflow-x-auto border rounded">
         <table class="table w-full border-collapse items-center bg-transparent">
-        <thead>
+            <thead>
             <tr>
-                <th>{{ sort_by(rows, 'ID', 'row.id') }}</th>
-                <th>{{ sort_by(rows, 'Titre', 'row.title') }}</th>
+                <th>ID</th>
+                <th>Nom</th>
                 <th>Technologies</th>
-                <th>{{ sort_by(rows, 'Statut', 'row.online') }}</th>
+                <th>Status</th>
                 <th>Actions</th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             {% for row in rows %}
                 <tr>
                     <td>{{ row.id }}</td>
@@ -63,21 +63,24 @@
                         <a href="{{ path(prefix ~ '_edit', {id: row.id}) }}" class="btn-icon">
                             {{ icon('pencil') }}
                         </a>
-                        {% if row.online %}
-                            <form action="{{ path(prefix ~ '_edit', {id: row.id}) }}" method="post" class="inline-flex">
-                                <input type="hidden" name="_method" value="DELETE" />
-                                <button type="submit" class="btn-icon">
-                                    {{ icon('trash') }}
-                                </button>
-                            </form>
-                        {% endif %}
+                        <button
+                                class="btn-icon modal-button" data-modal-id="modal-id-{{ row.id }}">
+                            {{ icon('trash') }}
+                        </button>
                     </td>
+                    {% include 'components/_delete-modal.html.twig' with {
+                        'id': 'modal-id-' ~ row.id,
+                        'title': 'Supprimer la formation',
+                        'content': 'Supprimer la formation <strong>' ~ row.title ~ '</strong>.<br>Cette action est irréversible.',
+                        'form_action': path(prefix ~ '_edit', {id: row.id}),
+                        'csrf_value': csrf_token('delete' ~ row.id),
+                        'btn_label': 'Supprimer'
+                    } %}
                 </tr>
             {% endfor %}
-        </tbody>
-    </table>
+            </tbody>
+        </table>
     </div>
 
     {{ paginate(rows) }}
-
 {% endblock %}

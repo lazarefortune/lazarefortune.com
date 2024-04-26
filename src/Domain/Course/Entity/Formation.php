@@ -12,6 +12,8 @@ use App\Domain\Course\Repository\FormationRepository;
 #[ORM\Entity(repositoryClass: FormationRepository::class)]
 class Formation extends Content
 {
+    use ChapterableTrait;
+
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $short = null;
 
