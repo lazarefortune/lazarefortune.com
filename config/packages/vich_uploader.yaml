@@ -22,7 +22,7 @@ vich_uploader:
             directory_namer:
                 service: Vich\UploaderBundle\Naming\CurrentDateTimeDirectoryNamer
                 options:
-                    date_time_format: 'Y'
+                    date_time_format: 'Y/m'
                     date_time_property: createdAt
             inject_on_load: false
             delete_on_update: true
@@ -33,3 +33,16 @@ vich_uploader:
             namer:
                 service: Vich\UploaderBundle\Naming\PropertyNamer
                 options: { property: 'slug' }
+        sources:
+            upload_destination: '%kernel.project_dir%/downloads/sources'
+            namer:
+                service: Vich\UploaderBundle\Naming\PropertyNamer
+                options: { property: 'slug' }
+            directory_namer:
+                service: Vich\UploaderBundle\Naming\CurrentDateTimeDirectoryNamer
+                options:
+                    date_time_format: 'Y/m'
+                    date_time_property: createdAt
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true

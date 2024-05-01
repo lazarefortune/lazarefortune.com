@@ -5,17 +5,26 @@ namespace App\Http\Admin\Controller;
 
 use App\Domain\Course\Entity\Course;
 use App\Http\Admin\Data\Crud\CourseCrudData;
+use App\Infrastructure\Youtube\Transformer\CourseTransformer;
+use App\Infrastructure\Youtube\YoutubeScopes;
+use App\Infrastructure\Youtube\YoutubeUploaderService;
+use Google_Client;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Serializer\Serializer;
 use Vich\UploaderBundle\Handler\UploadHandler;
 
 #[IsGranted('ROLE_ADMIN')]
 #[Route(path: '/tutoriels', name: 'course_')]
 class CourseController extends CrudController
 {
+    private const UPLOAD_SESSION_KEY = 'course_upload_id';
+
     protected string $templatePath = 'course';
     protected string $menuItem = 'course';
     protected string $entity = Course::class;
@@ -58,14 +67,14 @@ class CourseController extends CrudController
         Request          $request,
         Course           $course,
         UploadHandler    $uploaderHelper,
+        SessionInterface $session
     ): Response {
         $data = (new CourseCrudData($course, $uploaderHelper))->setEntityManager($this->em);
         $response = $this->crudEdit($data);
         if ($request->request->get('upload')) {
-            dd($request->request->get('upload'));
-//            $session->set(self::UPLOAD_SESSION_KEY, $course->getId());
+            $session->set(self::UPLOAD_SESSION_KEY, $course->getId());
 
-//            return $this->redirectToRoute('admin_course_upload');
+            return $this->redirectToRoute('app_admin_course_upload');
         }
 
         return $response;
@@ -84,5 +93,43 @@ class CourseController extends CrudController
         }
 
         return $this->redirectBack(($this->routePrefix.'_index'));
+    }
+
+    #[Route( path: '/upload', name: 'upload', methods: ['GET'] )]
+    public function upload(
+        Request             $request,
+        SessionInterface    $session,
+        \Google_Client      $googleClient,
+        YoutubeUploaderService $uploader,
+    ): Response {
+        // Si on n'a pas d'id dans la session, on redirige
+        $courseId = $session->get(self::UPLOAD_SESSION_KEY);
+        if (null === $courseId) {
+            $this->addFlash('danger', "Impossible d'uploader la vidéo, id manquante dans la session");
+
+            return $this->redirectToRoute('app_admin_course_index');
+        }
+
+        // On génère récupère le code d'auth
+        $redirectUri = $this->generateUrl('app_admin_course_upload', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $code = $request->get('code');
+
+        $googleClient->setRedirectUri($redirectUri);
+        if (null === $code) {
+            return $this->redirect($googleClient->createAuthUrl(YoutubeScopes::UPLOAD));
+        }
+
+        $accessToken = $googleClient->fetchAccessTokenWithAuthCode($code);
+
+        if (isset($accessToken['error'])) {
+            return $this->redirect($googleClient->createAuthUrl(YoutubeScopes::UPLOAD));
+        }
+
+        $videoId = $uploader->upload($courseId, $accessToken);
+
+        $this->addFlash('success', "La vidéo est en cours d'envoi sur Youtube");
+        $session->remove(self::UPLOAD_SESSION_KEY);
+
+        return $this->redirectToRoute('app_admin_course_edit', ['id' => $courseId]);
     }
 }

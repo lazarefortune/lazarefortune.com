@@ -42,6 +42,7 @@ class AttachmentType extends TextType implements DataTransformerInterface
             'attr' => [
                 'is' => 'input-attachment',
                 'data-endpoint' => '/'.trim($this->adminPrefix, '/').'/attachment',
+//                'data-endpoint' => '/api',
             ],
             'constraints' => [
                 new AttachmentExist(),

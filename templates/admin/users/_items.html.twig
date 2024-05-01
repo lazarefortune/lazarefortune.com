@@ -3,19 +3,19 @@
         <thead>
         <tr>
             <th>
-                ID
+                {{ sort_by(rows, 'ID', 'row.id') }}
             </th>
             <th>
-                Nom
+                {{ sort_by(rows, 'Nom', 'row.fullname') }}
             </th>
             <th>
                 E-mail
             </th>
             <th>
-                Ancienneté
+                {{ sort_by(rows, 'Ancienneté', 'row.createdAt') }}
             </th>
             <th>
-                Statut
+                {{ sort_by(rows, 'Statut', 'row.isVerified') }}
             </th>
             <th class="text-center">
                 Role(s)

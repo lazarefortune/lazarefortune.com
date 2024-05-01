@@ -10,10 +10,10 @@ export default class InputAttachment extends HTMLInputElement {
         this.insertAdjacentHTML(
             'afterend',
             `
-<div class="input-attachment">
-<div class="input-attachment__preview" style="background-image:url(${preview || ''})"></div>
-</div>
-`
+                <div class="input-attachment">
+                <div class="input-attachment__preview" style="background-image:url(${preview || ''})"></div>
+                </div>
+                `
         )
         this.style.display = 'none'
         this.container = this.parentElement.querySelector('.input-attachment')
@@ -59,12 +59,13 @@ export default class InputAttachment extends HTMLInputElement {
             body: data
         })
         const responseData = await response.json()
+
         if (response.ok) {
             this.setAttachment(responseData)
         } else {
             const alert = document.createElement('alert-message')
             alert.innerHTML = "Impossible d'envoyer l'image"
-            document.querySelector('.dashboard').appendChild(alert)
+            document.body.appendChild(alert)
         }
         this.container.removeChild(loader)
         this.container.classList.remove('is-hovered')
@@ -73,11 +74,12 @@ export default class InputAttachment extends HTMLInputElement {
     onClick (e) {
         e.preventDefault()
         const modal = document.createElement('modal-dialog')
-        modal.setAttribute('overlay-close', 'overlay-close')
+        modal.setAttribute('overlay-close', 'true')
         const fm = document.createElement('file-manager')
-        fm.setAttribute('data-endpoint', this.getAttribute('data-endpoint'))
+        fm.setAttribute('endpoint', this.getAttribute('data-endpoint'))
+        // fm.setAttribute('layout', 'rows')
         modal.appendChild(fm)
-        fm.addEventListener('file', e => {
+        fm.addEventListener('selectfile', e => {
             this.setAttachment(e.detail)
             modal.close()
         })
@@ -86,6 +88,7 @@ export default class InputAttachment extends HTMLInputElement {
 
     setAttachment (attachment) {
         this.preview.style.backgroundImage = `url(${attachment.url})`
+        console.log(attachment)
         this.value = attachment.id
         const changeEvent = document.createEvent('HTMLEvents')
         changeEvent.initEvent('change', false, true)

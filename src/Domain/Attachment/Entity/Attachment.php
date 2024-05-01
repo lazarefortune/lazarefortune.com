@@ -5,6 +5,7 @@ namespace App\Domain\Attachment\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity]
@@ -16,7 +17,7 @@ class Attachment
     #[ORM\Column(type: Types::INTEGER)]
     protected ?int $id = null;
 
-    #[Vich\UploadableField(mapping: 'attachments', fileNameProperty: 'fileName', size: 'fileSize')]
+    #[Vich\UploadableField(mapping: 'attachments', fileNameProperty: 'fileName')]
     private ?File $file = null;
 
     #[ORM\Column(type: Types::STRING, length: 255)]
@@ -46,6 +47,12 @@ class Attachment
     public function setFile(?File $file): self
     {
         $this->file = $file;
+
+        if ( $file instanceof UploadedFile ) {
+            $this->fileSize = $file->getSize(); // Assurez-vous que getSize retourne la bonne taille
+        } else {
+            $this->fileSize = 0; // Définissez une valeur par défaut si aucun fichier n'est fourni
+        }
 
         return $this;
     }

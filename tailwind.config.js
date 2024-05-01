@@ -104,6 +104,7 @@ module.exports = {
             'inter': ['Inter Var'],
             'plusJakartaSans': ['Plus Jakarta Sans'],
             'ibmPlexSans': ['IBM Plex Sans'],
+            'hanken-grotesk': ['Hanken Grotesk'],
         }
     },
     plugins: [

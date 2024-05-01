@@ -28,3 +28,10 @@ name: Nom
 imageFile: Image
 Short: Résumé
 online: En ligne
+fullname: Nom complet
+email: Email
+password: Mot de passe
+roles: Rôles
+avatar: Avatar
+dateOfBirthday: Date de naissance
+phone: Téléphone

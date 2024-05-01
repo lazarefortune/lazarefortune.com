@@ -24,6 +24,8 @@ class AppointmentFixtures extends Fixture implements DependentFixtureInterface
         $appointment->setPrestation( $this->getReference( 'prestation-1' ) );
         $appointment->setAccessToken( $faker->uuid );
         $appointment->setIsPaid( false );
+        $appointment->setSubTotal(20);
+        $appointment->setTotal(20);
         $appointment->setNbAdults( 1 );
 
         $manager->persist( $appointment );
@@ -39,6 +41,9 @@ class AppointmentFixtures extends Fixture implements DependentFixtureInterface
             $appointment->setPrestation( $this->getReference( 'prestation-' . ( $i + 2 ) ) );
             $appointment->setAccessToken( $faker->uuid );
             $appointment->setIsPaid( false );
+            $amount = $faker->randomFloat(2, 10, 100);
+            $appointment->setSubTotal($amount);
+            $appointment->setTotal($amount);
             $appointment->setNbAdults( 1 );
 
             $manager->persist( $appointment );

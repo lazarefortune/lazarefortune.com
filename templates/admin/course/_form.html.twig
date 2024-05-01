@@ -34,7 +34,12 @@
             </div>
             {{ form_row(form.duration) }}
             {{ form_row(form.deprecatedBy, {label: 'Déprécié par'}) }}
-            {{ form_row(form.sourceFile, {disabled: not entity.id}) }}
+            <div class="flex flex-col gap-2">
+                {{ form_row(form.sourceFile, {disabled: not entity.id}) }}
+                {% if entity.source %}
+                    <a href="" target="_blank" class="btn-md">Télécharger la source</a>
+                {% endif %}
+            </div>
             {{ form_row(form.youtubeThumbnail, {row_attr: {class: 'form-attachment', style:'grid-row-start:1; align-self:stretch;'}}) }}
         </div>
         <div class="grid2">

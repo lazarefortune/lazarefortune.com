@@ -47,7 +47,7 @@ abstract class Content
     private bool $online = false;
 
     #[ORM\ManyToOne(targetEntity: Attachment::class, cascade: ['persist'])]
-    #[ORM\JoinColumn(name: 'attachement_id', referencedColumnName: 'id')]
+    #[ORM\JoinColumn(name: 'attachment_id', referencedColumnName: 'id')]
     private ?Attachment $image = null;
 
     #[ORM\Column(type: Types::BOOLEAN, options: ['default' => 0])]

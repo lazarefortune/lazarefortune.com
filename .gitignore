@@ -31,6 +31,9 @@ yarn-error.log
 public/uploads/images/realisations/*
 !/public/uploads/images/realisations/default.jpg
 
+# download files
+/downloads/*
+
 .DS_Store
 assets/.DS_Store
 

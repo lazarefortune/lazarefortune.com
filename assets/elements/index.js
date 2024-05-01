@@ -6,6 +6,11 @@ import {DropdownButton} from "./Dropdown";
 import InputAttachment from "./admin/InputAttachment";
 import {ChaptersEditor} from "./admin/ChaptersEditor";
 
+import {FileManager} from 'filemanager-element'
+import 'filemanager-element/FileManager.css'
+import {YoutubePlayer} from "./player/YoutubePlayer";
+FileManager.register();
+
 customElements.define('spotlight-bar', Spotlight)
 customElements.define('nav-tabs', NavTabs)
 customElements.define('scroll-top', ScrollTop)
@@ -16,3 +21,18 @@ customElements.define('chapters-editor', ChaptersEditor, { extends: 'textarea' }
 // customElements.define('accordion-group', AccordionGroup)
 customElements.define('dropdown-button', DropdownButton)
 customElements.define('input-attachment', InputAttachment, { extends: 'input' })
+customElements.define('youtube-player', YoutubePlayer)
+
+document.addEventListener('DOMContentLoaded', () => {
+    const filemanager = document.querySelector("file-manager");
+    if (!filemanager) return;
+    filemanager.addEventListener("close", () => {
+        console.log("close");
+    });
+
+    filemanager.addEventListener("selectfile", e => {
+        console.log("fileSelected", e.detail);
+    });
+})
+
+

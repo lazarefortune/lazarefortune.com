@@ -41,6 +41,7 @@
                 <th>{{ sort_by(rows, 'Titre', 'row.title') }}</th>
                 <th>Technologies</th>
                 <th>{{ sort_by(rows, 'Statut', 'row.online') }}</th>
+                <th>{{ sort_by(rows, 'Date de publication', 'row.publishedAt') }}</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -59,6 +60,7 @@
                             <span class="badge badge-danger">Brouillon</span>
                         {% endif %}
                     </td>
+                    <td>{{ row.publishedAt|date('d/m/Y H:i') }}</td>
                     <td>
                         <a href="{{ path(prefix ~ '_edit', {id: row.id}) }}" class="btn-icon">
                             {{ icon('pencil') }}

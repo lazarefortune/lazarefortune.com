@@ -89,6 +89,11 @@
   font-weight: 200;
 }
 
+// ------------------------------ Hanken Grotesk ------------------------------
+@font-face {
+  font-family: 'Hanken Grotesk';
+  src: url('../../fonts/Hanken_Grotesk/HankenGrotesk-VariableFont_wght.ttf');
+}
 
 a {
   @apply text-primary-500 hover:text-primary-900 no-underline hover:no-underline;
@@ -120,6 +125,10 @@ a {
 
 .text-muted {
   @apply text-gray-500;
+}
+
+body{
+    @apply font-hanken-grotesk;
 }
 
 h1, h2, h3, h4, h5, h6,

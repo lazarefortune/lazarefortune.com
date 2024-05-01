@@ -22,8 +22,17 @@ doctrine:
         prefix: 'App\Domain'
         alias: Domain
     dql:
+      numeric_functions:
+        RANDOM: DoctrineExtensions\Query\Sqlite\Random
+        ROUND: DoctrineExtensions\Query\Mysql\Round
       datetime_functions:
+        EXTRACT: DoctrineExtensions\Query\Postgresql\ExtractFunction
+        TO_CHAR: DoctrineExtensions\Query\Postgresql\DateFormat
+        NOW: DoctrineExtensions\Query\Mysql\Now
         MONTH: DoctrineExtensions\Query\Mysql\Month
+      string_functions:
+        LPAD: DoctrineExtensions\Query\Mysql\Lpad
+        CAST: DoctrineExtensions\Query\Mysql\Cast
 when@test:
   doctrine:
     dbal:
