@@ -17,12 +17,13 @@ customElements.define('scroll-top', ScrollTop)
 customElements.define('alert-message', Alert)
 customElements.define('alert-floating', FloatingAlert)
 customElements.define('modal-dialog', ModalDialog)
-
+customElements.define('theme-switcher', ThemeSwitcher)
 
 /* Modules */
 import './modules/header.js'
 import './modules/scrollreveal.js'
 import './modules/modal.js'
+import {ThemeSwitcher} from "./elements/ThemeSwitcher";
 
 // start the Stimulus application
 // import './bootstrap';

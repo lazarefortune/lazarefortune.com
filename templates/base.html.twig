@@ -6,7 +6,7 @@
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="google-site-verification" content="cVdQDiwamc06x0st9JWYRu-lqokoHUiT2rXI8yE03Vs"/>
-    <title>{% block title 'Dashboard' %} - {{ app_name }}</title>
+    <title>{% block title 'Index' %} - {{ app_name }}</title>
 
     <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('favicons/apple-icon-57x57.png') }}">
     <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('favicons/apple-icon-60x60.png') }}">
@@ -40,7 +40,7 @@
 </head>
 
 <body>
-<div class="page-wrapper">
+<div class="page-wrapper bg-primary-50 text-slate-900 dark:bg-slate-900 dark:text-white">
     {#    {{ include('layouts/blocs/_header.html.twig') }} #}
     {% block body %}{% endblock %}
     <footer></footer>
