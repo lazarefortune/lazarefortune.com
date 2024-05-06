@@ -3,7 +3,7 @@ image: php:8.1-cli
 stages:
   - setup
   - test
-  - deploy_dev
+  - deploy_beta
   - deploy
 
 cache:
@@ -25,8 +25,8 @@ test:
   script:
     - php bin/phpunit
 
-deploy_dev:
-  stage: deploy_dev
+deploy_beta:
+  stage: deploy_beta
   script:
     - apt-get update -yqq
     - apt-get install -yqq openssh-client
@@ -41,7 +41,7 @@ deploy_dev:
     - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST pwd
     - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html"
   only:
-    - dev
+    - beta
 
 deploy:
   stage: deploy
