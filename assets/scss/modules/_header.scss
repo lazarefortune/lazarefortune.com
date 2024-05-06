@@ -74,7 +74,7 @@
 }
 
 #hamburger {
-  @apply block md:hidden text-slate-900 dark:text-white cursor-pointer bg-transparent;
+  @apply block lg:hidden text-slate-900 dark:text-white cursor-pointer bg-transparent;
 }
 
 #hamburger.is-open > div > span:nth-child(1) {
