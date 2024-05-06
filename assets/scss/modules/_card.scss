@@ -1,5 +1,5 @@
 .card {
-  @apply bg-white border border-slate-200 flex flex-col relative rounded;
+  @apply bg-white dark:bg-dark-soft border border-slate-200 dark:border-slate-700 flex flex-col relative rounded;
   //@apply bg-white border border-[#d5e3ec] flex flex-col relative rounded;
   transition: .3s;
 }

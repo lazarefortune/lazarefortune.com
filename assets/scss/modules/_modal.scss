@@ -5,7 +5,8 @@ modal-dialog {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  @apply bg-slate-200 bg-opacity-90 dark:bg-dark-soft dark:bg-opacity-90;
+  backdrop-filter: blur(2px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -26,8 +27,7 @@ modal-dialog[hidden] {
   position: relative;
   width: 430px;
   max-width: calc(100vw - 40px);
-  background-color: #fff;
-  border: solid 1px #e2e8f0;
+  @apply bg-white dark:bg-dark-soft border border-slate-200 dark:border-slate-700 flex flex-col relative rounded;
   padding: var(--modal-padding);
   border-radius: 8px;
 }

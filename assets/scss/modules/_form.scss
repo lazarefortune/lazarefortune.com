@@ -14,39 +14,27 @@
   [type='week'],
   [multiple],
   textarea {
-    @apply block w-full rounded border-2 border-gray-300 px-3 py-2.5 text-base text-gray-900 placeholder-gray-300
-    hover:bg-gray-100 focus:border-primary-600 focus:ring-2 focus:ring-primary-200 focus:ring-offset-0 focus:ring-offset-gray-100;
+    @apply block w-full rounded border border-gray-300 px-3 py-2.5 text-base text-gray-900 placeholder-gray-300
+    hover:bg-gray-100
+    focus:border-primary-600 focus:ring-2 focus:ring-primary-200 focus:ring-offset-0 focus:ring-offset-gray-100
+    dark:text-white dark:border-slate-700 dark:bg-transparent dark:placeholder-gray-400
+      dark:focus:border-primary-300 dark:focus:ring-primary-800
+    ;
   }
 
   // ↓ import here
   [type='checkbox'],
   [type='radio'] {
-    @apply h-4 w-4 rounded border-2 border-gray-300 bg-gray-50 text-primary-600 hover:bg-gray-100 focus:ring-primary-500 focus:ring-1;
+    @apply h-5 w-5 cursor-pointer rounded border border-gray-300 bg-gray-50 text-primary-600 hover:bg-gray-100 focus:ring-primary-500 focus:ring-1
+    dark:bg-transparent dark:border-slate-700 dark:text-white dark:focus:ring-primary-800 dark:focus:ring-offset-0
+    dark:focus:bg-transparent dark:focus:ring-offset-gray-900 dark:focus:ring-1 dark:focus:border-primary-300
+    dark:hover:bg-transparent dark:hover:border-primary-500
+    ;
   }
-}
-
-.form-input-sm {
-  @apply block w-full rounded-lg border-2 border-gray-300 text-gray-900 py-1.5 focus:border-primary-900 focus:ring-primary-900 dark:placeholder-gray-400 dark:border-gray-900 dark:bg-gray-700 dark:text-white sm:text-base dark:focus:border-primary-500 dark:focus:ring-primary-500;
-}
-
-.form-input-md {
-  @apply block w-full rounded border-2 border-gray-300 text-base text-gray-900 py-2.5 focus:border-primary-900;
-}
-
-select.form-input-md {
-  @apply block w-full rounded border-2 border-gray-300 text-base text-gray-900 py-2.5 focus:border-primary-900 hover:cursor-pointer
-}
-
-.form-input-lg {
-  @apply block w-full rounded-lg border-2 border-gray-300 py-3 text-gray-900 focus:border-primary-900 focus:ring-primary-300 focus:ring focus:ring-offset-0 dark:placeholder-gray-400 dark:border-gray-900 dark:bg-gray-700 dark:text-white sm:text-base dark:focus:border-blue-500 dark:focus:ring-blue-500;
 }
 
 .label {
   @apply block text-base text-gray-400 dark:text-white;
-}
-
-.form-checkbox-md {
-  @apply h-6 w-6 rounded border bg-gray-50 border-primary-300 text-primary-900 focus:ring-primary-500 focus:ring-0;
 }
 
 .invalid-feedback {

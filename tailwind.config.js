@@ -46,7 +46,38 @@ module.exports = {
                 'md': '0.938rem', // 15px
             },
             colors: {
+                'light-orange': '#ffc576',
+                'light-orange-2': '#efb044',
+                'light-orange-3': '#ff9f00',
+                'light-orange-4': '#ff9f00',
+                'corail': '#ff7f50',
+                secondary: {
+                    '900': '#ff9f00',
+                    '800': '#efb044',
+                    '700': '#ffc576',
+                },
+                'white-soft': '#f7fafb',
+                'dark-soft': '#1f2235',
+                'dark-soft-2': '#292c3f',
+                tertiary: {
+                  '800': "#586fad",
+                  '900': "#4e5e9d",
+                  '950': "#3e4c7b",
+                },
                 primary: {
+                    '50': '#f4f3ff',
+                    '100': '#ece9fe',
+                    '200': '#dad5ff',
+                    '300': '#bfb4fe',
+                    '400': '#a089fc',
+                    '500': '#8259f9',
+                    '600': '#7136f1',
+                    '700': '#5d21d2',
+                    '800': '#521eb9',
+                    '900': '#451b97',
+                    '950': '#280e67',
+                },
+                primary2: {
                     "50": "#f3f1ff",
                     "100": "#ebe5ff",
                     "200": "#d9ceff",
@@ -57,7 +88,7 @@ module.exports = {
                     "700": "#6b04fd",
                     "800": "#5a03d5",
                     "900": "#5d21d2",
-                    "950": "#5d21d2",
+                    "950": "#441998",
                 },
                 primaryOld: {
                     "50": "rgb(248 250 252)",
@@ -72,7 +103,7 @@ module.exports = {
                     "900": "rgb(15 23 42)",
                     "950": "rgb(2 6 23)"
                 },
-                secondary: {
+                secondaryOld: {
                     "50": "#f8f9fc",
                     "100": "#f1f3f8",
                     "200": "#e9eef5",

@@ -96,7 +96,12 @@
 }
 
 a {
-  @apply text-primary-500 hover:text-primary-900 no-underline hover:no-underline;
+  @apply text-primary-800 hover:text-primary-900 no-underline hover:no-underline
+  dark:text-primary-300 dark:hover:text-primary-400;
+}
+
+p {
+  @apply text-base text-slate-900 dark:text-white;
 }
 
 .h1 {
@@ -124,7 +129,11 @@ a {
 }
 
 .text-muted {
-  @apply text-gray-500;
+  @apply text-gray-600 dark:text-gray-500;
+}
+
+.text-danger {
+  @apply text-red-500 dark:text-red-400;
 }
 
 h1, h2, h3, h4, h5, h6,

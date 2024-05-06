@@ -15,6 +15,7 @@
     "doctrine/doctrine-migrations-bundle": "^3.2",
     "doctrine/orm": "^2.14",
     "erusev/parsedown": "^1.7",
+    "friendsofsymfony/ckeditor-bundle": "^2.5",
     "google/apiclient": "^2.0",
     "illuminate/collections": "^10.48",
     "knplabs/knp-paginator-bundle": "^6.2",
@@ -91,7 +92,8 @@
   "scripts": {
     "auto-scripts": {
       "cache:clear": "symfony-cmd",
-      "assets:install %PUBLIC_DIR%": "symfony-cmd"
+      "assets:install %PUBLIC_DIR%": "symfony-cmd",
+      "ckeditor:install": "symfony-cmd"
     },
     "post-install-cmd": [
       "@auto-scripts"

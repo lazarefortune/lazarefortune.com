@@ -6,16 +6,12 @@
 
         {% if appointments is empty %}
             <div class="card card-padding">
-                <img src="{{ asset('images/illustrations/woman-calendar.svg') }}" alt="" height="300px"
-                     width="300px"
-                     class="mx-auto">
-                <h1 class="h3 text-center">Aucun rendez-vous trouvé</h1>
-                <p class="text-center text-muted">Vous n'avez pas de rendez-vous à gérer pour le moment.</p>
+                <p class="text-muted">Vous n'avez pas de rendez-vous à gérer pour le moment.</p>
 
-                <div class="mt-6 text-center">
+                <div class="mt-6">
                     <a href="" class="btn-md btn-primary flex gap-3">
                         {{ icon('calendar-plus', 20) }}
-                        Prendre un rendez-vous
+                        Prendre rendez-vous
                     </a>
                 </div>
             </div>
@@ -27,7 +23,7 @@
                         <div class="px-4 py-3 border-b border-slate-200 rounded-t-md flex justify-between items-center">
                             <!-- Mettre en avant le nom du client -->
                             <h3 class="text-base font-medium text-slate-800 flex items-center ">
-                                {{ appointment.date|date('d/m/Y') }} à {{ appointment.time|date('H:i') }}
+                                {{ appointment.date|date('d/m/Y') }} : {{ appointment.startTime|date('H:i') }} - {{ appointment.endTime|date('H:i') }}
                             </h3>
                             <div>
                                 {{ element.status_badge(appointment) }}

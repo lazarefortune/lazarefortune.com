@@ -1,70 +1,174 @@
-<nav id="header" class="header">
-    <ul class="header_nav">
-        <li class="header_home">
-            <a href="{{ path('app_home') }}" {{ menu_active_aria('app_home') }}>
-                {{ icon('home') }}
-            </a>
-        </li>
-        <li>
-            <a href="{{ path('app_prestation_list') }}"
-                    {{ menu_active_aria('app_prestation_list') }}
-            >
-                {{ icon('helping-hand', 15) }}
-                Services
-            </a>
-        </li>
-        <li>
-            <a href="">
-                {{ icon('briefcase', 15) }}
-                Réalisations
-            </a>
-        </li>
-        <li>
-            <a href="{{ path('app_contact') }}" {{ menu_active_aria('app_contact') }}>
-                {{ icon('mail', 15) }}
-                Contact
-            </a>
-        </li>
-        <li>
-            <a href="">
-                {{ icon('info', 15) }}
-                A propos
-            </a>
-        </li>
-        {% if is_granted('ROLE_ADMIN') %}
-            <li class="text-orange-600">
-                <a href="{{ path('app_admin_home') }}">
-                    {{ icon('gauge', 15) }}
-                    Dashboard
+<nav class="container-box header">
+    <!-- Logo à gauche -->
+    <div class="flex items-center">
+        <a href="{{ path('app_home') }}" class="header__menu__link">
+            LF
+        </a>
+        <ul class="hidden lg:flex ml-5 lg:space-x-6">
+            <li>
+                <a href="" class="flex items-center gap-1 dark:text-white dark:border-b-slate-700">
+                    {{ icon('youtube') }}
+                    <span>Tutoriels</span>
                 </a>
             </li>
-        {% endif %}
-    </ul>
-    <ul class="header-side">
-        <li class="header-side-auth">
-            {% if app.user %}
-                <a href="{{ path('app_profile') }}">
-                    {{ icon('user', 15) }}
-                    Mon compte
+            <li>
+                <a href="" class="flex items-center gap-1 dark:text-white dark:border-b-slate-700">
+                    {{ icon('graduation-cap') }}
+                    <span>Formations</span>
                 </a>
-                <span class="text-muted">·</span>
-                <a href="{{ path('app_logout') }}" class="text-red-900 inline-block">
-                    {{ icon('log-out', 14) }}
-                </a>
+            </li>
+        </ul>
+    </div>
+
+
+    <div class="flex items-center lg:hidden gap-2">
+        {% if app.user %}
+            {% if app.user.avatar %}
+                <img src="{{ vich_uploader_asset(app.user, 'avatarFile') }}" alt="{{ app.user.fullname }}" class="w-7 h-7 rounded-md">
             {% else %}
-                <a href="{{ path('app_register') }}" {{ menu_active_aria('app_register') }}>
-                    {{ icon('user-plus', 15) }}
-                    S'inscrire</a>
-                <span class="text-muted">·</span>
-                <a href="{{ path('app_login') }}" {{ menu_active_aria('app_login') }}>Se connecter</a>
+                <div class="w-7 h-7 rounded-md flex items-center justify-center bg-primary-100 text-primary-900
+                dark:bg-dark-soft-2 dark:text-white">
+                    {{ icon('user') }}
+                </div>
             {% endif %}
-        </li>
-        <li class="header-burger">
-            <button id="header-hamburger">
-                <span>
-                Afficher le menu
-                </span>
-            </button>
+        {% endif %}
+        <!-- Hamburger à droite -->
+        <button id="hamburger" class="text-gray-500 w-10 h-10 relative focus:outline-none bg-white">
+            <span class="sr-only">Ouvrir le menu</span>
+            <div class="block w-5 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <span aria-hidden="true" class="block absolute h-0.5 w-5 bg-current transform transition duration-500 ease-in-out -translate-y-1.5" ></span>
+                <span aria-hidden="true" class="block absolute  h-0.5 w-5 bg-current transform transition duration-500 ease-in-out" ></span>
+                <span aria-hidden="true" class="block absolute  h-0.5 w-5 bg-current transform  transition duration-500 ease-in-out translate-y-1.5"></span>
+            </div>
+        </button>
+    </div>
+    <!-- Menu de navigation -->
+    <div class="hidden mobile-menu">
+        <ul class="container-box mt-10">
+            {% if app.user %}
+                <li>
+                    <a href="{{ path('app_profile') }}"
+                       class="flex gap-3 items-center py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-200 dark:border-b-slate-700">
+                        {% if app.user.avatar %}
+                            <img src="{{ vich_uploader_asset(app.user, 'avatarFile') }}" alt="{{ app.user.fullname }}" class="w-7 h-7 rounded-md">
+                        {% else %}
+                            <div class="w-7 h-7 rounded-md flex items-center justify-center bg-primary-100 text-primary-900
+                            dark:bg-dark-soft-2 dark:text-white">
+                                {{ icon('user') }}
+                            </div>
+                        {% endif %}
+                        <span>{{ app.user.fullname }}</span>
+                    </a>
+                </li>
+            {% else %}
+                <li class="mb-3">
+                    <a href="{{ path('app_register') }}" class="btn-primary w-full">
+                        {{ icon('user-plus') }}
+                        Inscription
+                    </a>
+                </li>
+               <li>
+                   <a href="{{ path('app_login') }}" class="btn-light w-full">
+                       {{ icon('user') }}
+                       Connexion
+                   </a>
+               </li>
+            {% endif %}
+
+            {% if is_granted('ROLE_ADMIN') %}
+            <li>
+                <a href="{{ path('app_admin_home') }}" class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-200 dark:border-b-slate-700">
+                    {{ icon('shield') }}
+                    <span>Espace Admin</span>
+                </a>
+            </li>
+            {% endif %}
+            <li>
+                <a href="" class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-200 dark:border-b-slate-700">
+                    {{ icon('youtube') }}
+                    <span>Tutoriels</span>
+                </a>
+            </li>
+            <li>
+                <a href="" class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-200 dark:border-b-slate-700">
+                    {{ icon('graduation-cap') }}
+                    <span>Formations</span>
+                </a>
+            </li>
+            {% if app.user %}
+                <li>
+                    <a href="{{ path('app_logout') }}" class="btn-light w-full mt-4">
+                        {{ icon('log-out') }}
+                        Déconnexion
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+
+    <ul class="header-side hidden lg:flex">
+        <li class="flex items-center gap-1 relative">
+            {% if app.user %}
+            <button
+                class="dropdown-button flex items-center p-2 gap-2
+                bg-white hover:bg-primary-100 hover:text-primary-900
+                dark:text-white dark:bg-dark-soft dark:hover:bg-dark-soft-2 rounded-md"
+                aria-controls="dropdown-user">
+            {% if app.user.avatar %}
+                <img class="h-8 w-8 rounded-md flex items-center justify-center bg-primary-100 text-primary-900
+                dark:bg-dark-soft-2 dark:text-white" src="{{ vich_uploader_asset(app.user, 'avatarFile') }}"
+                     alt="{{ app.user.fullname }} avatar">
+            {% else %}
+                <div class="h-8 w-8 rounded-md flex items-center justify-center bg-primary-100 text-primary-900
+                dark:bg-dark-soft-2 dark:text-white">
+                    {{ icon('user') }}
+                </div>
+            {% endif %}
+            <div class="flex-col hidden md:flex text-start w-44 text-nowrap overflow-hidden">
+                <span>{{ app.user.fullname }}</span>
+            </div>
+        </button>
+        <div id="dropdown-user"
+             class="absolute right-0 top-[68px] w-64
+              bg-white
+              dark:bg-dark-soft
+              border border-slate-200 dark:border-slate-700 shadow rounded-md
+              opacity-0 scale-95 transform transition-opacity duration-100 ease-out invisible
+              pointer-events-none p-2">
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('app_admin_home') }}"
+                       class="flex items-center justify-start gap-2 rounded-md p-2 text-base leading-6
+                            hover:bg-primary-100 hover:text-primary-900
+                            dark:hover:bg-dark-soft-2 dark:hover:text-primary-300 dark:text-white">
+                        {{ icon('shield' ) }}
+                        <span>Espace Admin</span>
+                    </a>
+                {% endif %}
+                <a href="{{ path('app_profile') }}"
+                   class="flex items-center justify-start gap-2 rounded-md p-2 text-base leading-6
+                            hover:bg-primary-100 hover:text-primary-900
+                            dark:hover:bg-dark-soft-2 dark:hover:text-primary-300 dark:text-white {{ menu_active('app_account') }}">
+                    {{ icon('user' ) }}
+                    <span>Mon compte</span>
+                </a>
+                <a href="{{ path('app_logout') }}"
+                   class="flex items-center justify-start gap-2 rounded-md p-2 text-base leading-6
+                            hover:bg-primary-100 hover:text-primary-900
+                            dark:hover:bg-dark-soft-2 dark:hover:text-primary-300 dark:text-white">
+                    {{ icon('log-out' ) }}
+                    <span>Déconnexion</span>
+                </a>
+        </div>
+            {% else %}
+            <a href="{{ path('app_register') }}" class="header__menu__link">
+                {{ icon('user-plus') }}
+                <span>Inscription</span>
+            </a>
+            <span class="text-muted">·</span>
+            <a href="{{ path('app_login') }}" class="header__menu__link">
+                <span>Connexion</span>
+            </a>
+            {% endif %}
         </li>
     </ul>
 </nav>

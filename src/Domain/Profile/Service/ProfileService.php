@@ -34,6 +34,9 @@ class ProfileService
         $data->user->setFullname( $data->fullname );
         $data->user->setPhone( $data->phone );
         $data->user->setDateOfBirthday( $data->dateOfBirthday );
+        $data->user->setUpdatedAt( new \DateTimeImmutable() );
+        $data->user->setAvatarFile( $data->avatarFile );
+//        dd($data);
 
         if ( $data->email !== $data->user->getEmail() ) {
             $latestEmailVerification = $this->emailVerificationRepository->findEmailVerification( $data->user );

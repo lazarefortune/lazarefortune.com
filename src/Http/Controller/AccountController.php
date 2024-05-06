@@ -80,6 +80,7 @@ class AccountController extends AbstractController
         try {
             if ( $form->isSubmitted() && $form->isValid() ) {
                 $data = $form->getData();
+//                dd($data);
                 $this->profileService->updateProfile( $data );
 
                 if ( $data->email !== $user->getEmail() ) {

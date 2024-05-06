@@ -4,148 +4,56 @@
 
 {% block body %}
 
-    <div class="hero">
+    <div class="hero relative container-box w-full">
         <div class="hero__body">
-            <div class="hero__hello reveal">Bonjour, je suis</div>
-            <div class="hero__title reveal" data-delay=".2">
+            <div class="hero__hello reveal">👋🏾 Hey, je suis</div>
+            <div class="hero__name reveal" data-delay=".2">
                 Lazare Fortune
             </div>
             <div class="hero__job reveal" data-delay=".3">
                 Développeur Web PHP FullStack
             </div>
-            <div class="hero__cta reveal" data-delay=".4">
-                <a href="{{ path('app_register') }}">
-                    <span>Me contacter</span>
+            <div class="hero__cta mt-10 reveal" data-delay=".4">
+                <a href="{{ path('app_contact') }}" class="btn-lg btn-primary">
+                    Me contacter
                 </a>
-                <a href="{{ path('app_login') }}">
-                    <span>Espace éducation</span>
+                <a href="" class="btn-lg btn-outline-primary">
+                    Mes contenus
                 </a>
             </div>
         </div>
         <div class="hero__img reveal" data-delay=".4">
-            <img class="rounded-full w-80" src="{{ asset('images/avatar-lazare-fortune.png') }}" alt="Lazare Fortune">
+            <img class="rounded-full w-80" src="{{ asset('images/avatar-lazare-fortune.png') }}" alt="Lazare Fortune Avatar">
         </div>
+        <ul class="hero__links">
+            <li>
+                <a href="https://github.com/lazarefortune" target="_blank">
+                    {{ icon('github', '34') }}
+                </a>
+            </li>
+            <li>
+                <a href="https://linkedin.com/lazarefortune" target="_blank">
+                    {{ icon('linkedin', '34') }}
+                </a>
+            </li>
+        </ul>
     </div>
 
-{#    <div class="w-full bg-[#1f2235] text-white min-h-screen">#}
-{#        <header class="z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 md:px-8">#}
-{#            <div class="relative flex flex-wrap items-center justify-between gap-6 py-2 md:gap-0 md:py-4">#}
-{#                <input aria-hidden="true" type="checkbox" name="toggle_nav" id="toggle_nav"#}
-{#                       class="hidden peer">#}
-{#                <div class="relative z-20 flex w-full justify-between md:px-0 lg:w-max">#}
-{#                    <a href="">#}
-{#                        <img src="{{ asset('images/logo/lazarefortune-logo.svg') }}" alt="logo" class="w-8">#}
-{#                    </a>#}
-
-{#                    <div class="relative flex max-h-10 items-center lg:hidden">#}
-{#                        <label role="button" for="toggle_nav" aria-label="humburger" id="hamburger"#}
-{#                               class="relative -mr-6 p-6">#}
-{#                            <div aria-hidden="true" id="line"#}
-{#                                 class="m-auto w-5 rounded bg-sky-900 transition duration-300 h-0.5 dark:bg-gray-300"></div>#}
-{#                            <div aria-hidden="true" id="line2"#}
-{#                                 class="m-auto mt-2 w-5 rounded bg-sky-900 transition duration-300 h-0.5 dark:bg-gray-300"></div>#}
-{#                        </label>#}
-{#                    </div>#}
-{#                </div>#}
-{#                <div aria-hidden="true"#}
-{#                     class="fixed inset-0 z-10 h-screen w-screen peer-checked:origin-top origin-bottom scale-y-0 peer-checked:scale-y-100 bg-white/70 backdrop-blur-2xl transition duration-500 dark:bg-gray-900/70 lg:hidden"></div>#}
-{#                <div class="flex-col z-20 flex-wrap gap-6 p-8 rounded-3xl border border-gray-100 bg-white shadow-2xl shadow-gray-600/10 justify-end w-full invisible opacity-0 translate-y-1  absolute top-full left-0 transition-all duration-300 scale-95 origin-top#}
-{#                            lg:relative lg:scale-100 lg:peer-checked:translate-y-0 lg:translate-y-0 lg:flex lg:flex-row lg:items-center lg:gap-0 lg:p-0 lg:bg-transparent lg:w-7/12 lg:visible lg:opacity-100 lg:border-none#}
-{#                            peer-checked:scale-100 peer-checked:opacity-100 peer-checked:visible lg:shadow-none#}
-{#                            dark:shadow-none dark:bg-gray-800 dark:border-gray-700">#}
-
-{#                    <nav class="w-full text-gray-600 dark:text-gray-300 lg:w-auto lg:pt-0 lg:pr-4">#}
-{#                        <ul class="flex flex-col gap-6 font-medium tracking-wide lg:flex-row lg:gap-0 lg:text-sm">#}
-{#                            <li>#}
-{#                                <a href="" class="block transition hover:text-primary md:px-4">#}
-{#                                    <span>Vidéos</span>#}
-{#                                </a>#}
-{#                            </li>#}
-{#                            <li>#}
-{#                                <a href="" class="block transition hover:text-primary md:px-4">#}
-{#                                    <span>Blog</span>#}
-{#                                </a>#}
-{#                            </li>#}
-{#                            <li>#}
-{#                                <a href="{{ path('app_contact') }}"#}
-{#                                   class="block transition hover:text-primary md:px-4">#}
-{#                                    <span>Contact</span>#}
-{#                                </a>#}
-{#                            </li>#}
-{#                            {% if app.user and is_granted('ROLE_ADMIN') %}#}
-{#                                <a href="{{ path('app_admin_home') }}"#}
-{#                                   class="block transition hover:text-primary md:px-4">#}
-{#                                    <span>Espace admin</span>#}
-{#                                </a>#}
-{#                            {% endif %}#}
-{#                        </ul>#}
-{#                    </nav>#}
-
-{#                    <div class="mt-12 lg:mt-0">#}
-{#                        {% if app.user %}#}
-{#                            <a#}
-{#                                    href="{{ path('app_logout') }}"#}
-{#                                    class="before:absolute relative before:inset-0 flex h-9 w-full items-center justify-center before:rounded-full px-4 before:transition before:duration-300 before:bg-primary hover:before:scale-105 active:before:scale-95 active:duration-75 sm:w-max"#}
-{#                            >#}
-{#                                <span class="relative text-sm font-semibold text-red-600"#}
-{#                                >Déconnexion</span#}
-{#                                >#}
-{#                            </a>#}
-{#                        {% else %}#}
-{#                            <a#}
-{#                                    href="{{ path('app_login') }}"#}
-{#                                    class="before:absolute relative before:inset-0 flex h-9 w-full items-center justify-center before:rounded-full px-4 before:transition before:duration-300 before:bg-primary hover:before:scale-105 active:before:scale-95 active:duration-75 sm:w-max"#}
-{#                            >#}
-{#                                <span class="relative text-sm font-semibold text-white"#}
-{#                                >Espace client</span#}
-{#                                >#}
-{#                            </a>#}
-{#                        {% endif %}#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#        </header>#}
-
-{#        <div class="mx-auto flex w-full max-w-6xl flex-col-reverse px-4 pt-24 sm:px-6 md:px-8 lg:flex-row lg:items-center lg:justify-between">#}
-{#            <div class="w-full pr-0 lg:w-1/2 lg:pr-8">#}
-{#                <h1 class="text-4xl font-bold lg:gtext-6xl font-hanken-grotesk">#}
-{#                    Vous êtes chez, <span class="text-primary-600 font-hanken-grotesk">Lazare Fortune</span>#}
-{#                </h1>#}
-{#                <p class="pt-4 text-lg leading-relaxed text-gray-500 lg:pt-8 lg:text-xl">#}
-{#                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aliquid animi atque autem#}
-{#                    consectetur consequuntur cumque, delectus doloremque doloribus ducimus ea eius eligendi eos#}
-{#                    error#}
-{#                </p>#}
-{#                <div class="flex flex-col flex-wrap gap-x-6 gap-y-4 pt-12 sm:flex-row">#}
-{#                    <a href="" class="btn btn-primary">#}
-{#                        {{ icon('user-round-plus') }}#}
-{#                        <span class="ml-2">Créer un compte</span>#}
-{#                    </a>#}
-{#                    <a href="" class="btn btn-link">#}
-{#                        <span class="">Voir les tutoriels</span>#}
-{#                    </a>#}
-{#                </div>#}
-{#            </div>#}
-{#            <div class="hidden lg:flex lg:w-1/2 flex-col items-center">#}
-{#                <img src="{{ asset('images/avatar-lazare-fortune.png') }}" alt="hero" class="w-80 h-auto rounded-full">#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-
-    <section class="bg-white">
+    <section class="home__push min-h-screen">
         <div class="mx-auto mt-20 mb-48 flex max-w-6xl flex-col-reverse px-4 sm:mt-24 sm:px-6 md:px-8 lg:mt-20 lg:grid lg:grid-cols-12 lg:flex-row lg:items-center lg:gap-8">
             <div class="mt-16 lg:col-span-6 lg:col-start-7 lg:row-span-2 lg:row-start-1 lg:mt-0">
-                <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                <h2 class="text-3xl font-extrabold tracking-tight text-primary-950 sm:text-4xl">
                     <span class="block">Prêt à commencer ?</span>
                     <span class="block text-primary-600">Essayer gratuitement</span>
+                    <span class="block">pendant 14 jours.</span>
                 </h2>
-                <p class="mt-3 text-lg text-gray-500">
+                <p class="mt-3 text-lg text-muted">
                     Ac euismod vel sit maecenas id pellentesque eu sed consectetur. Malesuada adipiscing sagittis
                     vel
                     nulla nec.
                 </p>
                 <div class="mt-9">
-                    <a href="#" class="btn-md btn-primary">
+                    <a href="#" class="btn-primary">
                         <span>Commencer</span>
                     </a>
                 </div>
@@ -158,9 +66,6 @@
             </div>
         </div>
     </section>
-    <div class="h-40 px-4 py-3">
-        <theme-switcher></theme-switcher>
-    </div>
 {% endblock %}
 
 
@@ -208,7 +113,6 @@
                 }
             });
         });
-
 
         // Cards spotlight
         class Spotlight {

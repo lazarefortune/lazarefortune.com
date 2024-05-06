@@ -9,9 +9,15 @@
             <div class="stack">
                 <div class="flex flex-row justify-start items-center">
                     <div class="mr-4 flex-shrink-0">
-                        <img src="https://www.w3schools.com/howto/img_avatar.png"
+                        {% if app.user.avatar %}
+                        <img src="{% if app.user.avatar %}{{ vich_uploader_asset(app.user, 'avatarFile') }}{% else %}'https://www.w3schools.com/howto/img_avatar.png'{% endif %}"
                              alt="Avatar de {{ app.user.fullname }}"
-                             class="rounded-full w-24 h-24 object-cover border-2 border-primary-900 p-0.5">
+                             class="rounded-full w-24 h-24 object-cover border-2 border-primary-900 dark:border-primary-300 p-0.5">
+                        {% else %}
+                            <img src="https://www.w3schools.com/howto/img_avatar.png"
+                                 alt="Avatar de {{ app.user.fullname }}"
+                                 class="rounded-full w-24 h-24 object-cover border-2 border-primary-900 dark:border-primary-300 p-0.5">
+                        {% endif %}
                     </div>
                     <div>
                         <h2 class="h2">{{ app.user.fullname }}</h2>
@@ -26,10 +32,14 @@
 
     {% include 'partials/flash.html.twig' with {floating: true, duration: 3} %}
 
-    <nav-tabs class="nav-tabs-bar nav-tabs-bar-icons container-box bg-white">
+    <nav-tabs class="nav-tabs-bar nav-tabs-bar-icons container-box">
         <a href="#profil" data-tab-id="profil">
             {{ icon('user') }}
             Profil
+        </a>
+        <a href="#courses" data-tab-id="courses">
+            {{ icon('youtube') }}
+            Tutoriels
         </a>
         <a href="#appointments" data-tab-id="appointments">
             {{ icon('calendar') }}
@@ -44,7 +54,7 @@
     <div class="container-box mt-5 mb-10 stack-large">
 
         <div id="profil">
-            <div class="stack">
+            <div class="stack-large">
                 {% if app.user.deletedAt %}
                     <div class="notification-info">
                         <h2 class="notification-heading">Attention !</h2>
@@ -97,6 +107,29 @@
                     </div>
                 </div>
 
+                <div class="stack card card-padding">
+                    <h3 class="h3">Avatar</h3>
+
+                    <div class="grid2">
+                        <div>
+                            <div class="flex flex-row items-center">
+                                {% if app.user.avatar %}
+                                <img src="{% if app.user.avatar %}{{ vich_uploader_asset(app.user, 'avatarFile') }}{% else %}'https://www.w3schools.com/howto/img_avatar.png'{% endif %}"
+                                     alt="Avatar de {{ app.user.fullname }}"
+                                     class="rounded-full w-16 h-16 object-cover border-2 border-primary-900 dark:border-primary-300 p-0.5">
+                                <span class="ml-2">{{ app.user.avatarFile ? app.user.avatarFile.originalName : 'Aucun fichier' }}</span>
+                                {% else %}
+                                    <p class="text-muted">Vous n'avez pas encore d'avatar. <br> Ajoutez-en un pour
+                                        personnaliser votre compte.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div>
+                            {{ form_row(formProfile.avatarFile) }}
+                        </div>
+                    </div>
+                </div>
+
                 <div class="text-end">
                     <button type="submit" class="btn-md btn-primary">
                         {{ icon('save') }}
@@ -124,7 +157,7 @@
                 {{ form_end(formPassword) }}
 
                 <div class="stack">
-                    <h3 class="h3 text-red-800">Supprimer mon compte</h3>
+                    <h3 class="h3 text-danger">Supprimer mon compte</h3>
 
                     <p class="text-base">
                         {% if app.user.deletedAt %} Votre compte sera supprimé automatiquement {{ app.user.deletedAt|date_diff }}.
@@ -186,6 +219,24 @@
         {% include 'account/_appointments.html.twig' with {appointments: appointments} %}
 
         {% include 'account/_invoices.html.twig' with {invoices: invoices} %}
+
+        <div id="courses">
+            <div class="stack">
+                <h3 class="h3">Mon historique</h3>
+
+                <div class="stack card card-padding">
+                    <p class="text-muted">
+                        Vous avez accès à tous les tutoriels gratuits.
+                    </p>
+                    <div>
+                        <a href="" class="btn-primary">
+                            {{ icon('crown') }}
+                            Devenir premium
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 {% endblock %}

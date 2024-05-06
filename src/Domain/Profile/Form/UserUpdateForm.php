@@ -6,6 +6,7 @@ use App\Domain\Profile\Dto\ProfileUpdateData;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -53,7 +54,15 @@ class UserUpdateForm extends AbstractType
                 'label_attr' => [
                     'class' => 'label'
                 ]
-            ] );
+            ] )
+            ->add('avatarFile', FileType::class, [
+                'label' => 'Avatar',
+                'required' => false,
+                'label_attr' => [
+                    'class' => 'label'
+                ]
+            ])
+        ;
     }
 
     public function configureOptions( OptionsResolver $resolver ) : void

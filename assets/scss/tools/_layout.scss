@@ -55,11 +55,7 @@
 }
 
 .page-wrapper {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  overflow: hidden;
+  @apply min-h-screen flex flex-col w-full overflow-hidden;
 }
 
 .container-box {
@@ -69,19 +65,9 @@
   padding-right: calc(50% - var(--container-width) / 2);
 }
 
-@media (min-width: 1370px) {
-  .container-box {
-    //max-width: 1400px;
-    //padding-left: 30px;
-    //padding-right: 30px;
-  }
-}
-
 .page-header {
-  background: #fff;
-  border-bottom: 1px solid #d5e3ec;
-  padding-top: 48px;
-  padding-bottom: 48px;
+  @apply border-b border-slate-200 bg-white text-slate-900 py-[48px]
+  dark:bg-dark-soft dark:border-slate-700 dark:text-white;
 }
 
 .auth-container {
@@ -89,4 +75,8 @@
   margin-right: auto;
   width: calc(100% - 40px);
   max-width: 400px;
+}
+
+.text-leading {
+  @apply text-primary-900 dark:text-light-orange;
 }

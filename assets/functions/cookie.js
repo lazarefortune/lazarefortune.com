@@ -1,32 +1,46 @@
-export function cookie (name, value = undefined, options = {}) {
+export function cookie(name, value = undefined, options = {}) {
     if (value === undefined) {
-        const cookies = document.cookie.split(';').map(cookie => cookie.split('='));
-        console.log(cookies);
-        return cookies.find(cookie => cookie[0].trim() === name)?.[1];
+        return getCookie(name);
     }
 
+    setCookie(name, value, options);
+}
+
+function getCookie(name) {
+    const cookies = document.cookie.split(';');
+    const cookiePair = cookies.find(cookie => cookie.trim().startsWith(`${name}=`));
+    return cookiePair ? decodeURIComponent(cookiePair.split('=')[1]) : null;
+}
+
+function setCookie(name, value, options) {
     if (value === null) {
         value = '';
         options.expires = -365;
-    }else{
-        value = String(value);
     }
+
+    let cookieValue = encodeURIComponent(value);
+    cookieValue += formatOptions(options);
+    document.cookie = `${name}=${cookieValue}`;
+}
+
+function formatOptions(options) {
+    let cookieOptions = '';
 
     if (options.expires) {
         const date = new Date();
         date.setDate(date.getDate() + options.expires);
-        value += `; expires=${date.toUTCString()}`;
+        cookieOptions += `; expires=${date.toUTCString()}`;
     }
 
-    if (options.path) {
-        value += `; path=${options.path}`;
-    } else {
-        value += '; path=/';
-    }
+    cookieOptions += `; path=${options.path || '/'}`;
 
     if (options.domain) {
-        value += `; domain=${options.domain}`;
+        cookieOptions += `; domain=${options.domain}`;
     }
 
-    document.cookie = `${name}=${value}`;
+    if (options.secure) {
+        cookieOptions += '; secure';
+    }
+
+    return cookieOptions;
 }

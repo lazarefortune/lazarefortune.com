@@ -1,89 +1,86 @@
 /* Styles de base pour tous les boutons */
 .btn-base {
-  @apply active:scale-95 inline-flex items-center justify-center whitespace-nowrap rounded-md border shadow-sm space-x-2 focus:outline-none focus:ring-2 focus:ring-offset-2;
-}
-
-/* Styles spécifiques pour chaque taille de bouton */
-.btn-sm {
-  @apply px-3 py-1 text-sm btn-base;
-}
-
-.btn-sm > i {
-  @apply text-base leading-none;
-}
-
-.btn-2sm {
-  @apply bg-primary-600 rounded-lg hover:bg-primary-800 text-white px-4 py-2.5 duration-300 transition-colors focus:outline-none;
+  @apply inline-flex items-center justify-center whitespace-nowrap rounded border shadow-sm space-x-2
+  focus:outline-none focus:ring-2 focus:ring-offset-2 active:scale-95
+  h-11 px-7 py-2.5 text-base cursor-pointer gap-2
+  ;
 }
 
 /* Taille pour des textes courts et des icônes petites */
 .btn {
-  @apply px-7 py-2.5 text-base btn-base;
+  @apply px-7 text-base py-2.5 btn-base;
 }
 
-.btn-md {
-  @apply h-11 px-5 text-base btn-base ;
-}
-
-.btn-md > i {
+.btn-base > i {
   @apply inline-block text-lg leading-none;
 }
 
-.btn-md > span {
+.btn-base > span {
   @apply inline-block text-base leading-none;
 }
 
-/* Taille standard pour la plupart des usages */
-.btn-lg {
-  @apply px-7 py-3 text-lg btn-base;
-}
-
-/* Taille pour des textes plus longs et des icônes plus grandes */
-
-/* Styles spécifiques pour les variantes de couleur des boutons */
-.btn-primary-base {
-  @apply rounded-md shadow-sm focus:ring focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
-}
-
 .btn-primary {
-  @apply h-11 px-5 text-base btn-base border-transparent text-white btn-primary-base bg-primary-900 hover:bg-primary-800 hover:text-white focus:ring-primary-900 focus-visible:outline-primary-600 disabled:bg-primary-200 disabled:text-primary-700;
-}
-
-//.btn-primary {
-//@apply font-inter active:scale-95 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none hover:text-white focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 dark:hover:bg-primary-800 dark:hover:text-slate-100 disabled:opacity-50 dark:focus:ring-slate-400 disabled:pointer-events-none dark:focus:ring-offset-slate-900 data-[state=open]:bg-primary-100 dark:data-[state=open]:bg-primary-800 bg-primary-600 text-white hover:bg-primary-700 dark:bg-slate-50 dark:text-slate-900 h-11 px-8;
-//}
-
-.btn-outline-primary {
-  @apply bg-white btn-primary-base border-primary-500 text-primary-500 hover:bg-primary-50 hover:text-primary-500 focus:ring-primary-500 focus-visible:outline-primary-500;
-}
-
-.btn-icon {
-  @apply inline-flex items-center justify-center rounded-full p-2 text-xl text-gray-600 hover:bg-primary-200/30 hover:text-primary-600;
-}
-
-.btn-link {
-  @apply inline-flex items-center justify-center rounded-md text-base text-gray-600 hover:text-primary-600;
+  @apply btn-base
+  bg-primary-700 text-white border-primary-700
+  hover:bg-primary-800 hover:text-white hover:border-primary-800
+  disabled:bg-primary-100 disabled:text-primary-400 disabled:border-primary-100 disabled:pointer-events-none
+  active:bg-primary-800 active:text-white
+  focus:ring focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
+  focus:ring-primary-100 focus-visible:outline-primary-600
+  dark:bg-primary-600 dark:text-white dark:border-primary-600
+  dark:hover:bg-primary-700 dark:hover:text-white dark:hover:border-primary-700
+  dark:disabled:bg-primary-950 dark:disabled:text-primary-700 dark:disabled:border-primary-950 dark:disabled:pointer-events-none
+  dark:active:bg-primary-800 dark:active:text-white
+  dark:ring-0 dark:outline-offset-0
+  ;
 }
 
 .btn-danger {
-  @apply border-transparent text-white bg-red-800 hover:bg-red-900 hover:text-white focus:ring-red-900;
+  @apply btn-base
+    bg-red-400 text-white border-red-400
+    hover:bg-red-500 hover:text-white hover:border-red-500
+    disabled:bg-red-100 disabled:text-red-400 disabled:border-red-100 disabled:pointer-events-none
+    active:bg-red-500 active:text-white
+    focus:ring focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
+    focus:ring-red-100 focus-visible:outline-red-600
+    dark:bg-red-500 dark:text-white dark:border-red-500
+    dark:hover:bg-red-600 dark:hover:text-white dark:hover:border-red-600
+    dark:disabled:bg-red-950 dark:disabled:text-red-700 dark:disabled:border-red-950 dark:disabled:pointer-events-none
+    dark:active:bg-red-600 dark:active:text-white
+    dark:ring-0 dark:outline-offset-0
+  ;
 }
 
-.btn-menu {
-  // color transition
-  @apply block rounded-md py-2 px-5 text-base btn-base active:scale-95 border-transparent text-white btn-primary-base bg-primary-900 hover:bg-primary-800 hover:text-white focus:ring-primary-900 focus-visible:outline-primary-800;
+.btn-outline-primary {
+  @apply btn-base
+  bg-transparent border-primary-700 text-primary-700
+  hover:bg-primary-100 hover:text-primary-800 hover:border-primary-800
+  focus:ring-primary-500 focus-visible:outline-primary-500
+  dark:bg-transparent dark:border-primary-600 dark:text-primary-600
+  dark:hover:bg-transparent dark:hover:text-primary-700 dark:hover:border-primary-700
+  ;
 }
 
-.btn-menu-alt {
-  @apply rounded-md px-5 text-base transition py-2 text-primary-600 bg-white border border-primary-600 hover:bg-primary-100 hover:text-primary-600 focus:ring-primary-500 focus-visible:outline-primary-600;
+.btn-icon {
+  @apply inline-flex items-center justify-center rounded-full p-2 text-xl text-gray-600 hover:bg-primary-200/30 hover:text-primary-600
+    dark:text-white dark:hover:bg-primary-500/30 dark:hover:text-white;
+  ;
+}
+
+.btn-link {
+  @apply inline-flex items-center justify-center rounded text-base text-gray-600 hover:text-primary-600 cursor-pointer
+  dark:text-white dark:hover:text-primary-300;
 }
 
 .link {
-  @apply text-primary-600 pb-0.5 p-1.5 hover:text-primary-600/75 hover:border-primary-600 hover:border-primary-600/75 hover:bg-primary-100/25 hover:border-b;
+  @apply pb-0.5 p-1.5 cursor-pointer
+  text-primary-600
+  hover:text-primary-700/75 hover:border-primary-700 hover:border-primary-700/75 hover:bg-primary-100/25 hover:border-b
+  ;
 }
 
 .link[target="_blank"]::after {
-  @apply bg-primary-600;
+  @apply bg-primary-700;
   content: "";
   margin-left: .3rem;
   margin-right: -.125rem;
@@ -99,6 +96,22 @@
   //mask-position: center;
 }
 
+// custom buttons
 .btn-light {
-  @apply btn-base shadow-custom border-gray-300 text-gray-600 bg-white hover:bg-gray-50 focus:ring-gray-500 focus-visible:outline-gray-500;
+  @apply border-gray-300 bg-white text-gray-600 btn-base shadow-custom hover:bg-gray-50
+  focus:ring-gray-500 focus-visible:outline-gray-500
+  dark:bg-transparent dark:text-white dark:border-slate-600 dark:hover:bg-slate-800/10 dark:hover:text-white dark:hover:border-slate-600/10
+  ;
+}
+
+.btn-menu {
+  @apply block rounded border-transparent px-5 py-2 text-base text-white btn-base bg-primary-900 hover:bg-primary-800 hover:text-white focus:ring-primary-900 focus-visible:outline-primary-800 active:scale-95;
+}
+
+.btn-menu-alt {
+  @apply rounded border bg-white px-5 py-2 text-base transition text-primary-600 border-primary-600 hover:bg-primary-100 hover:text-primary-600 focus:ring-primary-500 focus-visible:outline-primary-600;
+}
+
+.btn-lg {
+  @apply px-8 py-6 text-lg;
 }

@@ -12,6 +12,8 @@ import {Alert, FloatingAlert} from './elements/Alert'
 /* Libs */
 import './libs/flatpickr'
 
+import {ThemeSwitcher} from "./elements/ThemeSwitcher";
+
 customElements.define('nav-tabs', NavTabs)
 customElements.define('scroll-top', ScrollTop)
 customElements.define('alert-message', Alert)
@@ -23,7 +25,11 @@ customElements.define('theme-switcher', ThemeSwitcher)
 import './modules/header.js'
 import './modules/scrollreveal.js'
 import './modules/modal.js'
-import {ThemeSwitcher} from "./elements/ThemeSwitcher";
+import './modules/header.js'
+import './modules/dropdown.js'
+import {registerHeaderBehavior} from "./modules/header";
+
+registerHeaderBehavior()
 
 // start the Stimulus application
 // import './bootstrap';

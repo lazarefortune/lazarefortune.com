@@ -4,16 +4,12 @@
 
         {% if invoices is empty %}
             <div class="card card-padding">
-                <img src="{{ asset('images/illustrations/invoices-empty-illustration.svg') }}" alt="" height="300px"
-                     width="300px"
-                     class="mx-auto">
-                <h1 class="h3 text-center">Vous n'avez pas encore de factures</h1>
-                <p class="text-center text-muted">Pourquoi ne pas prendre un rendez-vous ?</p>
+                <p class="text-muted">Il n'y a pas de factures pour le moment.</p>
 
-                <div class="mt-6 text-center">
-                    <a href="" class="btn-md btn-primary flex gap-3">
-                        {{ icon('calendar-plus') }}
-                        Prendre un rendez-vous
+                <div class="mt-6">
+                    <a href="" class="btn-primary">
+                        {{ icon('crown') }}
+                        Devenir premium
                     </a>
                 </div>
             </div>

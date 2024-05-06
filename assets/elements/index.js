@@ -5,7 +5,7 @@ import {AccordionGroup} from "./Accordion";
 import {DropdownButton} from "./Dropdown";
 import InputAttachment from "./admin/InputAttachment";
 import {ChaptersEditor} from "./admin/ChaptersEditor";
-
+import {ThemeSwitcher} from "./ThemeSwitcher";
 import {FileManager} from 'filemanager-element'
 import 'filemanager-element/FileManager.css'
 import {YoutubePlayer} from "./player/YoutubePlayer";
@@ -22,6 +22,7 @@ customElements.define('chapters-editor', ChaptersEditor, { extends: 'textarea' }
 customElements.define('dropdown-button', DropdownButton)
 customElements.define('input-attachment', InputAttachment, { extends: 'input' })
 customElements.define('youtube-player', YoutubePlayer)
+customElements.define('theme-switcher', ThemeSwitcher)
 
 document.addEventListener('DOMContentLoaded', () => {
     const filemanager = document.querySelector("file-manager");

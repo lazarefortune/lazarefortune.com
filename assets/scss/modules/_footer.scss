@@ -1,0 +1,8 @@
+.footer {
+  @apply bg-gray-100 text-gray-600 py-16
+  dark:bg-dark-soft dark:text-gray-300 grid grid-cols-3 gap-6;
+}
+
+.footer__title {
+  @apply text-xl font-semibold mb-2.5 text-slate-900 dark:text-white;
+}

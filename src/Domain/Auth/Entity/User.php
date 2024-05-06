@@ -50,11 +50,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column( type: Types::DATE_MUTABLE, nullable: true )]
     private ?\DateTimeInterface $date_of_birthday = null;
 
+    #[ORM\Column( type: Types::STRING, length: 255, nullable: true )]
+    private ?string $avatar = null;
+
     #[Vich\UploadableField( mapping: 'avatar_images', fileNameProperty: 'avatar' )]
     private ?File $avatarFile = null;
-
-    #[ORM\Column( length: 255, nullable: true )]
-    private ?string $avatar = null;
 
     #[ORM\Column( type: Types::DATETIME_MUTABLE, nullable: true )]
     private ?\DateTimeInterface $createdAt = null;
@@ -416,4 +416,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function __sleep()
+    {
+        return array_diff(array_keys(get_object_vars($this)), ['avatarFile']);
+    }
 }
