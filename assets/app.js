@@ -26,6 +26,7 @@ import './modules/header.js'
 import './modules/scrollreveal.js'
 import './modules/modal.js'
 import './modules/header.js'
+import './modules/hamburger.js'
 import './modules/dropdown.js'
 import {registerHeaderBehavior} from "./modules/header";
 
