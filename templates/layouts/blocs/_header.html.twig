@@ -1,12 +1,12 @@
 <nav class="container-box header">
     <!-- Logo à gauche -->
     <div class="flex items-center">
-        <a href="{{ path('app_home') }}" class="header__menu__link">
+        <a href="{{ path('app_home') }}" {{ menu_active_aria('app_home') }} class="header__menu__link">
             LF
         </a>
         <ul class="hidden lg:flex ml-5 lg:space-x-6">
             <li>
-                <a href="" class="flex items-center gap-1 dark:text-white dark:border-b-slate-700">
+                <a href="{{ path('app_course_index') }}" {{ menu_active_aria('app_course_index') }} class="flex items-center gap-1 dark:text-white dark:border-b-slate-700">
                     {{ icon('youtube') }}
                     <span>Tutoriels</span>
                 </a>
@@ -70,7 +70,7 @@
             </li>
             {% endif %}
             <li>
-                <a href="" class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-200 dark:border-b-slate-700">
+                <a href="{{ path('app_course_index') }}" {{ menu_active_aria('app_course_index') }} class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-200 dark:border-b-slate-700">
                     {{ icon('youtube') }}
                     <span>Tutoriels</span>
                 </a>

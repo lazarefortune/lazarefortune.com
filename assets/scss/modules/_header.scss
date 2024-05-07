@@ -60,6 +60,10 @@
   @apply hidden;
 }
 
+.header a[aria-current="page"] {
+  @apply text-primary-700 dark:text-primary-300;
+}
+
 .header.is-fixed {
   position: fixed;
   transition: transform .3s ease;
