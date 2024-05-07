@@ -39,10 +39,6 @@ services:
     resource: '../src/Http/Controller'
     tags: [ 'controller.service_arguments' ]
 
-  App\Http\Education\Controller\:
-    resource: '../src/Http/Education/Controller'
-    tags: [ 'controller.service_arguments' ]
-
   App\Http\Admin\Controller\:
     resource: '../src/Http/Admin/Controller'
     tags: [ 'controller.service_arguments' ]
