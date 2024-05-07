@@ -73,13 +73,13 @@ abstract class CrudController extends BaseController
         $request = $this->requestStack->getCurrentRequest();
         $form = $this->createForm( $data->getFormClass(), $data );
         $form->handleRequest( $request );
+
         if ( $form->isSubmitted() && $form->isValid() ) {
             /** @var E $entity */
             $entity = $data->getEntity();
             $old = clone $entity;
             $data->hydrate();
             $this->em->flush();
-//            dd($entity);
             if ( $this->events['update'] ?? null ) {
                 $this->dispatcher->dispatch( new $this->events['update']( $entity, $old ), $this->events['update']::NAME );
             }

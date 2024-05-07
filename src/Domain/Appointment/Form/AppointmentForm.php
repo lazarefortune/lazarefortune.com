@@ -39,9 +39,6 @@ class AppointmentForm extends AbstractType
                 'class' => User::class,
                 'choice_label' => 'email',
                 'label' => 'Client',
-                'attr' => [
-                    'class' => 'form-input-md'
-                ],
                 'query_builder' => function ( \Doctrine\ORM\EntityRepository $er ) {
                     return $er->createQueryBuilder( 'u' )
                         ->where( 'u.roles NOT LIKE :role' )
@@ -55,9 +52,6 @@ class AppointmentForm extends AbstractType
                 'class' => Prestation::class,
                 'choice_label' => 'name',
                 'label' => 'Prestation',
-                'attr' => [
-                    'class' => 'form-input-md'
-                ],
                 'label_attr' => [
                     'class' => 'label'
                 ],
@@ -66,7 +60,7 @@ class AppointmentForm extends AbstractType
                 'label' => 'Date du rendez-vous',
                 'widget' => 'single_text',
                 'attr' => [
-                    'class' => 'form-input-md flatpickr-date-input appointment-date-choice'
+                    'class' => 'flatpickr-date-input appointment-date-choice'
                 ],
                 'required' => true,
                 'label_attr' => [

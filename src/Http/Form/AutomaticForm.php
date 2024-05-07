@@ -6,7 +6,6 @@ use App\Domain\Attachment\Entity\Attachment;
 use App\Domain\Attachment\Type\AttachmentType;
 use App\Domain\Auth\Entity\User;
 use App\Http\Admin\Form\ChaptersForm;
-use App\Http\Admin\Form\Field\TechnologiesType;
 use App\Http\Admin\Form\Field\TechnologyChoiceType;
 use App\Http\Admin\Form\Field\UserChoiceType;
 use App\Http\Type\ChoiceMultipleType;
@@ -15,6 +14,7 @@ use App\Http\Type\SwitchType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -77,6 +77,22 @@ class AutomaticForm extends AbstractType
                     'required' => false,
                     'label_attr' => [
                         'class' => 'label',
+                    ],
+                ] );
+                continue;
+            }
+
+            if( $name === 'dateOfBirthday' ) {
+                $builder->add( $name, DateType::class, [
+                    'label' => 'Date de naissance',
+                    'widget' => 'single_text',
+                    'html5' => false,
+                    'label_attr' => [
+                        'class' => 'label',
+                    ],
+                    'attr' => [
+                        'class' => 'flatpickr-date-birthday',
+                        'data-input' => 'true'
                     ],
                 ] );
                 continue;

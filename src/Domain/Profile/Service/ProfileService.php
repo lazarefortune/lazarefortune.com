@@ -36,7 +36,6 @@ class ProfileService
         $data->user->setDateOfBirthday( $data->dateOfBirthday );
         $data->user->setUpdatedAt( new \DateTimeImmutable() );
         $data->user->setAvatarFile( $data->avatarFile );
-//        dd($data);
 
         if ( $data->email !== $data->user->getEmail() ) {
             $latestEmailVerification = $this->emailVerificationRepository->findEmailVerification( $data->user );
@@ -63,6 +62,9 @@ class ProfileService
             $this->eventDispatcher->dispatch( new RequestEmailChangeEvent( $emailVerification ) );
         }
 
+        $user = $data->user;
+//        dd($user);
+        $this->entityManager->persist( $user );
         $this->entityManager->flush();
     }
 
