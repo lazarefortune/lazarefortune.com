@@ -86,6 +86,10 @@ services:
   App\Infrastructure\Image\ImageResizer:
     arguments: [ '%image_resize_key%' ]
 
+  App\Http\Twig\TwigUrlExtension:
+    arguments:
+      $uploaderHelper: '@Vich\UploaderBundle\Templating\Helper\UploaderHelper'
+
   App\Domain\Application\EventListener\ExceptionListener:
     tags:
       - { name: kernel.event_listener, event: kernel.exception }
