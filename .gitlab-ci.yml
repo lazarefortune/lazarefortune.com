@@ -15,10 +15,10 @@ setup:
   stage: setup
   script:
     - apt-get update -yqq
-    - apt-get install git unzip libpq-dev postgresql-client -yqq
+    - apt-get install -yqq git unzip libpq-dev postgresql-client zlib1g-dev libzip-dev
+    - docker-php-ext-install pdo pdo_pgsql zip
     - curl -sS https://getcomposer.org/installer | php
     - php composer.phar install --prefer-dist --no-ansi --no-interaction --no-scripts
-    - docker-php-ext-install pdo pdo_pgsql
 
 test:
   stage: test
