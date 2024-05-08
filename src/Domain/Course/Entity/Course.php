@@ -149,4 +149,17 @@ class Course extends Content
         return null;
     }
 
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function updateDuration(): void
+    {
+        dd('updateDuration');
+        if (!empty($this->videoPath)) {
+            // Logic to determine duration based on the video file
+            // This is a pseudo-code example:
+            $this->setDuration(1600);
+        }
+    }
+
+
 }

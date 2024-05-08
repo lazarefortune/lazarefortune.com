@@ -32,7 +32,12 @@
                     {{ icon('refresh-cw') }}
                 </button>
             </div>
-            {{ form_row(form.duration) }}
+            <div class="relative">
+                {{ form_row(form.duration) }}
+                <button type="submit" name="updateDuration" value="1" class="btn-gradient absolute top-9 right-2 mt-2 mr-2 text-gray-400">
+                    {{ icon('refresh-cw') }}
+                </button>
+            </div>
             {{ form_row(form.deprecatedBy, {label: 'Déprécié par'}) }}
             <div class="flex flex-col gap-2">
                 {{ form_row(form.sourceFile, {disabled: not entity.id}) }}
