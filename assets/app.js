@@ -20,6 +20,8 @@ customElements.define('alert-message', Alert)
 customElements.define('alert-floating', FloatingAlert)
 customElements.define('modal-dialog', ModalDialog)
 customElements.define('theme-switcher', ThemeSwitcher)
+customElements.define('youtube-player', YoutubePlayer)
+customElements.define('time-countdown', TimeCountdown)
 
 /* Modules */
 import './modules/header.js'
@@ -29,6 +31,8 @@ import './modules/header.js'
 import './modules/hamburger.js'
 import './modules/dropdown.js'
 import {registerHeaderBehavior} from "./modules/header";
+import {YoutubePlayer} from "./elements/player/YoutubePlayer";
+import {TimeCountdown} from "./elements/TimeCountdown";
 
 registerHeaderBehavior()
 

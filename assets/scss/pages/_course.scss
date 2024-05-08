@@ -1,0 +1,122 @@
+.course__hero {
+  h1 {
+    @apply text-3xl font-bold text-slate-900 dark:text-slate-200;
+    strong {
+      @apply text-primary-500;
+    }
+    em {
+      @apply text-xl text-slate-600 dark:text-slate-400;
+    }
+  }
+}
+
+.courses {
+  @apply grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4;
+}
+
+.course {
+  @apply relative flex w-full flex-col rounded border border-slate-200 bg-white text-base dark:bg-dark-soft dark:border-slate-700;
+}
+
+.course__body {
+  @apply grid flex-grow content-start gap-4 p-4;
+  grid-template-columns: 1fr;
+}
+
+.course__icons {
+  @apply flex items-center;
+}
+
+.course__icons {
+  @apply flex items-center;
+}
+
+.course__icons * + * {
+  @apply ml-2;
+}
+
+.course__icons img {
+  @apply block h-10 w-10 max-w-full object-contain;
+}
+
+.course__icon {
+  @apply inline-block h-10 w-10;
+}
+
+.course__title a {
+  @apply text-base font-bold text-slate-900 transition duration-300 hover:text-primary-500 dark:text-slate-200 dark:hover:text-primary-400;
+}
+
+.course__link {
+  @apply static;
+  &::after{
+    content: '';
+    @apply absolute inset-0 block cursor-pointer rounded border border-transparent transition duration-300 z-[2];
+  }
+  &:hover::after {
+    @apply border-primary-500;
+  }
+}
+
+.course__description {
+  p {
+    @apply text-slate-600 text-[15px] dark:text-slate-400;
+  }
+  .course__countdown {
+    @apply hidden;
+  }
+}
+
+.course__footer {
+  @apply flex items-center min-h-[36px] bg-slate-100 dark:bg-dark-soft-2 text-[15px] text-slate-600 dark:text-slate-400
+  px-4 py-0 rounded-b;
+  & > * {
+    @apply whitespace-nowrap;
+  }
+  .course__playlist {
+    @apply mr-3 flex items-center gap-2 overflow-hidden text-ellipsis;
+  }
+  .course__duration {
+    @apply flex items-center gap-2;
+  }
+  & > *:last-child {
+    @apply ml-auto;
+  }
+}
+
+.course__pills {
+  @apply absolute top-4 right-4 flex items-center gap-2;
+  .course__pill {
+    @apply flex items-center gap-1 rounded-sm px-2 py-1 bg-primary-100 text-primary-800 text-[12px];
+  }
+  .course__pill-warning {
+    @apply bg-yellow-100 text-yellow-800;
+  }
+}
+
+.course__premium {
+  @apply shadow border-primary-500 shadow-primary-500;
+}
+
+.course.is__scheduled .course__description {
+  @apply relative bg-slate-100 dark:bg-dark-soft-2;
+  p {
+    opacity: .2;
+    filter: blur(4px);
+  }
+  &::after {
+    content: '';
+    @apply absolute inset-0 block z-[3] blur-[4px];
+    filter: blur(4px);
+    opacity: .2;
+  }
+  .course__countdown {
+    @apply absolute inset-0 flex flex-col items-center justify-center text-4xl z-[2];
+    & > em {
+      @apply text-base;
+    }
+    & > strong {
+      @apply text-3xl;
+    }
+  }
+}

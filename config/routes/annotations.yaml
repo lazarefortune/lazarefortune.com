@@ -1,17 +1,16 @@
 admin_controllers:
   name_prefix: app_admin_
   prefix: '%admin_prefix%'
-  resource: ../../src/Http/Admin/Controller/*
+  resource: ../../src/Http/Admin/Controller/
   type: attribute
 
 api_controllers:
   name_prefix: api_
   prefix: /api
-  resource: ../../src/Http/Api/Controller/*
+  resource: ../../src/Http/Api/Controller/
   type: attribute
 
-
 app_controllers:
-  resource: ../../src/Http/Controller/*
+  resource: ../../src/Http/Controller/
   type: attribute
   name_prefix: 'app_'

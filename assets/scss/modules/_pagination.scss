@@ -10,7 +10,7 @@
 }
 
 .pagination li.is-active {
-  @apply text-primary-900;
+  @apply text-primary-900 dark:text-primary-400;
 }
 
 .pagination span {
@@ -18,11 +18,11 @@
 }
 
 .pagination a {
-  @apply bg-white text-slate-950 rounded-sm transition-all ease-in-out duration-100;
+  @apply bg-white text-slate-950 rounded-sm transition-all ease-in-out duration-100 dark:bg-dark-soft-2 dark:text-slate-200;
 }
 
 .pagination a:hover {
-  @apply bg-primary-100 text-slate-900;
+  @apply bg-primary-100 text-slate-900 dark:bg-primary-500 dark:text-slate-200;
 }
 
 // Variations
