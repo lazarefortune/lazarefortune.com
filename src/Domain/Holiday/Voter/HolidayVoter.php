@@ -56,12 +56,20 @@ class HolidayVoter extends Voter
     {
         $today = new \DateTime();
 
-        return in_array( 'ROLE_ADMIN', $user->getRoles() ) && $holiday->getEndDate() > $today;
+        return  $this->isAllowed($user) && $holiday->getEndDate() > $today;
     }
 
     private function canDelete( Holiday $holiday, User $user ) : bool
     {
         $today = new \DateTime();
-        return in_array( 'ROLE_ADMIN', $user->getRoles() ) && $holiday->getStartDate() > $today;
+
+        return $this->isAllowed($user) && $holiday->getStartDate() > $today;
+    }
+
+    private function isAllowed( User $user ) : bool
+    {
+        $allowedRoles = ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_SUPER_ADMIN'];
+
+        return !empty(array_intersect( $user->getRoles(), $allowedRoles ));
     }
 }

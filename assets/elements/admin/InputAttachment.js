@@ -79,7 +79,7 @@ export default class InputAttachment extends HTMLInputElement {
         fm.setAttribute('endpoint', this.getAttribute('data-endpoint'))
 
 
-        // fm.setAttribute('layout', 'rows')
+        fm.setAttribute('layout', 'rows')
         modal.appendChild(fm)
         fm.addEventListener('selectfile', e => {
             this.setAttachment(e.detail)
@@ -93,7 +93,6 @@ export default class InputAttachment extends HTMLInputElement {
 
     setAttachment (attachment) {
         this.preview.style.backgroundImage = `url(${attachment.url})`
-        console.log(attachment)
         this.value = attachment.id
         const changeEvent = document.createEvent('HTMLEvents')
         changeEvent.initEvent('change', false, true)

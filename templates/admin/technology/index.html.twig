@@ -80,22 +80,13 @@
                         <td class="text-end">
                             <a href="{{ link }}" class="btn-icon">{{ icon('pencil') }}</a>
                             {% if count  == 0 %}
-                                <button
-                                        class="btn-icon modal-button" data-modal-id="modal-id-{{ row.id }}">
+                                <ajax-delete class="btn-icon"
+                                             target="tr"
+                                             url="{{ path(prefix ~ '_delete', {id: row.id}) }}">
                                     {{ icon('trash') }}
-                                </button>
+                                </ajax-delete>
                             {% endif %}
                         </td>
-                        {% if count  == 0 %}
-                            {% include 'components/_delete-modal.html.twig' with {
-                                'id': 'modal-id-' ~ row.id,
-                                'title': 'Supprimer la technologie',
-                                'content': 'Supprimer la technologie <strong>' ~ row.name ~ '</strong>.<br>Cette action est irréversible.',
-                                'form_action': path(prefix ~ '_edit', {id: row.id}),
-                                'csrf_value': csrf_token('delete' ~ row.id),
-                                'btn_label': 'Supprimer'
-                            } %}
-                        {% endif %}
                     </tr>
                 {% endfor %}
                 </tbody>

@@ -67,7 +67,7 @@ class PrestationController extends AbstractController
         ] );
     }
 
-    #[Route( '/{id<\d+>}', name: 'delete', methods: ['POST'] )]
+    #[Route( '/{id<\d+>}/delete', name: 'delete', methods: ['POST'] )]
     public function delete( Request $request, Prestation $prestation, PrestationRepository $prestationRepository ) : Response
     {
         if ( $this->isCsrfTokenValid( 'delete' . $prestation->getId(), $request->request->get( '_token' ) ) ) {
@@ -77,5 +77,13 @@ class PrestationController extends AbstractController
         }
 
         return $this->redirectToRoute( 'app_admin_prestation_index', [], Response::HTTP_SEE_OTHER );
+    }
+
+    #[Route( '/{id<\d+>}/ajax-delete', name: 'ajax_delete', methods: ['DELETE'] )]
+    public function ajaxDelete( Prestation $prestation, PrestationRepository $prestationRepository ) : Response
+    {
+        $prestationRepository->remove( $prestation, true );
+
+        return $this->json( [ 'success' => true ] );
     }
 }

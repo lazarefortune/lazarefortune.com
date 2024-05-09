@@ -65,4 +65,10 @@ class UserController extends CrudController
     {
         return $this->crudDelete( $user );
     }
+
+    #[Route( path: '/{id<\d+>}/json', name: 'delete', methods: ['DELETE'] )]
+    public function ajaxDelete( User $user ) : Response
+    {
+        return $this->crudAjaxDelete( $user );
+    }
 }

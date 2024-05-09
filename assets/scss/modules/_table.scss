@@ -33,5 +33,5 @@ table.table .table-active:hover {
 }
 
 table.table .btn-icon {
-  @apply text-slate-400 hover:text-primary-600;
+  @apply text-slate-400 hover:text-primary-600 cursor-pointer;
 }

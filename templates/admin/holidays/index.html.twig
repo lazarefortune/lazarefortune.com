@@ -79,20 +79,13 @@
                             {% endif %}
 
                             {% if is_granted('HOLIDAY_DELETE', holiday) %}
-                                <button
-                                        class="btn-icon modal-button" data-modal-id="modal-id-{{ holiday.id }}">
+                                <ajax-delete class="btn-icon"
+                                             target="tr"
+                                             url="{{ path('app_admin_holidays_ajax_delete', {id: holiday.id}) }}">
                                     {{ icon('trash') }}
-                                </button>
+                                </ajax-delete>
                             {% endif %}
                         </td>
-                        {% include 'components/_delete-modal.html.twig' with {
-                            'id': 'modal-id-' ~ holiday.id,
-                            'title': 'Supprimer les congés',
-                            'content': 'Vous êtes sur le point d\'annuler vos congés :du ' ~ holiday.startDate|date('d/m/Y') ~ ' au ' ~ holiday.endDate|date('d/m/Y') ~ '.',
-                            'form_action': path('app_admin_holidays_delete', {'id': holiday.id}),
-                            'csrf_value': csrf_token('delete' ~ holiday.id),
-                            'btn_label': 'Supprimer'
-                        } %}
                     </tr>
                 {% endfor %}
                 </tbody>

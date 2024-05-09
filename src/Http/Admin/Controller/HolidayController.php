@@ -91,4 +91,13 @@ class HolidayController extends AbstractController
 
         return $this->redirectToRoute( 'app_admin_holidays_index', [], Response::HTTP_SEE_OTHER );
     }
+
+    #[Route( '/{id<\d+>}/ajax-delete', name: 'ajax_delete', methods: ['DELETE'] )]
+    #[IsGranted( HolidayVoter::DELETE, subject: 'holiday' )]
+    public function ajaxDelete( Holiday $holiday ) : Response
+    {
+        $this->holidayService->delete( $holiday, true );
+
+        return $this->json( [ 'success' => true ] );
+    }
 }
