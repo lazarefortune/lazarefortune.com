@@ -77,10 +77,15 @@ export default class InputAttachment extends HTMLInputElement {
         modal.setAttribute('overlay-close', 'true')
         const fm = document.createElement('file-manager')
         fm.setAttribute('endpoint', this.getAttribute('data-endpoint'))
+
+
         // fm.setAttribute('layout', 'rows')
         modal.appendChild(fm)
         fm.addEventListener('selectfile', e => {
             this.setAttachment(e.detail)
+            modal.close()
+        })
+        fm.addEventListener('close', () => {
             modal.close()
         })
         document.body.appendChild(modal)
