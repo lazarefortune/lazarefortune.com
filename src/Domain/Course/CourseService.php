@@ -19,5 +19,10 @@ class CourseService
         return $this->courseRepository->queryAll();
     }
 
+    public function getCourseBySlug( $slug )
+    {
+        return $this->courseRepository->queryBuSlug($slug);
+    }
+
 
 }

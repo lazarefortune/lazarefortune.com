@@ -1,0 +1,23 @@
+<div>
+    <h3 class="chapters__section">{{ chapter.title }}</h3>
+    <div class="chapters__list">
+        {% for course in chapter.modules %}
+            <a href="{{ path('app_course_show', {slug: course.slug}) }}"
+               class="chapters__item" id="chapter{{ course.id }}">
+                {% if course.premium %}
+                    <div class="chapters__premium">
+                        {{ icon('crown') }}
+                    </div>
+                {% else %}
+                    <div class="chapters__free">
+                        {{ icon('youtube') }}
+                    </div>
+                {% endif %}
+                <span class="chapters__title">
+                  {{ course.title }}
+                </span>
+                <span class="chapters__duration">{{ course.duration | duration }}</span>
+            </a>
+        {% endfor %}
+    </div>
+</div>

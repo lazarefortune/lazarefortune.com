@@ -1,0 +1,99 @@
+.chapters {
+  @apply px-0 py-6;
+}
+.chapters-toggle {
+  @apply absolute -left-2 -translate-y-1/2 transform cursor-pointer p-2 top-[50%] bg-white-soft z-[5] dark:bg-dark-soft-2;
+}
+
+.chapters-toggle {
+  position: absolute;
+  top: calc(50% - 25px);
+  width: 18px;
+  height: 50px;
+  left: -18px;
+  background-color: #fff;
+  //background: var(--card-bg, var(--background-light));
+  //border: 1px solid var(--border);
+  border-right: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: 3px;
+  z-index: 10;
+  border-top-right-radius: 3px;
+  transition: .2s;
+  opacity: 0;
+  transform: translateX(10px);
+
+  &::after {
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    right: 0;
+    bottom: -20px;
+    content:'';
+  }
+
+  &:hover {
+    @apply cursor-pointer bg-gray-100 dark:bg-dark-soft;
+  }
+
+  .is-chapter:hover & {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+
+  .icon {
+    flex: none;
+    width: 16px;
+    height: 16px;
+    transform: rotate(-90deg);
+  }
+
+  .is-folded & .icon {
+    transform: rotate(90deg);
+  }
+}
+
+.chapters__section {
+  @apply mb-6 px-6 text-xl font-bold;
+}
+//.chapters__list {
+//  @apply grid grid-cols-1 gap-4;
+//}
+.chapters__item {
+  @apply relative flex items-center bg-white px-6 py-4 text-sm dark:bg-dark-soft-2;
+  &:hover {
+    @apply cursor-pointer bg-gray-100 dark:bg-dark-soft;
+  }
+}
+.chapters__item.is-selected {
+  @apply bg-gray-100 dark:bg-dark-soft;
+}
+.chapters__premium {
+  display: flex;
+  flex: none;
+  @apply h-9 w-9 flex-none flex items-center justify-center text-sm font-semibold text-white bg-primary-500 dark:bg-primary-800;
+  margin-right: 20px;
+  border-radius: 32px;
+  align-items: center;
+  justify-content: center;
+}
+.chapters__free {
+  display: flex;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  @apply h-9 w-9 bg-slate-200 text-sm font-semibold text-slate-900 dark:bg-dark-soft-3 dark:text-white;
+  margin-right: 20px;
+  border-radius: 32px;
+  align-items: center;
+  justify-content: center;
+  //@apply flex h-8 w-8 flex-none items-center justify-center rounded-md text-primary-500 bg-primary-100;
+}
+.chapters__title {
+  //@apply text-base font-bold text-slate-900 dark:text-slate-200;
+}
+.chapters__duration {
+  @apply ml-auto whitespace-nowrap text-slate-400;
+}

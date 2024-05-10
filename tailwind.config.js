@@ -59,6 +59,7 @@ module.exports = {
                 'white-soft': '#f7fafb',
                 'dark-soft': '#1f2235',
                 'dark-soft-2': '#292c3f',
+                'dark-soft-3': '#313552',
                 tertiary: {
                   '800': "#586fad",
                   '900': "#4e5e9d",

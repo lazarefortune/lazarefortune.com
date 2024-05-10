@@ -3,6 +3,7 @@
 namespace App\Http\Controller\Course;
 
 use App\Domain\Course\CourseService;
+use App\Domain\Course\Entity\Course;
 use App\Helper\Paginator\PaginatorInterface;
 use App\Http\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,6 +29,26 @@ class CourseController extends AbstractController
         return $this->render('courses/index.html.twig', [
             'courses' => $courses,
             'page' => $page,
+        ]);
+    }
+
+    #[Route('/{slug<[a-z0-9A-Z\-]+>}', name: 'show', methods: ['GET'])]
+    public function show(Course $course, string $slug): Response
+    {
+        if ($course->getSlug() !== $slug) {
+            return $this->redirectToRoute('course_show', [
+                'id' => $course->getId(),
+                'slug' => $course->getSlug()
+            ], 301);
+        }
+
+        $response = new Response();
+        if ( false === $course->isOnline() ) {
+            $response->setStatusCode(Response::HTTP_NOT_FOUND);
+        }
+
+        return $this->render('courses/show.html.twig', [
+            'course' => $course,
         ]);
     }
 }

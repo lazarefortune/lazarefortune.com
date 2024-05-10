@@ -25,7 +25,7 @@ iframe ~ .ratio-svg {
   justify-content: center;
 }
 .poster:hover .play {
-  transform: scale(1.1)
+  transform: scale(1.1);
 }
 .poster:hover::before {
   opacity: .8;
@@ -58,7 +58,7 @@ iframe ~ .ratio-svg {
 }
 .poster::before {
   content:'';
-  background: linear-gradient(to top, var(--color) 0%, var(--color-transparent) 100%);
+  background: linear-gradient(to top, #121c42 0%, rgba(18, 28, 66, 0) 100%);
   z-index: 2;
 }
 .poster,
@@ -81,4 +81,5 @@ img {
 .poster[aria-hidden] {
   pointer-events: none;
   opacity: 0;
-}`
+}
+`

@@ -8,7 +8,8 @@
             {% endfor %}
         </div>
         <h2 class="course__title">
-            <a href="" class="course__link">
+            <a href="{{ path('app_course_show', {slug: course.slug}) }}"
+               class="course__link">
                 {{ course.title }}
             </a>
         </h2>
