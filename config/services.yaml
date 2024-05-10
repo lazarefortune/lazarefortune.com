@@ -107,6 +107,13 @@ services:
     arguments:
       $processors: [ '@App\Infrastructure\Payment\Stripe\StripePaymentProcessor', '@App\Infrastructure\Payment\Cash\CashPaymentProcessor' ]
 
+  _instanceof:
+    App\Normalizer\Breadcrumb\BreadcrumbGeneratorInterface:
+      tags: [ 'app.breadcrumb' ]
+
+  App\Http\Twig\TwigBreadcrumbExtension:
+    arguments: [ !tagged_iterator app.breadcrumb ]
+
 # TODO: Si besoin d'utiliser le nom de l'application en BDD dans les templates, décommenter les lignes ci-dessous
 #  App\Domain\Application\EventListener\ConfigListener:
 #    tags:
