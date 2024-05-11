@@ -43,6 +43,17 @@
             <div class="formation__summary__content">
                 {{ formation.content | raw }}
             </div>
+
+            <div class="mt-4 text-slate-400">
+                {{ formation.publishedAt | ago }}
+            </div>
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <a href="{{ path('app_admin_formation_edit', {id: formation.id}) }}" target="_blank"
+               class="btn-light mt-4">
+                {{ icon('pencil') }}
+                Editer
+            </a>
+            {% endif %}
         </div>
     </main>
 {% endblock %}

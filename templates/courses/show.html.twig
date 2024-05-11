@@ -125,7 +125,7 @@
                                     {% if course.isScheduled %}
                                         Disponible dans {{ course.publishedAt | countdown }}
                                     {% else %}
-                                        Publié il y a {{ course.publishedAt | ago }}
+                                        Publié <span class="lowercase">{{ course.publishedAt | ago }}</span>
                                     {% endif %}
                                 </small>
                             </div>
