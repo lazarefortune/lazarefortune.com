@@ -34,11 +34,11 @@
     </header>
 
     <main class="formation__information container-box mt-8 mb-10">
-        <div class="formation__chapters">
+        <div class="formation__chapters order-2 md:order-1">
             <h2 class="h2 mb-3">Chapitres</h2>
             {% include 'chapters/_summary.html.twig' with {chapters: formation.chapters, class: 'chapters__split'} only %}
         </div>
-        <div class="formation__summary">
+        <div class="formation__summary order-1 md:order-2">
             <h2 class="h2 mb-3">Présentation</h2>
             <div class="formation__summary__content">
                 {{ formation.content | raw }}
