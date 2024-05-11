@@ -12,7 +12,7 @@
 
 
 {% block body %}
-    <div class="bg-slate-50 dark:bg-dark-soft py-4">
+    <div class="bg-slate-50 dark:bg-dark-soft">
         <div class="container-box">
             {{ breadcrumb(course) }}
         </div>
@@ -39,11 +39,9 @@
                 </div>
             {% elseif course.premium and not user_premium %}
                 <div class="course-countdown" style="background-image: url({{ image_url_raw(course.image) }})">
-                    <div class="absolute flex flex-col w-full h-full justify-center items-center bg-slate-50/50 z-50">
-                        <p class="text-white text-lg mb-3 p-4 bg-slate-800/50 text-center">Contenu destiné aux membres premiums</p>
-                        <p>
-                            <a href="{{ path('app_login') }}" class="btn-primary">{{ icon('crown') }} Devenez premium</a>
-                        </p>
+                    <div class="absolute flex flex-col w-full h-full justify-center items-center z-50">
+                        <a href="{{ path('app_login') }}" class="btn-primary">{{ icon('crown') }} Devenez premium</a>
+                        <p class="text-white text-lg mt-3 text-center">Contenu destiné aux membres premiums</p>
                     </div>
                 </div>
             {% elseif (course.scheduled or course.premium) and user_premium %}
@@ -110,13 +108,10 @@
 
                 <div class="course-details">
                     <div class="stack">
-
                         <div class="h2" aria-hidden="true">À propos de ce tutoriel</div>
-
-                        <div class="formatted">
+                        <div>
                             {{ course.content }}
                         </div>
-
                     </div>
                     <div>
                         <div class="stack-large">
@@ -145,14 +140,20 @@
                             </div>
                             <div>
                                 <div class="flex">
-                                    <img class="author_avatar" src="{{ course.author | avatar }}" alt=""
-                                         style="width: 50px;border-radius: 50px;">
-                                    <div style="width: 100%; margin-left: 20px;">
-                                        <strong style="font-weight: bold;">Auteur : </strong><br>
-                                        <a title="{{ course.author.fullname }}" class="author_name" href="">{{ course.author.fullname }}</a>
+                                    <img class="course__author__avatar" src="{{ course.author | avatar }}" alt="{{ course.author.fullname }}">
+                                    <div class="course__author__info">
+                                        <strong class="font-bold">Auteur : </strong><br>
+                                        <span title="{{ course.author.fullname }}" class="course__author__name">{{ course.author.fullname }}</span>
                                     </div>
                                 </div>
                             </div>
+                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                <div>
+                                    <a href="{{ path('app_admin_course_edit', {id: course.id}) }}" class="btn-light" target="_blank">
+                                        {{ icon('pencil') }} Editer
+                                    </a>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
