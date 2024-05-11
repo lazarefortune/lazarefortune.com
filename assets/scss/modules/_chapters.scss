@@ -56,6 +56,17 @@
 }
 
 .chapters__section {
+  @apply bg-white dark:bg-dark-soft-2 py-4;
+}
+
+.chapters__split {
+  @apply flex flex-col gap-6;
+  .chapters__section {
+    @apply shadow rounded-md border border-slate-200 dark:border-slate-700;
+  }
+}
+
+.chapters__section__title {
   @apply mb-6 px-6 text-xl font-bold;
 }
 //.chapters__list {

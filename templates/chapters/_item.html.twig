@@ -1,5 +1,5 @@
-<div>
-    <h3 class="chapters__section">{{ chapter.title }}</h3>
+<div class="chapters__section">
+    <h3 class="chapters__section__title">{{ chapter.title }}</h3>
     <div class="chapters__list">
         {% for course in chapter.modules %}
             <a href="{{ path('app_course_show', {slug: course.slug}) }}"

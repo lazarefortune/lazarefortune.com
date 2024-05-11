@@ -22,11 +22,6 @@
                 <strong>{{ course.publishedAt|countdown }} </strong>
             </div>
         </div>
-        {#                    <youtube-player id="course-{{ course.id }}" video="{{ course.youtubeId }}"#}
-        {#                    {% if course.youtubeThumbnail %}#}
-        {#                        poster="{{ vich_uploader_asset(course.youtubeThumbnail, 'file') }}"#}
-        {#                    {% endif %}#}
-        {#                    ></youtube-player>#}
     </div>
     <footer class="course__footer">
         {% if course.premium %}

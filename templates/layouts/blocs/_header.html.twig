@@ -12,7 +12,7 @@
                 </a>
             </li>
             <li>
-                <a href="" class="flex items-center gap-1 dark:text-white dark:border-b-slate-700">
+                <a href="{{ path('app_formation_index') }}" {{ menu_active_aria('app_formation_') }} class="flex items-center gap-1 dark:text-white dark:border-b-slate-700">
                     {{ icon('graduation-cap') }}
                     <span>Formations</span>
                 </a>
@@ -70,13 +70,13 @@
             </li>
             {% endif %}
             <li>
-                <a href="{{ path('app_course_index') }}" {{ menu_active_aria('app_course_index') }} class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-200 dark:border-b-slate-700">
+                <a href="{{ path('app_course_index') }}" {{ menu_active_aria('app_course_') }} class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-200 dark:border-b-slate-700">
                     {{ icon('youtube') }}
                     <span>Tutoriels</span>
                 </a>
             </li>
             <li>
-                <a href="" class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-200 dark:border-b-slate-700">
+                <a href="{{ path('app_formation_index') }}" {{ menu_active_aria('app_formation_') }} class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-200 dark:border-b-slate-700">
                     {{ icon('graduation-cap') }}
                     <span>Formations</span>
                 </a>

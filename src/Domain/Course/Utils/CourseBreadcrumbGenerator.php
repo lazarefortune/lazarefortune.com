@@ -30,8 +30,7 @@ class CourseBreadcrumbGenerator implements BreadcrumbGeneratorInterface
         if ($formation = $entity->getFormation()) {
             $items[] = new BreadcrumbItem(
                 (string) $formation->getTitle(),
-                ['app_course_index']
-//                ['app_formation_show', ['slug' => $formation->getSlug()]]
+                ['app_formation_show', ['slug' => $formation->getSlug()]]
             );
         }
 
