@@ -93,18 +93,18 @@
 
             {% if course.formation %}
                 <nav-tabs class="course-tabs bg-light">
-                    <a href="#content" aria-controls="content"  aria-selected="true">
-                        {{ icon('edit') }}
+                    <a href="#description" aria-controls="content"  aria-selected="true">
+                        {{ icon('file-text') }}
                         Description
                     </a>
                     <a href="#sommaire" aria-controls="sommaire" >
-                        {{ icon('lines') }}
+                        {{ icon('list-ordered') }}
                         Sommaire
                     </a>
                 </nav-tabs>
             {% endif %}
 
-            <div class="container-box py-5" id="content">
+            <div class="container-box py-5" id="description">
 
                 <div class="course-details">
                     <div class="stack">
