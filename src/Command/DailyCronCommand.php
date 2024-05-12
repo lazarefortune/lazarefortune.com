@@ -9,8 +9,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class DailyCronCommand extends Command
 {
-    protected static $defaultName = 'app:daily-cron';
-
     public function __construct()
     {
         parent::__construct();
