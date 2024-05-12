@@ -126,15 +126,18 @@
                             </div>
                             <div>
                                 <div class="h4 mb-4">Technologies utilisées</div>
-                                <div class="flex flex-wrap border-t py-2 border-b border-slate-200 dark:border-slate-600">
+                                <div class="flex flex-wrap gap-1 border-t py-2 border-b border-slate-200 dark:border-slate-600">
                                     {% for technology in course.mainTechnologies %}
                                         <a class="flex items-center gap-2"
-                                           href="">
+                                           href="{{ path('app_technology_show', {slug: technology.slug}) }}">
                                             {{ technology.name }}
                                             {% if technology.version %}
                                                 <span class="badge badge-primary">{{ technology.version }}</span>
                                             {% endif %}
                                         </a>
+                                        {% if not loop.last %}
+                                            <span class="text-muted">•</span>
+                                        {% endif %}
                                     {% endfor %}
                                 </div>
                             </div>
