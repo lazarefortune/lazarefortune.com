@@ -20,7 +20,8 @@ class CourseBreadcrumbGenerator implements BreadcrumbGeneratorInterface
         foreach ( $entity->getMainTechnologies() as $technology) {
             $categories[] = new BreadcrumbItem(
                 (string) $technology->getName(),
-                ['app_technology_show', ['slug' => $technology->getSlug()]]
+                ['app_course_index']
+//                ['app_technology_show', ['slug' => $technology->getSlug()]]
             );
         }
         if (count($categories) > 0) {
