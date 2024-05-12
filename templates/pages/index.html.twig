@@ -39,134 +39,138 @@
         </ul>
     </div>
 
-    <section class="home__push min-h-screen">
-        <div class="mx-auto mt-20 mb-48 flex max-w-6xl flex-col-reverse px-4 sm:mt-24 sm:px-6 md:px-8 lg:mt-20 lg:grid lg:grid-cols-12 lg:flex-row lg:items-center lg:gap-8">
-            <div class="mt-16 lg:col-span-6 lg:col-start-7 lg:row-span-2 lg:row-start-1 lg:mt-0">
-                <h2 class="text-3xl font-extrabold tracking-tight text-primary-950 sm:text-4xl">
-                    <span class="block">Prêt à commencer ?</span>
-                    <span class="block text-primary-600">Essayer gratuitement</span>
-                    <span class="block">pendant 14 jours.</span>
-                </h2>
-                <p class="mt-3 text-lg text-muted">
-                    Ac euismod vel sit maecenas id pellentesque eu sed consectetur. Malesuada adipiscing sagittis
-                    vel
-                    nulla nec.
+
+    <section class="container-box pt-40 pb-60 grid relative bg-white dark:bg-dark-soft">
+        <div class="home__bg"></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-32">
+            <div>
+                <div class="background-halo right border-halo fade-out-image right max-w-md order-2 md:order-1 mr-auto reveal" data-delay=".3">
+                    <img src="{{ asset('images/symfony-installation-picture.png') }}" alt="" class="shadow-xl rounded-md mx-auto">
+                </div>
+            </div>
+            <div class="stack order-1 md:order-2">
+                <h2 class="text-2xl font-bold text-primary-950 dark:text-white reveal">Ce que <span class="text-primary-600">vous trouverez</span> ici ?</h2>
+                <p class="text-muted reveal" data-delay=".2">
+                    Vous trouverez des tutoriels et des formations sur le développement web.
+                    Je partage mes connaissances et mes expériences car c'est ma façon de contribuer à la communauté.
                 </p>
-                <div class="mt-9">
-                    <a href="#" class="btn-primary">
-                        <span>Commencer</span>
+                <div class="mt-5 reveal" data-delay=".3">
+                    <a href="{{ path('app_course_index') }}" class="btn-primary">
+                        Découvrir mes contenus
                     </a>
                 </div>
             </div>
-            <div class="lg:col-span-5 lg:col-start-1 lg:row-span-2 lg:row-start-1">
-                <div class="flex justify-center fade-out-image lg:justify-start">
-                    <img src="{{ asset('images/illustrations/booking-illustration.svg') }}"
-                         alt="illustration" class="w-full rounded-lg lg:rounded-xl">
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div class="stack">
+                <h2 class="text-2xl font-bold reveal">Ce que <span class="text-primary-600">je ne suis pas</span> ?</h2>
+                <p class="text-muted reveal" data-delay=".2">
+                    Je ne suis pas un expert, je suis un passionné.<br> Je ne suis pas un formateur, je suis un autodidacte.<br><br>
+                    <em>Mon objectif est de partager mes connaissances et d'apprendre de nouvelles choses. Suivez-moi dans cette aventure sur YouTube, Twitch et GitHub.</em>
+                </p>
+                <ul class="list-unstyled mt-5 mx-auto md:mr-auto md:ml-0 flex gap-4 reveal" data-delay=".3">
+                    <li class="">
+                        <a href="https://www.youtube.com/channel/UCITKwfT7qVXjdHHu84Atodw" target="_blank"
+                           class="flex flex-col items-center gap-1 text-primary-600">
+                            {{ icon('youtube', '24') }} YouTube
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.twitch.tv/lazarefortune" target="_blank"
+                           class="flex flex-col items-center gap-1 text-primary-600">
+                            {{ icon('twitch', '24') }} Twitch
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/lazarefortune" target="_blank"
+                           class="flex flex-col items-center gap-1 text-primary-600">
+                            {{ icon('github', '24') }} GitHub
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <div class="background-halo right border-halo fade-out-image right max-w-md ml-auto reveal" data-delay=".3">
+                    <img src="{{ asset('images/live-stream.gif') }}" alt="" class="shadow-xl rounded-md">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- section premium -->
+    <section class="container-box py-10 bg-white dark:bg-dark-soft">
+        <div class="stack">
+            <div class="flex items-center gap-1 mx-auto reveal">
+                <span class="inline-block">{{ icon('crown', 26) }}</span>
+                <h2 class="text-2xl text-center font-bold">
+                    Contenus <span class="text-primary-600">premium</span>
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mt-10 pb-28">
+                <div class="stack">
+                    <h3 class="h5 text-center font-bold reveal" data-delay=".3">
+                        C'est quoi un contenu premium ?
+                    </h3>
+                    <p class="text-muted max-w-3xl mx-auto text-center reveal" data-delay=".4">
+                        Les contenus premium sont des tutoriels et des formations exclusives pour les membres du site.
+                        Vous aurez accès à des contenus inédits, des ressources et des avantages exclusifs.
+                    </p>
+                </div>
+                <div class="stack">
+                    <h3 class="h5 text-center font-bold reveal" data-delay=".3">
+                        Pourquoi des contenus premium ?
+                    </h3>
+                    <p class="text-muted max-w-3xl mx-auto text-center reveal" data-delay=".4">
+                        Les contenus premium sont 100% gratuits. Ils sont réservés aux membres du site qui souhaitent soutenir mon travail et accéder à des contenus exclusifs.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- besoin d'aide -->
+    <section class="container-box py-20 bg-white-soft dark:bg-dark-soft-2">
+        <div class="stack">
+            <h2 class="text-2xl text-center font-bold reveal">Besoin d'<span class="text-primary-600">aide</span> ?</h2>
+            <p class="text-muted max-w-3xl mx-auto text-center reveal" data-delay=".2">
+                Vous avez besoin de plus d'accompagnement ? ou simplement envie de discuter ?
+            </p>
+            <div class="mt-5 reveal grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" data-delay=".3">
+                <div class="card card-padding flex flex-col">
+                    <h3 class="h4 text-center mb-3">Superprof</h3>
+                    <p class="text-muted mb-5 flex-1">
+                        Grâce à Superprof, je peux partager mes connaissances et aider les personnes qui en ont besoin.
+                        Alors n'hésitez pas à me contacter.
+                    </p>
+                    <a href="https://www.superprof.fr/developpeur-web-php-fullstack-donne-cours-initiation-developpement-web-methodologie-pratique.html" target="_blank" class="btn-light">
+                        Visiter
+                    </a>
+                </div>
+                <div class="card card-padding">
+                    <h3 class="h4 text-center mb-3">Discord</h3>
+                    <p class="text-muted mb-5 flex-1">
+                        Rejoignez le serveur Discord pour discuter, poser des questions et partager vos expériences.
+                        Je suis convaincu que nous avons tous quelque chose à apprendre les uns des autres.
+                    </p>
+                    <a href="https://discord.gg/7Z8t3Z8" target="_blank" class="btn-light">
+                        Rejoindre
+                    </a>
+                </div>
+                <div class="card card-padding flex flex-col">
+                    <h3 class="h4 text-center mb-3">Formulaire</h3>
+                    <p class="text-muted mb-5 flex-1">
+                        Vous avez une question, une suggestion ou une demande ? N'hésitez pas à me contacter
+                        sur les réseaux sociaux, par mail ou via le formulaire de contact. Je serai ravi de vous répondre.
+                    </p>
+                    <a href="{{ path('app_contact') }}" class="btn-light">
+                        Me contacter
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 {% endblock %}
 
-
-{% block javascripts__footer %}
-    <script type="text/javascript">
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const hamburger = document.getElementById('hamburger');
-            const line = document.getElementById('line');
-            const line2 = document.getElementById('line2');
-            const navMenu = document.querySelector('.nav__menu');
-            if (!navMenu) return;
-            const backdrop = document.querySelector('.backdrop-blur-2xl');
-
-            let menuOpen = false;
-
-            hamburger.addEventListener('click', function () {
-                if (!menuOpen) {
-                    line.style.transform = 'translateY(8px) rotate(45deg)';
-                    line2.style.transform = 'translateY(-8px) rotate(-45deg)';
-                    line2.style.opacity = '0';
-                    menuOpen = true;
-                } else {
-                    line.style.transform = '';
-                    line2.style.transform = '';
-                    line2.style.opacity = '1';
-                    menuOpen = false;
-                }
-
-                navMenu.classList.toggle('scale-100');
-                navMenu.classList.toggle('opacity-100');
-                navMenu.classList.toggle('visible');
-                backdrop.classList.toggle('scale-y-100');
-            });
-
-            document.addEventListener('click', function (e) {
-                if (!navMenu.contains(e.target) && !hamburger.contains(e.target) && menuOpen) {
-                    line.style.transform = '';
-                    line2.style.transform = '';
-                    line2.style.opacity = '1';
-                    menuOpen = false;
-
-                    navMenu.classList.remove('scale-100', 'opacity-100', 'visible');
-                    backdrop.classList.remove('scale-y-100');
-                }
-            });
-        });
-
-        // Cards spotlight
-        class Spotlight {
-            constructor(containerElement) {
-                this.container = containerElement;
-                this.cards = Array.from(this.container.children);
-                this.mouse = {
-                    x: 0,
-                    y: 0,
-                };
-                this.containerSize = {
-                    w: 0,
-                    h: 0,
-                };
-                this.initContainer = this.initContainer.bind(this);
-                this.onMouseMove = this.onMouseMove.bind(this);
-                this.init();
-            }
-
-            initContainer() {
-                this.containerSize.w = this.container.offsetWidth;
-                this.containerSize.h = this.container.offsetHeight;
-            }
-
-            onMouseMove(event) {
-                const {clientX, clientY} = event;
-                const rect = this.container.getBoundingClientRect();
-                const {w, h} = this.containerSize;
-                const x = clientX - rect.left;
-                const y = clientY - rect.top;
-                const inside = x < w && x > 0 && y < h && y > 0;
-                if (inside) {
-                    this.mouse.x = x;
-                    this.mouse.y = y;
-                    this.cards.forEach((card) => {
-                        const cardX = -(card.getBoundingClientRect().left - rect.left) + this.mouse.x;
-                        const cardY = -(card.getBoundingClientRect().top - rect.top) + this.mouse.y;
-                        card.style.setProperty('--mouse-x', `${cardX}px`);
-                        card.style.setProperty('--mouse-y', `${cardY}px`);
-                    });
-                }
-            }
-
-            init() {
-                this.initContainer();
-                window.addEventListener('resize', this.initContainer);
-                window.addEventListener('mousemove', this.onMouseMove);
-            }
-        }
-
-        // Init Spotlight
-        const spotlights = document.querySelectorAll('[data-spotlight]');
-        spotlights.forEach((spotlight) => {
-            new Spotlight(spotlight);
-        });
-    </script>
-{% endblock %}
