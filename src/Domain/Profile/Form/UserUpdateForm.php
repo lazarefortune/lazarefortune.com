@@ -33,7 +33,7 @@ class UserUpdateForm extends AbstractType
                 'required' => false,
                 'label_attr' => [
                     'class' => 'label'
-                ]
+                ],
             ] )
             ->add( 'email', EmailType::class, [
                 'label' => 'Adresse email',
@@ -53,7 +53,8 @@ class UserUpdateForm extends AbstractType
                 ],
                 'label_attr' => [
                     'class' => 'label'
-                ]
+                ],
+                'required' => false,
             ] )
             ->add('avatarFile', FileType::class, [
                 'label' => 'Avatar',
