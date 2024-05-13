@@ -210,7 +210,7 @@
 }
 
 .course__author__avatar {
-  @apply w-[50px] h-[50px] rounded-full;
+  @apply w-[50px] h-[50px] rounded-full border-2 border-slate-200 dark:border-slate-700;
 }
 .course__author__info {
   @apply w-full ml-5;

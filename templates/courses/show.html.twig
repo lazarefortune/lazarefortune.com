@@ -104,7 +104,7 @@
                 </nav-tabs>
             {% endif %}
 
-            <div class="container-box py-5" id="description">
+            <div class="container-box py-5 mb-16" id="description">
 
                 <div class="course-details">
                     <div class="stack">
@@ -163,7 +163,7 @@
             </div>
 
             {% if course.formation %}
-                <div class="container" id="sommaire" hidden>
+                <div class="container-box" id="sommaire" hidden>
                     {% include 'chapters/_summary.html.twig' with {chapters: course.formation.chapters} only %}
                 </div>
             {% endif %}
