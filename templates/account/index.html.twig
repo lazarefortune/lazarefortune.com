@@ -16,7 +16,7 @@
                     <div>
                         <h2 class="h2">{{ app.user.fullname }}</h2>
                         <p class="text-muted text-sm">
-                            Inscrit depuis {{ app.user.createdAt|ago }}
+                            Inscrit <span class="lowercase">{{ app.user.createdAt|ago }}</span>
                         </p>
                     </div>
                 </div>
