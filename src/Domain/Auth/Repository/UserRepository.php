@@ -99,6 +99,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->andWhere( 'u.createdAt < :date' )
             ->andWhere( 'u.isVerified = false' )
             ->setParameter( 'date', $date )
+            ->setParameter( 'role', '%ROLE_USER%' )
             ->getQuery()
             ->getResult();
 
@@ -126,6 +127,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->andWhere( 'u.deletedAt IS NOT NULL' )
             ->andWhere( 'u.deletedAt <= :date' )
             ->setParameter( 'date', $date )
+            ->setParameter( 'role', '%ROLE_USER%' )
             ->getQuery()
             ->getResult();
 
