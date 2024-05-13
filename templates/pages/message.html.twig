@@ -1,19 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Message
+    Message d'information
 {% endblock %}
 
 {% block body %}
     <div class="auth-container py-10">
         <div class="flex items-center justify-center flex-col">
-            <h1 class="text-3xl font-bold mb-6">Message</h1>
             {{ include('partials/flash.html.twig') }}
-            <button class="btn-md btn-primary mt-6 w-full" onclick="window.location.href='{{ path('app_home') }}'">
+            <button class="btn-primary mt-6 w-full" onclick="window.location.href='{{ path('app_home') }}'">
                 Retour à l'accueil
             </button>
         </div>
     </div>
-
 {% endblock %}
 

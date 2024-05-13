@@ -27,7 +27,7 @@
         <div class="space-y-1">
             <label for="email" class="label">E-mail</label>
             <input type="email" name="email" id="email" value="{{ last_username }}"
-                   required="" class="form-input-lg" placeholder="Votre e-mail">
+                   required="" class="form-input-lg">
         </div>
         <div class="space-y-1">
             <label for="password" class="label">
@@ -35,7 +35,7 @@
             </label>
             <input type="password" name="password" id="password" class="form-input-lg"
                    autocomplete="current-password"
-                   required="" placeholder="Votre mot de passe">
+                   required="">
             <p class="mt-2">
                 <a href="{{ path('app_forgot_password') }}"
                    class="text-base font-medium text-primary-600 dark:text-primary-500">
@@ -54,12 +54,12 @@
         </div>
 
         <button type="submit"
-                class="w-full btn-lg btn-primary py-4">
+                class="btn-primary py-4">
             Se connecter
         </button>
 
         <p class="text-base font-light text-gray-500 dark:text-gray-400">
-            Vous n'êtes pas encore client ?
+            Vous n'êtes pas encore membre ?
             <a href="{{ path('app_register') }}"
                class="font-medium text-primary-600 dark:text-primary-500">
                 Inscrivez-vous

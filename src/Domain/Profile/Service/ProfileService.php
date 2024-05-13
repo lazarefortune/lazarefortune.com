@@ -63,7 +63,7 @@ class ProfileService
         }
 
         $user = $data->user;
-//        dd($user);
+
         $this->entityManager->persist( $user );
         $this->entityManager->flush();
     }

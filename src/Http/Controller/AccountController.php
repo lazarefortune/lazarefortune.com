@@ -10,8 +10,6 @@ use App\Domain\Profile\Form\DeleteAccountForm;
 use App\Domain\Profile\Form\UserUpdateForm;
 use App\Domain\Profile\Service\DeleteAccountService;
 use App\Domain\Profile\Service\ProfileService;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -80,7 +78,6 @@ class AccountController extends AbstractController
         try {
             if ( $form->isSubmitted() && $form->isValid() ) {
                 $data = $form->getData();
-//                dd($data);
                 $this->profileService->updateProfile( $data );
 
                 if ( $data->email !== $user->getEmail() ) {
