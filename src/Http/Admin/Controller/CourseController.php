@@ -74,6 +74,12 @@ class CourseController extends CrudController
             return $this->redirectToRoute('app_admin_course_upload');
         }
 
+        if ($request->request->get('updateDuration')) {
+            $session->set(self::UPLOAD_SESSION_KEY, $course->getId());
+
+            return $this->redirectToRoute('app_admin_course_update_duration');
+        }
+
         return $response;
     }
 
@@ -126,6 +132,49 @@ class CourseController extends CrudController
 
         $this->addFlash('success', "La vidéo est en cours d'envoi sur Youtube");
         $session->remove(self::UPLOAD_SESSION_KEY);
+
+        return $this->redirectToRoute('app_admin_course_edit', ['id' => $courseId]);
+    }
+
+    #[Route( path: '/update-duration', name: 'update_duration', methods: ['GET'] )]
+    public function updateDuration(
+        Request             $request,
+        SessionInterface    $session,
+        \Google_Client      $googleClient,
+        YoutubeUploaderService $uploader,
+    ) : Response
+    {
+//        dd('update duration');
+        // Si on n'a pas d'id dans la session, on redirige
+        $courseId = $session->get(self::UPLOAD_SESSION_KEY);
+        if (null === $courseId) {
+            $this->addFlash('danger', "Impossible d'uploader la vidéo, id manquante dans la session");
+
+            return $this->redirectToRoute('app_admin_course_index');
+        }
+
+        // On génère récupère le code d'auth
+        $redirectUri = $this->generateUrl('app_admin_course_update_duration', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $code = $request->get('code');
+
+        $googleClient->setRedirectUri($redirectUri);
+        if (null === $code) {
+            return $this->redirect($googleClient->createAuthUrl(YoutubeScopes::UPLOAD));
+        }
+
+        $accessToken = $googleClient->fetchAccessTokenWithAuthCode($code);
+
+        if (isset($accessToken['error'])) {
+            return $this->redirect($googleClient->createAuthUrl(YoutubeScopes::UPLOAD));
+        }
+
+        $duration = $uploader->getVideoDuration($courseId, $accessToken);
+//        dd($duration);
+
+        $course = $this->em->getRepository(Course::class)->find($courseId);
+        $course->setDuration($duration);
+
+        $this->em->flush();
 
         return $this->redirectToRoute('app_admin_course_edit', ['id' => $courseId]);
     }

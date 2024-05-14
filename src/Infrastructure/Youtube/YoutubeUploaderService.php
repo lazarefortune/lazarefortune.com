@@ -38,4 +38,20 @@ class YoutubeUploaderService
 
         return $video->getId();
     }
+
+    public function getVideoDuration(string $courseId, array $accessToken): int
+    {
+        $course = $this->em->getRepository(Course::class)->find($courseId);
+        if (null === $course) {
+            throw new \RuntimeException("Impossible de trouver le cours #{$courseId}");
+        }
+
+        $this->googleClient->setAccessToken($accessToken);
+        $youtube = new \Google_Service_YouTube($this->googleClient);
+        $video = $youtube->videos->listVideos('contentDetails', ['id' => $course->getYoutubeId()]);
+        $duration = $video->getItems()[0]->getContentDetails()->getDuration();
+        $interval = new \DateInterval($duration);
+
+        return ($interval->h * 3600) + ($interval->i * 60) + $interval->s;
+    }
 }

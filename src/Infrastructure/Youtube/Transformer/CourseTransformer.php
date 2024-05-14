@@ -38,15 +38,12 @@ class CourseTransformer
         $video = new \Google_Service_YouTube_Video();
         $snippet = new \Google_Service_YouTube_VideoSnippet();
         $snippet->setCategoryId('28');
-        $snippet->setDescription("Article ► {$url}
-
-        Soutenez Lazare Fortune:
-        Devenez premium ► https://lazarefortune.fr/premium
-        
+        $snippet->setDescription("
+        Découvrez le tutoriel complet sur https://lazarefortune.com
         Retrouvez moi sur:
-        Le site ► https://lazarefortune.fr
+        Le site ► https://lazarefortune.com
         Twitter ► https://twitter.com/lazarefortune
-        Discord ► https://lazarefortune.fr/tchat");
+        Discord ► https://lazarefortune.com/tchat");
         $snippet->setTitle($title);
         $snippet->setDefaultAudioLanguage('fr');
         $snippet->setDefaultLanguage('fr');

@@ -21,9 +21,9 @@ class CourseListener
     public function preUpdate(PreUpdateEventArgs $args): void {
         $entity = $args->getObject();
         if ($entity instanceof Course) {
-            if ($args->hasChangedField('videoPath')) {
-                $this->updateDuration($entity);
-            }
+//            if ($args->hasChangedField('videoPath')) {
+//                $this->updateDuration($entity);
+//            }
         }
     }
 
@@ -37,11 +37,11 @@ class CourseListener
     private function updateDuration(Course $course): void
     {
         if (!empty($course->getVideoPath())) {
-            $video = PathHelper::join($this->videosPath, $course->getVideoPath());
-            $duration = $this->metaReader->getDuration($video);
-            $course->setDuration($duration);
+//            $video = PathHelper::join($this->videosPath, $course->getVideoPath());
+//            $duration = $this->metaReader->getDuration($video);
+//            $course->setDuration($duration);
         }else{
-            $course->setDuration(0);
+//            $course->setDuration(0);
         }
     }
 }
