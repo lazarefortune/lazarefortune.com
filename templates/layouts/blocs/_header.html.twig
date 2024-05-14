@@ -1,18 +1,18 @@
 <nav class="container-box header">
     <!-- Logo à gauche -->
     <div class="flex items-center">
-        <a href="{{ path('app_home') }}" class="header__menu__link">
+        <a href="{{ path('app_home') }}" {{ menu_active_aria('app_home') }} class="header__menu__link">
             LF
         </a>
         <ul class="hidden lg:flex ml-5 lg:space-x-6">
             <li>
-                <a href="" class="flex items-center gap-1 dark:text-white dark:border-b-slate-700">
+                <a href="{{ path('app_course_index') }}" {{ menu_active_aria('app_course_') }} class="flex items-center gap-1 dark:text-white dark:border-b-slate-700">
                     {{ icon('youtube') }}
                     <span>Tutoriels</span>
                 </a>
             </li>
             <li>
-                <a href="" class="flex items-center gap-1 dark:text-white dark:border-b-slate-700">
+                <a href="{{ path('app_formation_index') }}" {{ menu_active_aria('app_formation_') }} class="flex items-center gap-1 dark:text-white dark:border-b-slate-700">
                     {{ icon('graduation-cap') }}
                     <span>Formations</span>
                 </a>
@@ -23,14 +23,7 @@
 
     <div class="flex items-center lg:hidden gap-2">
         {% if app.user %}
-            {% if app.user.avatar %}
-                <img src="{{ vich_uploader_asset(app.user, 'avatarFile') }}" alt="{{ app.user.fullname }}" class="w-7 h-7 rounded-md">
-            {% else %}
-                <div class="w-7 h-7 rounded-md flex items-center justify-center bg-primary-100 text-primary-900
-                dark:bg-dark-soft-2 dark:text-white">
-                    {{ icon('user') }}
-                </div>
-            {% endif %}
+            <img src="{{ app.user|avatar }}" alt="{{ app.user.fullname }}" class="w-7 h-7 rounded-md">
         {% endif %}
         <!-- Hamburger à droite -->
         <button id="hamburger" class="text-gray-500 w-10 h-10 relative focus:outline-none bg-white">
@@ -49,14 +42,7 @@
                 <li>
                     <a href="{{ path('app_profile') }}"
                        class="flex gap-3 items-center py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-200 dark:border-b-slate-700">
-                        {% if app.user.avatar %}
-                            <img src="{{ vich_uploader_asset(app.user, 'avatarFile') }}" alt="{{ app.user.fullname }}" class="w-7 h-7 rounded-md">
-                        {% else %}
-                            <div class="w-7 h-7 rounded-md flex items-center justify-center bg-primary-100 text-primary-900
-                            dark:bg-dark-soft-2 dark:text-white">
-                                {{ icon('user') }}
-                            </div>
-                        {% endif %}
+                        <img src="{{ app.user|avatar }}" alt="{{ app.user.fullname }}" class="w-7 h-7 rounded-md">
                         <span>{{ app.user.fullname }}</span>
                     </a>
                 </li>
@@ -84,13 +70,13 @@
             </li>
             {% endif %}
             <li>
-                <a href="" class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-200 dark:border-b-slate-700">
+                <a href="{{ path('app_course_index') }}" {{ menu_active_aria('app_course_') }} class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-200 dark:border-b-slate-700">
                     {{ icon('youtube') }}
                     <span>Tutoriels</span>
                 </a>
             </li>
             <li>
-                <a href="" class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-200 dark:border-b-slate-700">
+                <a href="{{ path('app_formation_index') }}" {{ menu_active_aria('app_formation_') }} class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-200 dark:border-b-slate-700">
                     {{ icon('graduation-cap') }}
                     <span>Formations</span>
                 </a>
@@ -109,26 +95,19 @@
     <ul class="header-side hidden lg:flex">
         <li class="flex items-center gap-1 relative">
             {% if app.user %}
-            <button
-                class="dropdown-button flex items-center p-2 gap-2
-                bg-white hover:bg-primary-100 hover:text-primary-900
-                dark:text-white dark:bg-dark-soft dark:hover:bg-dark-soft-2 rounded-md"
-                aria-controls="dropdown-user">
-            {% if app.user.avatar %}
-                <img class="h-8 w-8 rounded-md flex items-center justify-center bg-primary-100 text-primary-900
-                dark:bg-dark-soft-2 dark:text-white" src="{{ vich_uploader_asset(app.user, 'avatarFile') }}"
-                     alt="{{ app.user.fullname }} avatar">
-            {% else %}
-                <div class="h-8 w-8 rounded-md flex items-center justify-center bg-primary-100 text-primary-900
-                dark:bg-dark-soft-2 dark:text-white">
-                    {{ icon('user') }}
-                </div>
-            {% endif %}
-            <div class="flex-col hidden md:flex text-start w-44 text-nowrap overflow-hidden">
-                <span>{{ app.user.fullname }}</span>
-            </div>
-        </button>
-        <div id="dropdown-user"
+                <button
+                    class="dropdown-button flex items-center p-2 gap-2
+                    bg-white hover:bg-primary-100 hover:text-primary-900
+                    dark:text-white dark:bg-dark-soft dark:hover:bg-dark-soft-2 rounded-md"
+                    aria-controls="dropdown-user">
+                    <img class="h-8 w-8 rounded-md flex items-center justify-center bg-primary-100 text-primary-900
+                    dark:bg-dark-soft-2 dark:text-white" src="{{ app.user|avatar }}"
+                         alt="{{ app.user.fullname }} avatar">
+                    <div class="flex-col hidden md:flex text-start w-44 text-nowrap overflow-hidden">
+                        <span>{{ app.user.fullname }}</span>
+                    </div>
+                </button>
+                <div id="dropdown-user"
              class="absolute right-0 top-[68px] w-64
               bg-white
               dark:bg-dark-soft

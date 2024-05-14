@@ -312,6 +312,6 @@ abstract class Content
 
     public function isScheduled(): bool
     {
-        return new \DateTimeImmutable() < $this->getCreatedAt();
+        return new \DateTimeImmutable() < $this->getPublishedAt();
     }
 }

@@ -105,31 +105,31 @@ p {
 }
 
 .h1 {
-  @apply text-4xl font-semibold;
+  @apply text-4xl font-semibold text-slate-900 dark:text-white;
 }
 
 .h2 {
-  @apply text-3xl font-semibold;
+  @apply text-3xl font-semibold text-slate-900 dark:text-white;
 }
 
 .h3 {
-  @apply text-2xl font-semibold;
+  @apply text-2xl font-semibold text-slate-900 dark:text-white;
 }
 
 .h4 {
-  @apply text-xl font-semibold;
+  @apply text-xl font-semibold text-slate-900 dark:text-white;
 }
 
 .h5 {
-  @apply text-lg font-semibold;
+  @apply text-lg font-semibold text-slate-900 dark:text-white;
 }
 
 .h6 {
-  @apply text-base font-semibold;
+  @apply text-base font-semibold text-slate-900 dark:text-white;
 }
 
 .text-muted {
-  @apply text-gray-600 dark:text-gray-500;
+  @apply text-gray-600 dark:text-gray-300;
 }
 
 .text-danger {
@@ -140,5 +140,5 @@ h1, h2, h3, h4, h5, h6,
 h1 *, h2 *, h3 *, h4 *, h5 *, h6 *,
 .h1, .h2, .h3, .h4, .h5, .h6,
 .h1 *, .h2 *, .h3 *, .h4 *, .h5 *, .h6 * {
-  @apply font-ibmPlexSans;
+  @apply font-ibmPlexSans text-slate-900 dark:text-white;
 }

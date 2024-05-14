@@ -31,6 +31,15 @@ class HomeController extends AbstractController
         return $this->render( 'pages/ui.html.twig' );
     }
 
+    #[Route( '/message', name: 'message' )]
+    public function message(): Response
+    {
+        $this->addFlash('success', 'Votre message a bien été envoyé');
+        return $this->render('pages/message.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
+
     #[Route( '/bienvenue', name: 'welcome' )]
     public function welcome( Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, OptionService $optionService ) : Response
     {

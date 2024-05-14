@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Tous les tutoriels' ~ ((page > 1) ? (', page' ~ page) : '') %}
+
+{% block body %}
+    <div class="bg-slate-50 dark:bg-dark-soft-2">
+        <div class="container-box py-10 stack-large">
+
+            <div class="course__hero">
+                {% if page == 1 %}
+                    <h1 class="h1">Tous mes <strong>tutoriels</strong></h1>
+                    <p class="text-muted mt-2">Découvrez l'ensemble des tutoriels pour apprendre de nouvelles choses.</p>
+                {% else %}
+                    <h1 class="h1">Tous mes <strong>tutoriels</strong> <em><br> page {{ page }}</em> </h1>
+                {% endif %}
+            </div>
+
+            <div class="courses">
+                {% for course in courses %}
+                    {% include 'courses/_course_item.html.twig' with { 'course': course } %}
+                {% endfor %}
+            </div>
+
+            <div class="flex justify-center mt-6">
+                {{ knp_pagination_render(courses) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

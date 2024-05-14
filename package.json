@@ -32,6 +32,7 @@
     "dependencies": {
         "@babel/preset-react": "^7.24.1",
         "@grafikart/drop-files-element": "^1.0.9",
+        "@grafikart/spinning-dots-element": "^1.1.0",
         "@tailwindcss/forms": "^0.5.3",
         "ckeditor4": "^4.24.0",
         "filemanager-element": "^0.1.2",

@@ -25,7 +25,7 @@
     </div>
 
     <div class="dashboard-page-table-button">
-        <a href="{{ path('app_admin_category_prestation_new') }}">
+        <a href="{{ path(prefix ~ '_new') }}" class="btn-primary">
             {{ icon('plus') }}
             Ajouter
         </a>
@@ -48,21 +48,21 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% if category_prestations is empty %}
+                {% if rows is empty %}
                     <tr>
                         <td colspan="7" class="text-center">
                             Aucune donnée disponible
                         </td>
                     </tr>
                 {% endif %}
-                {% for category in category_prestations %}
+                {% for row in rows %}
                     <tr>
                         <td>
-                            {{ category.name }}
+                            {{ row.name }}
                         </td>
                         <td>
-                            <div class="badge badge-{% if category.isActive %}success{% else %}danger{% endif %}">
-                                {% if category.isActive %}
+                            <div class="badge badge-{% if row.isActive %}success{% else %}danger{% endif %}">
+                                {% if row.isActive %}
                                     En ligne
                                 {% else %}
                                     Hors ligne
@@ -70,23 +70,16 @@
                             </div>
                         </td>
                         <td>
-                            <a href="{{ path('app_admin_category_service_edit', {'id': category.id}) }}"
+                            <a href="{{ path(prefix ~ '_edit', {id: row.id}) }}"
                                class="btn-icon">
                                 {{ icon('pencil') }}
                             </a>
-                            <button
-                                    class="btn-icon modal-button" data-modal-id="modal-id-{{ category.id }}">
+                            <ajax-delete class="btn-icon"
+                                         target="tr"
+                                         url="{{ path(prefix ~ '_delete', {id: row.id}) }}">
                                 {{ icon('trash') }}
-                            </button>
+                            </ajax-delete>
                         </td>
-                        {% include 'components/_delete-modal.html.twig' with {
-                            'id': 'modal-id-' ~ category.id,
-                            'title': 'Supprimer la catégorie',
-                            'content': 'Vous êtes sur le point de supprimer la catégorie <strong>' ~ category.name ~ '</strong>.<br>Cette action est irréversible.',
-                            'form_action': path('app_admin_category_prestation_delete', {'id': category.id}),
-                            'csrf_value': csrf_token('delete' ~ category.id),
-                            'btn_label': 'Supprimer'
-                        } %}
                     </tr>
                 {% endfor %}
                 </tbody>

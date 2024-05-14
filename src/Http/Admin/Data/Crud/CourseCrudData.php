@@ -85,7 +85,6 @@ class CourseCrudData implements CrudDataInterface
         $this->mainTechnologies = $entity->getMainTechnologies();
         $this->secondaryTechnologies = $entity->getSecondaryTechnologies();
         $this->youtubeThumbnail = $entity->getYoutubeThumbnail();
-        $this->duration = $entity->getDuration();
         $deprecatedBy = $entity->getDeprecatedBy();
         $this->deprecatedBy = $deprecatedBy?->getId();
     }

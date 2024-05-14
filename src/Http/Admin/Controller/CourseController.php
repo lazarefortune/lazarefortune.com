@@ -5,10 +5,8 @@ namespace App\Http\Admin\Controller;
 
 use App\Domain\Course\Entity\Course;
 use App\Http\Admin\Data\Crud\CourseCrudData;
-use App\Infrastructure\Youtube\Transformer\CourseTransformer;
 use App\Infrastructure\Youtube\YoutubeScopes;
 use App\Infrastructure\Youtube\YoutubeUploaderService;
-use Google_Client;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +14,6 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Serializer\Serializer;
 use Vich\UploaderBundle\Handler\UploadHandler;
 
 #[IsGranted('ROLE_ADMIN')]

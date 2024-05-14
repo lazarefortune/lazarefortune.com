@@ -23,7 +23,6 @@ class ProfileUpdateData
     #[Assert\Regex( pattern: '/^(?:(?:\+33|0)[1-9])[\s.-]?(\d{2}[\s.-]?){4}$/', message: 'Veuillez renseigner un numéro de téléphone valide' )]
     public ?string $phone = '';
 
-    #[Assert\NotBlank( message: 'Veuillez renseigner votre date de naissance' )]
     #[Assert\LessThan( value: 'today', message: 'Votre date de naissance doit être inférieure à la date du jour' )]
     public ?\DateTimeInterface $dateOfBirthday = null;
 

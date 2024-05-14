@@ -3,11 +3,7 @@
 namespace App\Http\Admin\Controller;
 
 use App\Domain\Auth\Entity\User;
-use App\Domain\Client\Form\EmailActionForm;
-use App\Domain\Client\Service\UserService;
-use App\Http\Admin\Data\Crud\ClientCrudData;
 use App\Http\Admin\Data\Crud\UserCrudData;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -68,5 +64,11 @@ class UserController extends CrudController
     public function delete( User $user ) : Response
     {
         return $this->crudDelete( $user );
+    }
+
+    #[Route( path: '/{id<\d+>}/json', name: 'delete', methods: ['DELETE'] )]
+    public function ajaxDelete( User $user ) : Response
+    {
+        return $this->crudAjaxDelete( $user );
     }
 }

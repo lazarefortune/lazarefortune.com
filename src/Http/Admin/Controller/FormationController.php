@@ -54,9 +54,9 @@ final class FormationController extends CrudController
         return $this->crudEdit($data);
     }
 
-    #[Route(path: '/{id<\d+>}', methods: ['DELETE'])]
+    #[Route(path: '/{id<\d+>}', name: 'delete', methods: ['DELETE'])]
     public function delete(Formation $formation): Response
     {
-        return $this->crudDelete($formation);
+        return $this->crudAjaxDelete($formation);
     }
 }

@@ -9,20 +9,14 @@
             <div class="stack">
                 <div class="flex flex-row justify-start items-center">
                     <div class="mr-4 flex-shrink-0">
-                        {% if app.user.avatar %}
-                        <img src="{% if app.user.avatar %}{{ vich_uploader_asset(app.user, 'avatarFile') }}{% else %}'https://www.w3schools.com/howto/img_avatar.png'{% endif %}"
+                        <img src="{{ app.user|avatar }}"
                              alt="Avatar de {{ app.user.fullname }}"
                              class="rounded-full w-24 h-24 object-cover border-2 border-primary-900 dark:border-primary-300 p-0.5">
-                        {% else %}
-                            <img src="https://www.w3schools.com/howto/img_avatar.png"
-                                 alt="Avatar de {{ app.user.fullname }}"
-                                 class="rounded-full w-24 h-24 object-cover border-2 border-primary-900 dark:border-primary-300 p-0.5">
-                        {% endif %}
                     </div>
                     <div>
                         <h2 class="h2">{{ app.user.fullname }}</h2>
                         <p class="text-muted text-sm">
-                            Inscrit depuis {{ app.user.createdAt|ago }}
+                            Inscrit <span class="lowercase">{{ app.user.createdAt|ago }}</span>
                         </p>
                     </div>
                 </div>
@@ -99,10 +93,6 @@
 
                         <div>
                             {{ form_row(formProfile.dateOfBirthday) }}
-                            {% if not app.user.dateOfBirthday %}
-                                <p class="text-sm text-primary-800">Des réductions s'appliquent en fonction de votre
-                                    âge.</p>
-                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -111,22 +101,7 @@
                     <h3 class="h3">Avatar</h3>
 
                     <div class="grid2">
-                        <div>
-                            <div class="flex flex-row items-center">
-                                {% if app.user.avatar %}
-                                <img src="{% if app.user.avatar %}{{ vich_uploader_asset(app.user, 'avatarFile') }}{% else %}'https://www.w3schools.com/howto/img_avatar.png'{% endif %}"
-                                     alt="Avatar de {{ app.user.fullname }}"
-                                     class="rounded-full w-16 h-16 object-cover border-2 border-primary-900 dark:border-primary-300 p-0.5">
-                                <span class="ml-2">{{ app.user.avatarFile ? app.user.avatarFile.originalName : 'Aucun fichier' }}</span>
-                                {% else %}
-                                    <p class="text-muted">Vous n'avez pas encore d'avatar. <br> Ajoutez-en un pour
-                                        personnaliser votre compte.</p>
-                                {% endif %}
-                            </div>
-                        </div>
-                        <div>
-                            {{ form_row(formProfile.avatarFile) }}
-                        </div>
+                        {{ form_row(formProfile.avatarFile, { 'label': false }) }}
                     </div>
                 </div>
 
@@ -154,6 +129,7 @@
                         <span>Modifier mon mot de passe</span>
                     </button>
                 </div>
+
                 {{ form_end(formPassword) }}
 
                 <div class="stack">

@@ -279,7 +279,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->avatarFile = $avatarFile;
 
-        // update updatedAt only if file is not null
         if ( $avatarFile ) {
             $this->updatedAt = new \DateTimeImmutable();
         }
@@ -287,11 +286,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-//    public function __sleep() : array
-//    {
-//        // Exclure l'attribut avatarFile de la sérialisation
-//        return array_diff( array_keys( get_object_vars( $this ) ), ['avatarFile', 'avatar'] );
-//    }
+    public function __sleep() : array
+    {
+        $vars = get_object_vars($this);
+        $excluded = ['avatarFile']; //propriétés à exclure.
+        $result = [];
+        foreach (array_keys($vars) as $key) {
+            if (!in_array($key, $excluded) && isset($this->$key)) {
+                $result[] = $key;
+            }
+        }
+        return $result;
+    }
+
+    public function __wakeup()
+    {
+        $this->avatarFile = null;
+    }
 
     /**
      * @return Collection<int, Appointment>
@@ -416,8 +427,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function __sleep()
-    {
-        return array_diff(array_keys(get_object_vars($this)), ['avatarFile']);
-    }
+//    public function __sleep()
+//    {
+//        return array_diff(array_keys(get_object_vars($this)), ['avatarFile']);
+//    }
 }

@@ -4,17 +4,13 @@ namespace App\Domain\Account\Service;
 
 use App\Domain\Appointment\Repository\AppointmentRepository;
 use App\Domain\Auth\Entity\User;
-use App\Domain\Auth\Event\EmailConfirmationRequestedEvent;
-use App\Domain\Auth\Event\UserRegistrationCompletedEvent;
 use App\Domain\Auth\Repository\UserRepository;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class UserService
 {
 
     public function __construct(
         private readonly UserRepository           $userRepository,
-        private readonly EventDispatcherInterface $eventDispatcher,
         private readonly AppointmentRepository    $appointmentRepository,
     )
     {
@@ -67,32 +63,5 @@ class UserService
             ->setMaxResults( $limit )
             ->getQuery()
             ->getResult();
-    }
-
-    public function sendEmailAction( User $client, string $action ) : void
-    {
-        // TODO: check if action is available for client before sending and refactor actions
-
-        switch ( $action ) {
-            case 'last_invoice':
-//                $this->sendLastInvoice( $client );
-                throw new \Exception( 'Non disponible pour le moment' );
-                break;
-            case 'payment_reminder':
-//                $this->sendPaymentReminder( $client );
-                throw new \Exception( 'Non disponible pour le moment' );
-                break;
-            case 'appointment_reminder':
-//                $this->sendAppointmentReminder( $client );
-                throw new \Exception( 'Non disponible pour le moment' );
-                break;
-            case 'password_reset':
-//                $this->sendPasswordReset( $client );
-                throw new \Exception( 'Non disponible pour le moment' );
-                break;
-            case 'account_confirmation':
-                $this->sendAccountConfirmation( $client );
-                break;
-        }
     }
 }

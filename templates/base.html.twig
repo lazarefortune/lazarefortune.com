@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="{{ body_theme() }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -74,6 +74,11 @@
                     sur les réseaux sociaux, par mail ou via le formulaire de contact.
                 </p>
                 <ul class="list-unstyled flex gap-2 mt-3">
+                    <li>
+                        <a href="{{ path('app_contact') }}" class="text-muted">
+                            {{ icon('send') }}
+                        </a>
+                    </li>
                     <li>
                         <a href="mailto:lazarefortune@gmail.com" class="text-muted" target="_blank">
                             {{ icon('mail') }}

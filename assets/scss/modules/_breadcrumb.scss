@@ -1,0 +1,18 @@
+.breadcrumb {
+  @apply h-12 bg-white-soft text-[13px] flex items-center overflow-y-hidden overflow-x-auto dark:bg-dark-soft dark:text-white;
+}
+.breadcrumb > * {
+  @apply flex-none;
+}
+.breadcrumb svg {
+  @apply w-4 h-4;
+}
+.breadcrumb-separator {
+  @apply mx-1;
+}
+.breadcrumb span, .breadcrumb a {
+  @apply whitespace-nowrap;
+}
+.breadcrumb a:hover {
+  @apply underline;
+}

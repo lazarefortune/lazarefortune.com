@@ -80,20 +80,13 @@
                                class="btn-icon">
                                 {{ icon('pencil') }}
                             </a>
-                            <button
-                                    class="btn-icon modal-button" data-modal-id="modal-id-{{ realisation.id }}">
-                                {{ icon('trash') }}
-                            </button>
 
+                            <ajax-delete class="btn-icon"
+                                         target="tr"
+                                         url="{{ path('app_admin_realisation_ajax_delete', {id: realisation.id}) }}">
+                                {{ icon('trash') }}
+                            </ajax-delete>
                         </td>
-                        {% include 'components/_delete-modal.html.twig' with {
-                            'id': 'modal-id-' ~ realisation.id,
-                            'title': 'Supprimer la réalisation',
-                            'content': 'Vous êtes sur le point de supprimer la réalisation n°' ~ realisation.id ~ ' du ' ~ realisation.date|human_date ~ '.',
-                            'form_action': path('app_admin_realisation_delete', {'id': realisation.id}),
-                            'csrf_value': csrf_token('delete' ~ realisation.id),
-                            'btn_label': 'Supprimer'
-                        } %}
                     </tr>
                 {% endfor %}
                 </tbody>

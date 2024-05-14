@@ -39,10 +39,6 @@ services:
     resource: '../src/Http/Controller'
     tags: [ 'controller.service_arguments' ]
 
-  App\Http\Education\Controller\:
-    resource: '../src/Http/Education/Controller'
-    tags: [ 'controller.service_arguments' ]
-
   App\Http\Admin\Controller\:
     resource: '../src/Http/Admin/Controller'
     tags: [ 'controller.service_arguments' ]
@@ -75,6 +71,11 @@ services:
     arguments: [ '@App\Helper\CentToEuroTransformer' ]
     tags: [ 'form.type' ]
 
+  App\Domain\Course\EventListener\CourseListener:
+    tags:
+      - { name: doctrine.event_listener, event: prePersist }
+      - { name: doctrine.event_listener, event: preUpdate }
+
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones
 
@@ -85,6 +86,10 @@ services:
 
   App\Infrastructure\Image\ImageResizer:
     arguments: [ '%image_resize_key%' ]
+
+  App\Http\Twig\TwigUrlExtension:
+    arguments:
+      $uploaderHelper: '@Vich\UploaderBundle\Templating\Helper\UploaderHelper'
 
   App\Domain\Application\EventListener\ExceptionListener:
     tags:
@@ -101,6 +106,13 @@ services:
   App\Domain\Payment\PaymentService:
     arguments:
       $processors: [ '@App\Infrastructure\Payment\Stripe\StripePaymentProcessor', '@App\Infrastructure\Payment\Cash\CashPaymentProcessor' ]
+
+  _instanceof:
+    App\Normalizer\Breadcrumb\BreadcrumbGeneratorInterface:
+      tags: [ 'app.breadcrumb' ]
+
+  App\Http\Twig\TwigBreadcrumbExtension:
+    arguments: [ !tagged_iterator app.breadcrumb ]
 
 # TODO: Si besoin d'utiliser le nom de l'application en BDD dans les templates, décommenter les lignes ci-dessous
 #  App\Domain\Application\EventListener\ConfigListener:

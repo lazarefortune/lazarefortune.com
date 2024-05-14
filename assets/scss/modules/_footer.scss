@@ -1,5 +1,5 @@
 .footer {
-  @apply bg-gray-100 text-gray-600 py-16
+  @apply bg-white border-t-2 border-gray-200 dark:border-dark-soft py-16
   dark:bg-dark-soft dark:text-gray-300 grid grid-cols-3 gap-6;
 }
 

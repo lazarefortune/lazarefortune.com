@@ -9,6 +9,9 @@ import {ThemeSwitcher} from "./ThemeSwitcher";
 import {FileManager} from 'filemanager-element'
 import 'filemanager-element/FileManager.css'
 import {YoutubePlayer} from "./player/YoutubePlayer";
+import {AjaxDelete} from "./AjaxDelete";
+import LoaderOverlay from "./LoaderOverlay";
+import SpinningDots from "@grafikart/spinning-dots-element";
 FileManager.register();
 
 customElements.define('spotlight-bar', Spotlight)
@@ -23,6 +26,9 @@ customElements.define('dropdown-button', DropdownButton)
 customElements.define('input-attachment', InputAttachment, { extends: 'input' })
 customElements.define('youtube-player', YoutubePlayer)
 customElements.define('theme-switcher', ThemeSwitcher)
+customElements.define('ajax-delete', AjaxDelete)
+customElements.define('loader-overlay', LoaderOverlay)
+customElements.define('spinning-dots', SpinningDots)
 
 document.addEventListener('DOMContentLoaded', () => {
     const filemanager = document.querySelector("file-manager");

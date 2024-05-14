@@ -140,4 +140,12 @@ class Course extends Content
         return $this->isPremium() || $this->isScheduled();
     }
 
+    public function getCountdown(): ?int
+    {
+        if ($this->isScheduled()) {
+            return $this->getPublishedAt()->getTimestamp() - time();
+        }
+
+        return null;
+    }
 }

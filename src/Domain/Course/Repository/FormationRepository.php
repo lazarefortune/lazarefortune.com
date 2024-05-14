@@ -38,4 +38,17 @@ class FormationRepository extends AbstractRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findByTechnology( Technology $technology )
+    {
+        return $this->createQueryBuilder('f')
+            ->leftJoin('f.technologyUsages', 'usage')
+            ->where('f.online = true')
+            ->andWhere('usage.technology = :technology')
+            ->andWhere('usage.secondary = false')
+            ->setParameter('technology', $technology)
+            ->orderBy('f.publishedAt', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

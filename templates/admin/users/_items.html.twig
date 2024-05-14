@@ -65,20 +65,12 @@
                        class="btn-icon">
                         {{ icon('pencil') }}
                     </a>
-                    <button
-                            class="btn-icon modal-button" data-modal-id="modal-id-{{ row.id }}">
+                    <ajax-delete class="btn-icon"
+                                 target="tr"
+                                 url="{{ path(prefix ~ '_delete', {id: row.id}) }}">
                         {{ icon('trash') }}
-                    </button>
+                    </ajax-delete>
                 </td>
-                {% include 'components/_delete-modal.html.twig' with {
-                    'id': 'modal-id-' ~ row.id,
-                    'title': 'Supprimer l\'utilisateur ' ~ row.fullname,
-                    'content': 'La suppression est irréversible. Voulez-vous continuer ?',
-                    'form_html_element': '<input type="hidden" name="_method" value="DELETE">',
-                    'form_action': path(prefix ~ '_edit', {id: row.id}),
-                    'csrf_value': csrf_token('delete' ~ row.id),
-                    'btn_label': 'Supprimer'
-                } %}
             </tr>
         {% endfor %}
         </tbody>

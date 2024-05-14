@@ -1,0 +1,45 @@
+<article class="course {% if course.isScheduled %}is__scheduled{% endif %} {% if course.premium %}course__premium{% endif %}">
+    <div class="course__body stack">
+        <div class="course__icons">
+            {% for technology in course.mainTechnologies %}
+                <a href="" class="course__icon" tabindex="-1" title="Tous les tutoriels {{ technology.name }}">
+                    <img src="{{ uploads_path('icons/' ~ technology.image) }}" alt="{{ technology.name }}">
+                </a>
+            {% endfor %}
+        </div>
+        <h2 class="course__title">
+            <a href="{{ path('app_course_show', {slug: course.slug}) }}"
+               class="course__link">
+                {{ course.title }}
+            </a>
+        </h2>
+        <div class="course__description">
+            <p>
+                {{ course.content | truncate(130) | raw }}
+            </p>
+            <div class="course__countdown">
+                <em>Disponible dans</em>
+                <strong>{{ course.publishedAt|countdown }} </strong>
+            </div>
+        </div>
+    </div>
+    <footer class="course__footer">
+        {% if course.premium %}
+            <div class="course__pills">
+                <div class="course__pill uppercase">
+                    {{ icon('crown') }}
+                    Premium
+                </div>
+            </div>
+        {% endif %}
+        {% if course.formation %}
+            <div class="course__playlist">
+                {{ course.formation.title | truncate('24') }}
+            </div>
+        {% endif %}
+        <div class="course__duration">
+            {{ icon('clock') }}
+            {{ course.duration|duration }}
+        </div>
+    </footer>
+</article>

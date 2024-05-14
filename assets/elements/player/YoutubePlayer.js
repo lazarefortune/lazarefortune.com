@@ -41,19 +41,19 @@ export class YoutubePlayer extends HTMLElement {
             poster === null
                 ? ''
                 : `<button class="poster">
-      <img src="${poster}" alt="">
-      <svg class="play" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 46"><path d="M23 0C10.32 0 0 10.32 0 23s10.32 23 23 23 23-10.32 23-23S35.68 0 23 0zm8.55 23.83l-12 8A1 1 0 0118 31V15a1 1 0 011.55-.83l12 8a1 1 0 010 1.66z"/></svg>
-      <div class="title">Voir la vidéo <em>(${this.getAttribute('duration')})</em></div>
-    </button>`
-        this.root.innerHTML = `
-      <style>${playerStyle}</style>
-      <div class="ratio">
-        <div class="player"></div>
-        ${poster}
-        <svg viewBox="0 0 16 9" xmlns="http://www.w3.org/2000/svg" class="ratio-svg">
-          <rect width="16" height="9" fill="transparent"/>
-        </svg>
-      </div>`
+                      <img src="${poster}" alt="">
+                      <svg class="play" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 46"><path d="M23 0C10.32 0 0 10.32 0 23s10.32 23 23 23 23-10.32 23-23S35.68 0 23 0zm8.55 23.83l-12 8A1 1 0 0118 31V15a1 1 0 011.55-.83l12 8a1 1 0 010 1.66z"/></svg>
+                      <div class="title">Voir la vidéo <em>(${this.getAttribute('duration')})</em></div>
+                    </button>`
+                    this.root.innerHTML = `
+                    <style>${playerStyle}</style>
+                  <div class="ratio">
+                    <div class="player"></div>
+                    ${poster}
+                    <svg viewBox="0 0 16 9" xmlns="http://www.w3.org/2000/svg" class="ratio-svg">
+                      <rect width="16" height="9" fill="transparent"/>
+                    </svg>
+                  </div>`
 
         // Evènements
         if (poster !== '') {

@@ -19,7 +19,7 @@ class TechnologyController extends CrudController
     protected string $routePrefix = 'app_admin_technology';
     protected string $searchField = 'name';
 
-    #[Route(path: '/', name: 'index')]
+    #[Route(path: '/', name: 'index', methods: ['GET'])]
     public function index(TechnologyRepository $repository): Response
     {
         $this->paginator->allowSort('count', 'row.id', 'row.name');
@@ -35,7 +35,7 @@ class TechnologyController extends CrudController
         return $this->crudIndex($query);
     }
 
-    #[Route(path: '/nouveau', name: 'new')]
+    #[Route(path: '/nouveau', name: 'new', methods: ['POST', 'GET'])]
     public function new(TechnologyRepository $repository): Response
     {
         $technology = new Technology();
@@ -44,18 +44,17 @@ class TechnologyController extends CrudController
         return $this->crudNew($data);
     }
 
-    #[Route(path: '/{id<\d+>}', name: 'delete', methods: ['DELETE'])]
-    public function delete(Technology $technology): Response
-    {
-        return $this->crudDelete($technology);
-    }
-
-    #[Route(path: '/{id<\d+>}', name: 'edit')]
+    #[Route(path: '/{id<\d+>}', name: 'edit', methods: ['POST', 'GET'])]
     public function edit(Technology $technology): Response
     {
         $data = new TechnologyCrudData($technology);
 
-//        dd($data);
         return $this->crudEdit($data);
+    }
+
+    #[Route(path: '/{id<\d+>}', name: 'delete', methods: ['DELETE'])]
+    public function delete(Technology $technology): Response
+    {
+        return $this->crudAjaxDelete($technology);
     }
 }

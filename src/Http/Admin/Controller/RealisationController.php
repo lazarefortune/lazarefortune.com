@@ -17,7 +17,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route( '/realisations', name: 'realisation_' )]
 #[IsGranted( 'ROLE_ADMIN' )]
-class AdminRealisationController extends AbstractController
+class RealisationController extends AbstractController
 {
     #[Route( '/', name: 'index', methods: ['GET'] )]
     public function index( RealisationRepository $realisationRepository ) : Response
@@ -88,22 +88,12 @@ class AdminRealisationController extends AbstractController
         ] );
     }
 
-    #[Route( '/{id<\d+>}', name: 'delete', methods: ['POST', 'DELETE'] )]
-    public function delete( Request $request, Realisation $realisation, RealisationRepository $realisationRepository ) : Response
+    #[Route( '/{id<\d+>}/ajax-delete', name: 'ajax_delete', methods: ['DELETE'] )]
+    public function ajaxDelete( Realisation $realisation, RealisationRepository $realisationRepository ) : Response
     {
-        if ( $this->isCsrfTokenValid( 'delete' . $realisation->getId(), $request->request->get( '_token' ) ) ) {
-            // delete all related images from the server
-            foreach ( $realisation->getImages() as $image ) {
-                $name = $image->getName();
-                unlink( $this->getParameter( 'realisation_img_dir' ) . '/' . $name );
-            }
+        $realisationRepository->remove( $realisation, true );
 
-            $realisationRepository->remove( $realisation, true );
-
-            $this->addFlash( 'success', 'La réalisation a bien été supprimée' );
-        }
-
-        return $this->redirectToRoute( 'app_admin_realisation_index', [], Response::HTTP_SEE_OTHER );
+        return $this->json( ['success' => 1] );
     }
 
     #[Route( '/{id<\d+>}/delete-image', name: 'delete_image', methods: ['DELETE'] )]

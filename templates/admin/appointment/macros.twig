@@ -47,65 +47,6 @@
     {% endif %}
 {% endmacro %}
 
-{% macro delete_appointment_button(appointment) %}
-    {% if appointment.statusCanceled %}
-        <button
-                class="btn-icon modal-button" data-modal-id="modal-id-delete-{{ appointment.id }}">
-            {{ icon('trash') }}
-        </button>
-
-        {% include 'components/_modal.html.twig' with {
-            'id': 'modal-id-delete-' ~ appointment.id,
-            'title': 'Supprimer le rendez-vous',
-            'content': 'Vous êtes sur le point de supprimer le rendez-vous de <strong>' ~ appointment.client.fullname ~ '</strong>.<br>Cette action est irréversible.',
-            'form_action': path('app_admin_appointment_delete', {'id': appointment.id}),
-            'csrf_value': csrf_token('delete' ~ appointment.id),
-            'close_btn_label': 'Retour',
-            'btn_label': 'Oui Supprimer',
-        } %}
-    {% endif %}
-{% endmacro %}
-
-{% macro confirm_appointment_button(appointment) %}
-    {% if appointment.statusPending and not appointment.passed %}
-        <button
-                class="btn-icon modal-button"
-                data-modal-id="modal-id-confirm-{{ appointment.id }}">
-            {{ icon('check') }}
-        </button>
-
-        {% include 'components/_modal.html.twig' with {
-            'id': 'modal-id-confirm-' ~ appointment.id,
-            'title': 'Confirmer le rendez-vous',
-            'content': 'Vous êtes sur le point de confirmer le rendez-vous de <strong>' ~ appointment.client.fullname ~ '</strong>.<br>Cette action est irréversible.',
-            'form_action': path('app_admin_appointment_confirm', {'id': appointment.id}),
-            'csrf_value': csrf_token('confirm_appointment' ~ appointment.id),
-            'close_btn_label': 'Retour',
-            'btn_label': 'Oui confirmer',
-        } %}
-    {% endif %}
-{% endmacro %}
-
-{% macro cancel_appointment_button(appointment) %}
-    {% if (appointment.statusPending or appointment.statusConfirmed) and not appointment.passed %}
-        <button
-                class="btn-icon modal-button" data-modal-id="modal-id-cancel-{{ appointment.id }}">
-            {{ icon('ban') }}
-        </button>
-
-        {% include 'components/_modal.html.twig' with {
-            'id': 'modal-id-cancel-' ~ appointment.id,
-            'title': 'Annuler le rendez-vous',
-            'content': 'Vous êtes sur le point d\'annuler le rendez-vous de <strong>' ~ appointment.client.fullname ~ '</strong>.<br>Cette action est irréversible.',
-            'form_action': path('app_admin_appointment_cancel', {'id': appointment.id}),
-            'csrf_value': csrf_token('cancel_appointment' ~ appointment.id),
-            'close_btn_label': 'Retour',
-            'btn_label': 'Je confirme l\'annulation',
-        } %}
-    {% endif %}
-{% endmacro %}
-
-
 {% macro edit_button(appointment) %}
     {% if not appointment.statusCanceled and not appointment.passed %}
         <a href="{{ path('app_admin_appointment_edit', {'id': appointment.id}) }}"

@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -73,13 +74,13 @@ abstract class CrudController extends BaseController
         $request = $this->requestStack->getCurrentRequest();
         $form = $this->createForm( $data->getFormClass(), $data );
         $form->handleRequest( $request );
+
         if ( $form->isSubmitted() && $form->isValid() ) {
             /** @var E $entity */
             $entity = $data->getEntity();
             $old = clone $entity;
             $data->hydrate();
             $this->em->flush();
-//            dd($entity);
             if ( $this->events['update'] ?? null ) {
                 $this->dispatcher->dispatch( new $this->events['update']( $entity, $old ), $this->events['update']::NAME );
             }
@@ -132,6 +133,19 @@ abstract class CrudController extends BaseController
         $this->addFlash( 'success', 'Le contenu a bien été supprimé' );
 
         return $this->redirectToRoute( $redirectRoute ? : ( $this->routePrefix . '_index' ) );
+    }
+
+    public function crudAjaxDelete( object $entity ) : JsonResponse
+    {
+        $this->em->remove( $entity );
+        if ( $this->events['delete'] ?? null ) {
+            $this->dispatcher->dispatch( new $this->events['delete']( $entity ), $this->events['delete']::NAME );
+        }
+        $this->em->flush();
+
+        return $this->json([
+            'success' => true,
+        ]);
     }
 
     public function crudShow( object $entity, array $extraParams = [] ) : Response
