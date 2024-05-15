@@ -3,7 +3,9 @@ namespace App\Infrastructure\Youtube;
 
 use App\Domain\Course\Entity\Course;
 use App\Infrastructure\Youtube\Transformer\CourseTransformer;
+use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
+use Google\Service\Exception;
 
 class YoutubeUploaderService
 {
@@ -39,6 +41,14 @@ class YoutubeUploaderService
         return $video->getId();
     }
 
+    /**
+     * Récupère la durée d'une vidéo Youtube en secondes
+     * @param string $courseId
+     * @param array $accessToken
+     * @return int Durée de la vidéo en secondes
+     * @throws Exception
+     * @throws \Exception
+     */
     public function getVideoDuration(string $courseId, array $accessToken): int
     {
         $course = $this->em->getRepository(Course::class)->find($courseId);
@@ -50,7 +60,7 @@ class YoutubeUploaderService
         $youtube = new \Google_Service_YouTube($this->googleClient);
         $video = $youtube->videos->listVideos('contentDetails', ['id' => $course->getYoutubeId()]);
         $duration = $video->getItems()[0]->getContentDetails()->getDuration();
-        $interval = new \DateInterval($duration);
+        $interval = new DateInterval($duration);
 
         return ($interval->h * 3600) + ($interval->i * 60) + $interval->s;
     }

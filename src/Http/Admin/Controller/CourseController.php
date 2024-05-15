@@ -144,11 +144,10 @@ class CourseController extends CrudController
         YoutubeUploaderService $uploader,
     ) : Response
     {
-//        dd('update duration');
         // Si on n'a pas d'id dans la session, on redirige
         $courseId = $session->get(self::UPLOAD_SESSION_KEY);
         if (null === $courseId) {
-            $this->addFlash('danger', "Impossible d'uploader la vidéo, id manquante dans la session");
+            $this->addFlash('danger', "Id manquante dans la session");
 
             return $this->redirectToRoute('app_admin_course_index');
         }
@@ -168,14 +167,22 @@ class CourseController extends CrudController
             return $this->redirect($googleClient->createAuthUrl(YoutubeScopes::UPLOAD));
         }
 
-        $duration = $uploader->getVideoDuration($courseId, $accessToken);
-//        dd($duration);
+        try {
+            $duration = $uploader->getVideoDuration($courseId, $accessToken);
 
-        $course = $this->em->getRepository(Course::class)->find($courseId);
-        $course->setDuration($duration);
+            $course = $this->em->getRepository(Course::class)->find($courseId);
+            $course->setDuration($duration);
 
-        $this->em->flush();
+            $this->em->flush();
 
-        return $this->redirectToRoute('app_admin_course_edit', ['id' => $courseId]);
+            $this->addFlash('success', "La durée de la vidéo a bien été mise à jour");
+
+            return $this->redirectToRoute('app_admin_course_edit', ['id' => $courseId]);
+        } catch (\Exception $e) {
+            $this->addFlash('danger', $e->getMessage());
+
+            return $this->redirectToRoute('app_admin_course_edit', ['id' => $courseId]);
+        }
+
     }
 }
