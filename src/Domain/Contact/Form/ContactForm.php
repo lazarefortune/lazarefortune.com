@@ -3,7 +3,6 @@
 namespace App\Domain\Contact\Form;
 
 use App\Domain\Contact\Dto\ContactData;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -20,7 +19,6 @@ class ContactForm extends AbstractType
                 [
                     'label' => 'Nom',
                     'attr' => [
-                        'placeholder' => 'John Doe',
                         'class' => 'form-input-md',
                     ],
                     'label_attr' => [
@@ -31,7 +29,6 @@ class ContactForm extends AbstractType
                 [
                     'label' => 'Email',
                     'attr' => [
-                        'placeholder' => 'johndoe@gmail.com',
                         'class' => 'form-input-md',
                     ],
                     'label_attr' => [
@@ -41,24 +38,18 @@ class ContactForm extends AbstractType
             ->add( 'subject', TextType::class,
                 [
                     'label' => 'C\'est à propos de ?',
-                    'attr' => [
-                        'placeholder' => 'Ex: Proposition de collaboration',
-                    ],
                     'label_attr' => [
                         'class' => 'label',
                     ],
                 ] )
-            ->add( 'message', CKEditorType::class,
+            ->add( 'message', TextareaType::class,
                 [
                     'label' => 'Votre message',
-                    'attr' => [
-                        'placeholder' => 'Votre message',
-                    ],
                     'label_attr' => [
                         'class' => 'label',
                     ],
-                    'config' => [
-                        'uiColor' => '#ffffff',
+                    'attr' => [
+                        'rows' => 7,
                     ],
                 ] );
     }

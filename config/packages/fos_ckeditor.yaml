@@ -1,8 +1,8 @@
 # Read the documentation: https://symfony.com/doc/current/bundles/FOSCKEditorBundle/index.html
 
-twig:
-    form_themes:
-        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
+#twig:
+#    form_themes:
+#        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
 
 # config/packages/fos_ck_editor.yaml
 fos_ck_editor:
@@ -13,5 +13,5 @@ fos_ck_editor:
                     name: 'basicstyles',
                     items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']
                 }
-#    base_path: "build/ckeditor"
-#    js_path:   "build/ckeditor/ckeditor.js"
+    base_path: "build/ckeditor"
+    js_path:   "build/ckeditor/ckeditor.js"

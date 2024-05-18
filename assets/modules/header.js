@@ -70,11 +70,11 @@ export function registerHeaderBehavior() {
             isScrolling = true;
             window.requestAnimationFrame(autoHideHeader);
         }
-    }, 100);
+    },100);
 
-    window.addEventListener('scroll', scrollHandler);
+    window.addEventListener('scroll',scrollHandler);
 
     return () => {
-        window.removeEventListener('scroll', scrollHandler);
+        window.removeEventListener('scroll',scrollHandler);
     };
 }

@@ -3,13 +3,10 @@
 namespace App\Http\Controller;
 
 use App\Domain\Appointment\Dto\AppointmentData;
-use App\Domain\Appointment\Dto\AppointmentManageUpdateData;
 use App\Domain\Appointment\Entity\Appointment;
-use App\Domain\Appointment\Form\AppointmentManageUpdateForm;
 use App\Domain\Appointment\Service\AppointmentService;
 use App\Domain\Payment\PaymentResultUrl;
 use App\Domain\Payment\PaymentService;
-use App\Domain\Payment\Service\StripePayment;
 use App\Infrastructure\Payment\Cash\CashPaymentProcessor;
 use App\Infrastructure\Payment\Stripe\StripePaymentProcessor;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
