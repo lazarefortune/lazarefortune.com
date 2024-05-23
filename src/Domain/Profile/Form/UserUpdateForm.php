@@ -18,18 +18,12 @@ class UserUpdateForm extends AbstractType
         $builder
             ->add( 'fullname', TextType::class, [
                 'label' => 'Nom complet',
-                'attr' => [
-                    'class' => 'form-input-md'
-                ],
                 'label_attr' => [
                     'class' => 'label'
                 ]
             ] )
             ->add( 'phone', TextType::class, [
                 'label' => 'Numéro de téléphone',
-                'attr' => [
-                    'class' => 'form-input-md'
-                ],
                 'required' => false,
                 'label_attr' => [
                     'class' => 'label'
@@ -37,9 +31,6 @@ class UserUpdateForm extends AbstractType
             ] )
             ->add( 'email', EmailType::class, [
                 'label' => 'Adresse email',
-                'attr' => [
-                    'class' => 'form-input-md'
-                ],
                 'label_attr' => [
                     'class' => 'label'
                 ]
@@ -49,21 +40,20 @@ class UserUpdateForm extends AbstractType
                 'widget' => 'single_text',
                 'html5' => false,
                 'attr' => [
-                    'class' => 'flatpickr-date-birthday form-input-md',
+                    'class' => 'flatpickr-date-birthday',
                 ],
                 'label_attr' => [
                     'class' => 'label'
                 ],
                 'required' => false,
             ] )
-            ->add('avatarFile', FileType::class, [
+            ->add( 'avatarFile', FileType::class, [
                 'label' => 'Avatar',
                 'required' => false,
                 'label_attr' => [
                     'class' => 'label'
                 ]
-            ])
-        ;
+            ] );
     }
 
     public function configureOptions( OptionsResolver $resolver ) : void

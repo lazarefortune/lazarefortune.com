@@ -35,6 +35,6 @@ class UserCrudData extends AutomaticCrudData
         $this->entity->setUpdatedAt( new \DateTimeImmutable() );
         $this->entity->setDateOfBirthday( $this->dateOfBirthday );
         $this->entity->setRoles( $this->roles );
-        $this->entity->setPassword('');
+        $this->entity->setPassword( '' );
     }
 }

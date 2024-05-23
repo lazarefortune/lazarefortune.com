@@ -115,7 +115,7 @@ class CourseController extends CrudController
 
         // On génère récupère le code d'auth
         $redirectUri = $this->generateUrl('app_admin_course_upload', [], UrlGeneratorInterface::ABSOLUTE_URL);
-        $code = $request->get('code');
+        $code = $request->get('code-upload-youtube');
 
         $googleClient->setRedirectUri($redirectUri);
         if (null === $code) {
@@ -154,7 +154,7 @@ class CourseController extends CrudController
 
         // On génère récupère le code d'auth
         $redirectUri = $this->generateUrl('app_admin_course_update_duration', [], UrlGeneratorInterface::ABSOLUTE_URL);
-        $code = $request->get('code');
+        $code = $request->get('code-update-duration');
 
         $googleClient->setRedirectUri($redirectUri);
         if (null === $code) {

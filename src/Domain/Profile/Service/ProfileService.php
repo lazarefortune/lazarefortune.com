@@ -31,8 +31,8 @@ class ProfileService
      */
     public function updateProfile( ProfileUpdateData $data ) : void
     {
-        $data->user->setFullname( $data->fullname );
-        $data->user->setPhone( $data->phone );
+        $data->user->setFullname( ($data->fullname) ?: '' );
+        $data->user->setPhone( ($data->phone) ?: '' );
         $data->user->setDateOfBirthday( $data->dateOfBirthday );
         $data->user->setUpdatedAt( new \DateTimeImmutable() );
         $data->user->setAvatarFile( $data->avatarFile );
