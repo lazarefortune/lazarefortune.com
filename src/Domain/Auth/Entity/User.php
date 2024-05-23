@@ -189,12 +189,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPhone() : ?string
+    public function getPhone() : string
     {
         return $this->phone;
     }
 
-    public function setPhone( ?string $phone ) : self
+    public function setPhone( string $phone ) : self
     {
         $this->phone = $phone;
 
@@ -288,11 +288,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __sleep() : array
     {
-        $vars = get_object_vars($this);
+        $vars = get_object_vars( $this );
         $excluded = ['avatarFile']; //propriétés à exclure.
         $result = [];
-        foreach (array_keys($vars) as $key) {
-            if (!in_array($key, $excluded) && isset($this->$key)) {
+        foreach ( array_keys( $vars ) as $key ) {
+            if ( !in_array( $key, $excluded ) && isset( $this->$key ) ) {
                 $result[] = $key;
             }
         }

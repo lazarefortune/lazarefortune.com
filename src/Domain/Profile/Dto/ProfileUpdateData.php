@@ -26,7 +26,7 @@ class ProfileUpdateData
     #[Assert\LessThan( value: 'today', message: 'Votre date de naissance doit être inférieure à la date du jour' )]
     public ?\DateTimeInterface $dateOfBirthday = null;
 
-    #[Assert\Image( mimeTypes: ['image/jpeg', 'image/jpg','image/png'], mimeTypesMessage: 'Veuillez télécharger une image au format JPG ou PNG' )]
+    #[Assert\Image( mimeTypes: ['image/jpeg', 'image/jpg', 'image/png'], mimeTypesMessage: 'Veuillez télécharger une image au format JPG ou PNG' )]
     public ?UploadedFile $avatarFile = null;
 
     public User $user;
@@ -44,7 +44,6 @@ class ProfileUpdateData
     {
         return $this->user->getId() ? : 0;
     }
-
 
 
 }
