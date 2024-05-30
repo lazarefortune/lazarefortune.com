@@ -11,9 +11,15 @@ dependencies:
   '@grafikart/drop-files-element':
     specifier: ^1.0.9
     version: 1.0.9
+  '@grafikart/spinning-dots-element':
+    specifier: ^1.1.0
+    version: 1.1.0
   '@tailwindcss/forms':
     specifier: ^0.5.3
     version: 0.5.7(tailwindcss@3.4.3)
+  ckeditor4:
+    specifier: ^4.24.0
+    version: 4.24.0
   filemanager-element:
     specifier: ^0.1.2
     version: 0.1.2
@@ -23,6 +29,9 @@ dependencies:
   headless-elements:
     specifier: ^0.0.2
     version: 0.0.2
+  htm:
+    specifier: ^3.1.1
+    version: 3.1.1
   jquery:
     specifier: ^3.6.4
     version: 3.7.1
@@ -44,6 +53,12 @@ dependencies:
   select2:
     specifier: ^4.1.0-rc.0
     version: 4.1.0-rc.0
+  sortablejs:
+    specifier: ^1.15.2
+    version: 1.15.2
+  tinymce:
+    specifier: ^7.0.1
+    version: 7.1.1
   tom-select:
     specifier: ^2.2.2
     version: 2.3.1
@@ -1350,6 +1365,10 @@ packages:
     resolution: {integrity: sha512-Eo2T8bQ30plnT+FOPW8xtGhe6+qDdbhT1IOeA0G18AiSI8nJF9LlmyZLh+PSy6UUnv3+6TMa3QOQIo/zroJQ4g==}
     dev: false
 
+  /@grafikart/spinning-dots-element@1.1.0:
+    resolution: {integrity: sha512-GrgVm/9roqLhzuOUeTytCU/Lwk4zjBws64SziL0D8ZsGYnTISSvOZjmRvzrPkGMMN4wgKdTYRUO5pg81nPP7Bw==}
+    dev: false
+
   /@hotwired/stimulus-webpack-helpers@1.0.1(@hotwired/stimulus@3.2.2):
     resolution: {integrity: sha512-wa/zupVG0eWxRYJjC1IiPBdt3Lruv0RqGN+/DTMmUWUyMAEB27KXmVY6a8YpUVTM7QwVuaLNGW4EqDgrS2upXQ==}
     peerDependencies:
@@ -2362,6 +2381,10 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /ckeditor4@4.24.0:
+    resolution: {integrity: sha512-ShtIqZMMNmP5r8AhZqnysSaONsx+qKjI/zf5AkU9wKxl0yHVw2/CSxWYmdd40u3dMjJR2kOthQ6USahz528lbw==}
+    dev: false
+
   /clean-webpack-plugin@4.0.0(webpack@5.91.0):
     resolution: {integrity: sha512-WuWE1nyTNAyW5T7oNyys2EN0cfP2fdRxhxnIQWiAp0bMabPdHhoGxM8A6YL2GhqwgrPnnaemVE7nv5XJ2Fhh2w==}
     engines: {node: '>=10.0.0'}
@@ -3346,6 +3369,10 @@ packages:
       readable-stream: 2.3.8
       wbuf: 1.7.3
     dev: true
+
+  /htm@3.1.1:
+    resolution: {integrity: sha512-983Vyg8NwUE7JkZ6NmOqpCZ+sh1bKv2iYTlUkzlWmA5JD2acKoxd4KVxbMmxX/85mtfdnDmTFoNKcg5DGAvxNQ==}
+    dev: false
 
   /html-entities@2.5.2:
     resolution: {integrity: sha512-K//PSRMQk4FZ78Kyau+mZurHn3FH0Vwr+H36eE0rPbeYkRRi9YxceYPhuN60UwWorxyKHhqoAJl2OFKa4BVtaA==}
@@ -5056,6 +5083,10 @@ packages:
       websocket-driver: 0.7.4
     dev: true
 
+  /sortablejs@1.15.2:
+    resolution: {integrity: sha512-FJF5jgdfvoKn1MAKSdGs33bIqLi3LmsgVTliuX6iITj834F+JRQZN90Z93yql8h0K2t0RwDPBmxwlbZfDcxNZA==}
+    dev: false
+
   /source-map-js@1.2.0:
     resolution: {integrity: sha512-itJW8lvSA0TXEphiRoawsCksnlf8SyvmFzIhltqAHluXd88pkCd+cXJVHTDwdCr0IzwptSm035IHQktUu1QUMg==}
     engines: {node: '>=0.10.0'}
@@ -5323,6 +5354,10 @@ packages:
   /thunky@1.1.0:
     resolution: {integrity: sha512-eHY7nBftgThBqOyHGVN+l8gF0BucP09fMo0oO/Lb0w1OF80dJv+lDVpXG60WMQvkcxAkNybKsrEIE3ZtKGmPrA==}
     dev: true
+
+  /tinymce@7.1.1:
+    resolution: {integrity: sha512-QQJKsEiM+jUfrlxNivuVUiv1jsHv4a27rub4oqajtsYQ4mFukN3hkWQrZnzVNtnPOIUsOGU2Ycem0DnEU/JKcA==}
+    dev: false
 
   /tmp@0.2.3:
     resolution: {integrity: sha512-nZD7m9iCPC5g0pYmcaxogYKggSfLsdxl8of3Q/oIbqCqLLIO9IAF0GWjX1z9NZRHPiXv8Wex4yDCaZsgEw0Y8w==}

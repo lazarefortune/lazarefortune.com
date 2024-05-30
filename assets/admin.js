@@ -1,3 +1,4 @@
+import './bootstrap.js';
 import './scss/admin.scss'
 
 import {createIcons, icons} from 'lucide';
