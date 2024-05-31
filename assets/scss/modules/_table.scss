@@ -3,7 +3,7 @@ table.table {
 }
 
 table.table thead th {
-  @apply whitespace-nowrap align-middle px-6 py-4 text-left text-sm font-normal uppercase tracking-wider text-gray-500;
+  @apply whitespace-nowrap align-middle px-6 py-4 text-left font-normal text-base tracking-wider text-gray-500;
 }
 
 table.table thead th:last-child {
