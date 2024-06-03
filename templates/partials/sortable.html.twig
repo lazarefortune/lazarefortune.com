@@ -1,0 +1,14 @@
+<a href="{{ path(pagination.route, query | merge({ (pagination.getPaginatorOption('sortFieldParameterName')): key, (pagination.getPaginatorOption('sortDirectionParameterName')): direction })) }}"
+    class="table-sortable-item"
+>
+        {{ title }}
+        {% if currentSortKey == key %}
+            {% if direction == 'asc' %}
+                {{ icon('arrow-up') }}
+            {% else %}
+                {{ icon('arrow-down') }}
+            {% endif %}
+        {% else %}
+            {{ icon('arrow-down-up') }}
+        {% endif %}
+</a>

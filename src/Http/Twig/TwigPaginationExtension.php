@@ -58,6 +58,21 @@ class TwigPaginationExtension extends AbstractExtension
         return $this->render($env, $pagination, $queryParams, $viewParams);
     }
 
+//    public function sortBy(
+//        Environment $env,
+//        SlidingPagination $pagination,
+//        string $title,
+//        string $key,
+//        array $options = [],
+//        array $params = [],
+//        ?string $template = null
+//    ): string {
+//        return $env->render(
+//            $template ?: (string) $pagination->getSortableTemplate(),
+//            $this->processor->sortable($pagination, $title, $key, $options, $params)
+//        );
+//    }
+
     public function sortBy(
         Environment $env,
         SlidingPagination $pagination,
@@ -67,9 +82,35 @@ class TwigPaginationExtension extends AbstractExtension
         array $params = [],
         ?string $template = null
     ): string {
+        // Récupérer les noms des paramètres de tri et de direction
+        $sortFieldName = $pagination->getPaginatorOption('sortFieldParameterName');
+        $sortDirectionName = $pagination->getPaginatorOption('sortDirectionParameterName');
+
+        // Récupérer les valeurs actuelles de tri et de direction
+        $queryParams = $pagination->getParams();
+        $currentSortKey = $queryParams[$sortFieldName] ?? '';
+        $currentDirection = $queryParams[$sortDirectionName] ?? 'asc';
+
+        // Déterminer la nouvelle direction de tri
+        $newDirection = ($currentSortKey === $key && $currentDirection === 'asc') ? 'desc' : 'asc';
+
         return $env->render(
-            $template ?: (string) $pagination->getSortableTemplate(),
-            $this->processor->sortable($pagination, $title, $key, $options, $params)
+            $template ?: 'partials/sortable.html.twig',
+            array_merge(
+                $this->processor->sortable($pagination, $title, $key, $options, $params),
+                [
+                    'direction' => $newDirection,
+                    'currentSortKey' => $currentSortKey,
+                    'pagination' => $pagination,
+                    'query' => array_merge($queryParams, $params),
+                ]
+            )
         );
     }
+
+
+
+
+
+
 }

@@ -26,7 +26,7 @@ class CourseController extends CrudController
     protected string $menuItem = 'course';
     protected string $entity = Course::class;
     protected bool $indexOnSave = false;
-    protected string $routePrefix = 'app_admin_course';
+    protected string $routePrefix = 'admin_course';
     protected array $events = [];
 
     #[Route(path: '/', name: 'index')]
@@ -71,13 +71,13 @@ class CourseController extends CrudController
         if ($request->request->get('upload')) {
             $session->set(self::UPLOAD_SESSION_KEY, $course->getId());
 
-            return $this->redirectToRoute('app_admin_course_upload');
+            return $this->redirectToRoute('admin_course_upload');
         }
 
         if ($request->request->get('updateDuration')) {
             $session->set(self::UPLOAD_SESSION_KEY, $course->getId());
 
-            return $this->redirectToRoute('app_admin_course_update_duration');
+            return $this->redirectToRoute('admin_course_update_duration');
         }
 
         return $response;
@@ -110,11 +110,11 @@ class CourseController extends CrudController
         if (null === $courseId) {
             $this->addFlash('danger', "Impossible d'uploader la vidéo, id manquante dans la session");
 
-            return $this->redirectToRoute('app_admin_course_index');
+            return $this->redirectToRoute('admin_course_index');
         }
 
         // On génère récupère le code d'auth
-        $redirectUri = $this->generateUrl('app_admin_course_upload', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $redirectUri = $this->generateUrl('admin_course_upload', [], UrlGeneratorInterface::ABSOLUTE_URL);
         $code = $request->get('code-upload-youtube');
 
         $googleClient->setRedirectUri($redirectUri);
@@ -133,7 +133,7 @@ class CourseController extends CrudController
         $this->addFlash('success', "La vidéo est en cours d'envoi sur Youtube");
         $session->remove(self::UPLOAD_SESSION_KEY);
 
-        return $this->redirectToRoute('app_admin_course_edit', ['id' => $courseId]);
+        return $this->redirectToRoute('admin_course_edit', ['id' => $courseId]);
     }
 
     #[Route( path: '/update-duration', name: 'update_duration', methods: ['GET'] )]
@@ -149,11 +149,11 @@ class CourseController extends CrudController
         if (null === $courseId) {
             $this->addFlash('danger', "Id manquante dans la session");
 
-            return $this->redirectToRoute('app_admin_course_index');
+            return $this->redirectToRoute('admin_course_index');
         }
 
         // On génère récupère le code d'auth
-        $redirectUri = $this->generateUrl('app_admin_course_update_duration', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $redirectUri = $this->generateUrl('admin_course_update_duration', [], UrlGeneratorInterface::ABSOLUTE_URL);
         $code = $request->get('code-update-duration');
 
         $googleClient->setRedirectUri($redirectUri);
@@ -177,11 +177,11 @@ class CourseController extends CrudController
 
             $this->addFlash('success', "La durée de la vidéo a bien été mise à jour");
 
-            return $this->redirectToRoute('app_admin_course_edit', ['id' => $courseId]);
+            return $this->redirectToRoute('admin_course_edit', ['id' => $courseId]);
         } catch (\Exception $e) {
             $this->addFlash('danger', $e->getMessage());
 
-            return $this->redirectToRoute('app_admin_course_edit', ['id' => $courseId]);
+            return $this->redirectToRoute('admin_course_edit', ['id' => $courseId]);
         }
 
     }

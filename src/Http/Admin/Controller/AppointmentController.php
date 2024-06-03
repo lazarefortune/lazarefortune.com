@@ -77,7 +77,7 @@ class AppointmentController extends AbstractController
             $appointment = $this->appointmentService->addOrUpdateAppointment( $appointmentData );
             $this->addFlash( 'success', 'Rendez-vous enregistré avec succès.' );
 
-            return [$form, $this->redirectToRoute( 'app_admin_appointment_index' )];
+            return [$form, $this->redirectToRoute( 'admin_appointment_index' )];
         }
 
         return [$form, null];
@@ -112,7 +112,7 @@ class AppointmentController extends AbstractController
     {
         if ( !$appointment ) {
             $this->addFlash( 'danger', 'Rendez-vous introuvable.' );
-            return $this->redirectToRoute( 'app_admin_appointment_index' );
+            return $this->redirectToRoute( 'admin_appointment_index' );
         }
 
         return $this->render( 'admin/appointment/show.html.twig', [
@@ -125,7 +125,7 @@ class AppointmentController extends AbstractController
     {
         if ( !$appointment ) {
             $this->addFlash( 'danger', 'Rendez-vous introuvable.' );
-            return $this->redirectToRoute( 'app_admin_appointment_index' );
+            return $this->redirectToRoute( 'admin_appointment_index' );
         }
 
         [$form, $response] = $this->createFormAppointment( $request, $appointment );
@@ -145,17 +145,17 @@ class AppointmentController extends AbstractController
     {
         if ( !$appointment ) {
             $this->addFlash( 'danger', 'Rendez-vous introuvable.' );
-            return $this->redirectToRoute( 'app_admin_appointment_index' );
+            return $this->redirectToRoute( 'admin_appointment_index' );
         }
 
         if ( $this->isCsrfTokenValid( 'confirm_appointment' . $appointment->getId(), $request->request->get( '_token' ) ) ) {
             $this->appointmentService->confirmAppointment( $appointment );
 
             $this->addFlash( 'success', 'Rendez-vous confirmé avec succès.' );
-            return $this->redirectToRoute( 'app_admin_appointment_show', ['id' => $appointment->getId()] );
+            return $this->redirectToRoute( 'admin_appointment_show', ['id' => $appointment->getId()] );
         }
 
-        return $this->redirectToRoute( 'app_admin_appointment_index' );
+        return $this->redirectToRoute( 'admin_appointment_index' );
     }
 
     #[Route( '/{id<\d+>}/cancel', name: 'cancel' )]
@@ -163,17 +163,17 @@ class AppointmentController extends AbstractController
     {
         if ( !$appointment ) {
             $this->addFlash( 'danger', 'Rendez-vous introuvable.' );
-            return $this->redirectToRoute( 'app_admin_appointment_index' );
+            return $this->redirectToRoute( 'admin_appointment_index' );
         }
 
         $this->appointmentService->cancelAppointment( $appointment );
         if ( $this->isCsrfTokenValid( 'cancel_appointment' . $appointment->getId(), $request->request->get( '_token' ) ) ) {
 
             $this->addFlash( 'success', 'Rendez-vous annulé avec succès.' );
-            return $this->redirectToRoute( 'app_admin_appointment_show', ['id' => $appointment->getId()] );
+            return $this->redirectToRoute( 'admin_appointment_show', ['id' => $appointment->getId()] );
         }
 
-        return $this->redirectToRoute( 'app_admin_appointment_index' );
+        return $this->redirectToRoute( 'admin_appointment_index' );
     }
 
     #[Route( '/{id<\d+>}/delete', name: 'delete', methods: ['POST'] )]
@@ -185,7 +185,7 @@ class AppointmentController extends AbstractController
             $this->addFlash( 'success', 'Rendez-vous supprimé avec succès.' );
         }
 
-        return $this->redirectToRoute( 'app_admin_appointment_index', [], Response::HTTP_SEE_OTHER );
+        return $this->redirectToRoute( 'admin_appointment_index', [], Response::HTTP_SEE_OTHER );
     }
 
     #[Route( '/{id<\d+>}/paiement', name: 'payment', methods: ['GET', 'POST'] )]
@@ -193,12 +193,12 @@ class AppointmentController extends AbstractController
     {
         if ( $appointment->isStatusCanceled() ) {
             $this->addFlash( 'danger', 'Le rendez-vous a été annulé.' );
-            return $this->redirectToRoute( 'app_admin_appointment_show', ['id' => $appointment->getId()] );
+            return $this->redirectToRoute( 'admin_appointment_show', ['id' => $appointment->getId()] );
         }
 
         if ( $appointment->isPaid() ) {
             $this->addFlash( 'danger', 'Le rendez-vous a déjà été payé.' );
-            return $this->redirectToRoute( 'app_admin_appointment_show', ['id' => $appointment->getId()] );
+            return $this->redirectToRoute( 'admin_appointment_show', ['id' => $appointment->getId()] );
         }
 
         if ( $request->isMethod( 'POST' ) ) {
@@ -217,7 +217,7 @@ class AppointmentController extends AbstractController
                 }
 
                 $this->addFlash( 'success', 'Le paiement a bien été effectué' );
-                return $this->redirectToRoute( 'app_admin_appointment_show', ['id' => $appointment->getId()] );
+                return $this->redirectToRoute( 'admin_appointment_show', ['id' => $appointment->getId()] );
             } catch ( \Exception $e ) {
                 $this->addFlash( 'danger', $e->getMessage() );
             }

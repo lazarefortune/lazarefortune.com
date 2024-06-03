@@ -1,0 +1,25 @@
+<div class="flex flex-col gap-1">
+    {{ form_label(form) }}
+    <div {{ container_attributes }} class="w-full">
+        <ul class="flex flex-wrap gap-3">
+            {% for child in form %}
+                <li>
+                    <input type="checkbox" id="{{ child.vars.id }}" value="{{ child.vars.value }}"
+                           class="hidden peer"
+                           {% if child.vars.checked %}checked{% endif %}
+                           name="{{ full_name ~ '[]' }}"
+                            {{ widget_attributes }}
+                    >
+                    <label for="{{ child.vars.id }}"
+                           class="flex items-center justify-between w-full px-5 py-1.5 text-gray-500 bg-white  hover:bg-slate-50
+                           border-[1.5px] border-slate-200 rounded cursor-pointer peer-checked:border-primary-600
+                           dark:bg-slate-900 dark:text-white dark:border-slate-700
+                           hover:text-gray-600 dark:hover:bg-slate-800 peer-checked:text-primary-600
+                           dark:peer-checked:text-white dark:peer-checked:border-slate-500 dark:peer-checked:bg-slate-800 ">
+                        <span class="text-base">{{ child.vars.label }}</span>
+                    </label>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

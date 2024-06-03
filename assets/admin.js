@@ -12,10 +12,11 @@ import './libs/flatpickr'
 import './libs/select2'
 /* Modules */
 import './modules/modal.js'
+import './modules/dropdown.js'
 import './modules/scrollreveal.js'
-import './modules/menu-dropdown.js'
 import './modules/user-menu-button.js'
 import './modules/sidebar.js'
+import './modules/sidebar-dropdown.js'
 /* ===== Pages ===== */
 import './pages/index.js'
 

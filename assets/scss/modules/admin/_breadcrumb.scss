@@ -3,7 +3,7 @@
   ol {
     @apply inline-flex items-center space-x-1 md:space-x-2;
     li {
-      @apply text-sm font-medium text-slate-700;
+      @apply text-sm font-medium text-slate-700 dark:text-slate-300;
 
       &:first-child {
         @apply inline-flex items-center;
@@ -13,11 +13,11 @@
       }
 
       a {
-        @apply text-slate-800 hover:text-primary-900;
+        @apply text-slate-800 hover:text-primary-900 dark:text-slate-200 dark:hover:text-primary-400;
       }
 
       span {
-        @apply text-slate-500;
+        @apply text-slate-500 dark:text-slate-400;
       }
     }
   }

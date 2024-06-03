@@ -48,7 +48,7 @@
                 {{ formation.publishedAt | ago }}
             </div>
             {% if is_granted('ROLE_SUPER_ADMIN') %}
-            <a href="{{ path('app_admin_formation_edit', {id: formation.id}) }}" target="_blank"
+            <a href="{{ path('admin_formation_edit', {id: formation.id}) }}" target="_blank"
                class="btn-light mt-4">
                 {{ icon('pencil') }}
                 Editer

@@ -1,4 +1,4 @@
-<form method="post" action="{{ path('app_admin_realisation_delete', {'id': realisation.id}) }}">
+<form method="post" action="{{ path('admin_realisation_delete', {'id': realisation.id}) }}">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ realisation.id) }}">
     <button class="btn btn-danger-alt">Supprimer</button>
 </form>

@@ -18,7 +18,7 @@ final class FormationController extends CrudController
     protected string $menuItem = 'formation';
     protected string $entity = Formation::class;
     protected bool $indexOnSave = false;
-    protected string $routePrefix = 'app_admin_formation';
+    protected string $routePrefix = 'admin_formation';
     protected array $events = [];
 
     #[Route(path: '/', name: 'index')]

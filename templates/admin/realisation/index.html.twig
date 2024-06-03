@@ -8,7 +8,7 @@
         <nav class="flex" aria-label="Breadcrumb">
             <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                 <li class="inline-flex items-center">
-                    <a href="{{ path('app_admin_home') }}"
+                    <a href="{{ path('admin_home') }}"
                        class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-primary-600">
                         <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                              fill="currentColor" viewBox="0 0 20 20">
@@ -28,7 +28,7 @@
     </div>
 
     <div class="dashboard-page-table-button">
-        <a href="{{ path('app_admin_realisation_new') }}"
+        <a href="{{ path('admin_realisation_new') }}"
            class="">
             {{ icon('plus') }}
             <span>
@@ -38,8 +38,8 @@
     </div>
 
     <div>
-        <div class="block w-full overflow-x-auto border rounded">
-            <table class="table w-full border-collapse items-center bg-transparent">
+        <div class="table-wrapper">
+            <table class="table">
                 <thead>
                 <tr>
                     <th>
@@ -72,18 +72,18 @@
                             {% endif %}
                         </td>
                         <td>
-                            <a href="{{ path('app_admin_realisation_show', {'id': realisation.id}) }}"
+                            <a href="{{ path('admin_realisation_show', {'id': realisation.id}) }}"
                                class="btn-icon">
                                 {{ icon('eye') }}
                             </a>
-                            <a href="{{ path('app_admin_realisation_edit', {'id': realisation.id}) }}"
+                            <a href="{{ path('admin_realisation_edit', {'id': realisation.id}) }}"
                                class="btn-icon">
                                 {{ icon('pencil') }}
                             </a>
 
                             <ajax-delete class="btn-icon"
                                          target="tr"
-                                         url="{{ path('app_admin_realisation_ajax_delete', {id: realisation.id}) }}">
+                                         url="{{ path('admin_realisation_ajax_delete', {id: realisation.id}) }}">
                                 {{ icon('trash') }}
                             </ajax-delete>
                         </td>

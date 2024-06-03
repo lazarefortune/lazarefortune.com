@@ -48,7 +48,7 @@ class OpenDaysController extends AbstractController
 
             $this->addFlash( 'success', 'Les jours d\'ouverture ont été mis à jour.' );
 
-            return $this->redirectToRoute( 'app_admin_open_days_index' );
+            return $this->redirectToRoute( 'admin_open_days_index' );
         }
 
         return $this->render( 'admin/open-days/list.html.twig', [

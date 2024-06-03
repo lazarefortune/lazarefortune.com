@@ -63,7 +63,7 @@
 
             {% if is_granted('ROLE_ADMIN') %}
             <li>
-                <a href="{{ path('app_admin_home') }}" class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-200 dark:border-b-slate-700">
+                <a href="{{ path('admin_home') }}" class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-200 dark:border-b-slate-700">
                     {{ icon('shield') }}
                     <span>Espace Admin</span>
                 </a>
@@ -96,7 +96,7 @@
         <li class="flex items-center gap-1 relative">
             {% if app.user %}
                 <button
-                    class="dropdown-button flex items-center p-2 gap-2
+                    class="dropdown-user-button flex items-center p-2 gap-2
                     bg-white hover:bg-primary-100 hover:text-primary-900
                     dark:text-white dark:bg-dark-soft dark:hover:bg-dark-soft-2 rounded-md"
                     aria-controls="dropdown-user">
@@ -115,7 +115,7 @@
               opacity-0 scale-95 transform transition-opacity duration-100 ease-out invisible
               pointer-events-none p-2">
                 {% if is_granted('ROLE_ADMIN') %}
-                    <a href="{{ path('app_admin_home') }}"
+                    <a href="{{ path('admin_home') }}"
                        class="flex items-center justify-start gap-2 rounded-md p-2 text-base leading-6
                             hover:bg-primary-100 hover:text-primary-900
                             dark:hover:bg-dark-soft-2 dark:hover:text-primary-300 dark:text-white">

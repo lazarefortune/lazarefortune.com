@@ -1,5 +1,5 @@
-<div class="block w-full overflow-x-auto border rounded">
-    <table class="table w-full border-collapse items-center bg-transparent">
+<div class="table-wrapper">
+    <table class="table">
         <thead>
         <tr>
             <th>
@@ -9,16 +9,13 @@
                 {{ sort_by(rows, 'Nom', 'row.fullname') }}
             </th>
             <th>
-                E-mail
+                {{ sort_by(rows, 'Email', 'row.email') }}
             </th>
             <th>
                 {{ sort_by(rows, 'Ancienneté', 'row.createdAt') }}
             </th>
             <th>
                 {{ sort_by(rows, 'Statut', 'row.isVerified') }}
-            </th>
-            <th class="text-center">
-                Role(s)
             </th>
             <th>
                 Actions
@@ -49,27 +46,32 @@
                     {{ row.createdAt|date_age }}
                 </td>
                 <td>
-                    <span class="badge badge-{% if row.isVerified %}success{% else %}danger{% endif %}">
-                        {% if row.isVerified %}Vérifié{% else %}Non vérifié{% endif %}
+                    <span class="table-item-row">
+                        {% if row.isVerified %}
+                            {{ icon('badge-check', 17) }}
+                            Vérifié
+                        {% else %}
+                            {{ icon('hourglass', 17) }}
+                            Non vérifié
+                        {% endif %}
                     </span>
                 </td>
                 <td>
-                    <div class="flex justify-start gap-2">
-                        {% for role in row.roles %}
-                            <span class="badge badge-{% if role == 'ROLE_ADMIN' %}primary{% else %}secondary{% endif %}">{{ role|replace({'ROLE_': ''}) }}</span>
-                        {% endfor %}
+                    <div class="dropdown">
+                        <button class="btn-icon dropdown-button">
+                            {{ icon('circle-ellipsis') }}
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="{{ path('admin_users_edit', {id: row.id}) }}" class="dropdown-item">
+                                Editer
+                            </a>
+                            <ajax-delete class="dropdown-item"
+                                    target="tr"
+                                         url="{{ path(prefix ~ '_delete', {id: row.id}) }}">
+                                Supprimer
+                            </ajax-delete>
+                        </div>
                     </div>
-                </td>
-                <td>
-                    <a href="{{ path('app_admin_users_edit', {id: row.id}) }}"
-                       class="btn-icon">
-                        {{ icon('pencil') }}
-                    </a>
-                    <ajax-delete class="btn-icon"
-                                 target="tr"
-                                 url="{{ path(prefix ~ '_delete', {id: row.id}) }}">
-                        {{ icon('trash') }}
-                    </ajax-delete>
                 </td>
             </tr>
         {% endfor %}

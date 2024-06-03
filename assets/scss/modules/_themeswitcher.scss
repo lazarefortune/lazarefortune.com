@@ -1,8 +1,8 @@
 .theme-switcher {
   position: relative;
   display: inline-block;
-  width: 60px;
-  height: 34px;
+  width: 44px;
+  height: 24px;
 }
 
 .theme-switcher__input {
@@ -20,16 +20,16 @@
   bottom: 0;
   @apply bg-gray-200;
   transition: .4s;
-  border-radius: 34px;
+  border-radius: 24px;
 }
 
 .theme-switcher__label:before {
   position: absolute;
   content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
   background-color: white;
   transition: .4s;
   border-radius: 50%;
@@ -40,7 +40,7 @@
 }
 
 .theme-switcher__input:checked + .theme-switcher__label:before {
-  transform: translateX(26px);
+  transform: translateX(20px);
 }
 
 .theme-switcher .icon {
@@ -60,10 +60,10 @@
 
 .theme-switcher__input:not(:checked) + .theme-switcher__label .icon-sun {
   display: block;
-  left: 8px;
+  left: 5px;
 }
 
 .theme-switcher__input:checked + .theme-switcher__label .icon-moon {
   display: block;
-  right: 8px;
+  right: 5px;
 }

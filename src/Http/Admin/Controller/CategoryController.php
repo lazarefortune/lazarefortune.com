@@ -19,7 +19,7 @@ class CategoryController extends CrudController
     protected string $templatePath = 'category';
     protected string $menuItem = 'category';
     protected string $entity = Category::class;
-    protected string $routePrefix = 'app_admin_category_prestation';
+    protected string $routePrefix = 'admin_category_prestation';
     protected array $events = [];
 
     #[Route( '/', name: 'index', methods: ['GET'] )]

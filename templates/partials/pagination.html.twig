@@ -1,9 +1,14 @@
+{% set totalDisplayedPages = 5 %}
+{% set pagesAroundCurrent = 1 %}
+{% set startPage = max(1, current - pagesAroundCurrent) %}
+{% set endPage = min(pageCount, current + pagesAroundCurrent) %}
+
 {% if pageCount > 1 %}
     <ul class="pagination">
 
-        {% if previous is defined %}
+        {% if current > 1 %}
             <li>
-                <a rel="prev" href="{{ path(route, query|merge({(pageParameterName): previous})) }}">&laquo;</a>
+                <a href="{{ path(route, query|merge({(pageParameterName): 1})) }}">&laquo;</a>
             </li>
         {% else %}
             <li aria-disabled="true">
@@ -15,18 +20,14 @@
             <li>
                 <a href="{{ path(route, query|merge({(pageParameterName): 1})) }}">1</a>
             </li>
-            {% if startPage == 3 %}
-                <li>
-                    <a href="{{ path(route, query|merge({(pageParameterName): 2})) }}">2</a>
-                </li>
-            {% elseif startPage != 2 %}
+            {% if startPage > 2 %}
                 <li aria-disabled="true">
                     <span>&hellip;</span>
                 </li>
             {% endif %}
         {% endif %}
 
-        {% for page in pagesInRange %}
+        {% for page in startPage..endPage %}
             {% if page != current %}
                 <li>
                     <a href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a>
@@ -36,29 +37,22 @@
                     <span>{{ page }}</span>
                 </li>
             {% endif %}
-
         {% endfor %}
 
-        {% if pageCount > endPage %}
-            {% if pageCount > (endPage + 1) %}
-                {% if pageCount > (endPage + 2) %}
-                    <li aria-disabled="true">
-                        <span>&hellip;</span>
-                    </li>
-                {% else %}
-                    <li>
-                        <a href="{{ path(route, query|merge({(pageParameterName): (pageCount - 1)})) }}">{{ pageCount -1 }}</a>
-                    </li>
-                {% endif %}
+        {% if endPage < pageCount %}
+            {% if endPage < pageCount - 1 %}
+                <li aria-disabled="true">
+                    <span>&hellip;</span>
+                </li>
             {% endif %}
             <li>
                 <a href="{{ path(route, query|merge({(pageParameterName): pageCount})) }}">{{ pageCount }}</a>
             </li>
         {% endif %}
 
-        {% if next is defined %}
+        {% if current < pageCount %}
             <li>
-                <a rel="next" href="{{ path(route, query|merge({(pageParameterName): next})) }}">&raquo;</a>
+                <a href="{{ path(route, query|merge({(pageParameterName): pageCount})) }}">&raquo;</a>
             </li>
         {% else %}
             <li aria-disabled="true">

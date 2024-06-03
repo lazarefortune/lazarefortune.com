@@ -1,0 +1,31 @@
+.dropdown {
+  @apply relative;
+}
+.dropdown-menu {
+  @apply absolute bg-white border border-slate-100 mt-2 min-w-48 z-10 dark:bg-slate-900 dark:text-slate-100
+  dark:border-slate-700
+  shadow rounded
+  opacity-0 scale-95 transform transition-opacity duration-100 ease-out invisible p-2
+  ;
+  transition: visibility 0.2s, opacity 0.2s;
+  visibility: hidden;
+  opacity: 0;
+}
+.dropdown-button-icon {
+}
+.dropdown-menu.visible {
+  visibility: visible;
+  opacity: 1;
+}
+.dropdown-menu--right {
+  right: 0;
+  left: auto;
+}
+.dropdown-menu--up {
+  bottom: 100%;
+  top: auto;
+}
+.dropdown-item {
+  @apply flex items-center rounded-sm gap-2 px-4 py-2 text-gray-800 cursor-pointer hover:bg-slate-100 hover:text-slate-950 dark:text-white dark:hover:bg-slate-800
+  dark:hover:text-white;
+}

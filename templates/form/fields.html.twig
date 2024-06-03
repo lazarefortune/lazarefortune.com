@@ -44,27 +44,9 @@
  {% endblock %}
 
 {% block choice_multiple_row %}
-    <div class="flex flex-col gap-1">
-        {{ form_label(form) }}
-        <div {{ block('widget_container_attributes') }} class="w-full">
-            <ul class="flex flex-wrap gap-3">
-                {% for child in form %}
-                    <li>
-                        <input type="checkbox" id="{{ child.vars.id }}" value="{{ child.vars.value }}"
-                               class="hidden peer"
-                               {% if child.vars.checked %}checked{% endif %}
-                               name="{{ full_name ~ '[]' }}"
-                                {{ block('widget_attributes') }}
-                        >
-                        <label for="{{ child.vars.id }}"
-                               class="flex items-center justify-between w-full px-5 py-1.5 text-gray-500 bg-white border-2 border-gray-200 rounded cursor-pointer peer-checked:border-primary-600 hover:text-gray-600 peer-checked:text-primary-600 hover:bg-gray-50">
-                            <span class="text-base">{{ child.vars.label }}</span>
-                        </label>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
+    {% set container_attributes = block('widget_container_attributes')|spaceless %}
+    {% set widget_attributes = block('widget_attributes')|spaceless %}
+    {% include 'components/_choice_multiple.html.twig' with {'container_attributes': container_attributes, 'widget_attributes': widget_attributes} %}
 {% endblock %}
 
 {% block slot_choice_row %}

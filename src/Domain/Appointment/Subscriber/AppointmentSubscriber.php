@@ -55,7 +55,7 @@ class AppointmentSubscriber implements EventSubscriberInterface
         $appointment = $event->getAppointment();
 
         $appointmentUrlClient = $this->urlGenerator->generate( 'app_appointment_manage', ['token' => $appointment->getAccessToken()], UrlGeneratorInterface::ABSOLUTE_URL );
-        $appointmentUrlAdmin = $this->urlGenerator->generate( 'app_admin_appointment_show', ['id' => $event->getAppointment()->getId()], UrlGeneratorInterface::ABSOLUTE_URL );
+        $appointmentUrlAdmin = $this->urlGenerator->generate( 'admin_appointment_show', ['id' => $event->getAppointment()->getId()], UrlGeneratorInterface::ABSOLUTE_URL );
 
 
         $email = $this->mailService->createEmail( 'mails/appointment/new-appointment-request.twig', [
@@ -83,7 +83,7 @@ class AppointmentSubscriber implements EventSubscriberInterface
         $client = $event->getAppointment()->getClient();
         $appointment = $event->getAppointment();
 
-        $appointmentUrlAdmin = $this->urlGenerator->generate( 'app_admin_appointment_show', ['id' => $appointment->getId()], UrlGeneratorInterface::ABSOLUTE_URL );
+        $appointmentUrlAdmin = $this->urlGenerator->generate( 'admin_appointment_show', ['id' => $appointment->getId()], UrlGeneratorInterface::ABSOLUTE_URL );
         $appointmentUrlClient = $this->urlGenerator->generate( 'app_appointment_manage', ['token' => $appointment->getAccessToken()], UrlGeneratorInterface::ABSOLUTE_URL );
 
         // Envoi de l'email de confirmation au client
@@ -112,7 +112,7 @@ class AppointmentSubscriber implements EventSubscriberInterface
         $client = $event->getAppointment()->getClient();
         $appointment = $event->getAppointment();
 
-        $appointmentUrlAdmin = $this->urlGenerator->generate( 'app_admin_appointment_show', ['id' => $appointment->getId()], UrlGeneratorInterface::ABSOLUTE_URL );
+        $appointmentUrlAdmin = $this->urlGenerator->generate( 'admin_appointment_show', ['id' => $appointment->getId()], UrlGeneratorInterface::ABSOLUTE_URL );
         $appointmentUrlClient = $this->urlGenerator->generate( 'app_appointment_manage', ['token' => $appointment->getAccessToken()], UrlGeneratorInterface::ABSOLUTE_URL );
 
         // Client notification
@@ -141,7 +141,7 @@ class AppointmentSubscriber implements EventSubscriberInterface
         $client = $event->getAppointment()->getClient();
         $appointment = $event->getAppointment();
 
-        $appointmentUrlAdmin = $this->urlGenerator->generate( 'app_admin_appointment_show', ['id' => $appointment->getId()], UrlGeneratorInterface::ABSOLUTE_URL );
+        $appointmentUrlAdmin = $this->urlGenerator->generate( 'admin_appointment_show', ['id' => $appointment->getId()], UrlGeneratorInterface::ABSOLUTE_URL );
         $appointmentUrlClient = $this->urlGenerator->generate( 'app_appointment_manage', ['token' => $appointment->getAccessToken()], UrlGeneratorInterface::ABSOLUTE_URL );
 
         // Client notification

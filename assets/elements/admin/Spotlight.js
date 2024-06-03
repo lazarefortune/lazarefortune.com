@@ -2,6 +2,7 @@ export class Spotlight extends HTMLElement {
     constructor() {
         super();
         this.bindMethods();
+        this.matchesItems = [];
     }
 
     bindMethods() {
@@ -9,6 +10,7 @@ export class Spotlight extends HTMLElement {
         this.handleInput = this.handleInput.bind(this);
         this.navigateSuggestions = this.navigateSuggestions.bind(this);
         this.blurSpotlight = this.blurSpotlight.bind(this);
+        this.activateSpotlight = this.activateSpotlight.bind(this);
     }
 
     connectedCallback() {
@@ -19,14 +21,32 @@ export class Spotlight extends HTMLElement {
     render() {
         this.classList.add('spotlight');
         this.innerHTML = `
-            <div class="spotlight__bar">
-                <input type="text" placeholder="Où voulez-vous aller ?">
-                <ul class="spotlight__suggestions" hidden></ul>
+            <div class="spotlight--bar">
+                <div class="spotlight--search-container">
+                    <div class="spotlight--search-icon">
+                        <svg class="icon"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="1.75"
+                                 stroke-linecap="round"
+                                 stroke-linejoin="round">
+                                <use href="/icons/sprite.svg?#search"></use>
+                        </svg>
+                    </div>
+                    <input type="text" placeholder="Où voulez-vous aller ?">
+                </div>
+                <div class="spotlight--container">
+                    <ul class="spotlight--suggestions" hidden></ul>
+                    <footer class="spotlight--footer">
+                        <span>Entrée</span> pour sélectionner, <span>Échap</span> pour fermer, <span>↑</span> et <span>↓</span> pour naviguer
+                    </footer>
+                </div>
             </div>
         `;
 
         this.input = this.querySelector('input');
-        this.suggestions = this.querySelector('.spotlight__suggestions');
+        this.suggestions = this.querySelector('.spotlight--suggestions');
         this.items = this.initializeItems();
     }
 
@@ -46,7 +66,17 @@ export class Spotlight extends HTMLElement {
         window.addEventListener('keydown', this.toggleSpotlight);
         this.input.addEventListener('input', this.handleInput);
         this.input.addEventListener('keydown', this.navigateSuggestions);
-        this.input.addEventListener('blur', this.blurSpotlight);
+        const spotlight = document.querySelector('.spotlight');
+        spotlight.addEventListener('click', (e) => {
+            if (e.target.tagName !== 'INPUT') {
+                this.blurSpotlight();
+            }
+        });
+
+        const triggerElement = document.getElementById(this.getAttribute('trigger-id'));
+        if (!triggerElement) return;
+        const event = (triggerElement.tagName === 'INPUT') ? 'focus' : 'click';
+        triggerElement.addEventListener(event, this.activateSpotlight);
     }
 
     disconnectedCallback() {
@@ -57,6 +87,9 @@ export class Spotlight extends HTMLElement {
         if (!['ArrowDown', 'ArrowUp', 'Enter'].includes(e.key)) return;
 
         e.preventDefault();
+
+        if (this.matchesItems.length === 0) return;
+
         const currentIndex = this.matchesItems.indexOf(this.activeItem);
         const lastIndex = this.matchesItems.length - 1;
 
@@ -80,7 +113,6 @@ export class Spotlight extends HTMLElement {
             return;
         }
 
-        // Construction de la regex pour correspondre à chaque caractère de la recherche
         let regexp = '^(.*)';
         for (const char of search) {
             regexp += `(${char})(.*)`;
@@ -99,7 +131,6 @@ export class Spotlight extends HTMLElement {
         }
     }
 
-
     showSuggestions() {
         this.suggestions.removeAttribute('hidden');
         this.setActiveItem(0);
@@ -112,6 +143,7 @@ export class Spotlight extends HTMLElement {
     }
 
     setActiveItem(index) {
+        if (this.matchesItems.length === 0) return;
         if (this.activeItem) this.activeItem.unselect();
         this.activeItem = this.matchesItems[index];
         this.activeItem.select();
@@ -127,6 +159,12 @@ export class Spotlight extends HTMLElement {
             e.preventDefault();
             this.blurSpotlight();
         }
+    }
+
+    activateSpotlight() {
+        this.classList.add('active');
+        this.input.value = '';
+        this.input.focus();
     }
 
     blurSpotlight() {

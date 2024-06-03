@@ -1,5 +1,5 @@
 .breadcrumb {
-  @apply h-12 bg-white-soft text-[13px] flex items-center overflow-y-hidden overflow-x-auto dark:bg-dark-soft dark:text-white;
+  @apply h-12 bg-white-soft text-base flex items-center overflow-y-hidden overflow-x-auto dark:bg-dark-soft dark:text-white;
 }
 .breadcrumb > * {
   @apply flex-none;

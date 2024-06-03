@@ -47,7 +47,7 @@ class HolidayController extends AbstractController
                 $holidayService->addHoliday( $holiday );
                 $this->addFlash( 'success', 'Période de fermeture ajoutée' );
 
-                return $this->redirectToRoute( 'app_admin_holidays_index' );
+                return $this->redirectToRoute( 'admin_holidays_index' );
             } catch ( \Exception $e ) {
                 $this->addFlash( 'danger', $e->getMessage() );
             }
@@ -71,7 +71,7 @@ class HolidayController extends AbstractController
             $this->holidayService->updateHoliday( $holiday );
             $this->addFlash( 'success', 'Période de fermeture modifiée' );
 
-            return $this->redirectToRoute( 'app_admin_holidays_index' );
+            return $this->redirectToRoute( 'admin_holidays_index' );
         }
 
         return $this->render( 'admin/holidays/edit.html.twig', [
@@ -89,7 +89,7 @@ class HolidayController extends AbstractController
             $this->addFlash( 'success', 'Période de fermeture supprimée' );
         }
 
-        return $this->redirectToRoute( 'app_admin_holidays_index', [], Response::HTTP_SEE_OTHER );
+        return $this->redirectToRoute( 'admin_holidays_index', [], Response::HTTP_SEE_OTHER );
     }
 
     #[Route( '/{id<\d+>}/ajax-delete', name: 'ajax_delete', methods: ['DELETE'] )]

@@ -29,9 +29,9 @@ final class ContentController extends BaseController
     public function edit(Content $content): RedirectResponse
     {
         if ($content instanceof Formation) {
-            $path = 'app_admin_formation_edit';
+            $path = 'admin_formation_edit';
         } elseif ($content instanceof Course) {
-            $path = 'app_admin_course_edit';
+            $path = 'admin_course_edit';
         } else {
             throw new NotFoundHttpException();
         }

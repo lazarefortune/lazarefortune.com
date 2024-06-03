@@ -52,11 +52,11 @@
             function reloadSlots() {
                 const date = appointmentDateInput.val();
                 const prestationId = appointmentPrestationInput.val();
-                let url = '{{ path('app_admin_appointment_slots') }}';
+                let url = '{{ path('admin_appointment_slots') }}';
                 url = url + '?date=' + date + '&prestationId=' + prestationId;
                 const data = {
                     date: date,
-                    _token: '{{ csrf_token('app_admin_appointment_slots') }}'
+                    _token: '{{ csrf_token('admin_appointment_slots') }}'
                 };
 
                 $.get(url, data, function (html) {

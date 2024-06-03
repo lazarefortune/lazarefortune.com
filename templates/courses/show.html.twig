@@ -152,7 +152,7 @@
                             </div>
                             {% if is_granted('ROLE_SUPER_ADMIN') %}
                                 <div>
-                                    <a href="{{ path('app_admin_course_edit', {id: course.id}) }}" class="btn-light" target="_blank">
+                                    <a href="{{ path('admin_course_edit', {id: course.id}) }}" class="btn-light" target="_blank">
                                         {{ icon('pencil') }} Editer
                                     </a>
                                 </div>

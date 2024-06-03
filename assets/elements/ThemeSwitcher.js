@@ -12,10 +12,10 @@ export class ThemeSwitcher extends HTMLElement {
         this.innerHTML = `
             <input type="checkbox" id="theme-switcher" class="theme-switcher__input" aria-label="Changer de thème">
             <label for="theme-switcher" class="theme-switcher__label">
-                <svg class="icon icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="icon icon-moon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
                     <use href="/icons/sprite.svg?#moon"></use>
                 </svg>
-                <svg class="icon icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="icon icon-sun" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
                     <use href="/icons/sprite.svg?#sun"></use>
                 </svg>
             </label>

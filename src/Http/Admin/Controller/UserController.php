@@ -17,7 +17,7 @@ class UserController extends CrudController
     protected string $menuItem = 'users';
     protected string $searchField = 'name';
     protected string $entity = User::class;
-    protected string $routePrefix = 'app_admin_users';
+    protected string $routePrefix = 'admin_users';
     protected array $events = [];
 
     #[Route( path: '/', name: 'index', methods: ['GET'] )]

@@ -16,7 +16,7 @@ class TechnologyController extends CrudController
     protected string $templatePath = 'technology';
     protected string $menuItem = 'technology';
     protected string $entity = Technology::class;
-    protected string $routePrefix = 'app_admin_technology';
+    protected string $routePrefix = 'admin_technology';
     protected string $searchField = 'name';
 
     #[Route(path: '/', name: 'index', methods: ['GET'])]

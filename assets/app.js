@@ -29,6 +29,7 @@ customElements.define('auto-scroll', AutoScroll, { extends: 'div' })
 import './modules/header.js'
 import './modules/scrollreveal.js'
 import './modules/modal.js'
+import './modules/modal.js'
 import './modules/header.js'
 import './modules/hamburger.js'
 import './modules/dropdown.js'

@@ -6,82 +6,88 @@
 
 {% block body %}
 
-    <div class="page-wrapper">
-        <div class="dashboard-page-header">
-            <nav class="breadcrumb" aria-label="Breadcrumb">
-                <ol>
-                    <li>
-                        <a href="{{ path('app_admin_home') }}">
-                            <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                 fill="currentColor" viewBox="0 0 20 20">
-                                <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"></path>
-                            </svg>
-                            Accueil
-                        </a>
-                    </li>
-                    {{ icon('chevron-right') }}
-                    <li>
-                        <span>Tutoriels</span>
-                    </li>
-                </ol>
-            </nav>
-        </div>
-
-        <div class="dashboard-page-table-button">
-            <a href="{{ path(prefix ~ '_new') }}">
-                {{ icon('plus') }}
-                Ajouter
-            </a>
-        </div>
-
-        <div class="block w-full overflow-x-auto border rounded">
-            <table class="table w-full border-collapse items-center bg-transparent">
-                <thead>
-                <tr>
-                    <th>{{ sort_by(rows, 'ID', 'row.id') }}</th>
-                    <th>{{ sort_by(rows, 'Titre', 'row.title') }}</th>
-                    <th>Technologies</th>
-                    <th>{{ sort_by(rows, 'Statut', 'row.online') }}</th>
-                    <th>{{ sort_by(rows, 'Date de publication', 'row.publishedAt') }}</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for row in rows %}
-                    <tr>
-                        <td>{{ row.id }}</td>
-                        <td>{{ row.title }}</td>
-                        <td>
-                            {{ row.technologies|join(', ') }}
-                        </td>
-                        <td>
-                            {% if row.online %}
-                                <span class="badge badge-success">Publié</span>
-                            {% else %}
-                                <span class="badge badge-danger">Brouillon</span>
-                            {% endif %}
-                        </td>
-                        <td>{{ row.publishedAt|date('d/m/Y H:i') }}</td>
-                        <td>
-                            <a href="{{ path(prefix ~ '_edit', {id: row.id}) }}" class="btn-icon">
-                                {{ icon('pencil') }}
-                            </a>
-                            {% if row.online %}
-                                <form action="{{ path(prefix ~ '_edit', {id: row.id}) }}" method="post" class="inline-flex">
-                                    <input type="hidden" name="_method" value="DELETE" />
-                                    <button type="submit" class="btn-icon">
-                                        {{ icon('trash') }}
-                                    </button>
-                                </form>
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-
-        {{ paginate(rows) }}
+    <div class="dashboard-page-header">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li>
+                    <a href="{{ path('admin_home') }}">
+                        <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                             fill="currentColor" viewBox="0 0 20 20">
+                            <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"></path>
+                        </svg>
+                        Accueil
+                    </a>
+                </li>
+                {{ icon('chevron-right') }}
+                <li>
+                    <span>Tutoriels</span>
+                </li>
+            </ol>
+        </nav>
     </div>
+
+    <div class="dashboard-page-table-button">
+        <a href="{{ path(prefix ~ '_new') }}">
+            {{ icon('plus') }}
+            Ajouter
+        </a>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>{{ sort_by(rows, 'ID', 'row.id') }}</th>
+                <th>{{ sort_by(rows, 'Titre', 'row.title') }}</th>
+                <th>Technologies</th>
+                <th>{{ sort_by(rows, 'Statut', 'row.online') }}</th>
+                <th>{{ sort_by(rows, 'Date de publication', 'row.publishedAt') }}</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if rows is empty %}
+                <tr>
+                    <td colspan="6" class="text-center">
+                        Aucune donnée disponible
+                    </td>
+                    <td></td>
+                </tr>
+            {% endif %}
+            {% for row in rows %}
+                <tr>
+                    <td>{{ row.id }}</td>
+                    <td>{{ row.title }}</td>
+                    <td>
+                        {{ row.technologies|join(', ') }}
+                    </td>
+                    <td>
+                        {% if row.online %}
+                            <span class="badge badge-success">Publié</span>
+                        {% else %}
+                            <span class="badge badge-danger">Brouillon</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ row.publishedAt|date('d/m/Y H:i') }}</td>
+                    <td>
+                        <a href="{{ path(prefix ~ '_edit', {id: row.id}) }}" class="btn-icon">
+                            {{ icon('pencil') }}
+                        </a>
+                        {% if row.online %}
+                            <form action="{{ path(prefix ~ '_edit', {id: row.id}) }}" method="post" class="inline-flex">
+                                <input type="hidden" name="_method" value="DELETE" />
+                                <button type="submit" class="btn-icon">
+                                    {{ icon('trash') }}
+                                </button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {{ paginate(rows) }}
 
 {% endblock %}

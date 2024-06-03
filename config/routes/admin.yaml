@@ -2,5 +2,5 @@
 #  resource: '../../src/Controller/Admin/'
 #  type: annotation
 #  prefix: /wp-admin
-#  name_prefix: app_admin_
+#  name_prefix: admin_
 #

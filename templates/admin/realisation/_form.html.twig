@@ -1,6 +1,6 @@
 {{ form_start(form) }}
 <div class="stack">
-    <div class="stack border border-slate-100 px-8 py-6">
+    <div class="stack px-8 py-6">
         <div>
             {{ form_row(form.online) }}
         </div>
@@ -10,7 +10,7 @@
         </div>
 
 
-        {% if app.request.attributes.get('_route') == 'app_admin_realisation_edit' %}
+        {% if app.request.attributes.get('_route') == 'admin_realisation_edit' %}
             {% if realisation.images|length > 0 %}
                 <div class="col-span-full">
                     <label class="label">Vos images</label>
@@ -24,7 +24,7 @@
 
                                 <a class="absolute top-4 right-4 sm:group-hover:opacity-100 opacity-100 lg:opacity-0 transition-opacity
                     bg-slate-900 p-2 rounded-full text-white hover:text-white hover:bg-slate-800"
-                                   href="{{ path('app_admin_realisation_delete_image', {'id': image.id}) }}"
+                                   href="{{ path('admin_realisation_delete_image', {'id': image.id}) }}"
                                    data-delete-image-realisation
                                    data-token={{ csrf_token('delete' ~ image.id) }}
                                    data-id="{{ image.id }}"

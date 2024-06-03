@@ -1,37 +1,42 @@
+.table-wrapper {
+  @apply block w-full overflow-x-auto rounded border border-slate-100 dark:border-muted p-2;
+}
 table.table {
-  //@apply rounded-sm;
+  @apply w-full border-collapse items-center bg-transparent;
 }
-
+.table .table-sortable-item {
+  @apply flex items-center gap-1 text-slate-600 hover:bg-slate-100 hover:text-slate-950 rounded -mx-4 px-4 py-2
+  dark:text-slate-400 dark:hover:bg-slate-800;
+}
 table.table thead th {
-  @apply whitespace-nowrap align-middle px-6 py-4 text-left font-normal text-base tracking-wider text-gray-500;
+  @apply whitespace-nowrap align-middle px-4 py-2 text-left font-normal text-base tracking-wider
+  text-slate-600
+  dark:text-slate-400;
 }
-
+table.table .table-item-row {
+  @apply flex items-center gap-2;
+}
 table.table thead th:last-child {
   @apply text-right;
 }
-
 table.table tbody th,
 table.table tbody td {
-  @apply whitespace-nowrap border-t-0 border-r-0 border-l-0 py-4 px-6 align-middle text-base font-normal text-slate-900;
+  @apply whitespace-nowrap border-t-0 border-r-0 border-l-0 px-4 py-2 align-middle text-base font-normal text-slate-900
+    dark:text-white;
 }
-
 table.table tbody th:last-child,
 table.table tbody td:last-child {
   @apply text-right;
 }
-
 table.table tbody tr {
-  @apply hover:bg-gray-50;
+  @apply hover:bg-gray-50 dark:hover:bg-slate-800;
 }
-
 table.table .table-active {
   @apply bg-primary-200/30;
 }
-
 table.table .table-active:hover {
-  @apply bg-primary-200/40;
+  @apply bg-primary-200/40 dark:bg-primary-600/30;
 }
-
 table.table .btn-icon {
-  @apply text-slate-400 hover:text-primary-600 cursor-pointer;
+  @apply text-slate-400 hover:text-primary-600 cursor-pointer dark:text-white dark:hover:bg-slate-900;
 }

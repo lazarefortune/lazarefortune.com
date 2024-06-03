@@ -38,7 +38,7 @@ class PrestationController extends AbstractController
             $prestationService->save( $prestation );
 
             $this->addFlash( 'success', 'Prestation créée avec succès' );
-            return $this->redirectToRoute( 'app_admin_prestation_index', [], Response::HTTP_SEE_OTHER );
+            return $this->redirectToRoute( 'admin_prestation_index', [], Response::HTTP_SEE_OTHER );
         }
 
         return $this->render( 'admin/prestations/new.html.twig', [
@@ -58,7 +58,7 @@ class PrestationController extends AbstractController
             $prestationService->save( $prestation );
 
             $this->addFlash( 'success', 'Prestation modifiée avec succès' );
-            return $this->redirectToRoute( 'app_admin_prestation_index', [], Response::HTTP_SEE_OTHER );
+            return $this->redirectToRoute( 'admin_prestation_index', [], Response::HTTP_SEE_OTHER );
         }
 
         return $this->render( 'admin/prestations/edit.html.twig', [
@@ -76,7 +76,7 @@ class PrestationController extends AbstractController
             $this->addFlash( 'success', 'Prestation supprimée avec succès' );
         }
 
-        return $this->redirectToRoute( 'app_admin_prestation_index', [], Response::HTTP_SEE_OTHER );
+        return $this->redirectToRoute( 'admin_prestation_index', [], Response::HTTP_SEE_OTHER );
     }
 
     #[Route( '/{id<\d+>}/ajax-delete', name: 'ajax_delete', methods: ['DELETE'] )]

@@ -1,5 +1,5 @@
 admin_controllers:
-  name_prefix: app_admin_
+  name_prefix: admin_
   prefix: '%admin_prefix%'
   resource: ../../src/Http/Admin/Controller/
   type: attribute

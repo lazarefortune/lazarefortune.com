@@ -49,7 +49,7 @@
 
 {% macro edit_button(appointment) %}
     {% if not appointment.statusCanceled and not appointment.passed %}
-        <a href="{{ path('app_admin_appointment_edit', {'id': appointment.id}) }}"
+        <a href="{{ path('admin_appointment_edit', {'id': appointment.id}) }}"
            class="btn-icon">
             {{ icon('pencil') }}
         </a>

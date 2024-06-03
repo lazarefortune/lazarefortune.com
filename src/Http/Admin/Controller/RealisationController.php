@@ -50,7 +50,7 @@ class RealisationController extends AbstractController
             $realisationRepository->save( $realisation, true );
 
             $this->addFlash( 'success', 'La réalisation a bien été ajoutée' );
-            return $this->redirectToRoute( 'app_admin_realisation_index', [], Response::HTTP_SEE_OTHER );
+            return $this->redirectToRoute( 'admin_realisation_index', [], Response::HTTP_SEE_OTHER );
         }
 
         return $this->render( 'admin/realisation/new.html.twig', [

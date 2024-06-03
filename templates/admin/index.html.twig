@@ -9,9 +9,9 @@
     </div>
 
     <section class="grid gap-6 pb-10 md:grid-cols-2 lg:grid-cols-3">
-        <div class="relative flex w-full rounded border-2 border-slate-100 bg-white p-8">
+        <div class="relative flex w-full card p-8">
             <div class="flex items-center justify-center">
-                <a href="{{ path('app_admin_users_index') }}">
+                <a href="{{ path('admin_users_index') }}">
                     <div class="flex items-center justify-center rounded-md p-4 text-xl bg-primary-200/50 text-primary-700">
                         {{ icon('users') }}
                     </div>
@@ -23,9 +23,9 @@
                 <p class="my-0 text-sm text-gray-400">Utilisateurs</p>
             </div>
         </div>
-        <div class="relative flex w-full rounded border-2 border-slate-100 bg-white p-8">
+        <div class="relative flex w-full card p-8">
             <div class="flex items-center justify-center">
-                <a href="{{ path('app_admin_realisation_index') }}">
+                <a href="{{ path('admin_realisation_index') }}">
                     <div class="flex items-center justify-center rounded-md p-4 text-xl bg-primary-200/50 text-primary-700">
                         {{ icon('scissors') }}
                     </div>
@@ -37,9 +37,9 @@
                 <p class="my-0 text-sm text-gray-400">Réalisations</p>
             </div>
         </div>
-        <div class="relative flex w-full rounded border-2 border-slate-100 bg-white p-8">
+        <div class="relative flex w-full card p-8">
             <div class="flex items-center justify-center">
-                <a href="{{ path('app_admin_appointment_index') }}">
+                <a href="{{ path('admin_appointment_index') }}">
                     <div class="flex items-center justify-center rounded-md p-4 text-xl bg-primary-200/50 text-primary-700">
                         {{ icon('calendar') }}
                     </div>
@@ -78,7 +78,7 @@
         prestations
     </section>
 
-    <section class="mb-10 h-64 rounded-md border-2 border-slate-100 bg-white px-4 py-3 lg:px-8 lg:py-6">
+    <section class="mb-10 h-64 card card-padding">
         Section 2
 
         <blockquote class="text-center text-2xl font-semibold italic text-slate-900">
@@ -90,11 +90,44 @@
         </blockquote>
     </section>
 
-    <section class="mb-10 h-64 rounded-md border-2 border-slate-100 bg-white px-4 py-3 lg:px-8 lg:py-6">
+    <div class="w-full flex justify-between">
+        <div class="dropdown">
+            <button id="dropdownButton" class="dropdown-button">
+                Dropdown
+            </button>
+            <div class="dropdown-menu">
+                <a href="#" class="dropdown-item">Option 1</a>
+                <a href="#" class="dropdown-item">Option 2</a>
+                <a href="#" class="dropdown-item">Option 3</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropdown-button px-4 py-2 bg-green-600 text-white rounded">
+                Dropdown 2
+            </button>
+            <div class="dropdown-menu">
+                <a href="#" class="dropdown-item">Option A</a>
+                <a href="#" class="dropdown-item">Option B</a>
+                <a href="#" class="dropdown-item">Option C</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropdown-button px-4 py-2 bg-green-600 text-white rounded">
+                Dropdown 3
+            </button>
+            <div class="dropdown-menu">
+                <a href="#" class="dropdown-item">Option A</a>
+                <a href="#" class="dropdown-item">Option B</a>
+                <a href="#" class="dropdown-item">Option C</a>
+            </div>
+        </div>
+    </div>
+
+    <section class="mb-10 h-64 card card-padding">
         Section 3
     </section>
 
-    <section class="mb-10 h-64 rounded-md border-2 border-slate-100 bg-white px-4 py-3 lg:px-8 lg:py-6">
+    <section class="mb-10 h-64 card card-padding">
         Section 4
     </section>
 
