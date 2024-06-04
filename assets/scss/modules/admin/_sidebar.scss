@@ -5,7 +5,7 @@
     dark:border-r-muted;
 }
 .sidebar--nav {
-  @apply grow h-full overflow-auto space-y-8;
+  @apply grow h-full overflow-auto space-y-8 pb-12;
 }
 
 .sidebar--nav-title {

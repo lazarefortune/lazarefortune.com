@@ -80,3 +80,8 @@
 .text-leading {
   @apply text-primary-900 dark:text-primary-300;
 }
+
+// Dashboard
+.dashboard {
+  @apply min-h-svh;
+}

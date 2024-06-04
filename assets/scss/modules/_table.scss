@@ -1,12 +1,15 @@
 .table-wrapper {
-  @apply block w-full overflow-x-auto rounded border border-slate-100 dark:border-muted p-2;
+  @apply block w-full overflow-x-auto rounded border border-slate-100 dark:border-muted ;
 }
 table.table {
   @apply w-full border-collapse items-center bg-transparent;
 }
-.table .table-sortable-item {
+table.table .table-sortable-item {
   @apply flex items-center gap-1 text-slate-600 hover:bg-slate-100 hover:text-slate-950 rounded -mx-4 px-4 py-2
   dark:text-slate-400 dark:hover:bg-slate-800;
+}
+table.table thead {
+  @apply border-b border-slate-300 dark:border-slate-700;
 }
 table.table thead th {
   @apply whitespace-nowrap align-middle px-4 py-2 text-left font-normal text-base tracking-wider
@@ -21,7 +24,7 @@ table.table thead th:last-child {
 }
 table.table tbody th,
 table.table tbody td {
-  @apply whitespace-nowrap border-t-0 border-r-0 border-l-0 px-4 py-2 align-middle text-base font-normal text-slate-900
+  @apply whitespace-nowrap border-t-0 border-r-0 border-l-0 px-4 py-3 align-middle text-base font-normal text-slate-900
     dark:text-white;
 }
 table.table tbody th:last-child,
