@@ -53,13 +53,13 @@
                 {% for contact in contacts %}
                     <tr>
                         <td>
-                            {{ contact.email }}
-                        </td>
-                        <td>
                             {{ contact.createdAt|date('d/m/Y') }} à {{ contact.createdAt|date('H:i') }}
                         </td>
                         <td>
-                            {{ contact.subject }}
+                            {{ contact.email }}
+                        </td>
+                        <td>
+                            {{ contact.subject|truncate(50) }}
                         </td>
                         <td></td>
                     </tr>
