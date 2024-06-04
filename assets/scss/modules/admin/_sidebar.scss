@@ -1,8 +1,14 @@
 .sidebar {
-    @apply fixed top-0 left-0 flex flex-col gap-4 h-full w-[300px] min-w-[300px] border-r min-h-screen p-5 xl:p-6
+    @apply fixed top-0 left-0 flex flex-col gap-4 w-[300px] min-w-[300px] lg:min-h-svh border-r p-5 xl:p-6
     bg-white text-slate-900 dark:bg-slate-900 dark:text-white z-50
     ease-[cubic-bezier(.5,0,0,1)] duration-500 transition-transform
     dark:border-r-muted;
+    height: 100dvh;
+}
+@supports not (height: 100dvh) {
+  .sidebar {
+    height: 100vh;
+  }
 }
 .sidebar--nav {
   @apply grow h-full overflow-auto space-y-8 pb-12;

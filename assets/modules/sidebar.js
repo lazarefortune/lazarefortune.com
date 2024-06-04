@@ -7,7 +7,6 @@ function initSidebar() {
         sidebar.classList.toggle('-translate-x-full');
         sidebar.classList.toggle('translate-x-0');
         sidebarBackdrop.classList.toggle('hidden');
-        document.body.classList.toggle('overflow-hidden');
     }
 
     if (sidebarButton) {
