@@ -9,10 +9,11 @@
     </div>
 
     <section class="grid gap-6 pb-10 md:grid-cols-2 lg:grid-cols-3">
-        <div class="relative flex w-full card p-8">
+        <div class="relative flex w-full border border-slate-200 rounded dark:border-slate-700 p-8">
             <div class="flex items-center justify-center">
                 <a href="{{ path('admin_users_index') }}">
-                    <div class="flex items-center justify-center rounded-md p-4 text-xl bg-primary-200/50 text-primary-700">
+                    <div class="flex items-center justify-center rounded-md p-4 text-xl bg-primary-200/50 text-primary-700
+                    dark:bg-slate-700/50 dark:text-slate-200">
                         {{ icon('users') }}
                     </div>
                 </a>
@@ -23,10 +24,11 @@
                 <p class="my-0 text-sm text-gray-400">Utilisateurs</p>
             </div>
         </div>
-        <div class="relative flex w-full card p-8">
+        <div class="relative flex w-full border border-slate-200 rounded dark:border-slate-700 p-8">
             <div class="flex items-center justify-center">
                 <a href="{{ path('admin_realisation_index') }}">
-                    <div class="flex items-center justify-center rounded-md p-4 text-xl bg-primary-200/50 text-primary-700">
+                    <div class="flex items-center justify-center rounded-md p-4 text-xl bg-primary-200/50 text-primary-700
+                    dark:bg-slate-700/50 dark:text-slate-200">
                         {{ icon('scissors') }}
                     </div>
                 </a>
@@ -37,10 +39,11 @@
                 <p class="my-0 text-sm text-gray-400">Réalisations</p>
             </div>
         </div>
-        <div class="relative flex w-full card p-8">
+        <div class="relative flex w-full border border-slate-200 rounded dark:border-slate-700 p-8">
             <div class="flex items-center justify-center">
                 <a href="{{ path('admin_appointment_index') }}">
-                    <div class="flex items-center justify-center rounded-md p-4 text-xl bg-primary-200/50 text-primary-700">
+                    <div class="flex items-center justify-center rounded-md p-4 text-xl bg-primary-200/50 text-primary-700
+                    dark:bg-slate-700/50 dark:text-slate-200">
                         {{ icon('calendar') }}
                     </div>
                 </a>
@@ -54,21 +57,14 @@
     </section>
 
     <h2 class="mb-3 text-2xl font-semibold">Statistiques</h2>
-    <section class="mb-10 rounded border-2 border-slate-100 px-4 py-3 stack-large lg:px-8 lg:py-6">
+    <section class="mb-10 rounded border border-slate-200 dark:border-slate-700 px-4 py-3 stack-large lg:px-8 lg:py-6">
 
         <div class="stack max-w-2xl">
             {{ render_chart(chart) }}
         </div>
     </section>
 
-    <h2 class="mb-3 text-2xl font-semibold">filemanager</h2>
-    <section class="mb-10 rounded border-2 border-slate-100 px-4 py-3 stack-large lg:px-8 lg:py-6">
-
-        <div class="stack max-w-2xl">
-        </div>
-    </section>
-
-    <section class="mb-10 h-64 rounded border-2 border-slate-100 bg-white px-4 py-3 lg:px-8 lg:py-6">
+    <section class="mb-10 h-64 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 py-3 lg:px-8 lg:py-6">
         Section 1
         <a href="" class="link">Découvrez nos réalisations</a> mais j'aimerais découvrir aussi les <a href=""
                                                                                                       class="link"

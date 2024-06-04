@@ -43,7 +43,7 @@
         {% include 'partials/flash.html.twig' with {floating: true, duration: 3} %}
         {% include 'admin/partials/_header.html.twig' %}
         <div class="dashboard">
-        {% block body %}{% endblock %}
+            {% block body %}{% endblock %}
         </div>
         <scroll-top class="scroll-top" hidden="hidden">
             {{ icon('chevron-up') }}
