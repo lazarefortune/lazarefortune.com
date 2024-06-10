@@ -7,6 +7,7 @@ parameters:
   download_path:    '%kernel.project_dir%/downloads'
   videos_path:      '%download_path%/videos'
   sources_path:     '%download_path%/sources'
+  public_path: '%kernel.project_dir%/public'
   timezone: 'Europe/Paris'
   realisation_img_dir: '%kernel.project_dir%/public/uploads/images/realisations'
   upload_images_directory: '%kernel.project_dir%/public/uploads/images'
@@ -27,6 +28,7 @@ services:
     bind:
       $videosPath: '%videos_path%'
       $adminPrefix: '%admin_prefix%'
+      $publicPath: '%public_path%'
 
   # makes classes in src/ available to be used as services
   # this creates a service per class whose id is the fully-qualified class name

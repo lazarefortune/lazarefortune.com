@@ -3,6 +3,7 @@
 namespace App\Domain\Contact\Form;
 
 use App\Domain\Contact\Dto\ContactData;
+use App\Http\Type\CaptchaType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -51,7 +52,13 @@ class ContactForm extends AbstractType
                     'attr' => [
                         'rows' => 7,
                     ],
-                ] );
+                ] )
+            ->add('captcha', CaptchaType::class, [
+                'mapped' => false,
+                'help' => 'Placez la pièce du puzzle pour vérifier que vous n’êtes pas un robot',
+                'route' => 'app_captcha'
+            ])
+        ;
     }
 
     public function configureOptions( OptionsResolver $resolver ) : void

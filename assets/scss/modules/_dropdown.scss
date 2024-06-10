@@ -2,7 +2,7 @@
   @apply relative;
 }
 .dropdown-menu {
-  @apply absolute bg-white border border-slate-100 mt-2 min-w-48 z-10 dark:bg-slate-900 dark:text-slate-100
+  @apply absolute bg-white border border-slate-100 mt-2 min-w-48 z-[9999]  dark:bg-slate-900 dark:text-slate-100
   dark:border-slate-700
   shadow rounded
   opacity-0 scale-95 transform transition-opacity duration-100 ease-out invisible p-2

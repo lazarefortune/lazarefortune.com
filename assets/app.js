@@ -25,6 +25,7 @@ customElements.define('time-countdown', TimeCountdown)
 customElements.define('time-ago', TimeAgo)
 customElements.define('play-button', PlayButton)
 customElements.define('auto-scroll', AutoScroll, { extends: 'div' })
+customElements.define('puzzle-challenge', PuzzleCaptcha)
 /* Modules */
 import './modules/header.js'
 import './modules/scrollreveal.js'
@@ -39,6 +40,7 @@ import {TimeCountdown} from "./elements/TimeCountdown";
 import {PlayButton} from "./elements/PlayButton";
 import {AutoScroll} from "./elements/AutoScroll";
 import {TimeAgo} from "./elements/TimeAgo";
+import {PuzzleCaptcha} from "./elements/Captcha";
 
 registerHeaderBehavior()
 

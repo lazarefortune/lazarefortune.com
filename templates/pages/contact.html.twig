@@ -4,6 +4,8 @@
 
 {% block body %}
 
+    {% include 'partials/flash.html.twig' with {floating: true, duration: 3} %}
+
     <div class="page-header">
         <div class="container-box">
             <h1 class="h1">
@@ -24,7 +26,7 @@
                 {'attr': {'class': 'stack'}}
             ) }}
 
-            <div class="stack card card-padding">
+            <div class="stack ">
                 <div class="grid2">
                     {{ form_row(form.name) }}
                     {{ form_row(form.email) }}
@@ -32,6 +34,7 @@
 
                 {{ form_row(form.subject) }}
                 {{ form_row(form.message) }}
+                {{ form_row(form.captcha) }}
             </div>
 
             <div class="text-end mt-2">

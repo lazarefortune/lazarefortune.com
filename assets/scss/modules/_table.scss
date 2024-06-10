@@ -22,6 +22,9 @@ table.table .table-item-row {
 table.table thead th:last-child {
   @apply text-right;
 }
+table.tbody {
+  @apply overflow-auto;
+}
 table.table tbody th,
 table.table tbody td {
   @apply whitespace-nowrap border-t-0 border-r-0 border-l-0 px-4 py-3 align-middle text-base font-normal text-slate-900
