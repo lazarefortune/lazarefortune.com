@@ -1,3 +1,6 @@
+.dashboard {
+  @apply mb-20;
+}
 .dashboard-page-title {
   @apply text-3xl font-bold text-slate-900 font-plusJakartaSans;
 }
@@ -14,7 +17,4 @@
       dark:bg-primary-600;
     ;
   }
-}
-.dashboard-footer {
-  @apply my-10 -mx-8 text-center bg-slate-100 dark:bg-slate-800 h-20 flex justify-center items-center;
 }

@@ -6,7 +6,7 @@ namespace App\Http\Admin\Controller;
 use App\Domain\Course\Entity\Course;
 use App\Http\Admin\Data\Crud\CourseCrudData;
 use App\Infrastructure\Youtube\YoutubeScopes;
-use App\Infrastructure\Youtube\YoutubeUploaderService;
+use App\Infrastructure\Youtube\YoutubeService;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -100,10 +100,10 @@ class CourseController extends CrudController
 
     #[Route( path: '/upload', name: 'upload', methods: ['GET'] )]
     public function upload(
-        Request             $request,
-        SessionInterface    $session,
-        \Google_Client      $googleClient,
-        YoutubeUploaderService $uploader,
+        Request          $request,
+        SessionInterface $session,
+        \Google_Client   $googleClient,
+        YoutubeService   $uploader,
     ): Response {
         // Si on n'a pas d'id dans la session, on redirige
         $courseId = $session->get(self::UPLOAD_SESSION_KEY);
@@ -128,7 +128,7 @@ class CourseController extends CrudController
             return $this->redirect($googleClient->createAuthUrl(YoutubeScopes::UPLOAD));
         }
 
-        $videoId = $uploader->upload($courseId, $accessToken);
+        $videoId = $uploader->uploadVideo($courseId, $accessToken);
 
         $this->addFlash('success', "La vidéo est en cours d'envoi sur Youtube");
         $session->remove(self::UPLOAD_SESSION_KEY);
@@ -138,10 +138,10 @@ class CourseController extends CrudController
 
     #[Route( path: '/update-duration', name: 'update_duration', methods: ['GET'] )]
     public function updateDuration(
-        Request             $request,
-        SessionInterface    $session,
-        \Google_Client      $googleClient,
-        YoutubeUploaderService $uploader,
+        Request          $request,
+        SessionInterface $session,
+        \Google_Client   $googleClient,
+        YoutubeService   $uploader,
     ) : Response
     {
         // Si on n'a pas d'id dans la session, on redirige

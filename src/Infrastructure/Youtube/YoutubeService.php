@@ -7,18 +7,21 @@ use App\Infrastructure\Youtube\Transformer\CourseTransformer;
 use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
 use Google\Service\Exception;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class YoutubeUploaderService
+class YoutubeService
 {
     public function __construct(
         private readonly \Google_Client         $googleClient,
+        private readonly string $apiKey,
         private readonly EntityManagerInterface $em,
-        private readonly CourseTransformer      $transformer
+        private readonly CourseTransformer      $transformer,
+        private readonly HttpClientInterface $client
     )
     {
     }
 
-    public function upload( int $courseId, array $accessToken ) : string
+    public function uploadVideo( int $courseId, array $accessToken ) : string
     {
         $course = $this->em->getRepository( Course::class )->find( $courseId );
         if ( null === $course ) {
@@ -65,5 +68,19 @@ class YoutubeUploaderService
         $interval = new DateInterval( $duration );
 
         return ( $interval->h * 3600 ) + ( $interval->i * 60 ) + $interval->s;
+    }
+
+    public function getSubscribersCount() : int
+    {
+        $url = sprintf(
+            'https://www.googleapis.com/youtube/v3/channels?part=statistics&id=%s&key=%s',
+            "UCITKwfT7qVXjdHHu84Atodw",
+            $this->apiKey
+        );
+
+        $response = $this->client->request('GET', $url);
+        $data = $response->toArray();
+
+        return $data['items'][0]['statistics']['subscriberCount'];
     }
 }

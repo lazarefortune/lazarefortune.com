@@ -1,12 +1,25 @@
-.user-dropdown-menu-item {
-  @apply flex items-center justify-start gap-2 rounded-md px-2 py-2 text-base leading-6 text-gray-500 hover:text-white hover:bg-slate-100
+.user--dropdown {
+  @apply absolute right-0 top-[68px] w-64 bg-white dark:bg-slate-900 dark:text-white
+  border border-slate-200 dark:border-slate-800 shadow rounded opacity-0 scale-95
+  transform transition-opacity duration-100 ease-out invisible pointer-events-none;
+}
+.user--dropdown.is-visible {
+  @apply opacity-100 scale-100 visible pointer-events-auto;
+}
+.user--dropdown-button {
+  @apply flex items-center gap-2 hover:text-primary-900
+  hover:bg-primary-100
+  dark:hover:text-white px-3 py-2 rounded-md dark:hover:bg-slate-800;
+}
+.user--dropdown-menu-item {
+  @apply flex items-center justify-start gap-2 rounded px-2 py-2 text-base leading-6 text-slate-900 hover:text-primary-900 hover:bg-primary-100
   dark:text-white dark:hover:text-white dark:hover:bg-slate-800;
 }
-// Probably Obsolete
-.user-dropdown-menu-item.active {
+// TODO: Probably Obsolete
+.user--dropdown-menu-item.active {
   @apply text-base leading-6 text-primary-600 bg-primary-200/30 hover:bg-primary-200/30 dark:text-primary-600 dark:hover:text-primary-600;
 }
 
-.user-dropdown-menu-item i {
+.user--dropdown-menu-item i {
   @apply text-xl;
 }

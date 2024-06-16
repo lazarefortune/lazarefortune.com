@@ -8,6 +8,9 @@
 @import "tools/reset";
 @import "tools/layout";
 
+/* Pages */
+@import "pages/admin/home-dashboard";
+
 /* Modules */
 @import "modules/admin/page-layout";
 @import "modules/admin/sidebar";

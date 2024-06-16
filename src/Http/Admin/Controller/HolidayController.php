@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route( '/vacances', name: 'holidays_' )]
-#[IsGranted( 'ROLE_ADMIN' )]
+#[IsGranted( 'ROLE_SUPER_ADMIN' )]
 class HolidayController extends AbstractController
 {
 

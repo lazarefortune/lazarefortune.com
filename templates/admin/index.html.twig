@@ -9,11 +9,10 @@
     </div>
 
     <section class="grid gap-6 pb-10 md:grid-cols-2 lg:grid-cols-3">
-        <div class="relative flex w-full border border-slate-200 rounded dark:border-slate-700 p-8">
+        <div class="relative flex w-full border border-slate-200 rounded dark:border-slate-800 p-8">
             <div class="flex items-center justify-center">
                 <a href="{{ path('admin_users_index') }}">
-                    <div class="flex items-center justify-center rounded-md p-4 text-xl bg-primary-200/50 text-primary-700
-                    dark:bg-slate-700/50 dark:text-slate-200">
+                    <div class="dashboard--stats-icon">
                         {{ icon('users') }}
                     </div>
                 </a>
@@ -24,47 +23,45 @@
                 <p class="my-0 text-sm text-gray-400">Utilisateurs</p>
             </div>
         </div>
-        <div class="relative flex w-full border border-slate-200 rounded dark:border-slate-700 p-8">
+        <div class="relative flex w-full border border-slate-200 rounded dark:border-slate-800 p-8">
             <div class="flex items-center justify-center">
-                <a href="{{ path('admin_realisation_index') }}">
-                    <div class="flex items-center justify-center rounded-md p-4 text-xl bg-primary-200/50 text-primary-700
-                    dark:bg-slate-700/50 dark:text-slate-200">
-                        {{ icon('scissors') }}
+                <div>
+                    <div class="dashboard--stats-icon">
+                        {{ icon('youtube') }}
                     </div>
-                </a>
+                </div>
             </div>
 
             <div class="ml-7 flex flex-col align-center">
-                <p class="my-0 text-2xl">{{ nbRealisations }}</p>
-                <p class="my-0 text-sm text-gray-400">Réalisations</p>
+                <p class="my-0 text-2xl">{{ youtubeSubscribersCount }}</p>
+                <p class="my-0 text-sm text-gray-400">Abonnés YouTube</p>
             </div>
         </div>
-        <div class="relative flex w-full border border-slate-200 rounded dark:border-slate-700 p-8">
+        <div class="relative flex w-full border border-slate-200 rounded dark:border-slate-800 p-8">
             <div class="flex items-center justify-center">
-                <a href="{{ path('admin_appointment_index') }}">
-                    <div class="flex items-center justify-center rounded-md p-4 text-xl bg-primary-200/50 text-primary-700
-                    dark:bg-slate-700/50 dark:text-slate-200">
-                        {{ icon('calendar') }}
+                <a href="{{ path('admin_course_index') }}">
+                    <div class="dashboard--stats-icon">
+                        {{ icon('video') }}
                     </div>
                 </a>
             </div>
 
             <div class="ml-7 flex flex-col align-center">
-                <p class="my-0 text-2xl">{{ nbAppointments }}</p>
-                <p class="my-0 text-sm text-gray-400">Rendez-vous</p>
+                <p class="my-0 text-2xl">{{ coursesOnlineCount }}</p>
+                <p class="my-0 text-sm text-gray-400">Vidéos</p>
             </div>
         </div>
     </section>
 
-    <h2 class="mb-3 text-2xl font-semibold">Statistiques</h2>
-    <section class="mb-10 rounded border border-slate-200 dark:border-slate-700 px-4 py-3 stack-large lg:px-8 lg:py-6">
+    <h2 class="mb-3 text-2xl font-semibold">Utilisateurs</h2>
+    <section class="flex justify-center items-center mb-10 rounded border border-slate-200 dark:border-slate-800 px-4 py-3 stack-large lg:px-8 lg:py-6">
 
-        <div class="stack max-w-2xl">
+        <div class="stack max-w-5xl">
             {{ render_chart(chart) }}
         </div>
     </section>
 
-    <section class="mb-10 h-64 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 py-3 lg:px-8 lg:py-6">
+    <section class="mb-10 h-64 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-3 lg:px-8 lg:py-6">
         Section 1
         <a href="" class="link">Découvrez nos réalisations</a> mais j'aimerais découvrir aussi les <a href=""
                                                                                                       class="link"
@@ -72,59 +69,6 @@
             de nos clients</a>
 
         prestations
-    </section>
-
-    <section class="mb-10 h-64 card card-padding">
-        Section 2
-
-        <blockquote class="text-center text-2xl font-semibold italic text-slate-900">
-            If you
-            <span class="before:absolute relative before:-inset-1 before:block inline-block before:-skew-y-3 before:bg-pink-500">
-                <span class="relative text-white">choose</span>
-            </span>
-            our services, you win
-        </blockquote>
-    </section>
-
-    <div class="w-full flex justify-between">
-        <div class="dropdown">
-            <button id="dropdownButton" class="dropdown-button">
-                Dropdown
-            </button>
-            <div class="dropdown-menu">
-                <a href="#" class="dropdown-item">Option 1</a>
-                <a href="#" class="dropdown-item">Option 2</a>
-                <a href="#" class="dropdown-item">Option 3</a>
-            </div>
-        </div>
-        <div class="dropdown">
-            <button class="dropdown-button px-4 py-2 bg-green-600 text-white rounded">
-                Dropdown 2
-            </button>
-            <div class="dropdown-menu">
-                <a href="#" class="dropdown-item">Option A</a>
-                <a href="#" class="dropdown-item">Option B</a>
-                <a href="#" class="dropdown-item">Option C</a>
-            </div>
-        </div>
-        <div class="dropdown">
-            <button class="dropdown-button px-4 py-2 bg-green-600 text-white rounded">
-                Dropdown 3
-            </button>
-            <div class="dropdown-menu">
-                <a href="#" class="dropdown-item">Option A</a>
-                <a href="#" class="dropdown-item">Option B</a>
-                <a href="#" class="dropdown-item">Option C</a>
-            </div>
-        </div>
-    </div>
-
-    <section class="mb-10 h-64 card card-padding">
-        Section 3
-    </section>
-
-    <section class="mb-10 h-64 card card-padding">
-        Section 4
     </section>
 
 {% endblock %}

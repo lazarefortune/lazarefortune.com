@@ -17,11 +17,9 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class CaptchaType extends AbstractType
 {
     public function __construct( private readonly ChallengeInterface $challenge, private readonly UrlGeneratorInterface $generator )
-    {
+    {}
 
-    }
-
-    public function configureOptions( OptionsResolver $resolver )
+    public function configureOptions( OptionsResolver $resolver ) : void
     {
         $resolver->setDefaults( [
             'constraints' => [
@@ -33,7 +31,7 @@ class CaptchaType extends AbstractType
         parent::configureOptions( $resolver );
     }
 
-    public function buildForm( FormBuilderInterface $builder, array $options )
+    public function buildForm( FormBuilderInterface $builder, array $options ) : void
     {
         $builder->add( 'challenge', HiddenType::class, [
             'attr' => [
@@ -48,7 +46,7 @@ class CaptchaType extends AbstractType
         parent::buildForm( $builder, $options );
     }
 
-    public function buildView( FormView $view, FormInterface $form, array $options )
+    public function buildView( FormView $view, FormInterface $form, array $options ) : void
     {
         $key = $this->challenge->generateKey();
         $view->vars['attr'] = [

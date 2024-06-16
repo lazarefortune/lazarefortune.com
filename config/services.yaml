@@ -109,6 +109,10 @@ services:
     arguments:
       $processors: [ '@App\Infrastructure\Payment\Stripe\StripePaymentProcessor', '@App\Infrastructure\Payment\Cash\CashPaymentProcessor' ]
 
+  App\Infrastructure\Youtube\YoutubeService:
+    arguments:
+      $apiKey: '%env(YOUTUBE_API_KEY)%'
+
   _instanceof:
     App\Normalizer\Breadcrumb\BreadcrumbGeneratorInterface:
       tags: [ 'app.breadcrumb' ]

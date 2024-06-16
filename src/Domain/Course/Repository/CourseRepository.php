@@ -35,6 +35,16 @@ class CourseRepository extends AbstractRepository
         return $queryBuilder;
     }
 
+    public function getNbCoursesOnline() : int
+    {
+        $queryBuilder = $this->createQueryBuilder( 'c' )
+            ->select('COUNT(c.id)')
+            ->where('c.online = true');
+
+        $query = $queryBuilder->getQuery();
+        return (int) $query->getSingleScalarResult();
+    }
+
     public function queryForTechnology( Technology $technology ) : \Doctrine\ORM\Query
     {
         $courseClass = Course::class;

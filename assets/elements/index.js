@@ -1,10 +1,9 @@
 import {NavTabs, ScrollTop, ModalDialog} from 'headless-elements'
 import {Spotlight} from './admin/Spotlight'
-import {Alert, FloatingAlert} from "./Alert";
-import {AccordionGroup} from "./Accordion";
-import {DropdownButton} from "./Dropdown";
 import InputAttachment from "./admin/InputAttachment";
 import {ChaptersEditor} from "./admin/ChaptersEditor";
+import {Alert, FloatingAlert} from "./Alert";
+import {DropdownButton} from "./Dropdown";
 import {ThemeSwitcher} from "./ThemeSwitcher";
 import {FileManager} from 'filemanager-element'
 import 'filemanager-element/FileManager.css'
@@ -12,8 +11,8 @@ import {YoutubePlayer} from "./player/YoutubePlayer";
 import {AjaxDelete} from "./AjaxDelete";
 import LoaderOverlay from "./LoaderOverlay";
 import SpinningDots from "@grafikart/spinning-dots-element";
-FileManager.register();
 
+FileManager.register();
 customElements.define('spotlight-bar', Spotlight)
 customElements.define('nav-tabs', NavTabs)
 customElements.define('scroll-top', ScrollTop)
@@ -21,7 +20,6 @@ customElements.define('alert-message', Alert)
 customElements.define('alert-floating', FloatingAlert)
 customElements.define('modal-dialog', ModalDialog)
 customElements.define('chapters-editor', ChaptersEditor, { extends: 'textarea' })
-// customElements.define('accordion-group', AccordionGroup)
 customElements.define('dropdown-button', DropdownButton)
 customElements.define('input-attachment', InputAttachment, { extends: 'input' })
 customElements.define('youtube-player', YoutubePlayer)

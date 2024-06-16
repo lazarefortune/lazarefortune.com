@@ -16,6 +16,7 @@
                         Dashboard
                     </a>
                 </li>
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <li>
                     <a href="{{ path('admin_realisation_index') }}"
                        class="sidebar--nav-item {{ menu_active('admin_realisation') }}">
@@ -23,6 +24,7 @@
                         Portfolio
                     </a>
                 </li>
+                {% endif %}
                 {% if is_granted('ROLE_SUPER_ADMIN') %}
                     <li>
                         <a href="{{ path('admin_users_index') }}"
@@ -32,6 +34,7 @@
                         </a>
                     </li>
                 {% endif %}
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <li>
                     <a href="{{ path('admin_appointment_index') }}"
                        class="sidebar--nav-item {{ menu_active('admin_appointment_') }}">
@@ -39,6 +42,7 @@
                         Agenda
                     </a>
                 </li>
+                {% endif %}
                 <li>
                     <a href="{{ path('admin_contact_index') }}"
                        class="sidebar--nav-item {{ menu_active('admin_contact_') }}">
@@ -113,6 +117,7 @@
                     </a>
                 </div>
 
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <button class="sidebar--dropdown-button
                         {{ menu_active('admin_shop_settings') }}
                         {{ menu_active('admin_open_days') }}
@@ -133,6 +138,7 @@
                         Congés
                     </a>
                 </div>
+                {% endif %}
             </ul>
         </div>
     </nav>

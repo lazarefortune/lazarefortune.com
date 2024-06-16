@@ -4,11 +4,16 @@ namespace App\Http\Admin\Controller;
 
 use App\Domain\Account\Service\UserService;
 use App\Domain\Appointment\Service\AppointmentService;
+use App\Domain\Course\CourseService;
 use App\Domain\Realisation\Service\RealisationService;
 use App\Http\Controller\AbstractController;
+use App\Infrastructure\Youtube\YoutubeService;
+use Psr\Cache\InvalidArgumentException;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
 
@@ -16,25 +21,74 @@ use Symfony\UX\Chartjs\Model\Chart;
 class PageController extends AbstractController
 {
 
-    #[Route( '/dashboard', name: 'home', methods: ['GET'] )]
-    public function index(
-        UserService           $clientService,
-        RealisationService    $realisationService,
-        AppointmentService    $appointmentService,
-        ChartBuilderInterface $chartBuilder
-    ) : Response
+    public function __construct(
+        private readonly UserService           $userService,
+        private readonly AppointmentService    $appointmentService,
+        private readonly CourseService         $courseService,
+        private readonly ChartBuilderInterface $chartBuilder,
+        private readonly YoutubeService        $youtubeService
+    )
     {
+    }
 
-        $monthlyUsersLastYear = $clientService->getMonthlyUsersLastYear();
+    /**
+     * @throws InvalidArgumentException
+     */
+    #[Route( '/dashboard', name: 'home', methods: ['GET'] )]
+    public function index() : Response
+    {
+        $cache = new FilesystemAdapter();
+
+        $monthlyUsersLastYear = $cache->get('admin.users-last-year-count', function( ItemInterface $item ) {
+            $item->expiresAfter( 3600 );
+            return $this->userService->getMonthlyUsersLastYear();
+        });
+
+        $usersCount = $cache->get('admin.users-count', function (ItemInterface $item) {
+            $item->expiresAfter(3600);
+            return $this->userService->getNbUsers();
+        });
+
+        $youtubeSubscribersCount = $cache->get( 'admin.youtube-subscribers-count',
+            function ( ItemInterface $item ) {
+                $item->expiresAfter( 3600 );
+
+                try {
+                    $countSubscribers = $this->youtubeService->getSubscribersCount();
+                } catch ( \Exception $e ) {
+                    $this->addFlash( 'error', "Impossible de charger les données depuis YouTube" );
+                    $countSubscribers = 0;
+                }
+
+                return $countSubscribers;
+            } );
+
+        $coursesOnlineCount = $cache->get('admin.courses-count', function (ItemInterface $item) {
+           $item->expiresAfter(3600);
+           return $this->courseService->getNbCoursesOnline();
+        });
 
         # Chart monthly users
-        $chart = $chartBuilder->createChart( Chart::TYPE_LINE );
+        $chart = $this->createMonthlyUsersChart( $monthlyUsersLastYear );
+
+
+        return $this->render( 'admin/index.html.twig', [
+            'nbUsers' => $usersCount,
+            'youtubeSubscribersCount' => $youtubeSubscribersCount,
+            'coursesOnlineCount' => $coursesOnlineCount,
+            'chart' => $chart,
+        ] );
+    }
+
+    private function createMonthlyUsersChart( array $monthlyUsersLastYear ) : Chart
+    {
+        $chart = $this->chartBuilder->createChart( Chart::TYPE_LINE );
 
         $chart->setData( [
             'labels' => ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
             'datasets' => [
                 [
-                    'label' => 'Nouveaux clients',
+                    'label' => 'Nouveaux utilisateurs',
                     'backgroundColor' => 'rgb(75, 5, 173)',
                     'borderColor' => 'rgb(75, 5, 173)',
                     'data' => array_values( $monthlyUsersLastYear ),
@@ -51,14 +105,8 @@ class PageController extends AbstractController
             ],
         ] );
 
-        return $this->render( 'admin/index.html.twig', [
-            'nbUsers' => $clientService->getNbUsers(),
-            'nbRealisations' => $realisationService->getCountRealisations(),
-            'nbAppointments' => $appointmentService->getCountAppointments(),
-            'chart' => $chart,
-        ] );
+        return $chart;
     }
-
 
     #[Route( '/test', name: 'test', methods: ['GET'] )]
     public function testViewAdmin() : Response

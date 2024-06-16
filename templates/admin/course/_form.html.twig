@@ -13,10 +13,10 @@
             {{ form_row(form.publishedAt) }}
             {{ form_row(form.image, {row_attr: {class: 'form-attachment', style:'grid-row-start:1; align-self:stretch;'}}) }}
         </div>
-        <div class="w-full flex flex-col sm:flex-row gap-4">
-            {{ form_row(form.online) }}
-            {{ form_row(form.source) }}
-            {{ form_row(form.premium) }}
+        <div class="w-full flex flex-col sm:flex-row gap-4 mt-4">
+            {{ form_row(form.online, { label: 'En ligne ?' }) }}
+            {{ form_row(form.source, { label: 'Code source ?' }) }}
+            {{ form_row(form.premium, { label: 'Premium ?' }) }}
         </div>
     </section>
 
@@ -61,7 +61,7 @@
     </section>
 
     <section>
-        <button type="submit" class="btn-primary">Sauvegarder</button>
+        <button type="submit" class="btn-primary">Enregistrer</button>
     </section>
 
 </section>

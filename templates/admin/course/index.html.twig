@@ -74,15 +74,39 @@
                             {{ icon('pencil') }}
                         </a>
                         {% if row.online %}
-                            <form action="{{ path(prefix ~ '_edit', {id: row.id}) }}" method="post" class="inline-flex">
-                                <input type="hidden" name="_method" value="DELETE" />
-                                <button type="submit" class="btn-icon">
-                                    {{ icon('trash') }}
-                                </button>
-                            </form>
+                            <button class="btn-icon" data-modal-id="setOfflineCourse" title="Mettre hors ligne">
+                                {{ icon('eye-off') }}
+                            </button>
                         {% endif %}
                     </td>
                 </tr>
+                <modal-dialog id="setOfflineCourse" hidden="hidden" overlay-close>
+                    <section class="modal-box">
+                        <header>Souhaitez-vous continuer ?</header>
+                        <button data-dismiss aria-label="Close" class="modal-close">
+                            {{ icon('x') }}
+                        </button>
+
+                        <p class="text-muted my-4">
+                            Vous êtes sur le point de retirer cette vidéo en ligne.
+                            Elle sera désormais en brouillon.
+                        </p>
+
+                        <div class="text-end">
+                            <button type="button" class="btn-light mr-2" data-dismiss>
+                                <span>Annuler</span>
+                            </button>
+                            <form action="{{ path(prefix ~ '_edit', {id: row.id}) }}" method="post" class="inline-flex">
+                                <input type="hidden" name="_method" value="DELETE" />
+                                <button type="submit" class="btn-danger">
+                                    {{ icon('eye-off') }}
+                                    Mettre hors ligne
+                                </button>
+                            </form>
+                        </div>
+
+                    </section>
+                </modal-dialog>
             {% endfor %}
             </tbody>
         </table>

@@ -27,7 +27,7 @@ table.tbody {
 }
 table.table tbody th,
 table.table tbody td {
-  @apply whitespace-nowrap border-t-0 border-r-0 border-l-0 px-4 py-3 align-middle text-base font-normal text-slate-900
+  @apply whitespace-nowrap border-t-0 border-r-0 border-l-0 p-4 align-middle text-base font-normal text-slate-900
     dark:text-white;
 }
 table.table tbody th:last-child,

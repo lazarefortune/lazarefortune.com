@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route( '/realisations', name: 'realisation_' )]
-#[IsGranted( 'ROLE_ADMIN' )]
+#[IsGranted( 'ROLE_SUPER_ADMIN' )]
 class RealisationController extends AbstractController
 {
     #[Route( '/', name: 'index', methods: ['GET'] )]

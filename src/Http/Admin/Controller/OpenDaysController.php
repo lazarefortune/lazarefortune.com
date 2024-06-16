@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route( '/jours-ouverture', name: 'open_days_' )]
-#[IsGranted( 'ROLE_ADMIN' )]
+#[IsGranted( 'ROLE_SUPER_ADMIN' )]
 class OpenDaysController extends AbstractController
 {
     public function __construct( private readonly EntityManagerInterface $entityManager )
