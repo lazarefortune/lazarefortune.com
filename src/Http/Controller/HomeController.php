@@ -2,11 +2,16 @@
 
 namespace App\Http\Controller;
 
+use App\Domain\Application\Entity\Content;
 use App\Domain\Application\Entity\Option;
 use App\Domain\Application\Form\WelcomeForm;
 use App\Domain\Application\Model\WelcomeModel;
 use App\Domain\Application\Service\OptionService;
 use App\Domain\Auth\Entity\User;
+use App\Domain\Course\Entity\Course;
+use App\Domain\Course\Entity\Formation;
+use App\Domain\History\Entity\Progress;
+use App\Domain\History\Service\HistoryService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,12 +22,43 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly HistoryService $historyService
+    )
+    {
+    }
+
     #[Route( '/', name: 'home' )]
     public function index() : Response
     {
+        $user = $this->getUser();
+
+        if ($user) {
+            return $this->indexLogged($user);
+        }
+
         return $this->render( 'pages/index.html.twig', [
             'controller_name' => 'HomeController',
         ] );
+    }
+
+    public function indexLogged(User $user) : Response
+    {
+        $watchlist = $this->historyService->getLastWatchedContent($user);
+        $excluded = array_map(fn (Progress $progress) => $progress->getContent()->getId(), $watchlist);
+//        $content = $this->em->getRepository(Content::class)
+//            ->findLatest(14, $user->isPremium())
+//            ->andWhere('c INSTANCE OF '.Course::class.' OR c INSTANCE OF '.Formation::class);
+//        if (!empty($excluded)) {
+//            $content = $content->andWhere('c.id NOT IN (:ids)')->setParameter('ids', $excluded);
+//        }
+
+
+        return $this->render('pages/index-logged.html.twig', [
+//            'latest_content' => $content,
+            'watchlist' => $watchlist,
+        ]);
     }
 
     #[Route( '/ui', name: 'ui' )]

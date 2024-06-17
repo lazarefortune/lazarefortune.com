@@ -26,6 +26,9 @@ customElements.define('time-ago', TimeAgo)
 customElements.define('play-button', PlayButton)
 customElements.define('auto-scroll', AutoScroll, { extends: 'div' })
 customElements.define('puzzle-challenge', PuzzleCaptcha)
+customElements.define('progress-tracker', ProgressTracker)
+customElements.define('ajax-delete', AjaxDelete)
+customElements.define('loader-overlay', LoaderOverlay)
 /* Modules */
 import './modules/header.js'
 import './modules/scrollreveal.js'
@@ -41,6 +44,9 @@ import {PlayButton} from "./elements/PlayButton";
 import {AutoScroll} from "./elements/AutoScroll";
 import {TimeAgo} from "./elements/TimeAgo";
 import {PuzzleCaptcha} from "./elements/Captcha";
+import { ProgressTracker } from "./elements/player/ProgressTracker";
+import { AjaxDelete } from "./elements/AjaxDelete";
+import LoaderOverlay from "./elements/LoaderOverlay";
 
 registerHeaderBehavior()
 

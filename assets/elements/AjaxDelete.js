@@ -52,6 +52,7 @@ export class AjaxDelete extends HTMLElement {
                 const loader = document.createElement('loader-overlay')
                 parent.style.position = 'relative'
                 parent.appendChild(loader)
+                console.log(target)
 
                 try {
                     await jsonFetch(this.getAttribute('url'), { method: 'DELETE' })
@@ -68,6 +69,10 @@ export class AjaxDelete extends HTMLElement {
                     alert.innerHTML = e.detail
                     document.body.appendChild(alert)
                 }
+            })
+
+            modal.addEventListener('close', () => {
+                modal.remove()
             })
         })
     }

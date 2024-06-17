@@ -58,23 +58,15 @@
                     </span>
                 </td>
                 <td>
-                    <div class="dropdown">
-                        <button class="btn-icon dropdown-button">
-                            {{ icon('circle-ellipsis') }}
-                        </button>
-                        <div class="dropdown-menu">
-                            <a href="{{ path('admin_users_edit', {id: row.id}) }}" class="dropdown-item">
-                                Editer
-                            </a>
-                            <ajax-delete class="dropdown-item"
-                                    target="tr"
-                                         url="{{ path(prefix ~ '_delete', {id: row.id}) }}">
-                                Supprimer
-                            </ajax-delete>
-                        </div>
-                    </div>
-                </td>
-            </tr>
+                    <a href="{{ path('admin_users_edit', {id: row.id}) }}" class="btn-icon">
+                        {{ icon('pencil') }}
+                    </a>
+                    <ajax-delete class="btn-icon"
+                            target="tr"
+                                 url="{{ path(prefix ~ '_delete', {id: row.id}) }}">
+                        {{ icon('trash') }}
+                    </ajax-delete>
+                </tr>
         {% endfor %}
         </tbody>
     </table>

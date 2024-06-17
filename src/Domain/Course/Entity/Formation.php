@@ -116,4 +116,18 @@ class Formation extends Content
             return $acc;
         }, 0 );
     }
+
+    public function getNextCourseId(?int $id): ?int
+    {
+        if (null === $id) {
+            return null;
+        }
+        $ids = array_reduce($this->getRawChapters(), fn ($acc, $chapter) => array_merge($acc, $chapter['modules']), []);
+        $index = array_search($id, $ids);
+        if (false === $index) {
+            return null;
+        }
+
+        return $ids[(int) $index + 1] ?? null;
+    }
 }

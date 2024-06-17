@@ -23,7 +23,6 @@ class PageController extends AbstractController
 
     public function __construct(
         private readonly UserService           $userService,
-        private readonly AppointmentService    $appointmentService,
         private readonly CourseService         $courseService,
         private readonly ChartBuilderInterface $chartBuilder,
         private readonly YoutubeService        $youtubeService

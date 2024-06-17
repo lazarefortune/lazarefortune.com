@@ -427,6 +427,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function isPremium() : bool
+    {
+        return true;
+    }
+
 //    public function __sleep()
 //    {
 //        return array_diff(array_keys(get_object_vars($this)), ['avatarFile']);

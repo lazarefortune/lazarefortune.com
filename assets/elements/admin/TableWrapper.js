@@ -14,12 +14,12 @@ export class TableWrapper extends HTMLElement {
         wrapper.innerHTML = `
             <div class="-m-1.5 overflow-x-auto">
                 <div class="p-1.5 min-w-full inline-block align-middle">
-                    <div class="overflow-hidden"></div>
+                    <div class="overflow-hidden" id="table-content"></div>
                 </div>
             </div>
         `;
 
-        const innerWrapper = wrapper.querySelector('.overflow-hidden');
+        const innerWrapper = wrapper.querySelector('#table-content');
         innerWrapper.appendChild(child);
 
         this.innerHTML = '';
