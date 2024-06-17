@@ -17,6 +17,24 @@
         {% endif %}
     </div>
 
+    <section class="container-box">
+        <div class="course__hero py-10">
+            <h1>Les derniers <strong>tutoriels</strong></h1>
+            <p>
+                Envie d'apprendre de nouvelle choses ? Voici les derniers contenus disponibles.
+            </p>
+        </div>
+        <div class="courses">
+            {% for content in latest_content %}
+                {% if content.isCourse %}
+                    {% include 'courses/_course_item.html.twig' with {course: content} %}
+                {% elseif content.isFormation %}
+                    {% include 'formations/_formation_item.html.twig' with {formation: content} %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+
 
     <section class="container-box pt-40 pb-60 grid relative bg-white dark:bg-dark-soft">
         <div class="home__bg"></div>

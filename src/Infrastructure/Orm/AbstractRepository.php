@@ -46,6 +46,21 @@ abstract class AbstractRepository extends ServiceEntityRepository
     }
 
     /**
+     * Crée une requête qui peut être iterable, mais qui ne récupère les données que lors de la première itération.
+     *
+     * @param string|null $indexBy the index for the from
+     *
+     * @return IterableQueryBuilder<E>
+     */
+    public function createIterableQuery( string $alias, string $indexBy = null): IterableQueryBuilder
+    {
+        /** @var IterableQueryBuilder<E> $queryBuilder */
+        $queryBuilder = new IterableQueryBuilder($this->_em);
+
+        return $queryBuilder->select($alias)->from($this->_entityName, $alias, $indexBy);
+    }
+
+    /**
      * Trouve une entité par sa clef primaire et renvoie une exception en cas d'absence.
      *
      * @return E

@@ -47,16 +47,18 @@ class HomeController extends AbstractController
     {
         $watchlist = $this->historyService->getLastWatchedContent($user);
         $excluded = array_map(fn (Progress $progress) => $progress->getContent()->getId(), $watchlist);
-//        $content = $this->em->getRepository(Content::class)
-//            ->findLatest(14, $user->isPremium())
-//            ->andWhere('c INSTANCE OF '.Course::class.' OR c INSTANCE OF '.Formation::class);
-//        if (!empty($excluded)) {
-//            $content = $content->andWhere('c.id NOT IN (:ids)')->setParameter('ids', $excluded);
-//        }
+        $content = $this->em->getRepository(Content::class)
+            ->findLatest(14, $user->isPremium())
+            ->andWhere('c INSTANCE OF '.Course::class.' OR c INSTANCE OF '.Formation::class);
+        if (!empty($excluded)) {
+            $content = $content->andWhere('c.id NOT IN (:ids)')->setParameter('ids', $excluded);
+        }
+
+//        dd($content);
 
 
         return $this->render('pages/index-logged.html.twig', [
-//            'latest_content' => $content,
+            'latest_content' => $content,
             'watchlist' => $watchlist,
         ]);
     }
