@@ -66,6 +66,9 @@
                                  url="{{ path(prefix ~ '_delete', {id: row.id}) }}">
                         {{ icon('trash') }}
                     </ajax-delete>
+                    <a href="{{ path('app_home', { '_switch_user': row.email }) }}" class="btn-icon">
+                        {{ icon('joystick') }}
+                    </a>
                 </tr>
         {% endfor %}
         </tbody>

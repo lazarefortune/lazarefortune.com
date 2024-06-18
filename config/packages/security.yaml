@@ -17,8 +17,7 @@ security:
       lazy: true
       provider: app_user_provider
       custom_authenticator: App\Domain\Auth\Security\AppAuthenticator
-      switch_user:
-        role: ROLE_ALLOWED_TO_SWITCH
+      switch_user: true
       logout:
         path: app_logout
         # where to redirect after logout
@@ -38,9 +37,8 @@ security:
     - { path: ^/admin, roles: ROLE_ADMIN }
     # - { path: ^/profile, roles: ROLE_USER }
   role_hierarchy:
-    ROLE_CLIENT: ROLE_USER
-    ROLE_MAINTAINER: ROLE_CLIENT
-    ROLE_ADMIN: [ ROLE_CLIENT, ROLE_ALLOWED_TO_SWITCH ]
+    ROLE_AUTHOR: ROLE_USER
+    ROLE_ADMIN: [ ROLE_AUTHOR, ROLE_ALLOWED_TO_SWITCH ]
     ROLE_SUPER_ADMIN: [ ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]
 
 

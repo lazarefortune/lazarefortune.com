@@ -69,6 +69,14 @@
                 </a>
             </li>
             {% endif %}
+            {% if app.user and is_granted('ROLE_PREVIOUS_ADMIN') %}
+                <li>
+                    <a href="{{ path('app_home', {'_switch_user': '_exit'}) }}" class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-200 dark:border-b-slate-700">
+                        {{ icon('monitor-x') }}
+                        Arrêter le switch
+                    </a>
+                </li>
+            {% endif %}
             <li>
                 <a href="{{ path('app_course_index') }}" {{ menu_active_aria('app_course_') }} class="flex items-center gap-3 py-6 dark:text-white border border-t-0 border-x-0 border-b-slate-200 dark:border-b-slate-700">
                     {{ icon('youtube') }}
@@ -121,6 +129,16 @@
                             dark:hover:bg-dark-soft-2 dark:hover:text-primary-300 dark:text-white">
                         {{ icon('shield' ) }}
                         <span>Espace Admin</span>
+                    </a>
+                {% endif %}
+                {% if app.user and is_granted('ROLE_PREVIOUS_ADMIN') %}
+                    <a href="{{ path('app_home', {'_switch_user': '_exit'}) }}"
+                       class="flex items-center justify-start gap-2 rounded-md p-2 text-base leading-6
+                            hover:bg-primary-100 hover:text-primary-900
+                            dark:hover:bg-dark-soft-2 dark:hover:text-primary-300 dark:text-white">
+                        {{ icon('monitor-x') }}
+                        <span>Arrêter le switch</span>
+
                     </a>
                 {% endif %}
                 <a href="{{ path('app_profile') }}"
