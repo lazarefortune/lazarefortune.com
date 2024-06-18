@@ -189,12 +189,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPhone() : string
+    public function getPhone() : ?string
     {
         return $this->phone;
     }
 
-    public function setPhone( string $phone ) : self
+    public function setPhone( ?string $phone ) : self
     {
         $this->phone = $phone;
 

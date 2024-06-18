@@ -4,20 +4,20 @@
 
 {% block body %}
 
+    {% if watchlist is not empty %}
     <div class="container-box page-header">
-        {% if watchlist is not empty %}
-            <section class="container">
-                <h1 class="h2 mb-4">Reprendre</h1>
-                <div class="courses">
-                    {% for progress in watchlist %}
-                        {% include 'account/_progress-card.html.twig' %}
-                    {% endfor %}
-                </div>
-            </section>
-        {% endif %}
+        <section class="container">
+            <h1 class="h2 mb-4">Reprendre</h1>
+            <div class="courses">
+                {% for progress in watchlist %}
+                    {% include 'account/_progress-card.html.twig' %}
+                {% endfor %}
+            </div>
+        </section>
     </div>
+    {% endif %}
 
-    <section class="container-box">
+    <section class="container-box pb-20">
         <div class="course__hero py-10">
             <h1>Les derniers <strong>tutoriels</strong></h1>
             <p>

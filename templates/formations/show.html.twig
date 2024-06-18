@@ -16,9 +16,21 @@
                     {% else %}
                         {{ formation.content | raw }}
                     {% endif %}
-                    {% if formation.firstContent %}
+                    {% if progress %}
+                        <div class="formation-progress my-3">
+                            <div class="formation-progress__label">Ma progression</div>
+                            <div class="formation-progress__count">
+                                Chapitre {{ (progress.ratio * (formation.courses | length)) | round(0, 'floor') }}
+                                / {{ formation.courses | length }}</div>
+                            <div class="formation-progress__bar" style="--progress: {{ progress.ratio * 100 }}%"></div>
+                        </div>
                         <p>
-                            <a href="{{ path('app_course_show', {slug: first_course.slug}) }}"
+                            <a href="{{ path('app_formation_resume', {slug: formation.slug}) }}#autoplay"
+                               class="btn-primary">{{ icon('play') }} Continuer</a>
+                        </p>
+                    {% elseif formation.firstContent %}
+                        <p>
+                            <a href="{{ path('app_course_show', {slug: first_course.slug}) }}#autoplay"
                                class="btn-primary">{{ icon('play') }}
                                 Commencer</a>
                         </p>

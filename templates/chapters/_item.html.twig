@@ -2,7 +2,7 @@
     <h3 class="chapters__section__title">{{ chapter.title }}</h3>
     <div class="chapters__list">
         {% for course in chapter.modules %}
-            <a href="{{ path('app_course_show', {slug: course.slug}) }}"
+            <a href="{{ path('app_course_show', {slug: course.slug}) }}#autoplay"
                class="chapters__item" id="chapter{{ course.id }}">
                 {% if course.premium %}
                     <div class="chapters__premium">

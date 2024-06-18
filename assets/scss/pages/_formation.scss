@@ -142,3 +142,42 @@
 .formation__information {
   @apply grid grid-cols-1 gap-10 md:grid-cols-2;
 }
+
+.formation-progress {
+  @apply grid;
+  align-items: center;
+  gap: 8px;
+  max-width: 390px;
+  grid-template-columns: repeat(2, 1fr);
+  .formation-progress__label {
+    @apply uppercase text-base font-bold;
+  }
+  .formation-progress__count {
+    @apply text-right text-base;
+  }
+  .formation-progress__bar {
+    grid-column: 1 / span 2;
+    height: 17px;
+    background-color: #fff;
+    border-radius: 17px;
+    padding: 0 6px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    &::before, &::after{
+      content: '';
+      display: block;
+      width: var(--progress);
+      height: 6px;
+      border-radius: 6px;
+      background: var(--green);
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 0 3px inset #0000000C;
+    }
+    &::before {
+      top: calc(50% - 3px);
+      @apply absolute bg-slate-100 w-auto left-2 right-2 z-[1];
+    }
+  }
+}

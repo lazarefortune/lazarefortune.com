@@ -22,7 +22,7 @@ class UserCrudData extends AutomaticCrudData
     public string $email = '';
 
     #[Assert\Length( min: 10 )]
-    public string $phone = '';
+    public ?string $phone = '';
 
     public ?\DateTimeInterface $dateOfBirthday = null;
 

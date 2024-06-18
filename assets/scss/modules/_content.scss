@@ -1,0 +1,10 @@
+.content__progress {
+  margin-top: auto;
+  background: 2px;
+  span {
+    width: calc(var(--progress, 0) * 100%);
+    height: 3px;
+    display: block;
+    @apply bg-primary-900 dark:bg-primary-200;
+  }
+}
