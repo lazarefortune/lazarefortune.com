@@ -1,6 +1,5 @@
 import {French} from 'flatpickr/dist/l10n/fr.js';
 import flatpickr from "flatpickr";
-import 'flatpickr/dist/themes/light.css';
 
 flatpickr.localize(French);
 
