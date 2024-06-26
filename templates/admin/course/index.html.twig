@@ -80,6 +80,7 @@
                         {% endif %}
                     </td>
                 </tr>
+                {% if row.online %}
                 <modal-dialog id="setOfflineCourse" hidden="hidden" overlay-close>
                     <section class="modal-box">
                         <header>Souhaitez-vous continuer ?</header>
@@ -107,6 +108,7 @@
 
                     </section>
                 </modal-dialog>
+                {% endif %}
             {% endfor %}
             </tbody>
         </table>

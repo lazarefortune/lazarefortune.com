@@ -32,65 +32,64 @@
         </a>
     </div>
 
-    <div>
-        <div class="table-wrapper">
-            <table class="table">
-                <thead>
+    <div class="table-wrapper">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>
+                    Motif
+                </th>
+                <th>
+                    Début
+                </th>
+                <th>
+                    Fin
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if holidays is empty %}
                 <tr>
-                    <th>
-                        Motif
-                    </th>
-                    <th>
-                        Début
-                    </th>
-                    <th>
-                        Fin
-                    </th>
-                    <th>
-                        Actions
-                    </th>
+                    <td colspan="5" class="text-center">
+                        Pas de fermetures pour le moment.
+                    </td>
                 </tr>
-                </thead>
-                <tbody>
-                {% if holidays is empty %}
-                    <tr>
-                        <td colspan="5" class="text-center">
-                            Pas de fermetures pour le moment.
-                        </td>
-                    </tr>
-                {% endif %}
-                {% for holiday in holidays %}
-                    <tr>
-                        <td>
-                            {{ holiday.title }}
-                        </td>
-                        <td>
-                            {{ holiday.startDate|date('d/m/Y') }}
-                        </td>
-                        <td>
-                            {{ holiday.endDate|date('d/m/Y') }}
-                        </td>
-                        <td>
-                            {% if is_granted('HOLIDAY_EDIT', holiday) %}
-                                <a href="{{ path('admin_holidays_edit', {id: holiday.id}) }}"
-                                   class="btn-icon">
-                                    {{ icon('pencil') }}
-                                </a>
-                            {% endif %}
+            {% endif %}
+            {% for holiday in holidays %}
+                <tr>
+                    <td>
+                        {{ holiday.title }}
+                    </td>
+                    <td>
+                        {{ holiday.startDate|date('d/m/Y') }}
+                    </td>
+                    <td>
+                        {{ holiday.endDate|date('d/m/Y') }}
+                    </td>
+                    <td>
+                        {% if is_granted('HOLIDAY_EDIT', holiday) %}
+                            <a href="{{ path('admin_holidays_edit', {id: holiday.id}) }}"
+                               class="btn-icon">
+                                {{ icon('pencil') }}
+                            </a>
+                        {% endif %}
 
-                            {% if is_granted('HOLIDAY_DELETE', holiday) %}
-                                <ajax-delete class="btn-icon"
-                                             target="tr"
-                                             url="{{ path('admin_holidays_ajax_delete', {id: holiday.id}) }}">
-                                    {{ icon('trash') }}
-                                </ajax-delete>
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                        {% if is_granted('HOLIDAY_DELETE', holiday) %}
+                            <ajax-delete class="btn-icon"
+                                         target="tr"
+                                         url="{{ path('admin_holidays_ajax_delete', {id: holiday.id}) }}">
+                                {{ icon('trash') }}
+                            </ajax-delete>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
+
 {% endblock %}
 

@@ -37,61 +37,59 @@
         </a>
     </div>
 
-    <div>
-        <div class="table-wrapper">
-            <table class="table">
-                <thead>
+    <div class="table-wrapper">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Visibilité
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if realisations|length == 0 %}
                 <tr>
-                    <th>
-                        Date
-                    </th>
-                    <th>
-                        Visibilité
-                    </th>
-                    <th>
-                        Actions
-                    </th>
+                    <td colspan="5" class="text-center">
+                        Aucune donnée disponible
+                    </td>
                 </tr>
-                </thead>
-                <tbody>
-                {% if realisations|length == 0 %}
-                    <tr>
-                        <td colspan="5" class="text-center">
-                            Aucune donnée disponible
-                        </td>
-                    </tr>
-                {% endif %}
-                {% for realisation in realisations %}
-                    <tr>
-                        <td>{{ realisation.date|human_date }}</td>
-                        <td>
-                            {% if realisation.online %}
-                                <span class="badge badge-success">En ligne</span>
-                            {% else %}
-                                <span class="badge badge-danger">Hors ligne</span>
-                            {% endif %}
-                        </td>
-                        <td>
-                            <a href="{{ path('admin_realisation_show', {'id': realisation.id}) }}"
-                               class="btn-icon">
-                                {{ icon('eye') }}
-                            </a>
-                            <a href="{{ path('admin_realisation_edit', {'id': realisation.id}) }}"
-                               class="btn-icon">
-                                {{ icon('pencil') }}
-                            </a>
+            {% endif %}
+            {% for realisation in realisations %}
+                <tr>
+                    <td>{{ realisation.date|human_date }}</td>
+                    <td>
+                        {% if realisation.online %}
+                            <span class="badge badge-success">En ligne</span>
+                        {% else %}
+                            <span class="badge badge-danger">Hors ligne</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ path('admin_realisation_show', {'id': realisation.id}) }}"
+                           class="btn-icon">
+                            {{ icon('eye') }}
+                        </a>
+                        <a href="{{ path('admin_realisation_edit', {'id': realisation.id}) }}"
+                           class="btn-icon">
+                            {{ icon('pencil') }}
+                        </a>
 
-                            <ajax-delete class="btn-icon"
-                                         target="tr"
-                                         url="{{ path('admin_realisation_ajax_delete', {id: realisation.id}) }}">
-                                {{ icon('trash') }}
-                            </ajax-delete>
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                        <ajax-delete class="btn-icon"
+                                     target="tr"
+                                     url="{{ path('admin_realisation_ajax_delete', {id: realisation.id}) }}">
+                            {{ icon('trash') }}
+                        </ajax-delete>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}
 
