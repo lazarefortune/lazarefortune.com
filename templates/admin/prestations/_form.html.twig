@@ -4,7 +4,7 @@
         <h6 class="h3">
             Informations basiques
         </h6>
-        <div class="stack card card-padding">
+        <div class="stack ">
             {{ form_row(form.name) }}
             {{ form_row(form.description) }}
             {{ form_row(form.isActive) }}
@@ -17,7 +17,7 @@
             Tarification
         </h6>
 
-        <div class="stack card card-padding">
+        <div class="stack ">
             {{ form_row(form.price, {
                 'attr': {
                     'class': 'form-input-md'
@@ -43,7 +43,7 @@
         <h6 class="h3">
             Calendrier
         </h6>
-        <div class="stack card card-padding">
+        <div class="stack ">
             <div class="grid2">
                 {{ form_row(form.startTime) }}
                 {{ form_row(form.endTime) }}
@@ -55,7 +55,7 @@
         <h6 class="h3">
             Personnalisation
         </h6>
-        <div class="stack card card-padding">
+        <div class="stack ">
             <div class="grid2">
                 {{ form_row(form.duration) }}
                 {{ form_row(form.avalaibleSpacePerPrestation) }}
