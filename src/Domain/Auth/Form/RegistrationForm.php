@@ -3,6 +3,7 @@
 namespace App\Domain\Auth\Form;
 
 use App\Domain\Auth\Dto\NewUserData;
+use App\Http\Type\CaptchaType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -30,6 +31,9 @@ class RegistrationForm extends AbstractType
                 ],
                 'label' => false,
             ] )
+            ->add('captcha', CaptchaType::class, [
+                'mapped' => false
+            ])
             ->add( 'plainPassword', PasswordType::class, [
                 'attr' => ['autocomplete' => 'new-password'],
             ] );
