@@ -1,0 +1,11 @@
+# Dual Licensing
+
+This project is available under the Mozilla Public License 2.0 for open source projects and a Commercial License for proprietary applications.
+
+## Open Source License (MPL 2.0)
+
+The source code is available under the terms of the Mozilla Public License 2.0. For more information, see the LICENSE-MPL.txt file.
+
+## Commercial License
+
+For commercial use, you must obtain a separate Commercial License. Please contact [Your Contact Information] for more details.

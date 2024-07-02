@@ -1,0 +1,36 @@
+Commercial License for Lazare Fortune's website
+This Commercial License (the "License") is a legal agreement between you (either an individual or a single entity) and Lazare Fortune ("Licensor"), the owner and developer of the software and related documentation (the "Software") made available on lazarefortune.com.
+
+By using the Software for commercial purposes, you agree to be bound by the terms of this License. If you do not agree to the terms of this License, do not use the Software for commercial purposes.
+
+1. Grant of License
+Licensor grants you a non-exclusive, non-transferable, limited license to use the Software for commercial purposes, subject to the terms and conditions set forth in this License.
+
+2. Permitted Uses and Restrictions
+Permitted Uses
+You may use the Software for commercial purposes, including but not limited to developing, distributing, and selling applications or services based on the Software.
+Restrictions
+You may not sublicense, sell, rent, lease, or redistribute the Software without prior written consent from the Licensor.
+You must retain all copyright notices, trademarks, and other proprietary notices on any copies of the Software.
+You may not use the Software in any manner that infringes the intellectual property or proprietary rights of any third party.
+3. Intellectual Property Rights
+The Software is protected by copyright laws and international copyright treaties, as well as other intellectual property laws and treaties. The Licensor retains all right, title, and interest in and to the Software, including all copyrights, patents, trade secrets, trademarks, and other intellectual property rights.
+
+4. Termination
+This License is effective until terminated. Your rights under this License will terminate automatically without notice from the Licensor if you fail to comply with any term(s) of this License. Upon termination of this License, you shall cease all use of the Software and destroy all copies, full or partial, of the Software.
+
+5. Disclaimer of Warranty
+The Software is provided "as is" without warranty of any kind, either express or implied, including but not limited to the implied warranties of merchantability, fitness for a particular purpose, or non-infringement. The entire risk as to the quality and performance of the Software is with you.
+
+6. Limitation of Liability
+In no event shall the Licensor be liable for any special, incidental, indirect, or consequential damages whatsoever (including, but not limited to, damages for loss of profits, business interruption, loss of information, or any other pecuniary loss) arising out of the use of or inability to use the Software, even if the Licensor has been advised of the possibility of such damages.
+
+7. Governing Law
+This License shall be governed by and construed in accordance with the laws of FRANCE, without regard to its conflict of laws principles.
+
+8. Contact Information
+For inquiries regarding this License or to obtain a commercial license, please contact:
+
+Lazare Fortune
+Email: lazarefortune@gmail.com
+Website: lazarefortune.com
