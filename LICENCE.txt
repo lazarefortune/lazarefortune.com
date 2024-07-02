@@ -8,4 +8,4 @@ The source code is available under the terms of the Mozilla Public License 2.0. 
 
 ## Commercial License
 
-For commercial use, you must obtain a separate Commercial License. Please contact [Your Contact Information] for more details.
+For commercial use, you must obtain a separate Commercial License. Please contact lazarefortune@gmail.com for more details.
