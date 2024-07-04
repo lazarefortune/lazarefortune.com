@@ -123,11 +123,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $date = new \DateTime();
 
         $users = $this->createQueryBuilder( 'u' )
-            ->andWhere( 'u.roles LIKE :role' )
+            ->andWhere( 'u.roles NOT LIKE :role' )
             ->andWhere( 'u.deletedAt IS NOT NULL' )
             ->andWhere( 'u.deletedAt <= :date' )
             ->setParameter( 'date', $date )
-            ->setParameter( 'role', '%ROLE_USER%' )
+            ->setParameter( 'role', '%ROLE_SUPER_ADMIN%' )
             ->getQuery()
             ->getResult();
 
