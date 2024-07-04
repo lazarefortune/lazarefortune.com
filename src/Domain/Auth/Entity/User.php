@@ -83,6 +83,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column( type: Types::TEXT, nullable: true )]
     private ?string $stripeId = null;
 
+    #[ORM\Column( type: Types::STRING, nullable: true )]
+    private ?string $apiKey = null;
+
     public function __construct()
     {
         $this->fullname = '';
@@ -424,6 +427,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->stripeId = $stripeId;
 
+        return $this;
+    }
+
+    public function getApiKey() : ?string
+    {
+        return $this->apiKey;
+    }
+
+    public function setApiKey( ?string $apiKey ) : User
+    {
+        $this->apiKey = $apiKey;
         return $this;
     }
 

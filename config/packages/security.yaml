@@ -9,10 +9,23 @@ security:
       entity:
         class: App\Domain\Auth\Entity\User
         property: email
+    api_key_provider:
+      entity:
+        class: App\Domain\Auth\Entity\User
+        property: apiKey
   firewalls:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
       security: false
+
+    api_token:
+      pattern: ^/api/*
+      stateless: true
+      lazy: true
+      provider: api_key_provider
+      custom_authenticators:
+          - App\Infrastructure\Security\ApiKeyAuthenticator
+
     main:
       lazy: true
       provider: app_user_provider
