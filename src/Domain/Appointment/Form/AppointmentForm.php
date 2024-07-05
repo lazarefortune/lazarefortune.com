@@ -6,17 +6,16 @@ use App\Domain\Appointment\Entity\Appointment;
 use App\Domain\Appointment\Form\Type\SlotChoiceType;
 use App\Domain\Appointment\Service\AppointmentService;
 use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Repository\UserRepository;
 use App\Domain\Prestation\Entity\Prestation;
 use App\Domain\Prestation\PrestationService;
 use App\Http\Type\SwitchType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Validator\Constraints as Assert;
 
 class AppointmentForm extends AbstractType
 {
@@ -35,25 +34,26 @@ class AppointmentForm extends AbstractType
                 'label' => 'Confirmer automatiquement',
                 'mapped' => false,
             ] )
-            ->add( 'client', EntityType::class, [
+            ->add('client', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'email',
-                'label' => 'Client',
-                'query_builder' => function ( \Doctrine\ORM\EntityRepository $er ) {
-                    return $er->createQueryBuilder( 'u' )
-                        ->where( 'u.roles NOT LIKE :role' )
-                        ->setParameter( 'role', '%"' . 'ROLE_SUPER_ADMIN' . '"%' );
+                'label' => 'Utilisateur',
+                'query_builder' => function (UserRepository $userRepository) {
+                    return $userRepository->getQueryUsersWithoutRoles( ['ROLE_SUPER_ADMIN'] );
                 },
-                'label_attr' => [
-                    'class' => 'label'
+                'attr' => [
+                    'class' => 'select2'
                 ],
-            ] )
+            ])
             ->add( 'prestation', EntityType::class, [
                 'class' => Prestation::class,
                 'choice_label' => 'name',
                 'label' => 'Prestation',
                 'label_attr' => [
                     'class' => 'label'
+                ],
+                'attr' => [
+                    'class' => 'select2'
                 ],
             ] )
             ->add( 'date', DateType::class, [

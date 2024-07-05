@@ -6,32 +6,10 @@ import $ from 'jquery';
 $(document).ready(function () {
     // search element with the attribute data-remote and call the url and use the result as the data for the select2
     $('.select2').select2({
-        // theme: 'bootstrap4',
-        width: '100%',
-        dropdownAutoWidth: true,
-        // ajax: {
-        //     url: function () {
-        //         return $(this).data('remote');
-        //     },
-        //     dataType: 'json',
-        //     delay: 250,
-        //     data: function (params) {
-        //         return {
-        //             q: params.term,
-        //         };
-        //     },
-        //     processResults: function (data) {
-        //         console.log(data)
-        //         return {
-        //             results: data.map(item => ({
-        //                 id: item.slug,
-        //                 name: item.name
-        //             }))
-        //         };
-        //     },
-        // },
+        // width: '100%',
+        // dropdownAutoWidth: true,
     });
-
+    
     $('.select2-tags').select2({
         tags: true,
         tokenSeparators: [',', ' ']

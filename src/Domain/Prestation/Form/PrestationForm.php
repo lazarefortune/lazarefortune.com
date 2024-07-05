@@ -12,9 +12,7 @@ use App\Http\Type\SwitchType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
@@ -24,20 +22,19 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class PrestationForm extends AbstractType
 {
 
+    /*
     public function __construct(
         private readonly MinutesToTimeHelper $minutesToTimeHelper,
     )
     {
     }
+    */
 
     public function buildForm( FormBuilderInterface $builder, array $options ) : void
     {
         $builder
             ->add( 'name', TextType::class, [
                 'label' => 'Nom du service',
-                'attr' => [
-                    'class' => 'form-input-md',
-                ],
                 'required' => true,
                 'label_attr' => [
                     'class' => 'label',
@@ -45,9 +42,6 @@ class PrestationForm extends AbstractType
             ] )
             ->add( 'description', TextareaType::class, [
                 'label' => 'Description du service',
-                'attr' => [
-                    'class' => 'form-input-md',
-                ],
                 'required' => false,
                 'label_attr' => [
                     'class' => 'label',
@@ -57,9 +51,6 @@ class PrestationForm extends AbstractType
                 'label' => 'Prix du service',
                 'currency' => 'EUR',
                 'required' => true,
-                'attr' => [
-                    'class' => 'form-input-md',
-                ],
                 'label_attr' => [
                     'class' => 'label',
                 ],
@@ -68,7 +59,7 @@ class PrestationForm extends AbstractType
                 'label' => 'Durée du service',
                 'widget' => 'single_text',
                 'attr' => [
-                    'class' => 'form-input-md flatpickr-time-input',
+                    'class' => 'flatpickr-time-input',
                 ],
                 'required' => true,
                 'label_attr' => [
@@ -80,7 +71,7 @@ class PrestationForm extends AbstractType
                 'widget' => 'single_text',
                 'required' => true,
                 'attr' => [
-                    'class' => 'form-input-md flatpickr-time-input',
+                    'class' => 'flatpickr-time-input',
                 ],
                 'label_attr' => [
                     'class' => 'label',
@@ -91,7 +82,7 @@ class PrestationForm extends AbstractType
                 'widget' => 'single_text',
                 'required' => true,
                 'attr' => [
-                    'class' => 'form-input-md flatpickr-time-input',
+                    'class' => 'flatpickr-time-input',
                 ],
                 'label_attr' => [
                     'class' => 'label',
@@ -102,7 +93,7 @@ class PrestationForm extends AbstractType
                 'choice_label' => 'name',
                 'label' => 'Catégories',
                 'attr' => [
-                    'class' => 'form-input-md',
+                    'class' => 'select2',
                 ],
                 'label_attr' => [
                     'class' => 'label',
@@ -110,46 +101,18 @@ class PrestationForm extends AbstractType
             ] )
             ->add( 'avalaibleSpacePerPrestation', IntegerType::class, [
                 'label' => 'Nombre de places disponibles',
-                'attr' => [
-                    'class' => 'form-input-md',
-                ],
                 'required' => true,
                 'label_attr' => [
                     'class' => 'label',
                 ],
             ] )
-//            ->add( 'bufferTime', ChoiceType::class, [
-//                'label' => 'Temps de pause',
-//                'choices' => [
-//                    '0 minutes' => 0,
-//                    '5 minutes' => 5,
-//                    '10 minutes' => 10,
-//                    '15 minutes' => 15,
-//                    '20 minutes' => 20,
-//                    '25 minutes' => 25,
-//                    '30 minutes' => 30,
-//                    '35 minutes' => 35,
-//                    '40 minutes' => 40,
-//                    '45 minutes' => 45,
-//                    '50 minutes' => 50,
-//                    '55 minutes' => 55,
-//                    '60 minutes' => 60,
-//                ],
-//                'required' => true,
-//                'attr' => [
-//                    'class' => 'form-input-md',
-//                ],
-//                'label_attr' => [
-//                    'class' => 'label',
-//                ],
-//            ] )
             ->add( 'tags', EntityType::class, [
                 'class' => Tag::class,
                 'choice_label' => 'name',
                 'label' => 'Tags',
                 'attr' => [
-                    'class' => 'form-input-md select2-tags',
-//                    'data-tags' => 'true'
+                    'class' => 'select2-tags',
+                    # 'data-tags' => 'true'
                 ],
                 'label_attr' => [
                     'class' => 'label',
@@ -192,18 +155,12 @@ class PrestationForm extends AbstractType
                     '0-18 ans' => '18',
                 ],
                 'required' => false,
-                'attr' => [
-                    'class' => 'form-input-md',
-                ],
                 'label_attr' => [
                     'class' => 'label',
                 ],
             ] )
             ->add( 'childrenPricePercentage', IntegerType::class, [
                 'label' => '% de réduction du prix pour les enfants',
-                'attr' => [
-                    'class' => 'form-input-md',
-                ],
                 'required' => false,
                 'label_attr' => [
                     'class' => 'label',
