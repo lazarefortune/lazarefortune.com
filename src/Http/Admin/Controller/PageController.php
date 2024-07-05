@@ -3,9 +3,7 @@
 namespace App\Http\Admin\Controller;
 
 use App\Domain\Account\Service\UserService;
-use App\Domain\Appointment\Service\AppointmentService;
 use App\Domain\Course\CourseService;
-use App\Domain\Realisation\Service\RealisationService;
 use App\Http\Controller\AbstractController;
 use App\Infrastructure\Youtube\YoutubeService;
 use Psr\Cache\InvalidArgumentException;
@@ -38,15 +36,15 @@ class PageController extends AbstractController
     {
         $cache = new FilesystemAdapter();
 
-        $monthlyUsersLastYear = $cache->get('admin.users-last-year-count', function( ItemInterface $item ) {
+        $monthlyUsersLastYear = $cache->get( 'admin.users-last-year-count', function ( ItemInterface $item ) {
             $item->expiresAfter( 3600 );
             return $this->userService->getMonthlyUsersLastYear();
-        });
+        } );
 
-        $usersCount = $cache->get('admin.users-count', function (ItemInterface $item) {
-            $item->expiresAfter(3600);
+        $usersCount = $cache->get( 'admin.users-count', function ( ItemInterface $item ) {
+            $item->expiresAfter( 3600 );
             return $this->userService->getNbUsers();
-        });
+        } );
 
         $youtubeSubscribersCount = $cache->get( 'admin.youtube-subscribers-count',
             function ( ItemInterface $item ) {
@@ -62,10 +60,10 @@ class PageController extends AbstractController
                 return $countSubscribers;
             } );
 
-        $coursesOnlineCount = $cache->get('admin.courses-count', function (ItemInterface $item) {
-           $item->expiresAfter(3600);
-           return $this->courseService->getNbCoursesOnline();
-        });
+        $coursesOnlineCount = $cache->get( 'admin.courses-count', function ( ItemInterface $item ) {
+            $item->expiresAfter( 3600 );
+            return $this->courseService->getNbCoursesOnline();
+        } );
 
         # Chart monthly users
         $chart = $this->createMonthlyUsersChart( $monthlyUsersLastYear );

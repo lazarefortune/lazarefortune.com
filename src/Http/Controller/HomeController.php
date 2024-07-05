@@ -19,12 +19,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class HomeController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
-        private readonly HistoryService $historyService
+        private readonly HistoryService         $historyService
     )
     {
     }
@@ -34,33 +35,31 @@ class HomeController extends AbstractController
     {
         $user = $this->getUser();
 
-        if ($user) {
-            return $this->indexLogged($user);
+        if ( $user ) {
+            return $this->indexLogged( $user );
         }
 
-        return $this->render( 'pages/index.html.twig', [
-            'controller_name' => 'HomeController',
-        ] );
+        return $this->render( 'pages/index.html.twig' );
     }
 
-    public function indexLogged(User $user) : Response
+    public function indexLogged( User $user ) : Response
     {
-        $watchlist = $this->historyService->getLastWatchedContent($user);
-        $excluded = array_map(fn (Progress $progress) => $progress->getContent()->getId(), $watchlist);
-        $content = $this->em->getRepository(Content::class)
-            ->findLatest(14, $user->isPremium())
-            ->andWhere('c INSTANCE OF '.Course::class.' OR c INSTANCE OF '.Formation::class);
-        if (!empty($excluded)) {
-            $content = $content->andWhere('c.id NOT IN (:ids)')->setParameter('ids', $excluded);
+        $watchlist = $this->historyService->getLastWatchedContent( $user );
+        $excluded = array_map( fn ( Progress $progress ) => $progress->getContent()->getId(), $watchlist );
+        $content = $this->em->getRepository( Content::class )
+            ->findLatest( 14, $user->isPremium() )
+            ->andWhere( 'c INSTANCE OF ' . Course::class . ' OR c INSTANCE OF ' . Formation::class );
+        if ( !empty( $excluded ) ) {
+            $content = $content->andWhere( 'c.id NOT IN (:ids)' )->setParameter( 'ids', $excluded );
         }
 
 //        dd($content);
 
 
-        return $this->render('pages/index-logged.html.twig', [
+        return $this->render( 'pages/index-logged.html.twig', [
             'latest_content' => $content,
             'watchlist' => $watchlist,
-        ]);
+        ] );
     }
 
     #[Route( '/ui', name: 'ui' )]
@@ -70,12 +69,12 @@ class HomeController extends AbstractController
     }
 
     #[Route( '/message', name: 'message' )]
-    public function message(): Response
+    public function message() : Response
     {
-        $this->addFlash('success', 'Votre message a bien été envoyé');
-        return $this->render('pages/message.html.twig', [
+        $this->addFlash( 'success', 'Votre message a bien été envoyé' );
+        return $this->render( 'pages/message.html.twig', [
             'controller_name' => 'HomeController',
-        ]);
+        ] );
     }
 
     #[Route( '/bienvenue', name: 'welcome' )]

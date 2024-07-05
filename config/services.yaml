@@ -111,7 +111,8 @@ services:
 
   App\Infrastructure\Youtube\YoutubeService:
     arguments:
-      $apiKey: '%env(YOUTUBE_API_KEY)%'
+      $apiKey: '%env(resolve:YOUTUBE_API_KEY)%'
+      $youtubeChannelID: '%env(resolve:YOUTUBE_CHANNEL_ID)%'
 
   _instanceof:
     App\Normalizer\Breadcrumb\BreadcrumbGeneratorInterface:
