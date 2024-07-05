@@ -22,13 +22,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class PrestationForm extends AbstractType
 {
 
-    /*
+
     public function __construct(
         private readonly MinutesToTimeHelper $minutesToTimeHelper,
     )
     {
     }
-    */
 
     public function buildForm( FormBuilderInterface $builder, array $options ) : void
     {
