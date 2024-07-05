@@ -50,6 +50,14 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         }
     }
 
+    public function getQueryUsersWithoutRoles( array $roles ) : \Doctrine\ORM\QueryBuilder
+    {
+        return $this->createQueryBuilder( 'u' )
+            ->where('u.roles NOT LIKE :roles')
+            ->setParameter('roles', '%"' . implode('"%" AND u.roles NOT LIKE "%', $roles) . '"%')
+            ->orderBy('u.email', 'ASC');
+    }
+
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
      */
