@@ -99,9 +99,15 @@ class AutomaticForm extends AbstractType
             }
 
             if ( array_key_exists( $name, self::NAMES ) ) {
-                $builder->add( $name, self::NAMES[$name], [
+                $options = [
                     'required' => false,
-                ] );
+                ];
+                if (self::NAMES[$name] === TextareaType::class) {
+                    $options['attr'] = [
+                        'rows' => 10,
+                    ];
+                }
+                $builder->add( $name, self::NAMES[$name], $options );
             } elseif ( array_key_exists( $type->getName(), self::TYPES ) ) {
                 $builder->add( $name, self::TYPES[$type->getName()], [
                     'required' => !$type->allowsNull() && 'bool' !== $type->getName(),
