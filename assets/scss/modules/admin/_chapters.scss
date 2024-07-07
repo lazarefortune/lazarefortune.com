@@ -3,7 +3,7 @@
   position: relative;
 }
 .chapters-editor > li > .chapters-editor__delete {
-  top: 16px;
+  top: 0;
 }
 .chapters-editor > .chapters-editor__add {
   margin-left: 0;
@@ -66,7 +66,7 @@
   position: absolute;
   top: calc(50% - 8px);
   right: 8px;
-  color: #d5dfe9;
+  @apply text-slate-900 dark:text-slate-200;
 }
 .chapters-editor__delete svg,
 .chapters-editor__add svg {

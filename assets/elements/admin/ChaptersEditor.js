@@ -25,9 +25,6 @@ function Chapter ({ chapter, onUpdate, onRemove, onAdd, editPath }) {
     <li data-title="${chapter.title}">
       <input type="text" value="${chapter.title}" class="chapters-editor__chapter" onblur=${onUpdate} />
       <button type="button" onclick=${deleteChapter} class="chapters-editor__delete">
-<!--        <svg class="icon icon-delete">-->
-<!--          <use href="/icons/sprite.svg#trash"></use>-->
-<!--        </svg>-->
           <svg class="icon icon-delete"
                viewBox="0 0 24 24"
                fill="none"
@@ -65,8 +62,14 @@ function Module ({ course, onRemove, editPath }) {
     <li class="chapters-editor__course" data-title=${course.title} data-id=${course.id}>
       <a href=${url} target="_blank">${course.title}</a>
       <button type="button" onclick=${onRemove} class="chapters-editor__delete">
-        <svg class="icon icon-delete">
-          <use href="/sprite.svg#delete"></use>
+        <svg class="icon icon-delete"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="1.75"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <use href="/icons/sprite.svg?#delete"></use>
         </svg>
       </button>
     </li>
@@ -96,7 +99,15 @@ function AddButton ({ placeholder, onAdd }) {
       <input type="text" placeholder=${placeholder} onkeydown=${enterKeyListener(callback)} />
       <button type="button" onclick=${callback}>
         <svg class="icon icon-add">
-          <use href="/sprite.svg#delete"></use>
+            <svg class="icon"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="1.75"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+                <use href="/icons/sprite.svg?#delete"></use>
+            </svg>
         </svg>
       </button>
     </li>
@@ -175,7 +186,6 @@ export class ChaptersEditor extends HTMLTextAreaElement {
             return
         }
         const endpoint = this.getAttribute('endpoint').replace('0', value)
-        console.log(endpoint)
         try {
             const course = await jsonFetch(endpoint)
             const courseLi = Module({ course, onRemove: this.removeCourse, editPath: this.editPath })
@@ -267,7 +277,7 @@ export class ChaptersEditor extends HTMLTextAreaElement {
                     .filter(c => c !== null)
             })
         })
-        this.value = JSON.stringify(newChapters)
+        this.value = JSON.stringify(newChapters, null, 2)
     }
 
     disconnectedCallback () {
