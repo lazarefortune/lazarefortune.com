@@ -32,16 +32,12 @@
             Profil
         </a>
         <a href="#courses" data-tab-id="courses">
-            {{ icon('youtube') }}
-            Tutoriels
+            {{ icon('history') }}
+            Historique
         </a>
         <a href="#appointments" data-tab-id="appointments">
             {{ icon('calendar') }}
             Rendez-vous
-        </a>
-        <a href="#invoices" data-tab-id="invoices">
-            {{ icon('inbox') }}
-            Factures
         </a>
     </nav-tabs>
 
@@ -194,23 +190,18 @@
 
         {% include 'account/_appointments.html.twig' with {appointments: appointments} %}
 
-        {% include 'account/_invoices.html.twig' with {invoices: invoices} %}
-
         <div id="courses">
             <div class="stack">
                 <h3 class="h3">Mon historique</h3>
-
-                <div class="stack card card-padding">
-                    <p class="text-muted">
-                        Vous avez accès à tous les tutoriels gratuits.
-                    </p>
-                    <div>
-                        <a href="" class="btn-primary">
-                            {{ icon('crown') }}
-                            Devenir premium
-                        </a>
-                    </div>
-                </div>
+                {% if watchlist is not empty %}
+                    <section>
+                        <div class="courses">
+                            {% for progress in watchlist %}
+                                {% include 'account/_progress-card.html.twig' %}
+                            {% endfor %}
+                        </div>
+                    </section>
+                {% endif %}
             </div>
         </div>
     </div>

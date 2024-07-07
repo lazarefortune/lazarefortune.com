@@ -53,9 +53,6 @@ class HomeController extends AbstractController
             $content = $content->andWhere( 'c.id NOT IN (:ids)' )->setParameter( 'ids', $excluded );
         }
 
-//        dd($content);
-
-
         return $this->render( 'pages/index-logged.html.twig', [
             'latest_content' => $content,
             'watchlist' => $watchlist,

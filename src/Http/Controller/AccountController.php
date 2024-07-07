@@ -3,6 +3,7 @@
 namespace App\Http\Controller;
 
 use App\Domain\Appointment\Service\AppointmentService;
+use App\Domain\History\Service\HistoryService;
 use App\Domain\Password\Form\UpdatePasswordForm;
 use App\Domain\Profile\Dto\ProfileUpdateData;
 use App\Domain\Profile\Exception\TooManyEmailChangeException;
@@ -24,7 +25,8 @@ class AccountController extends AbstractController
         private readonly ProfileService              $profileService,
         private readonly DeleteAccountService        $deleteAccountService,
         private readonly UserPasswordHasherInterface $passwordHasher,
-        private readonly AppointmentService          $appointmentService
+        private readonly AppointmentService          $appointmentService,
+        private readonly HistoryService              $historyService
     )
     {
     }
@@ -59,13 +61,17 @@ class AccountController extends AbstractController
         // get user's appointments
         $appointments = $this->appointmentService->getUserAppointments( $user );
 
+        // get user's watchlist
+        $watchlist = $this->historyService->getLastWatchedContent( $user );
+
         return $this->render( 'account/index.html.twig', [
             'formProfile' => $formProfile->createView(),
             'formPassword' => $formPassword->createView(),
             'formDeleteAccount' => $formDeleteAccount->createView(),
             'requestEmailChange' => $requestEmailChange,
             'appointments' => $appointments,
-            'invoices' => array()
+            'invoices' => array(),
+            'watchlist' => $watchlist,
         ] );
     }
 
