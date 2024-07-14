@@ -69,9 +69,7 @@ class HomeController extends AbstractController
     public function message() : Response
     {
         $this->addFlash( 'success', 'Votre message a bien été envoyé' );
-        return $this->render( 'pages/message.html.twig', [
-            'controller_name' => 'HomeController',
-        ] );
+        return $this->render( 'pages/message.html.twig' );
     }
 
     #[Route( '/bienvenue', name: 'welcome' )]
@@ -117,25 +115,25 @@ class HomeController extends AbstractController
     }
 
     #[Route( '/installe', name: 'success_installed' )]
-    public function successInstalled( OptionService $optionService ) : Response
+    public function successInstalled() : Response
     {
         return $this->render( 'pages/success_installed.html.twig' );
     }
 
     #[Route( '/conditions-generales-utilisation', name: 'cgu' )]
-    public function cgu( OptionService $optionService ) : Response
+    public function cgu() : Response
     {
         return $this->render( 'pages/cgu.html.twig' );
     }
 
     #[Route( '/mentions-legales', name: 'mentions_legales' )]
-    public function mentionsLegales( OptionService $optionService ) : Response
+    public function legalNotice() : Response
     {
         return $this->render( 'pages/mentions_legales.html.twig' );
     }
 
     #[Route( '/politique-confidentialite', name: 'politique_confidentialite' )]
-    public function politiqueConfidentialite( OptionService $optionService ) : Response
+    public function privacyPolicy() : Response
     {
         return $this->render( 'pages/politique_confidentialite.html.twig' );
     }

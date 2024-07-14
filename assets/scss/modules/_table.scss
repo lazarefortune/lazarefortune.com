@@ -1,5 +1,5 @@
 .table-wrapper {
-  @apply block w-full overflow-x-auto rounded border border-slate-100 dark:border-muted ;
+  @apply block w-full overflow-x-auto rounded ;
 }
 table.table {
   @apply w-full border-collapse items-center bg-transparent;
@@ -27,7 +27,7 @@ table.tbody {
 }
 table.table tbody th,
 table.table tbody td {
-  @apply whitespace-nowrap border-t-0 border-r-0 border-l-0 p-4 align-middle text-base font-normal text-slate-900
+  @apply whitespace-nowrap border-t-0 border-r-0 border-l-0 border-b border-b-slate-100 dark:border-b-slate-800 p-4 align-middle text-base font-normal text-slate-900
     dark:text-white;
 }
 table.table tbody th:last-child,

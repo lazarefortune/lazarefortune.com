@@ -1,69 +1,62 @@
 .theme-switcher {
   position: relative;
   display: inline-block;
-  width: 44px;
+  width: 24px;
   height: 24px;
 }
 
 .theme-switcher__input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+  display: none; /* Caché mais toujours présent pour l'accessibilité */
 }
 
 .theme-switcher__label {
-  position: absolute;
+  position: relative;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.theme-switcher .icon {
+  position: absolute;
+  width: 100%;
+  height: 100%;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  @apply bg-gray-200;
-  transition: .4s;
-  border-radius: 24px;
-}
-
-.theme-switcher__label:before {
-  position: absolute;
-  content: "";
-  height: 18px;
-  width: 18px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: .4s;
-  border-radius: 50%;
-}
-
-.theme-switcher__input:checked + .theme-switcher__label {
-  @apply bg-primary-700;
-}
-
-.theme-switcher__input:checked + .theme-switcher__label:before {
-  transform: translateX(20px);
-}
-
-.theme-switcher .icon {
   display: none;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  opacity: 0;
+  transition: opacity 0.4s;
 }
 
 .theme-switcher .icon-moon {
-  @apply text-primary-700;
+  @apply text-slate-200;
 }
 
 .theme-switcher .icon-sun {
-  @apply text-orange-500;
+  @apply text-slate-800;
 }
 
 .theme-switcher__input:not(:checked) + .theme-switcher__label .icon-sun {
   display: block;
-  left: 5px;
+  opacity: 1;
+  animation: fadeIn 0.4s;
 }
 
 .theme-switcher__input:checked + .theme-switcher__label .icon-moon {
   display: block;
-  right: 5px;
+  opacity: 1;
+  animation: fadeIn 0.4s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

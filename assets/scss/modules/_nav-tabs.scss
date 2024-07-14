@@ -32,12 +32,7 @@
 }
 
 .nav-tabs-bar a {
-  display: block;
-  padding: 16px;
-  font-size: 1.2em;
-  white-space: nowrap;
-  position: relative;
-  z-index: 2;
+  @apply relative block text-base p-4 whitespace-nowrap z-[2];
 }
 
 .nav-tabs-bar.nav-tabs-bar-icons a {

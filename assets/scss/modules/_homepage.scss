@@ -11,7 +11,9 @@
 }
 
 .hero__name {
-  @apply mx-0 mt-2 mb-4 text-4xl font-medium font-ibmPlexSans text-primary-900 dark:text-primary-400 lg:text-6xl;
+  // gradient text
+  @apply mx-0 mt-2 mb-4 text-4xl lg:text-6xl font-medium font-ibmPlexSans bg-gradient-to-r from-primary-600 via-primary-500 to-indigo-400 inline-block text-transparent bg-clip-text;
+  //@apply mx-0 mt-2 mb-4 text-4xl font-medium font-ibmPlexSans text-primary-900 dark:text-primary-400 lg:text-6xl;
 }
 
 .hero__job {

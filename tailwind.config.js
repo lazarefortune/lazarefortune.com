@@ -40,9 +40,10 @@ module.exports = {
             },
             boxShadow: {
                 'custom': '0 2px 4px #d8e1e8',
-                'md': '0 2px 4px #d8e1e8',
+                // 'md': '0 2px 4px #d8e1e8',
             },
             fontSize: {
+                'base': '0.938rem', // 15px
                 'md': '0.938rem', // 15px
             },
             colors: {
@@ -60,8 +61,11 @@ module.exports = {
                 'muted': 'hsl(217.2, 32.6%, 17.5%)',
                 'dark-variant': '#1c1d27',
                 'white-soft': '#f7fafb',
-                'dark-soft': '#1f2235',
-                'dark-soft-2': '#292c3f',
+                'dark-soft': '#0b1121',
+                // 'dark-soft': '#0f172a',
+                // 'dark-soft': '#1f2235',
+                'dark-soft-2': '#0f172a',
+                // 'dark-soft-2': '#292c3f',
                 'dark-soft-3': '#313552',
                 tertiary: {
                   '800': "#586fad",

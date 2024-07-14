@@ -6,9 +6,6 @@
                 {{ sort_by(rows, 'ID', 'row.id') }}
             </th>
             <th>
-                Avatar
-            </th>
-            <th>
                 {{ sort_by(rows, 'Nom', 'row.fullname') }}
             </th>
             <th>
@@ -39,12 +36,12 @@
                 <td>
                     {{ row.id }}
                 </td>
-                <td>
-                    <img class="h-8 w-8 rounded" src="{{ row|avatar }}"
-                         alt="{{ row.fullname }}">
-                </td>
                 <td class="capitalize">
-                    {{ row.fullname }}
+                    <div class="flex items-center gap-2">
+                        <img class="h-6 w-6 rounded-full" src="{{ row|avatar }}"
+                             alt="{{ row.fullname }}">
+                        {{ row.fullname }}
+                    </div>
                 </td>
                 <td>
                     {{ row.email }}

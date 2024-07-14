@@ -1,14 +1,13 @@
 .flatpickr-calendar {
   -webkit-animation: none;
   direction: ltr;
-  font-size: 14px;
   line-height: 24px;
   border-radius: 5px;
   width: 307.875px;
   -webkit-box-sizing: border-box;
   -ms-touch-action: manipulation;
   touch-action: manipulation;
-  @apply bg-transparent opacity-0 hidden invisible p-0 border-0 absolute box-border animate-none text-center bg-white dark:bg-slate-900 shadow shadow-slate-300 dark:shadow-slate-600 text-slate-900 dark:text-white;
+  @apply text-base bg-transparent opacity-0 hidden invisible p-0 border-0 absolute box-border animate-none text-center bg-white dark:bg-slate-900 shadow shadow-slate-300 dark:shadow-slate-600 text-slate-900 dark:text-white;
 }
 .flatpickr-calendar.open,
 .flatpickr-calendar.inline {
@@ -426,7 +425,7 @@
 }
 span.flatpickr-weekday {
   cursor: default;
-  font-size: 90%;
+  //font-size: 90%;
   background: transparent;
   @apply text-slate-500 dark:text-slate-400;
   line-height: 1;

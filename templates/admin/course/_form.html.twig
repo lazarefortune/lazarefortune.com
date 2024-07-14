@@ -28,15 +28,19 @@
             {{ form_row(form.videoPath, {label: 'Video'}) }}
             <div class="relative">
                 {{ form_row(form.youtube) }}
-                <button type="submit" name="upload" value="1" class="btn-gradient absolute top-9 right-2 mt-2 mr-2 text-gray-400">
-                    {{ icon('refresh-cw') }}
+                {%if entity.id%}
+                <button type="submit" name="uploadVideoDetails" value="1" class="absolute top-9 right-2 mt-2 mr-2 text-slate-400 hover:text-primary-800 transition-colors duration-200">
+                    {{ icon('upload') }}
                 </button>
+                {% endif %}
             </div>
             <div class="relative">
                 {{ form_row(form.duration) }}
-                <button type="submit" name="updateDuration" value="1" class="btn-gradient absolute top-9 right-2 mt-2 mr-2 text-gray-400">
+                {%if entity.id%}
+                <button type="submit" name="fetchVideoDuration" value="1" class="absolute top-9 right-2 mt-2 mr-2 text-slate-400 hover:text-primary-800 transition-colors duration-200">
                     {{ icon('refresh-cw') }}
                 </button>
+                {% endif %}
             </div>
             {{ form_row(form.deprecatedBy, {label: 'Déprécié par'}) }}
             <div class="flex flex-col gap-2">
