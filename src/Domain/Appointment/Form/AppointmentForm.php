@@ -100,8 +100,7 @@ class AppointmentForm extends AbstractType
                 ] );
             }
         } );
-        $builder->addEventListener(
-            FormEvents::PRE_SET_DATA,
+        $builder->addEventListener( FormEvents::PRE_SET_DATA,
             function ( FormEvent $event ) {
                 $form = $event->getForm();
                 /** @var Appointment $data */

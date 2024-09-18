@@ -76,7 +76,7 @@ class LoginController extends AbstractController
 
         $user = $this->passwordService->getUserByPasswordResetToken( $token );
         if ( !$user ) {
-            $this->addFlash( 'danger', 'Token invalide' );
+            $this->addFlash( 'danger', 'Ce lien a expiré ou est invalide, veuillez renouveler votre demande de réinitialisation de mot de passe' );
             return $this->redirectToRoute( 'app_forgot_password' );
         }
 

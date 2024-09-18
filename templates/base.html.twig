@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="google-site-verification" content="cVdQDiwamc06x0st9JWYRu-lqokoHUiT2rXI8yE03Vs"/>
     <title>{% block title 'Index' %} - {{ app_name }}</title>
@@ -55,64 +55,7 @@
 
         {% block body %}{% endblock %}
 
-        <footer class="footer container-box">
-            <div class="footer__bio col-span-full md:col-span-2">
-                <div class="footer__title">A propos</div>
-                <p class="text-muted">
-                    Je suis un passionné par le développement web et les nouvelles technologies.
-                    Je partage mes connaissances à travers des tutoriels et des formations en ligne.
-                    J'apprends et je partage, c'est ma devise.
-                </p>
-                <ul class="list-unstyled flex gap-2 mt-3">
-                    <li>
-                        <a href="https://github.com/lazarefortune" class="text-muted" target="_blank">
-                            {{ icon('github') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://www.youtube.com/channel/UCITKwfT7qVXjdHHu84Atodw" class="text-muted" target="_blank">
-                            {{ icon('youtube') }}
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-span-full md:col-span-1">
-                <div class="footer__title mt-6 md:mt-0">Me contacter</div>
-                <p class="text-muted">
-                    Vous avez une question, une suggestion ou une demande ? N'hésitez pas à me contacter
-                    sur les réseaux sociaux, par mail ou via le formulaire de contact.
-                </p>
-                <ul class="list-unstyled flex gap-2 mt-3">
-                    <li>
-                        <a href="{{ path('app_contact') }}" class="text-muted">
-                            {{ icon('send') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="mailto:lazarefortune@gmail.com" class="text-muted" target="_blank">
-                            {{ icon('mail') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://www.instagram.com/lazarefortune" class="text-muted" target="_blank">
-                            {{ icon('instagram') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://www.twitter.com/lazarefortune" class="text-muted" target="_blank">
-                            {{ icon('twitter') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://www.linkedin.com/in/lazare-fortune/" class="text-muted" target="_blank">
-                            {{ icon('linkedin') }}
-                        </a>
-                    </li>
-                </ul>
-                <div class="footer__title mt-6">Thème</div>
-                <theme-switcher></theme-switcher>
-            </div>
-        </footer>
+        {% include 'layouts/blocs/_footer.html.twig' %}
     </div>
 
     <scroll-top class="scroll-top" hidden="hidden">

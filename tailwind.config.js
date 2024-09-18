@@ -40,10 +40,8 @@ module.exports = {
             },
             boxShadow: {
                 'custom': '0 2px 4px #d8e1e8',
-                // 'md': '0 2px 4px #d8e1e8',
             },
             fontSize: {
-                'base': '0.938rem', // 15px
                 'md': '0.938rem', // 15px
             },
             colors: {
@@ -52,26 +50,13 @@ module.exports = {
                 'light-orange-3': '#ff9f00',
                 'light-orange-4': '#ff9f00',
                 'corail': '#ff7f50',
-                secondary: {
-                    '900': '#ff9f00',
-                    '800': '#efb044',
-                    '700': '#ffc576',
-                },
                 'dark': 'hsl(222.2, 84%, 4.9%)',
                 'muted': 'hsl(217.2, 32.6%, 17.5%)',
                 'dark-variant': '#1c1d27',
                 'white-soft': '#f7fafb',
                 'dark-soft': '#0b1121',
-                // 'dark-soft': '#0f172a',
-                // 'dark-soft': '#1f2235',
                 'dark-soft-2': '#0f172a',
-                // 'dark-soft-2': '#292c3f',
                 'dark-soft-3': '#313552',
-                tertiary: {
-                  '800': "#586fad",
-                  '900': "#4e5e9d",
-                  '950': "#3e4c7b",
-                },
                 primary: {
                     '50': '#f4f3ff',
                     '100': '#ece9fe',
@@ -85,7 +70,7 @@ module.exports = {
                     '900': '#451b97',
                     '950': '#280e67',
                 },
-                primary2: {
+                primaryViolet: {
                     "50": "#f3f1ff",
                     "100": "#ebe5ff",
                     "200": "#d9ceff",
@@ -98,31 +83,18 @@ module.exports = {
                     "900": "#5d21d2",
                     "950": "#441998",
                 },
-                primaryOld: {
-                    "50": "rgb(248 250 252)",
-                    "100": "rgb(241 243 245)",
-                    "200": "rgb(226 232 240)",
-                    "300": "rgb(203 213 225)",
-                    "400": "rgb(148 163 184)",
-                    "500": "rgb(100 116 139)",
-                    "600": "rgb(71 85 105)",
-                    "700": "rgb(51 65 85)",
-                    "800": "rgb(30 41 59)",
-                    "900": "rgb(15 23 42)",
-                    "950": "rgb(2 6 23)"
-                },
-                secondaryOld: {
-                    "50": "#f8f9fc",
-                    "100": "#f1f3f8",
-                    "200": "#e9eef5",
-                    "300": "#d8e1ef",
-                    "400": "#b6c9e1",
-                    "500": "#93b1d3",
-                    "600": "#7c9ac0",
-                    "700": "#657ea8",
-                    "800": "#4e628f",
-                    "900": "#3d4e74",
-                    "950": "#2b3650"
+                primaryMoreDark: {
+                    "50": "rgb(230 232 236)", // Légèrement plus sombre que le 50 d'origine
+                    "100": "rgb(210 214 220)",
+                    "200": "rgb(170 180 200)",
+                    "300": "rgb(130 145 170)",
+                    "400": "rgb(90 110 140)",
+                    "500": "rgb(60 75 110)",
+                    "600": "rgb(40 55 90)",
+                    "700": "rgb(30 40 70)",
+                    "800": "rgb(20 30 50)",
+                    "900": "rgb(10 20 35)",
+                    "950": "rgb(5 10 20)"  // Approche presque du noir
                 },
                 danger: {
                     "50": "#fff8f8",

@@ -1,0 +1,56 @@
+<footer class="footer container-box">
+    <div class="footer__bio col-span-full md:col-span-2">
+        <div class="footer__title">A propos</div>
+        <p class="text-muted">
+            Je suis un passionné par le développement web et les nouvelles technologies.
+            Je partage mes connaissances à travers des tutoriels et des formations en ligne.
+            J'apprends et je partage, c'est ma devise.
+        </p>
+        <ul class="list-unstyled flex gap-2 mt-3">
+            <li>
+                <a href="https://github.com/lazarefortune" class="text-muted" target="_blank">
+                    {{ icon('github') }}
+                </a>
+            </li>
+            <li>
+                <a href="https://www.youtube.com/channel/UCITKwfT7qVXjdHHu84Atodw" class="text-muted" target="_blank">
+                    {{ icon('youtube') }}
+                </a>
+            </li>
+            <li>
+                <a href="https://www.instagram.com/lazarefortune" class="text-muted" target="_blank">
+                    {{ icon('instagram') }}
+                </a>
+            </li>
+            <li>
+                <a href="https://www.twitter.com/lazarefortune" class="text-muted" target="_blank">
+                    {{ icon('twitter') }}
+                </a>
+            </li>
+            <li>
+                <a href="https://www.linkedin.com/in/lazare-fortune/" class="text-muted" target="_blank">
+                    {{ icon('linkedin') }}
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-span-full md:col-span-1">
+        <div class="footer__title mt-6 md:mt-0">Me contacter</div>
+        <ul class="list-unstyled flex flex-col gap-2 mt-3">
+            <li>
+                <a href="{{ path('app_contact') }}" class="text-muted flex items-center gap-2">
+                    {{ icon('link') }}
+                    <span>Formulaire de contact</span>
+                </a>
+            </li>
+            <li>
+                <a href="mailto:lazarefortune@gmail.com" class="text-muted flex items-center gap-2" target="_blank">
+                    {{ icon('at-sign') }}
+                    <span>Par e-mail</span>
+                </a>
+            </li>
+        </ul>
+        <div class="footer__title mt-6">Thème</div>
+        <theme-switcher></theme-switcher>
+    </div>
+</footer>

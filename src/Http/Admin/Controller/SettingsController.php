@@ -30,11 +30,8 @@ class SettingsController extends AbstractController
     #[Route( '/', name: 'index' )]
     public function settings( Request $request ) : Response
     {
-        $options = $this->optionService->findAll();
-        dd( $options );
-
         return $this->render( 'admin/settings/index.html.twig', [
-            'form' => $form->createView(),
+//            'form' => $form->createView(),
         ] );
     }
 

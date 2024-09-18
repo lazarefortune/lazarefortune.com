@@ -50,9 +50,9 @@
 }
 
 .notification-info {
-  @apply bg-white shadow-custom p-3 text-slate-900 border-l-[3px] border-primary-900;
+  @apply bg-white shadow-custom p-3 text-slate-900 border-l-[3px] border-primary-900 dark:bg-slate-800 dark:text-white dark:border-primary-300;
   & .alert-heading, h1, h2, h3, h4, h5, h6 {
-    @apply text-primary-900 font-bold text-xl mb-2;
+    @apply text-primary-900 font-bold text-xl mb-2 dark:text-primary-300;
   }
 }
 
