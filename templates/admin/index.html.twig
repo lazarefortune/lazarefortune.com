@@ -38,71 +38,15 @@
         </div>
     </div>
 
-    <!--
-    <section class="mt-8 grid gap-6 pb-10 md:grid-cols-2 lg:grid-cols-3">
-        <div class="relative flex w-full border border-slate-200 rounded dark:border-slate-800 p-8">
-            <div class="flex items-center justify-center">
-                <a href="{{ path('admin_users_index') }}">
-                    <div class="dashboard--stats-icon">
-                        {{ icon('users') }}
-                    </div>
-                </a>
-            </div>
-
-            <div class="ml-7 flex flex-col align-center">
-                <p class="my-0 text-2xl">{{ nbUsers }}</p>
-                <p class="my-0 text-sm text-gray-400">Utilisateurs</p>
+    <div class="mt-4">
+        <nav-tabs class="nav-tabs">
+            <a href="#users" aria-controls="users">Utilisateurs</a>
+        </nav-tabs>
+        <div class="mt-6">
+            <div id="users">
+                <line-chart points="{{ usersLastYear | json_encode }}" x="month" y="amount"></line-chart>
             </div>
         </div>
-        <div class="relative flex w-full border border-slate-200 rounded dark:border-slate-800 p-8">
-            <div class="flex items-center justify-center">
-                <div>
-                    <div class="dashboard--stats-icon">
-                        {{ icon('youtube') }}
-                    </div>
-                </div>
-            </div>
-
-            <div class="ml-7 flex flex-col align-center">
-                <p class="my-0 text-2xl">{{ youtubeSubscribersCount }}</p>
-                <p class="my-0 text-sm text-gray-400">Abonnés YouTube</p>
-            </div>
-        </div>
-        <div class="relative flex w-full border border-slate-200 rounded dark:border-slate-800 p-8">
-            <div class="flex items-center justify-center">
-                <a href="{{ path('admin_course_index') }}">
-                    <div class="dashboard--stats-icon">
-                        {{ icon('video') }}
-                    </div>
-                </a>
-            </div>
-
-            <div class="ml-7 flex flex-col align-center">
-                <p class="my-0 text-2xl">{{ coursesOnlineCount }}</p>
-                <p class="my-0 text-sm text-gray-400">Vidéos</p>
-            </div>
-        </div>
-    </section>
-    -->
-
-    <h2 class="mt-14 mb-3 text-2xl/8 sm:text-xl/8 font-semibold">Utilisateurs</h2>
-    <section
-            class="flex justify-center items-center mb-10 rounded border border-slate-200 dark:border-slate-800 px-4 py-3 stack-large lg:px-8 lg:py-6">
-
-        <div class="stack max-w-5xl">
-            {{ render_chart(chart) }}
-        </div>
-    </section>
-
-    <section
-            class="mb-10 h-64 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-3 lg:px-8 lg:py-6">
-        Section 1
-        <a href="" class="link">Découvrez nos réalisations</a> mais j'aimerais découvrir aussi les <a href=""
-                                                                                                      class="link"
-                                                                                                      target="_blank">avis
-            de nos clients</a>
-
-        prestations
-    </section>
+    </div>
 
 {% endblock %}

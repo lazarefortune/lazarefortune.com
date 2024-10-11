@@ -68,12 +68,63 @@ class PageController extends AbstractController
         # Chart monthly users
         $chart = $this->createMonthlyUsersChart( $monthlyUsersLastYear );
 
+        $usersLastYear = [
+            [
+                'month' => 'Janvier',
+                'amount' => $monthlyUsersLastYear[1] ?? 0,
+            ],
+            [
+                'month' => 'Février',
+                'amount' => $monthlyUsersLastYear[2] ?? 0,
+            ],
+            [
+                'month' => 'Mars',
+                'amount' => $monthlyUsersLastYear[3] ?? 0,
+            ],
+            [
+                'month' => 'Avril',
+                'amount' => $monthlyUsersLastYear[4] ?? 0,
+            ],
+            [
+                'month' => 'Mai',
+                'amount' => $monthlyUsersLastYear[5] ?? 0,
+            ],
+            [
+                'month' => 'Juin',
+                'amount' => $monthlyUsersLastYear[6] ?? 0,
+            ],
+            [
+                'month' => 'Juillet',
+                'amount' => $monthlyUsersLastYear[7] ?? 0,
+            ],
+            [
+                'month' => 'Août',
+                'amount' => $monthlyUsersLastYear[8] ?? 0,
+            ],
+            [
+                'month' => 'Septembre',
+                'amount' => $monthlyUsersLastYear[9] ?? 0,
+            ],
+            [
+                'month' => 'Octobre',
+                'amount' => $monthlyUsersLastYear[10] ?? 0,
+            ],
+            [
+                'month' => 'Novembre',
+                'amount' => $monthlyUsersLastYear[11] ?? 0,
+            ],
+            [
+                'month' => 'Décembre',
+                'amount' => $monthlyUsersLastYear[12] ?? 0,
+            ],
+        ];
 
         return $this->render( 'admin/index.html.twig', [
             'nbUsers' => $usersCount,
             'youtubeSubscribersCount' => $youtubeSubscribersCount,
             'coursesOnlineCount' => $coursesOnlineCount,
             'chart' => $chart,
+            'usersLastYear' => $usersLastYear,
         ] );
     }
 

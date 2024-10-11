@@ -28,11 +28,11 @@
     <script src="{{ asset('js/jquery-3.6.3.min.js') }}"></script>
 
     {% block stylesheets %}
-        {{ encore_entry_link_tags('admin') }}
+        {{ encore_entry_link_tags('dashboard') }}
     {% endblock %}
 
     {% block javascripts %}
-        {{ encore_entry_script_tags('admin') }}
+        {{ encore_entry_script_tags('dashboard') }}
     {% endblock %}
 </head>
 <body class="flex justify-between">
@@ -51,7 +51,7 @@
     </main>
 
     {% block javascripts_bottom %}
-        {{ encore_entry_script_tags('admin') }}
+        {{ encore_entry_script_tags('dashboard') }}
     {% endblock %}
 </body>
 </html>

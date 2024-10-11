@@ -11,6 +11,7 @@ import {YoutubePlayer} from "./player/YoutubePlayer";
 import {AjaxDelete} from "./AjaxDelete";
 import LoaderOverlay from "./LoaderOverlay";
 import SpinningDots from "@grafikart/spinning-dots-element";
+import { LineChart } from "./admin/LineChart";
 
 FileManager.register();
 customElements.define('spotlight-bar', Spotlight)
@@ -27,6 +28,7 @@ customElements.define('theme-switcher', ThemeSwitcher)
 customElements.define('ajax-delete', AjaxDelete)
 customElements.define('loader-overlay', LoaderOverlay)
 customElements.define('spinning-dots', SpinningDots)
+customElements.define('line-chart', LineChart)
 
 document.addEventListener('DOMContentLoaded', () => {
     const filemanager = document.querySelector("file-manager");

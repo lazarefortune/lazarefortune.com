@@ -92,7 +92,7 @@ devDependencies:
     specifier: ^10.4.14
     version: 10.4.19(postcss@8.4.38)
   chart.js:
-    specifier: ^3.4.1 || ^4.0
+    specifier: ^4.4.2
     version: 4.4.2
   core-js:
     specifier: ^3.23.0
