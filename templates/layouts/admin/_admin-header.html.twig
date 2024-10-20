@@ -1,0 +1,26 @@
+{% extends 'layouts/dashboard/header/_header.html.twig' %}
+
+{% block header_nav %}
+    <div class="dropdown">
+        <button class="dropdown-button" data-dropdown-button="user-menu" aria-haspopup="true" aria-expanded="false">
+            <img class="h-8 w-8 rounded object-cover" src="{{ app.user|avatar }}" alt="{{ app.user.fullname }}">
+        </button>
+        <div class="dropdown-menu" data-dropdown-menu="user-menu" role="menu">
+            {% if app.user and is_granted('ROLE_PREVIOUS_ADMIN') %}
+                <a href="{{ path('app_home', {'_switch_user': '_exit'}) }}" role="menuitem"
+                   class="dropdown-menu-item">
+                    {{ icon('monitor-x') }}
+                    <span>Arrêter le switch</span>
+                </a>
+            {% endif %}
+            <a href="{{ path('app_account_profile') }}" role="menuitem" class="dropdown-menu-item">
+                {{ icon('user' ) }}
+                <span>Mon compte</span>
+            </a>
+            <a href="{{ path('app_logout') }}" role="menuitem" class="dropdown-menu-item">
+                {{ icon('log-out' ) }}
+                <span>Déconnexion</span>
+            </a>
+        </div>
+    </div>
+{% endblock %}

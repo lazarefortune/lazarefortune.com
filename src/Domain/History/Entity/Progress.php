@@ -2,7 +2,7 @@
 
 namespace App\Domain\History\Entity;
 use App\Domain\Application\Entity\Content;
-use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Core\Entity\User;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 

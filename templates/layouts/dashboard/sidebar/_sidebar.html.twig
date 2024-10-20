@@ -1,0 +1,15 @@
+<aside class="sidebar -translate-x-full lg:translate-x-0" id="sidebar">
+    <div class="sidebar__header">
+        {% block sidebar_header %}{% endblock %}
+    </div>
+    <nav class="sidebar__nav">
+        {% block sidebar_nav %}{% endblock %}
+    </nav>
+    <div class="sidebar__footer">
+        {% block sidebar_footer %}{% endblock %}
+    </div>
+</aside>
+
+<div class="sidebar-backdrop hidden" id="sidebar-backdrop"></div>
+
+<spotlight-bar target=".sidebar__nav-link" trigger-id="spotlight--trigger"></spotlight-bar>

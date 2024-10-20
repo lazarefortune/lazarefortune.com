@@ -1,0 +1,59 @@
+.spotlight {
+  @apply opacity-0 pointer-events-none z-[9999] bg-slate-400/90 dark:bg-slate-800/90 backdrop-blur-[2px]
+  fixed top-0 left-0 right-0 bottom-0 flex justify-center items-start;
+  transition: opacity 0.1s ease;
+}
+.spotlight.active {
+  @apply opacity-100 pointer-events-auto;
+}
+.spotlight--bar {
+  width: calc(100% - 40px);
+  @apply relative opacity-0 -translate-y-3 rounded bg-white dark:bg-slate-900 max-w-[calc(100vw-40px)]
+  lg:max-w-2xl mt-[20vh];
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.spotlight.active .spotlight--bar {
+  @apply translate-y-0 opacity-100;
+}
+.spotlight--search-container {
+  @apply relative;
+}
+.spotlight--search-icon {
+  @apply absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none;
+  svg {
+    @apply w-5 h-5 text-slate-400 dark:text-slate-500;
+  }
+}
+.spotlight--search-container input {
+  @apply block p-4 ps-10 rounded-t rounded-b-none text-base px-4 w-full border-none shadow-none focus:ring-0 focus:outline-none focus:ring-offset-0
+  bg-white text-slate-900
+  dark:bg-slate-900 dark:text-white;
+}
+.spotlight--container {
+  @apply flex flex-col relative;
+}
+.spotlight--container .spotlight--footer {
+  @apply border-t border-t-slate-200 dark:border-t-slate-800 text-slate-400 text-sm font-normal mt-auto p-3 text-center;
+  span {
+    @apply text-primary-600 dark:text-primary-300;
+  }
+}
+// Suggestions
+.spotlight--suggestions {
+  @apply py-6 px-5 border-t border-t-slate-200 dark:border-t-slate-800 top-full left-0 right-0 bg-white text-slate-900
+  dark:bg-slate-900 dark:text-white rounded-b;
+}
+.spotlight--suggestions mark{
+  @apply bg-primary-200 text-primary-800 dark:bg-slate-500 dark:text-white;
+}
+.spotlight--suggestions li {
+  @apply list-none mb-1;
+  &.active a {
+    @apply bg-primary-100 text-primary-700 dark:bg-slate-800 dark:text-white;
+  }
+}
+.spotlight--suggestions a {
+  @apply block p-3 rounded text-base text-slate-900 dark:text-white hover:bg-primary-100 hover:text-primary-700
+  dark:hover:bg-slate-800 dark:hover:text-white;
+  transition: background 0.2s ease;
+}

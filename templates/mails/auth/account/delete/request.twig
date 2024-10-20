@@ -1,0 +1,30 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as element %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+
+        Bonjour {{ user.fullname }} !
+        ===============================
+
+        Nous avons bien reçu votre demande de suppression de compte.
+
+        Nous sommes désolés de vous voir partir. Votre compte sera supprimé le {{ user.deletedAt|format_datetime('long', 'none') }}.
+
+        Si vous avez changé d'avis, vous pouvez annuler la suppression de votre compte depuis votre espace personnel.
+
+    {% endapply %}
+
+    {% apply markdown_email %}
+        Si vous n'êtes pas à l'origine de cette demande, veuillez nous contacter immédiatement sinon votre compte sera supprimé.
+    {% endapply %}
+
+    {% apply markdown_email %}
+        Cordialement,
+
+        L'équipe {{ app_name }}
+    {% endapply %}
+
+{% endblock %}

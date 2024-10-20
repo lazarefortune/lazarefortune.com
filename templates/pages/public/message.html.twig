@@ -1,0 +1,24 @@
+{% extends 'layouts/public/base.html.twig' %}
+
+{% block title %}
+    Message d'information
+{% endblock %}
+
+{% block body %}
+    <div class="container-box py-10">
+        <div class="max-w-2xl border p-4 mx-auto flex items-center justify-center flex-col">
+
+            <div class="mb-6">
+                <h1 class="text-2xl font-semibold text-center text-gray-800 dark:text-gray-100">{{ title|default('Message d\'information') }}</h1>
+                <p class="text-sm text-center text-gray-500 dark:text-gray-400">{{ message|default('') }}</p>
+            </div>
+
+            <div>
+                <a href="{{ path(button_path|default('app_home')) }}" class="btn btn-primary" >
+                    {{ button_label|default('Retour') }}
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

@@ -65,10 +65,6 @@ services:
     arguments:
       $contactEmail: '%contact_email%'
 
-  App\Domain\Prestation\Form\PrestationForm:
-    arguments:
-      $minutesToTimeHelper: '@App\Helper\MinutesToTimeHelper'
-
   App\Http\Type\PriceType:
     arguments: [ '@App\Helper\CentToEuroTransformer' ]
     tags: [ 'form.type' ]
@@ -104,10 +100,6 @@ services:
     arguments: [ '%stripe_webhook_secret%' ]
     tags:
       - { name: controller.argument_value_resolver, priority: 50 }
-
-  App\Domain\Payment\PaymentService:
-    arguments:
-      $processors: [ '@App\Infrastructure\Payment\Stripe\StripePaymentProcessor', '@App\Infrastructure\Payment\Cash\CashPaymentProcessor' ]
 
   App\Infrastructure\Youtube\YoutubeService:
     arguments:

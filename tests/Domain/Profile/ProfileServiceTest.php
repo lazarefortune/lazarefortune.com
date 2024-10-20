@@ -3,7 +3,7 @@
 namespace App\Tests\Domain\Profile;
 
 use App\Domain\Auth\Entity\EmailVerification;
-use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Auth\Repository\EmailVerificationRepository;
 use App\Domain\Profile\Event\PasswordChangeSuccessEvent;
 use App\Domain\Profile\Service\ProfileService;

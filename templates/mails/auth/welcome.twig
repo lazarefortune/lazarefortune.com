@@ -6,33 +6,47 @@
 
     {% apply markdown_email %}
 
-        Bonjour {{ user.fullname }} !
-        ===============================
+        🎉 **Bienvenue dans l'aventure, {{ user.fullname }} !** 🎉
+        ===========================================
 
-        Vous venez de créer un compte sur {{ app_name }}.
-        Pensez à valider votre adresse email pour pouvoir profiter pleinement de votre compte.
+        Nous sommes tellement heureux de vous compter parmi nous à {{ app_name }} ! 🎉
+
+        Avant de profiter pleinement de votre compte et de tout ce que nous avons à offrir, il ne vous reste plus qu'une étape simple :
+
+        **Confirmez votre adresse email** pour débloquer l'accès complet à votre compte et découvrir toutes les fonctionnalités exclusives de {{ app_name }}.
 
     {% endapply %}
 
-    {{ element.button('Confirmer mon adresse email', signedUrl|raw ) }}
+    {{ element.button('✨ Confirmer mon adresse email ✨', signedUrl|raw ) }}
 
     {% apply markdown_email %}
-        Si vous n'êtes pas à l'origine de la création de ce compte ne tenez pas compte de cet email,
-        le compte sera automatiquement supprimé.
-    {% endapply %}
 
+        🚀 **Pourquoi confirmer votre email ?**
+        -------------------------------------
+        Confirmer votre email nous permet de sécuriser votre compte et de vous garantir une expérience sans soucis.🎯
+
+        Ne vous inquiétez pas, cela ne prend que quelques secondes !
+
+        **Si vous n'avez pas créé ce compte**, pas de panique ! Ignorez simplement cet email et le compte sera supprimé automatiquement. 😊
+
+    {% endapply %}
 
     {% set email_verification_link_section %}
         {% apply markdown_email %}
-            Si le lien ne fonctionne pas, vous pouvez copier/coller l'adresse suivante dans votre navigateur :
-            [ici]({{ signedUrl|raw }})
 
-            Ce lien expire dans {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+            🔒 Ce lien est sécurisé et expire dans {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+
         {% endapply %}
     {% endset %}
 
-
     {{ element.section(email_verification_link_section) }}
 
+    {% apply markdown_email %}
+
+        À très bientôt sur {{ app_name }} ! 🌟
+
+        Toute l'équipe de {{ app_name }} est ravie de vous accueillir !
+
+    {% endapply %}
 
 {% endblock %}

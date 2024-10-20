@@ -20,7 +20,7 @@ class ContactForm extends AbstractType
                 [
                     'label' => 'Nom',
                     'attr' => [
-                        'class' => 'form-input-md',
+                        'class' => 'form-input',
                     ],
                     'label_attr' => [
                         'class' => 'label',
@@ -30,7 +30,7 @@ class ContactForm extends AbstractType
                 [
                     'label' => 'Email',
                     'attr' => [
-                        'class' => 'form-input-md',
+                        'class' => 'form-input',
                     ],
                     'label_attr' => [
                         'class' => 'label',
@@ -42,6 +42,9 @@ class ContactForm extends AbstractType
                     'label_attr' => [
                         'class' => 'label',
                     ],
+                    'attr' => [
+                        'class' => 'form-input',
+                    ],
                 ] )
             ->add( 'message', TextareaType::class,
                 [
@@ -50,6 +53,7 @@ class ContactForm extends AbstractType
                         'class' => 'label',
                     ],
                     'attr' => [
+                        'class' => 'form-input',
                         'rows' => 7,
                     ],
                 ] )

@@ -1,0 +1,25 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as e %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+
+        ## Bonjour {{ user.fullname }} 👋,
+
+        Vous (ou quelqu'un d'autre) avez récemment demandé à modifier l'adresse email associée à votre compte **{{ app_name }}**.
+
+        Si ce n'est pas vous, merci de bien vouloir soit vous connecter à votre compte et vérifier vos paramètres de sécurité, soit veuillez contacter notre équipe de support.
+
+    {% endapply %}
+
+    {% apply markdown_email %}
+
+        Si vous avez des questions ou des inquiétudes, n'hésitez pas à nous contacter. Nous sommes là pour vous aider !
+
+        **L'équipe {{ app_name }}**
+
+    {% endapply %}
+
+{% endblock %}

@@ -1,38 +1,48 @@
-version: '3.7'
-
 services:
+  app:
+    container_name: app-lazarefortune
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:80"
+      - "8080:8080"
+    volumes:
+      - ".:/var/www/html"
+    environment:
+      DATABASE_URL: mysql://${DB_USER}:${DB_PASSWORD}@database:3306/${DB_NAME}?serverVersion=8&charset=utf8mb4
+      MAILER_DSN: smtp://mailhog:1025?transport=sync
+    command: bash -c "pnpm run dev-server & apache2-foreground"
+
   database:
     image: mariadb:10.5
     container_name: mariadb
     environment:
-      MYSQL_DATABASE: hair_star
-      MYSQL_ROOT_PASSWORD: password
-      # MYSQL_RANDOM_ROOT_PASSWORD: '1'
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     volumes:
       - db_data:/var/lib/mysql
     ports:
       - "3307:3306"
 
   phpmyadmin:
-    image: phpmyadmin
+    image: phpmyadmin:5.2
     container_name: phpmyadmin
     restart: always
     environment:
       PMA_HOST: database
+      PMA_PORT: 3306
     ports:
-      - "8080:80"
+      - "8081:80"
     depends_on:
       - database
 
-  maildev:
-    hostname: maildev
-    image: maildev/maildev
-    command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
-    restart: always
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
     ports:
-      - "1080:80"
-      - "25:25"
+      - "8025:8025"
+      - "1025:1025"
 
 volumes:
-  db_data: { }
-  nginx_logs: { }
+  db_data: {}
+

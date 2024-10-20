@@ -1,0 +1,68 @@
+/* Retirer les styles par défaut */
+[type='text'],
+[type='email'],
+[type='url'],
+[type='password'],
+[type='number'],
+[type='date'],
+[type='datetime-local'],
+[type='month'],
+[type='search'],
+[type='tel'],
+[type='time'],
+[type='week'],
+textarea,
+select {
+  @apply appearance-none;
+}
+
+/* Inputs */
+.form-input {
+  @apply block w-full appearance-none rounded-md border-0 px-3 py-2.5 text-base text-slate-900 shadow-sm ring-1 ring-inset ring-zinc-300 placeholder-zinc-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 md:text-sm;
+  @apply dark:bg-slate-900 dark:text-white dark:ring-slate-700 dark:placeholder-gray-400 dark:focus:ring-primary-300;
+  /* readonly */
+  &[disabled] {
+      @apply bg-zinc-50 text-zinc-400 dark:bg-slate-800 dark:text-slate-600;
+  }
+}
+
+/* Checkbox and radio */
+.form-checkbox {
+  @apply h-5 w-5 cursor-pointer rounded border border-zinc-300 bg-zinc-50 text-primary-600 hover:bg-zinc-100 focus:ring-primary-800 focus:ring-1;
+  @apply dark:bg-transparent dark:border-slate-700 dark:text-white dark:focus:ring-primary-800 dark:focus:ring-offset-0 dark:focus:bg-transparent dark:focus:ring-1 dark:hover:bg-transparent dark:hover:border-primary-500;
+}
+
+/* Form error */
+.form-error {
+  @apply block text-sm text-red-600 dark:text-red-400;
+}
+
+/* Labels */
+.label {
+  @apply block text-sm font-medium leading-6 text-slate-500 mb-0.5 dark:text-slate-200;
+}
+
+/* Password toggle */
+.password-toggle {
+  @apply absolute inset-y-0 right-0 flex items-center pr-3;
+}
+
+/* Icon visibility toggle */
+.icon-eye,
+.icon-eye-off {
+  pointer-events: none;
+}
+
+.hide-number-arrows {
+  /* Masquer les chevrons dans Chrome, Safari, Edge et Opera */
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Masquer les chevrons dans Firefox */
+  &[type='number'] {
+    -moz-appearance: textfield;
+  }
+}

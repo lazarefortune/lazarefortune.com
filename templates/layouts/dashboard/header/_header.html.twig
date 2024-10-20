@@ -1,0 +1,13 @@
+<header class="header">
+    <div class="header__container">
+        <!-- Search -->
+        {% include 'layouts/dashboard/blocs/_header-spotlight-sidebar.html.twig' %}
+
+        <!-- User Menu -->
+        <div class="flex items-center gap-3">
+            <theme-switcher class="mr-2"></theme-switcher>
+
+            {% block header_nav %}{% endblock %}
+        </div>
+    </div>
+</header>

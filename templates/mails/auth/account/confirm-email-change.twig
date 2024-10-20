@@ -1,0 +1,29 @@
+    {% extends layout %}
+
+    {% import "mails/macros.twig" as e %}
+
+    {% block body %}
+
+        {% apply markdown_email %}
+
+            ## Bonjour {{ user.fullname }} 👋,
+
+            Vous (ou quelqu'un d'autre) avez récemment demandé à modifier l'adresse email associée à votre compte **{{ app_name }}**.
+
+            Si vous êtes à l'origine de cette demande, veuillez confirmer le changement d'email en cliquant sur le bouton ci-dessous. 👍
+
+            Si ce n'est pas vous, ne vous inquiétez pas, vous pouvez simplement ignorer cet email et aucune modification ne sera apportée à votre compte.
+
+        {% endapply %}
+
+        {{ e.button('🔐 Confirmer mon email', url('app_user_email_confirm', {token: token}), 'primary') }}
+
+        {% apply markdown_email %}
+
+            Si vous avez des questions ou des inquiétudes, n'hésitez pas à nous contacter. Nous sommes là pour vous aider !
+
+            **L'équipe {{ app_name }}**
+
+        {% endapply %}
+
+    {% endblock %}

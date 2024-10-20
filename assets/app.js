@@ -30,14 +30,12 @@ customElements.define('progress-tracker', ProgressTracker)
 customElements.define('ajax-delete', AjaxDelete)
 customElements.define('loader-overlay', LoaderOverlay)
 /* Modules */
-import './modules/header.js'
 import './modules/scrollreveal.js'
 import './modules/modal.js'
-import './modules/modal.js'
-import './modules/header.js'
-import './modules/hamburger.js'
 import './modules/dropdown.js'
-import {registerHeaderBehavior} from "./modules/header";
+import './modules/password-toggle.js'
+
+import {registerHeaderBehavior} from "./modules/app/header";
 import {YoutubePlayer} from "./elements/player/YoutubePlayer";
 import {TimeCountdown} from "./elements/TimeCountdown";
 import {PlayButton} from "./elements/PlayButton";

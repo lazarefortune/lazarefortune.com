@@ -3,7 +3,7 @@
 namespace App\Domain\History\Event;
 
 use App\Domain\Application\Entity\Content;
-use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Core\Entity\User;
 
 class ProgressEvent
 {

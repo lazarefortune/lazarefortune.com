@@ -39,6 +39,7 @@ module.exports = {
                 'thin': '.5px',
             },
             boxShadow: {
+                'soft': '0 2px 4px #d8e1e8',
                 'custom': '0 2px 4px #d8e1e8',
             },
             fontSize: {
@@ -57,7 +58,7 @@ module.exports = {
                 'dark-soft': '#0b1121',
                 'dark-soft-2': '#0f172a',
                 'dark-soft-3': '#313552',
-                primary: {
+                primaryOL: {
                     '50': '#f4f3ff',
                     '100': '#ece9fe',
                     '200': '#dad5ff',
@@ -69,6 +70,19 @@ module.exports = {
                     '800': '#521eb9',
                     '900': '#451b97',
                     '950': '#280e67',
+                },
+                primary: {
+                    '50': '#e5e5fa', // couleur plus claire
+                    '100': '#b3b3f0',
+                    '200': '#8080e6',
+                    '300': '#4d4ddc',
+                    '400': '#1a1ad2',
+                    '500': '#0000b8', // couleur principale, légèrement plus claire
+                    '600': '#0000a6',
+                    '700': '#000091', // couleur primaire que tu souhaites
+                    '800': '#00007a',
+                    '900': '#000066', // couleur plus foncée
+                    '950': '#000033',
                 },
                 primaryViolet: {
                     "50": "#f3f1ff",

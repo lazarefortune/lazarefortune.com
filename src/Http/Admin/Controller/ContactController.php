@@ -22,7 +22,7 @@ class ContactController extends AbstractController
     {
         $contacts = $this->contactRepository->findAll();
 
-        return $this->render( 'admin/contact/index.html.twig', [
+        return $this->render( 'pages/admin/contact/index.html.twig', [
             'contacts' => $contacts,
         ] );
     }

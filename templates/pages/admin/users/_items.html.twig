@@ -1,0 +1,65 @@
+<div class="table-wrapper">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>
+                {{ sort_by(rows, 'ID', 'row.id') }}
+            </th>
+            <th>
+                Photo
+            </th>
+            <th>
+                {{ sort_by(rows, 'Nom', 'row.fullname') }}
+            </th>
+            <th>
+                {{ sort_by(rows, 'Email', 'row.email') }}
+            </th>
+            <th>
+                {{ sort_by(rows, 'Ancienneté', 'row.createdAt') }}
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if rows is empty %}
+            <tr>
+                <td colspan="7" class="text-center">
+                    Aucune donnée disponible
+                </td>
+            </tr>
+        {% endif %}
+        {% for row in rows %}
+            {% set link = path(prefix ~ '_edit', {id: row.id}) %}
+            <tr>
+                <td>
+                    <a href="{{ link }}" class="table-cell-link"></a>
+                    {{ row.id }}
+                </td>
+                <td>
+                    <a href="{{ link }}" class="table-cell-link"></a>
+                    <img class="h-10 w-10 rounded-full object-cover {{ row.isVerified ? 'border-2 border-green-500' : 'border-2 border-red-500' }}"
+                         src="{{ row|avatar }}"
+                         alt="{{ row.fullname }}">
+                </td>
+                <td class="capitalize">
+                    <a href="{{ link }}" class="table-cell-link"></a>
+                    {{ row.fullname }}
+                </td>
+                <td><a href="{{ link }}" class="table-cell-link"></a>
+                    {{ row.email }}
+                </td>
+                <td>
+                    <a href="{{ link }}" class="table-cell-link"></a>
+                    {{ row.createdAt|date_age }}
+                </td>
+                <td>
+                    <a href="{{ link }}" class="btn-icon">
+                        {{ icon('arrow-right') }}
+                    </a>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

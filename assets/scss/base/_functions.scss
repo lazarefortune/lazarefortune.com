@@ -1,0 +1,11 @@
+@use "sass:math";
+
+@function space($key) {
+  @return map-get($space, $key);
+}
+
+
+/* Fonction pour convertir des pixels en rem */
+@function rem($pixels) {
+  @return math.div($pixels, 16) * 1rem;
+}

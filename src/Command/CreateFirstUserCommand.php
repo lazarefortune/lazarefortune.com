@@ -2,8 +2,8 @@
 
 namespace App\Command;
 
-use App\Domain\Auth\Entity\User;
-use App\Domain\Auth\Repository\UserRepository;
+use App\Domain\Auth\Core\Repository\UserRepository;
+use App\Domain\Auth\Core\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;

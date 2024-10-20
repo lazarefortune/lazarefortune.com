@@ -4,7 +4,7 @@ namespace App\Domain\Application\Entity;
 
 use App\Domain\Application\Repository\ContentRepository;
 use App\Domain\Attachment\Entity\Attachment;
-use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Course\Entity\Course;
 use App\Domain\Course\Entity\Formation;
 use App\Domain\Course\Entity\Technology;
@@ -32,7 +32,7 @@ abstract class Content
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $content = null;
+    private ?string $content = '';
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $publishedAt = null;

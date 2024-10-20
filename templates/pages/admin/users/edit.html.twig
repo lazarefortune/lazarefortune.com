@@ -1,0 +1,141 @@
+{% extends 'layouts/admin/base.html.twig' %}
+
+{% block body %}
+
+    <div>
+        <a class="inline-flex items-center gap-2 text-sm/6 text-zinc-900 dark:text-zinc-400"
+           href="{{ path('admin_users_index') }}">
+            {{ icon('chevron-left') }}
+            Retour
+        </a>
+    </div>
+
+    <div class="mt-6 max-w-7xl mx-auto">
+
+        <!-- User profile -->
+        <div class="flex items-center gap-x-4 mb-4 border-b border-zinc-200 pb-4">
+            <img src="{{ entity|avatar }}" alt="{{ entity.fullname }}" id="avatar-preview"
+                 class="w-16 h-16 rounded-full object-cover border-2 border-primary-900 dark:border-primary-300 p-0.5">
+            <div>
+                <div class="flex items-center gap-x-1">
+                    <h4 class="h4">{{ entity.fullname }}</h4>
+                    {% if entity.isVerified %}
+                        <span class="text-primary-700">
+                                    {{ icon('badge-check') }}
+                                </span>
+                    {% else %}
+                        <span class="text-red-700">
+                                    {{ icon('badge-x') }}
+                                </span>
+                    {% endif %}
+                </div>
+                <p class="text-sm text-zinc-500">Inscrit <span class="lowercase">{{ entity.createdAt|ago }}</span></p>
+            </div>
+        </div>
+
+        <!-- Informations -->
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-4 mt-6 border-b border-zinc-200 pb-4">
+            <div class="col-span-1">
+                <div class="flex flex-col gap-2">
+                    <div class="flex items-center gap-x-2">
+                        {{ icon('user') }}
+                        <span class="text-sm text-zinc-500">Identifiant</span>
+                    </div>
+                    <span class="ml-6 text-sm text-zinc-900 dark:text-zinc-400">#{{ entity.id }}</span>
+                </div>
+            </div>
+            <div class="col-span-1">
+                <div class="flex flex-col gap-2">
+                    <div class="flex items-center gap-x-2">
+                        {{ icon('mail') }}
+                        <span class="text-sm text-zinc-500">Email</span>
+                    </div>
+                    <span class="ml-6 text-sm">
+                        <a href="mailto:{{ entity.email }}" class="border px-2 py-1 rounded-md
+                            {{ entity.isVerified ? 'border-primary-800 text-primary-800 hover:bg-primary-800 hover:text-white' :
+                            'border-red-800 text-red-800 hover:bg-red-800 hover:text-white' }}">
+                            {{ entity.email|truncate(24) }}</a>
+                    </span>
+                </div>
+            </div>
+            <div class="col-span-1">
+                <div class="flex flex-col gap-2">
+                    <div class="flex items-center gap-x-2">
+                        {{ icon('phone') }}
+                        <span class="text-sm text-zinc-500">Téléphone</span>
+                    </div>
+                    <span class="ml-6 text-sm text-zinc-900 dark:text-zinc-400">
+                        {% if entity.phone %}
+                            <a href="tel:{{ entity.phone }}" class="border border-primary-800 px-2 py-1 rounded-md text-primary-800 hover:bg-primary-800 hover:text-white">
+                                {{ entity.phone }}
+                            </a>
+                        {% else %}
+                            Non renseigné
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-span-1">
+                <div class="flex flex-col gap-2">
+                    <div class="flex items-center gap-x-2">
+                        {{ icon('calendar') }}
+                        <span class="text-sm text-zinc-500">Date de naissance</span>
+                    </div>
+                    <span class="ml-6 text-sm text-zinc-900 dark:text-zinc-400">
+                        {% if entity.dateOfBirthday %}
+                            {{ entity.dateOfBirthday|date('d/m/Y') }}
+                        {% else %}
+                            Non renseignée
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- if user is not verified -->
+        {% if not entity.isVerified %}
+        <div class="mt-6 border-b border-zinc-200 pb-4">
+            <h4 class="text-lg text-red-900 font-semibold">Attention !</h4>
+            <p class="text-sm text-red-800">Cet utilisateur n'a pas encore confirmé son email.</p>
+            <div class="mt-4">
+                <a href="{{ path('admin_users_resend_verification_email', {id: entity.id}) }}" class="btn btn-primary">
+                    {{ icon('mail') }}
+                    Envoyer l'email de vérification
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- User roles -->
+        <div class="mt-6 border-b border-zinc-200 pb-4">
+            {{ form_start(form) }}
+            <div class="mb-4">
+                <h4 class="text-lg font-semibold">Rôles</h4>
+                <p class="text-sm text-zinc-500">Liste des rôles attribués à l'utilisateur</p>
+                <div class="grid grid-cols-1 gap-4 md:grid-cols-2 mt-4">
+                    {{ form_row(form.roles) }}
+                </div>
+            </div>
+            <!-- modifier role -->
+            <div class="flex justify-end">
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+            </div>
+            {{ form_end(form) }}
+        </div>
+
+        <!-- warning zone for impersonate -->
+        <div class="mt-6 border-b border-zinc-200 pb-4">
+            <h4 class="text-lg text-red-900 font-semibold">Prendre le contrôle de cet utilisateur</h4>
+            <p class="text-sm text-red-800 max-w-md">
+                Attention, vous allez prendre le contrôle de cet utilisateur. Il est obligatoire d'avoir l'autorisation de l'utilisateur concerné.
+            </p>
+            <div class="mt-4">
+                <a href="{{ path('app_home', { '_switch_user': entity.email }) }}" class="btn btn-light-danger">
+                    {{ icon('joystick') }}
+                    Prendre le contrôle
+                </a>
+            </div>
+        </div>
+
+</div>
+{% endblock %}

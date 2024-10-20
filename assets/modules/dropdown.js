@@ -1,89 +1,71 @@
-function initializeDropdowns() {
-    const dropdownButtons = document.querySelectorAll('.dropdown-user-button');
-
-    function toggleDropdownVisibility(menu) {
-        // Toggle classes for visibility and animations
-        const classesToShow = ['opacity-100', 'scale-100', 'visible', 'pointer-events-auto', 'z-50'];
-        const classesToHide = ['opacity-0', 'scale-95', 'invisible', 'pointer-events-none'];
-
-        if (menu.classList.contains('invisible')) {
-            menu.classList.remove(...classesToHide);
-            menu.classList.add(...classesToShow);
-        } else {
-            menu.classList.add(...classesToHide);
-            menu.classList.remove(...classesToShow);
-        }
-    }
+function initDropdowns() {
+    const dropdownButtons = document.querySelectorAll('.dropdown-button');
 
     dropdownButtons.forEach(button => {
-        const menuId = button.getAttribute('aria-controls');
-        const menu = document.getElementById(menuId);
+        const dropdown = button.nextElementSibling; // Suppose que le menu est le sibling suivant
 
-        button.addEventListener('click', () => toggleDropdownVisibility(menu));
+        button.addEventListener('click', (event) => {
+            event.stopPropagation(); // Empêche la propagation du clic au document
+
+            // Ferme tous les autres menus déroulants
+            document.querySelectorAll('.dropdown-menu.is-visible').forEach(menu => {
+                if (menu !== dropdown) {
+                    menu.classList.remove('is-visible');
+                }
+            });
+
+            // Bascule la visibilité du menu déroulant associé
+            dropdown.classList.toggle('is-visible');
+
+            // Met à jour l'attribut aria-expanded pour l'accessibilité
+            const isExpanded = button.getAttribute('aria-expanded') === 'true';
+            button.setAttribute('aria-expanded', !isExpanded);
+        });
+    });
+
+    // Ferme les menus déroulants si on clique en dehors
+    document.addEventListener('click', () => {
+        document.querySelectorAll('.dropdown-menu.is-visible').forEach(menu => {
+            menu.classList.remove('is-visible');
+            const button = menu.previousElementSibling;
+            if (button && button.classList.contains('dropdown-button')) {
+                button.setAttribute('aria-expanded', 'false');
+            }
+        });
+    });
+
+    // Gestion des événements clavier pour l'accessibilité
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            closeAllDropdowns();
+        }
+
+        const activeMenu = document.querySelector('.dropdown-menu.is-visible');
+        if (activeMenu) {
+            const focusableElements = activeMenu.querySelectorAll('a, button, input, [tabindex]:not([tabindex="-1"])');
+            let index = Array.prototype.indexOf.call(focusableElements, document.activeElement);
+
+            if (event.key === 'ArrowDown') {
+                event.preventDefault();
+                index = (index + 1) % focusableElements.length;
+                focusableElements[index].focus();
+            } else if (event.key === 'ArrowUp') {
+                event.preventDefault();
+                index = (index - 1 + focusableElements.length) % focusableElements.length;
+                focusableElements[index].focus();
+            }
+        }
     });
 }
 
-document.addEventListener('DOMContentLoaded', initializeDropdowns);
-
-document.addEventListener('DOMContentLoaded', () => {
-    const dropdowns = document.querySelectorAll('.dropdown');
-
-    dropdowns.forEach(dropdown => {
-        const dropdownButton = dropdown.querySelector('.dropdown-button');
-        const dropdownMenu = dropdown.querySelector('.dropdown-menu');
-        const dropdownIcon = dropdown.querySelector('.dropdown-button-icon');
-
-        function adjustDropdownPosition() {
-            if (!dropdownMenu.classList.contains('visible')) {
-                return;
-            }
-
-            const rect = dropdownButton.getBoundingClientRect();
-            const menuHeight = dropdownMenu.offsetHeight;
-            const menuWidth = dropdownMenu.offsetWidth;
-            const viewportHeight = window.innerHeight;
-            const viewportWidth = window.innerWidth;
-
-            dropdownMenu.classList.remove('dropdown-menu--right', 'dropdown-menu--up');
-
-            if (rect.bottom + menuHeight > viewportHeight) {
-                dropdownMenu.classList.add('dropdown-menu--up');
-            }
-
-            if (rect.left + menuWidth > viewportWidth) {
-                dropdownMenu.classList.add('dropdown-menu--right');
-            }
+function closeAllDropdowns() {
+    document.querySelectorAll('.dropdown-menu.is-visible').forEach(menu => {
+        menu.classList.remove('is-visible');
+        const button = menu.previousElementSibling;
+        if (button && button.classList.contains('dropdown-button')) {
+            button.setAttribute('aria-expanded', 'false');
         }
-
-        if (!dropdownButton || !dropdownMenu) {
-            return;
-        }
-
-        dropdownButton.addEventListener('click', (event) => {
-            event.stopPropagation();
-            // Close all other dropdowns
-            dropdowns.forEach(otherDropdown => {
-                if (otherDropdown !== dropdown) {
-                    const otherDropdownMenu = otherDropdown.querySelector('.dropdown-menu');
-                    otherDropdownMenu.classList.remove('visible');
-                }
-            });
-            dropdownMenu.classList.toggle('visible');
-            adjustDropdownPosition();
-
-            if (!dropdownIcon) {
-                return;
-            }
-            dropdownIcon.classList.toggle('rotate-180');
-        });
-
-        document.addEventListener('click', (event) => {
-            if (!dropdown.contains(event.target)) {
-                dropdownMenu.classList.remove('visible');
-            }
-        });
-
-        window.addEventListener('resize', adjustDropdownPosition);
-        window.addEventListener('scroll', adjustDropdownPosition, true);
     });
-});
+}
+
+document.addEventListener('DOMContentLoaded', initDropdowns);

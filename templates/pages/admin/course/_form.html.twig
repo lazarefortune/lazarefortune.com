@@ -1,0 +1,73 @@
+{{ form_start(form, {attr: {class: 'stacked'}}) }}
+
+<section class="stack-large">
+
+    <section class="stack">
+        <h1 class="h3">
+            Informations générales
+        </h1>
+        <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {{ form_row(form.title) }}
+            {{ form_row(form.slug) }}
+            {{ form_row(form.author) }}
+            {{ form_row(form.publishedAt) }}
+            {{ form_row(form.image, {row_attr: {class: 'form-attachment', style:'grid-row-start:1; align-self:stretch;'}}) }}
+        </div>
+        <div class="w-full flex flex-col sm:flex-row gap-4 mt-4">
+            {{ form_row(form.online, { label: 'En ligne ?' }) }}
+            {{ form_row(form.source, { label: 'Code source ?' }) }}
+            {{ form_row(form.premium, { label: 'Premium ?' }) }}
+        </div>
+    </section>
+
+    <section class="stack">
+        <h1 class="h3">
+            Contenus
+        </h1>
+        <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {{ form_row(form.videoPath, {label: 'Video'}) }}
+            <div class="relative">
+                {{ form_row(form.youtube) }}
+                {%if entity.id%}
+                <button type="submit" name="uploadVideoDetails" value="1" class="absolute top-9 right-2 mt-2 mr-2 text-slate-400 hover:text-primary-800 transition-colors duration-200">
+                    {{ icon('upload') }}
+                </button>
+                {% endif %}
+            </div>
+            <div class="relative">
+                {{ form_row(form.duration) }}
+                {%if entity.id%}
+                <button type="submit" name="fetchVideoDuration" value="1" class="absolute top-9 right-2 mt-2 mr-2 text-slate-400 hover:text-primary-800 transition-colors duration-200">
+                    {{ icon('refresh-cw') }}
+                </button>
+                {% endif %}
+            </div>
+            {{ form_row(form.deprecatedBy, {label: 'Déprécié par'}) }}
+            <div class="flex flex-col gap-2">
+                {{ form_row(form.sourceFile, {disabled: not entity.id}) }}
+                {% if entity.source %}
+                    <a href="" target="_blank" class="btn-md">Télécharger la source</a>
+                {% endif %}
+            </div>
+            {{ form_row(form.youtubeThumbnail, {row_attr: {class: 'form-attachment', style:'grid-row-start:1; align-self:stretch;'}}) }}
+        </div>
+        <div class="grid2">
+            {{ form_row(form.mainTechnologies) }}
+            {{ form_row(form.secondaryTechnologies) }}
+        </div>
+    </section>
+
+    <section>
+        <h1 class="h3 mb-4">
+            Description
+        </h1>
+        {{ form_row(form.content, {label: false}) }}
+    </section>
+
+    <section>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+    </section>
+
+</section>
+
+{{ form_end(form) }}

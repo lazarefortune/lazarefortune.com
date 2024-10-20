@@ -1,0 +1,11 @@
+<div class="flex relative {{ progress.ratio == 1 ? 'is-completed' : '' }}" id="progress{{ progress.id }}" style="--progress: {{ progress.ratio }}">
+    <ajax-delete class="progress-delete" url="{{ path('api_delete_progress', {id: progress.id}) }}"
+                 target="#progress{{ progress.id }}">
+        {{ icon('trash') }}
+    </ajax-delete>
+    {% if progress.content.isCourse %}
+        {% include 'pages/public/courses/_course_item.html.twig' with {course: progress.content} %}
+    {% elseif progress.content.isFormation %}
+        {% include 'pages/public/formations/_formation_item.html.twig' with {formation: progress.content} %}
+    {% endif %}
+</div>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controller;
 
-use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Core\Entity\User;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;

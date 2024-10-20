@@ -15,15 +15,6 @@
                     </a>
                 </li>
                 {% if is_granted('ROLE_SUPER_ADMIN') %}
-                <li>
-                    <a href="{{ path('admin_realisation_index') }}"
-                       class="sidebar--nav-item {{ menu_active('admin_realisation') }}">
-                        {{ icon('book-marked' ) }}
-                        Portfolio
-                    </a>
-                </li>
-                {% endif %}
-                {% if is_granted('ROLE_SUPER_ADMIN') %}
                     <li>
                         <a href="{{ path('admin_users_index') }}"
                            class="sidebar--nav-item {{ menu_active('admin_user') }}">
@@ -31,15 +22,6 @@
                             Utilisateurs
                         </a>
                     </li>
-                {% endif %}
-                {% if is_granted('ROLE_SUPER_ADMIN') %}
-                <li>
-                    <a href="{{ path('admin_appointment_index') }}"
-                       class="sidebar--nav-item {{ menu_active('admin_appointment_') }}">
-                        {{ icon('calendar' ) }}
-                        Agenda
-                    </a>
-                </li>
                 {% endif %}
                 <li>
                     <a href="{{ path('admin_contact_index') }}"
@@ -79,64 +61,6 @@
                         Technologies
                     </a>
                 </li>
-            </ul>
-        </div>
-        <div>
-            <div class="sidebar--nav-title">
-                Gestion & Services
-            </div>
-            <ul class="flex flex-col gap-1">
-                {% if is_granted('ROLE_SUPER_ADMIN') %}
-                    <li>
-                        <a href="{{ path('admin_transaction_index') }}"
-                           class="sidebar--nav-item {{ menu_active('admin_transaction') }}">
-                            {{ icon('wallet') }}
-                            Finances
-                        </a>
-                    </li>
-                {% endif %}
-
-                <button class="sidebar--dropdown-button {{ menu_active('admin_prestation') }}
-                        {{ menu_active('admin_category_prestation') }}">
-                    {{ icon('store' ) }}
-                    Offres
-                    <span class="sidebar--dropdown-button-icon">
-                            {{ icon('chevron-down') }}
-                        </span>
-                </button>
-                <div class="sidebar--dropdown-menu hidden">
-                    <a href="{{ path('admin_prestation_index') }}"
-                       class="sidebar--dropdown-menu--item {{ menu_active('admin_prestation') }}">
-                        Prestations
-                    </a>
-                    <a href="{{ path('admin_category_prestation_index') }}"
-                       class="sidebar--dropdown-menu--item {{ menu_active('admin_category_prestation') }}">
-                        Catégories
-                    </a>
-                </div>
-
-                {% if is_granted('ROLE_SUPER_ADMIN') %}
-                <button class="sidebar--dropdown-button
-                        {{ menu_active('admin_shop_settings') }}
-                        {{ menu_active('admin_open_days') }}
-                        {{ menu_active('admin_holidays') }}">
-                    {{ icon('settings') }}
-                    Disponibilités
-                    <span class="sidebar--dropdown-button-icon">
-                            {{ icon('chevron-down') }}
-                        </span>
-                </button>
-                <div class="sidebar--dropdown-menu hidden">
-                    <a href="{{ path('admin_open_days_index') }}"
-                       class="sidebar--dropdown-menu--item {{ menu_active('admin_open_days_') }}">
-                        Jours d'ouverture
-                    </a>
-                    <a href="{{ path('admin_holidays_index') }}"
-                       class="sidebar--dropdown-menu--item {{ menu_active('admin_holidays_') }}">
-                        Congés
-                    </a>
-                </div>
-                {% endif %}
             </ul>
         </div>
     </nav>

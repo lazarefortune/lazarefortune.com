@@ -1,44 +1,40 @@
-@import "tools/typography";
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import "libs/flatpickr";
+/* Base */
+@import "base/variables";
+@import "base/functions";
+@import "base/mixins";
 
 /* Tools */
-@import "tools/reset";
-@import "tools/layout";
 @import "tools/animations";
+@import "tools/layout";
+@import "tools/reset";
+@import "tools/typography";
 
-/* Modules */
-@import "modules/homepage";
-@import "modules/themeswitcher";
-@import "modules/footer";
-@import "modules/accordion";
-@import "modules/alert";
-@import "modules/badge";
-@import "modules/card";
-@import "modules/dropdown";
-@import "modules/switch";
-@import "modules/button";
-@import "modules/form";
-@import "modules/reveal";
-@import "modules/header";
-@import "modules/scroll-top";
-@import "modules/notification";
-@import "modules/nav-tabs";
-@import "modules/modal";
-@import "modules/scrollbar";
-@import "modules/pagination";
-@import "modules/chapters";
-@import "modules/breadcrumb";
-@import "modules/captcha";
-@import "modules/content";
+/* Components */
+@import "components/index";
 
 /* Libs */
+@import "libs/flatpickr";
 
+/* Modules */
+@import "modules/breadcrumb";
+@import "modules/scrollbar";
+
+@import "modules/captcha/captcha";
+@import "modules/themeswitcher/themeswitcher";
+
+/* Modules App */
+@import "modules/app/components/footer";
+@import "modules/app/components/header";
+
+/* Modules */
+@import "modules/chapters";
+@import "modules/content";
 
 /* Pages */
-@import "pages/course";
-@import "pages/formation";
+@import "pages/app/homepage";
+@import "pages/app/course";
+@import "pages/app/formation";

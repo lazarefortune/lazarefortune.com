@@ -1,0 +1,13 @@
+@mixin flex-center {
+  @apply flex justify-center items-center;
+}
+
+/* Mixin pour gérer les espacements */
+@mixin spacing($property, $value) {
+  #{$property}: space($value);
+}
+
+/* Mixin pour les transitions */
+@mixin transition($properties, $duration: 0.3s, $timing: ease) {
+  transition: $properties $duration $timing;
+}

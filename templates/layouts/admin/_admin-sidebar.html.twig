@@ -1,0 +1,69 @@
+{% extends 'layouts/dashboard/sidebar/_sidebar.html.twig' %}
+
+{% block sidebar_header %}{% endblock %}
+
+{% block sidebar_nav %}
+    <div class="sidebar__nav-section">
+        <ul class="sidebar__nav-list">
+            <li class="sidebar__nav-item">
+                <a href="{{ path('admin_home') }}" class="sidebar__nav-link {{ menu_active('admin_home') }}">
+                    {{ icon('monitor') }}
+                    <span>Dashboard</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="sidebar__nav-title">Administration</div>
+        <ul class="sidebar__nav-list">
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <li class="sidebar__nav-item">
+                    <a href="{{ path('admin_users_index') }}" class="sidebar__nav-link {{ menu_active('admin_user') }}">
+                        {{ icon('users') }}
+                        <span>Utilisateurs</span>
+                    </a>
+                </li>
+            {% endif %}
+            <li class="sidebar__nav-item">
+                <a href="{{ path('admin_contact_index') }}" class="sidebar__nav-link {{ menu_active('admin_contact_') }}">
+                    {{ icon('mails' ) }}
+                    Contact Reçus
+                </a>
+            </li>
+            <li class="sidebar__nav-item">
+                <a href="{{ path('app_home') }}" class="sidebar__nav-link">
+                    {{ icon('undo-2') }}
+                    <span>Retour au site</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="sidebar__nav-title">Education</div>
+        <ul class="sidebar__nav-list">
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <li class="sidebar__nav-item">
+                    <a href="{{ path('admin_course_index') }}" class="sidebar__nav-link {{ menu_active('admin_course_') }}">
+                        {{ icon('youtube') }}
+                        <span>Tutoriels</span>
+                    </a>
+                </li>
+            {% endif %}
+            <li class="sidebar__nav-item">
+                <a href="{{ path('admin_formation_index') }}" class="sidebar__nav-link {{ menu_active('admin_formation_') }}">
+                    {{ icon('library-big' ) }}
+                    <span>Formations</span>
+                </a>
+            </li>
+            <li class="sidebar__nav-item">
+                <a href="{{ path('admin_technology_index') }}" class="sidebar__nav-link {{ menu_active('admin_technology_') }}">
+                    {{ icon('tag') }}
+                    <span>Technologies</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block sidebar_footer %}
+{% endblock %}
+
+

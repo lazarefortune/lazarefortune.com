@@ -3,7 +3,7 @@
 namespace App\Infrastructure\Payment\Stripe;
 
 use App\Domain\Appointment\Entity\Appointment;
-use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Payment\Entity\Payment;
 use App\Domain\Payment\TransactionItemInterface;
 use Stripe\Checkout\Session;

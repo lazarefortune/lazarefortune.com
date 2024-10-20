@@ -1,0 +1,32 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as element %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+
+        Bonjour {{ user.fullname }} !
+        ===============================
+
+        Oh non ! Nous sommes tristes de vous voir partir. Votre compte a été supprimé suite à votre demande et toutes vos données ont été effacées.
+
+        N'hésitez pas à revenir si vous changez d'avis. Nous serons ravis de vous revoir parmi nous.
+
+        Nous vous remercions pour votre confiance et vous souhaitons une bonne continuation.
+
+        Nous espérons vous revoir bientôt !
+
+    {% endapply %}
+
+    {% apply markdown_email %}
+        Si vous pensez qu'il s'agit d'une erreur, n'hésitez pas à nous contacter.
+    {% endapply %}
+
+    {% apply markdown_email %}
+        Cordialement,
+
+        L'équipe {{ app_name }}
+    {% endapply %}
+
+{% endblock %}

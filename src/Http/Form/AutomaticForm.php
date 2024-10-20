@@ -4,7 +4,7 @@ namespace App\Http\Form;
 
 use App\Domain\Attachment\Entity\Attachment;
 use App\Domain\Attachment\Type\AttachmentType;
-use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Core\Entity\User;
 use App\Http\Admin\Form\ChaptersForm;
 use App\Http\Admin\Form\Field\TechnologyChoiceType;
 use App\Http\Admin\Form\Field\UserChoiceType;
@@ -91,9 +91,32 @@ class AutomaticForm extends AbstractType
                         'class' => 'label',
                     ],
                     'attr' => [
-                        'class' => 'flatpickr-date-birthday',
+                        'class' => 'flatpickr-date-birthday form-input',
                         'data-input' => 'true'
                     ],
+                ] );
+                continue;
+            }
+
+            if ( $type->getName() === \DateTimeInterface::class ) {
+                $builder->add($name, DateType::class, [
+                    'widget' => 'single_text',
+                    'html5' => false,
+                    'label_attr' => [
+                        'class' => 'label',
+                    ],
+                    'attr' => [
+                        'class' => 'flatpickr-datetime form-input',
+                        'data-input' => 'true'
+                    ]
+                ]);
+                continue;
+            }
+
+            if ( $name === 'image' || $name === 'youtubeThumbnail' ) {
+                $builder->add( $name, self::TYPES[$type->getName()], [
+                    'required' => !$type->allowsNull() && 'bool' !== $type->getName(),
+                    'label' => $name,
                 ] );
                 continue;
             }
@@ -105,6 +128,7 @@ class AutomaticForm extends AbstractType
                 if (self::NAMES[$name] === TextareaType::class) {
                     $options['attr'] = [
                         'rows' => 10,
+                        'class' => 'form-input'
                     ];
                 }
                 $builder->add( $name, self::NAMES[$name], $options );
@@ -112,6 +136,9 @@ class AutomaticForm extends AbstractType
                 $builder->add( $name, self::TYPES[$type->getName()], [
                     'required' => !$type->allowsNull() && 'bool' !== $type->getName(),
                     'label' => $name,
+                    'attr' => [
+                        'class' => 'form-input',
+                    ],
                 ] );
             } else {
                 throw new \RuntimeException( sprintf( 'Impossible de trouver le champs associé au type %s dans %s::%s', $type->getName(), $data::class, $name ) );

@@ -1,0 +1,43 @@
+{{ form_start(form) }}
+<div class="stack">
+    <div class="stack">
+        <div class="grid grid-cols-8 gap-4">
+            <div class="col-span-full md:col-span-4">
+                {{ form_row(form.fullname, {
+                    'label': 'Nom',
+                }) }}
+            </div>
+
+            <div class="col-span-full md:col-span-4">
+                {{ form_row(form.dateOfBirthday) }}
+            </div>
+
+            <div class="col-span-full md:col-span-4">
+                {{ form_row(form.email, {
+                    'label': 'Adresse email',
+                }) }}
+            </div>
+
+            <div class="col-span-full md:col-span-4">
+                {{ form_row(form.phone, {
+                    'label': 'Téléphone',
+                }) }}
+            </div>
+
+            <div class="col-span-full">
+                {{ form_row(form.roles, {
+                    'label': 'Définissez le(s) rôle(s) de l\'utilisateur',
+                }) }}
+        </div>
+    </div>
+
+    <div class="text-end">
+        <button type="submit" class="btn btn-primary">
+            {{ icon('save') }}
+            <span>
+            {{ button_label|default('Enregistrer') }}
+        </span>
+        </button>
+    </div>
+</div>
+{{ form_end(form) }}

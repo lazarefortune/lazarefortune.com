@@ -1,0 +1,110 @@
+<nav class="header container-box" id="app-header">
+    <!-- Section gauche : Logo et navigation -->
+    <div class="header__left">
+        <!-- Bouton hamburger (visible sur mobile) -->
+        <button id="header-hamburger" class="hamburger">
+            <span class="sr-only">Ouvrir le menu</span>
+            <div class="hamburger__icon">
+                <span aria-hidden="true" class="hamburger__line"></span>
+                <span aria-hidden="true" class="hamburger__line"></span>
+                <span aria-hidden="true" class="hamburger__line"></span>
+            </div>
+        </button>
+
+        <!-- Logo -->
+        <a href="{{ path('app_home') }}" {{ menu_active_aria('app_home') }} class="header__logo">
+            <span class="hidden lg:block text-xl font-hanken-grotesk font-medium">Lazare Fortune</span>
+            <span class="lg:hidden text-xl font-hanken-grotesk font-medium">LF</span>
+        </a>
+
+        <!-- Navigation principale (visible sur desktop) -->
+        <ul class="header__nav">
+            <li>
+                <a href="{{ path('app_course_index') }}" {{ menu_active_aria('app_course_') }} class="header__nav-link">
+                    {{ icon('youtube') }}
+                    <span>Tutoriels</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('app_formation_index') }}" {{ menu_active_aria('app_formation_') }} class="header__nav-link">
+                    {{ icon('graduation-cap') }}
+                    <span>Formations</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Menu mobile -->
+    <div id="mobile-menu">
+        <ul class="container-box mt-10">
+            {% if not app.user %}
+                <li class="mb-3">
+                    <a href="{{ path('app_register') }}" class="btn btn-primary w-full">
+                        {{ icon('user-plus') }}
+                        Inscription
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('app_login') }}" class="btn btn-light w-full">
+                        {{ icon('user') }}
+                        Connexion
+                    </a>
+                </li>
+            {% endif %}
+            <li>
+                <a href="{{ path('app_course_index') }}" {{ menu_active_aria('app_course_') }} class="mobile-menu__link">
+                    {{ icon('youtube') }}
+                    <span>Tutoriels</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('app_formation_index') }}" {{ menu_active_aria('app_formation_') }} class="mobile-menu__link">
+                    {{ icon('graduation-cap') }}
+                    <span>Formations</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Section droite : Menu utilisateur -->
+    <div class="header__right">
+        {% if app.user %}
+            <!-- Dropdown utilisateur -->
+            <div class="dropdown">
+                <button class="dropdown-button flex items-center" aria-controls="dropdown-user" aria-expanded="false">
+                    <img class="h-10 w-10 rounded-full object-cover border border-b-gray-400" src="{{ app.user|avatar }}" alt="{{ app.user.fullname }} avatar">
+                </button>
+                <div id="dropdown-user" class="dropdown-menu mt-3">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('admin_home') }}" class="dropdown-menu-item">
+                            {{ icon('shield') }} <span>Administration</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                    {% endif %}
+                    {% if app.user and is_granted('ROLE_PREVIOUS_ADMIN') %}
+                        <a href="{{ path('app_home', {'_switch_user': '_exit'}) }}" class="dropdown-menu-item">
+                            {{ icon('monitor-x') }} <span>Revenir à mon compte</span>
+                        </a>
+                    {% endif %}
+                    <a href="{{ path('app_account_profile') }}" class="dropdown-menu-item {{ menu_active('app_account_profile') }}">
+                        {{ icon('user') }} <span>Mon compte</span>
+                    </a>
+                    <a href="{{ path('app_logout') }}" class="dropdown-menu-item">
+                        {{ icon('log-out') }} <span>Déconnexion</span>
+                    </a>
+                </div>
+            </div>
+        {% else %}
+            <div class="header__auth">
+                <a href="{{ path('app_register') }}" class="header__nav-link">
+                    {{ icon('user-plus') }}
+                    <span>Inscription</span>
+                </a>
+                <span class="text-muted">·</span>
+                <a href="{{ path('app_login') }}" class="header__nav-link">
+                    <span>Connexion</span>
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</nav>

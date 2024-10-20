@@ -2,7 +2,7 @@
 
 namespace App\Http\Controller;
 
-use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Contact\ContactService;
 use App\Domain\Contact\Dto\ContactData;
 use App\Domain\Contact\Entity\Contact;
@@ -31,7 +31,7 @@ class ContactController extends AbstractController
             return $response;
         }
 
-        return $this->render( 'pages/contact.html.twig', [
+        return $this->render( 'pages/public/contact.html.twig', [
             'form' => $form->createView(),
         ] );
     }

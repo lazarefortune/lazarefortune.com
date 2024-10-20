@@ -38,10 +38,10 @@ export class AjaxDelete extends HTMLElement {
                 </p>
         
                 <div class="text-end">
-                    <button type="button" class="btn-light mr-2" data-dismiss>
+                    <button type="button" class="btn btn-light mr-2" data-dismiss>
                         <span>Annuler</span>
                     </button>
-                    <button id="confirmButton" class="btn-danger">
+                    <button id="confirmButton" class="btn btn-danger">
                         <span>Supprimer</span>
                     </button>
                 </div>

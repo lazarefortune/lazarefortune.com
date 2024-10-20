@@ -1,0 +1,27 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as e %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+
+        ## Bonjour {{ client.fullname }} 👋,
+
+        Nous sommes vraiment désolés de vous informer que votre compte sur **{{ app_name }}** a été supprimé de nos serveurs. 😔
+
+        Si vous pensez qu'il s'agit d'une erreur ou que vous souhaitez discuter de cette situation, nous sommes à votre disposition pour vous aider et répondre à toutes vos questions.
+
+    {% endapply %}
+
+    {{ e.button('📞 Nous contacter', contact_url, 'primary') }}
+
+    {% apply markdown_email %}
+
+        Si vous avez besoin d'assistance supplémentaire, n'hésitez pas à nous contacter. Nous sommes là pour vous. 🙏
+
+        **L'équipe {{ app_name }}**
+
+    {% endapply %}
+
+{% endblock %}

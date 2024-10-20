@@ -1,0 +1,84 @@
+{% extends 'layouts/public/base.html.twig' %}
+
+{% block title %}Technologie - {{ technology.name }}{% endblock %}
+
+{% block body %}
+    <header class="technology__header page-header container-box">
+        <div class="stack w-full">
+            <h1 class="h1">{{ technology.name }}</h1>
+            <div class="text-lg">
+                <p>{{ technology.content }}</p>
+            </div>
+        </div>
+        <div class="technology__header__logo">
+            <img src="{{ vich_uploader_asset(technology, 'imageFile') }}" alt="{{ technology.name }}">
+        </div>
+    </header>
+    {% if showTabs %}
+        <nav-tabs class="nav-tabs-bar nav-tabs-bar-icons container-box">
+            <a href="#formations" aria-controls="content"  aria-selected="true">
+                {{ icon('graduation-cap') }}
+                Formations
+            </a>
+            <a href="#tutoriels" aria-controls="sommaire" >
+                {{ icon('youtube') }}
+                Tutoriels
+            </a>
+        </nav-tabs>
+    {% endif %}
+
+    <div class="container-box pt-6 pb-24 technology__content">
+        <div class="order-2 md:order-1">
+            {% if isEmpty %}
+                <div class="max-w-xl">
+                    <alert-message type="info">
+                        Il n'y a pas encore de contenu pour cette technologie :(
+                    </alert-message>
+                </div>
+            {% else %}
+                <section id="formations" >
+                    {% if formations is not empty %}
+                        <h2 class="h3 mb-4">Formations disponibles pour {{ technology.name }}</h2>
+                        <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
+                            {% for formation in formations %}
+                                {% include 'pages/public/formations/_formation_item.html.twig' with { 'formation': formation } %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </section>
+
+                <section id="tutoriels" {% if formations is not empty and not showTabs %} class="pt-16" {% endif %}>
+                    {% if courses is not empty %}
+                        <h2 class="h3 mb-4">Découvrez {{ technology.name }} à travers ces tutoriels</h2>
+                        <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
+                            {% for course in courses %}
+                                {% include 'pages/public/courses/_course_item.html.twig' with { 'course': course } %}
+                            {% endfor %}
+                        </div>
+
+                        {{ paginate(courses) }}
+                    {% endif %}
+                </section>
+            {% endif %}
+        </div>
+        <div class="stack order-1 md:order-2">
+            {% if technology.requirements is not empty %}
+                <section class="stack">
+                    <h2 class="h3">Prérequis</h2>
+                    <p class="text-muted">
+                        Pour bien appréhender {{ technology.name }}, il est recommandé d'avoir les compétences suivantes :
+                    </p>
+                    <div class="technology__requirements">
+                        {% for requirement in technology.requirements %}
+                            <a href="{{ path('app_technology_show', {slug: requirement.slug}) }}"
+                               class="technology__requirement">
+                                {{ requirement.name }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </section>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

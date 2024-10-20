@@ -28,7 +28,7 @@ class FormationController extends AbstractController
     public function index(): Response
     {
         $formations = $this->formationService->getFormations();
-        return $this->render('formations/index.html.twig', [
+        return $this->render('pages/public/formations/index.html.twig', [
             'formations' => $formations
         ]);
     }
@@ -50,7 +50,7 @@ class FormationController extends AbstractController
             $progress = $this->progressRepository->findOneByContent($user, $formation);
         }
 
-        return $this->render('formations/show.html.twig', [
+        return $this->render('pages/public/formations/show.html.twig', [
             'formation' => $formation,
             'progress' => $progress,
         ]);

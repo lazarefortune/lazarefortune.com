@@ -3,7 +3,7 @@
 namespace App\Http\Admin\Data\Crud;
 
 use App\Domain\Attachment\Entity\Attachment;
-use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Course\Entity\Chapter;
 use App\Domain\Course\Entity\Course;
 use App\Domain\Course\Entity\Formation;

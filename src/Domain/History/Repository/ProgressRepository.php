@@ -3,7 +3,7 @@
 namespace App\Domain\History\Repository;
 
 use App\Domain\Application\Entity\Content;
-use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Course\Entity\Course;
 use App\Domain\Course\Entity\Formation;
 use App\Domain\History\Entity\Progress;

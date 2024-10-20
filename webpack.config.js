@@ -14,6 +14,9 @@ Encore
     // only needed for CDN's or subdirectory deploy
     //.setManifestKeyPrefix('build/')
 
+    .configureDevServerOptions(options => {
+        options.host = '0.0.0.0';  // Écoute sur toutes les interfaces réseau
+    })
     /*
      * ENTRY CONFIG
      *

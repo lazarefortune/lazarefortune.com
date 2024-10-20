@@ -6,33 +6,34 @@
 
     {% apply markdown_email %}
 
-        Bonjour {{ user.fullname }} !
+        Bonjour {{ user.fullname }} ! 👋
         ===============================
 
-        Vous venez de demander la confirmation de votre adresse email sur le site {{ app_name }}.
-        Pour valider votre compte, merci de cliquer sur le lien ci-dessous :
+        Vous venez de demander la confirmation de votre adresse email sur **{{ app_name }}**.
+
+        Pour valider votre compte et accéder à toutes nos fonctionnalités, veuillez cliquer sur le bouton ci-dessous :
 
     {% endapply %}
 
-    {{ element.button('Valider mon compte', signedUrl|raw , 'primary') }}
+    {{ element.button('✅ Valider mon compte', signedUrl|raw , 'primary') }}
 
     {% apply markdown_email %}
-        Si vous n'êtes pas à l'origine de la création de ce compte ne tenez pas compte de cet email,
-        il s'agit probablement d'une erreur.
+        Si vous n'êtes pas à l'origine de la création de ce compte, vous pouvez ignorer cet email. Il est possible qu'il s'agisse d'une erreur.
     {% endapply %}
 
 
     {% set email_verification_link_section %}
         {% apply markdown_email %}
-            Si le lien ne fonctionne pas, vous pouvez copier/coller l'adresse suivante dans votre navigateur :
-            [ici]({{ signedUrl|raw }})
-
-            Ce lien expire dans {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+            🔒 Ce lien est sécurisé et expire dans **{{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}**.
         {% endapply %}
     {% endset %}
 
-
     {{ element.section(email_verification_link_section) }}
 
+    {% apply markdown_email %}
+        Cordialement,
+
+        **L'équipe {{ app_name }}** 🚀
+    {% endapply %}
 
 {% endblock %}

@@ -2,7 +2,7 @@
 
 namespace App\Http\Admin\Form\Field;
 
-use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Core\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\View\ChoiceView;

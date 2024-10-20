@@ -6,23 +6,31 @@
 
     {% apply markdown_email %}
 
-        Bonjour {{ user.fullname }} !
-        ===============================
+        🎉 Bonjour {{ user.fullname }} !
+        ==============================
 
-        Nous vous remercions de votre inscription sur {{ app_name }}. Votre adresse email a bien été confirmée.
-        Vous pouvez désormais vous connecter à votre compte et profiter de nos services.
+        Nous sommes ravis de vous compter parmi nous sur **{{ app_name }}** ! 🥳
+
+        Votre adresse email a bien été confirmée, et vous êtes prêt à découvrir tout ce que nous avons à offrir.
+
+        Vous pouvez dès maintenant vous connecter à votre compte pour profiter pleinement de nos services.
 
     {% endapply %}
 
-    {{ element.button('Go sur le site', loginUrl) }}
+    {{ element.button('🚀 Accéder à mon compte', loginUrl) }}
 
     {% apply markdown_email %}
-        Si vous n'êtes pas à l'origine de la création de ce compte, merci de nous contacter au plus vite.
+
+        ⚠️ **Pas vous ?**
+        ------------------
+        Si vous n'êtes pas à l'origine de la création de ce compte, merci de nous le signaler immédiatement.
+
     {% endapply %}
 
     {% apply markdown_email %}
-        Cordialement,
-        L'équipe {{ app_name }}
+        Merci encore de nous avoir rejoint,
+
+        **L'équipe de {{ app_name }}** 💼
     {% endapply %}
 
 {% endblock %}

@@ -3,7 +3,7 @@
 namespace App\Http\Admin\Data\Crud;
 
 use App\Domain\Attachment\Entity\Attachment;
-use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Course\Entity\Course;
 use App\Domain\Course\Entity\Technology;
 use App\Http\Admin\Data\CrudDataInterface;
@@ -27,6 +27,7 @@ class CourseCrudData implements CrudDataInterface
 
     public ?User $author;
 
+    #[Assert\NotBlank]
     public ?\DateTimeInterface $publishedAt;
 
     public bool $online = false;
@@ -43,7 +44,7 @@ class CourseCrudData implements CrudDataInterface
     public ?int $deprecatedBy = null;
 
     #[Assert\NotBlank]
-    public string $content = '';
+    public ?string $content = null;
 
     public ?int $duration = 0;
 

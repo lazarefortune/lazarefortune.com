@@ -2,7 +2,7 @@
 
 namespace App\Domain\History\Service;
 
-use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Course\Entity\Formation;
 use App\Domain\History\Entity\Progress;
 use App\Domain\History\Repository\ProgressRepository;

@@ -26,7 +26,7 @@ class CourseController extends AbstractController
 
         $courses = $paginator->paginate( $query->setMaxResults(10)->getQuery() );
 
-        return $this->render('courses/index.html.twig', [
+        return $this->render('pages/public/courses/index.html.twig', [
             'courses' => $courses,
             'page' => $page,
         ]);
@@ -47,7 +47,7 @@ class CourseController extends AbstractController
             $response->setStatusCode(Response::HTTP_NOT_FOUND);
         }
 
-        return $this->render('courses/show.html.twig', [
+        return $this->render('pages/public/courses/show.html.twig', [
             'course' => $course,
         ]);
     }

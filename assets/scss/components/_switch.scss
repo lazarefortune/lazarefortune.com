@@ -1,0 +1,25 @@
+/* _switch.scss */
+.switch-container {
+  @apply relative inline-flex cursor-pointer items-center;
+}
+
+.switch-input {
+  @apply sr-only;
+}
+
+.switch-slider {
+  @apply h-6 w-11 rounded-full bg-gray-100 after:absolute after:top-0.5 after:left-0.5
+  after:h-5 after:w-5 after:rounded-full after:bg-white after:shadow after:transition-all after:content-['']
+  hover:bg-gray-200 peer-checked:bg-primary-600 peer-checked:after:translate-x-full
+  peer-checked:after:border-white peer-disabled:cursor-not-allowed peer-disabled:bg-gray-100
+  peer-disabled:after:bg-gray-50
+  border
+  peer-checked:border-primary-600
+  dark:bg-slate-700 dark:border-slate-700
+  dark:after:bg-primary-600 dark:peer-checked:bg-primary-600 dark:peer-checked:border-primary-600
+  dark:peer-checked:after:bg-slate-100;
+}
+
+.switch-label {
+  @apply ml-3 block text-base text-gray-400 dark:text-white;
+}

@@ -1,0 +1,74 @@
+.sidebar {
+  @apply fixed top-0 left-0 flex flex-col gap-4 w-[300px] min-w-[300px] lg:min-h-screen border-r p-5 xl:p-6
+  bg-white text-slate-900 dark:bg-slate-900 dark:text-white z-50
+  ease-[cubic-bezier(.5,0,0,1)] duration-500 transition-transform
+  dark:border-r-muted;
+  height: 100dvh;
+
+  @supports not (height: 100dvh) {
+    height: 100vh;
+  }
+
+  &__header {
+    @apply text-left text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-4;
+  }
+
+  &__logo {
+    @apply flex items-center gap-2;
+  }
+
+  &__logo-image {
+    @apply w-20 h-20 rounded-full object-cover;
+  }
+
+  &__nav {
+    @apply grow h-full overflow-auto space-y-8 pb-12;
+
+    &-section {
+        @apply flex flex-col gap-4;
+    }
+
+    &-title {
+      @apply text-sm text-slate-400 capitalize px-4;
+    }
+
+    &-list {
+      @apply flex flex-col gap-1;
+    }
+
+    &-item {
+      @apply w-full;
+    }
+
+    &-link {
+      @apply px-4 py-2 flex items-center gap-3 rounded
+      bg-white text-base md:text-sm text-slate-800 hover:text-primary-900 hover:bg-primary-100
+      dark:text-white dark:bg-slate-900 dark:hover:text-white dark:hover:bg-slate-800;
+
+      &.active {
+        @apply bg-primary-100 text-primary-900 dark:bg-primary-800 dark:text-white;
+      }
+    }
+  }
+
+  &__footer {
+    @apply border-t border-slate-100 mt-auto py-4 dark:border-muted;
+
+    &__button {
+      @include flex-center;
+      @apply w-full px-4 py-2 gap-1 rounded
+      bg-primary-700 text-white hover:bg-primary-800
+      dark:bg-primary-800 dark:hover:bg-primary-900 dark:text-white;
+    }
+
+    &__button--subscribe {
+      @extend .sidebar__footer__button;
+      // Styles supplémentaires
+    }
+  }
+}
+
+/* Styles pour le backdrop de la sidebar */
+.sidebar-backdrop {
+  @apply fixed inset-0 z-[35] bg-slate-500/50 backdrop-blur-[2px];
+}

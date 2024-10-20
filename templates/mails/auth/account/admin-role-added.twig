@@ -1,0 +1,32 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as element %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+
+        Bonjour {{ user.fullname }} ! 🎉
+        ===============================
+
+        Félicitations ! 🎊 Vous venez d'être promu au rôle d'**administrateur** sur **{{ app_name }}**. 🚀
+
+        Ce nouveau statut vous donne accès à des fonctionnalités avancées et une plus grande liberté pour gérer et superviser les activités de la plateforme.
+
+        En tant qu'administrateur, vous avez désormais plus de droits et responsabilités qu'un utilisateur classique.
+
+        N'attendez plus, rendez-vous sur votre espace personnel pour découvrir toutes les nouvelles options à votre disposition !
+
+    {% endapply %}
+
+    {{ element.button('⚙️ Accéder à mon espace personnel', home_url, 'primary') }}
+
+    {% apply markdown_email %}
+        Si vous avez des questions sur votre nouveau rôle ou besoin d'assistance, notre équipe est à votre disposition.
+
+        À très bientôt,
+
+        **L'équipe {{ app_name }}** 🚀
+    {% endapply %}
+
+{% endblock %}

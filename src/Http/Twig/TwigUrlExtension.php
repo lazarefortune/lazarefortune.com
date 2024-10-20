@@ -2,7 +2,7 @@
 
 namespace App\Http\Twig;
 
-use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Core\Entity\User;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelperInterface;

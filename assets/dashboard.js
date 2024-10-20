@@ -1,5 +1,5 @@
 import './bootstrap.js';
-import './scss/admin.scss'
+import './scss/dashboard.scss'
 
 import {createIcons, icons} from 'lucide';
 
@@ -14,9 +14,8 @@ import './libs/select2'
 import './modules/modal.js'
 import './modules/dropdown.js'
 import './modules/scrollreveal.js'
-import './modules/user-menu-button.js'
-import './modules/sidebar.js'
-import './modules/sidebar-dropdown.js'
+import './modules/dashboard/sidebar.js'
+import './modules/dashboard/sidebar-dropdown.js'
 /* ===== Pages ===== */
 import './pages/index.js'
 

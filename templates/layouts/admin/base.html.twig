@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="fr" class="{{ body_theme() }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>{% block title 'Administration' %} | {{ app_name }}</title>
+
+    {% include 'partials/header/_favicons.html.twig' %}
+    {% include 'partials/header/_gtag.html.twig' %}
+
+    <!-- jquery-->
+    <script src="{{ asset('js/jquery-3.6.3.min.js') }}"></script>
+
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('dashboard') }}
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('dashboard') }}
+    {% endblock %}
+</head>
+<body>
+<div class="flex justify-between">
+    {% include 'layouts/admin/_admin-sidebar.html.twig' %}
+
+    <main class="overflow-x-hidden pt-28 w-full h-full px-4 lg:px-8 lg:ml-[300px] min-h-screen">
+        {% include 'partials/flash.html.twig' %}
+
+        {% include 'layouts/admin/_admin-header.html.twig' %}
+
+        <div class="dashboard">
+            {% block body %}{% endblock %}
+        </div>
+
+        <scroll-top class="scroll-top" hidden="hidden">
+            {{ icon('chevron-up') }}
+        </scroll-top>
+    </main>
+</div>
+
+{% block javascripts_bottom %}
+    {{ encore_entry_script_tags('dashboard') }}
+{% endblock %}
+</body>
+</html>

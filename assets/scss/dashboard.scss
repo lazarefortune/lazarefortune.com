@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base */
+@import "base/variables";
+@import "base/functions";
+@import "base/mixins";
+
+/* Tools */
+@import "tools/animations";
+@import "tools/layout";
+@import "tools/reset";
+@import "tools/typography";
+
+/* Components */
+@import "components/index";
+
+/* Libs */
+@import "libs/flatpickr";
+@import "libs/select2";
+
+/* Modules */
+@import "modules/breadcrumb";
+@import "modules/scrollbar";
+
+@import "modules/themeswitcher/themeswitcher";
+
+/* Modules Admin */
+@import "modules/dashboard/page-layout";
+@import "modules/dashboard/sortable";
+@import "modules/dashboard/components/attachments";
+@import "modules/dashboard/components/chapters";
+@import "modules/dashboard/components/breadcrumb";
+@import "modules/dashboard/components/header";
+@import "modules/dashboard/components/sidebar";
+@import "modules/dashboard/components/spotlight";
+
+
+/* Pages */
+//@import "pages/dashboard/home-dashboard";

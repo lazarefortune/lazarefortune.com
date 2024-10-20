@@ -1,0 +1,208 @@
+{% extends 'layouts/public/base.html.twig' %}
+
+{% block title 'Mon compte' %}
+
+{% block body %}
+
+    <div class="page-header">
+        <div class="container-box">
+            <div class="stack">
+                <div class="flex flex-col md:flex-row md:justify-start items-center gap-2">
+                    <div class="md:mr-4 flex-shrink-0">
+                        <img src="{{ app.user|avatar }}"
+                             alt="Avatar de {{ app.user.fullname }}"
+                             class="rounded-full w-24 h-24 object-cover border-2 border-primary-900 dark:border-primary-300 p-0.5">
+                    </div>
+                    <div class="text-center md:text-left">
+                        <h2 class="h2">{{ app.user.fullname }}</h2>
+                        <p class="text-muted text-sm">
+                            <span>Inscrit <span class="lowercase">{{ app.user.createdAt|ago }}</span></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav-tabs class="nav-tabs-bar nav-tabs-bar-icons container-box">
+        <a href="#profil" data-tab-id="profil">
+            {{ icon('user') }}
+            Editer
+        </a>
+        <a href="#courses" data-tab-id="courses">
+            {{ icon('history') }}
+            Historique
+        </a>
+    </nav-tabs>
+
+    <div class="container-box pt-5 pb-10 stack-large bg-slate-50">
+        <div id="profil">
+            <div class="stack-large">
+                {% if app.user.deletedAt %}
+                    <div class="notification-info">
+                        <h2 class="notification-heading">Attention !</h2>
+                        <p>
+                            Vous avez demandé un la suppression de votre compte. <br>
+                            Votre compte sera supprimé {{ app.user.deletedAt|date_diff }}.
+                        </p>
+                    </div>
+                {% endif %}
+
+                {{ form_start(formProfile, {'attr': {'class': 'stack'}}) }}
+                <h3 class="h3">Mes informations</h3>
+
+                <div class="stack card card-padding">
+                    <div class="grid2">
+                        {{ form_row(formProfile.fullname) }}
+                        {{ form_row(formProfile.avatarFile) }}
+                    </div>
+                </div>
+                <div class="text-start">
+                    <button type="submit" class="btn btn-primary">
+                        {{ icon('save') }}
+                        <span>Enregistrer</span>
+                    </button>
+                </div>
+                {{ form_end(formProfile) }}
+
+
+                <div class="stack">
+                    <h3 class="h3">Adresse email</h3>
+
+                    {% if requestEmailChange and not requestEmailChange.createdAt|is_older_than_hours(1) %}
+                        <div class="notification-info">
+                            <h2 class="notification-heading">Attention !</h2>
+                            <p>
+                                Vous avez demandé un changement d'adresse email.
+                                <br>
+                                Veuillez vérifier votre
+                                nouvelle boîte {{ requestEmailChange.email }} pour confirmer.
+                            </p>
+                        </div>
+                    {% else %}
+                        {{ form_start(formEmail, {'attr': {'class': 'stack'}}) }}
+                        <div class="card card-padding">
+                            <div class="grid2">
+                                <div class="text-muted">
+                                <p class="text-muted mb-2">
+                                    Votre adresse email actuelle est <span class="font-semibold">{{ app.user.email }}</span>.
+                                </p>
+                                {{ form_row(formEmail.email) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-start">
+                            <button type="submit" class="btn btn-primary">
+                                {{ icon('mail') }}
+                                <span>Modifier mon adresse email</span>
+                            </button>
+                        </div>
+                        {{ form_end(formEmail) }}
+                    {% endif %}
+                </div>
+
+                {{ form_start(formPassword, {'attr': {'class': 'stack'}}) }}
+                <h3 class="h3">Mot de passe</h3>
+
+                <div class="card card-padding">
+                    <div class="grid2">
+                        {{ form_row(formPassword.currentPassword) }}
+                        {{ form_row(formPassword.newPassword) }}
+                    </div>
+                </div>
+
+                <div class="text-start">
+                    <button type="submit" class="btn btn-primary">
+                        {{ icon('key') }}
+                        <span>Modifier mon mot de passe</span>
+                    </button>
+                </div>
+
+                {{ form_end(formPassword) }}
+
+
+                <div class="stack">
+                    <h3 class="h3 text-danger-800 dark:text-danger-300">Supprimer mon compte</h3>
+
+                    <p class="text-base">
+                        {% if app.user.deletedAt %}
+                            <div class="notification-info">
+                                <h2 class="notification-heading">Attention !</h2>
+                                <p>
+                                    Vous avez demandé la suppression de votre compte. <br>
+                                    Il sera supprimé automatiquement {{ app.user.deletedAt|date_diff }}.
+                                </p>
+                            </div>
+                        {% else %}
+                            Vous n'êtes pas satisfait de nos services ? Vous pouvez demander la suppression de votre compte.
+                            Vous aurez 7 jours pour changer d'avis. Passé ce délai, votre compte sera supprimé définitivement.
+                        {% endif %}
+                    </p>
+
+                    {% if app.user.deletedAt %}
+                        <div class="text-start">
+                            <a href="{{ path('app_account_delete_cancel') }}" class="btn btn-green">
+                                {{ icon('trash') }}
+                                <span>Annuler la suppression</span>
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="text-start">
+                            <button class="btn btn-danger" data-modal-id="deleteAccountModal">
+                                {{ icon('trash') }}
+                                <span>Demander la suppression</span>
+                            </button>
+                        </div>
+
+                        <modal-dialog id="deleteAccountModal" hidden="hidden" overlay-close>
+                            <section class="modal-box">
+                                <header>Confirmer la suppression</header>
+                                <button data-dismiss aria-label="Close" class="modal-close">
+                                    {{ icon('x') }}
+                                </button>
+
+                                <div class="stack">
+                                    <p class="text-muted">
+                                        Vous êtes sur le point de supprimer votre compte. <br>
+                                        Pour confirmer cette demande merci de rentrer votre mot de passe. Le compte sera
+                                        automatiquement supprimé au bout de 7 jours.
+                                    </p>
+
+                                    {{ form_start(formDeleteAccount, {'attr': {'class': 'stack'}}) }}
+
+                                    {{ form_row(formDeleteAccount.password) }}
+
+                                    <div class="text-end">
+                                        <button type="submit" class="btn btn-danger">
+                                            {{ icon('trash') }}
+                                            <span>Confirmer la suppression</span>
+                                        </button>
+                                    </div>
+                                    {{ form_end(formDeleteAccount) }}
+                                </div>
+
+                            </section>
+                        </modal-dialog>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+
+        <div id="courses">
+            <div class="stack">
+                <h3 class="h3">Mon historique</h3>
+                {% if watchlist is not empty %}
+                    <section>
+                        <div class="courses">
+                            {% for progress in watchlist %}
+                                {% include 'account/_progress-card.html.twig' %}
+                            {% endfor %}
+                        </div>
+                    </section>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

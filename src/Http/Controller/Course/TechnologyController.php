@@ -34,7 +34,7 @@ class TechnologyController extends AbstractController
 
         $isEmpty = count($formations) === 0 && $courses->getTotalItemCount() === 0;
 
-        return $this->render('courses/technology.html.twig', [
+        return $this->render('pages/public/courses/technology.html.twig', [
             'technology' => $technology,
             'nextTechnologies' => $nextTechnologies,
             'showTabs' => count($formations) >= 3,
