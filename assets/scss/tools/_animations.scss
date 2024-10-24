@@ -104,7 +104,7 @@
 }
 .border-halo {
   //background: linear-gradient(to bottom right,#35c262,#35c262 20%,#374151 40%),border-box;
-  @apply bg-gradient-to-br from-primary-500 to-primary-50;
+  @apply bg-gradient-to-br from-primary-800 to-primary-50;
   border: 0 solid transparent;
   border-radius: .375rem;
   padding: 1px;

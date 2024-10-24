@@ -37,27 +37,22 @@ class HomeController extends AbstractController
         $user = $this->getUser();
 
         if ( $user ) {
-            return $this->indexLogged( $user );
+            $watchlist = $this->historyService->getLastWatchedContent( $user );
+            $excluded = array_map( fn ( Progress $progress ) => $progress->getContent()->getId(), $watchlist );
+            $content = $this->em->getRepository( Content::class )
+                ->findLatest( 14, $user->isPremium() )
+                ->andWhere( 'c INSTANCE OF ' . Course::class . ' OR c INSTANCE OF ' . Formation::class );
+            if ( !empty( $excluded ) ) {
+                $content = $content->andWhere( 'c.id NOT IN (:ids)' )->setParameter( 'ids', $excluded );
+            }
+
+            return $this->render( 'pages/public/index.html.twig' , [
+                'latest_content' => $content,
+                'watchlist' => $watchlist,
+            ]);
         }
 
-        return $this->render( 'pages/public/index.html.twig' );
-    }
-
-    public function indexLogged( User $user ) : Response
-    {
-        $watchlist = $this->historyService->getLastWatchedContent( $user );
-        $excluded = array_map( fn ( Progress $progress ) => $progress->getContent()->getId(), $watchlist );
-        $content = $this->em->getRepository( Content::class )
-            ->findLatest( 14, $user->isPremium() )
-            ->andWhere( 'c INSTANCE OF ' . Course::class . ' OR c INSTANCE OF ' . Formation::class );
-        if ( !empty( $excluded ) ) {
-            $content = $content->andWhere( 'c.id NOT IN (:ids)' )->setParameter( 'ids', $excluded );
-        }
-
-        return $this->render( 'pages/public/index-logged.html.twig', [
-            'latest_content' => $content,
-            'watchlist' => $watchlist,
-        ] );
+        return $this->render( 'pages/public/index.html.twig');
     }
 
     #[Route( '/ui', name: 'ui' )]

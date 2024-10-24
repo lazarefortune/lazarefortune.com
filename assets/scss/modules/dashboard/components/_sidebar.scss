@@ -1,6 +1,6 @@
 .sidebar {
   @apply fixed top-0 left-0 flex flex-col gap-4 w-[300px] min-w-[300px] lg:min-h-screen border-r p-5 xl:p-6
-  bg-white text-slate-900 dark:bg-slate-900 dark:text-white z-50
+  bg-white text-slate-900 dark:bg-primary-950 dark:text-white z-50
   ease-[cubic-bezier(.5,0,0,1)] duration-500 transition-transform
   dark:border-r-muted;
   height: 100dvh;
@@ -42,8 +42,8 @@
 
     &-link {
       @apply px-4 py-2 flex items-center gap-3 rounded
-      bg-white text-base md:text-sm text-slate-800 hover:text-primary-900 hover:bg-primary-100
-      dark:text-white dark:bg-slate-900 dark:hover:text-white dark:hover:bg-slate-800;
+      bg-white text-base md:text-base text-slate-800 hover:text-primary-900 hover:bg-primary-100
+      dark:text-white dark:bg-primary-950 dark:hover:text-white dark:hover:bg-primary-800;
 
       &.active {
         @apply bg-primary-100 text-primary-900 dark:bg-primary-800 dark:text-white;

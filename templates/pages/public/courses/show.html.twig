@@ -12,7 +12,7 @@
 
 
 {% block body %}
-    <div class="bg-slate-50 dark:bg-dark-soft">
+    <div>
         <div class="container-box">
             {{ breadcrumb(course) }}
         </div>
@@ -28,7 +28,7 @@
             {{- course.title }}
         </h1>
 
-        <div class="container-box mt-4 mb-20 {{ course.formation ? 'is-chapter' : '' }}">
+        <div class="container-box mt-4 mb-20 {{ course.formation ? 'is-chapter' : 'is-chapter is-folded' }}">
             {% if course.scheduled and not user_premium %}
                 <div class="course-countdown" style="background-image: url({{ image_url_raw(course.image) }})">
                     <div class="course-countdown-content">

@@ -14,14 +14,6 @@ class ProfileUpdateForm extends AbstractType
     public function buildForm( FormBuilderInterface $builder, array $options ) : void
     {
         $builder
-            ->add('avatarFile', FileType::class, [
-                'label' => 'Avatar',
-                'required' => false,
-                'attr' => [
-                    'accept' => 'image/*',
-                    'class' => 'form-input'
-                ]
-            ] )
             ->add( 'fullname', TextType::class, [
                 'label' => 'Nom complet',
                 'label_attr' => [

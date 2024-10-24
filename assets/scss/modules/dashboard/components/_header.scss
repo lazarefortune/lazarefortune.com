@@ -1,5 +1,5 @@
 .header {
-  @apply lg:pl-[300px] fixed top-0 left-0 z-30 w-full border-b bg-white dark:bg-slate-900 dark:border-b-muted shadow-sm;
+  @apply lg:pl-[300px] fixed top-0 left-0 z-30 w-full border-b bg-white dark:bg-primary-950 dark:border-b-muted shadow-sm;
 }
 .header__container {
   @apply flex items-center justify-between px-4 md:px-8 py-4;

@@ -2,7 +2,7 @@
   h1 {
     @apply text-3xl font-bold text-slate-900 dark:text-slate-200;
     strong {
-      @apply text-primary-500;
+      @apply text-primary-600 dark:text-primary-400;
     }
     em {
       @apply text-xl text-slate-600 dark:text-slate-400;

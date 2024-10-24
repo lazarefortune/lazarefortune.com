@@ -2,6 +2,8 @@
 
 namespace App\Http\Controller\Account;
 
+use App\Domain\Auth\Core\Dto\AvatarDto;
+use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Auth\Core\Exception\TooManyEmailChangeException;
 use App\Domain\Auth\Core\Form\DeleteAccountForm;
 use App\Domain\Auth\Core\Form\EmailUpdateForm;
@@ -11,9 +13,11 @@ use App\Domain\Auth\Core\Service\AccountService;
 use App\Domain\Auth\Core\Service\DeleteAccountService;
 use App\Domain\Auth\Core\Service\EmailChangeService;
 use App\Http\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -109,5 +113,27 @@ class AccountController extends AbstractController
             'formDeleteAccount' => $formDeleteAccount->createView(),
             'requestEmailChange' => $requestEmailChange,
         ] );
+    }
+
+    #[Route('/avatar', name: 'avatar' , methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function updateAvatar(
+        Request $request,
+        ValidatorInterface $validator,
+        AccountService $accountService,
+    ) : Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        $data = new AvatarDto($request->files->get('avatar'), $user);
+        $errors = $validator->validate($data);
+        if ($errors->count() > 0) {
+            $this->addFlash('error', (string) $errors->get(0)->getMessage());
+        } else {
+            $accountService->updateAvatar($data);
+            $this->addFlash('success', 'Avatar mis à jour avec succès');
+        }
+
+        return $this->redirectToRoute('app_account_profile');
     }
 }

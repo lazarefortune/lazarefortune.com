@@ -15,7 +15,7 @@
 }
 
 .course {
-  @apply relative flex w-full flex-col rounded border border-slate-200 bg-white text-base dark:bg-dark-soft dark:border-slate-700;
+  @apply relative flex w-full flex-col rounded border border-slate-200 bg-white text-base dark:bg-[#22244d] dark:border-[#2a2e5e]/50;
 }
 
 .course__body {
@@ -44,7 +44,7 @@
 }
 
 .course__title a {
-  @apply text-base font-bold text-slate-900 transition duration-300 hover:text-primary-500 dark:text-slate-200 dark:hover:text-primary-400;
+  @apply text-base font-bold text-slate-900 transition duration-300 hover:text-primary-600 dark:text-white dark:hover:text-primary-400;
 }
 
 .course__link {
@@ -68,7 +68,7 @@
 }
 
 .course__footer {
-  @apply flex items-center min-h-[36px] bg-slate-100 dark:bg-dark-soft-2 text-[15px] text-slate-600 dark:text-slate-400
+  @apply flex items-center min-h-[36px] bg-slate-100 dark:bg-primary-1000 text-[15px] text-slate-600 dark:text-slate-400
   px-4 py-0 rounded-b;
   & > * {
     @apply whitespace-nowrap;
@@ -179,7 +179,7 @@
 }
 
 .course-page {
-  @apply bg-white dark:bg-dark-soft-2 py-2;
+  @apply bg-white dark:bg-primary-1000 py-2;
 }
 .course-tabs {
   @apply relative flex w-full overflow-x-auto overflow-y-hidden border-b border-slate-200 dark:border-slate-700;
@@ -222,7 +222,7 @@
 
 // technology
 .technology__content {
-  @apply bg-primary-50 dark:bg-dark-soft-2;
+  @apply bg-primary-50 dark:bg-primary-1000;
   display: grid;
   gap: 24px;
 }
@@ -287,7 +287,7 @@
 
   .technology__requirement {
     @apply cursor-pointer text-slate-600 dark:text-slate-300 py-4 hover:bg-primary-100 hover:text-primary-900
-    dark:hover:bg-dark-soft dark:hover:text-primary-400 hover:pl-4 transition-all duration-300;
+    dark:hover:bg-primary-950 dark:hover:text-primary-400 hover:pl-4 transition-all duration-300;
   }
 }
 

@@ -1,16 +1,6 @@
 <nav class="header container-box" id="app-header">
     <!-- Section gauche : Logo et navigation -->
     <div class="header__left">
-        <!-- Bouton hamburger (visible sur mobile) -->
-        <button id="header-hamburger" class="hamburger">
-            <span class="sr-only">Ouvrir le menu</span>
-            <div class="hamburger__icon">
-                <span aria-hidden="true" class="hamburger__line"></span>
-                <span aria-hidden="true" class="hamburger__line"></span>
-                <span aria-hidden="true" class="hamburger__line"></span>
-            </div>
-        </button>
-
         <!-- Logo -->
         <a href="{{ path('app_home') }}" {{ menu_active_aria('app_home') }} class="header__logo">
             <span class="hidden lg:block text-xl font-hanken-grotesk font-medium">Lazare Fortune</span>
@@ -21,14 +11,14 @@
         <ul class="header__nav">
             <li>
                 <a href="{{ path('app_course_index') }}" {{ menu_active_aria('app_course_') }} class="header__nav-link">
-                    {{ icon('youtube') }}
-                    <span>Tutoriels</span>
+                    {{ icon('video') }}
+                    <span>Vidéos</span>
                 </a>
             </li>
             <li>
                 <a href="{{ path('app_formation_index') }}" {{ menu_active_aria('app_formation_') }} class="header__nav-link">
-                    {{ icon('graduation-cap') }}
-                    <span>Formations</span>
+                    {{ icon('library-big') }}
+                    <span>Playlists</span>
                 </a>
             </li>
         </ul>
@@ -53,14 +43,14 @@
             {% endif %}
             <li>
                 <a href="{{ path('app_course_index') }}" {{ menu_active_aria('app_course_') }} class="mobile-menu__link">
-                    {{ icon('youtube') }}
-                    <span>Tutoriels</span>
+                    {{ icon('video') }}
+                    <span>Vidéos</span>
                 </a>
             </li>
             <li>
                 <a href="{{ path('app_formation_index') }}" {{ menu_active_aria('app_formation_') }} class="mobile-menu__link">
-                    {{ icon('graduation-cap') }}
-                    <span>Formations</span>
+                    {{ icon('library-big') }}
+                    <span>Playlists</span>
                 </a>
             </li>
         </ul>
@@ -96,15 +86,25 @@
             </div>
         {% else %}
             <div class="header__auth">
-                <a href="{{ path('app_register') }}" class="header__nav-link">
+                <a href="{{ path('app_register') }}" {{ menu_active_aria('app_register') }} class="header__nav-link">
                     {{ icon('user-plus') }}
                     <span>Inscription</span>
                 </a>
                 <span class="text-muted">·</span>
-                <a href="{{ path('app_login') }}" class="header__nav-link">
+                <a href="{{ path('app_login') }}" {{ menu_active_aria('app_login') }} class="header__nav-link">
                     <span>Connexion</span>
                 </a>
             </div>
         {% endif %}
+
+        <!-- Bouton hamburger (visible sur mobile) -->
+        <button id="header-hamburger" class="hamburger">
+            <span class="sr-only">Ouvrir le menu</span>
+            <div class="hamburger__icon">
+                <span aria-hidden="true" class="hamburger__line"></span>
+                <span aria-hidden="true" class="hamburger__line"></span>
+                <span aria-hidden="true" class="hamburger__line"></span>
+            </div>
+        </button>
     </div>
 </nav>

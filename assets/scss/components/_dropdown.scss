@@ -6,23 +6,23 @@
   }
 
   &-menu {
-    @apply absolute z-[1000] right-0 top-[35px] min-w-48 bg-white dark:bg-slate-900 dark:text-white
+    @apply absolute z-[1000] right-0 top-[35px] min-w-48 bg-white dark:bg-primary-950 dark:text-white
     border border-slate-200 dark:border-slate-800 shadow rounded
     opacity-0 scale-95 transform transition-opacity duration-100 ease-out
-    invisible pointer-events-none p-2;
+    invisible pointer-events-none p-1;
 
     &.is-visible {
       @apply opacity-100 scale-100 visible pointer-events-auto;
     }
 
     &-item {
-      @apply flex items-center justify-start gap-2 rounded px-2 py-2 text-nowrap
-      text-sm leading-6 text-slate-900 hover:text-primary-900 hover:bg-primary-100
-      dark:text-white dark:hover:text-white dark:hover:bg-slate-800;
+      @apply flex items-center justify-start gap-2 rounded px-2 py-1.5 text-nowrap
+      text-base text-slate-900 hover:text-primary-900 hover:bg-primary-100;
+      @apply dark:text-white dark:bg-primary-950 dark:hover:text-white dark:hover:bg-primary-800;
 
       &.active {
-        @apply text-base leading-6 text-primary-600 bg-primary-200/30
-        hover:bg-primary-200/30 dark:text-primary-600 dark:hover:text-primary-600;
+        @apply text-base leading-6 text-primary-600 bg-primary-200/30 hover:bg-primary-200/30;
+        @apply dark:bg-primary-800 dark:text-white;
       }
 
       i {

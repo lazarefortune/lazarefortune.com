@@ -8,18 +8,15 @@
   }
 
   a[aria-selected="true"] {
-    @apply text-primary-900 border-primary-900 border-b-[3px];
+    @apply text-primary-700 border-primary-700 border-b-[3px];
+    @apply dark:text-primary-500 dark:border-primary-500;
   }
 }
 
 .nav-tabs-bar {
-  position: relative;
-  display: flex;
-  overflow-x: auto;
-  overflow-y: hidden;
-  //border-bottom: 2px solid #e2e8f0;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  @apply border-b-2 border-slate-200 dark:border-slate-700 bg-white text-base text-slate-900 dark:bg-dark-soft dark:text-white;
+  @apply relative flex overflow-x-auto overflow-y-hidden border-b-2 border-slate-200 bg-white text-base text-slate-900 ;
+  @apply dark:border-slate-700 dark:bg-primary-1000 dark:text-white;
 }
 
 .nav-tabs-bar a {

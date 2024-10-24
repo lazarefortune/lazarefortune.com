@@ -3,13 +3,13 @@
 {% block title 'Tous les tutoriels' ~ ((page > 1) ? (', page' ~ page) : '') %}
 
 {% block body %}
-    <div class="bg-slate-50 dark:bg-dark-soft-2">
+    <div>
         <div class="container-box py-10 stack-large">
 
             <div class="course__hero">
                 {% if page == 1 %}
-                    <h1 class="h1">Tous mes <strong>tutoriels</strong></h1>
-                    <p class="text-muted mt-2">Découvrez l'ensemble des tutoriels pour apprendre de nouvelles choses.</p>
+                    <h1 class="h1">Toutes les <strong>vidéos</strong></h1>
+                    <p class="text-muted mt-2">Découvrez l'ensemble des vidéos pour apprendre de nouvelles choses.</p>
                 {% else %}
                     <h1 class="h1">Tous mes <strong>tutoriels</strong> <em><br> page {{ page }}</em> </h1>
                 {% endif %}

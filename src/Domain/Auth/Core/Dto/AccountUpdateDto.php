@@ -29,9 +29,6 @@ class AccountUpdateDto
     public ?\DateTimeInterface $dateOfBirthday = null;
     */
 
-    #[Assert\Image( mimeTypes: ['image/jpeg', 'image/jpg', 'image/png'], mimeTypesMessage: 'Veuillez télécharger une image au format JPG ou PNG' )]
-    public ?UploadedFile $avatarFile = null;
-
     public User $user;
 
     public function __construct( User $user )
@@ -59,7 +56,6 @@ class AccountUpdateDto
         */
         $this->user->setPhone( $this->phone );
         $this->user->setUpdatedAt( new \DateTimeImmutable() );
-        $this->user->setAvatarFile( $this->avatarFile );
     }
 
 }

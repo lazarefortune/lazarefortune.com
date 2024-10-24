@@ -2,9 +2,11 @@
 
 namespace App\Domain\Auth\Core\Service;
 
+use App\Domain\Auth\Core\Dto\AvatarDto;
 use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Auth\Password\Event\PasswordUpdatedEvent;
 use Doctrine\ORM\EntityManagerInterface;
+use Intervention\Image\ImageManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -48,4 +50,19 @@ class AccountService
         $this->eventDispatcher->dispatch( $passwordUpdatedEvent, PasswordUpdatedEvent::NAME );
     }
 
+    public function updateAvatar( AvatarDto $data ) : void
+    {
+        if (false === $data->file->getRealPath()) {
+            throw new \RuntimeException('Impossible de redimensionner un avatar non existant');
+        }
+        // On redimensionne l'image
+//        $manager = new ImageManager(['driver' => 'imagick']);
+//        $manager->make($data->file)->fit(110, 110)->save($data->file->getRealPath());
+
+        // On la déplace dans le profil utilisateur
+        $data->user->setAvatarFile($data->file);
+        $data->user->setUpdatedAt(new \DateTime());
+        $this->entityManager->persist( $data->user );
+        $this->entityManager->flush();
+    }
 }

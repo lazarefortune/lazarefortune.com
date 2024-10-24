@@ -1,6 +1,7 @@
 services:
   app:
     container_name: app-lazarefortune
+    restart: unless-stopped
     build:
       context: .
       dockerfile: Dockerfile

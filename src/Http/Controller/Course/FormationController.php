@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-#[Route('/formations', name: 'formation_')]
+#[Route('/playlists', name: 'formation_')]
 class FormationController extends AbstractController
 {
     public function __construct(

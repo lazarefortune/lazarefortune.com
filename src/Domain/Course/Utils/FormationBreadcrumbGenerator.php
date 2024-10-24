@@ -12,7 +12,7 @@ class FormationBreadcrumbGenerator implements BreadcrumbGeneratorInterface
     public function generate( $formation ) : array
     {
         $items = [];
-        $items[] = new BreadcrumbItem('Formation', ['app_formation_index']);
+        $items[] = new BreadcrumbItem('Playlists', ['app_formation_index']);
         $categories = [];
         foreach ($formation->getMainTechnologies() as $technology) {
             $categories[] = new BreadcrumbItem(

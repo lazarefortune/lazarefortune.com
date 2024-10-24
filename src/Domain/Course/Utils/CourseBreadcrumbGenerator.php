@@ -15,7 +15,7 @@ class CourseBreadcrumbGenerator implements BreadcrumbGeneratorInterface
     public function generate( object $entity): array
     {
         $items = [];
-        $items[] = new BreadcrumbItem('Tutoriels', ['app_course_index']);
+        $items[] = new BreadcrumbItem('Vidéos', ['app_course_index']);
         $categories = [];
         foreach ( $entity->getMainTechnologies() as $technology) {
             $categories[] = new BreadcrumbItem(

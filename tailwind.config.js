@@ -56,6 +56,8 @@ module.exports = {
                 'dark-variant': '#1c1d27',
                 'white-soft': '#f7fafb',
                 'dark-soft': '#0b1121',
+                // 'dark-soft': '#1b1e3d',
+                // 'dark-soft-2': '#1b1e3d',
                 'dark-soft-2': '#0f172a',
                 'dark-soft-3': '#313552',
                 primaryOL: {
@@ -71,7 +73,7 @@ module.exports = {
                     '900': '#451b97',
                     '950': '#280e67',
                 },
-                primary: {
+                primaryddd: {
                     '50': '#e5e5fa', // couleur plus claire
                     '100': '#b3b3f0',
                     '200': '#8080e6',
@@ -83,6 +85,35 @@ module.exports = {
                     '800': '#00007a',
                     '900': '#000066', // couleur plus foncée
                     '950': '#000033',
+                },
+                'primary': {
+                    '50': '#f0f7fe',
+                    '100': '#ddedfc',
+                    '200': '#c3e0fa',
+                    '300': '#99cdf7',
+                    '400': '#69b2f1',
+                    '500': '#4594ec',
+                    '600': '#3076e0',
+                    '700': '#2762ce',
+                    '800': '#264fa7',
+                    '900': '#244584',
+                    '950': '#171933',
+                    '1000': '#1b1e3d'
+                    // '950': '#14213d',
+                    // '1000': '#171933',
+                },
+                'secondary': {
+                    '50': '#fff8ed',
+                    '100': '#fff0d4',
+                    '200': '#ffdda9',
+                    '300': '#ffc576',
+                    '400': '#fe9f39',
+                    '500': '#fc8113',
+                    '600': '#ed6609',
+                    '700': '#c54c09',
+                    '800': '#9c3c10',
+                    '900': '#7e3310',
+                    '950': '#441806',
                 },
                 primaryViolet: {
                     "50": "#f3f1ff",
@@ -130,6 +161,7 @@ module.exports = {
             'plusJakartaSans': ['Plus Jakarta Sans'],
             'ibmPlexSans': ['IBM Plex Sans'],
             'hanken-grotesk': ['Hanken Grotesk'],
+            'fira-sans': ['Fira Sans']
         }
     },
     plugins: [

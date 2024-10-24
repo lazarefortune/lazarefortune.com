@@ -95,6 +95,57 @@
   src: url('../../fonts/Hanken_Grotesk/HankenGrotesk-VariableFont_wght.ttf');
 }
 
+// --- Fira Sans ---
+@font-face {
+  font-family: 'Fira Sans';
+  src: url('../../fonts/Fira_Sans/FiraSans-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Fira Sans';
+  src: url('../../fonts/Fira_Sans/FiraSans-Medium.ttf');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Fira Sans';
+  src: url('../../fonts/Fira_Sans/FiraSans-SemiBold.ttf');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'Fira Sans';
+  src: url('../../fonts/Fira_Sans/FiraSans-Bold.ttf');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'Fira Sans';
+  src: url('../../fonts/Fira_Sans/FiraSans-ExtraBold.ttf');
+  font-weight: 800;
+}
+//
+//@font-face {
+//  font-family: 'Fira Sans';
+//  src: url('../../fonts/Fira_Sans/FiraSans-Medium.ttf');
+//}
+//
+//@font-face {
+//  font-family: 'Fira Sans';
+//  src: url('../../fonts/Fira_Sans/FiraSans-Thin.ttf');
+//}
+//
+//@font-face {
+//  font-family: 'Fira Sans';
+//  src: url('../../fonts/Fira_Sans/FiraSans-Light.ttf');
+//}
+//
+//@font-face {
+//  font-family: 'Fira Sans';
+//  src: url('../../fonts/Fira_Sans/FiraSans-ExtraLight.ttf');
+//}
+
+
 a {
   @apply text-primary-800 hover:text-primary-900 no-underline hover:no-underline
   dark:text-primary-300 dark:hover:text-primary-400;
@@ -129,7 +180,7 @@ p {
 }
 
 .text-muted {
-  @apply text-gray-600 dark:text-gray-300;
+  @apply text-gray-600 dark:text-gray-400;
 }
 
 .text-danger {

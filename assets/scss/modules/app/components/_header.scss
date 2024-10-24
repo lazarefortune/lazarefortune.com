@@ -1,6 +1,6 @@
 /* --- Styles du header --- */
 .header {
-  @apply relative z-50 w-full bg-white dark:bg-dark-soft dark:text-white flex justify-between items-center py-6 transition-colors duration-300;
+  @apply relative z-50 w-full bg-white dark:bg-primary-950 dark:text-white flex justify-between items-center py-6 transition-colors duration-300;
 
   &::after {
     content: "";
@@ -32,12 +32,12 @@
 }
 
 .header__nav-link {
-  @apply flex items-center gap-1 text-base text-slate-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-300;
+  @apply flex items-center gap-1 text-base text-slate-900 hover:text-primary-800 dark:text-white dark:hover:text-primary-300;
   span {
     @apply no-underline font-medium;
   }
   &[aria-current="page"] {
-    @apply text-blue-700 dark:text-blue-300;
+    @apply text-primary-800 dark:text-primary-300;
   }
 }
 
@@ -46,11 +46,11 @@
 }
 
 .header__auth {
-  @apply flex items-center gap-1;
+  @apply hidden md:flex md:flex-row items-center gap-1;
 }
 
 .hamburger {
-  @apply text-gray-500 w-10 h-10 relative focus:outline-none bg-white cursor-pointer lg:hidden;
+  @apply text-gray-500 w-10 h-10 relative focus:outline-none bg-white dark:bg-primary-950 dark:text-white cursor-pointer lg:hidden;
 
   &__icon {
     @apply flex flex-col justify-center items-center;
@@ -83,7 +83,7 @@
 
 /* --- Styles du menu mobile --- */
 #mobile-menu {
-  @apply w-full h-[calc(100vh-56px)] fixed z-[1000] top-16 left-0 bg-white dark:bg-dark-soft dark:text-white flex transform -translate-x-full opacity-0 transition-all duration-300 pointer-events-none;
+  @apply w-full h-[calc(100vh-56px)] fixed z-[1000] top-16 left-0 bg-white dark:bg-primary-950 dark:text-white flex transform -translate-x-full opacity-0 transition-all duration-300 pointer-events-none;
 }
 
 #mobile-menu.active {

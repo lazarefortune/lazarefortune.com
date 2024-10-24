@@ -1,7 +1,7 @@
 /* Base pour tous les boutons avec taille par défaut (moyenne) */
 .btn {
   @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md border shadow-sm cursor-pointer
-  focus:outline-none focus:ring-2 focus:ring-offset-2 active:scale-95 px-5 py-2 text-sm;
+  focus:outline-none focus:ring-2 focus:ring-offset-2 active:scale-95 px-5 py-2 text-base;
 
   & > i {
     @apply inline-block leading-none;
@@ -28,14 +28,27 @@
 /* Bouton primaire */
 .btn-primary {
   /* Light mode */
-  @apply bg-primary-800 text-white border-primary-800
-  hover:bg-primary-700 hover:border-primary-700 hover:text-white
+  @apply bg-primary-900 text-white border-primary-900
+  hover:bg-primary-800 hover:border-primary-800 hover:text-white
   disabled:bg-primary-200 disabled:border-primary-200 disabled:cursor-not-allowed;
 
   /* Dark mode */
-  @apply dark:bg-primary-600 dark:text-white dark:border-primary-600
-  dark:hover:bg-primary-700 dark:hover:border-primary-700 dark:hover:text-white
+  @apply dark:bg-primary-700 dark:text-white dark:border-primary-700
+  dark:hover:bg-primary-600 dark:hover:text-white dark:hover:border-primary-600
   dark:disabled:bg-primary-300 dark:disabled:border-primary-300;
+}
+
+/* Bouton contour */
+.btn-outline {
+  /* Light mode */
+  @apply bg-transparent text-primary-600 border-primary-600
+  hover:bg-primary-50 hover:text-primary-700 hover:border-primary-700
+  disabled:text-primary-200 disabled:border-primary-200 disabled:cursor-not-allowed;
+
+  /* Dark mode */
+  @apply dark:bg-transparent dark:text-primary-400 dark:border-primary-400
+  dark:hover:bg-primary-400 dark:hover:text-white dark:hover:border-primary-400
+  dark:disabled:text-primary-300 dark:disabled:border-primary-300;
 }
 
 /* Bouton clair */
@@ -67,7 +80,7 @@
 /* Bouton danger */
 .btn-danger {
   /* Light mode */
-  @apply bg-red-600 text-white border-red-600
+  @apply bg-red-800 text-white border-red-800
   hover:bg-red-700 hover:border-red-700
   disabled:bg-red-200 disabled:border-red-200 disabled:cursor-not-allowed;
 
@@ -75,19 +88,6 @@
   @apply dark:bg-red-500 dark:text-white dark:border-red-500
   dark:hover:bg-red-400 dark:hover:border-red-400
   dark:disabled:bg-red-300 dark:disabled:border-red-300;
-}
-
-/* Bouton contour */
-.btn-outline {
-  /* Light mode */
-  @apply bg-transparent text-primary-600 border-primary-600
-  hover:bg-primary-50 hover:text-primary-700 hover:border-primary-700
-  disabled:text-primary-200 disabled:border-primary-200 disabled:cursor-not-allowed;
-
-  /* Dark mode */
-  @apply dark:bg-transparent dark:text-primary-400 dark:border-primary-400
-  dark:hover:bg-primary-500 dark:hover:text-white dark:hover:border-primary-500
-  dark:disabled:text-primary-300 dark:disabled:border-primary-300;
 }
 
 /* Bouton danger clair */

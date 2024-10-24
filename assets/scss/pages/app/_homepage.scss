@@ -1,5 +1,5 @@
 .hero {
-  @apply py-44 w-full bg-white dark:bg-dark-soft flex items-center justify-center overflow-hidden text-center md:text-left;
+  @apply py-44 w-full bg-white dark:bg-primary-950 flex items-center justify-center overflow-hidden text-center md:text-left;
 }
 
 .hero__body {
@@ -12,8 +12,7 @@
 
 .hero__name {
   // gradient text
-  @apply mx-0 mt-2 mb-4 text-4xl lg:text-6xl font-medium font-ibmPlexSans bg-gradient-to-r from-primary-600 via-primary-500 to-indigo-400 inline-block text-transparent bg-clip-text;
-  //@apply mx-0 mt-2 mb-4 text-4xl font-medium font-ibmPlexSans text-primary-900 dark:text-primary-400 lg:text-6xl;
+  @apply mx-0 mt-2 mb-4 text-4xl lg:text-6xl font-medium font-ibmPlexSans bg-gradient-to-r from-primary-600 to-primary-500 inline-block text-transparent bg-clip-text;
 }
 
 .hero__job {
@@ -21,7 +20,11 @@
 }
 
 .hero__links{
-  @apply absolute bottom-20 right-20 hidden lg:flex flex-col space-y-3 text-slate-900 dark:text-white dark:hover:text-light-orange;
+  @apply absolute bottom-20 right-20 hidden lg:flex flex-col space-y-3;
+  a {
+    @apply text-primary-800 hover:text-primary-700 hover:drop-shadow-xl;
+    @apply dark:text-primary-500 dark:hover:text-primary-300;
+  }
 }
 
 .hero__cta {
@@ -30,32 +33,44 @@
 
 .hero__img {
   @apply hidden justify-center lg:flex lg:w-1/2;
+
   &::before {
-    @apply block relative rounded-full dark:bg-gradient-to-br dark:from-primary-50 dark:to-primary-800 w-96 h-96;
+    @apply block relative rounded-full w-96 h-96;
     content: "";
-    background: linear-gradient(180deg, hsla(0, 0%, 100%, 0), #5d21d2);
-    // old color : #586fad
+    position: absolute;
     bottom: 3px;
     right: 100px;
-    width: 350px;
-    height: 350px;
-    position: absolute;
-    animation: halo 2s infinite;
     z-index: -1;
+    animation: halo 2s infinite;
+
+    // Gestion du background avec TailwindCSS
+    @apply bg-gradient-to-b from-transparent to-primary-900;
+    @apply dark:bg-gradient-to-br dark:from-primary-50 dark:to-primary-800; // Couleurs de dégradé en mode dark
   }
 }
 
 @keyframes halo {
-  0% {
-    box-shadow: 0 0 0 0 rgba(93, 33, 210, 0.7);
+  0%, 100% {
+    transform: scale(1);
   }
   50% {
-    box-shadow: 0 0 0 20px rgba(93, 33, 210, 0);
-  }
-  100% {
-      box-shadow: 0 0 0 0 rgba(93, 33, 210, 0);
+    transform: scale(1.05);
   }
 }
+
+
+
+//@keyframes halo {
+//  0% {
+//    box-shadow: 0 0 0 0 rgba(93, 33, 210, 0.7);
+//  }
+//  50% {
+//    box-shadow: 0 0 0 20px rgba(93, 33, 210, 0);
+//  }
+//  100% {
+//      box-shadow: 0 0 0 0 rgba(93, 33, 210, 0);
+//  }
+//}
 
 .home__push {
   @apply bg-gradient-to-b from-primary-50 to-primary-300 dark:from-primary-800 dark:to-primary-900
@@ -69,7 +84,6 @@
   height: 100.1%;
   top: 0;
   z-index: 0;
-  @apply bg-gradient-to-br from-primary-50 to-primary-100 dark:from-dark-soft-2 dark:to-dark-soft;
-  //background: #f6f9fc;
+  @apply bg-gradient-to-br from-primary-50 to-primary-200 dark:from-primary-1000 dark:to-primary-950;
   clip-path: polygon(0% 23%,0% 100%,100% 77%,100% 0%);
 }

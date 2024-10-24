@@ -29,6 +29,8 @@ customElements.define('puzzle-challenge', PuzzleCaptcha)
 customElements.define('progress-tracker', ProgressTracker)
 customElements.define('ajax-delete', AjaxDelete)
 customElements.define('loader-overlay', LoaderOverlay)
+customElements.define('auto-submit', AutoSubmit, { extends: 'form' })
+
 /* Modules */
 import './modules/scrollreveal.js'
 import './modules/modal.js'
@@ -45,6 +47,7 @@ import {PuzzleCaptcha} from "./elements/Captcha";
 import { ProgressTracker } from "./elements/player/ProgressTracker";
 import { AjaxDelete } from "./elements/AjaxDelete";
 import LoaderOverlay from "./elements/LoaderOverlay";
+import { AutoSubmit } from "./elements/AutoSubmit";
 
 registerHeaderBehavior()
 
