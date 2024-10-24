@@ -83,7 +83,7 @@
                         {{ icon('arrow-down') }}
                     </button>
                     <div class="absolute top-0 left-0 w-full h-full overflow-auto bg-white dark:bg-dark-soft-2" is="auto-scroll" data-to="{{ current is defined ? current : "#chapter" ~ course.id }}">
-                        {% include 'chapters/_summary.html.twig' with {chapters: course.formation.chapters} only %}
+                        {% include 'pages/formations/chapters/_summary.html.twig' with {chapters: course.formation.chapters} only %}
                     </div>
                 </div>
             {% endif %}
