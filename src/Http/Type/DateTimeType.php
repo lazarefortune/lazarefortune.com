@@ -12,8 +12,11 @@ class DateTimeType extends \Symfony\Component\Form\Extension\Core\Type\DateTimeT
         $resolver->setDefaults([
             'widget' => 'single_text',
             'html5' => false,
+            'label_attr' => [
+                'class' => 'label',
+            ],
             'attr' => [
-                'class' => 'flatpickr-datetime'
+                'class' => 'flatpickr-datetime form-input'
             ]
         ]);
     }

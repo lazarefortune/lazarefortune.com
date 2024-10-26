@@ -36,7 +36,7 @@ class AutomaticForm extends AbstractType
         UploadedFile::class => FileType::class,
         User::class => UserChoiceType::class,
         Attachment::class => AttachmentType::class,
-        \DateTimeInterface::class =>  DateTimeType::class,
+        \DateTimeInterface::class => DateTimeType::class,
     ];
 
     final public const NAMES = [
@@ -82,7 +82,7 @@ class AutomaticForm extends AbstractType
                 continue;
             }
 
-            if( $name === 'dateOfBirthday' ) {
+            if ( $name === 'dateOfBirthday' ) {
                 $builder->add( $name, DateType::class, [
                     'label' => 'Date de naissance',
                     'widget' => 'single_text',
@@ -99,17 +99,7 @@ class AutomaticForm extends AbstractType
             }
 
             if ( $type->getName() === \DateTimeInterface::class ) {
-                $builder->add($name, DateType::class, [
-                    'widget' => 'single_text',
-                    'html5' => false,
-                    'label_attr' => [
-                        'class' => 'label',
-                    ],
-                    'attr' => [
-                        'class' => 'flatpickr-datetime form-input',
-                        'data-input' => 'true'
-                    ]
-                ]);
+                $builder->add( $name, DateTimeType::class );
                 continue;
             }
 
@@ -125,7 +115,7 @@ class AutomaticForm extends AbstractType
                 $options = [
                     'required' => false,
                 ];
-                if (self::NAMES[$name] === TextareaType::class) {
+                if ( self::NAMES[$name] === TextareaType::class ) {
                     $options['attr'] = [
                         'rows' => 10,
                         'class' => 'form-input'
