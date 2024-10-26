@@ -57,7 +57,7 @@
             {% for row in rows %}
                 <tr>
                     <td>{{ row.id }}</td>
-                    <td>{{ row.title }}</td>
+                    <td>{{ row.title | truncate(50) }}</td>
                     <td>
                         {{ row.technologies|join(', ') }}
                     </td>
@@ -68,7 +68,7 @@
                             <span class="badge badge-danger">Brouillon</span>
                         {% endif %}
                     </td>
-                    <td>{{ row.publishedAt|date('d/m/Y H:i') }}</td>
+                    <td>{{ row.publishedAt|date('d/m/Y à H:i') }}</td>
                     <td>
                         <a href="{{ path(prefix ~ '_edit', {id: row.id}) }}" class="btn-icon">
                             {{ icon('pencil') }}
@@ -78,38 +78,36 @@
                                 {{ icon('eye-off') }}
                             </button>
                         {% endif %}
-                        <modal-dialog id="setOfflineCourse{{ row.id }}" hidden="hidden" overlay-close>
-                            <section class="modal-box">
-                                <header>Souhaitez-vous continuer ?</header>
-                                <button data-dismiss aria-label="Close" class="modal-close">
-                                    {{ icon('x') }}
-                                </button>
-
-                                <div class="stack">
-                                    <p class="text-muted">
-                                        Vous êtes sur le point de retirer cette vidéo en ligne.
-                                        Elle sera désormais en brouillon.
-                                    </p>
-
-                                    <div class="stack">
-                                        <div class="text-end">
-                                            <button type="button" class="btn-light mr-2" data-dismiss>
-                                                <span>Annuler</span>
-                                            </button>
-                                            <form action="{{ path(prefix ~ '_edit', {id: row.id}) }}" method="post" class="inline-flex">
-                                                <input type="hidden" name="_method" value="DELETE" />
-                                                <button type="submit" class="btn btn-danger">
-                                                    {{ icon('eye-off') }}
-                                                    Mettre hors ligne
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </section>
-                        </modal-dialog>
                     </td>
+                    <modal-dialog id="setOfflineCourse{{ row.id }}" hidden="hidden" overlay-close>
+                        <section class="modal-box">
+                            <header>Souhaitez-vous continuer ?</header>
+                            <button data-dismiss aria-label="Close" class="modal-close">
+                                {{ icon('x') }}
+                            </button>
+
+                            <div class="stack">
+                                <p class="text-muted">
+                                    Vous êtes sur le point de retirer cette vidéo en ligne.
+                                    Elle sera désormais en brouillon.
+                                </p>
+
+                                <form action="{{ path(prefix ~ '_edit', {id: row.id}) }}" method="post" class="stack">
+                                    <input type="hidden" name="_method" value="DELETE" />
+                                    <div class="flex justify-end gap-2">
+                                        <button type="button" class="btn btn-light" data-dismiss>
+                                            <span>Annuler</span>
+                                        </button>
+                                        <button type="submit" class="btn btn-danger">
+                                            {{ icon('eye-off') }}
+                                            Mettre hors ligne
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </section>
+                    </modal-dialog>
                 </tr>
             {% endfor %}
             </tbody>

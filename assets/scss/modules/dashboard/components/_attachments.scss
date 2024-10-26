@@ -7,11 +7,11 @@
   transition: 0.2s;
   //border: solid 1px var(--border);
   //background: var(--background);
-  @apply bg-slate-50 border border-slate-100;
+  @apply bg-slate-50 border border-slate-100 dark:bg-primary-1000 dark:border-primary-950 dark:shadow dark:shadow-primary-500/50;
 }
 
 .input-attachment:hover {
-  @apply border-slate-200 shadow;
+  @apply border-slate-200 shadow dark:border-primary-900;
   //border-color: var(--contrast);
   //box-shadow: 0 0 3px var(--contrast);
 }
@@ -31,7 +31,7 @@
 
 .input-attachment.is-hovered {
   //background-color: var(--contrast);
-  @apply bg-slate-100;
+  @apply bg-slate-100 dark:bg-slate-600;
   .input-attachment__preview {
     opacity: 0.6;
   }

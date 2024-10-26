@@ -1,5 +1,5 @@
 .table-wrapper {
-    @apply overflow-x-auto whitespace-nowrap;
+    @apply overflow-x-auto;
 }
 
 table.table {
@@ -9,7 +9,7 @@ table.table {
     @apply text-zinc-500 dark:text-zinc-400;
 
     th {
-      @apply border-b border-b-zinc-950/10 px-4 py-2 font-medium dark:border-b-white/10 sm:first:pl-1 sm:last:pr-1;
+      @apply whitespace-nowrap border-b border-b-zinc-950/10 px-4 py-2 font-medium dark:border-b-white/10 sm:first:pl-1 sm:last:pr-1;
     }
   }
 
@@ -18,7 +18,7 @@ table.table {
       @apply focus-within:bg-zinc-950/[2.5%] dark:focus-within:bg-white/[2.5%] hover:bg-zinc-950/[2.5%] dark:hover:bg-white/[2.5%];
 
       td {
-        @apply text-zinc-500 relative px-4 border-b border-zinc-950/5 dark:text-white dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1;
+        @apply whitespace-nowrap text-zinc-500 relative px-4 border-b border-zinc-950/5 dark:text-white dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1;
 
         .table-cell-link {
           @apply absolute inset-0 focus:outline-none;
