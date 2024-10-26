@@ -11,7 +11,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
 #[IsGranted('ROLE_ADMIN')]
-#[Route(path: '/formation', name: 'formation_')]
+#[Route(path: '/playlists', name: 'formation_')]
 final class FormationController extends CrudController
 {
     protected string $templatePath = 'formation';
@@ -38,6 +38,7 @@ final class FormationController extends CrudController
     }
 
     #[Route(path: '/nouveau', name: 'new', methods: ['POST', 'GET'])]
+    #[IsGranted('ROLE_SUPER_ADMIN')]
     public function new(): Response
     {
         $entity = (new Formation())->setAuthor($this->getUser());
@@ -47,6 +48,7 @@ final class FormationController extends CrudController
     }
 
     #[Route(path: '/{id<\d+>}', name: 'edit', methods: ['POST', 'GET'])]
+    #[IsGranted('ROLE_SUPER_ADMIN')]
     public function edit(Formation $formation): Response
     {
         $data = (new FormationCrudData($formation))->setEntityManager($this->em);
@@ -55,6 +57,7 @@ final class FormationController extends CrudController
     }
 
     #[Route(path: '/{id<\d+>}', name: 'delete', methods: ['DELETE'])]
+    #[IsGranted('ROLE_SUPER_ADMIN')]
     public function delete(Formation $formation): Response
     {
         return $this->crudAjaxDelete($formation);

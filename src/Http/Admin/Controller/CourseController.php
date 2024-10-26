@@ -17,7 +17,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Vich\UploaderBundle\Handler\UploadHandler;
 
 #[IsGranted( 'ROLE_ADMIN' )]
-#[Route( path: '/tutoriels', name: 'course_' )]
+#[Route( path: '/videos', name: 'course_' )]
 class CourseController extends CrudController
 {
     private const SESSION_COURSE_ID = 'session_course_id';
@@ -25,9 +25,9 @@ class CourseController extends CrudController
     protected string $templatePath = 'course';
     protected string $menuItem = 'course';
     protected string $entity = Course::class;
-    protected bool $indexOnSave = false;
+    protected bool   $indexOnSave = false;
     protected string $routePrefix = 'admin_course';
-    protected array $events = [];
+    protected array  $events = [];
 
     #[Route( path: '/', name: 'index' )]
     public function index( Request $request ) : Response
@@ -50,6 +50,7 @@ class CourseController extends CrudController
     }
 
     #[Route( path: '/nouveau', name: 'new', methods: ['POST', 'GET'] )]
+    #[IsGranted('ROLE_SUPER_ADMIN')]
     public function new() : Response
     {
         $entity = ( new Course() )->setAuthor( $this->getUser() );
@@ -59,6 +60,7 @@ class CourseController extends CrudController
     }
 
     #[Route( path: '/{id<\d+>}', name: 'edit', methods: ['POST', 'GET'] )]
+    #[IsGranted('ROLE_SUPER_ADMIN')]
     public function edit(
         Request          $request,
         Course           $course,
@@ -85,6 +87,7 @@ class CourseController extends CrudController
     }
 
     #[Route( path: '/{id<\d+>}', methods: ['DELETE'] )]
+    #[IsGranted('ROLE_SUPER_ADMIN')]
     public function delete( Course $course, EventDispatcherInterface $dispatcher ) : Response
     {
         $course->setOnline( false );
@@ -100,6 +103,7 @@ class CourseController extends CrudController
     }
 
     #[Route( path: '/upload', name: 'upload', methods: ['GET'] )]
+    #[IsGranted('ROLE_SUPER_ADMIN')]
     public function upload(
         Request          $request,
         SessionInterface $session,
@@ -139,6 +143,7 @@ class CourseController extends CrudController
     }
 
     #[Route( path: '/update-duration', name: 'update_duration', methods: ['GET'] )]
+    #[IsGranted('ROLE_SUPER_ADMIN')]
     public function updateDuration(
         Request          $request,
         SessionInterface $session,

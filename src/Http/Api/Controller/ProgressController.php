@@ -18,9 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-/**
- * @method User getUser()
- */
+
 class ProgressController extends AbstractController
 {
     public function __construct(private readonly EventDispatcherInterface $dispatcher, private readonly EntityManagerInterface $em)
@@ -71,7 +69,7 @@ class ProgressController extends AbstractController
         }
 
         return new JsonResponse([
-            'message' => $this->renderView('courses/success.html.twig', [
+            'message' => $this->renderView('pages/public/courses/_success.html.twig', [
                 'button' => $button,
             ]),
         ]);

@@ -19,7 +19,7 @@ security:
       security: false
 
     api_token:
-      pattern: ^/api/*
+      pattern: ^/api/v1/*
       stateless: true
       lazy: true
       provider: api_key_provider

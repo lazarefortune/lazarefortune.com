@@ -23,12 +23,14 @@
                     </a>
                 </li>
             {% endif %}
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
             <li class="sidebar__nav-item">
                 <a href="{{ path('admin_contact_index') }}" class="sidebar__nav-link {{ menu_active('admin_contact_') }}">
                     {{ icon('mails' ) }}
                     Contact Reçus
                 </a>
             </li>
+            {% endif %}
             <li class="sidebar__nav-item">
                 <a href="{{ path('app_home') }}" class="sidebar__nav-link">
                     {{ icon('undo-2') }}
@@ -39,23 +41,23 @@
 
         <div class="sidebar__nav-title">Education</div>
         <ul class="sidebar__nav-list">
-            {% if is_granted('ROLE_SUPER_ADMIN') %}
+            {% if is_granted('ROLE_ADMIN') %}
                 <li class="sidebar__nav-item">
                     <a href="{{ path('admin_course_index') }}" class="sidebar__nav-link {{ menu_active('admin_course_') }}">
-                        {{ icon('youtube') }}
-                        <span>Tutoriels</span>
+                        {{ icon('video') }}
+                        <span>Vidéos</span>
                     </a>
                 </li>
-            {% endif %}
             <li class="sidebar__nav-item">
                 <a href="{{ path('admin_formation_index') }}" class="sidebar__nav-link {{ menu_active('admin_formation_') }}">
                     {{ icon('library-big' ) }}
-                    <span>Formations</span>
+                    <span>Playlists</span>
                 </a>
             </li>
+            {% endif %}
             <li class="sidebar__nav-item">
                 <a href="{{ path('admin_technology_index') }}" class="sidebar__nav-link {{ menu_active('admin_technology_') }}">
-                    {{ icon('tag') }}
+                    {{ icon('tags') }}
                     <span>Technologies</span>
                 </a>
             </li>
