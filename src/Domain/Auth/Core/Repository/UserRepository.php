@@ -207,26 +207,43 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getSingleScalarResult();
     }
 
-    public function countMonthlyUsersLastYear() : array
+    public function countMonthlyUsersLastYearFormatted(): array
     {
         $date = new \DateTime();
-        $date->modify( '-1 year' );
+        $date->modify('-1 year');
 
-        $result = $this->createQueryBuilder( 'u' )
-            ->select( 'COUNT(u) as total, MONTH(u.createdAt) as month' )
-            ->andWhere( 'u.roles NOT LIKE :role' )
-            ->andWhere( 'u.createdAt >= :date' )
-            ->setParameter( 'role', '%ROLE_SUPER_ADMIN%' )
-            ->setParameter( 'date', $date )
-            ->groupBy( 'month' )
+        // Tableau des mois avec initialisation à 0 utilisateur
+        $formattedData = [
+            ['month' => 'Janvier', 'users' => 0],
+            ['month' => 'Février', 'users' => 0],
+            ['month' => 'Mars', 'users' => 0],
+            ['month' => 'Avril', 'users' => 0],
+            ['month' => 'Mai', 'users' => 0],
+            ['month' => 'Juin', 'users' => 0],
+            ['month' => 'Juillet', 'users' => 0],
+            ['month' => 'Août', 'users' => 0],
+            ['month' => 'Septembre', 'users' => 0],
+            ['month' => 'Octobre', 'users' => 0],
+            ['month' => 'Novembre', 'users' => 0],
+            ['month' => 'Décembre', 'users' => 0],
+        ];
+
+        $result = $this->createQueryBuilder('u')
+            ->select('COUNT(u) as total, MONTH(u.createdAt) as month')
+            ->andWhere('u.roles NOT LIKE :role')
+            ->andWhere('u.createdAt >= :date')
+            ->setParameter('role', '%ROLE_SUPER_ADMIN%')
+            ->setParameter('date', $date)
+            ->groupBy('month')
             ->getQuery()
             ->getResult();
 
-        $data = array_fill( 1, 12, 0 );
-        foreach ( $result as $item ) {
-            $data[$item['month']] = (int)$item['total'];
+        // Intègre les données réelles dans le tableau formaté
+        foreach ($result as $item) {
+            $formattedData[$item['month'] - 1]['users'] = (int)$item['total']; // -1 pour correspondre à l'indice du mois
         }
 
-        return $data;
+        return $formattedData;
     }
+
 }

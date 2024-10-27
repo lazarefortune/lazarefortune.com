@@ -2,6 +2,7 @@
 
 namespace App\Http\Admin\Controller;
 
+use App\Domain\Auth\Core\Repository\UserRepository;
 use App\Domain\Course\CourseService;
 use App\Http\Controller\AbstractController;
 use App\Infrastructure\Youtube\YoutubeService;
@@ -21,7 +22,8 @@ class HomeController extends AbstractController
     public function __construct(
         private readonly CourseService         $courseService,
         private readonly ChartBuilderInterface $chartBuilder,
-        private readonly YoutubeService        $youtubeService
+        private readonly YoutubeService        $youtubeService,
+        private readonly UserRepository        $userRepository,
     )
     {
     }
@@ -53,88 +55,14 @@ class HomeController extends AbstractController
             return $this->courseService->getNbCoursesOnline();
         } );
 
+        $usersLastYear = $this->userRepository->countMonthlyUsersLastYearFormatted();
+
+
         return $this->render( 'pages/admin/index.html.twig', [
             'youtubeSubscribersCount' => $youtubeSubscribersCount,
             'coursesOnlineCount' => $coursesOnlineCount,
-            'usersLastYear' => [
-                [
-                    'month' => 'Janvier',
-                    'users' => 0,
-                ],
-                [
-                    'month' => 'Février',
-                    'users' => 10,
-                ],
-                [
-                    'month' => 'Mars',
-                    'users' => 20,
-                ],
-                [
-                    'month' => 'Avril',
-                    'users' => 4,
-                ],
-                [
-                    'month' => 'Mai',
-                    'users' => 6,
-                ],
-                [
-                    'month' => 'Juin',
-                    'users' => 9,
-                ],
-                [
-                    'month' => 'Juillet',
-                    'users' => 1,
-                ],
-                [
-                    'month' => 'Août',
-                    'users' => 0,
-                ],
-                [
-                    'month' => 'Septembre',
-                    'users' => 10,
-                ],
-                [
-                    'month' => 'Octobre',
-                    'users' => 0,
-                ],
-                [
-                    'month' => 'Novembre',
-                    'users' => 2,
-                ],
-                [
-                    'month' => 'Décembre',
-                    'users' => 0,
-                ]
-            ]
+            'usersLastYear' => $usersLastYear
         ] );
-    }
-
-    private function createMonthlyUsersChart( array $monthlyUsersLastYear ) : Chart
-    {
-        $chart = $this->chartBuilder->createChart( Chart::TYPE_LINE );
-
-        $chart->setData( [
-            'labels' => ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-            'datasets' => [
-                [
-                    'label' => 'Nouveaux utilisateurs',
-                    'backgroundColor' => 'rgb(75, 5, 173)',
-                    'borderColor' => 'rgb(75, 5, 173)',
-                    'data' => array_values( $monthlyUsersLastYear ),
-                ],
-            ],
-        ] );
-
-        $chart->setOptions( [
-            'scales' => [
-                'y' => [
-                    'suggestedMin' => 0,
-                    'suggestedMax' => 5,
-                ],
-            ],
-        ] );
-
-        return $chart;
     }
 
     #[Route( '/maintenance', name: 'maintenance', methods: ['GET'] )]
