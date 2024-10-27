@@ -13,35 +13,27 @@
             </li>
         </ul>
 
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
         <div class="sidebar__nav-title">Administration</div>
         <ul class="sidebar__nav-list">
-            {% if is_granted('ROLE_SUPER_ADMIN') %}
-                <li class="sidebar__nav-item">
-                    <a href="{{ path('admin_users_index') }}" class="sidebar__nav-link {{ menu_active('admin_user') }}">
-                        {{ icon('users') }}
-                        <span>Utilisateurs</span>
-                    </a>
-                </li>
-            {% endif %}
-            {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <li class="sidebar__nav-item">
+                <a href="{{ path('admin_users_index') }}" class="sidebar__nav-link {{ menu_active('admin_user') }}">
+                    {{ icon('users') }}
+                    <span>Utilisateurs</span>
+                </a>
+            </li>
             <li class="sidebar__nav-item">
                 <a href="{{ path('admin_contact_index') }}" class="sidebar__nav-link {{ menu_active('admin_contact_') }}">
                     {{ icon('mails' ) }}
                     Contact Reçus
                 </a>
             </li>
-            {% endif %}
-            <li class="sidebar__nav-item">
-                <a href="{{ path('app_home') }}" class="sidebar__nav-link">
-                    {{ icon('undo-2') }}
-                    <span>Retour au site</span>
-                </a>
-            </li>
         </ul>
+        {% endif %}
 
+        {% if is_granted('ROLE_ADMIN') %}
         <div class="sidebar__nav-title">Education</div>
         <ul class="sidebar__nav-list">
-            {% if is_granted('ROLE_ADMIN') %}
                 <li class="sidebar__nav-item">
                     <a href="{{ path('admin_course_index') }}" class="sidebar__nav-link {{ menu_active('admin_course_') }}">
                         {{ icon('video') }}
@@ -54,7 +46,6 @@
                     <span>Playlists</span>
                 </a>
             </li>
-            {% endif %}
             <li class="sidebar__nav-item">
                 <a href="{{ path('admin_technology_index') }}" class="sidebar__nav-link {{ menu_active('admin_technology_') }}">
                     {{ icon('tags') }}
@@ -62,10 +53,17 @@
                 </a>
             </li>
         </ul>
+        {% endif %}
     </div>
 {% endblock %}
 
 {% block sidebar_footer %}
+    <div class="sidebar__nav-item">
+        <a href="{{ path('app_home') }}" class="sidebar__nav-link">
+            {{ icon('undo-2') }}
+            <span>Retour au site</span>
+        </a>
+    </div>
 {% endblock %}
 
 

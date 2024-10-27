@@ -4,7 +4,6 @@ namespace App\Domain\Auth\Registration\Subscriber;
 
 use App\Domain\Auth\Registration\Event\UserCreatedEvent;
 use App\Domain\Auth\Registration\Service\RegistrationService;
-use App\Domain\Auth\Service\AuthMailService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;

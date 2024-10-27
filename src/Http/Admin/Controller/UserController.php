@@ -4,7 +4,7 @@ namespace App\Http\Admin\Controller;
 
 use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Auth\Core\Event\Unverified\AccountVerificationRequestEvent;
-use App\Domain\Auth\Event\UserRegistrationCompletedEvent;
+use App\Domain\Auth\Registration\Event\UserCreatedEvent;
 use App\Http\Admin\Data\Crud\UserCrudData;
 use App\Http\Admin\Data\Crud\UserEditData;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -23,15 +23,14 @@ class UserController extends CrudController
     protected string $routePrefix = 'admin_users';
     protected array $events = [
         'delete' => null,
-        'create' => UserRegistrationCompletedEvent::class,
+        'create' => UserCreatedEvent::class,
     ];
 
     #[Route( path: '/', name: 'index', methods: ['GET'] )]
     public function index() : Response
     {
         $queryBuilder = $this->getRepository()->createQueryBuilder( 'row' );
-        $queryBuilder->where( 'row.roles NOT LIKE :role' )
-            ->setParameter( 'role', '%"ROLE_SUPER_ADMIN"%' );
+        $queryBuilder->where( 'row.id <> 1');
 
         // remove current user from list
         $user = $this->getUser();

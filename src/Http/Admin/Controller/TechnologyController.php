@@ -36,7 +36,8 @@ class TechnologyController extends CrudController
     }
 
     #[Route(path: '/nouveau', name: 'new', methods: ['POST', 'GET'])]
-    public function new(TechnologyRepository $repository): Response
+    #[IsGranted('ROLE_AUTHOR')]
+    public function new(): Response
     {
         $technology = new Technology();
         $data = new TechnologyCrudData($technology);
@@ -45,6 +46,7 @@ class TechnologyController extends CrudController
     }
 
     #[Route(path: '/{id<\d+>}', name: 'edit', methods: ['POST', 'GET'])]
+    #[IsGranted('ROLE_AUTHOR')]
     public function edit(Technology $technology): Response
     {
         $data = new TechnologyCrudData($technology);
@@ -53,6 +55,7 @@ class TechnologyController extends CrudController
     }
 
     #[Route(path: '/{id<\d+>}', name: 'delete', methods: ['DELETE'])]
+    #[IsGranted('ROLE_AUTHOR')]
     public function delete(Technology $technology): Response
     {
         return $this->crudAjaxDelete($technology);

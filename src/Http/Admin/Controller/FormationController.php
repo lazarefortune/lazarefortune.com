@@ -5,12 +5,12 @@ namespace App\Http\Admin\Controller;
 
 use App\Domain\Course\Entity\Formation;
 use App\Http\Admin\Data\Crud\FormationCrudData;
+use App\Http\Security\ContentVoter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
-#[IsGranted('ROLE_ADMIN')]
 #[Route(path: '/playlists', name: 'formation_')]
 final class FormationController extends CrudController
 {
@@ -38,7 +38,7 @@ final class FormationController extends CrudController
     }
 
     #[Route(path: '/nouveau', name: 'new', methods: ['POST', 'GET'])]
-    #[IsGranted('ROLE_SUPER_ADMIN')]
+    #[IsGranted('ROLE_AUTHOR')]
     public function new(): Response
     {
         $entity = (new Formation())->setAuthor($this->getUser());
@@ -48,18 +48,20 @@ final class FormationController extends CrudController
     }
 
     #[Route(path: '/{id<\d+>}', name: 'edit', methods: ['POST', 'GET'])]
-    #[IsGranted('ROLE_SUPER_ADMIN')]
+    #[IsGranted('ROLE_AUTHOR')]
     public function edit(Formation $formation): Response
     {
+        $this->denyAccessUnlessGranted(ContentVoter::EDIT , $formation );
         $data = (new FormationCrudData($formation))->setEntityManager($this->em);
 
         return $this->crudEdit($data);
     }
 
     #[Route(path: '/{id<\d+>}', name: 'delete', methods: ['DELETE'])]
-    #[IsGranted('ROLE_SUPER_ADMIN')]
+    #[IsGranted('ROLE_AUTHOR')]
     public function delete(Formation $formation): Response
     {
+        $this->denyAccessUnlessGranted(ContentVoter::DELETE , $formation );
         return $this->crudAjaxDelete($formation);
     }
 }

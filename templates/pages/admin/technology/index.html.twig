@@ -27,12 +27,14 @@
         </nav>
     </div>
 
+    {% if is_granted('ROLE_AUTHOR') %}
     <div class="dashboard-page-table-button">
         <a href="{{ path(prefix ~ '_new') }}">
             {{ icon('plus') }}
             Ajouter
         </a>
     </div>
+    {% endif %}
 
     <div class="table-wrapper">
         <table class="table">
@@ -77,14 +79,19 @@
                         </a>
                     </td>
                     <td class="text-end">
-                        <a href="{{ link }}" class="btn-icon">{{ icon('pencil') }}</a>
-                        {% if count  == 0 %}
-                            <ajax-delete class="btn-icon"
-                                         target="tr"
-                                         url="{{ path(prefix ~ '_delete', {id: row.id}) }}">
-                                {{ icon('trash') }}
-                            </ajax-delete>
+                        {% if is_granted('ROLE_AUTHOR') %}
+                            <a href="{{ link }}" class="btn-icon">{{ icon('pencil') }}</a>
+                            {% if count  == 0 %}
+                                <ajax-delete class="btn-icon"
+                                             target="tr"
+                                             url="{{ path(prefix ~ '_delete', {id: row.id}) }}">
+                                    {{ icon('trash') }}
+                                </ajax-delete>
+                            {% endif %}
                         {% endif %}
+                        <a href="{{ path('app_technology_show', {slug: row.slug}) }}" target="_blank" class="btn-icon">
+                            {{ icon('external-link') }}
+                        </a>
                     </td>
                 </tr>
             {% endfor %}

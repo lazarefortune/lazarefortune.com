@@ -36,23 +36,20 @@
                     <th>
                         Objet
                     </th>
-                    <th>
-                    </th>
                 </tr>
                 </thead>
                 <tbody>
                 {% if contacts is empty %}
                     <tr>
-                        <td colspan="5" class="text-center">
+                        <td colspan="3" class="text-center">
                             Aucune donnée disponible
                         </td>
-                        <td></td>
                     </tr>
                 {% endif %}
                 {% for contact in contacts %}
                     <tr>
                         <td>
-                            {{ contact.createdAt|date('d/m/Y') }} à {{ contact.createdAt|date('H:i') }}
+                            {{ contact.createdAt|ago }}
                         </td>
                         <td>
                             {{ contact.email }}
@@ -60,7 +57,6 @@
                         <td>
                             {{ contact.subject|truncate(50) }}
                         </td>
-                        <td></td>
                     </tr>
                 {% endfor %}
                 </tbody>

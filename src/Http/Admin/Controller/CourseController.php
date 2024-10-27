@@ -5,6 +5,7 @@ namespace App\Http\Admin\Controller;
 
 use App\Domain\Course\Entity\Course;
 use App\Http\Admin\Data\Crud\CourseCrudData;
+use App\Http\Security\ContentVoter;
 use App\Infrastructure\Youtube\YoutubeScopes;
 use App\Infrastructure\Youtube\YoutubeService;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -50,7 +51,7 @@ class CourseController extends CrudController
     }
 
     #[Route( path: '/nouveau', name: 'new', methods: ['POST', 'GET'] )]
-    #[IsGranted('ROLE_SUPER_ADMIN')]
+    #[IsGranted('ROLE_AUTHOR')]
     public function new() : Response
     {
         $entity = ( new Course() )->setAuthor( $this->getUser() );
@@ -60,7 +61,7 @@ class CourseController extends CrudController
     }
 
     #[Route( path: '/{id<\d+>}', name: 'edit', methods: ['POST', 'GET'] )]
-    #[IsGranted('ROLE_SUPER_ADMIN')]
+    #[IsGranted('ROLE_AUTHOR')]
     public function edit(
         Request          $request,
         Course           $course,
@@ -68,6 +69,8 @@ class CourseController extends CrudController
         SessionInterface $session
     ) : Response
     {
+        $this->denyAccessUnlessGranted(ContentVoter::EDIT , $course );
+
         $data = ( new CourseCrudData( $course, $uploaderHelper ) )->setEntityManager( $this->em );
         $response = $this->crudEdit( $data );
 
@@ -87,9 +90,11 @@ class CourseController extends CrudController
     }
 
     #[Route( path: '/{id<\d+>}', methods: ['DELETE'] )]
-    #[IsGranted('ROLE_SUPER_ADMIN')]
+    #[IsGranted('ROLE_AUTHOR')]
     public function delete( Course $course, EventDispatcherInterface $dispatcher ) : Response
     {
+        $this->denyAccessUnlessGranted(ContentVoter::DELETE , $course );
+
         $course->setOnline( false );
         $course->setUpdatedAt( new \DateTime() );
         $this->em->flush();
@@ -103,7 +108,7 @@ class CourseController extends CrudController
     }
 
     #[Route( path: '/upload', name: 'upload', methods: ['GET'] )]
-    #[IsGranted('ROLE_SUPER_ADMIN')]
+    #[IsGranted('ROLE_AUTHOR')]
     public function upload(
         Request          $request,
         SessionInterface $session,
@@ -143,7 +148,7 @@ class CourseController extends CrudController
     }
 
     #[Route( path: '/update-duration', name: 'update_duration', methods: ['GET'] )]
-    #[IsGranted('ROLE_SUPER_ADMIN')]
+    #[IsGranted('ROLE_AUTHOR')]
     public function updateDuration(
         Request          $request,
         SessionInterface $session,

@@ -12,6 +12,7 @@ import {AjaxDelete} from "./AjaxDelete";
 import LoaderOverlay from "./LoaderOverlay";
 import SpinningDots from "@grafikart/spinning-dots-element";
 import { LineChart } from "./admin/LineChart";
+import {TimeAgo} from "./TimeAgo";
 
 FileManager.register();
 customElements.define('spotlight-bar', Spotlight)
@@ -29,6 +30,7 @@ customElements.define('ajax-delete', AjaxDelete)
 customElements.define('loader-overlay', LoaderOverlay)
 customElements.define('spinning-dots', SpinningDots)
 customElements.define('line-chart', LineChart)
+customElements.define('time-ago', TimeAgo)
 
 document.addEventListener('DOMContentLoaded', () => {
     const filemanager = document.querySelector("file-manager");
