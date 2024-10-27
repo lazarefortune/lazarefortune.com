@@ -15,7 +15,10 @@ class TechnologyChoiceType extends EntityType
             'class' => Technology::class,
             'multiple' => true,
             'attr' => [
-                'class' => 'select2'
+                'class' => 'select2 form-input'
+            ],
+            'label_attr' => [
+                'class' => 'label'
             ]
         ]);
     }
