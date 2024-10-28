@@ -35,7 +35,7 @@ class CourseRepository extends AbstractRepository
         return $queryBuilder;
     }
 
-    public function getNbCoursesOnline() : int
+    public function countOnlineCourses() : int
     {
         $queryBuilder = $this->createQueryBuilder( 'c' )
             ->select('COUNT(c.id)')

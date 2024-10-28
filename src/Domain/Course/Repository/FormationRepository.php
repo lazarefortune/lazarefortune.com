@@ -51,4 +51,14 @@ class FormationRepository extends AbstractRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function countOnlineFormations() : int
+    {
+        $queryBuilder = $this->createQueryBuilder( 'f' )
+            ->select('COUNT(f.id)')
+            ->where('f.online = true');
+
+        $query = $queryBuilder->getQuery();
+        return (int) $query->getSingleScalarResult();
+    }
 }

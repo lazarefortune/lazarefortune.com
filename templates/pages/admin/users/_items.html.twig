@@ -18,6 +18,9 @@
                 {{ sort_by(rows, 'Ancienneté', 'row.createdAt') }}
             </th>
             <th>
+                {{ sort_by(rows, 'Rôles', 'row.roles') }}
+            </th>
+            <th>
                 Actions
             </th>
         </tr>
@@ -53,6 +56,11 @@
                 <td>
                     <a href="{{ link }}" class="table-cell-link"></a>
                     {{ row.createdAt|date_age }}
+                </td>
+                <td>
+                    {% for role in row.roles %}
+                        <div class="badge badge-primary">{{ role }}</div>
+                    {% endfor %}
                 </td>
                 <td>
                     <a href="{{ link }}" class="btn-icon">

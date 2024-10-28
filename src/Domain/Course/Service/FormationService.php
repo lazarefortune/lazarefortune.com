@@ -16,4 +16,9 @@ class FormationService
     {
         return $this->formationRepository->findBy([ 'online' => true ], [ 'createdAt' => 'DESC' ]);
     }
+
+    public function countOnlineFormations() : int
+    {
+        return $this->formationRepository->countOnlineFormations();
+    }
 }

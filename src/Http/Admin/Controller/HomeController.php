@@ -4,6 +4,7 @@ namespace App\Http\Admin\Controller;
 
 use App\Domain\Auth\Core\Repository\UserRepository;
 use App\Domain\Course\CourseService;
+use App\Domain\Course\Service\FormationService;
 use App\Http\Controller\AbstractController;
 use App\Infrastructure\Youtube\YoutubeService;
 use Psr\Cache\InvalidArgumentException;
@@ -12,8 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Cache\ItemInterface;
-use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
-use Symfony\UX\Chartjs\Model\Chart;
 
 #[IsGranted( 'ROLE_ADMIN' )]
 class HomeController extends AbstractController
@@ -21,7 +20,7 @@ class HomeController extends AbstractController
 
     public function __construct(
         private readonly CourseService         $courseService,
-        private readonly ChartBuilderInterface $chartBuilder,
+        private readonly FormationService      $formationService,
         private readonly YoutubeService        $youtubeService,
         private readonly UserRepository        $userRepository,
     )
@@ -50,18 +49,28 @@ class HomeController extends AbstractController
                 return $countSubscribers;
             } );
 
-        $coursesOnlineCount = $cache->get( 'admin.courses-count', function ( ItemInterface $item ) {
+        $countUsers = $this->userRepository->countUsers();
+
+        $countOnlineCourses = $cache->get( 'admin.courses-count', function ( ItemInterface $item ) {
             $item->expiresAfter( 3600 );
-            return $this->courseService->getNbCoursesOnline();
+            return $this->courseService->countOnlineCourses();
         } );
 
-        $usersLastYear = $this->userRepository->countMonthlyUsersLastYearFormatted();
+        $countOnlineFormations = $cache->get( 'admin.formations-count', function ( ItemInterface $item ) {
+            $item->expiresAfter( 3600 );
+            return $this->formationService->countOnlineFormations();
+        });
 
+        $dailyUsersLast30Days = $this->userRepository->countDailyUsersLast30Days();
+        $monthlyUsersLast24Months = $this->userRepository->countMonthlyUsersLast24Months();
 
         return $this->render( 'pages/admin/index.html.twig', [
             'youtubeSubscribersCount' => $youtubeSubscribersCount,
-            'coursesOnlineCount' => $coursesOnlineCount,
-            'usersLastYear' => $usersLastYear
+            'countUsers'         => $countUsers,
+            'countOnlineCourses' => $countOnlineCourses,
+            'countOnlineFormations' => $countOnlineFormations,
+            'dailyUsersLast30Days' => $dailyUsersLast30Days,
+            'monthlyUsersLast24Months' => $monthlyUsersLast24Months
         ] );
     }
 

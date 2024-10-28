@@ -87,13 +87,13 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getResult();
     }
 
-    public function searchClientByNameAndEmail( string $query )
+    public function searchUserByNameOrEmail( string $query )
     {
         return $this->createQueryBuilder( 'u' )
             ->andWhere( 'u.roles LIKE :role' )
             ->andWhere( 'u.fullname LIKE :query OR u.email LIKE :query' )
             ->orderBy( 'u.createdAt', 'DESC' )
-            ->setParameter( 'role', '%ROLE_CLIENT%' )
+            ->setParameter( 'role', '%ROLE_USER%' )
             ->setParameter( 'query', '%' . $query . '%' )
             ->getQuery()
             ->getResult();
@@ -207,43 +207,74 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getSingleScalarResult();
     }
 
-    public function countMonthlyUsersLastYearFormatted(): array
+    public function countDailyUsersLast30Days(): array
     {
         $date = new \DateTime();
-        $date->modify('-1 year');
-
-        // Tableau des mois avec initialisation à 0 utilisateur
-        $formattedData = [
-            ['month' => 'Janvier', 'users' => 0],
-            ['month' => 'Février', 'users' => 0],
-            ['month' => 'Mars', 'users' => 0],
-            ['month' => 'Avril', 'users' => 0],
-            ['month' => 'Mai', 'users' => 0],
-            ['month' => 'Juin', 'users' => 0],
-            ['month' => 'Juillet', 'users' => 0],
-            ['month' => 'Août', 'users' => 0],
-            ['month' => 'Septembre', 'users' => 0],
-            ['month' => 'Octobre', 'users' => 0],
-            ['month' => 'Novembre', 'users' => 0],
-            ['month' => 'Décembre', 'users' => 0],
-        ];
+        $date->modify('-30 days');
 
         $result = $this->createQueryBuilder('u')
-            ->select('COUNT(u) as total, MONTH(u.createdAt) as month')
+            ->select('u.createdAt')
             ->andWhere('u.roles NOT LIKE :role')
             ->andWhere('u.createdAt >= :date')
             ->setParameter('role', '%ROLE_SUPER_ADMIN%')
             ->setParameter('date', $date)
-            ->groupBy('month')
             ->getQuery()
             ->getResult();
 
-        // Intègre les données réelles dans le tableau formaté
-        foreach ($result as $item) {
-            $formattedData[$item['month'] - 1]['users'] = (int)$item['total']; // -1 pour correspondre à l'indice du mois
+        // Initialise un tableau avec les 30 derniers jours
+        $data = [];
+        for ($i = 0; $i < 30; $i++) {
+            $day = (clone $date)->modify("+$i days")->format('Y-m-d');
+            $data[$day] = 0;
         }
 
-        return $formattedData;
+        // Compte les utilisateurs par jour
+        foreach ($result as $item) {
+            $day = $item['createdAt']->format('Y-m-d');
+            if (isset($data[$day])) {
+                $data[$day]++;
+            }
+        }
+
+        // Retourne les données sous forme de tableau d'objets
+        return array_map(function ($day, $users) {
+            return ['day' => $day, 'users' => $users];
+        }, array_keys($data), $data);
+    }
+
+    public function countMonthlyUsersLast24Months(): array
+    {
+        $date = new \DateTime();
+        $date->modify('-24 months');
+
+        $result = $this->createQueryBuilder('u')
+            ->select('u.createdAt')
+            ->andWhere('u.roles NOT LIKE :role')
+            ->andWhere('u.createdAt >= :date')
+            ->setParameter('role', '%ROLE_SUPER_ADMIN%')
+            ->setParameter('date', $date)
+            ->getQuery()
+            ->getResult();
+
+        // Initialise un tableau avec les 24 derniers mois
+        $data = [];
+        for ($i = 0; $i <= 24; $i++) {
+            $month = (clone $date)->modify("+$i months")->format('Y-m');
+            $data[$month] = 0;
+        }
+
+        // Compte les utilisateurs par mois
+        foreach ($result as $item) {
+            $month = $item['createdAt']->format('Y-m');
+            if (isset($data[$month])) {
+                $data[$month]++;
+            }
+        }
+
+        // Retourne les données sous forme de tableau d'objets
+        return array_map(function ($month, $users) {
+            return ['month' => $month, 'users' => $users];
+        }, array_keys($data), $data);
     }
 
 }

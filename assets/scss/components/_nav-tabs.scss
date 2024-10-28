@@ -1,16 +1,26 @@
 .nav-tabs {
-  @apply relative flex w-full overflow-x-auto overflow-y-hidden border-0;
+  @apply relative flex w-full overflow-x-auto overflow-y-hidden border-t border-x border-b-0;
+  @apply border-slate-200 bg-slate-50;
+  @apply dark:bg-primary-950 dark:border-slate-800  dark:shadow-slate-800;
   padding-left: calc(50% - (calc(100vw - 32px * 2) / 2));
   padding-right: calc(50% - (calc(100vw - 32px * 2) / 2));
 
   a {
-    @apply relative z-20 flex items-center whitespace-nowrap px-6 py-4 text-slate-900 border-b-[3px];
+    @apply relative z-20 flex items-center whitespace-nowrap px-6 py-4 text-slate-900 dark:text-white;
+    @apply hover:text-primary-900 hover:bg-primary-100 dark:hover:text-white dark:hover:bg-primary-800/60;
   }
 
   a[aria-selected="true"] {
-    @apply text-primary-700 border-primary-700 border-b-[3px];
-    @apply dark:text-primary-500 dark:border-primary-500;
+    @apply text-primary-700 border-primary-700 border-t border-x border-b-0;
+    @apply bg-white text-primary-900 border-slate-200;
+    @apply dark:bg-primary-1000 dark:text-white dark:border-slate-800;
   }
+}
+
+.nav-tabs--content {
+  @apply px-4 py-8 border-t-0 border-x-2 border-b-2;
+  @apply border-slate-200;
+  @apply dark:border-slate-800 dark:bg-primary-1000;
 }
 
 .nav-tabs-bar {

@@ -1,15 +1,3 @@
-/**
- * Crée un graphique avec des lignes
- *
- * ## Exemple d'utilisation
- *
- * ```
- * <line-charts points="[{l: 'a1', v: 1203},{l: 'a2', v: 1233}]" x="l" y="v"/>
- * ```
- *
- * @property {ShadowRoot} root
- * @property {Chart} chart
- */
 export class LineChart extends HTMLElement {
     static get observedAttributes() {
         return ['hidden'];
@@ -87,6 +75,7 @@ export class LineChart extends HTMLElement {
 
         this.updateChartColors();
         this.observeDarkModeChanges();
+        this.observeTabVisibility();
     }
 
     observeDarkModeChanges() {
@@ -100,10 +89,30 @@ export class LineChart extends HTMLElement {
         });
     }
 
+    observeTabVisibility() {
+        const tabElement = this.closest('.nav-tabs--content > div');
+        if (tabElement) {
+            const observer = new MutationObserver(() => {
+                if (!tabElement.hasAttribute('hidden')) {
+                    // Redimensionner le graphique lorsque l'onglet devient visible
+                    setTimeout(() => {
+                        this.chart.canvas.style.height = '375px';
+                        this.chart.resize();
+                    }, 100); // Laisser un petit délai pour que le DOM se mette à jour
+                }
+            });
+
+            observer.observe(tabElement, {
+                attributes: true,
+                attributeFilter: ['hidden']
+            });
+        }
+    }
+
     updateChartColors() {
         const isDarkMode = document.documentElement.classList.contains('dark');
-        const backgroundColor = isDarkMode ? 'rgba(255, 255, 255, 0.05)' : '#4869ee0C'; // Couleur de fond adaptée au mode
-        const borderColor = isDarkMode ? '#ffffff' : '#4869ee'; // Couleur de la ligne adaptée au mode
+        const backgroundColor = isDarkMode ? 'rgba(255, 255, 255, 0.05)' : '#4869ee0C';
+        const borderColor = isDarkMode ? '#3076e0' : '#4869ee';
 
         if (this.chart) {
             this.chart.data.datasets[0].backgroundColor = backgroundColor;

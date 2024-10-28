@@ -19,8 +19,8 @@ class CourseService
         return $this->courseRepository->queryAll();
     }
 
-    public function getNbCoursesOnline() : int {
-        return $this->courseRepository->getNbCoursesOnline();
+    public function countOnlineCourses() : int {
+        return $this->courseRepository->countOnlineCourses();
     }
 
     public function getCourseBySlug( $slug )
