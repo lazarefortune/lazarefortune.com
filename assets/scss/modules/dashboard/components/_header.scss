@@ -7,7 +7,7 @@
 
 /* Search input */
 .header__search {
-  @apply w-full min-w-0 lg:px-0;
+  @apply hidden lg:block w-full min-w-0 lg:px-0;
 }
 .header__search {
   &-container {
