@@ -49,7 +49,10 @@ class HomeController extends AbstractController
                 return $countSubscribers;
             } );
 
-        $countUsers = $this->userRepository->countUsers();
+        $countUsers = $cache->get( 'admin.users-count', function ( ItemInterface $item ) {
+            $item->expiresAfter( 3600 );
+            return $this->userRepository->countUsers();
+        });
 
         $countOnlineCourses = $cache->get( 'admin.courses-count', function ( ItemInterface $item ) {
             $item->expiresAfter( 3600 );
