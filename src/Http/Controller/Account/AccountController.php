@@ -12,6 +12,7 @@ use App\Domain\Auth\Core\Form\UpdatePasswordForm;
 use App\Domain\Auth\Core\Service\AccountService;
 use App\Domain\Auth\Core\Service\DeleteAccountService;
 use App\Domain\Auth\Core\Service\EmailChangeService;
+use App\Domain\History\Service\HistoryService;
 use App\Http\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormError;
@@ -31,6 +32,7 @@ class AccountController extends AbstractController
         private readonly EmailChangeService          $emailChangeService,
         private readonly DeleteAccountService        $deleteAccountService,
         private readonly UserPasswordHasherInterface $passwordHasher,
+        private readonly HistoryService              $historyService,
     )
     {
     }
@@ -105,8 +107,10 @@ class AccountController extends AbstractController
         // latest email change request for the user
         $requestEmailChange = $this->emailChangeService->getLatestValidEmailVerification( $user );
 
+        $watchlist = $this->historyService->getLastWatchedContent($user);
+
         return $this->render( 'pages/public/account/index.html.twig', [
-            'watchlist' => [],
+            'watchlist' => $watchlist,
             'formProfile' => $formProfile->createView(),
             'formEmail'   => $formEmail->createView(),
             'formPassword' => $formPassword->createView(),

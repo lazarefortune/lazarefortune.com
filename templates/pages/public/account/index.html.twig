@@ -195,12 +195,12 @@
 
         <div id="courses">
             <div class="stack">
-                <h3 class="h3">Mon historique</h3>
+                <h3 class="h3">Historique de visionnage</h3>
                 {% if watchlist is not empty %}
                     <section>
                         <div class="courses">
                             {% for progress in watchlist %}
-                                {% include 'account/_progress-card.html.twig' %}
+                                {% include 'pages/public/account/_progress-card.html.twig' %}
                             {% endfor %}
                         </div>
                     </section>
