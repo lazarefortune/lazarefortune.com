@@ -2,6 +2,7 @@
 
 namespace App\Http\Controller\Course;
 
+use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Course\CourseService;
 use App\Domain\Course\Entity\Course;
 use App\Helper\Paginator\PaginatorInterface;
@@ -46,9 +47,12 @@ class CourseController extends AbstractController
         if ( false === $course->isOnline() ) {
             $response->setStatusCode(Response::HTTP_NOT_FOUND);
         }
+        /** @var User $user */
+        $user = $this->getUser();
 
         return $this->render('pages/public/courses/show.html.twig', [
             'course' => $course,
+            'userIsPremium' => ( $user && $user->isPremium() )
         ]);
     }
 }

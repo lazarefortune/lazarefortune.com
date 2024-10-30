@@ -1,4 +1,4 @@
-<article class="course {% if course.isScheduled %}is__scheduled{% endif %} {% if course.premium %}course__premium{% endif %}">
+<article class="course {% if course.isScheduled and ((app.user and not app.user.premium) or not app.user) %}is__scheduled{% endif %} {% if course.premium %}course__premium{% endif %}">
     <div class="course__body stack">
         <div class="course__icons">
             {% for technology in course.mainTechnologies %}

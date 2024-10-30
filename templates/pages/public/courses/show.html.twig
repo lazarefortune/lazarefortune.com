@@ -1,7 +1,5 @@
 {% extends 'layouts/public/base.html.twig' %}
 
-{% set user_premium = app.user %}
-
 {% block title %}
 {% if course.formation %}
     {{- course.title ~ " — Formation " ~ course.formation.title -}}
@@ -29,7 +27,7 @@
         </h1>
 
         <div class="container-box mt-4 mb-20 {{ course.formation ? 'is-chapter' : 'is-chapter is-folded' }}">
-            {% if course.scheduled and not user_premium %}
+            {% if course.scheduled and not userIsPremium %}
                 <div class="course-countdown" style="background-image: url({{ image_url_raw(course.image) }})">
                     <div class="course-countdown-content">
                         <em>Disponible dans</em>
@@ -37,14 +35,14 @@
                         <a href="{{ path('app_login') }}" class="btn btn-primary">{{ icon('crown') }} Devenez premium</a>
                     </div>
                 </div>
-            {% elseif course.premium and not user_premium %}
+            {% elseif course.premium and not userIsPremium %}
                 <div class="course-countdown" style="background-image: url({{ image_url_raw(course.image) }})">
                     <div class="absolute flex flex-col w-full h-full justify-center items-center z-50">
                         <a href="{{ path('app_login') }}" class="btn btn-primary">{{ icon('crown') }} Devenez premium</a>
                         <p class="text-white text-lg mt-3 text-center">Contenu destiné aux membres premiums</p>
                     </div>
                 </div>
-            {% elseif (course.scheduled or course.premium) and user_premium %}
+            {% elseif (course.scheduled or course.premium) and userIsPremium %}
                 <progress-tracker contentId="{{ course.id }}" data-history="{{ course.id }}" duration="{{ course.duration }}">
                     <youtube-player
                             class="course__player"
@@ -82,7 +80,7 @@
                     <button class="chapters-toggle">
                         {{ icon('arrow-down') }}
                     </button>
-                    <div class="absolute top-0 left-0 w-full h-full overflow-auto bg-white dark:bg-dark-soft-2" is="auto-scroll" data-to="{{ current is defined ? current : "#chapter" ~ course.id }}">
+                    <div class="absolute top-0 left-0 w-full h-full overflow-auto border shadow bg-white dark:bg-primary-1000 dark:border-primary-1000 dark:shadow-primary-900" is="auto-scroll" data-to="{{ current is defined ? current : "#chapter" ~ course.id }}">
                         {% include 'pages/public/formations/chapters/_summary.html.twig' with {chapters: course.formation.chapters} only %}
                     </div>
                 </div>

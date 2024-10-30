@@ -35,7 +35,7 @@
   }
 
   &:hover {
-    @apply cursor-pointer bg-gray-100 dark:bg-dark-soft;
+    @apply cursor-pointer bg-gray-100 dark:bg-primary-1000;
   }
 
   .is-chapter:hover & {
@@ -77,10 +77,10 @@
   @apply hover:cursor-pointer hover:bg-primary-300/20 hover:dark:text-white hover:dark:bg-primary-600/20;
 }
 .chapters__item.is-selected {
-  @apply bg-gray-100 dark:bg-dark-soft;
+  @apply bg-gray-100 dark:bg-primary-950;
 }
 .chapters__premium {
-  @apply flex flex-none justify-center items-center h-9 w-9 text-sm font-semibold text-white bg-light-orange-3 dark:bg-light-orange-3;
+  @apply flex flex-none justify-center items-center h-9 w-9 text-sm font-semibold bg-orange-200 text-orange-950 dark:bg-orange-300 dark:text-orange-950;
   margin-right: 20px;
   border-radius: 32px;
 }

@@ -25,8 +25,8 @@ RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd
 
 # Désactivé pour le moment
-# RUN docker-php-ext-install gettext intl pdo_mysql gd zip opcache
-# RUN pecl install apcu && docker-php-ext-enable apcu
+RUN docker-php-ext-install gettext intl pdo_mysql gd zip opcache
+RUN pecl install apcu && docker-php-ext-enable apcu
 
 # Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
