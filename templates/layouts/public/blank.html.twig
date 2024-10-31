@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr" class="{{ body_theme() }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-site-verification" content="cVdQDiwamc06x0st9JWYRu-lqokoHUiT2rXI8yE03Vs"/>
+    <meta name="theme-color" content="#ffffff">
+    <title>{% block title '' %} - {{ app_name }}</title>
+
+    {% include 'partials/header/_favicons.html.twig' %}
+    {% include 'partials/header/_gtag.html.twig' %}
+
+    <!-- jquery-->
+    <script src="{{ asset('js/jquery-3.6.3.min.js') }}"></script>
+
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+
+<div class="page-wrapper">
+    {% block header %}{% endblock %}
+    <div class="container-box">
+        {% block flash %}
+            {% include 'partials/flash.html.twig' %}
+        {% endblock %}
+    </div>
+
+    <!-- Page content -->
+    {% block body %}{% endblock %}
+
+    {% block footer %}{% endblock %}
+</div>
+
+<scroll-top class="scroll-top" hidden="hidden">
+    {{ icon('chevron-up') }}
+</scroll-top>
+
+{% block javascripts__footer %}{% endblock %}
+</body>

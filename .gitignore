@@ -45,3 +45,5 @@ assets/.DS_Store
 ###> phpstan/phpstan ###
 phpstan.neon
 ###< phpstan/phpstan ###
+
+/var/GeoLite2-Country.mmdb

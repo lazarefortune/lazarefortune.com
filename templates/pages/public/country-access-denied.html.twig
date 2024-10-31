@@ -1,0 +1,39 @@
+{% extends 'layouts/public/blank.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+        <div class="hero min-h-full relative container-box w-full">
+            <div class="hero__body">
+                <div class="hero__hello reveal">👋🏾 Hey, je suis</div>
+                <div class="hero__name reveal" data-delay=".2">
+                    Lazare Fortune
+                </div>
+                <div class="hero__job reveal" data-delay=".3">
+                    Désolé, ce site n'est pas encore disponible dans votre région. <br>
+                    Je fais de mon mieux pour ouvrir l'accès à tous. <br>
+                    Merci pour votre patience !
+                </div>
+            </div>
+            <div class="hero__img reveal" data-delay=".4">
+                <img class="rounded-full w-80 drop-shadow-[20px_10px_4px_rgba(36,69,132,1)]" src="{{ asset('images/lazarefortune.png') }}" alt="Lazare Fortune Avatar">
+            </div>
+            <ul class="hero__links">
+                <li>
+                    <a href="https://github.com/lazarefortune" target="_blank">
+                        {{ icon('github', '34') }}
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.linkedin.com/in/lazare-fortune/" target="_blank">
+                        {{ icon('linkedin', '34') }}
+                    </a>
+                </li>
+            </ul>
+        </div>
+{% endblock %}
+
+{% block footer %}
+    {% include 'layouts/public/blocs/_footer.html.twig' %}
+{% endblock %}
+

@@ -106,6 +106,16 @@ services:
       $apiKey: '%env(resolve:YOUTUBE_API_KEY)%'
       $youtubeChannelID: '%env(resolve:YOUTUBE_CHANNEL_ID)%'
 
+  App\Infrastructure\Spam\GeoLocationService:
+    arguments:
+      $geoLiteDatabasePath: '%kernel.project_dir%/var/GeoLite2-Country.mmdb' # Chemin de la base de données
+
+  App\Infrastructure\Spam\AccessControl\AccessControlListener:
+    arguments:
+      $env: '%kernel.environment%'
+    tags:
+      - {name: kernel.event_listener, event: kernel.request, priority: 10}
+
   _instanceof:
     App\Normalizer\Breadcrumb\BreadcrumbGeneratorInterface:
       tags: [ 'app.breadcrumb' ]

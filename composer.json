@@ -16,6 +16,7 @@
     "doctrine/orm": "^2.14",
     "erusev/parsedown": "^1.7",
     "friendsofsymfony/ckeditor-bundle": "^2.5",
+    "geoip2/geoip2": "^3.0",
     "google/apiclient": "^2.0",
     "illuminate/collections": "^10.48",
     "intervention/image": "^2.7.2",
