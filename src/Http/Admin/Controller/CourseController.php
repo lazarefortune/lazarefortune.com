@@ -2,12 +2,13 @@
 
 namespace App\Http\Admin\Controller;
 
-
+use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Course\Entity\Course;
 use App\Http\Admin\Data\Crud\CourseCrudData;
 use App\Http\Security\ContentVoter;
 use App\Infrastructure\Youtube\YoutubeScopes;
 use App\Infrastructure\Youtube\YoutubeService;
+use Google_Service_Exception;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,8 +18,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Vich\UploaderBundle\Handler\UploadHandler;
 
-#[IsGranted( 'ROLE_ADMIN' )]
-#[Route( path: '/videos', name: 'course_' )]
+#[IsGranted('ROLE_ADMIN')]
+#[Route(path: '/videos', name: 'course_')]
 class CourseController extends CrudController
 {
     private const SESSION_COURSE_ID = 'session_course_id';
@@ -26,164 +27,148 @@ class CourseController extends CrudController
     protected string $templatePath = 'course';
     protected string $menuItem = 'course';
     protected string $entity = Course::class;
-    protected bool   $indexOnSave = false;
+    protected bool $indexOnSave = false;
     protected string $routePrefix = 'admin_course';
-    protected array  $events = [];
+    protected array $events = [];
 
-    #[Route( path: '/', name: 'index' )]
-    public function index( Request $request ) : Response
+    #[Route(path: '/', name: 'index')]
+    public function index(Request $request): Response
     {
-        $this->paginator->allowSort( 'row.id', 'row.online' );
+        $this->paginator->allowSort('row.id', 'row.online');
         $query = $this->getRepository()
-            ->createQueryBuilder( 'row' )
-            ->addSelect( 'tu', 't' )
-            ->leftJoin( 'row.technologyUsages', 'tu' )
-            ->leftJoin( 'tu.technology', 't' )
-            ->orderBy( 'row.createdAt', 'DESC' )
-            ->setMaxResults( 10 );
-        if ( $request->query->has( 'technology' ) ) {
-            $query
-                ->andWhere( 't.slug = :technology' )
-                ->setParameter( 'technology', $request->query->get( 'technology' ) );
+            ->createQueryBuilder('row')
+            ->addSelect('tu', 't')
+            ->leftJoin('row.technologyUsages', 'tu')
+            ->leftJoin('tu.technology', 't')
+            ->orderBy('row.createdAt', 'DESC')
+            ->setMaxResults(10);
+
+        if ($request->query->has('technology')) {
+            $query->andWhere('t.slug = :technology')
+                ->setParameter('technology', $request->query->get('technology'));
         }
 
-        return $this->crudIndex( $query );
+        return $this->crudIndex($query);
     }
 
-    #[Route( path: '/nouveau', name: 'new', methods: ['POST', 'GET'] )]
+    #[Route(path: '/nouveau', name: 'new', methods: ['POST', 'GET'])]
     #[IsGranted('ROLE_AUTHOR')]
-    public function new() : Response
+    public function new(): Response
     {
-        $entity = ( new Course() )->setAuthor( $this->getUser() );
-        $data = new CourseCrudData( $entity );
+        $entity = (new Course())->setAuthor($this->getUser());
+        $data = new CourseCrudData($entity);
 
-        return $this->crudNew( $data );
+        return $this->crudNew($data);
     }
 
-    #[Route( path: '/{id<\d+>}', name: 'edit', methods: ['POST', 'GET'] )]
+    #[Route(path: '/{id<\d+>}', name: 'edit', methods: ['POST', 'GET'])]
     #[IsGranted('ROLE_AUTHOR')]
     public function edit(
-        Request          $request,
-        Course           $course,
-        UploadHandler    $uploaderHelper,
+        Request $request,
+        Course $course,
+        UploadHandler $uploaderHelper,
         SessionInterface $session
-    ) : Response
-    {
-        $this->denyAccessUnlessGranted(ContentVoter::EDIT , $course );
+    ): Response {
+        $this->denyAccessUnlessGranted(ContentVoter::EDIT, $course);
 
-        $data = ( new CourseCrudData( $course, $uploaderHelper ) )->setEntityManager( $this->em );
-        $response = $this->crudEdit( $data );
+        $data = (new CourseCrudData($course, $uploaderHelper))->setEntityManager($this->em);
+        $response = $this->crudEdit($data);
 
-        if ( $request->request->get( 'uploadVideoDetails' ) ) {
-            $session->set( self::SESSION_COURSE_ID, $course->getId() );
+        if ($request->request->get('uploadVideoDetails')) {
+            $session->set(self::SESSION_COURSE_ID, $course->getId());
 
-            return $this->redirectToRoute( 'admin_course_upload' );
+            return $this->redirectToRoute('admin_course_upload');
         }
 
-        if ( $request->request->get( 'fetchVideoDuration' ) ) {
-            $session->set( self::SESSION_COURSE_ID, $course->getId() );
+        if ($request->request->get('fetchVideoDuration')) {
+            $session->set(self::SESSION_COURSE_ID, $course->getId());
 
-            return $this->redirectToRoute( 'admin_course_update_duration' );
+            return $this->redirectToRoute('admin_course_update_duration');
         }
 
         return $response;
     }
 
-    #[Route( path: '/{id<\d+>}', methods: ['DELETE'] )]
+    #[Route(path: '/{id<\d+>}', methods: ['DELETE'])]
     #[IsGranted('ROLE_AUTHOR')]
-    public function delete( Course $course, EventDispatcherInterface $dispatcher ) : Response
+    public function delete(Course $course, EventDispatcherInterface $dispatcher): Response
     {
-        $this->denyAccessUnlessGranted(ContentVoter::DELETE , $course );
+        $this->denyAccessUnlessGranted(ContentVoter::DELETE, $course);
 
-        $course->setOnline( false );
-        $course->setUpdatedAt( new \DateTime() );
+        $course->setOnline(false);
+        $course->setUpdatedAt(new \DateTime());
         $this->em->flush();
-        $this->addFlash( 'success', 'Le tutoriel a bien été mis hors ligne' );
+        $this->addFlash('success', 'Le tutoriel a bien été mis hors ligne');
 
-        if ( $this->events['delete'] ?? null ) {
-            $dispatcher->dispatch( new $this->events['delete']( $course ) );
+        if ($this->events['delete'] ?? null) {
+            $dispatcher->dispatch(new $this->events['delete']($course));
         }
 
-        return $this->redirectBack( ( $this->routePrefix . '_index' ) );
+        return $this->redirectBack(($this->routePrefix . '_index'));
     }
 
-    #[Route( path: '/upload', name: 'upload', methods: ['GET'] )]
+    #[Route(path: '/upload', name: 'upload', methods: ['GET'])]
     #[IsGranted('ROLE_AUTHOR')]
     public function upload(
-        Request          $request,
+        Request $request,
         SessionInterface $session,
-        \Google_Client   $googleClient,
-        YoutubeService   $uploader,
-    ) : Response
-    {
-        // Si on n'a pas d'id dans la session, on redirige
-        $courseId = $session->get( self::SESSION_COURSE_ID );
-        if ( null === $courseId ) {
-            $this->addFlash( 'danger', "Impossible d'uploader la vidéo, id manquante dans la session" );
+        \Google_Client $googleClient,
+        YoutubeService $uploader
+    ): Response {
+        $courseId = $session->get(self::SESSION_COURSE_ID);
+        if (null === $courseId) {
+            $this->addFlash('danger', "Impossible d'uploader la vidéo, id manquante dans la session");
 
-            return $this->redirectToRoute( 'admin_course_index' );
+            return $this->redirectToRoute('admin_course_index');
         }
 
-//        // On génère récupère le code d'auth
         $redirectUri = $this->generateUrl('admin_course_upload', [], UrlGeneratorInterface::ABSOLUTE_URL);
-        $code = $request->get('code-upload-youtube');
-
         $googleClient->setRedirectUri($redirectUri);
-        if (null === $code) {
+
+        $accessToken = $this->getAccessToken($googleClient, $request);
+        if (!$accessToken) {
             return $this->redirect($googleClient->createAuthUrl(YoutubeScopes::UPLOAD));
         }
 
-        $accessToken = $googleClient->fetchAccessTokenWithAuthCode($code);
-
-        if (isset($accessToken['error'])) {
-            return $this->redirect($googleClient->createAuthUrl(YoutubeScopes::UPLOAD));
+        try {
+            $videoId = $uploader->uploadVideo($courseId, $accessToken);
+            $this->addFlash('success', "La vidéo est en cours d'envoi sur YouTube");
+        } catch (Google_Service_Exception $e) {
+            $this->addFlash('danger', $e->getMessage());
+            return $this->redirectToRoute('admin_course_edit', ['id' => $courseId]);
         }
 
-        $videoId = $uploader->uploadVideo($courseId, $accessToken);
-
-        $this->addFlash( 'success', "La vidéo est en cours d'envoi sur Youtube" );
-        $session->remove( self::SESSION_COURSE_ID );
-
-        return $this->redirectToRoute( 'admin_course_edit', ['id' => $courseId] );
+        $session->remove(self::SESSION_COURSE_ID);
+        return $this->redirectToRoute('admin_course_edit', ['id' => $courseId]);
     }
 
-    #[Route( path: '/update-duration', name: 'update_duration', methods: ['GET'] )]
+    #[Route(path: '/update-duration', name: 'update_duration', methods: ['GET'])]
     #[IsGranted('ROLE_AUTHOR')]
     public function updateDuration(
-        Request          $request,
+        Request $request,
         SessionInterface $session,
-        \Google_Client   $googleClient,
-        YoutubeService   $uploader,
-    ) : Response
-    {
-        $courseId = $session->get( self::SESSION_COURSE_ID );
-        if ( null === $courseId ) {
-            $this->addFlash( 'danger', "Id manquante dans la session" );
+        \Google_Client $googleClient,
+        YoutubeService $uploader
+    ): Response {
+        $courseId = $session->get(self::SESSION_COURSE_ID);
+        if (null === $courseId) {
+            $this->addFlash('danger', "Id manquante dans la session");
 
-            return $this->redirectToRoute( 'admin_course_index' );
+            return $this->redirectToRoute('admin_course_index');
         }
 
-        // On génère récupère le code d'auth
         $redirectUri = $this->generateUrl('admin_course_update_duration', [], UrlGeneratorInterface::ABSOLUTE_URL);
-        $code = $request->get('code-update-duration');
-
         $googleClient->setRedirectUri($redirectUri);
-        if (null === $code) {
-            return $this->redirect($googleClient->createAuthUrl(YoutubeScopes::UPLOAD));
-        }
 
-        $accessToken = $googleClient->fetchAccessTokenWithAuthCode($code);
-
-        if (isset($accessToken['error'])) {
+        $accessToken = $this->getAccessToken($googleClient, $request);
+        if (!$accessToken) {
             return $this->redirect($googleClient->createAuthUrl(YoutubeScopes::UPLOAD));
         }
 
         try {
             $duration = $uploader->getVideoDuration($courseId, $accessToken);
-
             $course = $this->em->getRepository(Course::class)->find($courseId);
             $course->setDuration($duration);
-
             $this->em->flush();
 
             $this->addFlash('success', "La durée de la vidéo a bien été mise à jour");
@@ -194,6 +179,62 @@ class CourseController extends CrudController
 
             return $this->redirectToRoute('admin_course_edit', ['id' => $courseId]);
         }
+    }
 
+    private function getAccessToken(\Google_Client $googleClient, Request $request): ?array
+    {
+        $storedToken = $this->getStoredAccessToken();
+        if ($storedToken) {
+            $googleClient->setAccessToken(json_decode($storedToken, true));
+            if ($googleClient->isAccessTokenExpired()) {
+                return $this->fetchAccessTokenWithRefreshToken($googleClient);
+            }
+            return json_decode($storedToken, true);
+        }
+
+        if ($code = $request->get('code')) {
+            return $this->fetchAccessTokenWithCode($googleClient, $code);
+        }
+
+        return null;
+    }
+
+    private function fetchAccessTokenWithCode(\Google_Client $googleClient, string $code): ?array
+    {
+        $accessToken = $googleClient->fetchAccessTokenWithAuthCode($code);
+        if (!isset($accessToken['error'])) {
+            $this->saveAccessToken($accessToken);
+            return $accessToken;
+        }
+        return null;
+    }
+
+    private function fetchAccessTokenWithRefreshToken(\Google_Client $googleClient): ?array
+    {
+        $refreshToken = $this->getUser()->getRefreshToken();
+        if ($refreshToken) {
+            $googleClient->refreshToken($refreshToken);
+            $accessToken = $googleClient->getAccessToken();
+            $this->saveAccessToken($accessToken);
+            return $accessToken;
+        }
+        return null;
+    }
+
+    private function getStoredAccessToken(): ?string
+    {
+        return $this->em->getRepository(User::class)->find($this->getUser()->getId())->getAccessToken();
+    }
+
+    private function saveAccessToken(array $accessTokenData): void
+    {
+        $user = $this->getUser();
+        $user->setAccessToken(json_encode($accessTokenData));
+
+        if (isset($accessTokenData['refresh_token'])) {
+            $user->setRefreshToken($accessTokenData['refresh_token']);
+        }
+
+        $this->em->flush();
     }
 }

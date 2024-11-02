@@ -85,6 +85,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column( type: Types::STRING, nullable: true )]
     private ?string $apiKey = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $accessToken = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $refreshToken = null;
+
     public function __construct()
     {
         $this->fullname = '';
@@ -393,6 +399,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->apiKey = $apiKey;
         return $this;
     }
+
+    public function getAccessToken(): ?string
+    {
+        return $this->accessToken;
+    }
+
+    public function setAccessToken(?string $accessToken): self
+    {
+        $this->accessToken = $accessToken;
+
+        return $this;
+    }
+
+    public function getRefreshToken(): ?string
+    {
+        return $this->refreshToken;
+    }
+
+    public function setRefreshToken(?string $refreshToken): self
+    {
+        $this->refreshToken = $refreshToken;
+
+        return $this;
+    }
+
 
     public function isPremium() : bool
     {
