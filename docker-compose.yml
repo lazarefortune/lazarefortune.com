@@ -11,9 +11,11 @@ services:
     volumes:
       - ".:/var/www/html"
     environment:
-      DATABASE_URL: mysql://${DB_USER}:${DB_PASSWORD}@database:3306/${DB_NAME}?serverVersion=8&charset=utf8mb4
+      DATABASE_URL: mysql://${DB_USER}:${DB_PASSWORD}@mariadb:3306/${DB_NAME}?serverVersion=10.5&charset=utf8mb4
       MAILER_DSN: smtp://mailhog:1025?transport=sync
     command: bash -c "pnpm run dev-server & apache2-foreground"
+    depends_on:
+      - database
 
   database:
     image: mariadb:10.5

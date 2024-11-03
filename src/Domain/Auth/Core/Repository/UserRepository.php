@@ -277,4 +277,43 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         }, array_keys($data), $data);
     }
 
+
+    /**
+     * Trouve un utilisateur par email ou crée un nouvel utilisateur avec l'ID Google.
+     */
+    public function findOrCreateUserFromGoogle(string $email, string $googleId): User
+    {
+        $user = $this->findOneBy(['email' => $email]);
+
+        if (!$user) {
+            $user = new User();
+            $user->setEmail($email);
+            $user->setGoogleId($googleId);
+            $user->setRoles(['ROLE_USER']); // Ajouter des rôles par défaut, si nécessaire
+
+            $this->_em->persist($user);
+            $this->_em->flush();
+        }
+
+        return $user;
+    }
+
+    /**
+     * Search User by OAuth service and email
+     */
+    public function findForOauth(string $service, ?string $serviceId, ?string $email): ?User
+    {
+        if (null === $serviceId || null === $email) {
+            return null;
+        }
+
+        return $this->createQueryBuilder('u')
+            ->where('u.email = :email')
+            ->orWhere("u.{$service}Id = :serviceId")
+            ->setMaxResults(1)
+            ->setParameter('email', $email)
+            ->setParameter('serviceId', $serviceId)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

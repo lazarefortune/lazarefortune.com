@@ -16,8 +16,8 @@ setup:
 	@make up
 
 build:
-	docker compose build --force-rm
-	#docker compose build --no-cache --force-rm
+	#docker compose build --force-rm
+	docker compose build --no-cache --force-rm
 up:
 	docker compose up -d
 down:

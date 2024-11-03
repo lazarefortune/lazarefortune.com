@@ -85,6 +85,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column( type: Types::STRING, nullable: true )]
     private ?string $apiKey = null;
 
+    #[ORM\Column( type: Types::STRING, nullable: true )]
+    private ?string $googleId = null;
+
+    #[ORM\Column( type: Types::STRING, nullable: true )]
+    private ?string $githubId = null;
+
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $accessToken = null;
 
@@ -398,6 +404,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->apiKey = $apiKey;
         return $this;
+    }
+
+    public function setGoogleId( ?string $googleId ) : User
+    {
+        $this->googleId = $googleId;
+        return $this;
+    }
+
+    public function getGoogleId() : ?string
+    {
+        return $this->googleId;
+    }
+
+    public function setGithubId( ?string $githubId ) : User
+    {
+        $this->githubId = $githubId;
+        return $this;
+    }
+
+    public function getGithubId() : ?string
+    {
+        return $this->githubId;
     }
 
     public function getAccessToken(): ?string
