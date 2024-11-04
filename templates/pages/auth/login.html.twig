@@ -73,16 +73,16 @@
 
         <div class="w-full flex flex-col gap-4 justify-between">
             <a href="{{ path('app_oauth_connect', {service: 'google'}) }}"
-               class="btn bg-red-900 border-red-900 hover:bg-red-800 text-white">
-                <svg class="w-6 h-6 text-white">
+               class="btn btn-social__google">
+                <svg class="social-icon">
                     <use href="/icons/social.svg#google"></use>
                 </svg>
                 <span class="text-white">Se connecter avec Google</span>
             </a>
 
             <a href="{{ path('app_oauth_connect', {service: 'github'}) }}"
-               class="btn bg-slate-700 border-slate-700 hover:bg-slate-600 text-white">
-                <svg class="w-6 h-6 text-white">
+               class="btn btn-social__github">
+                <svg class="social-icon">
                     <use href="/icons/social.svg#github"></use>
                 </svg>
                 <span class="text-white">Se connecter avec GitHub</span>
