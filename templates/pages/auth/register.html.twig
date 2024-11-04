@@ -74,4 +74,24 @@
         </a>
     </p>
     {{ form_end(registrationForm) }}
+
+    <div class="my-4 border border-slate-100 dark:border-slate-800"></div>
+
+    <div class="w-full flex flex-col gap-4 justify-between">
+        <a href="{{ path('app_oauth_connect', {service: 'google'}) }}"
+           class="btn btn-social__google">
+            <svg class="social-icon">
+                <use href="/icons/social.svg#google"></use>
+            </svg>
+            <span class="text-white">S'inscrire avec Google</span>
+        </a>
+
+        <a href="{{ path('app_oauth_connect', {service: 'github'}) }}"
+           class="btn btn-social__github">
+            <svg class="social-icon">
+                <use href="/icons/social.svg#github"></use>
+            </svg>
+            <span class="text-white">S'inscrire avec GitHub</span>
+        </a>
+    </div>
 {% endblock %}
