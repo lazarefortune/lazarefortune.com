@@ -71,6 +71,9 @@
 
     <section>
         <button type="submit" class="btn btn-primary">Enregistrer</button>
+        {%if entity.id%}
+            <a href="{{ path('app_course_show', {slug: entity.slug}) }}" target="_blank" class="btn btn-light ml-2">Voir en ligne</a>
+        {% endif %}
     </section>
 
 </section>

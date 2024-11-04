@@ -8,10 +8,10 @@
 
             <div class="course__hero">
                 {% if page == 1 %}
-                    <h1 class="h1">Toutes les <strong>vidéos</strong></h1>
+                    <h1 class="h1">Toutes les <span>vidéos</span></h1>
                     <p class="text-muted mt-2">Découvrez l'ensemble des vidéos pour apprendre de nouvelles choses.</p>
                 {% else %}
-                    <h1 class="h1">Tous mes <strong>tutoriels</strong> <em><br> page {{ page }}</em> </h1>
+                    <h1 class="h1">Tous mes <span>tutoriels</span> <em><br> page {{ page }}</em> </h1>
                 {% endif %}
             </div>
 
@@ -27,3 +27,4 @@
         </div>
     </div>
 {% endblock %}
+

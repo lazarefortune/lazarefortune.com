@@ -6,6 +6,7 @@ use App\Domain\Application\Entity\Content;
 use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Course\Entity\Course;
 use App\Domain\Course\Entity\Formation;
+use App\Domain\Course\Entity\Technology;
 use App\Domain\History\Entity\Progress;
 use App\Domain\History\Event\ProgressEvent;
 use App\Domain\History\Exception\AlreadyFinishedException;
@@ -16,12 +17,18 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Serializer\SerializerInterface;
 
 
 class ProgressController extends AbstractController
 {
-    public function __construct(private readonly EventDispatcherInterface $dispatcher, private readonly EntityManagerInterface $em)
+    public function __construct(
+        private readonly EventDispatcherInterface $dispatcher,
+        private readonly EntityManagerInterface $em,
+        private readonly UrlGeneratorInterface $urlGenerator,
+    )
     {
     }
 
@@ -31,6 +38,7 @@ class ProgressController extends AbstractController
         Content $content,
         int $progress
     ): JsonResponse {
+        /** @var User $user */
         $user = $this->getUser();
         try {
             $this->dispatcher->dispatch(new ProgressEvent($content, $user, $progress / Progress::TOTAL));
@@ -60,10 +68,12 @@ class ProgressController extends AbstractController
         } elseif ($content instanceof Course) {
             $technologies = $content->getMainTechnologies();
             if (count($technologies) > 0) {
+                $technologie = $this->em->getRepository(Technology::class)->find($technologies[0]->getId());
                 $button = [
-                    'title' => "Voir d'autres vidéos {$technologies[0]->getName()}",
+                    'title' => "Voir d'autres vidéos {$technologie->getName()}",
                     'anchor' => 'tutoriels',
-                    'target' => $technologies[0],
+                    'target' => null,
+                    'url' => $this->urlGenerator->generate( 'app_technology_show', ['slug' => $technologie->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL )
                 ];
             }
         }

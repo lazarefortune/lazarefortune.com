@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[Vich\Uploadable]
@@ -17,21 +18,26 @@ class Technology
     #[ORM\Id]
     #[ORM\Column(type: Types::INTEGER)]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[Groups(['tech_summary'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::STRING, length: 255)]
+    #[Groups(['tech_summary'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::STRING, length: 255)]
+    #[Groups(['tech_summary'])]
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['tech_summary'])]
     private ?string $content = null;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $image = null;
 
     #[Vich\UploadableField(mapping: 'icons', fileNameProperty: 'image')]
+    #[Groups(['tech_summary'])]
     private ?File $imageFile = null;
 
     #[ORM\OneToMany(mappedBy: 'technology', targetEntity: TechnologyUsage::class, orphanRemoval: true)]
@@ -49,6 +55,7 @@ class Technology
      */
     #[ORM\JoinTable(name: 'technology_requirement')]
     #[ORM\ManyToMany(targetEntity: Technology::class, inversedBy: 'requiredBy')]
+    #[Groups(['tech_relations'])]
     private Collection $requirements;
 
     /**

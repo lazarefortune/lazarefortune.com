@@ -426,7 +426,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function isPremium() : bool
     {
-        return true;
+        return false;
     }
 
 //    public function __sleep()

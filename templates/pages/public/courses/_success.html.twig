@@ -1,11 +1,12 @@
 <modal-dialog overlay-close>
     <div class="modal-box text-center">
-{#        <img src="/images/illustrations/success.svg" alt="" style="max-width: 300px; margin-top: -130px;">#}
+        <img src="{{ asset('images/illustrations/success.svg') }}" alt="" class="w-40 h-40 mx-auto">
         <header class="my-1">Félicitations !</header>
         <p>Bien joué ! On poursuit la formation avec une nouvelle vidéo ?</p>
         <footer class="text-center mt3">
             {% if button %}
-                <a data-dismiss class="btn btn-block btn-primary" href="{{ path(button.target) }}#{{ button.anchor }}">
+                <a data-dismiss class="btn btn-block btn-primary"
+                   {% if button.target %} href="{{ path(button.target) }}#{{ button.anchor }}" {% else %} href="{{ button.url }}#{{ button.anchor }}" {% endif %}>
                     {{ button.title }}
                 </a>
             {% endif %}
