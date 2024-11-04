@@ -57,7 +57,10 @@ class YoutubeService
         }
 
         // On met à jour la thumbnail
-        $youtube->thumbnails->set( $video->getId(), $this->transformer->thumbnailData( $course ) );
+        $thumbnailData = $this->transformer->thumbnailData($course);
+        if ($thumbnailData) {
+            $youtube->thumbnails->set($video->getId(), $thumbnailData);
+        }
 
         return $video->getId();
     }

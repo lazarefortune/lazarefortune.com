@@ -4,6 +4,7 @@ namespace App\Http\Admin\Controller;
 
 use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Course\Entity\Course;
+use App\Domain\Youtube\Entity\YoutubeSetting;
 use App\Http\Admin\Data\Crud\CourseCrudData;
 use App\Http\Security\ContentVoter;
 use App\Infrastructure\Youtube\YoutubeScopes;
@@ -76,13 +77,11 @@ class CourseController extends CrudController
 
         if ($request->request->get('uploadVideoDetails')) {
             $session->set(self::SESSION_COURSE_ID, $course->getId());
-
             return $this->redirectToRoute('admin_course_upload');
         }
 
         if ($request->request->get('fetchVideoDuration')) {
             $session->set(self::SESSION_COURSE_ID, $course->getId());
-
             return $this->redirectToRoute('admin_course_update_duration');
         }
 
@@ -118,14 +117,19 @@ class CourseController extends CrudController
         $courseId = $session->get(self::SESSION_COURSE_ID);
         if (null === $courseId) {
             $this->addFlash('danger', "Impossible d'uploader la vidéo, id manquante dans la session");
-
             return $this->redirectToRoute('admin_course_index');
+        }
+
+        $settings = $this->em->getRepository(YoutubeSetting::class)->findOneBy([]);
+        if (!$settings || !$settings->getAccessToken()) {
+            $this->addFlash('danger', "Aucun compte YouTube n'est lié pour effectuer l'upload.");
+            return $this->redirectToRoute('admin_youtube_config_index');
         }
 
         $redirectUri = $this->generateUrl('admin_course_upload', [], UrlGeneratorInterface::ABSOLUTE_URL);
         $googleClient->setRedirectUri($redirectUri);
 
-        $accessToken = $this->getAccessToken($googleClient, $request);
+        $accessToken = $this->getAccessToken($googleClient, $settings, $request);
         if (!$accessToken) {
             return $this->redirect($googleClient->createAuthUrl(YoutubeScopes::UPLOAD));
         }
@@ -153,14 +157,19 @@ class CourseController extends CrudController
         $courseId = $session->get(self::SESSION_COURSE_ID);
         if (null === $courseId) {
             $this->addFlash('danger', "Id manquante dans la session");
-
             return $this->redirectToRoute('admin_course_index');
+        }
+
+        $settings = $this->em->getRepository(YoutubeSetting::class)->findOneBy([]);
+        if (!$settings || !$settings->getAccessToken()) {
+            $this->addFlash('danger', "Aucun compte YouTube n'est lié pour récupérer la durée de la vidéo.");
+            return $this->redirectToRoute('admin_youtube_config_index');
         }
 
         $redirectUri = $this->generateUrl('admin_course_update_duration', [], UrlGeneratorInterface::ABSOLUTE_URL);
         $googleClient->setRedirectUri($redirectUri);
 
-        $accessToken = $this->getAccessToken($googleClient, $request);
+        $accessToken = $this->getAccessToken($googleClient, $settings, $request);
         if (!$accessToken) {
             return $this->redirect($googleClient->createAuthUrl(YoutubeScopes::UPLOAD));
         }
@@ -172,69 +181,57 @@ class CourseController extends CrudController
             $this->em->flush();
 
             $this->addFlash('success', "La durée de la vidéo a bien été mise à jour");
-
             return $this->redirectToRoute('admin_course_edit', ['id' => $courseId]);
         } catch (\Exception $e) {
             $this->addFlash('danger', $e->getMessage());
-
             return $this->redirectToRoute('admin_course_edit', ['id' => $courseId]);
         }
     }
 
-    private function getAccessToken(\Google_Client $googleClient, Request $request): ?array
+    private function getAccessToken(\Google_Client $googleClient, YoutubeSetting $settings, Request $request): ?array
     {
-        $storedToken = $this->getStoredAccessToken();
-        if ($storedToken) {
-            $googleClient->setAccessToken(json_decode($storedToken, true));
-            if ($googleClient->isAccessTokenExpired()) {
-                return $this->fetchAccessTokenWithRefreshToken($googleClient);
+        if ($settings->getAccessToken()) {
+            $googleClient->setAccessToken($settings->getAccessToken());
+            if ($googleClient->isAccessTokenExpired() && $settings->getRefreshToken()) {
+                return $this->fetchAccessTokenWithRefreshToken($googleClient, $settings);
             }
-            return json_decode($storedToken, true);
+            return json_decode($settings->getAccessToken(), true);
         }
 
         if ($code = $request->get('code')) {
-            return $this->fetchAccessTokenWithCode($googleClient, $code);
+            return $this->fetchAccessTokenWithCode($googleClient, $settings, $code);
         }
 
         return null;
     }
 
-    private function fetchAccessTokenWithCode(\Google_Client $googleClient, string $code): ?array
+    private function fetchAccessTokenWithCode(\Google_Client $googleClient, YoutubeSetting $settings, string $code): ?array
     {
         $accessToken = $googleClient->fetchAccessTokenWithAuthCode($code);
         if (!isset($accessToken['error'])) {
-            $this->saveAccessToken($accessToken);
+            $this->saveAccessToken($accessToken, $settings);
             return $accessToken;
         }
         return null;
     }
 
-    private function fetchAccessTokenWithRefreshToken(\Google_Client $googleClient): ?array
+    private function fetchAccessTokenWithRefreshToken(\Google_Client $googleClient, YoutubeSetting $settings): ?array
     {
-        $refreshToken = $this->getUser()->getRefreshToken();
-        if ($refreshToken) {
-            $googleClient->refreshToken($refreshToken);
+        if ($settings->getRefreshToken()) {
+            $googleClient->refreshToken($settings->getRefreshToken());
             $accessToken = $googleClient->getAccessToken();
-            $this->saveAccessToken($accessToken);
+            $this->saveAccessToken($accessToken, $settings);
             return $accessToken;
         }
         return null;
     }
 
-    private function getStoredAccessToken(): ?string
+    private function saveAccessToken(array $accessTokenData, YoutubeSetting $settings): void
     {
-        return $this->em->getRepository(User::class)->find($this->getUser()->getId())->getAccessToken();
-    }
-
-    private function saveAccessToken(array $accessTokenData): void
-    {
-        $user = $this->getUser();
-        $user->setAccessToken(json_encode($accessTokenData));
-
+        $settings->setAccessToken(json_encode($accessTokenData));
         if (isset($accessTokenData['refresh_token'])) {
-            $user->setRefreshToken($accessTokenData['refresh_token']);
+            $settings->setRefreshToken($accessTokenData['refresh_token']);
         }
-
         $this->em->flush();
     }
 }

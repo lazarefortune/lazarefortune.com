@@ -22,7 +22,7 @@
 
     <section class="stack">
         <h1 class="h3">
-            Contenus
+            Contenu
         </h1>
         <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {{ form_row(form.videoPath, {label: 'Video'}) }}
@@ -46,7 +46,12 @@
             <div class="flex flex-col gap-2">
                 {{ form_row(form.sourceFile, {disabled: not entity.id}) }}
                 {% if entity.source %}
-                    <a href="" target="_blank" class="btn-md">Télécharger la source</a>
+                    <a href="{{ vich_uploader_asset(entity, 'sourceFile') }}"
+                       target="_blank"
+                       download="{{ entity.source }}"
+                       class="btn btn-sm btn-light">
+                        Télécharger la source {{ entity.source }}
+                    </a>
                 {% endif %}
             </div>
             {{ form_row(form.youtubeThumbnail, {row_attr: {class: 'form-attachment', style:'grid-row-start:1; align-self:stretch;'}}) }}

@@ -1,0 +1,40 @@
+{% extends 'layouts/admin/base.html.twig' %}
+
+{% block title %}Chaîne YouTube{% endblock %}
+
+{% block body %}
+
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h1 class="h3 mb-2">Gestion de la Chaîne YouTube</h1>
+            <p class="text-muted">Gérez les paramètres de votre chaîne YouTube et liez votre compte Google pour accéder aux fonctionnalités de la plateforme.</p>
+        </div>
+
+        <div class="card shadow-sm p-4">
+            <div class="card-body">
+                <h5 class="card-title mb-3">Compte Google associé</h5>
+                <p class="text-muted">Liez le compte Google de votre chaîne YouTube pour pouvoir gérer vos contenus directement depuis ce site.</p>
+
+                <div class="d-flex align-items-center mt-4">
+                    <a href="{{ path(settings.googleId ? 'admin_youtube_config_unlink' : 'admin_youtube_config_link') }}"
+                       class="btn btn-social__google d-flex align-items-center mr-3">
+                        <svg class="mr-2" width="24" height="24">
+                            <use href="/icons/social.svg#google"></use>
+                        </svg>
+                        <span class="text-white">{{ settings.googleId ? 'Dissocier' : 'Lier' }} le compte Google</span>
+                    </a>
+
+                    {% if settings.googleId %}
+                        <div class="my-2">
+                            <p class="mb-1"><strong>Status :</strong> <span class="text-success">Compte lié</span></p>
+                            <p class="mb-1"><strong>Email associé :</strong> {{ settings.email }}</p>
+                        </div>
+                    {% else %}
+                        <p class="text-warning mb-0">Aucun compte Google n'est lié actuellement.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

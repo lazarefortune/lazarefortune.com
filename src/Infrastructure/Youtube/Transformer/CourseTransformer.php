@@ -74,15 +74,17 @@ class CourseTransformer
         ];
     }
 
-    public function thumbnailData(Course $course): array
+    public function thumbnailData(Course $course): ?array
     {
         $thumbnail = $course->getYoutubeThumbnail();
         if (null === $thumbnail) {
-            throw new \RuntimeException('Impossible de résoudre la miniature pour cette vidéo');
+            return null;
+            // throw new \RuntimeException('Impossible de résoudre la miniature pour cette vidéo');
         }
         $thumbnailPath = $this->storage->resolvePath($thumbnail, 'file');
         if (null === $thumbnailPath) {
-            throw new \RuntimeException('Impossible de résoudre la miniature pour cette vidéo');
+            return null;
+            // throw new \RuntimeException('Impossible de résoudre la miniature pour cette vidéo');
         }
 
         return [

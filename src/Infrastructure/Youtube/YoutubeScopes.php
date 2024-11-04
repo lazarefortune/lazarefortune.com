@@ -11,5 +11,9 @@ class YoutubeScopes
     final public const UPLOAD = [
         'https://www.googleapis.com/auth/youtube',
         'https://www.googleapis.com/auth/youtube.upload',
+        'openid',
+        'profile',
+        'email'
     ];
+
 }

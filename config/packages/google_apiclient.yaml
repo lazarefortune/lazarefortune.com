@@ -2,8 +2,8 @@ services:
     Google_Client:
         class: Google_Client
         calls:
-            - [ setClientId, [ '%env(GOOGLE_ID)%' ] ]
-            - [ setClientSecret, [ '%env(GOOGLE_SECRET)%' ] ]
+            - [ setClientId, [ '%env(OAUTH_GOOGLE_CLIENT_ID)%' ] ]
+            - [ setClientSecret, [ '%env(OAUTH_GOOGLE_CLIENT_SECRET)%' ] ]
     Google\Client:
         class: Google\Client
         calls:
