@@ -170,7 +170,7 @@
       width: var(--progress);
       height: 6px;
       border-radius: 6px;
-      background: var(--green);
+      @apply bg-primary-700;
       position: relative;
       z-index: 2;
       box-shadow: 0 0 3px inset #0000000C;
