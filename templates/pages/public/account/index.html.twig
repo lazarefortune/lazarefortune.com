@@ -40,191 +40,193 @@
         </a>
     </nav-tabs>
 
-    <div class="container-box pt-5 pb-10 stack-large bg-slate-50 dark:bg-primary-1000">
-        <div id="profil" class="grid grid-cols-8 gap-4">
-            <div class="stack-large col-span-full lg:col-span-6">
-                {% if app.user.deletedAt %}
-                    <div class="notification-info">
-                        <h2 class="notification-heading">Attention !</h2>
-                        <p>
-                            Vous avez demandé un la suppression de votre compte. <br>
-                            Votre compte sera supprimé {{ app.user.deletedAt|date_diff }}.
-                        </p>
-                    </div>
-                {% endif %}
 
-                {{ form_start(formProfile, {'attr': {'class': 'stack'}}) }}
-                <h3 class="h3">Mes informations</h3>
-
-                <div class="stack card card-padding">
-                    <div class="grid2">
-                        {{ form_row(formProfile.fullname) }}
-                    </div>
-                </div>
-                <div class="text-start">
-                    <button type="submit" class="btn btn-primary">
-                        {{ icon('save') }}
-                        <span>Enregistrer</span>
-                    </button>
-                </div>
-                {{ form_end(formProfile) }}
-
-
-                <div class="stack">
-                    <h3 class="h3">Adresse email</h3>
-
-                    {% if requestEmailChange and not requestEmailChange.createdAt|is_older_than_hours(1) %}
+    <div class="container-box pt-5 pb-10 stack-large bg-slate-50 dark:bg-primary-1000 grid grid-cols-1 gap-4">
+        <div id="profil" class="col-span-full">
+            <div class="grid grid-cols-8 gap-4">
+                <div class="stack-large col-span-full lg:col-span-6">
+                    {% if app.user.deletedAt %}
                         <div class="notification-info">
                             <h2 class="notification-heading">Attention !</h2>
                             <p>
-                                Vous avez demandé un changement d'adresse email.
-                                <br>
-                                Veuillez vérifier votre
-                                nouvelle boîte {{ requestEmailChange.email }} pour confirmer.
+                                Vous avez demandé un la suppression de votre compte. <br>
+                                Votre compte sera supprimé {{ app.user.deletedAt|date_diff }}.
                             </p>
                         </div>
-                    {% else %}
-                        {{ form_start(formEmail, {'attr': {'class': 'stack'}}) }}
-                        <div class="card card-padding">
-                            <div class="grid2">
-                                <div class="text-muted">
-                                    <p class="text-muted mb-2">
-                                        Votre adresse email actuelle est <span class="font-semibold">{{ app.user.email }}</span>.
-                                    </p>
-                                    {{ form_row(formEmail.email) }}
+                    {% endif %}
+
+                    {{ form_start(formProfile, {'attr': {'class': 'stack'}}) }}
+                    <h3 class="h3">Mes informations</h3>
+
+                    <div class="stack card card-padding">
+                        <div class="grid2">
+                            {{ form_row(formProfile.fullname) }}
+                        </div>
+                    </div>
+                    <div class="text-start">
+                        <button type="submit" class="btn btn-primary">
+                            {{ icon('save') }}
+                            <span>Enregistrer</span>
+                        </button>
+                    </div>
+                    {{ form_end(formProfile) }}
+
+
+                    <div class="stack">
+                        <h3 class="h3">Adresse email</h3>
+
+                        {% if requestEmailChange and not requestEmailChange.createdAt|is_older_than_hours(1) %}
+                            <div class="notification-info">
+                                <h2 class="notification-heading">Attention !</h2>
+                                <p>
+                                    Vous avez demandé un changement d'adresse email.
+                                    <br>
+                                    Veuillez vérifier votre
+                                    nouvelle boîte {{ requestEmailChange.email }} pour confirmer.
+                                </p>
+                            </div>
+                        {% else %}
+                            {{ form_start(formEmail, {'attr': {'class': 'stack'}}) }}
+                            <div class="card card-padding">
+                                <div class="grid2">
+                                    <div class="text-muted">
+                                        <p class="text-muted mb-2">
+                                            Votre adresse email actuelle est <span class="font-semibold">{{ app.user.email }}</span>.
+                                        </p>
+                                        {{ form_row(formEmail.email) }}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="text-start">
-                            <button type="submit" class="btn btn-primary">
-                                {{ icon('mail') }}
-                                <span>Modifier mon adresse email</span>
-                            </button>
-                        </div>
-                        {{ form_end(formEmail) }}
-                    {% endif %}
-                </div>
-
-                {{ form_start(formPassword, {'attr': {'class': 'stack'}}) }}
-                <h3 class="h3">Mot de passe</h3>
-
-                <div class="card card-padding">
-                    <div class="grid2">
-                        {{ form_row(formPassword.currentPassword) }}
-                        {{ form_row(formPassword.newPassword) }}
-                    </div>
-                </div>
-
-                <div class="text-start">
-                    <button type="submit" class="btn btn-primary">
-                        {{ icon('key') }}
-                        <span>Modifier mon mot de passe</span>
-                    </button>
-                </div>
-
-                {{ form_end(formPassword) }}
-
-
-                <div class="stack">
-                    <h3 class="h3 text-danger-800 dark:text-danger-300">Supprimer mon compte</h3>
-
-                    <p class="text-base">
-                        {% if app.user.deletedAt %}
-                    <div class="notification-info">
-                        <h2 class="notification-heading">Attention !</h2>
-                        <p>
-                            Vous avez demandé la suppression de votre compte. <br>
-                            Il sera supprimé automatiquement {{ app.user.deletedAt|date_diff }}.
-                        </p>
-                    </div>
-                    {% else %}
-                        Vous n'êtes pas satisfait de nos services ? Vous pouvez demander la suppression de votre compte.
-                        Vous aurez 7 jours pour changer d'avis. Passé ce délai, votre compte sera supprimé définitivement.
-                    {% endif %}
-                    </p>
-
-                    {% if app.user.deletedAt %}
-                        <div class="text-start">
-                            <a href="{{ path('app_account_delete_cancel') }}" class="btn btn-green">
-                                {{ icon('trash') }}
-                                <span>Annuler la suppression</span>
-                            </a>
-                        </div>
-                    {% else %}
-                        <div class="text-start">
-                            <button class="btn btn-danger" data-modal-id="deleteAccountModal">
-                                {{ icon('trash') }}
-                                <span>Demander la suppression</span>
-                            </button>
-                        </div>
-
-                        <modal-dialog id="deleteAccountModal" hidden="hidden" overlay-close>
-                            <section class="modal-box">
-                                <header>Confirmer la suppression</header>
-                                <button data-dismiss aria-label="Close" class="modal-close">
-                                    {{ icon('x') }}
+                            <div class="text-start">
+                                <button type="submit" class="btn btn-primary">
+                                    {{ icon('mail') }}
+                                    <span>Modifier mon adresse email</span>
                                 </button>
+                            </div>
+                            {{ form_end(formEmail) }}
+                        {% endif %}
+                    </div>
 
-                                <div class="stack">
-                                    <p class="text-muted">
-                                        Vous êtes sur le point de supprimer votre compte. <br>
-                                        Pour confirmer cette demande merci de rentrer votre mot de passe. Le compte sera
-                                        automatiquement supprimé au bout de 7 jours.
-                                    </p>
+                    {{ form_start(formPassword, {'attr': {'class': 'stack'}}) }}
+                    <h3 class="h3">Mot de passe</h3>
 
-                                    {{ form_start(formDeleteAccount, {'attr': {'class': 'stack'}}) }}
-
-                                    {{ form_row(formDeleteAccount.password) }}
-
-                                    <div class="text-end">
-                                        <button type="submit" class="btn btn-danger">
-                                            {{ icon('trash') }}
-                                            <span>Confirmer la suppression</span>
-                                        </button>
-                                    </div>
-                                    {{ form_end(formDeleteAccount) }}
-                                </div>
-
-                            </section>
-                        </modal-dialog>
-                    {% endif %}
-                </div>
-
-            </div>
-            <div class="stack-large col-span-full lg:col-span-2 mt-10 lg:mt-0">
-                <div class="stack">
-                    <h3 class="h3">Mon abonnement</h3>
-                    <p class="text-muted">Vous êtes actuellement <strong>premium</strong> à vie.</p>
-                </div>
-
-                <div class="stack">
-                    <h4 class="h4">Connexion social</h4>
-                    <p class="text-muted">Reliez votre compte à un réseau social afin de l'utiliser comme mode de connexion</p>
-                    <div class="stack">
-                        <div>
-                            <a href="{{ path(app.user.githubId ? 'app_oauth_unlink' : 'app_oauth_connect', {service: 'github'}) }}"
-                               class="btn btn-social__github">
-                                <svg class="social-icon">
-                                    <use href="/icons/social.svg#github"></use>
-                                </svg>
-                                <span class="text-white">{{ app.user.githubId ? 'Dissocier' : 'Lier' }} votre compte GitHub</span>
-                            </a>
+                    <div class="card card-padding">
+                        <div class="grid2">
+                            {{ form_row(formPassword.currentPassword) }}
+                            {{ form_row(formPassword.newPassword) }}
                         </div>
-                        <div>
-                            <a href="{{ path(app.user.googleId ? 'app_oauth_unlink' : 'app_oauth_connect', {service: 'google'}) }}"
-                               class="btn btn-social__google">
-                                <svg class="social-icon">
-                                    <use href="/icons/social.svg#google"></use>
-                                </svg>
-                                <span class="text-white">{{ app.user.googleId ? 'Dissocier' : 'Lier' }} votre compte Google</span>
-                            </a>
+                    </div>
+
+                    <div class="text-start">
+                        <button type="submit" class="btn btn-primary">
+                            {{ icon('key') }}
+                            <span>Modifier mon mot de passe</span>
+                        </button>
+                    </div>
+
+                    {{ form_end(formPassword) }}
+
+
+                    <div class="stack">
+                        <h3 class="h3 text-danger-800 dark:text-danger-300">Supprimer mon compte</h3>
+
+                        <p class="text-base">
+                            {% if app.user.deletedAt %}
+                        <div class="notification-info">
+                            <h2 class="notification-heading">Attention !</h2>
+                            <p>
+                                Vous avez demandé la suppression de votre compte. <br>
+                                Il sera supprimé automatiquement {{ app.user.deletedAt|date_diff }}.
+                            </p>
+                        </div>
+                        {% else %}
+                            Vous n'êtes pas satisfait de nos services ? Vous pouvez demander la suppression de votre compte.
+                            Vous aurez 7 jours pour changer d'avis. Passé ce délai, votre compte sera supprimé définitivement.
+                        {% endif %}
+
+                        {% if app.user.deletedAt %}
+                            <div class="text-start">
+                                <a href="{{ path('app_account_delete_cancel') }}" class="btn btn-green">
+                                    {{ icon('trash') }}
+                                    <span>Annuler la suppression</span>
+                                </a>
+                            </div>
+                        {% else %}
+                            <div class="text-start">
+                                <button class="btn btn-danger" data-modal-id="deleteAccountModal">
+                                    {{ icon('trash') }}
+                                    <span>Demander la suppression</span>
+                                </button>
+                            </div>
+
+                            <modal-dialog id="deleteAccountModal" hidden="hidden" overlay-close>
+                                <section class="modal-box">
+                                    <header>Confirmer la suppression</header>
+                                    <button data-dismiss aria-label="Close" class="modal-close">
+                                        {{ icon('x') }}
+                                    </button>
+
+                                    <div class="stack">
+                                        <p class="text-muted">
+                                            Vous êtes sur le point de supprimer votre compte. <br>
+                                            Pour confirmer cette demande merci de rentrer votre mot de passe. Le compte sera
+                                            automatiquement supprimé au bout de 7 jours.
+                                        </p>
+
+                                        {{ form_start(formDeleteAccount, {'attr': {'class': 'stack'}}) }}
+
+                                        {{ form_row(formDeleteAccount.password) }}
+
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-danger">
+                                                {{ icon('trash') }}
+                                                <span>Confirmer la suppression</span>
+                                            </button>
+                                        </div>
+                                        {{ form_end(formDeleteAccount) }}
+                                    </div>
+
+                                </section>
+                            </modal-dialog>
+                        {% endif %}
+                    </div>
+
+                </div>
+                <div class="stack-large col-span-full lg:col-span-2 mt-10 lg:mt-0">
+                    <div class="stack">
+                        <h3 class="h3">Mon abonnement</h3>
+                        <p class="text-muted">Vous êtes actuellement <strong>premium</strong> à vie.</p>
+                    </div>
+
+                    <div class="stack">
+                        <h4 class="h4">Connexion social</h4>
+                        <p class="text-muted">Reliez votre compte à un réseau social afin de l'utiliser comme mode de connexion</p>
+                        <div class="stack">
+                            <div>
+                                <a href="{{ path(app.user.githubId ? 'app_oauth_unlink' : 'app_oauth_connect', {service: 'github'}) }}"
+                                   class="btn btn-social__github">
+                                    <svg class="social-icon">
+                                        <use href="/icons/social.svg#github"></use>
+                                    </svg>
+                                    <span class="text-white">{{ app.user.githubId ? 'Dissocier' : 'Lier' }} votre compte GitHub</span>
+                                </a>
+                            </div>
+                            <div>
+                                <a href="{{ path(app.user.googleId ? 'app_oauth_unlink' : 'app_oauth_connect', {service: 'google'}) }}"
+                                   class="btn btn-social__google">
+                                    <svg class="social-icon">
+                                        <use href="/icons/social.svg#google"></use>
+                                    </svg>
+                                    <span class="text-white">{{ app.user.googleId ? 'Dissocier' : 'Lier' }} votre compte Google</span>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="courses">
+        <div id="courses" class="col-span-full">
             <div class="stack">
                 <h3 class="h3">Historique de visionnage</h3>
                 {% if watchlist is not empty %}
@@ -239,5 +241,8 @@
             </div>
         </div>
     </div>
+
+
+
 
 {% endblock %}
