@@ -23,6 +23,12 @@ dependencies:
   ckeditor4:
     specifier: ^4.24.0
     version: 4.24.0
+  clsx:
+    specifier: 1.2.1
+    version: 1.2.1
+  codemirror:
+    specifier: 5.59.0
+    version: 5.59.0
   filemanager-element:
     specifier: ^0.1.2
     version: 0.1.2
@@ -2410,6 +2416,15 @@ packages:
       kind-of: 6.0.3
       shallow-clone: 3.0.1
     dev: true
+
+  /clsx@1.2.1:
+    resolution: {integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==}
+    engines: {node: '>=6'}
+    dev: false
+
+  /codemirror@5.59.0:
+    resolution: {integrity: sha512-UGzSkCacY9z0rSpQ3wnTWRN2nvRE6foDXnJltWW8pazInR/R+3gXHrao4IFQMv/bSBvFBxt8/HPpkpKAS54x5Q==}
+    dev: false
 
   /color-convert@1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}

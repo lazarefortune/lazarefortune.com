@@ -13,6 +13,7 @@ import LoaderOverlay from "./LoaderOverlay";
 import SpinningDots from "@grafikart/spinning-dots-element";
 import { LineChart } from "./admin/LineChart";
 import {TimeAgo} from "./TimeAgo";
+import { MarkdownEditor } from "./editor";
 
 FileManager.register();
 customElements.define('spotlight-bar', Spotlight)
@@ -31,6 +32,7 @@ customElements.define('loader-overlay', LoaderOverlay)
 customElements.define('spinning-dots', SpinningDots)
 customElements.define('line-chart', LineChart)
 customElements.define('time-ago', TimeAgo)
+customElements.define('markdown-editor', MarkdownEditor, { extends: 'textarea' })
 
 document.addEventListener('DOMContentLoaded', () => {
     const filemanager = document.querySelector("file-manager");
