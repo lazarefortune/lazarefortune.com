@@ -185,4 +185,10 @@
     display: block;
     margin-inline: auto;
   }
+
+  .with-syntax {
+    code{
+      @apply bg-primary-1000 dark:bg-primary-950;
+    }
+  }
 }
