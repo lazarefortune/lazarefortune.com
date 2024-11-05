@@ -15,7 +15,9 @@
                 {{ form_widget(form.challenge, {value: challenge}) }}
                 {{ form_widget(form.answer) }}
         </puzzle-challenge>
-        <span class="text-xs">{{ form_help(form) }}</span>
+        <div class="mt-2">
+            <span class="text-sm text-muted">{{ form_help(form) }}</span>
+        </div>
         {% if form.parent.vars.errors|length > 0 %}
             <div class="form-error">
                 {{ form_errors(form.parent) }}

@@ -8,6 +8,7 @@
     <meta name="google-site-verification" content="cVdQDiwamc06x0st9JWYRu-lqokoHUiT2rXI8yE03Vs"/>
     <meta name="theme-color" content="#ffffff">
     <title>{% block title '' %} - {{ app_name }}</title>
+    {% block meta_description %}{% endblock %}
 
     {% include 'partials/header/_favicons.html.twig' %}
     {% include 'partials/header/_gtag.html.twig' %}

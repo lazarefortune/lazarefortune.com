@@ -59,7 +59,7 @@ class ContactForm extends AbstractType
                 ] )
             ->add('captcha', CaptchaType::class, [
                 'mapped' => false,
-                'help' => 'Placez la pièce du puzzle pour vérifier que vous n’êtes pas un robot',
+                'help' => 'Glissez la pièce pour montrer que vous êtes bien humain !',
                 'route' => 'app_captcha'
             ])
         ;
