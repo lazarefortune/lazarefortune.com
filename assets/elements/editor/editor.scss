@@ -1,9 +1,7 @@
 .mdeditor {
   position: relative;
-  background-color: #fff;
-  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.05);
-  border: solid 1px var(--border);
-  background: var(--background);
+  @apply bg-white border border-primary-50 shadow shadow-primary-200;
+  @apply dark:bg-primary-950 dark:border-primary-950 dark:shadow-primary-900;
   transition: box-shadow 0.3s;
 }
 .mdeditor.is-invalid {
@@ -28,7 +26,7 @@
   overflow-y: auto;
   z-index: 2;
   //background: var(--background);
-  @apply bg-slate-100 dark:bg-slate-800;
+  @apply bg-white dark:bg-slate-800;
 }
 .mdeditor .Code-Mirror-wrap {
   height: 100%;
@@ -38,8 +36,7 @@
   display: flex;
   z-index: 3;
   height: 34px;
-  //background-color: var(--background-light);
-  @apply bg-slate-100 dark:bg-slate-900;
+  @apply bg-white border border-slate-100 dark:border-slate-800 dark:bg-primary-1000;
   box-shadow: 0 1px 2px rgba(#000, 0.2);
 
   button {
@@ -49,13 +46,8 @@
     background: transparent;
     cursor: pointer;
     outline: none;
-    //color: var(--color-light);
-
-    @apply text-primary-600 dark:text-primary-400;
-    &:hover {
-      color: var(--color);
-      background-color: var(--background);
-    }
+    @apply rounded inline-flex justify-center items-center text-center text-slate-600 hover:bg-primary-100 hover:text-primary-900;
+    @apply dark:text-white dark:hover:bg-primary-950;
   }
 
   svg {
@@ -73,13 +65,11 @@
 // ======================
 .mdeditor .CodeMirror-cursor {
   background-color: transparent !important;
-  border-left: 2px solid red !important;
-  //@apply border-l-2 border-primary-600;
+  border-left: 2px solid #4594ec !important;
+  //@apply border-l border-primary-600;
 }
 .mdeditor__editor .CodeMirror-selected {
-  //background: var(--selection-background)!important;
-  background: rebeccapurple !important;
-  //@apply bg-primaryOL-400;
+  @apply bg-primary-300 dark:bg-primary-800;
 }
 .mdeditor .cm-header.cm-header-2 {
   font-family: 'Gotham', 'Montserrat', 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
@@ -98,13 +88,14 @@
   font-style: normal;
   font-size: 24px;
   line-height: 1.2;
-  margin-top: space(2);
+  margin-top: 16px;
+  //margin-top: space(2);
   margin-bottom: 2px;
 }
 .mdeditor .cm-header.cm-header-4 {
   font-family: 'Gotham', 'Montserrat', 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
   'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  margin-top: space(2);
+  margin-top: 16px;
 }
 .mdeditor .CodeMirror pre.CodeMirror-line {
   font-family: 'SF Pro', 'Roboto', 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
@@ -114,8 +105,7 @@
   font-family: monospace;
 }
 .mdeditor .CodeMirror-scroll {
-  //background: var(--background);
-  @apply bg-slate-800;
+  @apply bg-white dark:bg-primary-950;
   min-height: 100px;
   max-height: calc(100vh - 200px);
 }
@@ -134,6 +124,10 @@
 }
 
 .CodeMirror {
-  //color: var(--color)!important;
-  color: white !important;
+  @apply text-slate-950 dark:text-white;
+}
+.dark {
+  .CodeMirror {
+    color: white !important;
+  }
 }

@@ -15,8 +15,15 @@
 
     <!-- jquery-->
     <script src="{{ asset('js/jquery-3.6.3.min.js') }}"></script>
-    <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.6.0/webcomponents-bundle.js" defer></script>
-    <script src="//unpkg.com/document-register-element" defer></script>
+    <script>
+        if (!('customElements' in window)) {
+            // Charger le polyfill de manière asynchrone
+            var script = document.createElement('script');
+            script.src = 'https://unpkg.com/@webcomponents/webcomponentsjs@2.6.0/webcomponents-bundle.js';
+            script.async = true;
+            document.head.appendChild(script);
+        }
+    </script>
 
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
