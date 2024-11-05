@@ -1,7 +1,11 @@
 .footer {
-  @apply bg-white border-t-2 border-gray-200 dark:border-primary-1000 py-16
-  dark:bg-primary-950 dark:text-gray-300 grid grid-cols-3 gap-6;
+  @apply bg-white dark:bg-primary-950 py-10 border-t border-gray-200 dark:border-gray-800;
 }
+
 .footer__title {
-  @apply text-xl font-semibold mb-2.5 text-slate-900 dark:text-white;
+  @apply text-xl font-semibold mb-4 text-slate-900 dark:text-white;
+}
+
+.text-muted {
+  @apply text-gray-600 dark:text-gray-400;
 }

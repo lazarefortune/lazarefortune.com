@@ -1,6 +1,6 @@
 {% extends 'layouts/public/base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
+{% block title %}Accueil | Lazare Fortune - Développeur Web PHP FullStack{% endblock %}
 
 {% block body %}
 
@@ -8,7 +8,7 @@
         {% if watchlist is not empty %}
             <div class="container-box page-header">
                 <section class="container">
-                    <h1 class="h2 mb-4">Reprendre</h1>
+                    <h1 class="h2 mb-4">Reprendre là où vous vous êtes arrêté</h1>
                     <div class="courses">
                         {% for progress in watchlist %}
                             {% include 'pages/public/account/_progress-card.html.twig' %}
@@ -20,43 +20,42 @@
 
         <section class="container-box pb-20">
             <div class="course__hero py-10">
-                <h1>Les derniers <span>tutoriels</span></h1>
-                <p>
-                    Envie d'apprendre de nouvelles choses ? Voici les derniers contenus disponibles.
+                <h2 class="h2">Contenus recommandés pour vous</h2>
+                <p class="text-muted">
+                    Voici quelques suggestions des dernières vidéos.
                 </p>
             </div>
             <div class="courses">
                 {% for content in latest_content %}
                     {% if content.isCourse %}
-                        {% include 'pages/public/courses/_course_item.html.twig' with {course: content} %}
+                        {% include 'pages/public/courses/_course_item.html.twig' with { course: content } %}
                     {% elseif content.isFormation %}
-                        {% include 'pages/public/formations/_formation_item.html.twig' with {formation: content} %}
+                        {% include 'pages/public/formations/_formation_item.html.twig' with { formation: content } %}
                     {% endif %}
                 {% endfor %}
             </div>
         </section>
-
     {% else %}
         <div class="hero relative container-box w-full">
             <div class="hero__body">
-                <div class="hero__hello reveal">👋🏾 Hey, je suis</div>
+                <div class="hero__hello reveal">👋🏾 Salut, je suis</div>
                 <div class="hero__name reveal" data-delay=".2">
                     Lazare Fortune
                 </div>
                 <div class="hero__job reveal" data-delay=".3">
                     Développeur Web PHP FullStack
                 </div>
-                <div class="hero__cta mt-10 reveal" data-delay=".4">
-                    <a href="{{ path('app_contact') }}" class="btn btn-lg btn-primary">
-                        Me contacter
+                <div class="hero__cta mt-10 reveal" data-delay=".5">
+                    <a href="{{ path('app_register') }}" class="btn btn-lg btn-primary">
+                        S'inscrire
                     </a>
                     <a href="{{ path('app_course_index') }}" class="btn btn-lg btn-outline">
-                        Mes contenus
+                        Voir mes contenus
                     </a>
                 </div>
             </div>
-            <div class="hero__img reveal" data-delay=".4">
-                <img class="rounded-full w-80 drop-shadow-[20px_10px_4px_rgba(36,69,132,1)]" src="{{ asset('images/lazarefortune.png') }}" alt="Lazare Fortune Avatar">
+            <div class="hero__img reveal" data-delay=".6">
+                <img class="rounded-full w-80 drop-shadow-[20px_10px_4px_rgba(36,69,132,1)]" src="{{ asset('images/lazarefortune.png') }}" alt="Photo de Lazare Fortune, développeur web fullstack">
             </div>
             <ul class="hero__links">
                 <li>
@@ -73,37 +72,38 @@
         </div>
     {% endif %}
 
+    {% if not app.user %}
+    <!-- Section commune à tous les utilisateurs -->
     <section class="container-box pt-40 pb-60 grid relative bg-white dark:bg-primary-950">
         <div class="home__bg"></div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-32">
             <div>
                 <div class="background-halo right border-halo fade-out-image right max-w-md order-2 md:order-1 mr-auto reveal" data-delay=".3">
-                    <img src="{{ asset('images/symfony-installation-picture.png') }}" alt="" class="shadow-xl rounded-md mx-auto">
+                    <img src="{{ asset('images/symfony-installation-picture.png') }}" alt="Illustration de l'installation de Symfony" class="shadow-xl rounded-md mx-auto">
                 </div>
             </div>
             <div class="stack order-1 md:order-2">
-                <h2 class="text-2xl font-bold text-primary-950 dark:text-white reveal">Ce que <span class="text-primary-600">vous trouverez</span> ici ?</h2>
+                <h2 class="h2 reveal">Que trouverez-vous <span class="text-lead">ici</span> ?</h2>
                 <p class="text-muted reveal" data-delay=".2">
-                    Vous trouverez des tutoriels et des formations sur le développement web.
-                    Je partage mes connaissances et mes expériences car c'est ma façon de contribuer à la communauté.
+                    Des vidéos, des playlists et des ressources sur le développement web pour vous aider à progresser.
                 </p>
                 <div class="mt-5 reveal" data-delay=".3">
                     <a href="{{ path('app_course_index') }}" class="btn btn-primary">
-                        Découvrir mes contenus
+                        Découvrir mes vidéos
                     </a>
                 </div>
             </div>
         </div>
 
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
             <div class="stack">
-                <h2 class="text-2xl font-bold reveal">Ce que <span class="text-primary-600 dark:text-primary-300">je ne suis pas ?</span></h2>
+                <h2 class="h2 reveal">Qui suis-je <span class="text-lead">vraiment</span> ?</h2>
                 <p class="text-muted reveal" data-delay=".2">
-                    Je ne suis pas un expert, je suis un passionné.<br> Je ne suis pas un formateur, je suis un autodidacte.<br><br>
-                    <em>Mon objectif est de partager mes connaissances et d'apprendre de nouvelles choses. Suivez-moi dans cette aventure sur YouTube, Twitch et GitHub.</em>
+                    Un développeur web passionné, toujours à la recherche de nouvelles connaissances. Rejoignez-moi sur mes plateformes pour partager cette aventure.
                 </p>
                 <ul class="list-unstyled mt-5 mx-auto md:mr-auto md:ml-0 flex gap-4 reveal" data-delay=".3">
-                    <li class="">
+                    <li>
                         <a href="https://www.youtube.com/channel/UCITKwfT7qVXjdHHu84Atodw" target="_blank"
                            class="flex flex-col items-center gap-1 text-primary-800 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-600">
                             {{ icon('youtube', '24') }} YouTube
@@ -125,79 +125,111 @@
             </div>
             <div>
                 <div class="background-halo right border-halo fade-out-image right max-w-md ml-auto reveal" data-delay=".3">
-                    <img src="{{ asset('images/live-stream.gif') }}" alt="" class="shadow-xl rounded-md">
+                    <img src="{{ asset('images/live-stream.gif') }}" alt="Animation d'un live stream en direct" class="shadow-xl rounded-md">
                 </div>
             </div>
         </div>
     </section>
+    {% endif %}
 
-    <!-- section premium -->
-    <section class="container-box py-10 bg-white dark:bg-primary-950">
-        <div class="stack">
-            <div class="flex items-center gap-1 mx-auto reveal">
-                <span class="inline-block">{{ icon('crown', 26) }}</span>
-                <h2 class="text-2xl text-center font-bold">
-                    Contenus <span class="text-primary-600 dark:text-primary-300">premium</span>
-                </h2>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mt-10 pb-28">
-                <div class="stack">
-                    <h3 class="h5 text-center font-bold reveal" data-delay=".3">
-                        C'est quoi un contenu premium ?
-                    </h3>
-                    <p class="text-muted max-w-3xl mx-auto text-center reveal" data-delay=".4">
-                        Les contenus premium sont des tutoriels et des formations exclusives pour les membres du site.
-                        Vous aurez accès à des contenus inédits, des ressources et des avantages exclusifs.
-                    </p>
+    <!-- Section "Rejoignez la communauté" -->
+    {% if not app.user %}
+        <section class="container-box py-20 bg-white dark:bg-primary-950">
+            <div class="stack">
+                <div class="text-center mx-auto reveal">
+                    <div class="flex flex-col items-center justify-center gap-2">
+                        <span class="inline-block">{{ icon('users', 26) }}</span>
+                        <h2 class="h2">
+                            Rejoignez la <span class="text-lead">communauté</span>
+                        </h2>
+                    </div>
                 </div>
-                <div class="stack">
-                    <h3 class="h5 text-center font-bold reveal" data-delay=".3">
-                        Pourquoi des contenus premium ?
-                    </h3>
-                    <p class="text-muted max-w-3xl mx-auto text-center reveal" data-delay=".4">
-                        Les contenus premium sont 100% gratuits. Ils sont réservés aux membres du site qui souhaitent soutenir mon travail et accéder à des contenus exclusifs.
-                    </p>
+                <p class="text-muted text-center mt-6 reveal" data-delay=".2">
+                    Créez un compte pour accéder à des avantages exclusifs et progresser plus rapidement.
+                </p>
+                <div class="mt-8 reveal" data-delay=".3">
+                    <!-- Liste des avantages -->
+                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <span class="text-green-500 mt-1">
+                                    {{ icon('check-circle', 24) }}
+                                </span>
+                            </div>
+                            <div class="ml-3">
+                                <p class="font-medium">Sessions live en petit groupe</p>
+                                <p class="text-muted">Participez à des sessions interactives et posez vos questions en direct.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <span class="text-green-500 mt-1">
+                                    {{ icon('check-circle', 24) }}
+                                </span>
+                            </div>
+                            <div class="ml-3">
+                                <p class="font-medium">Accès au code source</p>
+                                <p class="text-muted">Téléchargez les ressources et codes des tutoriels pour mieux les comprendre.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <span class="text-green-500 mt-1">
+                                    {{ icon('check-circle', 24) }}
+                                </span>
+                            </div>
+                            <div class="ml-3">
+                                <p class="font-medium">Suivi de progression</p>
+                                <p class="text-muted">Suivez vos progrès et reprenez vos cours là où vous les avez laissés.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <span class="text-green-500 mt-1">
+                                    {{ icon('check-circle', 24) }}
+                                </span>
+                            </div>
+                            <div class="ml-3">
+                                <p class="font-medium">Contenus exclusifs</p>
+                                <p class="text-muted">Accédez à des tutoriels et ressources réservés aux membres.</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="mt-8 text-center">
+                        <a href="{{ path('app_register') }}" class="btn btn-primary btn-lg">
+                            S'inscrire maintenant
+                        </a>
+                    </div>
                 </div>
             </div>
+        </section>
+    {% endif %}
 
-        </div>
-    </section>
-
-    <!-- besoin d'aide -->
+    <!-- Section "Besoin d'aide" avec du texte condensé -->
     <section class="container-box py-20 bg-white-soft dark:bg-primary-1000">
         <div class="stack">
-            <h2 class="text-2xl text-center font-bold reveal">Besoin d'<span class="text-primary-600 dark:text-primary-300">aide</span> ?</h2>
-            <p class="text-muted max-w-3xl mx-auto text-center reveal" data-delay=".2">
-                Vous avez besoin de plus d'accompagnement ? ou simplement envie de discuter ?
+            <h2 class="h2 text-center reveal">Besoin d'<span class="text-lead">aide</span> ?</h2>
+            <p class="text-muted text-center reveal" data-delay=".2">
+                Que vous souhaitiez un accompagnement personnalisé ou simplement discuter, je suis là pour vous aider.
             </p>
-            <div class="mt-5 reveal grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" data-delay=".3">
-                <div class="card card-padding flex flex-col">
-                    <h3 class="h4 text-center mb-3">Superprof</h3>
-                    <p class="text-muted mb-5 flex-1">
-                        Grâce à Superprof, je peux partager mes connaissances et aider les personnes qui en ont besoin.
-                        Alors n'hésitez pas à me contacter.
-                    </p>
+            <div class="mt-5 reveal grid grid-cols-1 md:grid-cols-3 gap-5" data-delay=".3">
+                <div class="card card-padding flex flex-col items-center text-center">
+                    <h3 class="h4 text-lead mb-3">Cours particuliers</h3>
+                    <p class="text-muted mb-4">Apprenez le développement web avec un accompagnement sur mesure.</p>
                     <a href="https://www.superprof.fr/developpeur-web-php-fullstack-donne-cours-initiation-developpement-web-methodologie-pratique.html" target="_blank" class="btn btn-light">
-                        Visiter
+                        En savoir plus
                     </a>
                 </div>
-                <div class="card card-padding flex flex-col">
-                    <h3 class="h4 text-center mb-3">Discord</h3>
-                    <p class="text-muted mb-5 flex-1">
-                        Rejoignez le serveur Discord pour discuter, poser des questions et partager vos expériences.
-                        Je suis convaincu que nous avons tous quelque chose à apprendre les uns des autres.
-                    </p>
+                <div class="card card-padding flex flex-col items-center text-center">
+                    <h3 class="h4 text-lead mb-3">Communauté Discord</h3>
+                    <p class="text-muted mb-4">Échangez avec d'autres passionnés sur notre serveur Discord.</p>
                     <a href="https://discord.gg/AZPEVwva7R" target="_blank" class="btn btn-light">
-                        Rejoindre
+                        Rejoindre le serveur
                     </a>
                 </div>
-                <div class="card card-padding flex flex-col">
-                    <h3 class="h4 text-center mb-3">Formulaire</h3>
-                    <p class="text-muted mb-5 flex-1">
-                        Vous avez une question, une suggestion ou une demande ? N'hésitez pas à me contacter
-                        sur les réseaux sociaux, par mail ou via le formulaire de contact. Je serai ravi de vous répondre.
-                    </p>
+                <div class="card card-padding flex flex-col items-center text-center">
+                    <h3 class="h4 text-lead mb-3">Contactez-moi</h3>
+                    <p class="text-muted mb-4">Une question ou une suggestion ? N'hésitez pas à me contacter.</p>
                     <a href="{{ path('app_contact') }}" class="btn btn-light">
                         Me contacter
                     </a>
@@ -205,5 +237,5 @@
             </div>
         </div>
     </section>
-{% endblock %}
 
+{% endblock %}

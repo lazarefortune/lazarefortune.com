@@ -179,6 +179,13 @@ p {
   @apply font-hanken-grotesk text-base font-medium text-slate-900 dark:text-white;
 }
 
+h1, h2, h3, h4, h5, h6,
+h1 *, h2 *, h3 *, h4 *, h5 *, h6 *,
+.h1, .h2, .h3, .h4, .h5, .h6,
+.h1 *, .h2 *, .h3 *, .h4 *, .h5 *, .h6 * {
+  @apply font-hanken-grotesk text-slate-900 dark:text-white;
+}
+
 .text-muted {
   @apply text-gray-600 dark:text-gray-400;
 }
@@ -187,9 +194,6 @@ p {
   @apply text-red-500 dark:text-red-400;
 }
 
-h1, h2, h3, h4, h5, h6,
-h1 *, h2 *, h3 *, h4 *, h5 *, h6 *,
-.h1, .h2, .h3, .h4, .h5, .h6,
-.h1 *, .h2 *, .h3 *, .h4 *, .h5 *, .h6 * {
-  @apply font-hanken-grotesk text-slate-900 dark:text-white;
+.text-lead {
+  @apply text-primary-600 dark:text-primary-400;
 }
