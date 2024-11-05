@@ -32,6 +32,7 @@ customElements.define('loader-overlay', LoaderOverlay)
 customElements.define('auto-submit', AutoSubmit, { extends: 'form' })
 
 /* Modules */
+import './modules/highlight.js'
 import './modules/scrollreveal.js'
 import './modules/modal.js'
 import './modules/dropdown.js'

@@ -15,7 +15,7 @@
         </h2>
         <div class="course__description">
             <p>
-                {{ course.content | truncate(130) | raw }}
+                {{ course.content | markdown | striptags | excerpt(130) | raw }}
             </p>
             <div class="course__countdown">
                 <em>Disponible dans</em>

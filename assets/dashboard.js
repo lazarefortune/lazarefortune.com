@@ -11,6 +11,7 @@ import '@grafikart/drop-files-element'
 import './libs/flatpickr'
 import './libs/select2'
 /* Modules */
+import './modules/highlight.js'
 import './modules/modal.js'
 import './modules/dropdown.js'
 import './modules/scrollreveal.js'

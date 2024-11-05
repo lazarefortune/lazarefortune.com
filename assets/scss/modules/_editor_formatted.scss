@@ -51,20 +51,13 @@
   a {
     text-decoration: underline;
 
-    &:hover {
-      color: var(--contrast);
-    }
+    @apply text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300;
   }
 
   pre {
     margin: 2em 0;
     overflow: auto;
-    border: 1px solid var(--border-light);
-
-    //@include up(1400) {
-    //  margin-left: -1rem;
-    //  margin-right: -1rem;
-    //}
+    @apply border border-slate-100 dark:border-slate-800 -mx-4 p-4 bg-primary-1000 dark:bg-primary-950 text-white;
   }
 
   p,
@@ -83,36 +76,19 @@
     margin-top: 0px !important;
   }
 
-  h1,
-  h2,
-  h3 {
-    color: var(--color-dark);
-    //font-family: $font-alt;
-    font-weight: bold;
-  }
-
   h1 {
-    font-size: 2em ;
     @apply h1;
   }
 
   h2 {
-    //@extend %h2;
-    //margin-top: space(5);
-    margin-bottom: 2px;
-    @apply h2;
+    @apply h2 mb-2;
   }
 
   h3 {
-    font-weight: 700;
-    font-style: normal;
-    font-size: 24px;
-    line-height: 1.2;
-    //margin-top: space(2);
-    margin-bottom: 2px;
+    @apply h3 mb-2;
   }
   h4 {
-    //margin-top: space(2);
+    @apply h4 mb-2;
   }
 
   ul {
@@ -172,10 +148,10 @@
   p > code,
   li > code {
     display: inline-block;
-    background: var(--skeleton);
-    outline: solid 1px var(--border);
+    @apply bg-slate-200 dark:bg-slate-800;
+    //outline: solid 1px var(--border);
     padding:0 .2em;
-    color: var(--color-light);
+    //color: var(--color-light);
   }
 
   table thead {
@@ -210,12 +186,3 @@
     margin-inline: auto;
   }
 }
-
-//@include dark() {
-//  .formatted p > code,
-//  .formatted li > code {
-//    background: #1b1e3d;
-//    color: #A9B1D6;
-//    outline: none;
-//  }
-//}
