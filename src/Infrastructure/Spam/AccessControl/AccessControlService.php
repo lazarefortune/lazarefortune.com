@@ -6,12 +6,16 @@ use App\Infrastructure\Spam\GeoLocationService;
 
 class AccessControlService
 {
+    /*
     public function __construct(
         private readonly GeoLocationService $geoLocationService,
     ){}
+    */
 
     public function isAccessAllowed(string $ipAddress): bool
     {
+        return true;
+        /*
         $countryCode = $this->geoLocationService->getCountryCode($ipAddress);
 
         if (null === $countryCode) {
@@ -25,5 +29,6 @@ class AccessControlService
         }
 
         return false;
+        */
     }
 }
