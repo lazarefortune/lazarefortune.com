@@ -104,7 +104,19 @@
 
             <div class="container-box py-5 mb-16" id="description">
 
-                <div class="course-details">
+            <div class="course-actions py-3">
+                {% if course.source is not empty and app.user %}
+                    <a href="{{ vich_uploader_asset(course, 'sourceFile') }}"
+                       target="_blank"
+                       download="{{ course.source }}"
+                       class="btn btn-sm btn-light">
+                        Télécharger les sources
+                    </a>
+                {% endif %}
+            </div>
+
+
+            <div class="course-details">
                     <div class="stack">
                         <div class="h2 mb-6" aria-hidden="true">À propos de cette vidéo</div>
                         <div class="formatted">

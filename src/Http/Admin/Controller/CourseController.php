@@ -2,10 +2,10 @@
 
 namespace App\Http\Admin\Controller;
 
-use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Course\Entity\Course;
 use App\Domain\Youtube\Entity\YoutubeSetting;
 use App\Http\Admin\Data\Crud\CourseCrudData;
+use App\Http\Requirements;
 use App\Http\Security\ContentVoter;
 use App\Infrastructure\Youtube\YoutubeScopes;
 use App\Infrastructure\Youtube\YoutubeService;
@@ -18,6 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Vich\UploaderBundle\Handler\UploadHandler;
+use Vich\UploaderBundle\Storage\StorageInterface;
 
 #[IsGranted('ROLE_ADMIN')]
 #[Route(path: '/videos', name: 'course_')]

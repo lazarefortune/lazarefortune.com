@@ -46,6 +46,9 @@
 
     <section>
         <button type="submit" class="btn btn-primary">Sauvegarder</button>
+        {% if entity.id %}
+            <a href="{{ path('app_formation_show', { slug: entity.slug }) }}" target="_blank" class="ml-1 btn btn-light">Voir en ligne</a>
+        {% endif %}
     </section>
 
 </section>

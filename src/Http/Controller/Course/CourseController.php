@@ -7,9 +7,11 @@ use App\Domain\Course\CourseService;
 use App\Domain\Course\Entity\Course;
 use App\Helper\Paginator\PaginatorInterface;
 use App\Http\Controller\AbstractController;
+use App\Http\Requirements;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Vich\UploaderBundle\Storage\StorageInterface;
 
 #[Route('/videos', name: 'course_')]
 class CourseController extends AbstractController
@@ -54,5 +56,19 @@ class CourseController extends AbstractController
             'course' => $course,
             'userIsPremium' => ( $user && $user->isPremium() )
         ]);
+    }
+
+    #[Route(path: '/tutoriels/{id}/sources', name: 'download_source', requirements: ['id' => Requirements::ID])]
+    public function downloadSource(Course $course, StorageInterface $storage): Response
+    {
+//        $this->denyAccessUnlessGranted(CourseVoter::DOWNLOAD_SOURCE);
+//        if (null === $course->getSource()) {
+//            throw new NotFoundHttpException();
+//        }
+
+        $path = $storage->resolvePath($course, 'sourceFile', null, true);
+        dd($path);
+
+        return $this->redirectToRoute('app_download_source', ['source' => $path]);
     }
 }

@@ -42,12 +42,12 @@ class AutomaticForm extends AbstractType
 
     final public const NAMES = [
         'content' => EditorType::class,
-        'description' => TextareaType::class,
+        'description' => EditorType::class,
         'mainTechnologies' => TechnologyChoiceType::class,
         'secondaryTechnologies' => TechnologyChoiceType::class,
         'requirements' => TechnologyChoiceType::class,
         'chapters' => ChaptersForm::class,
-        'short' => TextareaType::class,
+        'short' => EditorType::class,
         'color' => ColorType::class,
         'links' => TextareaType::class,
     ];
