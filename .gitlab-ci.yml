@@ -3,7 +3,7 @@ image: php:8.1-cli
 stages:
   - setup
   - test
-  - deploy_beta
+  - deploy_vps
   - deploy
 
 cache:
@@ -25,28 +25,29 @@ test:
   script:
     - php bin/phpunit
 
-deploy_beta:
-  stage: deploy_beta
+deploy_vps:
+  stage: deploy_vps
   script:
     - apt-get update -yqq
     - apt-get install -yqq openssh-client
     - apt-get update && apt-get install -y libssl-dev
     - mkdir -p ~/.ssh
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - echo "$SSH_VPS_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
     - eval "$(ssh-agent -s)"
     - ssh-add ~/.ssh/id_rsa
     - ssh-keyscan -p $SSH_PORT -H $SSH_HOST >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
-    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST pwd
-    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/beta && composer2 install --prefer-dist --no-ansi --no-interaction --no-scripts"
-    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/beta && php bin/console doctrine:migrations:migrate --no-interaction"
-    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/beta && php bin/console cache:clear"
-    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/beta && npm install"
-    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/beta && npm run build"
+    - ssh -p $SSH_VPS_PORT -i ~/.ssh/id_rsa $SSH_VPS_USER@$SSH_VPS_HOST pwd
+    - ssh -p $SSH_VPS_PORT -i ~/.ssh/id_rsa $SSH_VPS_USER@$SSH_VPS_HOST "cd /var/www/lazarefortune && git pull origin"
+    - ssh -p $SSH_VPS_PORT -i ~/.ssh/id_rsa $SSH_VPS_USER@$SSH_VPS_HOST "cd /var/www/lazarefortune && composer2 install --prefer-dist --no-ansi --no-interaction --no-scripts"
+    - ssh -p $SSH_VPS_PORT -i ~/.ssh/id_rsa $SSH_VPS_USER@$SSH_VPS_HOST "cd /var/www/lazarefortune && php bin/console doctrine:migrations:migrate --no-interaction"
+    - ssh -p $SSH_VPS_PORT -i ~/.ssh/id_rsa $SSH_VPS_USER@$SSH_VPS_HOST "cd /var/www/lazarefortune && php bin/console cache:clear"
+    - ssh -p $SSH_VPS_PORT -i ~/.ssh/id_rsa $SSH_VPS_USER@$SSH_VPS_HOST "cd /var/www/lazarefortune && npm install"
+    - ssh -p $SSH_VPS_PORT -i ~/.ssh/id_rsa $SSH_VPS_USER@$SSH_VPS_HOST "cd /var/www/lazarefortune && npm run build"
 
   only:
-    - beta
+    - vps
 
 deploy:
   stage: deploy
