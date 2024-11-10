@@ -130,8 +130,7 @@
                     <div class="stack">
                         <h3 class="h3 text-danger-800 dark:text-danger-300">Supprimer mon compte</h3>
 
-                        <p class="text-base">
-                            {% if app.user.deletedAt %}
+                        {% if app.user.deletedAt %}
                         <div class="notification-info">
                             <h2 class="notification-heading">Attention !</h2>
                             <p>
@@ -140,15 +139,15 @@
                             </p>
                         </div>
                         {% else %}
-                            Vous n'êtes pas satisfait de nos services ? Vous pouvez demander la suppression de votre compte.
-                            Vous aurez 7 jours pour changer d'avis. Passé ce délai, votre compte sera supprimé définitivement.
+                            <p>Vous n'êtes pas satisfait de nos services ? Vous pouvez demander la suppression de votre compte.
+                                Vous aurez 7 jours pour changer d'avis. Passé ce délai, votre compte sera supprimé définitivement.</p>
                         {% endif %}
 
                         {% if app.user.deletedAt %}
                             <div class="text-start">
-                                <a href="{{ path('app_account_delete_cancel') }}" class="btn btn-green">
-                                    {{ icon('trash') }}
-                                    <span>Annuler la suppression</span>
+                                <a href="{{ path('app_account_delete_cancel') }}" class="btn btn-success">
+                                    {{ icon('archive-restore') }}
+                                    <span>Restaurer mon compte</span>
                                 </a>
                             </div>
                         {% else %}

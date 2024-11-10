@@ -56,8 +56,8 @@
 
   pre {
     margin: 2em 0;
-    overflow: auto;
-    @apply border border-slate-100 dark:border-slate-800 -mx-4 p-4 bg-primary-1000 dark:bg-primary-950 text-white;
+    max-width: 100%;
+    //@apply border border-slate-100 dark:border-slate-800 -mx-4 p-4 bg-primary-1000 dark:bg-primary-950 text-white;
   }
 
   p,
@@ -186,9 +186,10 @@
     margin-inline: auto;
   }
 
-  .with-syntax {
+  pre.with-syntax {
     code{
-      @apply bg-primary-1000 dark:bg-primary-950;
+      @apply rounded bg-primary-1000 dark:bg-primary-950;
+      @apply font-jetbrains-mono;
     }
   }
 }

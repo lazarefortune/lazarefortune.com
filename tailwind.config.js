@@ -161,7 +161,8 @@ module.exports = {
             'plusJakartaSans': ['Plus Jakarta Sans'],
             'ibmPlexSans': ['IBM Plex Sans'],
             'hanken-grotesk': ['Hanken Grotesk'],
-            'fira-sans': ['Fira Sans']
+            'fira-sans': ['Fira Sans'],
+            'jetbrains-mono': ['JetBrains Mono'],
         }
     },
     plugins: [

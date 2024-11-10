@@ -127,7 +127,7 @@ export class PlayButton extends HTMLElement {
         left: 13px;
         content: '';
         height: 0;
-        border-left: 9px solid var(--color);
+        border-left: 9px solid #4594ec;
         border-top: 6px solid transparent;
         border-bottom: 6px solid transparent;
       }

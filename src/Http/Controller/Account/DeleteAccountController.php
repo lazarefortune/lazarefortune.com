@@ -59,7 +59,7 @@ class DeleteAccountController extends AbstractController
         $user = $this->getUserOrThrow();
         $this->deleteAccountService->cancelAccountDeletion( $user );
 
-        $this->addFlash( 'info', 'Votre demande de suppression de compte a bien été annulée' );
+        $this->addFlash( 'success', 'Suppression de compte annulée avec succès' );
 
         return $this->redirectToRoute( 'app_account_profile' );
     }

@@ -4,7 +4,7 @@
         {% for course in chapter.modules %}
             <a href="{{ path('app_course_show', {slug: course.slug}) }}#autoplay"
                class="chapters__item" id="chapter{{ course.id }}">
-                {% if course.premium %}
+                {% if course.premium and (not app.user or not app.user.premium) %}
                     <div class="chapters__premium">
                         {{ icon('crown') }}
                     </div>

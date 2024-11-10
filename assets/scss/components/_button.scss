@@ -68,12 +68,12 @@
 .btn-success {
   /* Light mode */
   @apply bg-green-600 text-white border-green-600
-  hover:bg-green-700 hover:border-green-700
+  hover:bg-green-700 hover:border-green-700 hover:text-white
   disabled:bg-green-200 disabled:border-green-200 disabled:cursor-not-allowed;
 
   /* Dark mode */
-  @apply dark:bg-green-500 dark:text-white dark:border-green-500
-  dark:hover:bg-green-400 dark:hover:border-green-400
+  @apply dark:bg-green-800 dark:text-white dark:border-green-800
+  dark:hover:bg-green-700 dark:hover:border-green-700 dark:hover:text-white
   dark:disabled:bg-green-300 dark:disabled:border-green-300;
 }
 
