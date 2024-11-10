@@ -36,7 +36,7 @@ deploy_vps:
     - chmod 600 ~/.ssh/id_rsa
     - eval "$(ssh-agent -s)"
     - ssh-add ~/.ssh/id_rsa
-    - ssh-keyscan -p $SSH_PORT -H $SSH_HOST >> ~/.ssh/known_hosts
+    - ssh-keyscan -H $SSH_VPS_HOST >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
     - ssh -p $SSH_VPS_PORT -i ~/.ssh/id_rsa $SSH_VPS_USER@$SSH_VPS_HOST pwd
     - ssh -p $SSH_VPS_PORT -i ~/.ssh/id_rsa $SSH_VPS_USER@$SSH_VPS_HOST "cd /var/www/lazarefortune && git pull origin"
