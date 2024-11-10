@@ -39,12 +39,12 @@ deploy_vps:
     - ssh-keyscan -H $SSH_VPS_HOST >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
     - ssh -p $SSH_VPS_PORT -i ~/.ssh/id_rsa $SSH_VPS_USER@$SSH_VPS_HOST pwd
-    - ssh -p $SSH_VPS_PORT -i ~/.ssh/id_rsa $SSH_VPS_USER@$SSH_VPS_HOST "cd /var/www/lazarefortune && git pull origin"
+    - ssh -p $SSH_VPS_PORT -i ~/.ssh/id_rsa $SSH_VPS_USER@$SSH_VPS_HOST "cd /var/www/lazarefortune && git pull gitlab"
     - ssh -p $SSH_VPS_PORT -i ~/.ssh/id_rsa $SSH_VPS_USER@$SSH_VPS_HOST "cd /var/www/lazarefortune && composer2 install --prefer-dist --no-ansi --no-interaction --no-scripts"
     - ssh -p $SSH_VPS_PORT -i ~/.ssh/id_rsa $SSH_VPS_USER@$SSH_VPS_HOST "cd /var/www/lazarefortune && php bin/console doctrine:migrations:migrate --no-interaction"
     - ssh -p $SSH_VPS_PORT -i ~/.ssh/id_rsa $SSH_VPS_USER@$SSH_VPS_HOST "cd /var/www/lazarefortune && php bin/console cache:clear"
-    - ssh -p $SSH_VPS_PORT -i ~/.ssh/id_rsa $SSH_VPS_USER@$SSH_VPS_HOST "cd /var/www/lazarefortune && npm install"
-    - ssh -p $SSH_VPS_PORT -i ~/.ssh/id_rsa $SSH_VPS_USER@$SSH_VPS_HOST "cd /var/www/lazarefortune && npm run build"
+    - ssh -p $SSH_VPS_PORT -i ~/.ssh/id_rsa $SSH_VPS_USER@$SSH_VPS_HOST "cd /var/www/lazarefortune && pnpm install"
+    - ssh -p $SSH_VPS_PORT -i ~/.ssh/id_rsa $SSH_VPS_USER@$SSH_VPS_HOST "cd /var/www/lazarefortune && pnpm run build"
 
   only:
     - vps
