@@ -24,6 +24,9 @@ class YoutubeSetting
     private ?string $googleId = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $channelId = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $email = null;
 
     public function getAccessToken(): ?string
@@ -69,6 +72,17 @@ class YoutubeSetting
     public function setEmail(?string $email): self
     {
         $this->email = $email;
+        return $this;
+    }
+
+    public function getChannelId() : ?string
+    {
+        return $this->channelId;
+    }
+
+    public function setChannelId(?string $channelId): self
+    {
+        $this->channelId = $channelId;
         return $this;
     }
 }

@@ -6,6 +6,7 @@ use App\Domain\Application\Form\EmailTestForm;
 use App\Domain\Auth\Core\Repository\UserRepository;
 use App\Domain\Course\CourseService;
 use App\Domain\Course\Service\FormationService;
+use App\Domain\Youtube\Exception\NotFoundYoutubeAccount;
 use App\Http\Controller\AbstractController;
 use App\Infrastructure\Mailing\MailService;
 use App\Infrastructure\Youtube\YoutubeService;
@@ -25,10 +26,10 @@ class HomeController extends AbstractController
 {
 
     public function __construct(
-        private readonly CourseService         $courseService,
-        private readonly FormationService      $formationService,
-        private readonly YoutubeService        $youtubeService,
-        private readonly UserRepository        $userRepository,
+        private readonly CourseService    $courseService,
+        private readonly FormationService $formationService,
+        private readonly YoutubeService   $youtubeService,
+        private readonly UserRepository   $userRepository,
     )
     {
     }
@@ -41,24 +42,39 @@ class HomeController extends AbstractController
     {
         $cache = new FilesystemAdapter();
 
+
+        /*
         $youtubeSubscribersCount = $cache->get( 'admin.youtube-subscribers-count',
             function ( ItemInterface $item ) {
                 $item->expiresAfter( 3600 );
 
+                $countSubscribers = 0;
+
                 try {
-                    $countSubscribers = $this->youtubeService->getSubscribersCount();
+                    return $this->youtubeService->getSubscribersCount();
+                } catch ( NotFoundYoutubeAccount $exception ){
+                    $this->addFlash('error', $exception->getMessage());
                 } catch ( \Exception $e ) {
                     $this->addFlash( 'error', "Impossible de charger les données depuis YouTube" );
-                    $countSubscribers = 0;
                 }
 
                 return $countSubscribers;
             } );
+        */
+
+        $youtubeSubscribersCount = 0;
+        try {
+            $youtubeSubscribersCount = $this->youtubeService->getSubscribersCount();
+        } catch ( NotFoundYoutubeAccount $exception ){
+            $this->addFlash('error', $exception->getMessage());
+        } catch ( \Exception $e ) {
+            $this->addFlash( 'error', "Impossible de charger les données depuis YouTube" );
+        }
 
         $countUsers = $cache->get( 'admin.users-count', function ( ItemInterface $item ) {
             $item->expiresAfter( 3600 );
             return $this->userRepository->countUsers();
-        });
+        } );
 
         $countOnlineCourses = $cache->get( 'admin.courses-count', function ( ItemInterface $item ) {
             $item->expiresAfter( 3600 );
@@ -68,7 +84,7 @@ class HomeController extends AbstractController
         $countOnlineFormations = $cache->get( 'admin.formations-count', function ( ItemInterface $item ) {
             $item->expiresAfter( 3600 );
             return $this->formationService->countOnlineFormations();
-        });
+        } );
 
         $dailyUsersLast30Days = $this->userRepository->countDailyUsersLast30Days();
         $monthlyUsersLast24Months = $this->userRepository->countMonthlyUsersLast24Months();
@@ -82,13 +98,13 @@ class HomeController extends AbstractController
             $emailTo = $data['email'];
 
             try {
-                $email = $mailService->createEmail( 'mails/test.twig' , [])
+                $email = $mailService->createEmail( 'mails/test.twig', [] )
                     ->to( $emailTo )
                     ->subject( 'Email de test' );
 
                 $mailService->send( $email );
 
-                $this->addFlash('success', 'Message envoyé avec succès');
+                $this->addFlash( 'success', 'Message envoyé avec succès' );
             } catch ( LoaderError|RuntimeError|SyntaxError $e ) {
                 $this->addFlash( 'error', $e->getMessage() );
             }
@@ -97,7 +113,7 @@ class HomeController extends AbstractController
 
         return $this->render( 'pages/admin/index.html.twig', [
             'youtubeSubscribersCount' => $youtubeSubscribersCount,
-            'countUsers'         => $countUsers,
+            'countUsers' => $countUsers,
             'countOnlineCourses' => $countOnlineCourses,
             'countOnlineFormations' => $countOnlineFormations,
             'dailyUsersLast30Days' => $dailyUsersLast30Days,

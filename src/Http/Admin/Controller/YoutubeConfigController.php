@@ -4,6 +4,7 @@ namespace App\Http\Admin\Controller;
 
 use App\Domain\Youtube\Entity\YoutubeSetting;
 use App\Domain\Youtube\Repository\YoutubeSettingRepository;
+use App\Domain\Youtube\Service\YoutubeAdminService;
 use App\Http\Controller\AbstractController;
 use App\Infrastructure\Youtube\YoutubeScopes;
 use Google_Client;
@@ -17,17 +18,16 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/youtube', name: 'youtube_config_')]
 class YoutubeConfigController extends AbstractController
 {
-    public function __construct(private readonly YoutubeSettingRepository $youtubeSettingRepository){}
+    public function __construct(
+        private readonly YoutubeAdminService $youtubeService,
+        private readonly YoutubeSettingRepository $youtubeSettingRepository
+    ){}
 
     #[Route('/', name: 'index', methods: ['GET'])]
     public function settings(): Response
     {
-        $settings = $this->youtubeSettingRepository->findOneBy([]);
+        $settings = $this->youtubeService->getAccount();
 
-        if (!$settings) {
-            $settings = new YoutubeSetting();
-            $this->youtubeSettingRepository->save($settings, true);
-        }
         return $this->render('pages/admin/youtube/settings.html.twig', [
             'settings' => $settings,
         ]);
@@ -77,6 +77,7 @@ class YoutubeConfigController extends AbstractController
         $settings->setRefreshToken($accessToken['refresh_token'] ?? null);
         $settings->setGoogleId($googleClient->getClientId());
         $settings->setEmail($email);
+        $settings->setChannelId(null);
 
         $this->youtubeSettingRepository->save($settings, true);
 
@@ -94,6 +95,7 @@ class YoutubeConfigController extends AbstractController
             $settings->setAccessToken(null);
             $settings->setRefreshToken(null);
             $settings->setGoogleId(null);
+            $settings->setChannelId(null);
             $this->youtubeSettingRepository->save($settings, true);
 
             $this->addFlash('success', "Le compte Google a été délié avec succès.");

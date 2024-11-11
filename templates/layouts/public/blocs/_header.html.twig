@@ -63,6 +63,7 @@
             <div class="dropdown">
                 <button class="dropdown-button flex items-center" aria-controls="dropdown-user" aria-expanded="false">
                     <img class="h-10 w-10 rounded-full object-cover border border-b-gray-400" src="{{ app.user|avatar }}" alt="{{ app.user.fullname }} avatar">
+                    <span class="hidden lg:inline-flex">{{ app.user.fullname | truncate(15) }}</span>
                 </button>
                 <div id="dropdown-user" class="dropdown-menu mt-3">
                     {% if is_granted('ROLE_ADMIN') %}

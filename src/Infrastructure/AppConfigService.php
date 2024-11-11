@@ -7,7 +7,6 @@ class AppConfigService
 
     public function __construct(
         private readonly string $appName,
-        private readonly string $adminEmail,
     )
     {
     }
@@ -15,10 +14,5 @@ class AppConfigService
     public function getAppName() : string
     {
         return $this->appName;
-    }
-
-    public function getAdminEmail() : string
-    {
-        return $this->adminEmail;
     }
 }

@@ -53,14 +53,23 @@
         </div>
     </div>
 
-    <div class="mt-10 stack">
-        <h2 class="h3">Test Email</h2>
+    <div class="mt-10 grid2">
+        <div class="stack">
+            <h2 class="h3">Actions</h2>
 
-        <div class="grid2">
-            {{ form_start(formTestEmail) }}
+            <form action="{{ path('admin_cache_clean') }}" method="post">
+                <button class="btn btn-sm btn-danger">{{ icon('trash') }} Vider le cache</button>
+            </form>
+        </div>
+        <div class="stack">
+            <h2 class="h3">Tester les emails</h2>
+
+            <div>
+                {{ form_start(formTestEmail) }}
                 {{ form_row(formTestEmail.email) }}
                 <button type="submit" class="btn btn-primary mt-2">Envoyer un email</button>
-            {{ form_end(formTestEmail) }}
+                {{ form_end(formTestEmail) }}
+            </div>
         </div>
     </div>
 

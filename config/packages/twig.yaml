@@ -4,7 +4,6 @@ twig:
     - 'form/fields.html.twig'
   default_path: '%kernel.project_dir%/templates'
   globals:
-    admin_email: '%admin_email%'
     app_name: '%app.name%'
     option_service: '@App\Domain\Application\Service\OptionService'
 

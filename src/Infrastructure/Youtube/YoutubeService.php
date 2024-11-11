@@ -3,6 +3,9 @@
 namespace App\Infrastructure\Youtube;
 
 use App\Domain\Course\Entity\Course;
+use App\Domain\Youtube\Exception\NotFoundYoutubeAccount;
+use App\Domain\Youtube\Repository\YoutubeSettingRepository;
+use App\Domain\Youtube\Service\YoutubeAdminService;
 use App\Infrastructure\Youtube\Transformer\CourseTransformer;
 use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,11 +22,10 @@ class YoutubeService
 {
     public function __construct(
         private readonly \Google_Client         $googleClient,
-        private readonly string $apiKey,
-        private readonly string $youtubeChannelID,
         private readonly EntityManagerInterface $em,
         private readonly CourseTransformer      $transformer,
-        private readonly HttpClientInterface $client
+        private readonly HttpClientInterface $client,
+        private readonly YoutubeAdminService $youtubeAdminService
     )
     {
     }
@@ -91,24 +93,69 @@ class YoutubeService
 
     /**
      * Récupère le nombre d'abonnés d'une chaîne YouTube
-     * @return int Nombre d'abonnés
-     * @throws TransportExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws ClientExceptionInterface
+     * @throws NotFoundYoutubeAccount
      */
-    public function getSubscribersCount() : int
+    public function getSubscribersCount(): int
     {
-        $url = sprintf(
-            'https://www.googleapis.com/youtube/v3/channels?part=statistics&id=%s&key=%s',
-            $this->youtubeChannelID,
-            $this->apiKey
-        );
+        $youtubeSetting = $this->youtubeAdminService->getAccount();
+        if (!$youtubeSetting || !$youtubeSetting->getAccessToken()) {
+            throw new NotFoundYoutubeAccount('Aucun compte YouTube n\'est lié pour récupérer les informations de la chaîne.');
+        }
 
-        $response = $this->client->request('GET', $url);
-        $data = $response->toArray();
+        // Rafraîchit le token si nécessaire
+        $this->googleClient->setAccessToken($youtubeSetting->getAccessToken());
+        if ($this->googleClient->isAccessTokenExpired() && $youtubeSetting->getRefreshToken()) {
+            $newAccessToken = $this->googleClient->fetchAccessTokenWithRefreshToken($youtubeSetting->getRefreshToken());
+            if (isset($newAccessToken['access_token'])) {
+                $youtubeSetting->setAccessToken(json_encode($newAccessToken));
+                $this->em->flush();
+                $this->googleClient->setAccessToken($newAccessToken);
+            } else {
+                throw new \RuntimeException('Impossible de rafraîchir le token d\'accès.');
+            }
+        }
 
-        return $data['items'][0]['statistics']['subscriberCount'];
+        // Créer une instance du client YouTube
+        $youtube = new YouTube($this->googleClient);
+
+        try {
+            // Vérifie si un ID de chaîne est disponible
+            $channelId = $youtubeSetting->getChannelId();
+
+            if (!$channelId || preg_match('/\s/', $channelId)) {
+                // Si aucun channelId n'est présent, essaye de récupérer le channelId
+                $response = $youtube->channels->listChannels('snippet', [
+                    'mine' => true
+                ]);
+                if (count($response->getItems()) > 0) {
+                    $channelId = $response->getItems()[0]->getId();
+                    $youtubeSetting->setChannelId($channelId);
+                    $this->em->flush();
+                } else {
+                    throw new NotFoundYoutubeAccount("Aucune chaîne YouTube trouvée pour l'utilisateur authentifié.");
+                }
+            }
+
+            // Appelle l'API pour obtenir les statistiques de la chaîne
+            $response = $youtube->channels->listChannels('statistics', [
+                'id' => $channelId
+            ]);
+
+            if (count($response->getItems()) === 0) {
+                throw new \RuntimeException("Impossible de trouver la chaîne YouTube avec l'ID fourni : " . $channelId);
+            }
+
+            // Ajout d'une vérification supplémentaire pour s'assurer que les statistiques existent
+            $statistics = $response->getItems()[0]->getStatistics();
+            if (!$statistics || !isset($statistics['subscriberCount'])) {
+                throw new \RuntimeException("Les statistiques de la chaîne YouTube n'ont pas pu être récupérées correctement.");
+            }
+
+            // Retourne le nombre d'abonnés de la chaîne
+            return (int)$statistics->getSubscriberCount();
+        } catch (Exception $e) {
+            throw new \RuntimeException('Erreur lors de la récupération des abonnés : ' . $e->getMessage());
+        }
     }
+
 }

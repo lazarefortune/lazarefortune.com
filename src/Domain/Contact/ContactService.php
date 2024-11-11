@@ -6,6 +6,10 @@ use App\Domain\Contact\Dto\ContactData;
 use App\Domain\Contact\Entity\Contact;
 use App\Domain\Contact\Repository\ContactRepository;
 use App\Infrastructure\Mailing\MailService;
+use Exception;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class ContactService
 {
@@ -13,7 +17,7 @@ class ContactService
     public function __construct(
         private readonly ContactRepository $contactRepository,
         private readonly MailService       $mailService,
-        private readonly string            $contactEmail
+        private readonly string            $adminEmail
     )
     {
     }
@@ -22,19 +26,20 @@ class ContactService
      * Send contact message
      * @param ContactData $contactDto
      * @return void
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     * @throws Exception
      */
     public function sendContactMessage( ContactData $contactDto ) : void
     {
-        if ( !$this->contactEmail ) {
-            throw new \Exception( 'Invalid email' );
+        if ( !$this->adminEmail ) {
+            throw new Exception( 'Email invalide' );
         }
 
         // Admin email
         $contactEmail = $this->mailService->prepareEmail(
-            $this->contactEmail,
+            $this->adminEmail,
             'Demande de contact: ' . $contactDto->subject,
             'mails/admin/contact/message-received.twig', [
             'name' => $contactDto->name,
