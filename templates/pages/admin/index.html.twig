@@ -53,4 +53,15 @@
         </div>
     </div>
 
+    <div class="mt-10 stack">
+        <h2 class="h3">Test Email</h2>
+
+        <div class="grid2">
+            {{ form_start(formTestEmail) }}
+                {{ form_row(formTestEmail.email) }}
+                <button type="submit" class="btn btn-primary mt-2">Envoyer un email</button>
+            {{ form_end(formTestEmail) }}
+        </div>
+    </div>
+
 {% endblock %}

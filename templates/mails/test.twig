@@ -1,0 +1,22 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as element %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+
+        Bonjour ! 👋
+        ===============================
+
+        Ceci est un email de test sur **{{ app_name }}**.
+
+    {% endapply %}
+
+    {% apply markdown_email %}
+        Cordialement,
+
+        **L'équipe {{ app_name }}** 🚀
+    {% endapply %}
+
+{% endblock %}
