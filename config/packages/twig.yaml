@@ -5,7 +5,6 @@ twig:
   default_path: '%kernel.project_dir%/templates'
   globals:
     app_name: '%app.name%'
-    option_service: '@App\Domain\Application\Service\OptionService'
 
 when@test:
   twig:

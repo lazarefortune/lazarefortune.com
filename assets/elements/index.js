@@ -14,6 +14,7 @@ import SpinningDots from "@grafikart/spinning-dots-element";
 import { LineChart } from "./admin/LineChart";
 import {TimeAgo} from "./TimeAgo";
 import { MarkdownEditor } from "./editor";
+import { AutosaveBlur } from "./AutosaveBlur";
 
 FileManager.register();
 customElements.define('spotlight-bar', Spotlight)
@@ -31,6 +32,7 @@ customElements.define('ajax-delete', AjaxDelete)
 customElements.define('loader-overlay', LoaderOverlay)
 customElements.define('spinning-dots', SpinningDots)
 customElements.define('line-chart', LineChart)
+customElements.define('autosave-blur', AutosaveBlur, {extends: 'form'})
 customElements.define('time-ago', TimeAgo)
 customElements.define('markdown-editor', MarkdownEditor, { extends: 'textarea' })
 

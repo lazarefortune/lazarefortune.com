@@ -15,22 +15,4 @@ class OptionRepository extends AbstractRepository
     {
         parent::__construct( $registry, Option::class );
     }
-
-//    public function findAllForTwig() : array
-//    {
-//        return $this->createQueryBuilder( 'o', 'o.name' )
-//            ->select( 'o.name', 'o.value' )
-//            ->getQuery()
-//            ->getArrayResult();
-//    }
-
-    /**
-     * @return array<Option>
-     */
-    public function findAllForTwig() : array
-    {
-        return $this->createQueryBuilder( 'o', 'o.name' )
-            ->getQuery()
-            ->getResult();
-    }
 }

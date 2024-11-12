@@ -2,7 +2,7 @@
 
 namespace App\Domain\Application\EventListener;
 
-use App\Domain\Application\Service\OptionService;
+use App\Domain\Application\Service\OptionManager;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Twig\Environment;
@@ -10,7 +10,7 @@ use Twig\Environment;
 class ConfigListener
 {
     public function __construct(
-        private readonly OptionService $optionService,
+        private readonly OptionManager $optionService,
         private readonly Environment   $twig,
     )
     {

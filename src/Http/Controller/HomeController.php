@@ -6,7 +6,7 @@ use App\Domain\Application\Entity\Content;
 use App\Domain\Application\Entity\Option;
 use App\Domain\Application\Form\WelcomeForm;
 use App\Domain\Application\Model\WelcomeModel;
-use App\Domain\Application\Service\OptionService;
+use App\Domain\Application\Service\OptionManager;
 use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Course\Entity\Course;
 use App\Domain\Course\Entity\Formation;
@@ -77,10 +77,11 @@ class HomeController extends AbstractController
     }
 
     #[Route( '/bienvenue', name: 'welcome' )]
-    public function welcome( Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, OptionService $optionService ) : Response
+    public function welcome() : Response
     {
 
-        if ( $optionService->getValue( WelcomeModel::SITE_INSTALLED_NAME ) ) {
+        /*
+        if ( $optionService->get( WelcomeModel::SITE_INSTALLED_NAME ) ) {
             return $this->redirectToRoute( 'app_home' );
         }
 
@@ -111,12 +112,10 @@ class HomeController extends AbstractController
 
             $this->addFlash( 'success', 'Bienvenue sur votre nouveau site !' );
             return $this->redirectToRoute( 'app_success_installed' );
-        }
-
-        return $this->render( 'pages/public/welcome.html.twig', [
-            'form' => $welcomeForm->createView(),
-        ] );
+            */
+            return new Response();
     }
+
 
     #[Route( '/installe', name: 'success_installed' )]
     public function successInstalled() : Response

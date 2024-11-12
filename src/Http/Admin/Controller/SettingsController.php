@@ -4,7 +4,7 @@ namespace App\Http\Admin\Controller;
 
 use App\Domain\Application\Entity\Option;
 use App\Domain\Application\Form\OpenDaysForm;
-use App\Domain\Application\Service\OptionService;
+use App\Domain\Application\Service\OptionManager;
 use App\Http\Controller\AbstractController;
 use App\Http\Type\ChoiceMultipleType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,7 +22,7 @@ class SettingsController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly OptionService          $optionService
+        private readonly OptionManager $optionService
     )
     {
     }

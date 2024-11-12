@@ -8,7 +8,7 @@
         </button>
         <div class="dropdown-menu mt-3.5" data-dropdown-menu="user-menu" role="menu">
             {% if app.user and is_granted('ROLE_PREVIOUS_ADMIN') %}
-                <a href="{{ path('admin_home', {'_switch_user': '_exit'}) }}" role="menuitem"
+                <a href="{{ impersonation_exit_path(path('admin_users_index')) }}" role="menuitem"
                    class="dropdown-menu-item">
                     {{ icon('monitor-x') }}
                     <span>Arrêter le switch</span>

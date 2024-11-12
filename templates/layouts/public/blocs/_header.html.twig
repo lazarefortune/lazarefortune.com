@@ -73,7 +73,8 @@
                         <div class="dropdown-divider"></div>
                     {% endif %}
                     {% if app.user and is_granted('ROLE_PREVIOUS_ADMIN') %}
-                        <a href="{{ path('admin_home', {'_switch_user': '_exit'}) }}" class="dropdown-menu-item">
+{#                        <a href="{{ path('admin_users_index', {'_switch_user': '_exit'}) }}" class="dropdown-menu-item">#}
+                        <a href="{{ impersonation_exit_path(path('admin_users_index')) }}" class="dropdown-menu-item">
                             {{ icon('monitor-x') }} <span>Revenir à mon compte</span>
                         </a>
                     {% endif %}
