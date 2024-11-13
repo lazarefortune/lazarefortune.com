@@ -38,8 +38,14 @@ class HomeController extends AbstractController
      * @throws InvalidArgumentException
      */
     #[Route( '/', name: 'home', methods: ['GET', 'POST'] )]
-    public function index( Request $request, MailService $mailService ) : Response
+    public function home( Request $request, MailService $mailService ) : Response
     {
+        // if the user is only author
+        if ( in_array('ROLE_AUTHOR', $this->getUser()->getRoles()) ) {
+            return $this->authorHome();
+            #$this->redirectToRoute('admin_home_author');
+        }
+
         $cache = new FilesystemAdapter();
 
 
@@ -119,6 +125,15 @@ class HomeController extends AbstractController
             'dailyUsersLast30Days' => $dailyUsersLast30Days,
             'monthlyUsersLast24Months' => $monthlyUsersLast24Months,
             'formTestEmail' => $formTestEmail->createView(),
+        ] );
+    }
+
+    public function authorHome() : Response
+    {
+        return $this->render( 'pages/admin/index_author.html.twig', [
+            'countAuthorCourses' => $this->courseService->countOnlineCourses( $this->getUser() ),
+            'countOnlineCourses' => $this->courseService->countOnlineCourses(),
+            'lastCourses' => $this->courseService->getLastCourses( 4 ),
         ] );
     }
 

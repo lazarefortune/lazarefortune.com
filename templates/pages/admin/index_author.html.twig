@@ -1,0 +1,90 @@
+{% extends 'layouts/admin/base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+
+    <h1 class="text-2xl sm:text-2xl font-semibold text-slate-950 dark:text-white">
+        Salut, <span class="text-primary-700 dark:text-primary-400">{{ app.user.fullname }}</span> !
+    </h1>
+    <p class="mt-2 text-muted">Bienvenue dans votre espace auteur. Ici, vous pouvez gérer vos vidéos et suivre votre impact sur la plateforme.</p>
+
+    {% if is_granted('ROLE_AUTHOR') %}
+
+        <div class="grid2">
+            <div class="alert alert-info">💡 Conseil : Utilisez des descriptions précises et engageantes pour attirer plus de vues sur vos vidéos !</div>
+        </div>
+
+        <div class="mt-6 grid gap-8 sm:grid-cols-2 xl:grid-cols-4">
+            <div>
+                <hr role="presentation" class="w-full border-t border-zinc-950/10 dark:border-white/10">
+                <div class="mt-6 text-lg/6 font-medium sm:text-sm/6">Vos Vidéos</div>
+                <div class="mt-3 text-3xl/8 font-semibold sm:text-2xl/8">{{ countAuthorCourses }}</div>
+                <a href="{{ path('admin_course_new') }}" class="mt-4 btn btn-primary">Créer une nouvelle vidéo</a>
+            </div>
+            <div>
+                <hr role="presentation" class="w-full border-t border-zinc-950/10 dark:border-white/10">
+                <div class="mt-6 text-lg/6 font-medium sm:text-sm/6">Vidéos sur le site</div>
+                <div class="mt-3 text-3xl/8 font-semibold sm:text-2xl/8">{{ countOnlineCourses }}</div>
+            </div>
+        </div>
+
+        <div class="mt-8">
+            <h2 class="text-xl font-semibold text-slate-950 dark:text-white">Vidéos récentes</h2>
+            <div class="mt-4 courses">
+                <!-- Simulation d'affichage des vidéos récentes -->
+                {% for course in lastCourses %}
+                    <article class="course {% if course.isScheduled and ((app.user and not app.user.premium) or not app.user) %}is__scheduled{% endif %} {% if course.premium %}course__premium{% endif %}">
+                        <div class="course__body stack">
+                            <div class="course__icons">
+                                {% for technology in course.mainTechnologies %}
+                                    <a href="" class="course__icon" tabindex="-1" title="Tous les tutoriels {{ technology.name }}">
+                                        <img src="{{ uploads_path('icons/' ~ technology.image) }}" alt="{{ technology.name }}">
+                                    </a>
+                                {% endfor %}
+                            </div>
+                            <h2 class="course__title">
+                                <a href="{{ path('app_course_show', {slug: course.slug}) }}"
+                                   target="_blank"
+                                   class="course__link">
+                                    {{ course.title }}
+                                </a>
+                            </h2>
+                            <div class="course__description">
+                                <p>
+                                    {{ course.content | markdown | striptags | excerpt(130) | raw }}
+                                </p>
+                                <div class="course__countdown">
+                                    <em>Disponible dans</em>
+                                    <strong>{{ course.publishedAt|countdown }} </strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content__progress"><span></span></div>
+                        <footer class="course__footer">
+                            {% if course.premium %}
+                                <div class="course__pills">
+                                    <div class="course__pill uppercase">
+                                        {{ icon('crown') }}
+                                        Premium
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if course.formation %}
+                                <div class="course__playlist">
+                                    {{ course.formation.title | truncate('24') }}
+                                </div>
+                            {% endif %}
+                            <div class="course__duration">
+                                {{ icon('clock') }}
+                                {{ course.duration|duration }}
+                            </div>
+                        </footer>
+                    </article>
+                {% else %}
+                    <p class="text-slate-600 dark:text-slate-400">Aucune vidéo récente à afficher.</p>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

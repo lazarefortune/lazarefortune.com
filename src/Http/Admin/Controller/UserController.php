@@ -4,6 +4,7 @@ namespace App\Http\Admin\Controller;
 
 use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Auth\Core\Event\Unverified\AccountVerificationRequestEvent;
+use App\Domain\Auth\Core\Event\UserUpdatedEvent;
 use App\Domain\Auth\Registration\Event\UserCreatedEvent;
 use App\Http\Admin\Data\Crud\UserCrudData;
 use App\Http\Admin\Data\Crud\UserEditData;
@@ -24,6 +25,7 @@ class UserController extends CrudController
     protected array $events = [
         'delete' => null,
         'create' => UserCreatedEvent::class,
+        'update' => UserUpdatedEvent::class,
     ];
 
     #[Route( path: '/', name: 'index', methods: ['GET'] )]

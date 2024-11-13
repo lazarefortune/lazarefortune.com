@@ -2,6 +2,7 @@
 
 namespace App\Domain\Course\Repository;
 
+use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Course\Entity\Course;
 use App\Domain\Course\Entity\Technology;
 use App\Domain\Course\Entity\TechnologyUsage;
@@ -35,11 +36,17 @@ class CourseRepository extends AbstractRepository
         return $queryBuilder;
     }
 
-    public function countOnlineCourses() : int
+    public function countOnlineCourses( User $user = null ) : int
     {
         $queryBuilder = $this->createQueryBuilder( 'c' )
             ->select('COUNT(c.id)')
             ->where('c.online = true');
+
+        if ( $user ) {
+            $queryBuilder
+                ->andWhere('c.author = :user')
+                ->setParameter('user', $user);
+        }
 
         $query = $queryBuilder->getQuery();
         return (int) $query->getSingleScalarResult();
@@ -61,5 +68,16 @@ class CourseRepository extends AbstractRepository
             ORDER BY c.createdAt DESC
         DQL
         )->setParameter('technology', $technology)->setMaxResults(10);
+    }
+
+    public function getRecentVideos( $limit = 50 ) : array
+    {
+        $queryBuilder = $this->createQueryBuilder( 'c' )
+            ->orderBy('c.publishedAt', 'DESC')
+            ->setMaxResults( $limit );
+
+        $query = $queryBuilder->getQuery();
+
+        return $query->getResult();
     }
 }

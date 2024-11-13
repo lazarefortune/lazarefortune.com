@@ -2,6 +2,7 @@
 
 namespace App\Domain\Course;
 
+use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Course\Repository\CourseRepository;
 use Doctrine\ORM\QueryBuilder;
 
@@ -19,13 +20,13 @@ class CourseService
         return $this->courseRepository->queryAll();
     }
 
-    public function countOnlineCourses() : int {
-        return $this->courseRepository->countOnlineCourses();
+    public function countOnlineCourses( User $user = null ) : int {
+        return $this->courseRepository->countOnlineCourses( $user );
     }
 
-    public function getCourseBySlug( $slug )
+    public function getLastCourses( $limit = null ) : array
     {
-        return $this->courseRepository->queryBuSlug($slug);
+        return $this->courseRepository->getRecentVideos( $limit );
     }
 
 

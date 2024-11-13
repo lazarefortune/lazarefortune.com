@@ -1,0 +1,32 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as element %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+
+        Bonjour {{ user.fullname }} ! ✍️
+        ===============================
+
+        Félicitations ! 🌟 Vous venez d'obtenir le rôle d'**auteur** sur **{{ app_name }}** ! 📚
+
+        Ce nouveau statut vous donne la possibilité de créer, modifier et publier du contenu sur la plateforme, contribuant ainsi à faire grandir notre communauté.
+
+        En tant qu'auteur, votre créativité et expertise peuvent désormais s'exprimer à travers des articles, des publications ou tout contenu pertinent. Vous jouez un rôle clé dans la diffusion des connaissances et des expériences.
+
+        N'attendez plus pour commencer à partager vos idées et enrichir notre plateforme avec votre talent !
+
+    {% endapply %}
+
+    {{ element.button('📝 Commencer à créer', author_dashboard_url, 'primary') }}
+
+    {% apply markdown_email %}
+        Si vous avez des questions sur votre nouveau rôle ou besoin d'assistance, notre équipe est là pour vous aider.
+
+        Merci de faire partie de notre aventure,
+
+        **L'équipe {{ app_name }}** 🚀
+    {% endapply %}
+
+{% endblock %}
