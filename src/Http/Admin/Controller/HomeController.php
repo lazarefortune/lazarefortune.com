@@ -125,6 +125,7 @@ class HomeController extends AbstractController
             'dailyUsersLast30Days' => $dailyUsersLast30Days,
             'monthlyUsersLast24Months' => $monthlyUsersLast24Months,
             'formTestEmail' => $formTestEmail->createView(),
+            'lastCourses' => $this->courseService->getLastCourses( 4 )
         ] );
     }
 

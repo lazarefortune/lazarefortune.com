@@ -1,0 +1,11 @@
+<div class="mt-8">
+    <h2 class="h3">Vidéos récentes</h2>
+    <div class="mt-4 courses">
+        <!-- Simulation d'affichage des vidéos récentes -->
+        {% for course in lastCourses %}
+            {% include 'pages/public/courses/_course_item.html.twig' %}
+        {% else %}
+            <p class="text-slate-600 dark:text-slate-400">Aucune vidéo récente à afficher.</p>
+        {% endfor %}
+    </div>
+</div>
