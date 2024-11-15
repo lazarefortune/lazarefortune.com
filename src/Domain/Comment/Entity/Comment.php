@@ -72,7 +72,7 @@ class Comment
     public function getUsername(): string
     {
         if (null !== $this->author) {
-            return $this->author->getUserIdentifier();
+            return $this->author->getFullname();
         }
 
         return $this->username ?: '';

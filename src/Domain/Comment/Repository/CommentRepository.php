@@ -27,7 +27,7 @@ class CommentRepository extends AbstractRepository
     public function findForApi(int $content): array
     {
         // Force l'enregistrement de l'entité dans l'entity manager pour éviter les requêtes supplémentaires
-        $this->getEntityManager()->getReference(\App\Domain\Blog\Post::class, $content);
+        $this->getEntityManager()->getReference(\App\Domain\Application\Entity\Content::class, $content);
 
         return $this->createQueryBuilder('c')
             ->select('c, u')

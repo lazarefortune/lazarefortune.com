@@ -122,6 +122,8 @@
                         <div class="formatted">
                             {{ course.content | markdown }}
                         </div>
+
+                        <comments-area content-id="{{ course.id }}"></comments-area>
                     </div>
                     <div>
                         <div class="stack-large">
