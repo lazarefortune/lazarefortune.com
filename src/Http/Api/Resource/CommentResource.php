@@ -52,12 +52,11 @@ class CommentResource extends CommentData
         );
         $resource->createdAt = $comment->getCreatedAt()->getTimestamp();
         $resource->parent = null !== $comment->getParent() ? $comment->getParent()->getId() : 0;
-//        if ($author && $uploaderHelper && $author->getAvatarName()) {
-//            $resource->avatar = $uploaderHelper->asset($author, 'avatarFile');
-//        } else {
-//            $resource->avatar = '/images/default.png';
-//        }
-        $resource->avatar = '/images/default.png';
+        if ($author && $uploaderHelper && $author->getAvatar()) {
+            $resource->avatar = $uploaderHelper->asset($author, 'avatarFile');
+        } else {
+            $resource->avatar = '/images/avatars/default.jpg';
+        }
         $resource->userId = $author?->getId();
 
         return $resource;

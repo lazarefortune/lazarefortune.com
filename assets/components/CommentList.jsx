@@ -3,7 +3,14 @@
 import React from "react";
 import CommentItem from "./CommentItem";
 
-function CommentList({ comments, currentUserId, onReply, onEdit, onDelete }) {
+function CommentList({
+                         comments,
+                         currentUserId,
+                         onReply,
+                         onEdit,
+                         onDelete,
+                         depth,
+                     }) {
     return (
         <div>
             {comments.map((comment) => (
@@ -14,6 +21,7 @@ function CommentList({ comments, currentUserId, onReply, onEdit, onDelete }) {
                     onReply={onReply}
                     onEdit={onEdit}
                     onDelete={onDelete}
+                    depth={depth}
                 />
             ))}
         </div>

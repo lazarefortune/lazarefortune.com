@@ -7,23 +7,21 @@ import CommentForm from "./CommentForm";
 
 function Comments(props) {
     const [comments, setComments] = useState([]);
-    const [editingComment, setEditingComment] = useState(null);
-    const [replyingTo, setReplyingTo] = useState(null);
     const [currentUserId, setCurrentUserId] = useState(null);
 
     const { contentId } = props;
-    const contentIdNumber = parseInt(contentId, 10); // Convertir contentId en entier
+    const contentIdNumber = parseInt(contentId, 10);
 
     useEffect(() => {
         async function fetchData() {
             try {
-                // Récupération des commentaires
-                const response = await jsonFetch(`/api/comments?content=${contentIdNumber}`);
+                const response = await jsonFetch(
+                    `/api/comments?content=${contentIdNumber}`
+                );
                 if (response) {
                     setComments(response);
                 }
 
-                // Récupération de l'utilisateur actuel
                 const userResponse = await jsonFetch("/api/current_user");
                 if (userResponse && userResponse.id) {
                     setCurrentUserId(userResponse.id);
@@ -37,7 +35,6 @@ function Comments(props) {
         fetchData();
     }, [contentIdNumber]);
 
-    // Fonction pour construire l'arbre des commentaires
     const buildCommentTree = (comments) => {
         const map = {};
         const roots = [];
@@ -61,11 +58,11 @@ function Comments(props) {
     const commentTree = buildCommentTree(comments);
 
     // Fonction pour ajouter un nouveau commentaire ou une réponse
-    const handleAddComment = async (content) => {
+    const handleAddComment = async (content, parentId = null) => {
         const data = {
             content,
-            target: contentIdNumber, // Utiliser contentIdNumber qui est un entier
-            parent: replyingTo ? replyingTo.id : null,
+            target: contentIdNumber,
+            parent: parentId,
         };
 
         try {
@@ -75,12 +72,10 @@ function Comments(props) {
             });
             if (response) {
                 setComments([...comments, response]);
-                setReplyingTo(null);
             }
         } catch (error) {
             console.error("Erreur lors de la création du commentaire :", error);
 
-            // Correction de la gestion des erreurs
             if (error.status === 403) {
                 alert("Vous devez être connecté pour laisser un commentaire.");
             } else if (error.status === 400) {
@@ -108,7 +103,6 @@ function Comments(props) {
                         comment.id === updatedComment.id ? response : comment
                     )
                 );
-                setEditingComment(null);
             }
         } catch (error) {
             console.error("Erreur lors de la mise à jour du commentaire :", error);
@@ -139,30 +133,20 @@ function Comments(props) {
             <CommentList
                 comments={commentTree}
                 currentUserId={currentUserId}
-                onReply={(comment) => {
-                    setEditingComment(null);
-                    setReplyingTo(comment);
-                }}
-                onEdit={(comment) => {
-                    setReplyingTo(null);
-                    setEditingComment(comment);
-                }}
+                onReply={handleAddComment}
+                onEdit={handleUpdateComment}
                 onDelete={handleDeleteComment}
+                depth={0}
             />
 
-            {/* Formulaire d'ajout ou de mise à jour de commentaire */}
+            {/* Formulaire d'ajout de commentaire principal */}
             {currentUserId ? (
-                <CommentForm
-                    onSubmit={editingComment ? handleUpdateComment : handleAddComment}
-                    editingComment={editingComment}
-                    replyingTo={replyingTo}
-                    onCancel={() => {
-                        setEditingComment(null);
-                        setReplyingTo(null);
-                    }}
-                />
+                <CommentForm onSubmit={handleAddComment} />
             ) : (
-                <p>Vous devez être connecté pour laisser un commentaire.</p>
+                <div>
+                    <p>Vous devez être connecté pour laisser un commentaire.</p>
+                    <a href="/connexion" className="btn btn-sm btn-primary">Laisser un commentaire</a>
+                </div>
             )}
         </div>
     );
