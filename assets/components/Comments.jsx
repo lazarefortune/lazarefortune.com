@@ -147,7 +147,9 @@ function Comments(props) {
                     ref={commentFormRef}
                 />
             ) : (
-                <p>Vous devez être connecté pour laisser un commentaire.</p>
+                <a href="/connexion" className="btn btn-primary">
+                    Laisser un commentaire
+                </a>
             )}
         </div>
     );

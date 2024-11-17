@@ -136,6 +136,7 @@ function CommentItem({
                 {isReplying && currentDepth < maxDepth && (
                     <div className="mt-3 ml-3">
                         <CommentForm
+                            currentUserId={currentUserId}
                             onSubmit={handleAddReply}
                             onCancel={() => setIsReplying(false)}
                             autoFocus={true}
