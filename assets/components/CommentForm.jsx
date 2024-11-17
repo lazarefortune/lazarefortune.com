@@ -4,10 +4,6 @@ const CommentForm = forwardRef(({ currentUserId, onSubmit, onCancel, autoFocus =
     const [content, setContent] = useState("");
     const textareaRef = useRef(null);
 
-    if (!currentUserId){
-        return
-    }
-
     useEffect(() => {
         if (autoFocus && textareaRef.current) {
             textareaRef.current.focus();
