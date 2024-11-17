@@ -126,9 +126,16 @@ function Comments(props) {
         }
     };
 
+    // Calcul du nombre total de commentaires
+    const totalComments = comments.length;
+
     return (
         <div>
-            <h1 className="h2 mt-6">Commentaires</h1>
+            <h1 className="h2 mt-6">
+                {totalComments === 0
+                    ? "Aucun commentaire"
+                    : `Commentaire${totalComments > 1 ? "s" : ""} (${totalComments})`}
+            </h1>
 
             <CommentList
                 comments={commentTree}
@@ -142,14 +149,21 @@ function Comments(props) {
             {/* Formulaire principal */}
             {currentUserId ? (
                 <CommentForm
+                    currentUserId={currentUserId}
                     onSubmit={handleAddComment}
                     autoFocus={false} // "true" si on veut le focus par défaut
                     ref={commentFormRef}
                 />
             ) : (
-                <a href="/connexion" className="btn btn-primary mt-4">
-                    Laisser un commentaire
-                </a>
+                <div className="mt-4">
+                    <p>Vous devez être connecté pour laisser un commentaire.</p>
+                    <a
+                        href={`/login?redirect=${encodeURIComponent(window.location.href)}`}
+                        className="btn btn-primary"
+                    >
+                        Se connecter
+                    </a>
+                </div>
             )}
         </div>
     );
