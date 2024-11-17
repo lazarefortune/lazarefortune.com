@@ -19,22 +19,25 @@
 }
 
 .comment__actions {
-  @apply flex items-start lg:items-center gap-2 lg:gap-4;
+  @apply block lg:flex items-start lg:items-center gap-2 lg:gap-4;
 }
 
 .comment__date {
-  @apply text-base text-muted w-full lg:inline-flex lg:w-fit;
+  @apply text-base text-muted w-full lg:inline-flex lg:w-fit text-nowrap;
 }
 
 .comment__actions button {
-  @apply inline-flex items-center gap-1 text-base text-slate-600 dark:text-slate-300;
+  @apply inline-flex items-center ml-2 lg:ml-0 gap-1 text-base text-slate-600 dark:text-slate-300;
   & > span {
-    @apply hidden;
+    @apply text-nowrap;
   }
 }
 
 .comment__actions .comment__delete {
   @apply text-red-600 dark:text-red-400;
+  & > span {
+    @apply hidden;
+  }
 }
 
 /* Sur les écrans lg et plus grands, cacher les boutons par défaut */
@@ -47,7 +50,7 @@
     @apply flex;
   }
 
-  .comment:hover .comment__actions button > span {
+  .comment:hover .comment__actions .comment__delete > span {
     @apply block;
   }
 }
