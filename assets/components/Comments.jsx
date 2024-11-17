@@ -1,6 +1,4 @@
-// src/components/Comments.jsx
-
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { jsonFetch } from "../functions/api";
 import CommentList from "./CommentList";
 import CommentForm from "./CommentForm";
@@ -11,6 +9,8 @@ function Comments(props) {
 
     const { contentId } = props;
     const contentIdNumber = parseInt(contentId, 10);
+
+    const commentFormRef = useRef(null);
 
     useEffect(() => {
         async function fetchData() {
@@ -57,7 +57,6 @@ function Comments(props) {
 
     const commentTree = buildCommentTree(comments);
 
-    // Fonction pour ajouter un nouveau commentaire ou une réponse
     const handleAddComment = async (content, parentId = null) => {
         const data = {
             content,
@@ -72,6 +71,10 @@ function Comments(props) {
             });
             if (response) {
                 setComments([...comments, response]);
+                // Réinitialiser le formulaire principal
+                if (parentId === null && commentFormRef.current) {
+                    commentFormRef.current.resetForm();
+                }
             }
         } catch (error) {
             console.error("Erreur lors de la création du commentaire :", error);
@@ -86,7 +89,6 @@ function Comments(props) {
         }
     };
 
-    // Fonction pour mettre à jour un commentaire
     const handleUpdateComment = async (updatedComment) => {
         const data = {
             content: updatedComment.content,
@@ -110,7 +112,6 @@ function Comments(props) {
         }
     };
 
-    // Fonction pour supprimer un commentaire
     const handleDeleteComment = async (commentId) => {
         if (window.confirm("Voulez-vous vraiment supprimer ce commentaire ?")) {
             try {
@@ -129,7 +130,6 @@ function Comments(props) {
         <div>
             <h1 className="h2 mt-6">Commentaires</h1>
 
-            {/* Liste des commentaires */}
             <CommentList
                 comments={commentTree}
                 currentUserId={currentUserId}
@@ -139,14 +139,15 @@ function Comments(props) {
                 depth={0}
             />
 
-            {/* Formulaire d'ajout de commentaire principal */}
+            {/* Formulaire principal */}
             {currentUserId ? (
-                <CommentForm onSubmit={handleAddComment} />
+                <CommentForm
+                    onSubmit={handleAddComment}
+                    autoFocus={false} // "true" si on veut le focus par défaut
+                    ref={commentFormRef}
+                />
             ) : (
-                <div>
-                    <p>Vous devez être connecté pour laisser un commentaire.</p>
-                    <a href="/connexion" className="btn btn-sm btn-primary">Laisser un commentaire</a>
-                </div>
+                <p>Vous devez être connecté pour laisser un commentaire.</p>
             )}
         </div>
     );

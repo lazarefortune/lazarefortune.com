@@ -1,0 +1,57 @@
+.comment-area {
+  @apply my-4;
+}
+
+.comment {
+  @apply rounded border border-white dark:bg-primary-1000 dark:border-primary-1000 flex flex-col items-start pb-4;
+}
+
+.comment__avatar {
+  @apply rounded-full mr-4;
+}
+
+.comment__author {
+  @apply text-lg font-semibold;
+}
+
+.comment__content {
+  @apply text-base;
+}
+
+.comment__actions {
+  @apply flex items-start lg:items-center gap-2 lg:gap-4;
+}
+
+.comment__date {
+  @apply text-base text-muted w-full lg:inline-flex lg:w-fit;
+}
+
+.comment__actions button {
+  @apply inline-flex items-center gap-1 text-base text-slate-600 dark:text-slate-300;
+  & > span {
+    @apply hidden;
+  }
+}
+
+.comment__actions .comment__delete {
+  @apply text-red-600 dark:text-red-400;
+}
+
+/* Sur les écrans lg et plus grands, cacher les boutons par défaut */
+@media (min-width: 1024px) {
+  .comment__actions button {
+    @apply hidden;
+  }
+  /* Afficher les boutons au survol du commentaire */
+  .comment:hover .comment__actions button {
+    @apply flex;
+  }
+
+  .comment:hover .comment__actions button > span {
+    @apply block;
+  }
+}
+
+.comment__replies {
+  @apply ml-0.5 pl-3 border-l-2 border-slate-200 dark:border-primary-700;
+}

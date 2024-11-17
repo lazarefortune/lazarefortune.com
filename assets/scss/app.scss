@@ -21,6 +21,7 @@
 
 /* Modules */
 @import "modules/breadcrumb";
+@import "modules/comment";
 @import "modules/scrollbar";
 @import "modules/editor_formatted";
 @import "modules/hightlight";
@@ -41,17 +42,3 @@
 @import "pages/app/course";
 @import "pages/app/formation";
 @import "pages/app/account";
-.comment-item {
-  border-left: 2px solid #ddd;
-  padding-left: 10px;
-}
-
-.comment-item .comment-item {
-  border-left-color: #ccc;
-}
-
-.comment-item .comment-item .comment-item {
-  border-left-color: #bbb;
-}
-
-/* Ajustez les couleurs et les indentations selon vos préférences */

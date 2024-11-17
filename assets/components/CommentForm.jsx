@@ -1,9 +1,31 @@
-// src/components/CommentForm.jsx
+import React, { useState, useEffect, useRef, forwardRef } from "react";
 
-import React, { useState } from "react";
-
-function CommentForm({ onSubmit, onCancel }) {
+const CommentForm = forwardRef(({ onSubmit, onCancel, autoFocus = false }, ref) => {
     const [content, setContent] = useState("");
+    const textareaRef = useRef(null);
+
+    useEffect(() => {
+        if (autoFocus && textareaRef.current) {
+            textareaRef.current.focus();
+            textareaRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+    }, [autoFocus]);
+
+    React.useImperativeHandle(ref, () => ({
+        resetForm() {
+            setContent("");
+        },
+    }));
+    // Permet au parent d'accéder au ref
+    useEffect(() => {
+        if (ref && textareaRef.current) {
+            if (typeof ref === "function") {
+                ref(textareaRef.current);
+            } else {
+                ref.current = textareaRef.current;
+            }
+        }
+    }, [ref]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -14,13 +36,15 @@ function CommentForm({ onSubmit, onCancel }) {
 
     return (
         <form onSubmit={handleSubmit}>
-      <textarea
-          className="form-input mt-4"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          placeholder="Votre commentaire"
-          required
-      />
+            <textarea
+                ref={textareaRef}
+                className="form-input mt-4"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                placeholder="Votre commentaire"
+                minLength={4}
+                required
+            />
             <div className="flex gap-2 mt-2">
                 <button className="btn btn-sm btn-primary" type="submit">
                     Envoyer
@@ -37,6 +61,6 @@ function CommentForm({ onSubmit, onCancel }) {
             </div>
         </form>
     );
-}
+});
 
 export default CommentForm;
