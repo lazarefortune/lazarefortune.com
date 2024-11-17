@@ -46,12 +46,12 @@ const CommentForm = forwardRef(({ currentUserId, onSubmit, onCancel, autoFocus =
                 required
             />
             <div className="flex gap-2 mt-2">
-                <button className="btn btn-sm btn-primary" type="submit">
+                <button className="btn btn-primary" type="submit">
                     Envoyer
                 </button>
                 {onCancel && (
                     <button
-                        className="btn btn-sm btn-light"
+                        className="btn btn-light"
                         type="button"
                         onClick={onCancel}
                     >
