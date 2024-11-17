@@ -5,9 +5,7 @@ const CommentForm = forwardRef(({ currentUserId, onSubmit, onCancel, autoFocus =
     const textareaRef = useRef(null);
 
     if (!currentUserId){
-        const currentUrl = window.location.href;
-        const loginUrl = `/connexion?redirect=${encodeURIComponent(currentUrl)}`
-        return window.location.replace(loginUrl)
+        return
     }
 
     useEffect(() => {

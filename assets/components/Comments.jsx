@@ -147,7 +147,7 @@ function Comments(props) {
                     ref={commentFormRef}
                 />
             ) : (
-                <a href="/connexion" className="btn btn-primary">
+                <a href="/connexion" className="btn btn-primary mt-4">
                     Laisser un commentaire
                 </a>
             )}
