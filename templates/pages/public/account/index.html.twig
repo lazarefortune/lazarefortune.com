@@ -57,11 +57,10 @@
                     {{ form_start(formProfile, {'attr': {'class': 'stack'}}) }}
                     <h3 class="h3">Mes informations</h3>
 
-                    <div class="stack card card-padding">
-                        <div class="grid2">
-                            {{ form_row(formProfile.fullname) }}
-                        </div>
+                    <div class="grid2">
+                        {{ form_row(formProfile.fullname) }}
                     </div>
+
                     <div class="text-start">
                         <button type="submit" class="btn btn-primary">
                             {{ icon('save') }}
@@ -86,16 +85,15 @@
                             </div>
                         {% else %}
                             {{ form_start(formEmail, {'attr': {'class': 'stack'}}) }}
-                            <div class="card card-padding">
-                                <div class="grid2">
-                                    <div class="text-muted">
-                                        <p class="text-muted mb-2">
-                                            Votre adresse email actuelle est <span class="font-semibold">{{ app.user.email }}</span>.
-                                        </p>
-                                        {{ form_row(formEmail.email) }}
-                                    </div>
+                            <div class="grid2">
+                                <div class="text-muted">
+                                    <p class="text-muted mb-2">
+                                        Votre adresse email actuelle est <span class="font-semibold">{{ app.user.email }}</span>.
+                                    </p>
+                                    {{ form_row(formEmail.email) }}
                                 </div>
                             </div>
+
                             <div class="text-start">
                                 <button type="submit" class="btn btn-primary">
                                     {{ icon('mail') }}
@@ -109,11 +107,9 @@
                     {{ form_start(formPassword, {'attr': {'class': 'stack'}}) }}
                     <h3 class="h3">Mot de passe</h3>
 
-                    <div class="card card-padding">
-                        <div class="grid2">
-                            {{ form_row(formPassword.currentPassword) }}
-                            {{ form_row(formPassword.newPassword) }}
-                        </div>
+                    <div class="grid2">
+                        {{ form_row(formPassword.currentPassword) }}
+                        {{ form_row(formPassword.newPassword) }}
                     </div>
 
                     <div class="text-start">

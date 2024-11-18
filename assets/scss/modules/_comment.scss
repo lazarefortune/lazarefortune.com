@@ -43,11 +43,14 @@
 /* Sur les écrans lg et plus grands, cacher les boutons par défaut */
 @media (min-width: 1024px) {
   .comment__actions button {
-    @apply hidden;
+    @apply opacity-0 pointer-events-none transition-opacity duration-200 ease-in-out;
+    &:hover span {
+      @apply underline;
+    }
   }
   /* Afficher les boutons au survol du commentaire */
   .comment:hover .comment__actions button {
-    @apply flex;
+    @apply opacity-100 pointer-events-auto;
   }
 
   .comment:hover .comment__actions .comment__delete > span {
