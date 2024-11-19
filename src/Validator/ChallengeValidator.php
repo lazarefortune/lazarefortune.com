@@ -16,7 +16,7 @@ class ChallengeValidator extends ConstraintValidator
      * @param Constraint $constraint
      * @return void
      */
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint) : void
     {
         if (null === $value || '' === $value) {
             return;

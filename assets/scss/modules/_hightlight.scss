@@ -1,4 +1,5 @@
 .hljs {
+  font-family: "JetBrains Mono", serif !important;
   display: block;
   overflow-x: auto;
   font-size: .93em;
@@ -26,6 +27,7 @@
 .hljs-comment,
 .hljs-quote {
   color: var(--comment);
+  font-family: "JetBrains Mono", serif !important;
 }
 
 .hljs-variable,
@@ -37,6 +39,7 @@
 .hljs-regexp,
 .hljs-deletion {
   color: var(--variables);
+  font-family: "JetBrains Mono", serif !important;
 }
 
 .hljs-number,
@@ -48,10 +51,12 @@
 .hljs-meta,
 .hljs-link {
   color: var(--number);
+  font-family: "JetBrains Mono", serif !important;
 }
 
 .hljs-attribute {
   color: var(--attribute);
+  font-family: "JetBrains Mono", serif !important;
 }
 
 .hljs-string,
@@ -59,24 +64,29 @@
 .hljs-bullet,
 .hljs-addition {
   color: var(--string);
+  font-family: "JetBrains Mono", serif !important;
 }
 
 .hljs-title,
 .hljs-section {
   color: var(--title);
+  font-family: "JetBrains Mono", serif !important;
 }
 
 .hljs-keyword,
 .hljs-selector-tag {
   color: var(--keyword);
+  font-family: "JetBrains Mono", serif !important;
 }
 
 .hljs-emphasis {
   font-style: italic;
+  font-family: "JetBrains Mono", serif !important;
 }
 
 .hljs-strong {
   font-weight: bold;
+  font-family: "JetBrains Mono", serif !important;
 }
 
 @media screen and (-ms-high-contrast: active) {
@@ -96,9 +106,11 @@
   .hljs-type,
   .hljs-quote {
     color: highlight;
+    font-family: "JetBrains Mono", serif !important;
   }
   .hljs-keyword,
   .hljs-selector-tag {
     font-weight: bold;
+    font-family: "JetBrains Mono", serif !important;
   }
 }

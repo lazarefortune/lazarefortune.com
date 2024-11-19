@@ -189,7 +189,7 @@
   pre.with-syntax {
     code{
       @apply rounded bg-primary-1000 dark:bg-primary-950;
-      @apply font-jetbrains-mono;
+      font-family: "JetBrains Mono", serif !important;
     }
   }
 }
