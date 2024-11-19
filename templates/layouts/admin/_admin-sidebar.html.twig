@@ -70,6 +70,12 @@
                     <span>Options</span>
                 </a>
             </li>
+            <li class="sidebar__nav-item">
+                <a href="{{ path('admin_comment_index') }}" class="sidebar__nav-link {{ menu_active('admin_comment_') }}">
+                    {{ icon('message-square-warning') }}
+                    <span>Commentaires</span>
+                </a>
+            </li>
         </ul>
         {% endif %}
     </div>
