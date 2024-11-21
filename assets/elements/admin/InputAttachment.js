@@ -17,8 +17,8 @@ export default class InputAttachment extends HTMLInputElement {
         )
         this.style.display = 'none'
         this.container = this.parentElement.querySelector('.input-attachment')
-        this.container.addEventListener('dragenter', this.onDragEnter.bind(this))
         this.container.addEventListener('dragleave', this.ondragleave.bind(this))
+        this.container.addEventListener('dragenter', this.onDragEnter.bind(this))
         this.container.addEventListener('dragover', this.onDragOver)
         this.container.addEventListener('drop', this.onDrop.bind(this))
         this.container.addEventListener('click', this.onClick.bind(this))
@@ -42,18 +42,27 @@ export default class InputAttachment extends HTMLInputElement {
 
     async onDrop (e) {
         e.preventDefault()
+        if (!this.container.contains(e.target)) {
+            console.warn('Drop event ignoré, cible incorrecte.');
+            return;
+        }
+
         this.container.classList.add('is-hovered')
+        // loader
         const loader = document.createElement('spinning-dots')
         loader.classList.add('input-attachment__loader')
         this.container.appendChild(loader)
+        // file upload
         const files = e.dataTransfer.files
         if (files.length === 0) return false
         const data = new FormData()
         data.append('file', files[0])
+
         let url = this.getAttribute('data-endpoint')
         if (this.attachmentId !== '' && this.overwrite) {
             url = `${url}/${this.attachmentId}`
         }
+
         const response = await fetch(url, {
             method: 'POST',
             body: data
@@ -75,11 +84,13 @@ export default class InputAttachment extends HTMLInputElement {
         e.preventDefault()
         const modal = document.createElement('modal-dialog')
         modal.setAttribute('overlay-close', 'true')
-        const fm = document.createElement('file-manager')
+
+        const fm = document.createElement('file-manage')
         fm.setAttribute('endpoint', this.getAttribute('data-endpoint'))
 
 
-        fm.setAttribute('layout', 'rows')
+        // fm.setAttribute('layout', 'grid')
+        // fm.setAttribute('layout', 'row')
         modal.appendChild(fm)
         fm.addEventListener('selectfile', e => {
             this.setAttachment(e.detail)

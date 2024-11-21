@@ -1,0 +1,62 @@
+/* Styles pour FileManage */
+.file-manager {
+  @apply flex flex-col border border-gray-300 rounded-lg bg-white dark:bg-primary-950 dark:border-primary-950 w-full min-w-[calc(100vw-40px)] max-w-[calc(100vw-40px)] lg:min-w-[calc(100vw-80px)] lg:max-w-[calc(100vw-80px)] h-[80vh] mx-auto shadow relative overflow-hidden;
+}
+
+.file-manager__header {
+  @apply flex flex-col lg:flex-row gap-2 justify-between items-center p-4 bg-gray-50 dark:bg-primary-950 shadow-sm border-b border-gray-200 dark:border-gray-700;
+}
+.file-manager__year-select,
+.file-manager__month-select {
+  @apply form-select;
+}
+.file-manager__upload-btn {
+  @apply btn btn-sm btn-primary;
+}
+
+.file-manager__body {
+  @apply flex relative overflow-hidden;
+}
+
+.file-manager__content {
+  @apply bg-white dark:bg-primary-950 flex flex-wrap justify-center gap-4 p-4 overflow-y-auto w-full h-full;
+}
+
+.file-manager__loader {
+  @apply absolute inset-0 w-full h-full bg-white dark:bg-primary-600 bg-opacity-70 flex items-center justify-center z-50 hidden;
+}
+
+.loader {
+  @apply border-8 border-gray-200 border-t-blue-600 rounded-full w-16 h-16 animate-spin;
+}
+
+/* File styling */
+.file {
+  @apply bg-white dark:bg-primary-950 dark:text-white border border-gray-300 dark:border-primary-900 rounded-lg shadow-sm shadow-primary-900 hover:shadow-lg transition-shadow duration-200 cursor-pointer overflow-hidden flex flex-col flex-grow-0;
+  /* Responsive width via Tailwind classes */
+  @apply w-full sm:w-1/2 md:w-1/3 lg:w-1/4;
+}
+
+.file__image {
+  @apply w-full h-32 object-cover rounded-t-lg;
+}
+
+.file__details {
+  @apply flex flex-col gap-2 p-2 text-center;
+}
+
+.file__name {
+  @apply text-sm font-medium text-gray-800 dark:text-white truncate;
+}
+
+.delete-btn {
+  @apply btn btn-sm btn-light-danger2;
+}
+
+.no-files {
+  @apply text-gray-600 text-sm text-center p-4 w-full;
+}
+
+.file-manager__search-input {
+  @apply block w-full px-4 py-2 text-sm border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-300 focus:outline-none;
+}

@@ -5,6 +5,7 @@ namespace App\Http\Admin\Controller;
 use App\Domain\Application\Entity\Content;
 use App\Domain\Attachment\Entity\Attachment;
 use App\Domain\Attachment\Repository\AttachmentRepository;
+use App\Domain\Course\Entity\Course;
 use App\Http\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -44,15 +45,17 @@ class AttachmentController extends AbstractController
     #[Route(path: '/attachment/files', name: 'attachment_files')]
     public function files(AttachmentRepository $repository, Request $request): JsonResponse
     {
-//        ['path' => $path, 'q' => $q] = $this->getFilterParams($request);
-//        if ($q === 'orphan') {
-//            $attachments = $repository->orphaned();
-//        } elseif (!empty($q)) {
-//            $attachments = $repository->search($q);
-//        } elseif (null === $path) {
-//            $attachments = $repository->findLatest();
-//        } else {
-//        }
+        ['path' => $path, 'q' => $q] = $this->getFilterParams($request);
+        if ($q === 'orphan') {
+            $attachments = $repository->orphaned();
+        } elseif (!empty($q)) {
+            $attachments = $repository->search($q);
+        } elseif (null === $path) {
+            $attachments = $repository->findLatest();
+        } else {
+            $attachments = $repository->findForPath($request->get('path'));
+        }
+        /*
 
         $folderQuery = $request->query->get('folder', '');
         if ($folderQuery !== '') {
@@ -60,6 +63,7 @@ class AttachmentController extends AbstractController
         }else{
             $attachments = $repository->findLatest();
         }
+        */
 
         return $this->json($attachments);
 
@@ -95,6 +99,10 @@ class AttachmentController extends AbstractController
         /** @var Content $content */
         $content = $em->getRepository(Content::class)->findOneBy(['image' => $attachment]);
         $content?->setImage( null );
+        $em->flush();
+
+        $course = $em->getRepository(Course::class)->findOneBy(['youtubeThumbnail' => $attachment]);
+        $course?->setYoutubeThumbnail(null);
         $em->flush();
 
         // remove the attachment

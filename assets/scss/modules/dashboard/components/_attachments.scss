@@ -59,3 +59,25 @@
 .fm-overlay.svelte-5hhtx0 {
   @apply bg-slate-200 bg-opacity-90 dark:bg-dark-soft dark:bg-opacity-90;
 }
+
+.fm-modal {
+  @apply bg-white dark:bg-primary-950 border-gray-50 dark:border-slate-800 text-slate-950  dark:text-white;
+}
+
+.fm-sidebar {
+  .search {
+    @apply bg-white dark:bg-primary-950 border-gray-50 dark:border-slate-800 text-slate-950  dark:text-white;
+    input {
+      @apply form-input;
+    }
+  }
+
+  .fm-folder-name {
+    @apply text-slate-950 dark:text-white;
+  }
+
+}
+
+.fm-main table tbody tr {
+  @apply dark:hover:bg-primary-1000;
+}

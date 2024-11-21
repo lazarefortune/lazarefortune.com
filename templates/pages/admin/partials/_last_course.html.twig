@@ -1,6 +1,6 @@
 <div class="mt-8">
     <h2 class="h3">Vidéos récentes</h2>
-    <div class="mt-4 courses">
+    <div class="mt-4 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
         <!-- Simulation d'affichage des vidéos récentes -->
         {% for course in lastCourses %}
             {% include 'pages/public/courses/_course_item.html.twig' %}

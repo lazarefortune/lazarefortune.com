@@ -15,6 +15,7 @@ import { LineChart } from "./admin/LineChart";
 import {TimeAgo} from "./TimeAgo";
 import { MarkdownEditor } from "./editor";
 import { AutosaveBlur } from "./AutosaveBlur";
+import "./admin/FileManage"
 
 FileManager.register();
 customElements.define('spotlight-bar', Spotlight)
