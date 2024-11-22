@@ -23,7 +23,7 @@ class Chapter
         if ($target instanceof Formation) {
             $modulesById = $target->getCoursesById();
         } else {
-            throw new \RuntimeException('Type innattendu');
+            throw new \RuntimeException('Type inattendu');
         }
         $chapters = [];
         foreach ($target->getRawChapters() as $c) {

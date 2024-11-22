@@ -5,15 +5,8 @@
   height: 100%;
   min-height: 200px;
   transition: 0.2s;
-  //border: solid 1px var(--border);
-  //background: var(--background);
-  @apply bg-slate-50 border border-slate-100 dark:bg-primary-1000 dark:border-primary-950 dark:shadow dark:shadow-primary-500/50;
-}
-
-.input-attachment:hover {
-  @apply border-slate-200 shadow dark:border-primary-900;
-  //border-color: var(--contrast);
-  //box-shadow: 0 0 3px var(--contrast);
+  @apply rounded bg-slate-50 border border-slate-100 dark:bg-primary-1000 dark:border-primary-950 dark:shadow dark:shadow-primary-500/50;
+  @apply hover:border-slate-200 hover:shadow dark:hover:border-primary-900;
 }
 
 .input-attachment::after {
@@ -30,7 +23,6 @@
 }
 
 .input-attachment.is-hovered {
-  //background-color: var(--contrast);
   @apply bg-slate-100 dark:bg-slate-600;
   .input-attachment__preview {
     opacity: 0.6;
@@ -44,6 +36,7 @@
   height: 100%;
   background: transparent center center / cover no-repeat;
   transition: 0.2s;
+  @apply rounded;
 }
 
 .input-attachment__loader {
@@ -52,6 +45,5 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  //color: var(--color);
   @apply text-slate-400;
 }

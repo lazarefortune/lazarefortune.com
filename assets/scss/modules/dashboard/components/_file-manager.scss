@@ -28,7 +28,7 @@
 
 /* File styling */
 .file {
-  @apply bg-white dark:bg-primary-950 dark:text-white border border-gray-300 dark:border-primary-900 rounded-lg shadow-sm shadow-primary-900 hover:shadow-lg transition-shadow duration-200 cursor-pointer overflow-hidden flex flex-col flex-grow-0;
+  @apply bg-white dark:bg-primary-950 dark:text-white border border-gray-300 dark:border-primary-900 rounded shadow-none shadow-primary-900 dark:shadow-primary-300 hover:shadow transition-shadow hover:border-primary-300 dark:hover:border-primary-600 duration-200 cursor-pointer overflow-hidden flex flex-col flex-grow-0;
   /* Responsive width via Tailwind classes */
   @apply w-full sm:w-1/2 md:w-1/3 lg:w-1/4;
 }
