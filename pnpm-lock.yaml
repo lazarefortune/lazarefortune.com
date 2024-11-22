@@ -23,18 +23,12 @@ dependencies:
   canvas-confetti:
     specifier: ^1.9.3
     version: 1.9.3
-  ckeditor4:
-    specifier: ^4.24.0
-    version: 4.24.0
   clsx:
     specifier: 1.2.1
     version: 1.2.1
   codemirror:
     specifier: 5.59.0
     version: 5.59.0
-  filemanager-element:
-    specifier: ^0.1.2
-    version: 0.1.2
   flatpickr:
     specifier: ^4.6.13
     version: 4.6.13
@@ -77,9 +71,6 @@ dependencies:
   sortablejs:
     specifier: ^1.15.2
     version: 1.15.2
-  tinymce:
-    specifier: ^7.0.1
-    version: 7.1.1
   tom-select:
     specifier: ^2.2.2
     version: 2.3.1
@@ -2414,10 +2405,6 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /ckeditor4@4.24.0:
-    resolution: {integrity: sha512-ShtIqZMMNmP5r8AhZqnysSaONsx+qKjI/zf5AkU9wKxl0yHVw2/CSxWYmdd40u3dMjJR2kOthQ6USahz528lbw==}
-    dev: false
-
   /clean-webpack-plugin@4.0.0(webpack@5.91.0):
     resolution: {integrity: sha512-WuWE1nyTNAyW5T7oNyys2EN0cfP2fdRxhxnIQWiAp0bMabPdHhoGxM8A6YL2GhqwgrPnnaemVE7nv5XJ2Fhh2w==}
     engines: {node: '>=10.0.0'}
@@ -3155,12 +3142,6 @@ packages:
       schema-utils: 3.3.0
       webpack: 5.91.0(webpack-cli@4.10.0)
     dev: true
-
-  /filemanager-element@0.1.2:
-    resolution: {integrity: sha512-cL+MBR27P2ureZIAxVG6BJz/vdrmEajwlhRsMVx7LdwpySl/osbodme3YQsoFsPPC+OwjH7qVJ3VrXhlYVMtiQ==}
-    dependencies:
-      svelte: 3.59.2
-    dev: false
 
   /fill-range@7.0.1:
     resolution: {integrity: sha512-qOo9F+dMUmC2Lcb4BbVvnKJxTPjCm+RRpe4gDuGrzkL7mEVl/djYSu2OdQ2Pa302N4oqkSg9ir6jaLWJ2USVpQ==}
@@ -5310,11 +5291,6 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  /svelte@3.59.2:
-    resolution: {integrity: sha512-vzSyuGr3eEoAtT/A6bmajosJZIUWySzY2CzB3w2pgPvnkUjGqlDnsNnA0PMO+mMAhuyMul6C2uuZzY6ELSkzyA==}
-    engines: {node: '>= 8'}
-    dev: false
-
   /svgo@3.2.0:
     resolution: {integrity: sha512-4PP6CMW/V7l/GmKRKzsLR8xxjdHTV4IMvhTnpuHwwBazSIlw5W/5SmPjN8Dwyt7lKbSJrRDgp4t9ph0HgChFBQ==}
     engines: {node: '>=14.0.0'}
@@ -5419,10 +5395,6 @@ packages:
   /thunky@1.1.0:
     resolution: {integrity: sha512-eHY7nBftgThBqOyHGVN+l8gF0BucP09fMo0oO/Lb0w1OF80dJv+lDVpXG60WMQvkcxAkNybKsrEIE3ZtKGmPrA==}
     dev: true
-
-  /tinymce@7.1.1:
-    resolution: {integrity: sha512-QQJKsEiM+jUfrlxNivuVUiv1jsHv4a27rub4oqajtsYQ4mFukN3hkWQrZnzVNtnPOIUsOGU2Ycem0DnEU/JKcA==}
-    dev: false
 
   /tmp@0.2.3:
     resolution: {integrity: sha512-nZD7m9iCPC5g0pYmcaxogYKggSfLsdxl8of3Q/oIbqCqLLIO9IAF0GWjX1z9NZRHPiXv8Wex4yDCaZsgEw0Y8w==}

@@ -5,8 +5,6 @@ import {ChaptersEditor} from "./admin/ChaptersEditor";
 import {Alert, FloatingAlert} from "./Alert";
 import {DropdownButton} from "./Dropdown";
 import {ThemeSwitcher} from "./ThemeSwitcher";
-import {FileManager} from 'filemanager-element'
-import 'filemanager-element/FileManager.css'
 import {YoutubePlayer} from "./player/YoutubePlayer";
 import {AjaxDelete} from "./AjaxDelete";
 import LoaderOverlay from "./LoaderOverlay";
@@ -15,9 +13,8 @@ import { LineChart } from "./admin/LineChart";
 import {TimeAgo} from "./TimeAgo";
 import { MarkdownEditor } from "./editor";
 import { AutosaveBlur } from "./AutosaveBlur";
-import "./admin/FileManage"
+import { FileManager } from "./admin/FileManager";
 
-FileManager.register();
 customElements.define('spotlight-bar', Spotlight)
 customElements.define('nav-tabs', NavTabs)
 customElements.define('scroll-top', ScrollTop)
@@ -36,17 +33,5 @@ customElements.define('line-chart', LineChart)
 customElements.define('autosave-blur', AutosaveBlur, {extends: 'form'})
 customElements.define('time-ago', TimeAgo)
 customElements.define('markdown-editor', MarkdownEditor, { extends: 'textarea' })
-
-document.addEventListener('DOMContentLoaded', () => {
-    const filemanager = document.querySelector("file-manager");
-    if (!filemanager) return;
-    filemanager.addEventListener("close", () => {
-        console.log("close");
-    });
-
-    filemanager.addEventListener("selectfile", e => {
-        console.log("fileSelected", e.detail);
-    });
-})
-
+customElements.define('file-manager', FileManager);
 

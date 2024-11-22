@@ -1,4 +1,4 @@
-export default class FileManage extends HTMLElement {
+export class FileManager extends HTMLElement {
     connectedCallback() {
         this.baseUrl = this.getAttribute('endpoint');
 
@@ -17,8 +17,8 @@ export default class FileManage extends HTMLElement {
                 </div>
                 <div class="file-manager__body">
                     <div class="file-manager__content"></div>
-                    <div class="file-manager__loader">
-                        <div class="loader"></div>
+                    <div id="file-manager__loader" class="absolute inset-0 w-full h-full bg-white dark:bg-primary-950 bg-opacity-70 flex items-center justify-center z-50">
+                        <spinning-dots class="hidden"></spinning-dots>
                     </div>
                 </div>
             </div>
@@ -150,7 +150,18 @@ export default class FileManage extends HTMLElement {
                         <img src="${file.thumbnail}" alt="${file.name}" class="file__image" />
                         <div class="file__details">
                             <span class="file__name">${file.name}</span>
-                            <button class="delete-btn" data-id="${file.id}">Supprimer</button>
+                            <button class="delete-btn" data-id="${file.id}">
+                                <svg class="w-4 h-4"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="1.75"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round">
+                                    <use href="/icons/sprite.svg?#trash"></use>
+                                </svg>
+                                Supprimer 
+                            </button>
                         </div>
                     </div>
                 `)
@@ -162,14 +173,30 @@ export default class FileManage extends HTMLElement {
         }
     }
 
-    searchFiles(query) {
-        if (!query) {
-            this.renderFiles(this.files);
+    async searchFiles(query) {
+        if ( !query || query.trim() === '') {
+            await this.loadFiles();
             return;
         }
 
-        const filteredFiles = this.files.filter(file => file.name.toLowerCase().includes(query.toLowerCase()));
-        this.renderFiles(filteredFiles);
+        if (query.trim().length <= 2) {
+            return;
+        }
+
+        try {
+            this.showLoader();
+            const response = await fetch(`${this.baseUrl}/files?q=${query}`);
+            if (!response.ok) {
+                throw new Error('Erreur lors du chargement des fichiers.');
+            }
+            this.files = await response.json();
+            this.renderFiles(this.files);
+        } catch (error) {
+            console.error(error);
+            alert('Impossible d\'uploader le fichier.');
+        } finally {
+            this.hideLoader();
+        }
     }
 
     async uploadFile(file) {
@@ -187,6 +214,8 @@ export default class FileManage extends HTMLElement {
             if (!response.ok) {
                 throw new Error('Erreur lors de l\'upload du fichier.');
             }
+
+            await this.loadYears()
         } catch (error) {
             console.error(error);
             alert('Impossible d\'uploader le fichier.');
@@ -217,6 +246,7 @@ export default class FileManage extends HTMLElement {
                     this.showLoader();
                     const fileId = button.dataset.id;
                     await fetch(`${this.baseUrl}/files/${fileId}`, { method: 'DELETE' });
+                    this.loadYears();
                     this.loadFiles();
                 } catch (error) {
                     console.error(error);
@@ -229,16 +259,18 @@ export default class FileManage extends HTMLElement {
     }
 
     showLoader() {
-        this.querySelector('.file-manager__loader').classList.remove('hidden');
+        const loaderContainer = this.querySelector('#file-manager__loader');
+        loaderContainer.classList.remove('hidden');
+        loaderContainer.querySelector('spinning-dots').classList.remove('hidden');
     }
 
     hideLoader() {
-        this.querySelector('.file-manager__loader').classList.add('hidden');
+        const loaderContainer = this.querySelector('#file-manager__loader');
+        loaderContainer.classList.add('hidden');
+        loaderContainer.querySelector('spinning-dots').classList.add('hidden');
     }
 
     clearFiles() {
         this.querySelector('.file-manager__content').innerHTML = '<p class="no-files">Aucun fichier disponible.</p>';
     }
 }
-
-customElements.define('file-manage', FileManage);

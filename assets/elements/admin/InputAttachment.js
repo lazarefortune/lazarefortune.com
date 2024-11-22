@@ -85,7 +85,7 @@ export default class InputAttachment extends HTMLInputElement {
         const modal = document.createElement('modal-dialog')
         modal.setAttribute('overlay-close', 'true')
 
-        const fm = document.createElement('file-manage')
+        const fm = document.createElement('file-manager')
         fm.setAttribute('endpoint', this.getAttribute('data-endpoint'))
 
 

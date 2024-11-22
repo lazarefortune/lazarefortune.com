@@ -11,7 +11,7 @@
   @apply form-select;
 }
 .file-manager__upload-btn {
-  @apply btn btn-sm btn-primary;
+  @apply btn btn-primary;
 }
 
 .file-manager__body {
@@ -20,10 +20,6 @@
 
 .file-manager__content {
   @apply bg-white dark:bg-primary-950 flex flex-wrap justify-center gap-4 p-4 overflow-y-auto w-full h-full;
-}
-
-.file-manager__loader {
-  @apply absolute inset-0 w-full h-full bg-white dark:bg-primary-600 bg-opacity-70 flex items-center justify-center z-50 hidden;
 }
 
 .loader {
@@ -58,5 +54,5 @@
 }
 
 .file-manager__search-input {
-  @apply block w-full px-4 py-2 text-sm border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-300 focus:outline-none;
+  @apply form-input;
 }
