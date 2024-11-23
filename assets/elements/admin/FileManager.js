@@ -151,15 +151,15 @@ export class FileManager extends HTMLElement {
                         <div class="file__details">
                             <span class="file__name">${file.name}</span>
                             <button class="delete-btn" data-id="${file.id}">
-                                <svg class="w-4 h-4"
-                                     viewBox="0 0 24 24"
-                                     fill="none"
-                                     stroke="currentColor"
-                                     stroke-width="1.75"
-                                     stroke-linecap="round"
-                                     stroke-linejoin="round">
-                                    <use href="/icons/sprite.svg?#trash"></use>
-                                </svg>
+                                    <svg class="w-4 h-4"
+                                         viewBox="0 0 24 24"
+                                         fill="none"
+                                         stroke="currentColor"
+                                         stroke-width="1.75"
+                                         stroke-linecap="round"
+                                         stroke-linejoin="round">
+                                        <use href="/icons/sprite.svg?#trash"></use>
+                                    </svg>
                                 Supprimer 
                             </button>
                         </div>

@@ -47,3 +47,7 @@
   transform: translate(-50%, -50%);
   @apply text-slate-400;
 }
+
+.input-attachment__button-remove {
+  @apply absolute z-50 btn top-0 right-0 p-1 m-1;
+}
