@@ -1,9 +1,3 @@
-/**
- * @property {number|null} timer
- * @property {choices} Choices
- * @property {string} endpoint
- * @property {bool} overwrite L'envoie d'une nouvelle image écrase la précédente
- */
 export default class InputAttachment extends HTMLInputElement {
     connectedCallback() {
         const preview = this.getAttribute('preview');
@@ -12,7 +6,7 @@ export default class InputAttachment extends HTMLInputElement {
             `
                 <div class="input-attachment">
                     <div class="input-attachment__preview" style="background-image:url(${preview || ''})"></div>
-                    <button class="input-attachment__button-remove">
+                    <button class="input-attachment__button-remove hidden">
                         <svg class="w-4 h-4"
                              viewBox="0 0 24 24"
                              fill="none"
@@ -33,13 +27,17 @@ export default class InputAttachment extends HTMLInputElement {
         this.container.addEventListener('dragover', this.onDragOver);
         this.container.addEventListener('drop', this.onDrop.bind(this));
         this.container.addEventListener('click', this.onClick.bind(this));
-        this.container.querySelector('.input-attachment__button-remove').addEventListener('click', (e) => {
-            e.preventDefault(); // Empêche l'action par défaut
-            e.stopPropagation(); // Empêche la propagation de l'événement
+        this.removeButton = this.container.querySelector('.input-attachment__button-remove');
+        this.removeButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
             this.setAttachment({ id: '', url: '' }); // Réinitialise l'attachement
         });
         this.preview = this.container.querySelector('.input-attachment__preview');
         this.overwrite = this.getAttribute('overwrite') !== null;
+
+        // Afficher/masquer le bouton de suppression au démarrage
+        this.toggleRemoveButton(!!preview);
     }
 
     onDragEnter(e) {
@@ -98,19 +96,46 @@ export default class InputAttachment extends HTMLInputElement {
     onClick(e) {
         e.preventDefault();
         const modal = document.createElement('modal-dialog');
-        modal.setAttribute('overlay-close', 'true');
+        modal.classList.add('input-attachement__modal-dialog');
+
+        const modalHeader = document.createElement('div');
+        modalHeader.classList.add('input-attachement__modal-header');
+
+        const closeButton = document.createElement('button');
+        closeButton.innerHTML = `
+        <svg class="w-4 h-4"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="1.75"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <use href="/icons/sprite.svg?#x"></use>
+        </svg>`;
+        closeButton.classList.add('input-attachement__modal-close');
+        closeButton.setAttribute('aria-label', 'Close');
+        closeButton.addEventListener('click', () => {
+            modal.remove();
+        });
+
+        modalHeader.appendChild(closeButton);
+
+        const modalBody = document.createElement('div');
+        modalBody.classList.add('input-attachement__modal-body');
 
         const fm = document.createElement('file-manager');
         fm.setAttribute('endpoint', this.getAttribute('data-endpoint'));
+        modalBody.appendChild(fm);
 
-        modal.appendChild(fm);
+        modal.appendChild(modalHeader);
+        modal.appendChild(modalBody);
+        modal.setAttribute('overlay-close', 'true');
+
         fm.addEventListener('selectfile', (e) => {
             this.setAttachment(e.detail);
-            modal.close();
+            modal.remove();
         });
-        fm.addEventListener('close', () => {
-            modal.close();
-        });
+
         document.body.appendChild(modal);
     }
 
@@ -121,6 +146,17 @@ export default class InputAttachment extends HTMLInputElement {
         changeEvent.initEvent('change', false, true);
         this.dispatchEvent(changeEvent);
         this.dispatchEvent(new CustomEvent('attachment', { detail: attachment }));
+
+        // Afficher/masquer le bouton de suppression
+        this.toggleRemoveButton(!!attachment.url);
+    }
+
+    toggleRemoveButton(show) {
+        if (show) {
+            this.removeButton.classList.remove('hidden');
+        } else {
+            this.removeButton.classList.add('hidden');
+        }
     }
 
     /**

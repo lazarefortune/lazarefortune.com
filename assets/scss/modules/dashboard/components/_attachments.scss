@@ -49,5 +49,27 @@
 }
 
 .input-attachment__button-remove {
-  @apply absolute z-50 btn top-0 right-0 p-1 m-1;
+  @apply absolute z-[2] top-2 right-2 p-2 m-1 text-white text-sm font-medium rounded bg-primary-500 duration-200 ease-in-out
+  shadow hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-300 transition-all
+  dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-500;
+}
+
+
+.input-attachement__modal-dialog {
+  @apply flex flex-col;
+}
+
+.input-attachement__modal-header {
+  @apply flex justify-end items-center rounded-t-lg border-b bg-white dark:bg-primary-950 dark:border-slate-700 w-full min-w-[calc(100vw-40px)] max-w-[calc(100vw-40px)] lg:min-w-[calc(100vw-80px)] lg:max-w-[calc(100vw-80px)];
+}
+
+.input-attachement__modal-close {
+  @apply p-2 cursor-pointer dark:bg-primary-950 dark:text-white rounded-t hover:bg-gray-100 dark:hover:bg-primary-900;
+  & svg {
+    @apply w-6 h-6 stroke-current dark:stroke-current;
+  }
+}
+
+.input-attachement__modal-body > file-manager {
+  width: 100%;
 }
