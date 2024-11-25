@@ -121,6 +121,7 @@
 }
 .mdeditor .CodeMirror {
   height: auto;
+  @apply bg-white dark:bg-primary-950;
 }
 .CodeMirror-scroll {
   padding: 10px;
