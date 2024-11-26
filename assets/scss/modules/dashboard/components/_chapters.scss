@@ -94,9 +94,10 @@
 
 /* Styles pour la liste des suggestions */
 .chapters-editor__suggestions {
-  @apply absolute hidden top-full left-0 z-10 bg-white dark:bg-primary-950 border rounded w-full max-h-56 overflow-y-auto list-none p-0;
+  @apply absolute top-full left-0 z-10 bg-white dark:bg-primary-950 border rounded w-full max-h-56 overflow-y-auto list-none p-0;
   @apply border-gray-300 dark:border-primary-950;
   @apply mt-0;
+  @apply hidden;
 }
 
 .chapters-editor__suggestion {
@@ -159,4 +160,44 @@
     @apply flex items-center justify-center;
     @apply text-base p-2;
   }
+}
+
+/* Styles pour l'élément choisi (élément original en cours de déplacement) des cours */
+.chapters-editor__sortable-chosen {
+  //@apply opacity-0;
+}
+
+/* Styles pour l'élément fantôme (placeholder) des cours */
+.chapters-editor__sortable-ghost {
+  @apply bg-gray-200 dark:bg-primary-900;
+  @apply border-2 border-dashed border-gray-400 dark:border-primary-700;
+  @apply rounded;
+  //@apply h-12;
+  @apply opacity-100;
+}
+
+/* Styles pour l'élément choisi (élément original en cours de déplacement) des chapitres */
+.chapters-editor__sortable-chosen-chapter {
+  //@apply opacity-0;
+}
+
+/* Styles pour l'élément fantôme (placeholder) des chapitres */
+.chapters-editor__sortable-ghost-chapter {
+  @apply bg-gray-200 dark:bg-primary-800;
+  @apply border-2 border-dashed border-gray-400 dark:border-primary-700;
+  @apply rounded;
+  @apply opacity-100;
+}
+
+/* Styles pour l'élément en cours de déplacement des chapitres */
+.chapters-editor__sortable-drag-chapter {
+  @apply bg-white dark:bg-primary-1000;
+  @apply rounded;
+  @apply overflow-hidden;
+  @apply h-auto;
+}
+
+/* Cacher le contenu (les cours) pendant le drag */
+.chapters-editor__sortable-drag-chapter .chapters-editor__chapter-courses {
+  @apply hidden;
 }

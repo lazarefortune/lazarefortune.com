@@ -1,5 +1,3 @@
-// JavaScript code for the Chapters Editor
-
 import { closest, html } from '../../functions/dom.js';
 import Sortable from 'sortablejs';
 
@@ -159,7 +157,7 @@ function AddCourseButton({ onAddCourse, searchCourses }) {
     const input = document.createElement('input');
     input.type = 'text';
     input.className = 'chapters-editor__add-course-input';
-    input.placeholder = 'Rechercher un cours';
+    input.placeholder = 'Rechercher une vidéo';
     input.addEventListener('input', handleInput);
     input.addEventListener('keydown', handleKeyDown);
 
@@ -248,7 +246,7 @@ function AddCourseButton({ onAddCourse, searchCourses }) {
 /**
  * Élément personnalisé pour gérer l'éditeur de chapitres.
  */
-export class ChaptersEditor extends HTMLTextAreaElement {
+export class    ChaptersEditor extends HTMLTextAreaElement {
     constructor() {
         super();
         this.sortables = [];
@@ -407,6 +405,8 @@ export class ChaptersEditor extends HTMLTextAreaElement {
             new Sortable(ul, {
                 ...this.sortableOptions,
                 handle: '.chapters-editor__course-handle',
+                ghostClass: 'chapters-editor__sortable-ghost',
+                chosenClass: 'chapters-editor__sortable-chosen',
             })
         );
 
@@ -416,6 +416,8 @@ export class ChaptersEditor extends HTMLTextAreaElement {
                 ...this.sortableOptions,
                 group: 'chapters',
                 handle: '.chapters-editor__chapter-handle',
+                ghostClass: 'chapters-editor__sortable-ghost-chapter',
+                chosenClass: 'chapters-editor__sortable-chosen-chapter',
             })
         );
     }
