@@ -24,36 +24,55 @@ function Chapter({ chapter, onUpdate, onRemoveCourse, onAddCourse, editPath, sea
 
     return html`
         <li class="chapters-editor__chapter" data-title="${chapter.title}">
-            <input
-                    type="text"
-                    value="${chapter.title}"
-                    class="chapters-editor__chapter-input"
-                    placeholder="Titre du chapitre"
-                    onblur=${onUpdate}
-                    onfocus=${moveCursorToEnd}
-            />
-            <button
-                    type="button"
-                    class="chapters-editor__chapter-delete"
-                    onclick=${deleteChapter}
-            >
-                <!-- Icône SVG intégrée avec attribut unique -->
-                <svg
-                        class="w-4 h-4"
-                        data-chapter-title="${chapter.title}"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.75"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+            <div class="chapters-editor__chapter-header">
+                <div class="chapters-editor__chapter-handle">
+                    <svg
+                            class="w-4 h-4"
+                            data-chapter-title="${chapter.id}"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.75"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                    >
+                        <use
+                                data-chapter-title="${chapter.id}"
+                                href="/icons/sprite.svg?#move"
+                        ></use>
+                    </svg>
+                </div>
+                <input
+                        type="text"
+                        value="${chapter.title}"
+                        class="chapters-editor__chapter-input"
+                        placeholder="Titre du chapitre"
+                        onblur=${onUpdate}
+                        onfocus=${moveCursorToEnd}
+                />
+                <button
+                        type="button"
+                        class="chapters-editor__chapter-delete"
+                        onclick=${deleteChapter}
                 >
-                    <use
+                    <!-- Icône SVG intégrée avec attribut unique -->
+                    <svg
+                            class="w-4 h-4"
                             data-chapter-title="${chapter.title}"
-                            href="/icons/sprite.svg?#trash"
-                    ></use>
-                </svg>
-            </button>
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.75"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                    >
+                        <use
+                                data-chapter-title="${chapter.title}"
+                                href="/icons/sprite.svg?#trash"
+                        ></use>
+                    </svg>
+                </button>
+            </div>
             <ul class="chapters-editor__chapter-courses">
                 ${chapter.modules.map(
                         (course) =>
@@ -80,7 +99,23 @@ function Course({ course, onRemoveCourse, editPath }) {
                 data-id="${course.id}"
                 data-title="${course.title}"
         >
-            <span class="chapters-editor__course-handle" data-course-id="${course.id}"></span>
+            <div class="chapters-editor__course-handle">
+                <svg
+                        class="w-4 h-4"
+                        data-course-id="${course.id}"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.75"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                >
+                    <use
+                            data-course-id="${course.id}"
+                            href="/icons/sprite.svg?#move"
+                    ></use>
+                </svg>
+            </div>
             <a href=${url} target="_blank" class="chapters-editor__course-link"
             >${course.title}</a
             >
@@ -180,6 +215,7 @@ function AddCourseButton({ onAddCourse, searchCourses }) {
     }
 
     function updateSuggestionsList() {
+        suggestionsContainer.style.display = suggestions.length > 0 ? 'block' : 'none';
         suggestionsContainer.innerHTML = '';
         suggestions.forEach((course, index) => {
             const item = document.createElement('li');
@@ -379,7 +415,7 @@ export class ChaptersEditor extends HTMLTextAreaElement {
             new Sortable(this.list, {
                 ...this.sortableOptions,
                 group: 'chapters',
-                // handle: '.chapters-editor__chapter-handle', // Si vous voulez un handle pour les chapitres
+                handle: '.chapters-editor__chapter-handle',
             })
         );
     }

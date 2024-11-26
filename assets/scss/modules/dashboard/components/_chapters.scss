@@ -1,7 +1,3 @@
-/* CSS code using Tailwind CSS */
-
-/* Chapters Editor Styles */
-
 /* Masquer le textarea d'origine */
 [is="chapters-editor"] {
   @apply hidden;
@@ -14,19 +10,33 @@
 
 /* Styles du chapitre */
 .chapters-editor__chapter {
-  @apply relative mb-4 border rounded p-4 bg-white dark:bg-primary-1000;
+  @apply relative mb-4 p-2 border rounded bg-white dark:bg-primary-1000;
   @apply w-full box-border;
   @apply border-gray-300 dark:border-primary-950;
 }
 
+/* Header du chapitre */
+.chapters-editor__chapter-header {
+  @apply flex items-center mb-2 p-4;
+  @apply bg-white dark:bg-primary-1000;
+  @apply border-b border-gray-300 dark:border-primary-950;
+}
+
+/* Handle du chapitre */
+.chapters-editor__chapter-handle {
+  @apply min-w-5 min-h-5 mr-2 cursor-move;
+}
+
+/* Input du chapitre */
 .chapters-editor__chapter-input {
-  @apply w-full text-lg font-semibold mb-2 bg-transparent border-none outline-none;
+  @apply flex-grow text-lg font-semibold bg-transparent border-none outline-none;
   @apply text-gray-900 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400;
 }
 
+/* Bouton de suppression du chapitre */
 .chapters-editor__chapter-delete {
-  @apply absolute top-2 right-2 text-red-500 hover:text-red-700;
-  @apply p-2 text-sm font-medium bg-transparent border-none cursor-pointer;
+  @apply ml-2 text-red-500 hover:text-red-700;
+  @apply p-2 bg-transparent border-none cursor-pointer;
   @apply transition-colors duration-200 ease-in-out flex items-center justify-center;
   @apply focus:outline-none focus:ring-2 focus:ring-red-500 rounded;
 }
@@ -49,20 +59,7 @@
 }
 
 .chapters-editor__course-handle {
-  @apply w-4 h-4 mr-2 cursor-move;
-  background-image: linear-gradient(
-                  to bottom,
-                  currentColor 0%,
-                  currentColor 25%,
-                  transparent 25%,
-                  transparent 50%,
-                  currentColor 50%,
-                  currentColor 75%,
-                  transparent 75%,
-                  transparent 100%
-  );
-  background-size: 4px 4px;
-  opacity: 0.6;
+  @apply min-w-4 min-h-4 mr-2 cursor-move;
 }
 
 .chapters-editor__course-link {
@@ -71,7 +68,7 @@
 
 .chapters-editor__course-delete {
   @apply ml-2 text-red-500 hover:text-red-700;
-  @apply p-2 text-sm font-medium bg-transparent border-none cursor-pointer;
+  @apply p-2 bg-transparent border-none cursor-pointer;
   @apply transition-colors duration-200 ease-in-out flex items-center justify-center;
   @apply focus:outline-none focus:ring-2 focus:ring-red-500 rounded;
 }
@@ -82,10 +79,9 @@
 
 /* Bouton pour ajouter un cours */
 .chapters-editor__add-course {
-  @apply flex items-center mb-2 relative;
+  @apply mb-2 relative;
 }
 
-/* Nouveau conteneur pour le champ de saisie */
 .chapters-editor__add-course-input-wrapper {
   @apply relative w-full;
 }
@@ -98,7 +94,7 @@
 
 /* Styles pour la liste des suggestions */
 .chapters-editor__suggestions {
-  @apply absolute top-full left-0 z-10 bg-white dark:bg-primary-950 border rounded w-full max-h-56 overflow-y-auto list-none p-0;
+  @apply absolute hidden top-full left-0 z-10 bg-white dark:bg-primary-950 border rounded w-full max-h-56 overflow-y-auto list-none p-0;
   @apply border-gray-300 dark:border-primary-950;
   @apply mt-0;
 }
@@ -135,6 +131,14 @@
 /* Ajustements pour les appareils mobiles */
 @media (max-width: 640px) {
   .chapters-editor__chapter {
+    @apply p-0;
+  }
+
+  .chapters-editor__chapter-header {
+    @apply p-3;
+  }
+
+  .chapters-editor__chapter-courses {
     @apply p-3;
   }
 
@@ -143,7 +147,7 @@
   }
 
   .chapters-editor__add-chapter {
-    @apply flex-col lg:flex-col items-stretch;
+    @apply flex-col items-stretch;
   }
 
   .chapters-editor__add-chapter-input {
@@ -152,9 +156,7 @@
 
   .chapters-editor__add-chapter-button {
     @apply w-full;
-    /* Ajout pour centrer le bouton */
     @apply flex items-center justify-center;
-    /* Ajuster la taille du texte et le padding pour un meilleur rendu */
     @apply text-base p-2;
   }
 }
