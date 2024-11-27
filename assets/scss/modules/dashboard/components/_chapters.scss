@@ -1,8 +1,3 @@
-/* Masquer le textarea d'origine */
-[is="chapters-editor"] {
-  @apply hidden;
-}
-
 /* Conteneur des chapitres */
 .chapters-editor__chapters {
   @apply list-none p-0 m-0;

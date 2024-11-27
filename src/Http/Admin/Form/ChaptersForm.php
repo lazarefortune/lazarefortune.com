@@ -27,9 +27,13 @@ class ChaptersForm extends TextareaType implements DataTransformerInterface
                 'endpoint' => $this->urlGenerator->generate('admin_content_title', ['id' => '0']),
                 'endpoint-edit' => $this->urlGenerator->generate('admin_content_edit', ['id' => '0']),
                 'endpoint-search' => $this->urlGenerator->generate('admin_content_search'),
-                'is' => 'chapters-editor',
             ],
         ]);
+    }
+
+    public function getBlockPrefix() : string
+    {
+        return 'chapters';
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void

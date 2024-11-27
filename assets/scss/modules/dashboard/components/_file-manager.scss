@@ -1,5 +1,7 @@
 .file-manager {
-  @apply flex flex-col border border-gray-300 rounded-b-lg bg-white dark:bg-primary-950 dark:border-primary-950 w-full min-w-[calc(100vw-40px)] max-w-[calc(100vw-40px)] lg:min-w-[calc(100vw-80px)] lg:max-w-[calc(100vw-80px)] h-[80vh] mx-auto shadow relative overflow-hidden;
+  @apply flex flex-col border border-gray-300 rounded-b-lg bg-white dark:bg-primary-950 dark:border-primary-950 w-full;
+  @apply mx-auto shadow relative overflow-hidden;
+  @apply min-w-[calc(100vw-40px)] max-w-[calc(100vw-40px)] lg:min-w-[calc(100vw-80px)] lg:max-w-[calc(100vw-80px)] h-[80vh];
 }
 
 .file-manager__header {

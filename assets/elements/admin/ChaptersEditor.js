@@ -1,254 +1,189 @@
-import { closest, html } from '../../functions/dom.js';
 import Sortable from 'sortablejs';
 
-/**
- * Construit un élément représentant un chapitre.
- */
-function Chapter({ chapter, onUpdate, onRemoveCourse, onAddCourse, editPath, searchCourses }) {
-    function deleteChapter(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        const li = closest(e.currentTarget, 'li');
-        li.parentElement.removeChild(li);
-        onUpdate();
-    }
-
-    function moveCursorToEnd(e) {
-        const valueLength = e.target.value.length;
-        setTimeout(() => {
-            e.target.setSelectionRange(valueLength, valueLength);
-        }, 0);
-    }
-
-    return html`
-        <li class="chapters-editor__chapter" data-title="${chapter.title}">
-            <div class="chapters-editor__chapter-header">
-                <div class="chapters-editor__chapter-handle">
-                    <svg
-                            class="w-4 h-4"
-                            data-chapter-title="${chapter.id}"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.75"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                    >
-                        <use
-                                data-chapter-title="${chapter.id}"
-                                href="/icons/sprite.svg?#move"
-                        ></use>
-                    </svg>
-                </div>
-                <input
-                        type="text"
-                        value="${chapter.title}"
-                        class="chapters-editor__chapter-input"
-                        placeholder="Titre du chapitre"
-                        onblur=${onUpdate}
-                        onfocus=${moveCursorToEnd}
-                />
-                <button
-                        type="button"
-                        class="chapters-editor__chapter-delete"
-                        onclick=${deleteChapter}
-                >
-                    <!-- Icône SVG intégrée avec attribut unique -->
-                    <svg
-                            class="w-4 h-4"
-                            data-chapter-title="${chapter.title}"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.75"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                    >
-                        <use
-                                data-chapter-title="${chapter.title}"
-                                href="/icons/sprite.svg?#trash"
-                        ></use>
-                    </svg>
-                </button>
-            </div>
-            <ul class="chapters-editor__chapter-courses">
-                ${chapter.modules.map(
-                        (course) =>
-                                html`<${Course}
-                                        course=${course}
-                                        onRemoveCourse=${onRemoveCourse}
-                                        editPath=${editPath}
-                                />`
-                )}
-                ${AddCourseButton({ onAddCourse, searchCourses })}
-            </ul>
-        </li>
-    `;
+function html(strings, ...values) {
+    const template = document.createElement('template');
+    template.innerHTML = strings.reduce(
+        (result, string, i) => result + string + (values[i] || ''),
+        ''
+    );
+    return template.content.firstElementChild;
 }
 
-/**
- * Construit un élément représentant un cours.
- */
-function Course({ course, onRemoveCourse, editPath }) {
-    const url = editPath.replace('/0', `/${course.id}`);
-    return html`
-        <li
-                class="chapters-editor__course"
-                data-id="${course.id}"
-                data-title="${course.title}"
-        >
-            <div class="chapters-editor__course-handle">
-                <svg
-                        class="w-4 h-4"
-                        data-course-id="${course.id}"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.75"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                >
-                    <use
-                            data-course-id="${course.id}"
-                            href="/icons/sprite.svg?#move"
-                    ></use>
+function Chapter({ chapter, onUpdate, onRemoveCourse, onAddCourse, editPath, searchCourses }) {
+    const li = document.createElement('li');
+    li.className = 'chapters-editor__chapter';
+    li.dataset.title = chapter.title;
+
+    li.innerHTML = `
+        <div class="chapters-editor__chapter-header">
+            <div class="chapters-editor__chapter-handle">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                    <use href="/icons/sprite.svg?#move"></use>
                 </svg>
             </div>
-            <a href=${url} target="_blank" class="chapters-editor__course-link"
-            >${course.title}</a
-            >
-            <button
-                    type="button"
-                    class="chapters-editor__course-delete"
-                    onclick=${onRemoveCourse}
-            >
-                <svg
-                        class="w-4 h-4"
-                        data-course-id="${course.id}"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.75"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                >
-                    <use data-course-id="${course.id}" href="/icons/sprite.svg?#trash"></use>
+            <input
+                type="text"
+                value="${chapter.title}"
+                class="chapters-editor__chapter-input"
+                placeholder="Titre du chapitre"
+            />
+            <button type="button" class="chapters-editor__chapter-delete">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                    <use href="/icons/sprite.svg?#trash"></use>
                 </svg>
             </button>
-        </li>
+        </div>
+        <ul class="chapters-editor__chapter-courses"></ul>
     `;
+
+    const titleInput = li.querySelector('.chapters-editor__chapter-input');
+    titleInput.addEventListener('blur', onUpdate);
+
+    const deleteButton = li.querySelector('.chapters-editor__chapter-delete');
+    deleteButton.addEventListener('click', () => {
+        li.remove();
+        onUpdate();
+    });
+
+    const coursesList = li.querySelector('.chapters-editor__chapter-courses');
+    chapter.modules.forEach((course) => {
+        const courseElement = Course({ course, onRemoveCourse, editPath });
+        coursesList.appendChild(courseElement);
+    });
+
+    const addCourseButton = AddCourseButton({ onAddCourse, searchCourses });
+    coursesList.appendChild(addCourseButton);
+
+    return li;
 }
 
-/**
- * Bouton pour ajouter un cours avec autocomplétion et navigation au clavier.
- */
-function AddCourseButton({ onAddCourse, searchCourses }) {
-    let suggestions = [];
-    let selectedIndex = -1;
-    let selectedCourse = null;
+function Course({ course, onRemoveCourse, editPath }) {
+    const li = document.createElement('li');
+    li.className = 'chapters-editor__course';
+    li.dataset.id = course.id;
+    li.dataset.title = course.title;
 
+    li.innerHTML = `
+        <div class="chapters-editor__course-handle">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <use href="/icons/sprite.svg?#move"></use>
+            </svg>
+        </div>
+        <a href="${editPath.replace('/0', `/${course.id}`)}" target="_blank" class="chapters-editor__course-link">${course.title}</a>
+        <button type="button" class="chapters-editor__course-delete">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <use href="/icons/sprite.svg?#trash"></use>
+            </svg>
+        </button>
+    `;
+
+    const deleteButton = li.querySelector('.chapters-editor__course-delete');
+    deleteButton.addEventListener('click', () => {
+        li.remove();
+        onRemoveCourse();
+    });
+
+    return li;
+}
+
+
+function AddCourseButton({ onAddCourse, searchCourses }) {
     const li = document.createElement('li');
     li.className = 'chapters-editor__add-course';
 
-    // Créer un conteneur pour le champ de saisie et les suggestions
+    // Wrapper pour l'input de recherche et les suggestions
     const inputWrapper = document.createElement('div');
     inputWrapper.className = 'chapters-editor__add-course-input-wrapper';
 
     const input = document.createElement('input');
     input.type = 'text';
     input.className = 'chapters-editor__add-course-input';
-    input.placeholder = 'Rechercher une vidéo';
-    input.addEventListener('input', handleInput);
-    input.addEventListener('keydown', handleKeyDown);
+    input.placeholder = 'Rechercher un cours';
 
     const suggestionsContainer = document.createElement('ul');
     suggestionsContainer.className = 'chapters-editor__suggestions';
 
     inputWrapper.appendChild(input);
-    inputWrapper.appendChild(suggestionsContainer);
-
     li.appendChild(inputWrapper);
+    li.appendChild(suggestionsContainer);
 
-    function handleInput(e) {
-        const query = e.target.value.trim();
-        selectedIndex = -1;
-        if (query.length > 1) {
-            searchCourses(query).then((results) => {
-                suggestions = results;
-                updateSuggestionsList();
-            });
-        } else {
-            suggestions = [];
-            updateSuggestionsList();
+    let suggestions = [];
+    let selectedIndex = -1;
+
+    // Fonction pour mettre à jour les suggestions
+    function updateSuggestions(query) {
+        if (!query) {
+            suggestionsContainer.innerHTML = '';
+            suggestionsContainer.style.display = 'none';
+            return;
         }
-    }
 
-    function handleKeyDown(e) {
-        if (suggestions.length > 0) {
-            if (e.key === 'ArrowDown') {
-                e.preventDefault();
-                selectedIndex = (selectedIndex + 1) % suggestions.length;
-                updateSuggestionsHighlight();
-            } else if (e.key === 'ArrowUp') {
-                e.preventDefault();
-                selectedIndex = (selectedIndex - 1 + suggestions.length) % suggestions.length;
-                updateSuggestionsHighlight();
-            } else if (e.key === 'Enter') {
-                e.preventDefault();
-                if (selectedIndex >= 0 && selectedIndex < suggestions.length) {
-                    handleSuggestionClick(suggestions[selectedIndex]);
+        searchCourses(query).then((results) => {
+            suggestions = results;
+            suggestionsContainer.innerHTML = '';
+            suggestionsContainer.style.display = suggestions.length ? 'block' : 'none';
+
+            suggestions.forEach((course, index) => {
+                const suggestionItem = document.createElement('li');
+                suggestionItem.textContent = course.title;
+                suggestionItem.className = 'chapters-editor__suggestion';
+                if (index === selectedIndex) {
+                    suggestionItem.classList.add('selected');
                 }
+                suggestionItem.addEventListener('click', () => {
+                    onAddCourse(course, li);
+                    input.value = '';
+                    suggestionsContainer.style.display = 'none';
+                });
+                suggestionsContainer.appendChild(suggestionItem);
+            });
+        });
+    }
+
+    // Gérer les événements du clavier
+    input.addEventListener('input', (e) => {
+        const query = e.target.value.trim();
+        updateSuggestions(query);
+    });
+
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            selectedIndex = (selectedIndex + 1) % suggestions.length;
+            updateSuggestions(input.value);
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            selectedIndex = (selectedIndex - 1 + suggestions.length) % suggestions.length;
+            updateSuggestions(input.value);
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (selectedIndex >= 0 && suggestions[selectedIndex]) {
+                onAddCourse(suggestions[selectedIndex], li);
+                input.value = '';
+                suggestionsContainer.style.display = 'none';
             }
         }
-    }
+    });
 
-    function handleSuggestionClick(course) {
-        selectedCourse = course;
-        input.value = '';
-        suggestions = [];
-        selectedIndex = -1;
-        updateSuggestionsList();
-        onAddCourse(selectedCourse, li);
-        selectedCourse = null;
-    }
-
-    function updateSuggestionsList() {
-        suggestionsContainer.style.display = suggestions.length > 0 ? 'block' : 'none';
-        suggestionsContainer.innerHTML = '';
-        suggestions.forEach((course, index) => {
-            const item = document.createElement('li');
-            item.textContent = course.title;
-            item.className = 'chapters-editor__suggestion';
-            if (index === selectedIndex) {
-                item.classList.add('selected');
-            }
-            item.addEventListener('click', () => handleSuggestionClick(course));
-            suggestionsContainer.appendChild(item);
-        });
-    }
-
-    function updateSuggestionsHighlight() {
-        const items = suggestionsContainer.querySelectorAll('.chapters-editor__suggestion');
-        items.forEach((item, index) => {
-            if (index === selectedIndex) {
-                item.classList.add('selected');
-                selectedCourse = suggestions[selectedIndex];
-                item.scrollIntoView({ block: 'nearest' });
-            } else {
-                item.classList.remove('selected');
-            }
-        });
-    }
+    // Masquer les suggestions si l'utilisateur clique en dehors
+    document.addEventListener('click', (e) => {
+        if (!li.contains(e.target)) {
+            suggestionsContainer.style.display = 'none';
+        }
+    });
 
     return li;
 }
 
-/**
- * Élément personnalisé pour gérer l'éditeur de chapitres.
- */
-export class    ChaptersEditor extends HTMLTextAreaElement {
+export class ChaptersEditor extends HTMLElement {
     constructor() {
         super();
+
+        this.textarea = this.querySelector('textarea');
+        if (!this.textarea) {
+            throw new Error('ChaptersEditor doit contenir un <textarea> enfant.');
+        }
+
         this.sortables = [];
         this.updateInput = this.updateInput.bind(this);
         this.removeCourse = this.removeCourse.bind(this);
@@ -267,94 +202,87 @@ export class    ChaptersEditor extends HTMLTextAreaElement {
     }
 
     connectedCallback() {
-        this.editPath = this.getAttribute('endpoint-edit');
-        this.searchEndpoint = this.getAttribute('endpoint-search');
+        this.editPath = this.textarea.getAttribute('endpoint-edit');
+        this.searchEndpoint = this.textarea.getAttribute('endpoint-search');
         this.list = this.renderList();
         this.bindSortable();
         this.insertAdjacentElement('beforebegin', this.list);
 
-        // Masquer le textarea
-        this.style.display = 'none';
+        this.textarea.style.display = 'none';
     }
 
-    /**
-     * Construit la liste des chapitres.
-     */
     renderList() {
-        const chapters = JSON.parse(this.value || '[]');
-        return html`
-            <ul class="chapters-editor__chapters">
-                ${chapters.map(
-                        (chapter) => html`
-                            <${Chapter}
-                                    chapter=${chapter}
-                                    onUpdate=${this.updateInput}
-                                    onRemoveCourse=${this.removeCourse}
-                                    onAddCourse=${this.addCourse}
-                                    editPath=${this.editPath}
-                                    searchCourses=${this.searchCourses}
-                            />
-                        `
-                )}
-                <li class="chapters-editor__add-chapter">
-                    <input
-                            type="text"
-                            class="chapters-editor__add-chapter-input"
-                            placeholder="Ajouter un chapitre"
-                            onkeydown=${(e) =>
-                                    e.key === 'Enter' &&
-                                    this.addChapter(e.target.value, e.target.closest('li'))}
-                    />
-                    <button
-                            type="button"
-                            class="chapters-editor__add-chapter-button"
-                            onclick=${(e) =>
-                                    this.addChapter(
-                                            e.target.previousElementSibling.value,
-                                            e.target.closest('li')
-                                    )}
-                    >
-                        +
-                    </button>
-                </li>
-            </ul>
-        `;
+        const chapters = JSON.parse(this.textarea.value || '[]');
+        const ul = document.createElement('ul');
+        ul.className = 'chapters-editor__chapters';
+
+        chapters.forEach((chapter) => {
+            const chapterElement = Chapter({
+                chapter,
+                onUpdate: this.updateInput,
+                onRemoveCourse: this.removeCourse,
+                onAddCourse: this.addCourse,
+                editPath: this.editPath,
+                searchCourses: this.searchCourses,
+            });
+            ul.appendChild(chapterElement);
+        });
+
+        // Ajouter un champ pour créer de nouveaux chapitres
+        const addChapterLi = document.createElement('li');
+        addChapterLi.className = 'chapters-editor__add-chapter';
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.placeholder = 'Ajouter un chapitre';
+        input.className = 'chapters-editor__add-chapter-input';
+
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.textContent = '+';
+        button.className = 'chapters-editor__add-chapter-button';
+        button.addEventListener('click', () => {
+            this.addChapter(input.value, addChapterLi);
+        });
+
+        addChapterLi.appendChild(input);
+        addChapterLi.appendChild(button);
+        ul.appendChild(addChapterLi);
+
+        return ul;
     }
 
-    /**
-     * Ajoute un chapitre.
-     */
     addChapter(title, li) {
         if (!title.trim()) return;
         const chapter = { title, modules: [] };
-        const chapterLi = html`
-            <${Chapter}
-                    chapter=${chapter}
-                    onUpdate=${this.updateInput}
-                    onRemoveCourse=${this.removeCourse}
-                    onAddCourse=${this.addCourse}
-                    editPath=${this.editPath}
-                    searchCourses=${this.searchCourses}
-            />
-        `;
-        li.insertAdjacentElement('beforebegin', chapterLi);
-        this.sortables.push(
-            new Sortable(chapterLi.querySelector('.chapters-editor__chapter-courses'), {
-                ...this.sortableOptions,
-                handle: '.chapters-editor__course-handle',
-            })
-        );
+        const chapterElement = Chapter({
+            chapter,
+            onUpdate: this.updateInput,
+            onRemoveCourse: this.removeCourse,
+            onAddCourse: this.addCourse,
+            editPath: this.editPath,
+            searchCourses: this.searchCourses,
+        });
+        li.insertAdjacentElement('beforebegin', chapterElement);
         this.updateInput();
 
-        // Réinitialiser le champ de saisie
         const input = li.querySelector('.chapters-editor__add-chapter-input');
         input.value = '';
         input.focus();
     }
 
-    /**
-     * Ajoute un cours.
-     */
+    async searchCourses(query) {
+        const url = new URL(this.searchEndpoint, window.location.origin);
+        url.searchParams.set('q', query);
+        try {
+            const courses = await fetch(url.toString()).then((res) => res.json());
+            return courses;
+        } catch (e) {
+            console.error('Erreur lors de la recherche des cours.', e);
+            return [];
+        }
+    }
+
     addCourse(course, li) {
         const courseLi = Course({
             course,
@@ -364,67 +292,17 @@ export class    ChaptersEditor extends HTMLTextAreaElement {
         li.insertAdjacentElement('beforebegin', courseLi);
         this.updateInput();
 
-        // Réinitialiser le champ de saisie
         const input = li.querySelector('.chapters-editor__add-course-input');
-        input.value = '';
-        input.focus();
-    }
-
-    /**
-     * Recherche des cours en fonction de la requête.
-     */
-    async searchCourses(query) {
-        const url = new URL(this.searchEndpoint, window.location.origin);
-        url.searchParams.set('q', query);
-        try {
-            const courses = await fetch(url.toString()).then((res) => res.json());
-            return courses; // Doit être une liste d'objets { id, title }
-        } catch (e) {
-            console.error('Erreur lors de la recherche des cours.', e);
-            return [];
+        if (input) {
+            input.value = '';
+            input.focus();
         }
     }
 
-    /**
-     * Supprime un cours.
-     */
-    removeCourse(e) {
-        const li = closest(e.currentTarget, 'li');
-        li.parentElement.removeChild(li);
+    removeCourse() {
         this.updateInput();
     }
 
-    /**
-     * Initialise le comportement de drag-and-drop avec Sortable.js.
-     */
-    bindSortable() {
-        // Pour les cours
-        this.sortables = Array.from(
-            this.list.querySelectorAll('.chapters-editor__chapter-courses')
-        ).map((ul) =>
-            new Sortable(ul, {
-                ...this.sortableOptions,
-                handle: '.chapters-editor__course-handle',
-                ghostClass: 'chapters-editor__sortable-ghost',
-                chosenClass: 'chapters-editor__sortable-chosen',
-            })
-        );
-
-        // Pour les chapitres
-        this.sortables.push(
-            new Sortable(this.list, {
-                ...this.sortableOptions,
-                group: 'chapters',
-                handle: '.chapters-editor__chapter-handle',
-                ghostClass: 'chapters-editor__sortable-ghost-chapter',
-                chosenClass: 'chapters-editor__sortable-chosen-chapter',
-            })
-        );
-    }
-
-    /**
-     * Met à jour le JSON dans le textarea.
-     */
     updateInput() {
         const chapters = Array.from(
             this.list.querySelectorAll('.chapters-editor__chapter')
@@ -438,7 +316,26 @@ export class    ChaptersEditor extends HTMLTextAreaElement {
             }));
             return { title, modules };
         });
-        this.value = JSON.stringify(chapters, null, 2);
+        this.textarea.value = JSON.stringify(chapters, null, 2);
+    }
+
+    bindSortable() {
+        this.sortables = Array.from(
+            this.list.querySelectorAll('.chapters-editor__chapter-courses')
+        ).map((ul) =>
+            new Sortable(ul, {
+                ...this.sortableOptions,
+                handle: '.chapters-editor__course-handle',
+            })
+        );
+
+        this.sortables.push(
+            new Sortable(this.list, {
+                ...this.sortableOptions,
+                group: 'chapters',
+                handle: '.chapters-editor__chapter-handle',
+            })
+        );
     }
 
     disconnectedCallback() {
