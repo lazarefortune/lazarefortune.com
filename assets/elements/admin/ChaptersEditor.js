@@ -195,6 +195,8 @@ export class ChaptersEditor extends HTMLElement {
             animation: 150,
             fallbackOnBody: true,
             swapThreshold: 0.65,
+            ghostClass: 'chapters-editor__sortable-ghost',
+            chosenClass: 'chapters-editor__sortable-chosen',
             filter: '.chapters-editor__add-course',
             preventOnFilter: false,
             onEnd: this.updateInput,
@@ -326,6 +328,8 @@ export class ChaptersEditor extends HTMLElement {
             new Sortable(ul, {
                 ...this.sortableOptions,
                 handle: '.chapters-editor__course-handle',
+                ghostClass: 'chapters-editor__sortable-ghost',
+                chosenClass: 'chapters-editor__sortable-chosen',
             })
         );
 
