@@ -103,8 +103,14 @@ function AddCourseButton({ onAddCourse, searchCourses }) {
     const suggestionsContainer = document.createElement('ul');
     suggestionsContainer.className = 'chapters-editor__suggestions';
 
+    // Création du loader
+    const loader = document.createElement('spinning-dots');
+    loader.className = 'chapters-editor__loader';
+    loader.style.display = 'none'; // Masquer par défaut
+
     inputWrapper.appendChild(input);
     li.appendChild(inputWrapper);
+    li.appendChild(loader); // Ajouter le loader
     li.appendChild(suggestionsContainer);
 
     let suggestions = [];
@@ -115,28 +121,42 @@ function AddCourseButton({ onAddCourse, searchCourses }) {
         if (!query) {
             suggestionsContainer.innerHTML = '';
             suggestionsContainer.style.display = 'none';
+            loader.style.display = 'none'; // Cacher le loader si la recherche est vide
             return;
         }
+
+        loader.style.display = 'block'; // Afficher le loader
+        suggestionsContainer.style.display = 'none'; // Cacher temporairement les suggestions
 
         searchCourses(query).then((results) => {
             suggestions = results;
             suggestionsContainer.innerHTML = '';
-            suggestionsContainer.style.display = suggestions.length ? 'block' : 'none';
+            loader.style.display = 'none'; // Cacher le loader une fois la recherche terminée
 
-            suggestions.forEach((course, index) => {
-                const suggestionItem = document.createElement('li');
-                suggestionItem.textContent = course.title;
-                suggestionItem.className = 'chapters-editor__suggestion';
-                if (index === selectedIndex) {
-                    suggestionItem.classList.add('selected');
-                }
-                suggestionItem.addEventListener('click', () => {
-                    onAddCourse(course, li);
-                    input.value = '';
-                    suggestionsContainer.style.display = 'none';
+            if (suggestions.length) {
+                suggestionsContainer.style.display = 'block';
+                suggestions.forEach((course, index) => {
+                    const suggestionItem = document.createElement('li');
+                    suggestionItem.textContent = course.title;
+                    suggestionItem.className = 'chapters-editor__suggestion';
+                    if (index === selectedIndex) {
+                        suggestionItem.classList.add('selected');
+                    }
+                    suggestionItem.addEventListener('click', () => {
+                        onAddCourse(course, li);
+                        input.value = '';
+                        suggestionsContainer.style.display = 'none';
+                    });
+                    suggestionsContainer.appendChild(suggestionItem);
                 });
-                suggestionsContainer.appendChild(suggestionItem);
-            });
+            } else {
+                // Afficher un message s'il n'y a pas de résultats
+                const noResultsMessage = document.createElement('li');
+                noResultsMessage.textContent = 'Aucun résultat trouvé';
+                noResultsMessage.className = 'chapters-editor__no-results';
+                suggestionsContainer.appendChild(noResultsMessage);
+                suggestionsContainer.style.display = 'block';
+            }
         });
     }
 
@@ -169,6 +189,7 @@ function AddCourseButton({ onAddCourse, searchCourses }) {
     document.addEventListener('click', (e) => {
         if (!li.contains(e.target)) {
             suggestionsContainer.style.display = 'none';
+            loader.style.display = 'none';
         }
     });
 
@@ -266,12 +287,25 @@ export class ChaptersEditor extends HTMLElement {
             searchCourses: this.searchCourses,
         });
         li.insertAdjacentElement('beforebegin', chapterElement);
+
+        // Re-binder Sortable pour les cours dans le nouveau chapitre
+        const coursesList = chapterElement.querySelector('.chapters-editor__chapter-courses');
+        this.sortables.push(
+            new Sortable(coursesList, {
+                ...this.sortableOptions,
+                handle: '.chapters-editor__course-handle',
+                ghostClass: 'chapters-editor__sortable-ghost',
+                chosenClass: 'chapters-editor__sortable-chosen',
+            })
+        );
+
         this.updateInput();
 
         const input = li.querySelector('.chapters-editor__add-chapter-input');
         input.value = '';
         input.focus();
     }
+
 
     async searchCourses(query) {
         const url = new URL(this.searchEndpoint, window.location.origin);
@@ -292,6 +326,25 @@ export class ChaptersEditor extends HTMLElement {
             editPath: this.editPath,
         });
         li.insertAdjacentElement('beforebegin', courseLi);
+
+        // Réinitialiser le drag-and-drop pour le parent (au cas où)
+        const parentUl = li.closest('.chapters-editor__chapter-courses');
+        const sortable = this.sortables.find((s) => s.el === parentUl);
+        if (sortable) {
+            sortable.destroy(); // Supprimer l'ancien binding
+            this.sortables = this.sortables.filter((s) => s !== sortable); // Retirer de la liste
+        }
+
+        // Réinitialiser le binding avec Sortable
+        this.sortables.push(
+            new Sortable(parentUl, {
+                ...this.sortableOptions,
+                handle: '.chapters-editor__course-handle',
+                ghostClass: 'chapters-editor__sortable-ghost',
+                chosenClass: 'chapters-editor__sortable-chosen',
+            })
+        );
+
         this.updateInput();
 
         const input = li.querySelector('.chapters-editor__add-course-input');
@@ -300,6 +353,7 @@ export class ChaptersEditor extends HTMLElement {
             input.focus();
         }
     }
+
 
     removeCourse() {
         this.updateInput();
@@ -344,6 +398,7 @@ export class ChaptersEditor extends HTMLElement {
 
     disconnectedCallback() {
         this.sortables.forEach((sortable) => sortable.destroy());
+        this.sortables = [];
         this.list.remove();
     }
 }

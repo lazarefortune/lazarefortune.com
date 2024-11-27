@@ -90,7 +90,7 @@
 /* Styles pour la liste des suggestions */
 .chapters-editor__suggestions {
   @apply absolute top-full left-0 z-10 bg-white dark:bg-primary-950 border rounded w-full max-h-56 overflow-y-auto list-none p-0;
-  @apply border-gray-300 dark:border-primary-950;
+  @apply border-gray-300 dark:border-primary-800;
   @apply mt-0;
   @apply hidden;
 }
@@ -101,7 +101,7 @@
 
 .chapters-editor__suggestion:hover,
 .chapters-editor__suggestion.selected {
-  @apply bg-gray-100 dark:bg-primary-1000;
+  @apply bg-gray-100 dark:bg-primary-800/50;
 }
 
 .chapters-editor__suggestion:not(:last-child) {
@@ -195,4 +195,8 @@
 /* Cacher le contenu (les cours) pendant le drag */
 .chapters-editor__sortable-drag-chapter .chapters-editor__chapter-courses {
   @apply hidden;
+}
+
+.chapters-editor__no-results {
+  @apply p-2.5 text-sm italic text-center text-gray-500 dark:text-gray-400;
 }
