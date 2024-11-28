@@ -4,6 +4,7 @@
     span {
       @apply text-primary-600 dark:text-primary-400;
     }
+
     em {
       @apply text-xl text-slate-600 dark:text-slate-400;
     }
@@ -17,62 +18,72 @@
 .formation {
   @apply relative flex flex-col border border-slate-200 bg-white dark:bg-dark-soft dark:border-slate-700 rounded text-base shadow;
 }
+
 .formation__body {
   @apply p-4 flex-grow bg-white dark:bg-dark-soft dark:border-slate-700;
   display: grid !important;
   grid-template-columns: 1fr;
   align-content: flex-start;
 }
+
 .formation__footer {
   @apply flex items-center min-h-[36px] px-4 py-0 bg-slate-100 dark:bg-dark-soft-2 text-slate-600 dark:text-slate-400;
   & > :last-child {
     @apply ml-auto mr-0;
   }
+
   & > * {
     @apply whitespace-nowrap mr-4;
   }
 }
+
 .formation__icons {
   @apply flex items-center flex-none;
 }
+
 .formation__icon {
   @apply inline-block h-10 w-10;
 }
+
 .formation__title a {
   @apply text-base font-medium text-slate-900 transition duration-300 hover:text-primary-500 dark:text-slate-200 dark:hover:text-primary-400;
 }
+
 .formation__link {
   @apply static;
-  &::after{
+  &::after {
     content: '';
     @apply absolute inset-0 block cursor-pointer rounded border border-transparent transition duration-300 z-[2];
   }
+
   &:hover::after {
     @apply border-primary-500;
   }
 }
+
 .formation__description p {
   @apply text-slate-500 text-[15px] dark:text-slate-400;
 }
+
 .formation::after,
-.formation::before
-{
+.formation::before {
   content: "";
   @apply absolute top-0 left-0 right-0 bottom-0 -z-[1] bg-white dark:bg-dark-soft shadow border border-slate-200 dark:border-slate-700;
   transition: .3s;
 }
+
 .formation::after {
   @apply bg-white dark:bg-dark-soft shadow border border-slate-200 dark:border-slate-700 translate-x-[6px] translate-y-[6px];
   z-index: -1;
 }
+
 .formation:hover::after {
   @apply translate-x-[6px] translate-y-[6px] rotate-3;
 }
+
 .formation:hover::before {
   @apply rotate-[-3deg];
 }
-
-
 
 
 .formation__header {
@@ -93,49 +104,60 @@
     grid-template-columns: 1fr 300px;
   }
 }
+
 @media (min-width: 690px) {
   .formation__header {
     grid-template-columns: 1fr 300px;
   }
 }
+
 .formation__header__title {
   @apply text-3xl lg:text-4xl font-medium text-primary-700 dark:text-slate-200;
 }
+
 .formation__header__image {
-  display: none;
+  display: flex;
   position: relative;
+  justify-content: center;
+  align-items: center;
+  padding: 0 25px;
 }
+
+@media (min-width: 690px) {
+  .formation__header__image {
+    display: flex;
+    padding: 0 25px;
+  }
+}
+
 @media (min-width: 1000px) {
   .formation__header__image {
-    display: block;
+    display: flex;
     align-self: flex-start;
     padding-top: 30px;
   }
 }
-@media (min-width: 690px) {
-  .formation__header__image {
-    display: block;
-    text-align: center;
-    align-self: center;
-    padding: 0 25px 0;
-  }
-}
+
 .formation__header__image img {
+  max-width: 100%;
+  height: auto;
   position: relative;
   z-index: 2;
   display: block;
-  margin-left: auto;
-  margin-right: auto;
-  filter: drop-shadow(0 0 6px rgba(0, 0, 0, .3));
+  margin: auto;
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.3));
+  border-radius: 10px;
 }
+
 @media (min-width: 1000px) {
   .formation__header__image img {
-    height: 250px;
+    max-height: 250px;
   }
 }
-@media (min-width: 690px) {
+
+@media (min-width: 690px) and (max-width: 999px) {
   .formation__header__image img {
-    height: 200px;
+    max-height: 200px;
   }
 }
 
@@ -149,12 +171,15 @@
   gap: 8px;
   max-width: 390px;
   grid-template-columns: repeat(2, 1fr);
+
   .formation-progress__label {
     @apply uppercase text-base font-medium;
   }
+
   .formation-progress__count {
     @apply text-right text-base;
   }
+
   .formation-progress__bar {
     grid-column: 1 / span 2;
     height: 17px;
@@ -164,7 +189,8 @@
     display: flex;
     align-items: center;
     position: relative;
-    &::before, &::after{
+
+    &::before, &::after {
       content: '';
       display: block;
       width: var(--progress);
@@ -175,6 +201,7 @@
       z-index: 2;
       box-shadow: 0 0 3px inset #0000000C;
     }
+
     &::before {
       top: calc(50% - 3px);
       @apply absolute bg-slate-100 w-auto left-2 right-2 z-[1];

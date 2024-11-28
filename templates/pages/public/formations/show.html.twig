@@ -37,11 +37,13 @@
                     {% endif %}
                 </div>
             </div>
-            {% if formation.mainTechnologies is not empty %}
-                <div class="formation__header__image">
-                    <img src="{{ uploads_path('icons/' ~ formation.mainTechnologies[0].image) }}" alt="">
-                </div>
+            <div class="formation__header__image">
+            {% if formation.image is not empty %}
+                <img src="{{ formation.image | image }}" alt="{{ formation.title }}">
+            {% elseif formation.mainTechnologies is not empty %}
+                <img src="{{ uploads_path('icons/' ~ formation.mainTechnologies[0].image) }}" alt="">
             {% endif %}
+            </div>
         </div>
     </header>
 

@@ -33,6 +33,7 @@ class TwigUrlExtension extends AbstractExtension
     {
         return [
             new TwigFilter('avatar', $this->avatarPath(...)),
+            new TwigFilter('image', $this->imagePath(...)),
         ];
     }
 
@@ -46,9 +47,11 @@ class TwigUrlExtension extends AbstractExtension
     }
 
     /**
-     * @param string|object $path
+     * @param object|string $path
+     * @param array $params
+     * @return string
      */
-    public function pathFor($path, array $params = []): string
+    public function pathFor( object|string $path, array $params = []): string
     {
         if (is_string($path)) {
             return $this->urlGenerator->generate($path, $params);
@@ -58,9 +61,11 @@ class TwigUrlExtension extends AbstractExtension
     }
 
     /**
-     * @param string|object $path
+     * @param object|string $path
+     * @param array $params
+     * @return string
      */
-    public function urlFor($path, array $params = []): string
+    public function urlFor( object|string $path, array $params = []): string
     {
         if (is_string($path)) {
             return $this->urlGenerator->generate(
@@ -71,6 +76,11 @@ class TwigUrlExtension extends AbstractExtension
         }
 
         return $this->serializer->serialize($path, 'path', ['url' => true]);
+    }
+
+    public function imagePath( Object $object, ?string $field = null): string
+    {
+        return $this->uploaderHelper->asset($object, $field);
     }
 
 }
