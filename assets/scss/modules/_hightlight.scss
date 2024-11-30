@@ -23,7 +23,9 @@
   //  border: solid 1px var(--border-light);
   //}
 }
-
+.hljs > * {
+  font-family: "JetBrains Mono", serif !important;
+}
 .hljs-comment,
 .hljs-quote {
   color: var(--comment);
