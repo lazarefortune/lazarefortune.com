@@ -32,7 +32,7 @@
                     <div class="course-countdown-content">
                         <em>Disponible dans</em>
                         <span class="course-countdown_timer mb-2">{{ course.publishedAt | countdown }}</span>
-                        <a href="{{ path('app_login') }}" class="btn btn-primary">{{ icon('crown') }} Devenez premium</a>
+{#                        <a href="{{ path('app_login') }}" class="btn btn-primary">{{ icon('crown') }} Devenez premium</a>#}
                     </div>
                 </div>
             {% elseif course.premium and not userIsPremium %}

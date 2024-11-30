@@ -113,10 +113,10 @@
   .course__countdown {
     @apply absolute inset-0 flex flex-col items-center justify-center text-4xl z-[2];
     & > em {
-      @apply text-base;
+      @apply text-base not-italic;
     }
     & > strong {
-      @apply text-3xl;
+      @apply text-3xl font-normal;
     }
   }
 }
