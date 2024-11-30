@@ -1,0 +1,19 @@
+
+.guirlande {
+  @apply absolute w-full h-[150px] top-[150px] left-0 pointer-events-none z-[1000];
+}
+
+.guirlande1 {
+  height: 120px;
+  background: url(../../images/december/guirlande1.png) repeat-x 300% top;
+  top: -23px;
+}
+.guirlande2 {
+  background: url(../../images/december/guirlande2.png) repeat-x 70% top;
+  top: -71px;
+}
+
+.guirlande3 {
+  background: url(../../images/december/guirlande3.png) repeat-x 10% top;
+  top:-48px;
+}
