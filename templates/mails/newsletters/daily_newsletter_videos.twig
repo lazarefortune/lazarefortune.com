@@ -1,0 +1,36 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as element %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+
+        Bonjour {{ user.fullname }} ! 👋
+        ================================
+
+        J'espère que tu vas bien ! Voici les nouvelles vidéos disponibles aujourd'hui sur le site ! 🎥✨
+
+        {% for course in courses %}
+            - **{{ course.title }}**
+            [Voir la vidéo complète]({{ course.url }})
+        {% endfor %}
+
+        N'oublie pas de te connecter si tu veux garder une trace de tes progrès et de tes vidéos préférées ! 📈🎯
+
+        En espérant que ces contenus te plairont, je te souhaite une excellente journée ! 🌞
+
+    {% endapply %}
+
+    {{ element.button('🎥 Découvrir les vidéos du jour', courses_url, 'primary') }}
+
+    {% apply markdown_email %}
+
+        Nous espérons que vous apprécierez ces contenus ! Si vous avez des questions ou suggestions, n'hésitez pas à nous contacter.
+
+        À bientôt,
+        **L'équipe de Code Discovery** 🚀
+
+    {% endapply %}
+
+{% endblock %}
