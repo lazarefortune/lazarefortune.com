@@ -14,6 +14,7 @@ import {TimeAgo} from "./TimeAgo";
 import { MarkdownEditor } from "./editor";
 import { AutosaveBlur } from "./AutosaveBlur";
 import { FileManager } from "./admin/FileManager";
+import { TimeCountdown } from "./TimeCountdown";
 
 customElements.define('spotlight-bar', Spotlight)
 customElements.define('nav-tabs', NavTabs)
@@ -29,6 +30,7 @@ customElements.define('theme-switcher', ThemeSwitcher)
 customElements.define('ajax-delete', AjaxDelete)
 customElements.define('loader-overlay', LoaderOverlay)
 customElements.define('spinning-dots', SpinningDots)
+customElements.define('time-countdown', TimeCountdown)
 customElements.define('line-chart', LineChart)
 customElements.define('autosave-blur', AutosaveBlur, {extends: 'form'})
 customElements.define('time-ago', TimeAgo)
