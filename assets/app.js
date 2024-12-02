@@ -61,6 +61,7 @@ import React from "react"
 import ReactDOM from "react-dom/client"
 import reactToWebComponent from "react-to-webcomponent"
 import Comments from "./components/Comments";
+import Quiz from "./components/Quiz/Quiz";
 
 // const CommentElement = reactToWebComponent(Comment, React, ReactDOM)
 const CommentsElement = reactToWebComponent(Comments, React, ReactDOM, {
@@ -68,5 +69,10 @@ const CommentsElement = reactToWebComponent(Comments, React, ReactDOM, {
     props: ['contentId'] // Liste des propriétés que le Custom Element doit observer
 });
 
+const QuizElement = reactToWebComponent(Quiz, React, ReactDOM, {
+    shadow: false,
+    props: ['contentId']
+});
 
 customElements.define('comments-area', CommentsElement)
+customElements.define('quiz-area', QuizElement)
