@@ -74,10 +74,11 @@ const Quiz = () => {
     const currentQuestion = quiz[currentQuestionIndex];
 
     return (
-        <div className="mt-4 bg-primary-1000 text-white-soft dark:bg-primary-950 dark:text-white flex flex-col items-center justify-center px-4">
-            <div className="w-full max-w-3xl p-6 rounded-md shadow-lg bg-primary-50 dark:bg-primary-950">
-                <h1 className="text-2xl font-bold text-center mb-6">
-                    {isQuizStarted ? "Quiz en cours" : "Bienvenue au Quiz"}
+        <div className="mt-4 flex flex-col items-center justify-center">
+            <div className="w-full py-4 px-4 border border-slate-200 shadow shadow-slate-400 dark:border-slate-700 rounded-md
+            bg-white dark:bg-primary-950">
+                <h1 className="text-2xl font-medium text-center text-leading mb-2">
+                    {isQuizStarted ? "Quiz en cours" : "Un quiz pour toi"}
                 </h1>
 
                 {quizFinished ? (
@@ -123,18 +124,20 @@ const Quiz = () => {
                                     );
                                 })}
                             </div>
-                            <button
-                                onClick={startQuiz}
-                                className="btn btn-primary mr-4"
-                            >
-                                Recommencer
-                            </button>
-                            <button
-                                onClick={closeQuiz}
-                                className="btn btn-secondary"
-                            >
-                                Fermer le Quiz
-                            </button>
+                            <div className="flex gap-2">
+                                <button
+                                    onClick={startQuiz}
+                                    className="btn btn-primary mr-4"
+                                >
+                                    Recommencer
+                                </button>
+                                <button
+                                    onClick={closeQuiz}
+                                    className="btn btn-light"
+                                >
+                                    Terminer
+                                </button>
+                            </div>
                         </div>
                     ) : (
                         <div className="text-center">
@@ -145,7 +148,7 @@ const Quiz = () => {
                     isLoading ? (
                         <div className="flex flex-col items-center">
                             <Loader className="w-12 h-12 animate-spin text-primary-500 dark:text-primary-300 mb-4" />
-                            <p className="text-lg font-medium">Chargement de la prochaine question...</p>
+                            <p className="text-lg font-medium">Chargement...</p>
                         </div>
                     ) : (
                         <>
@@ -164,7 +167,7 @@ const Quiz = () => {
                                         onClick={() =>
                                             handleAnswer(option.isCorrect, option.id, currentQuestion)
                                         }
-                                        className="btn btn-primary hover:bg-primary-700"
+                                        className="btn btn-light"
                                         disabled={timeLeft === 0}
                                     >
                                         {option.text}
@@ -172,23 +175,20 @@ const Quiz = () => {
                                 ))}
                             </div>
                             <div className="mt-6 flex items-center justify-between">
-                                <p className="text-lg font-bold">
-                                    Temps restant :{" "}
-                                    <span
-                                        className={`${
-                                            timeLeft <= 3 ? "text-red-500" : "text-primary-500"
-                                        }`}
-                                    >
-                                        {timeLeft} secondes
-                                    </span>
+                                <p className="text-lg font-medium flex flex-col lg:flex-row gap-1">
+                                    <span>Temps restant : {" "}</span>
+                                    <span> {timeLeft} secondes</span>
                                 </p>
-                                <p className="text-lg font-bold">Score : {score}</p>
+                                <p className="text-lg font-medium flex flex-col lg:flex-row gap-1">
+                                    <span>Score : {" "}</span>
+                                    <span>{score}/{quiz.length}</span>
+                                </p>
                             </div>
                         </>
                     )
                 ) : (
                     <div className="text-center">
-                        <p className="text-lg font-medium mb-4">
+                        <p className="text-muted mb-4">
                             Prêt à commencer le quiz ?
                         </p>
                         <button

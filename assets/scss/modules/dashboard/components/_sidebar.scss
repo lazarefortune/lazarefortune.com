@@ -49,6 +49,15 @@
         @apply bg-primary-100 text-primary-900 dark:bg-primary-800 dark:text-white;
       }
     }
+
+    &-feature {
+      @apply relative border border-primary-200 dark:border-primary-800;
+
+      &__icon {
+        @apply absolute top-0 right-0 w-6 h-6 rounded bg-primary-100 text-primary-500 flex items-center justify-center;
+        @apply dark:bg-primary-800 dark:text-white;
+      }
+    }
   }
 
   &__footer {
