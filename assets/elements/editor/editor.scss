@@ -117,7 +117,7 @@
 .mdeditor .CodeMirror-scroll {
   @apply bg-white dark:bg-primary-950;
   min-height: 100px;
-  max-height: calc(100vh - 200px);
+  // max-height: calc(100vh - 200px);
 }
 .mdeditor .CodeMirror {
   height: auto;
