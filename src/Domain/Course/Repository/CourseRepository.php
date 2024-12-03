@@ -80,4 +80,21 @@ class CourseRepository extends AbstractRepository
 
         return $query->getResult();
     }
+
+    public function getTodayCourses(): array
+    {
+        $date = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+        $todayStart = $date->setTime(0, 0, 0);
+        $todayEnd = $date->setTime(23, 59, 59);
+
+        $queryBuilder = $this->createQueryBuilder('c')
+            ->select('c.id', 'c.title', 'c.publishedAt', 'c.slug')
+            ->where('c.publishedAt >= :todayStart')
+            ->andWhere('c.publishedAt <= :todayEnd')
+            ->setParameter('todayStart', $todayStart)
+            ->setParameter('todayEnd', $todayEnd)
+            ->orderBy('c.publishedAt', 'ASC');
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 }
