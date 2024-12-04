@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { CheckCircle, XCircle, Loader } from "lucide-react";
+import { CheckCircle, XCircle, Loader, Timer } from "lucide-react";
 
 const Quiz = () => {
     const [quiz, setQuiz] = useState([]);
@@ -11,6 +11,8 @@ const Quiz = () => {
     const [quizFinished, setQuizFinished] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [showResults, setShowResults] = useState(true);
+
+    const TIME_LIMIT = 15;
 
     useEffect(() => {
         fetch("/api/quiz")
@@ -30,7 +32,7 @@ const Quiz = () => {
     const startQuiz = () => {
         setIsQuizStarted(true);
         setCurrentQuestionIndex(0);
-        setTimeLeft(10);
+        setTimeLeft(TIME_LIMIT);
         setQuizFinished(false);
         setScore(0);
         setUserAnswers([]);
@@ -54,7 +56,7 @@ const Quiz = () => {
     };
 
     const handleNextQuestion = () => {
-        setTimeLeft(10);
+        setTimeLeft(TIME_LIMIT);
         if (currentQuestionIndex < quiz.length - 1) {
             setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
         } else {
@@ -98,7 +100,7 @@ const Quiz = () => {
                                             key={index}
                                             className="p-4 rounded-md bg-primary-100 dark:bg-primary-1000"
                                         >
-                                            <p className="font-semibold mb-2">{question.question}</p>
+                                            <p className="text-lg font-medium mb-2">{question.question}</p>
                                             {question.options.map((option) => (
                                                 <div
                                                     key={option.id}
@@ -153,10 +155,10 @@ const Quiz = () => {
                     ) : (
                         <>
                             <div className="mb-4">
-                                <h2 className="text-xl font-medium mb-2">
+                                <h2 className="text-xl text-muted font-medium mb-2">
                                     Question {currentQuestionIndex + 1}/{quiz.length}
                                 </h2>
-                                <p className="text-primary-900 dark:text-primary-300">
+                                <p className="text-lg text-primary-900 dark:text-primary-300">
                                     {currentQuestion.question}
                                 </p>
                             </div>
@@ -176,8 +178,8 @@ const Quiz = () => {
                             </div>
                             <div className="mt-6 flex items-center justify-between">
                                 <p className="text-lg font-medium flex flex-col lg:flex-row gap-1">
-                                    <span>Temps restant : {" "}</span>
-                                    <span> {timeLeft} secondes</span>
+                                    <span> <Timer/> {" "}</span>
+                                    <span> {timeLeft}s restantes</span>
                                 </p>
                                 <p className="text-lg font-medium flex flex-col lg:flex-row gap-1">
                                     <span>Score : {" "}</span>

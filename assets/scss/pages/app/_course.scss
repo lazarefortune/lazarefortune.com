@@ -136,12 +136,12 @@
   .course-countdown-content {
     @apply absolute flex flex-col items-center justify-center h-full w-full z-[3];
     em {
-      @apply text-lg font-bold text-white dark:text-slate-200;
+      @apply not-italic text-lg font-medium text-white dark:text-slate-200;
     }
   }
 
   .course-countdown_timer {
-    @apply block text-3xl font-normal text-white dark:text-slate-200 bg-slate-800/50 p-4 rounded;
+    @apply block text-3xl font-normal text-white dark:text-slate-200 bg-slate-800/50 p-1 rounded;
   }
 }
 
