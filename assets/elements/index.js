@@ -15,6 +15,7 @@ import { MarkdownEditor } from "./editor";
 import { AutosaveBlur } from "./AutosaveBlur";
 import { FileManager } from "./admin/FileManager";
 import { TimeCountdown } from "./TimeCountdown";
+import "./admin/QuestionEditor";
 
 customElements.define('spotlight-bar', Spotlight)
 customElements.define('nav-tabs', NavTabs)

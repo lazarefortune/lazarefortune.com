@@ -1,0 +1,119 @@
+.questions-editor {
+  @apply hidden;
+}
+/* Question */
+.questions-editor__question {
+  @apply mb-4 border rounded bg-white dark:bg-primary-950;
+  @apply border-gray-300 dark:border-primary-900;
+}
+
+/* Header de la question */
+.questions-editor__question-header {
+  @apply flex items-center p-2 bg-gray-100 dark:bg-primary-1000 border-b border-gray-300 dark:border-primary-800;
+}
+
+/* Handle de la question */
+.questions-editor__question-handle {
+  @apply cursor-move mr-2 text-xl text-gray-600 dark:text-gray-400;
+}
+
+/* Toggle de la question */
+.questions-editor__question-toggle {
+  @apply mr-2 cursor-pointer text-gray-600 dark:text-gray-400;
+}
+
+/* Input du titre de la question */
+.questions-editor__question-text {
+  @apply flex-grow form-input bg-transparent border-none outline-none p-0;
+  @apply text-gray-900 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400;
+}
+
+/* Bouton de suppression de la question */
+.questions-editor__delete-question-btn {
+  @apply ml-2 text-red-500 hover:text-red-700 p-2 bg-transparent border-none cursor-pointer;
+  @apply transition-colors duration-200 ease-in-out flex items-center justify-center;
+  @apply focus:outline-none focus:ring-2 focus:ring-red-500 rounded;
+}
+
+/* Contenu de la question */
+.questions-editor__question-content {
+  @apply p-4;
+}
+
+/* Labels */
+.questions-editor__label {
+  @apply label mb-1;
+}
+
+/* Select et inputs */
+.questions-editor__question-type,
+.questions-editor__question-timeLimit {
+  @apply form-input mb-3;
+}
+
+/* Liste des options */
+.questions-editor__options-list {
+  @apply list-none p-0 m-0 mb-3;
+}
+
+/* Option */
+.questions-editor__option {
+  @apply flex items-center mb-2;
+}
+
+/* Handle de l'option */
+.questions-editor__option-handle {
+  @apply cursor-move mr-2 text-xl text-gray-600 dark:text-gray-400;
+}
+
+/* Checkbox ou radio */
+.questions-editor__option-isCorrect {
+  @apply form-checkbox mr-2;
+}
+
+/* Texte de l'option */
+.questions-editor__option-text {
+  @apply form-input flex-grow mr-2;
+}
+
+/* Bouton de suppression de l'option */
+.questions-editor__delete-option-btn {
+  @apply p-2 bg-transparent border-none cursor-pointer text-red-500 hover:text-red-700;
+  @apply transition-colors duration-200 ease-in-out flex items-center justify-center;
+  @apply focus:outline-none focus:ring-2 focus:ring-red-500 rounded;
+}
+
+/* Bouton pour ajouter une option */
+.questions-editor__add-option-btn {
+  @apply btn btn-primary;
+  //@apply mt-2 p-2 bg-primary-500 text-white rounded hover:bg-primary-600 flex items-center;
+  //@apply focus:outline-none focus:ring-2 focus:ring-primary-500;
+}
+
+/* Bouton pour ajouter une question */
+.questions-editor__add-question-btn {
+  @apply btn btn-primary;
+  //@apply mb-4 p-2 bg-primary-500 text-white rounded hover:bg-primary-600 flex items-center;
+  //@apply focus:outline-none focus:ring-2 focus:ring-primary-500;
+}
+
+/* Icônes */
+.questions-editor__icon {
+  @apply w-5 h-5;
+}
+
+.questions-editor__icon--toggle {
+  @apply w-4 h-4;
+}
+
+.questions-editor__icon--delete {
+  @apply w-4 h-4;
+}
+
+.questions-editor__icon--add {
+  @apply w-4 h-4 mr-1;
+}
+
+.questions-editor__question-settings {
+  @apply grid2;
+}

@@ -1,0 +1,26 @@
+{{ form_start(form, {attr: {class: 'stacked'}}) }}
+
+<div class="stack-large">
+
+    <section class="stack">
+        <h1 class="h3">
+            Testez vos connaissances
+        </h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {{ form_row(form.title) }}
+            {{ form_row(form.targetContent) }}
+        </div>
+        <div>
+            {{ form_row(form.isPublished, {label: 'Publié'}) }}
+        </div>
+
+        {{ form_row(form.questions) }}
+    </section>
+
+    <div class="border-t border-gray-200 dark:border-gray-700 pt-4">
+        <button type="submit" class="btn btn-primary">Sauvegarder</button>
+    </div>
+
+</div>
+
+{{ form_end(form) }}

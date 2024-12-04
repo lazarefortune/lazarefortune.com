@@ -20,6 +20,9 @@ class Course extends Content
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $youtubeId = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $youtubeUploadUrl = null;
+
     #[ORM\OneToOne(targetEntity: Attachment::class, cascade: ['persist'])]
     private ?Attachment $youtubeThumbnail = null;
 
@@ -59,6 +62,18 @@ class Course extends Content
     public function setYoutubeId(?string $youtubeId): self
     {
         $this->youtubeId = $youtubeId;
+
+        return $this;
+    }
+
+    public function getYoutubeUploadUrl(): ?string
+    {
+        return $this->youtubeUploadUrl;
+    }
+
+    public function setYoutubeUploadUrl(?string $youtubeUploadUrl): self
+    {
+        $this->youtubeUploadUrl = $youtubeUploadUrl;
 
         return $this;
     }

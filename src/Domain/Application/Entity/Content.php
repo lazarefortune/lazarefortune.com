@@ -9,6 +9,7 @@ use App\Domain\Course\Entity\Course;
 use App\Domain\Course\Entity\Formation;
 use App\Domain\Course\Entity\Technology;
 use App\Domain\Course\Entity\TechnologyUsage;
+use App\Domain\Quiz\Entity\Quiz;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -60,11 +61,15 @@ abstract class Content
     #[ORM\OneToMany( mappedBy: 'content', targetEntity: TechnologyUsage::class, cascade: ['persist'] )]
     private Collection $technologyUsages;
 
+    #[ORM\OneToMany(mappedBy: 'content', targetEntity: Quiz::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $quizzes;
+
     public function __construct()
     {
         $this->technologyUsages = new ArrayCollection();
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
+        $this->quizzes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -299,6 +304,35 @@ abstract class Content
         return $technologies;
     }
 
+    /**
+     * @return Collection|Quiz[]
+     */
+    public function getQuizzes(): Collection
+    {
+        return $this->quizzes;
+    }
+
+    public function addQuiz(Quiz $quiz): self
+    {
+        if (!$this->quizzes->contains($quiz)) {
+            $this->quizzes[] = $quiz;
+            $quiz->setContent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuiz(Quiz $quiz): self
+    {
+        if ($this->quizzes->removeElement($quiz)) {
+            // set the owning side to null (unless already changed)
+            /*if ($quiz->getContent() === $this) {
+                $quiz->setContent(null);
+            }*/
+        }
+
+        return $this;
+    }
 
     public function isCourse(): bool
     {

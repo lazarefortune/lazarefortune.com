@@ -9,8 +9,10 @@ use App\Http\Admin\Form\ChaptersForm;
 use App\Http\Admin\Form\Field\TechnologyChoiceType;
 use App\Http\Admin\Form\Field\UserChoiceType;
 use App\Http\Type\ChoiceMultipleType;
+use App\Http\Type\ContentChoiceType;
 use App\Http\Type\DateTimeType;
 use App\Http\Type\EditorType;
+use App\Http\Type\QuestionsForm;
 use App\Http\Type\SwitchType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -50,6 +52,8 @@ class AutomaticForm extends AbstractType
         'short' => EditorType::class,
         'color' => ColorType::class,
         'links' => TextareaType::class,
+        'questions' => QuestionsForm::class,
+        'targetContent' => ContentChoiceType::class,
     ];
 
     public function buildForm( FormBuilderInterface $builder, array $options ) : void
@@ -120,6 +124,11 @@ class AutomaticForm extends AbstractType
                 if ( self::NAMES[$name] === TextareaType::class ) {
                     $options['attr'] = [
                         'rows' => 10,
+                        'class' => 'form-textarea'
+                    ];
+                }
+                if ( self::NAMES[$name] === TextType::class ) {
+                    $options['attr'] = [
                         'class' => 'form-input'
                     ];
                 }
