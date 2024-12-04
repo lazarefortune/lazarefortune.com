@@ -76,7 +76,7 @@ const Quiz = () => {
     const currentQuestion = quiz[currentQuestionIndex];
 
     return (
-        <div className="mt-4 flex flex-col items-center justify-center">
+        <div className="mt-10 flex flex-col items-center justify-center">
             <div className="w-full py-4 px-4 border border-slate-200 shadow shadow-slate-400 dark:border-slate-700 rounded-md
             bg-white dark:bg-primary-950">
                 <h1 className="text-2xl font-medium text-center text-leading mb-2">

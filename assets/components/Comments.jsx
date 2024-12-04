@@ -137,6 +137,8 @@ function Comments(props) {
                     : `Commentaire${totalComments > 1 ? "s" : ""} (${totalComments})`}
             </h1>
 
+            <div className="border-t border-slate-200 dark:border-slate-700 mt-2 mb-6"></div>
+
             <CommentList
                 comments={commentTree}
                 currentUserId={currentUserId}
@@ -158,7 +160,7 @@ function Comments(props) {
                 <div className="mt-4">
                     <p>Vous devez être connecté pour laisser un commentaire.</p>
                     <a
-                        href={`/login?redirect=${encodeURIComponent(window.location.href)}`}
+                        href={`/connexion?redirect=${encodeURIComponent(window.location.href)}`}
                         className="btn btn-primary"
                     >
                         Se connecter

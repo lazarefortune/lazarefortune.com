@@ -1,13 +1,13 @@
 * {
-  //@apply font-inter;
-  @apply font-hanken-grotesk;
+  @apply font-inter;
+  //@apply font-hanken-grotesk;
   //font-family: 'Hanken Grotesk', 'Inter Var', 'CircularStd', 'Poppins', 'Lato', 'Pacifico', 'Josefin Sans', sans-serif;
   font-feature-settings: "cv02", "cv03", "cv04", "cv05", "cv09", "cv11" !important;
 }
 
 body {
-  //@apply font-inter;
-  @apply font-hanken-grotesk;
+  @apply font-inter;
+  //@apply font-hanken-grotesk;
   //font-family: 'Hanken Grotesk', 'Inter Var', 'IBM Plex Sans', 'CircularStd', 'Poppins', 'Lato', 'Pacifico', 'Josefin Sans', sans-serif;
   font-feature-settings: "cv02", "cv03", "cv04", "cv05", "cv09", "cv11" !important;
   @apply bg-white text-slate-900 dark:bg-primary-950 dark:text-white;

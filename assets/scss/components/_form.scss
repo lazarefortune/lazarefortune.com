@@ -28,6 +28,15 @@ select {
   }
 }
 
+/* Textarea */
+.form-textarea {
+  @apply block w-full appearance-none rounded border text-base text-slate-900 shadow-sm placeholder-slate-400 border-slate-200 bg-slate-50;
+  @apply dark:bg-primary-950 dark:text-white dark:border-slate-700 dark:placeholder-slate-500;
+  &__noresize {
+    @apply resize-none;
+  }
+}
+
 .form-select {
     @apply rounded border text-base text-slate-900 dark:text-slate-950 border-slate-300 dark:border-slate-700 bg-white dark:bg-primary-950;
     @apply dark:bg-primary-950 dark:text-white dark:ring-slate-700 dark:placeholder-gray-400 dark:focus:ring-primary-600;

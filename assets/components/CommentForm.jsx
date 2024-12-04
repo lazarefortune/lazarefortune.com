@@ -38,14 +38,16 @@ const CommentForm = forwardRef(({ currentUserId, onSubmit, onCancel, autoFocus =
         <form onSubmit={handleSubmit}>
             <textarea
                 ref={textareaRef}
-                className="form-input mt-4"
+                className="form-textarea form-textarea__noresize mt-4"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="Votre commentaire"
                 minLength={4}
+                cols={30}
+                rows={6}
                 required
             />
-            <div className="flex gap-2 mt-2">
+            <div className="flex gap-2 mt-4">
                 <button className="btn btn-primary" type="submit">
                     Envoyer
                 </button>
