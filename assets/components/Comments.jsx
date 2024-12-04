@@ -157,15 +157,33 @@ function Comments(props) {
                     ref={commentFormRef}
                 />
             ) : (
-                <div className="mt-4">
-                    <p>Vous devez être connecté pour laisser un commentaire.</p>
-                    <a
-                        href={`/connexion?redirect=${encodeURIComponent(window.location.href)}`}
-                        className="btn btn-primary"
-                    >
-                        Se connecter
-                    </a>
-                </div>
+                    <div className="mt-4 relative">
+                        <div className="blur opacity-40">
+                            <textarea
+                                className="form-textarea form-textarea__noresize mt-4"
+                                placeholder="Votre commentaire"
+                                minLength={4}
+                                cols={30}
+                                rows={6}
+                                required
+                            />
+                            <div className="flex gap-2 mt-4">
+                                <button className="btn btn-disabled" type="submit">
+                                    Envoyer
+                                </button>
+                            </div>
+                        </div>
+                        <div
+                            className="absolute inset-0 text-center text-2xl flex flex-col justify-center items-center">
+                            <p className="mb-2">
+                                Vous devez être connecté pour laisser un commentaire.
+                            </p>
+                            <a href={`/connexion?redirect=${encodeURIComponent(window.location.href)}`}
+                               className="btn btn-primary">
+                                Connectez-vous
+                            </a>
+                        </div>
+                    </div>
             )}
         </div>
     );

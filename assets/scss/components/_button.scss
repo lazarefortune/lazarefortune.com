@@ -38,6 +38,16 @@
   dark:disabled:bg-primary-300 dark:disabled:border-primary-300;
 }
 
+.btn-disabled {
+  /* Light mode */
+  @apply bg-zinc-200 text-zinc-400 border-zinc-200
+  disabled:bg-zinc-200 disabled:text-zinc-400 disabled:border-zinc-200 disabled:cursor-not-allowed;
+
+  /* Dark mode */
+  @apply dark:bg-slate-800 dark:text-slate-600 dark:border-slate-700
+  dark:disabled:bg-slate-800 dark:disabled:text-slate-600 dark:disabled:border-slate-700;
+}
+
 /* Bouton contour */
 .btn-outline {
   /* Light mode */
