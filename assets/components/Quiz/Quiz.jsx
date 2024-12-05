@@ -237,7 +237,7 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
 
     const redirectToSignup = () => {
         // Rediriger l'utilisateur vers la page d'inscription
-        window.location.href = '/signup';
+        window.location.href = '/inscription';
     };
 
     if (quizzes === undefined) {
@@ -257,7 +257,7 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
 
         return (
             <div className="mt-10 flex flex-col items-center justify-center">
-                <div className="w-full py-4 px-4 border border-slate-200 shadow rounded-md bg-white dark:bg-primary-950">
+                <div className="w-full py-4 px-4 border border-slate-200 dark:border-slate-800 shadow rounded-md bg-white dark:bg-primary-950">
                     <h1 className="text-2xl font-medium text-center mb-2">
                         {currentQuiz.title}
                     </h1>
@@ -311,7 +311,7 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                 {isUserLoggedIn ? (
                                     <>
                                         <p>Voulez-vous soumettre votre score ?</p>
-                                        <div className="flex gap-2 justify-center mt-4">
+                                        <div className="flex flex-col lg:flex-row gap-2 justify-center mt-4">
                                             <button
                                                 onClick={submitScore}
                                                 className="btn btn-primary"
@@ -329,7 +329,7 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                 ) : (
                                     <>
                                         <p>Créez un compte pour sauvegarder votre score et suivre votre progression !</p>
-                                        <div className="flex gap-2 justify-center mt-4">
+                                        <div className="flex flex-col lg:flex-row gap-2 justify-center mt-4">
                                             <button
                                                 onClick={redirectToSignup}
                                                 className="btn btn-primary"
