@@ -3,6 +3,7 @@
 namespace App\Http\Admin\Controller;
 
 use App\Domain\Quiz\Entity\Quiz;
+use App\Domain\Quiz\Repository\QuizResultRepository;
 use App\Http\Admin\Data\Crud\QuizCrudData;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -53,5 +54,31 @@ class QuizController extends CrudController
     public function delete( Quiz $quiz ) : Response
     {
         return $this->crudAjaxDelete( $quiz );
+    }
+
+    #[Route( path: '/{id}/stats', name: 'stats' )]
+    public function stats( Quiz $quiz, QuizResultRepository $quizResultRepository ) : Response
+    {
+        // Récupérer toutes les participations à ce quiz
+        $results = $quizResultRepository->findBy(['quiz' => $quiz]);
+
+        $count = count($results);
+        $averageScore = 0;
+        if ($count > 0) {
+            $sumScores = array_sum(array_map(fn($r) => $r->getScore(), $results));
+            $averageScore = $sumScores / $count;
+        }
+
+        // TODO: Calculer
+        // - Score maximal
+        // - Score minimal
+        // - Répartition des scores
+
+        return $this->render('pages/admin/quiz/stats.html.twig', [
+            'item' => $quiz,
+            'count' => $count,
+            'averageScore' => $averageScore,
+            'results' => $results,
+        ]);
     }
 }
