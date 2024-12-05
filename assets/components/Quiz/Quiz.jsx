@@ -428,7 +428,7 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                         return (
                             <div
                                 key={quiz.id}
-                                className={`p-4 border rounded-md flex items-center justify-between ${
+                                className={`p-4 border dark:border-slate-700 rounded shadow flex flex-col lg:flex-row gap-2 items-center justify-between ${
                                     isCompleted ? 'bg-gray-100 dark:bg-gray-800 opacity-50 cursor-not-allowed' : 'bg-white dark:bg-primary-950'
                                 }`}
                             >
@@ -439,7 +439,7 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                 {!isCompleted && (
                                     <button
                                         onClick={() => startQuiz(quiz)}
-                                        className="btn btn-primary"
+                                        className="btn btn-sm btn-primary"
                                     >
                                         Commencer
                                     </button>
