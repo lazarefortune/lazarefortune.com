@@ -65,9 +65,10 @@
   dark:bg-primary-950 dark:border-primary-300;
 
   .select2-search.select2-search--dropdown {
+    @apply bg-white dark:bg-primary-1000 border border-slate-300 dark:border-primary-300 rounded;
     @apply pt-4 pb-4;
     .select2-search__field {
-      @apply border ring-0;
+      @apply border ring-0 form-input;
     }
   }
 
