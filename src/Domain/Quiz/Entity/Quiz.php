@@ -16,9 +16,9 @@ class Quiz
     use QuestionableTrait;
 
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private int $id;
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: Content::class)]
     #[ORM\JoinColumn(nullable: false)]
@@ -39,7 +39,7 @@ class Quiz
         $this->isPublished = false;
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }

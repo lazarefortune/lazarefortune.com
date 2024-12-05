@@ -3,7 +3,7 @@
 }
 
 .select2.select2-container .select2-selection {
-  @apply block w-full rounded border border-slate-300 p-3 text-base text-slate-900 placeholder-slate-300
+  @apply block w-full rounded border border-slate-300 p-2 text-base text-slate-900 placeholder-slate-300
   focus:border-primary-600
   dark:text-white dark:border-slate-800 dark:bg-primary-950 dark:placeholder-gray-400
   dark:focus:border-primary-300;

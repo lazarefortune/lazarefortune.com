@@ -19,6 +19,16 @@
 
     <div class="border-t border-gray-200 dark:border-gray-700 pt-4">
         <button type="submit" class="btn btn-primary">Sauvegarder</button>
+        {%if entity.id%}
+            {% set targetEntity = entity.targetContent %}
+            {% if targetEntity is defined and entity.isPublished %}
+                {% if is_instance_of(targetEntity, 'App\\Domain\\Course\\Entity\\Course') %}
+                    <a href="{{ path('app_course_show', {slug: targetEntity.slug}) }}" target="_blank" class="btn btn-light ml-2">Voir en ligne</a>
+                {% elseif is_instance_of(targetEntity, 'App\\Domain\\Course\\Entityy\\Formation') %}
+                    <a href="{{ path('app_formation_show', {slug: targetEntity.slug}) }}" target="_blank" class="btn btn-light ml-2">Voir en ligne</a>
+                {% endif %}
+            {% endif %}
+        {% endif %}
     </div>
 
 </div>

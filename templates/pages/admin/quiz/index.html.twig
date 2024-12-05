@@ -39,17 +39,20 @@
     <div class="table-wrapper">
         <table class="table">
             <thead>
-            <tr>
-                <th>
-                    {{ sort_by(rows, 'ID', 'row.id') }}
-                </th>
-                <th>
-                    {{ sort_by(rows, 'Title', 'row.title') }}
-                </th>
-                <th>
-                    Actions
-                </th>
-            </tr>
+                <tr>
+                    <th>
+                        {{ sort_by(rows, 'ID', 'row.id') }}
+                    </th>
+                    <th>
+                        {{ sort_by(rows, 'Title', 'row.title') }}
+                    </th>
+                    <th>
+                        {{ sort_by(rows, 'Contenu associé', 'row.targetContent') }}
+                    </th>
+                    <th>
+                        Actions
+                    </th>
+                </tr>
             </thead>
             <tbody>
             {% for row in rows %}
@@ -60,6 +63,9 @@
                     </td>
                     <td>
                         {{ row.title }}
+                    </td>
+                    <td>
+                        {{ row.targetContent.title }}
                     </td>
                     <td class="text-end">
                         {% if is_granted('ROLE_AUTHOR') %}

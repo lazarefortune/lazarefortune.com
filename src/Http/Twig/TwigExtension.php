@@ -21,6 +21,7 @@ class TwigExtension extends AbstractExtension
             new TwigFunction( 'menu_active_aria', $this->menuActiveAria( ... ), ['is_safe' => ['html'], 'needs_context' => true] ),
             new TwigFunction( 'menu_active', $this->menuActive( ... ), ['is_safe' => ['html'], 'needs_context' => true] ),
             new TwigFunction( 'pluralize', [$this, 'pluralize'] ),
+            new TwigFunction('is_instance_of', [$this, 'isInstanceOf']),
         ];
     }
 
@@ -39,6 +40,11 @@ class TwigExtension extends AbstractExtension
             new TwigFilter( 'price_format', [$this, 'priceFormat'] ),
             new TwigFilter( 'truncate', [$this, 'truncate'] ),
         ];
+    }
+
+    public function isInstanceOf($object, $class): bool
+    {
+        return $object instanceof $class;
     }
 
     public function truncate( string $text, int $length = 30, string $ending = '...' ) : string
