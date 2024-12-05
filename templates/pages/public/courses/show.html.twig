@@ -2,7 +2,7 @@
 
 {% block title %}
 {% if course.formation %}
-    {{- course.title ~ " — Formation " ~ course.formation.title -}}
+    {{- course.title ~ " — Playlist " ~ course.formation.title -}}
 {% else %}
     {{- "Tutoriel vidéo " ~ course.mainTechnologies|map(t => "#{t.name}")|join(' & ') ~ ' : ' ~ course.title -}}
 {% endif %}
@@ -123,6 +123,8 @@
                             {{ course.content | markdown }}
                         </div>
 
+                        <quiz-area content-id="{{ course.id }}"></quiz-area>
+
                         <comments-area content-id="{{ course.id }}"></comments-area>
                     </div>
                     <div>
@@ -157,7 +159,7 @@
                                 <div class="flex">
                                     <img class="course__author__avatar" src="{{ course.author | avatar }}" alt="{{ course.author.fullname }}">
                                     <div class="course__author__info">
-                                        <strong class="font-bold">Auteur : </strong><br>
+                                        <strong class="h5">Auteur : </strong><br>
                                         <span title="{{ course.author.fullname }}" class="course__author__name">{{ course.author.fullname }}</span>
                                     </div>
                                 </div>

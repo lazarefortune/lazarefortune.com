@@ -1,206 +1,339 @@
 import React, { useState, useEffect } from "react";
-import { CheckCircle, XCircle, Loader, Timer } from "lucide-react";
+import { CheckCircle, XCircle, Loader, Timer, Check } from "lucide-react";
 
-const Quiz = () => {
-    const [quiz, setQuiz] = useState([]);
+const Quiz = ({ contentId }) => {
+    const [quizzes, setQuizzes] = useState(undefined); // Liste des quiz
+    const [currentQuiz, setCurrentQuiz] = useState(null); // Quiz sélectionné
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [score, setScore] = useState(0);
-    const [timeLeft, setTimeLeft] = useState(10);
+    const [timeLeft, setTimeLeft] = useState(0);
     const [isQuizStarted, setIsQuizStarted] = useState(false);
     const [userAnswers, setUserAnswers] = useState([]);
     const [quizFinished, setQuizFinished] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [showResults, setShowResults] = useState(true);
-
-    const TIME_LIMIT = 15;
-
-    useEffect(() => {
-        fetch("/api/quiz")
-            .then((response) => response.json())
-            .then((data) => setQuiz(data));
-    }, []);
+    const [completedQuizzes, setCompletedQuizzes] = useState([]);
+    const [selectedAnswers, setSelectedAnswers] = useState([]);
 
     useEffect(() => {
-        if (isQuizStarted && timeLeft > 0 && !isLoading) {
-            const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-            return () => clearTimeout(timer);
-        } else if (timeLeft === 0) {
-            handleNextQuestion();
+        if (contentId) {
+            fetch(`/api/quiz/${contentId}`)
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else if (response.status === 404) {
+                        // Si aucun quiz n'existe, on définit quizzes à null
+                        setQuizzes(null);
+                        return null;
+                    } else {
+                        throw new Error('Une erreur est survenue lors de la récupération des quiz.');
+                    }
+                })
+                .then((data) => {
+                    if (data) {
+                        // Si un seul quiz est renvoyé, on le place dans un tableau
+                        const quizzesData = Array.isArray(data) ? data : [data];
+
+                        // Trier les quiz par titre ou autre critère si nécessaire
+                        const sortedQuizzes = quizzesData.sort((a, b) => a.title.localeCompare(b.title));
+
+                        setQuizzes(sortedQuizzes);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Erreur lors de la récupération des quiz :", error);
+                    setQuizzes(null);
+                });
         }
+    }, [contentId]);
+
+    useEffect(() => {
+        let timer;
+        if (isQuizStarted && timeLeft > 0 && !isLoading) {
+            timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+        } else if (timeLeft === 0 && isQuizStarted) {
+            handleSubmitAnswer();
+        }
+        return () => clearTimeout(timer);
     }, [timeLeft, isQuizStarted, isLoading]);
 
-    const startQuiz = () => {
+    const startQuiz = (quiz) => {
+        setCurrentQuiz(quiz);
         setIsQuizStarted(true);
         setCurrentQuestionIndex(0);
-        setTimeLeft(TIME_LIMIT);
         setQuizFinished(false);
         setScore(0);
         setUserAnswers([]);
         setIsLoading(false);
         setShowResults(true);
+        setSelectedAnswers([]);
+
+        // Initialiser timeLeft avec le timeLimit de la première question
+        const initialTimeLimit = quiz.questions[0]?.timeLimit || 15;
+        setTimeLeft(initialTimeLimit);
     };
 
-    const handleAnswer = (isCorrect, optionId, question) => {
+    const handleAnswerSelection = (answerId) => {
+        const currentQuestion = currentQuiz.questions[currentQuestionIndex];
+        const isMultipleChoice = currentQuestion.type === "multiple_choice";
+
+        if (isMultipleChoice) {
+            // Pour les questions à choix multiple, on ajoute ou retire l'ID de la réponse sélectionnée
+            setSelectedAnswers((prevSelected) => {
+                if (prevSelected.includes(answerId)) {
+                    // Si la réponse est déjà sélectionnée, on la retire
+                    return prevSelected.filter((id) => id !== answerId);
+                } else {
+                    // Sinon, on l'ajoute
+                    return [...prevSelected, answerId];
+                }
+            });
+        } else {
+            // Pour les questions à choix unique, on ne permet qu'une seule sélection
+            setSelectedAnswers([answerId]);
+        }
+    };
+
+    const handleSubmitAnswer = () => {
         setIsLoading(true);
-        setUserAnswers((prev) => [
-            ...prev,
-            { questionId: question.id, selected: optionId, isCorrect },
-        ]);
+        const currentQuestion = currentQuiz.questions[currentQuestionIndex];
+        const correctAnswers = currentQuestion.answers.filter(a => a.isCorrect).map(a => a.id);
+
+        // Vérifier si les réponses sélectionnées sont correctes
+        const isCorrect = correctAnswers.length === selectedAnswers.length &&
+            correctAnswers.every(id => selectedAnswers.includes(id));
+
+        // Calculer le score
         if (isCorrect) {
             setScore((prevScore) => prevScore + 1);
         }
+
+        // Enregistrer les réponses de l'utilisateur
+        setUserAnswers((prev) => [
+            ...prev,
+            {
+                questionIndex: currentQuestionIndex,
+                selected: selectedAnswers,
+                isCorrect,
+                correctAnswers,
+            },
+        ]);
+
         setTimeout(() => {
             handleNextQuestion();
             setIsLoading(false);
+            setSelectedAnswers([]);
         }, 500);
     };
 
     const handleNextQuestion = () => {
-        setTimeLeft(TIME_LIMIT);
-        if (currentQuestionIndex < quiz.length - 1) {
-            setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+        if (currentQuestionIndex < currentQuiz.questions.length - 1) {
+            const nextQuestionIndex = currentQuestionIndex + 1;
+            setCurrentQuestionIndex(nextQuestionIndex);
+
+            // Mettre à jour timeLeft avec le timeLimit de la prochaine question
+            const nextTimeLimit = currentQuiz.questions[nextQuestionIndex]?.timeLimit || 15;
+            setTimeLeft(nextTimeLimit);
         } else {
             setIsQuizStarted(false);
             setQuizFinished(true);
+            // Marquer le quiz comme terminé
+            setCompletedQuizzes((prev) => [...prev, currentQuiz.id]);
         }
     };
 
     const closeQuiz = () => {
         setShowResults(false);
+        // Revenir à la liste des quiz
+        setCurrentQuiz(null);
+        setQuizFinished(false);
     };
 
-    if (!quiz.length) {
-        return <p className="text-center text-gray-500">Chargement des questions...</p>;
+    if (quizzes === undefined) {
+        // Afficher le chargement initial
+        return <p className="text-center text-gray-500">Chargement des quiz...</p>;
     }
 
-    const currentQuestion = quiz[currentQuestionIndex];
+    if (quizzes === null || quizzes.length === 0) {
+        // Si aucun quiz n'existe, ne rien afficher
+        return null;
+    }
 
-    return (
-        <div className="mt-10 flex flex-col items-center justify-center">
-            <div className="w-full py-4 px-4 border border-slate-200 shadow shadow-slate-400 dark:border-slate-700 rounded-md
-            bg-white dark:bg-primary-950">
-                <h1 className="text-2xl font-medium text-center text-leading mb-2">
-                    {isQuizStarted ? "Quiz en cours" : "Un quiz pour toi"}
-                </h1>
+    if (currentQuiz) {
+        // Afficher le quiz sélectionné
+        const currentQuestion = currentQuiz.questions[currentQuestionIndex];
+        const isMultipleChoice = currentQuestion.type === "multiple_choice";
 
-                {quizFinished ? (
-                    showResults ? (
-                        <div className="text-center">
-                            <p className="text-lg font-medium mb-4">Quiz terminé !</p>
-                            <p className="text-lg mb-6">
-                                Ton score : <span className="font-bold">{score}/{quiz.length}</span>
-                            </p>
-                            <div className="mb-6 space-y-4">
-                                {quiz.map((question, index) => {
-                                    const userAnswer = userAnswers.find(
-                                        (answer) => answer.questionId === question.id
-                                    );
-                                    return (
-                                        <div
-                                            key={index}
-                                            className="p-4 rounded-md bg-primary-100 dark:bg-primary-1000"
-                                        >
-                                            <p className="text-lg font-medium mb-2">{question.question}</p>
-                                            {question.options.map((option) => (
-                                                <div
-                                                    key={option.id}
-                                                    className={`flex items-center space-x-2 mb-1 ${
-                                                        option.isCorrect
-                                                            ? "text-green-500"
-                                                            : userAnswer?.selected === option.id
-                                                                ? "text-red-500"
-                                                                : "text-gray-500"
-                                                    }`}
-                                                >
-                                                    {option.isCorrect ? (
-                                                        <CheckCircle className="w-5 h-5" />
-                                                    ) : userAnswer?.selected === option.id ? (
-                                                        <XCircle className="w-5 h-5" />
-                                                    ) : (
-                                                        <div className="w-5 h-5"></div>
-                                                    )}
-                                                    <span>{option.text}</span>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    );
-                                })}
+        return (
+            <div className="mt-10 flex flex-col items-center justify-center">
+                <div className="w-full py-4 px-4 border border-slate-200 shadow shadow-slate-400 dark:border-slate-700 rounded-md bg-white dark:bg-primary-950">
+                    <h1 className="text-2xl font-medium text-center text-leading mb-2">
+                        {currentQuiz.title}
+                    </h1>
+
+                    {quizFinished ? (
+                        showResults ? (
+                            <div className="text-center">
+                                <p className="text-lg font-medium mb-4">Quiz terminé !</p>
+                                <p className="text-lg mb-6">
+                                    Ton score : <span className="font-bold">{score}/{currentQuiz.questions.length}</span>
+                                </p>
+                                <div className="mb-6 space-y-4">
+                                    {currentQuiz.questions.map((question, index) => {
+                                        const userAnswer = userAnswers.find(
+                                            (answer) => answer.questionIndex === index
+                                        );
+                                        return (
+                                            <div
+                                                key={index}
+                                                className="p-4 rounded-md bg-primary-100 dark:bg-primary-1000"
+                                            >
+                                                <p className="text-lg font-medium mb-2">{question.text}</p>
+                                                {question.answers.map((answer) => {
+                                                    const isUserSelected = userAnswer.selected.includes(answer.id);
+                                                    return (
+                                                        <div
+                                                            key={answer.id}
+                                                            className={`flex items-center space-x-2 mb-1 ${
+                                                                answer.isCorrect
+                                                                    ? "text-green-500"
+                                                                    : isUserSelected
+                                                                        ? "text-red-500"
+                                                                        : "text-gray-500"
+                                                            }`}
+                                                        >
+                                                            {answer.isCorrect ? (
+                                                                <CheckCircle className="w-5 h-5" />
+                                                            ) : isUserSelected ? (
+                                                                <XCircle className="w-5 h-5" />
+                                                            ) : (
+                                                                <div className="w-5 h-5"></div>
+                                                            )}
+                                                            <span>{answer.text}</span>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                                <div className="flex gap-2">
+                                    <button
+                                        onClick={() => startQuiz(currentQuiz)}
+                                        className="btn btn-primary mr-4"
+                                    >
+                                        Recommencer
+                                    </button>
+                                    <button
+                                        onClick={closeQuiz}
+                                        className="btn btn-light"
+                                    >
+                                        Terminer
+                                    </button>
+                                </div>
                             </div>
-                            <div className="flex gap-2">
-                                <button
-                                    onClick={startQuiz}
-                                    className="btn btn-primary mr-4"
-                                >
-                                    Recommencer
-                                </button>
+                        ) : (
+                            <div className="text-center">
+                                <p className="text-lg font-medium mb-4">Merci d'avoir participé au quiz !</p>
                                 <button
                                     onClick={closeQuiz}
                                     className="btn btn-light"
                                 >
-                                    Terminer
+                                    Retour à la liste des quiz
                                 </button>
                             </div>
-                        </div>
-                    ) : (
-                        <div className="text-center">
-                            <p className="text-lg font-medium mb-4">Merci d'avoir participé au quiz !</p>
-                        </div>
-                    )
-                ) : isQuizStarted ? (
-                    isLoading ? (
-                        <div className="flex flex-col items-center">
-                            <Loader className="w-12 h-12 animate-spin text-primary-500 dark:text-primary-300 mb-4" />
-                            <p className="text-lg font-medium">Chargement...</p>
-                        </div>
-                    ) : (
-                        <>
-                            <div className="mb-4">
-                                <h2 className="text-xl text-muted font-medium mb-2">
-                                    Question {currentQuestionIndex + 1}/{quiz.length}
-                                </h2>
-                                <p className="text-lg text-primary-900 dark:text-primary-300">
-                                    {currentQuestion.question}
-                                </p>
+                        )
+                    ) : isQuizStarted ? (
+                        isLoading ? (
+                            <div className="flex flex-col items-center">
+                                <Loader className="w-12 h-12 animate-spin text-primary-500 dark:text-primary-300 mb-4" />
+                                <p className="text-lg font-medium">Chargement...</p>
                             </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                {currentQuestion.options.map((option) => (
+                        ) : (
+                            <>
+                                <div className="mb-4">
+                                    <h2 className="text-xl text-muted font-medium mb-2">
+                                        Question {currentQuestionIndex + 1}/{currentQuiz.questions.length}
+                                    </h2>
+                                    <p className="text-lg text-primary-900 dark:text-primary-300">
+                                        {currentQuestion.text}
+                                    </p>
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    {currentQuestion.answers.map((answer) => {
+                                        const isSelected = selectedAnswers.includes(answer.id);
+                                        return (
+                                            <button
+                                                key={answer.id}
+                                                onClick={() =>
+                                                    handleAnswerSelection(answer.id)
+                                                }
+                                                className={`btn ${isSelected ? 'btn-primary' : 'btn-light'}`}
+                                                disabled={timeLeft === 0}
+                                            >
+                                                {answer.text}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                                <div className="mt-6 flex items-center justify-between">
+                                    <p className="text-lg font-medium flex flex-col lg:flex-row gap-1">
+                                        <span><Timer />{" "}</span>
+                                        <span> {timeLeft}s restantes</span>
+                                    </p>
+                                    <p className="text-lg font-medium flex flex-col lg:flex-row gap-1">
+                                        <span>Score : {" "}</span>
+                                        <span>{score}/{currentQuiz.questions.length}</span>
+                                    </p>
+                                </div>
+                                <div className="mt-4 flex justify-end">
                                     <button
-                                        key={option.id}
-                                        onClick={() =>
-                                            handleAnswer(option.isCorrect, option.id, currentQuestion)
-                                        }
-                                        className="btn btn-light"
-                                        disabled={timeLeft === 0}
+                                        onClick={handleSubmitAnswer}
+                                        className="btn btn-primary"
+                                        disabled={selectedAnswers.length === 0}
                                     >
-                                        {option.text}
+                                        {currentQuestionIndex === currentQuiz.questions.length - 1 ? 'Terminer' : 'Continuer'}
                                     </button>
-                                ))}
+                                </div>
+                            </>
+                        )
+                    ) : null}
+                </div>
+            </div>
+        );
+    }
+
+    // Afficher la liste des quiz
+    return (
+        <div className="mt-10 flex flex-col items-center justify-center">
+            <div className="w-full max-w-2xl">
+                <h2 className="text-2xl font-medium text-center mb-6">Liste des quiz</h2>
+                <div className="space-y-4">
+                    {quizzes.map((quiz) => {
+                        const isCompleted = completedQuizzes.includes(quiz.id);
+                        return (
+                            <div
+                                key={quiz.id}
+                                className={`p-4 border rounded-md flex items-center justify-between ${
+                                    isCompleted ? 'bg-gray-100 dark:bg-gray-800 opacity-50 cursor-not-allowed' : 'bg-white dark:bg-primary-950'
+                                }`}
+                            >
+                                <div className="flex items-center">
+                                    {isCompleted && <Check className="w-6 h-6 text-green-500 mr-2" />}
+                                    <span className="text-lg font-medium">{quiz.title}</span>
+                                </div>
+                                {!isCompleted && (
+                                    <button
+                                        onClick={() => startQuiz(quiz)}
+                                        className="btn btn-primary"
+                                    >
+                                        Commencer
+                                    </button>
+                                )}
                             </div>
-                            <div className="mt-6 flex items-center justify-between">
-                                <p className="text-lg font-medium flex flex-col lg:flex-row gap-1">
-                                    <span> <Timer/> {" "}</span>
-                                    <span> {timeLeft}s restantes</span>
-                                </p>
-                                <p className="text-lg font-medium flex flex-col lg:flex-row gap-1">
-                                    <span>Score : {" "}</span>
-                                    <span>{score}/{quiz.length}</span>
-                                </p>
-                            </div>
-                        </>
-                    )
-                ) : (
-                    <div className="text-center">
-                        <p className="text-muted mb-4">
-                            Prêt à commencer le quiz ?
-                        </p>
-                        <button
-                            onClick={startQuiz}
-                            className="btn btn-primary"
-                        >
-                            Commencer
-                        </button>
-                    </div>
-                )}
+                        );
+                    })}
+                </div>
             </div>
         </div>
     );

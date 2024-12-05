@@ -4,10 +4,11 @@ namespace App\Domain\Quiz\Entity;
 
 use App\Domain\Application\Entity\Content;
 use App\Domain\Quiz\QuestionableTrait;
+use App\Domain\Quiz\Repository\QuizRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: QuizRepository::class)]
 class Quiz
 {
     use QuestionableTrait;
