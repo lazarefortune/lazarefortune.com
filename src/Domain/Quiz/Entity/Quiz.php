@@ -3,8 +3,10 @@
 namespace App\Domain\Quiz\Entity;
 
 use App\Domain\Application\Entity\Content;
+use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Quiz\QuestionableTrait;
 use App\Domain\Quiz\Repository\QuizRepository;
+use App\Domain\Quiz\Repository\QuizResultRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -88,5 +90,11 @@ class Quiz
         $this->createdAt = $createdAt;
 
         return $this;
+    }
+
+    public function isCompletedByUser(User $user, QuizResultRepository $quizResultRepository): bool
+    {
+        $result = $quizResultRepository->findOneBy(['user' => $user, 'quiz' => $this]);
+        return $result !== null;
     }
 }

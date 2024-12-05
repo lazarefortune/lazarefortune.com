@@ -63,15 +63,14 @@ import reactToWebComponent from "react-to-webcomponent"
 import Comments from "./components/Comments";
 import Quiz from "./components/Quiz/Quiz";
 
-// const CommentElement = reactToWebComponent(Comment, React, ReactDOM)
 const CommentsElement = reactToWebComponent(Comments, React, ReactDOM, {
-    shadow: false, // Si vous ne voulez pas utiliser le Shadow DOM
+    shadow: false, // pour ne pas utiliser le Shadow DOM
     props: ['contentId'] // Liste des propriétés que le Custom Element doit observer
 });
 
 const QuizElement = reactToWebComponent(Quiz, React, ReactDOM, {
     shadow: false,
-    props: ['contentId']
+    props: ['contentId', 'isUserLoggedIn']
 });
 
 customElements.define('comments-area', CommentsElement)

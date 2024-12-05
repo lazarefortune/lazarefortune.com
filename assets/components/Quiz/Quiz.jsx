@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { CheckCircle, XCircle, Loader, Timer, Check } from "lucide-react";
 
-const Quiz = ({ contentId }) => {
+const Quiz = ({ contentId, isUserLoggedIn }) => {
     const [quizzes, setQuizzes] = useState(undefined); // Liste des quiz
     const [currentQuiz, setCurrentQuiz] = useState(null); // Quiz sélectionné
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -44,8 +44,23 @@ const Quiz = ({ contentId }) => {
                     console.error("Erreur lors de la récupération des quiz :", error);
                     setQuizzes(null);
                 });
+
+            if (!isUserLoggedIn) {
+                const storedCompletedQuizzes = JSON.parse(localStorage.getItem('completedQuizzes')) || [];
+                setCompletedQuizzes(storedCompletedQuizzes);
+            } else {
+                // Récupérer les quizzes complétés pour l'utilisateur connecté
+                fetch('/api/quiz/user/completed-quizzes')
+                    .then(response => response.json())
+                    .then(data => {
+                        setCompletedQuizzes(data.completedQuizIds);
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la récupération des quizzes complétés :', error);
+                    });
+            }
         }
-    }, [contentId]);
+    }, [contentId, isUserLoggedIn]);
 
     useEffect(() => {
         let timer;
@@ -56,6 +71,22 @@ const Quiz = ({ contentId }) => {
         }
         return () => clearTimeout(timer);
     }, [timeLeft, isQuizStarted, isLoading]);
+
+    useEffect(() => {
+        const handleBeforeUnload = (e) => {
+            if (isQuizStarted && !quizFinished) {
+                e.preventDefault();
+                e.returnValue = '';
+                return '';
+            }
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, [isQuizStarted, quizFinished]);
 
     const startQuiz = (quiz) => {
         setCurrentQuiz(quiz);
@@ -138,7 +169,7 @@ const Quiz = ({ contentId }) => {
             setIsQuizStarted(false);
             setQuizFinished(true);
             // Marquer le quiz comme terminé
-            setCompletedQuizzes((prev) => [...prev, currentQuiz.id]);
+            // Note: Le marquage comme complété est géré lors de la soumission ou de la fin du quiz
         }
     };
 
@@ -147,6 +178,66 @@ const Quiz = ({ contentId }) => {
         // Revenir à la liste des quiz
         setCurrentQuiz(null);
         setQuizFinished(false);
+    };
+
+    const submitScore = () => {
+        if (isUserLoggedIn) {
+            // Soumettre le score via l'API
+            fetch(`/api/quiz/${currentQuiz.id}/submit`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ score }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Marquer le quiz comme complété
+                    setCompletedQuizzes(prev => [...prev, currentQuiz.id]);
+                    // Afficher un message de succès
+                    alert('Score soumis avec succès !');
+                    // Revenir à la liste des quiz
+                    closeQuiz();
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la soumission du score :', error);
+                });
+        } else {
+            // L'utilisateur n'est pas connecté
+            alert('Veuillez vous connecter pour soumettre votre score.');
+        }
+    };
+
+    const completeQuizWithoutSubmitting = () => {
+        if (isUserLoggedIn) {
+            // Appeler l'API pour marquer le quiz comme complété sans soumettre le score
+            fetch(`/api/quiz/${currentQuiz.id}/complete`, {
+                method: 'POST',
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Marquer le quiz comme complété
+                    setCompletedQuizzes(prev => [...prev, currentQuiz.id]);
+                    // Revenir à la liste des quiz
+                    closeQuiz();
+                })
+                .catch(error => {
+                    console.error('Erreur lors du marquage du quiz comme complété :', error);
+                });
+        } else {
+            // Stocker l'ID du quiz dans localStorage
+            const storedCompletedQuizzes = JSON.parse(localStorage.getItem('completedQuizzes')) || [];
+            const updatedCompletedQuizzes = [...storedCompletedQuizzes, currentQuiz.id];
+            localStorage.setItem('completedQuizzes', JSON.stringify(updatedCompletedQuizzes));
+            setCompletedQuizzes(updatedCompletedQuizzes);
+            // Revenir à la liste des quiz
+            closeQuiz();
+        }
+    };
+
+    const redirectToSignup = () => {
+        // Rediriger l'utilisateur vers la page d'inscription
+        window.location.href = '/signup';
     };
 
     if (quizzes === undefined) {
@@ -166,8 +257,8 @@ const Quiz = ({ contentId }) => {
 
         return (
             <div className="mt-10 flex flex-col items-center justify-center">
-                <div className="w-full py-4 px-4 border border-slate-200 shadow shadow-slate-400 dark:border-slate-700 rounded-md bg-white dark:bg-primary-950">
-                    <h1 className="text-2xl font-medium text-center text-leading mb-2">
+                <div className="w-full py-4 px-4 border border-slate-200 shadow rounded-md bg-white dark:bg-primary-950">
+                    <h1 className="text-2xl font-medium text-center mb-2">
                         {currentQuiz.title}
                     </h1>
 
@@ -217,20 +308,43 @@ const Quiz = ({ contentId }) => {
                                         );
                                     })}
                                 </div>
-                                <div className="flex gap-2">
-                                    <button
-                                        onClick={() => startQuiz(currentQuiz)}
-                                        className="btn btn-primary mr-4"
-                                    >
-                                        Recommencer
-                                    </button>
-                                    <button
-                                        onClick={closeQuiz}
-                                        className="btn btn-light"
-                                    >
-                                        Terminer
-                                    </button>
-                                </div>
+                                {isUserLoggedIn ? (
+                                    <>
+                                        <p>Voulez-vous soumettre votre score ?</p>
+                                        <div className="flex gap-2 justify-center mt-4">
+                                            <button
+                                                onClick={submitScore}
+                                                className="btn btn-primary"
+                                            >
+                                                Soumettre le score
+                                            </button>
+                                            <button
+                                                onClick={completeQuizWithoutSubmitting}
+                                                className="btn btn-light"
+                                            >
+                                                Ne pas soumettre
+                                            </button>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <p>Créez un compte pour sauvegarder votre score et suivre votre progression !</p>
+                                        <div className="flex gap-2 justify-center mt-4">
+                                            <button
+                                                onClick={redirectToSignup}
+                                                className="btn btn-primary"
+                                            >
+                                                Créer un compte
+                                            </button>
+                                            <button
+                                                onClick={completeQuizWithoutSubmitting}
+                                                className="btn btn-light"
+                                            >
+                                                Terminer sans sauvegarder
+                                            </button>
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         ) : (
                             <div className="text-center">
