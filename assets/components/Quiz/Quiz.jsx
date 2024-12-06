@@ -405,7 +405,8 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
     return (
         <div className="mt-10 flex flex-col items-center justify-center">
             <div className="w-full max-w-2xl">
-                <h2 className="text-2xl font-medium text-center mb-6">Liste des quiz</h2>
+                <h2 className="text-2xl font-medium text-center mb-1">Prêt à tester vos connaissances ?</h2>
+                <p className="text-lg text-center text-muted mb-6"> Choisissez un quiz parmi la liste ci-dessous pour commencer.</p>
                 <div className="space-y-4">
                     {quizzes.map((quiz) => {
                         const isCompleted = completedQuizzes.includes(quiz.id);
