@@ -47,6 +47,9 @@
                         {{ sort_by(rows, 'Title', 'row.title') }}
                     </th>
                     <th>
+                        {{ sort_by(rows, 'Statut', 'row.isPublished') }}
+                    </th>
+                    <th>
                         {{ sort_by(rows, 'Contenu associé', 'row.targetContent') }}
                     </th>
                     <th>
@@ -65,10 +68,27 @@
                         {{ row.title }}
                     </td>
                     <td>
+                        <span class="badge {{ row.isPublished ? 'badge-success' : 'badge-danger' }}">
+                            {{ row.isPublished ? 'Publié' : 'Non publié' }}
+                        </span>
+                    </td>
+                    <td>
                         {{ row.targetContent.title }}
                     </td>
                     <td class="text-end">
                         {% if is_granted('ROLE_AUTHOR') %}
+                            {% set targetEntity = row.targetContent %}
+                            {% if targetEntity is defined and row.isPublished %}
+                                {% if is_instance_of(targetEntity, 'App\\Domain\\Course\\Entity\\Course') %}
+                                    <a href="{{ path('app_course_show', {slug: targetEntity.slug}) }}" target="_blank" class="btn-icon">
+                                        {{ icon('external-link') }}
+                                    </a>
+                                {% elseif is_instance_of(targetEntity, 'App\\Domain\\Course\\Entityy\\Formation') %}
+                                    <a href="{{ path('app_formation_show', {slug: targetEntity.slug}) }}" target="_blank" class="btn-icon">
+                                        {{ icon('external-link') }}
+                                    </a>
+                                {% endif %}
+                            {% endif %}
                             <a href="{{ link }}" class="btn-icon">{{ icon('pencil') }}</a>
                             <a href="{{ path(prefix ~ '_stats', {id: row.id}) }}" class="btn-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-column"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
