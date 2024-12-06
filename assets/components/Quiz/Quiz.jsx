@@ -226,7 +226,7 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
         return (
             <div className="mt-10 flex flex-col items-center justify-center">
                 <div className="w-full py-4 px-4 border border-slate-200 dark:border-slate-800 shadow rounded-md bg-white dark:bg-primary-950">
-                    <h1 className="text-2xl font-medium text-center mb-2 overflow-hidden text-ellipsis whitespace-nowrap max-w-full">
+                    <h1 className="text-2xl font-medium text-center mb-2 max-w-full">
                         {currentQuiz.title}
                     </h1>
 
@@ -341,7 +341,7 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                     <h2 className="text-xl text-muted font-medium mb-2">
                                         Question {currentQuestionIndex + 1}/{currentQuiz.questions.length}
                                     </h2>
-                                    <p className="text-lg text-primary-900 dark:text-primary-300 overflow-hidden text-ellipsis whitespace-nowrap max-w-full">
+                                    <p className="text-lg text-primary-900 dark:text-primary-300 whitespace-normal break-words w-full">
                                         {currentQuestion.text}
                                     </p>
                                 </div>
@@ -417,9 +417,9 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                     isCompleted ? 'bg-gray-100 dark:bg-gray-800 opacity-50 cursor-not-allowed' : 'bg-white dark:bg-primary-950'
                                 }`}
                             >
-                                <div className="flex items-center overflow-hidden text-ellipsis whitespace-nowrap max-w-[250px]">
+                                <div className="flex items-center max-w-[350px]">
                                     {isCompleted && <Check className="w-6 h-6 text-green-500 mr-2" />}
-                                    <span className="text-lg font-medium overflow-hidden text-ellipsis whitespace-nowrap">
+                                    <span className="text-lg font-medium text-center lg:text-left">
                                         {quiz.title}
                                     </span>
                                 </div>
