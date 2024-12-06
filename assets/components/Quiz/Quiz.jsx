@@ -229,6 +229,18 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
         const currentQuestion = currentQuiz.questions[currentQuestionIndex];
         const isMultipleChoice = currentQuestion.type === "multiple_choice";
 
+        // Calcul du ratio pour la couleur du temps
+        const totalTime = currentQuestion?.timeLimit || 15;
+        const ratio = timeLeft / totalTime;
+        let timeColorClass = "text-gray-700 dark:text-gray-300";
+        if (ratio <= 0.2) {
+            // <= 20%
+            timeColorClass = "bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 px-2 py-1 rounded";
+        } else if (ratio <= 0.4) {
+            // <= 40%
+            timeColorClass = "bg-orange-200 dark:bg-orange-800 text-orange-800 dark:text-orange-200 px-2 py-1 rounded";
+        }
+
         return (
             <div className="fixed inset-0 z-50 bg-white dark:bg-slate-900 p-4 overflow-auto">
                 <div className="w-full max-w-3xl mx-auto py-6 px-6 border border-slate-200 dark:border-slate-800 shadow-lg rounded-md bg-white dark:bg-slate-900">
@@ -345,7 +357,7 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                         <span className="text-xl text-gray-700 dark:text-gray-300 font-medium">
                                             Question {currentQuestionIndex + 1}/{currentQuiz.questions.length}
                                         </span>
-                                        {currentQuestion.type === "multiple_choice" && (
+                                        {isMultipleChoice && (
                                             <span className="px-2 py-1 text-sm font-medium bg-primary-100 text-primary-700 dark:bg-primary-800 dark:text-primary-200 rounded">
                                                 Choix multiples
                                             </span>
@@ -389,10 +401,24 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                     })}
                                 </div>
                                 <div className="mt-6 flex items-center justify-between text-gray-700 dark:text-gray-300">
-                                    <p className="text-lg font-medium flex flex-col lg:flex-row gap-1">
-                                        <span><Timer />{" "}</span>
-                                        <span>{timeLeft}s restantes</span>
-                                    </p>
+                                    {/* Calcul des couleurs du temps */}
+                                    {(() => {
+                                        const totalTime = currentQuestion?.timeLimit || 15;
+                                        const ratio = timeLeft / totalTime;
+                                        let timeColorClass = "text-gray-700 dark:text-gray-300";
+                                        if (ratio <= 0.2) {
+                                            timeColorClass = "bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 px-2 py-1 rounded";
+                                        } else if (ratio <= 0.4) {
+                                            timeColorClass = "bg-orange-200 dark:bg-orange-800 text-orange-800 dark:text-orange-200 px-2 py-1 rounded";
+                                        }
+
+                                        return (
+                                            <p className="text-lg font-medium flex flex-col lg:flex-row gap-1 items-center">
+                                                <span><Timer />{" "}</span>
+                                                <span className={timeColorClass}>{timeLeft}s restantes</span>
+                                            </p>
+                                        );
+                                    })()}
                                     <p className="text-lg font-medium flex flex-col lg:flex-row gap-1">
                                         <span>Score : </span>
                                         <span>{score}/{currentQuiz.questions.length}</span>
