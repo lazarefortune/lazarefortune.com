@@ -4,17 +4,22 @@ namespace App\Domain\Newsletter\Service;
 
 use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Auth\Core\Repository\UserRepository;
+use App\Domain\Auth\Registration\Service\RegistrationService;
 use App\Domain\Course\Repository\CourseRepository;
 use App\Infrastructure\Mailing\MailService;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RequestContext;
 
 class NewsletterService
 {
+    private const BASE_URL = 'https://www.lazarefortune.com';
+
     public function __construct(
         private readonly MailService $mailService,
         private readonly CourseRepository $courseRepository,
         private readonly UserRepository $userRepository,
-        private readonly UrlGeneratorInterface $urlGenerator
+        private readonly UrlGeneratorInterface $urlGenerator,
     ) {}
 
     public function sendNewsletters(): void
@@ -43,8 +48,9 @@ class NewsletterService
             $course['url'] = $this->urlGenerator->generate(
                 'app_course_show',
                 ['slug' => $course['slug']],
-                UrlGeneratorInterface::ABSOLUTE_URL
+                UrlGeneratorInterface::ABSOLUTE_PATH
             );
+            $course['url'] = self::BASE_URL . $course['url'];
             return $course;
         }, $courses);
     }
@@ -60,11 +66,7 @@ class NewsletterService
         $email = $this->mailService->createEmail('mails/newsletters/daily_newsletter_videos.twig', [
             'courses' => $courses,
             'user' => $user,
-            'courses_url' => $this->urlGenerator->generate(
-                'app_course_index',
-                [],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            )
+            'courses_url' => self::BASE_URL . $this->urlGenerator->generate('app_course_index', [], UrlGeneratorInterface::ABSOLUTE_PATH),
         ]);
 
         $email->to($user->getEmail())
