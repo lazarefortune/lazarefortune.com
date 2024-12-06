@@ -229,14 +229,9 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
         const currentQuestion = currentQuiz.questions[currentQuestionIndex];
         const isMultipleChoice = currentQuestion.type === "multiple_choice";
 
-        // Modal plein écran scrollable
         return (
             <div className="fixed inset-0 z-50 bg-white dark:bg-slate-900 p-4 overflow-auto">
                 <div className="w-full max-w-3xl mx-auto py-6 px-6 border border-slate-200 dark:border-slate-800 shadow-lg rounded-md bg-white dark:bg-slate-900">
-                    <h1 className="text-2xl font-semibold text-center mb-4 whitespace-normal break-words text-gray-800 dark:text-gray-200">
-                        {currentQuiz.title}
-                    </h1>
-
                     {quizFinished ? (
                         showResults ? (
                             <div className="text-center">
@@ -262,7 +257,8 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                                     return (
                                                         <div
                                                             key={answer.id}
-                                                            className={`flex items-center gap-2 mb-1 whitespace-normal break-words ${
+                                                            className={`flex items-start gap-2 mb-2 whitespace-normal break-words border p-2 rounded border-slate-200 dark:border-slate-700
+                                                            ${
                                                                 answer.isCorrect
                                                                     ? "text-green-500"
                                                                     : isUserSelected
@@ -271,13 +267,13 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                                             }`}
                                                         >
                                                             {answer.isCorrect ? (
-                                                                <CheckCircle className="w-5 h-5" />
+                                                                <CheckCircle className="w-5 h-5 flex-shrink-0" />
                                                             ) : isUserSelected ? (
-                                                                <XCircle className="w-5 h-5" />
+                                                                <XCircle className="w-5 h-5 flex-shrink-0" />
                                                             ) : (
-                                                                <div className="w-5 h-5"></div>
+                                                                <div className="w-5 h-5 flex-shrink-0"></div>
                                                             )}
-                                                            <span className="whitespace-normal break-words">
+                                                            <span className="whitespace-normal break-words flex-1">
                                                                 {answer.text}
                                                             </span>
                                                         </div>
@@ -293,13 +289,13 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                         <div className="flex flex-col lg:flex-row gap-2 justify-center mt-4">
                                             <button
                                                 onClick={submitScore}
-                                                className="px-4 py-2 font-semibold rounded-md bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
+                                                className="btn btn-primary"
                                             >
                                                 Soumettre le score
                                             </button>
                                             <button
                                                 onClick={completeQuizWithoutSubmitting}
-                                                className="px-4 py-2 font-semibold rounded-md bg-gray-200 dark:bg-slate-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-slate-600 transition-colors"
+                                                className="btn btn-light"
                                             >
                                                 Ne pas soumettre
                                             </button>
@@ -311,13 +307,13 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                         <div className="flex flex-col lg:flex-row gap-2 justify-center mt-4">
                                             <button
                                                 onClick={redirectToSignup}
-                                                className="px-4 py-2 font-semibold rounded-md bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
+                                                className="btn btn-primary"
                                             >
                                                 Créer un compte
                                             </button>
                                             <button
                                                 onClick={completeQuizWithoutSubmitting}
-                                                className="px-4 py-2 font-semibold rounded-md bg-gray-200 dark:bg-slate-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-slate-600 transition-colors"
+                                                className="btn btn-light"
                                             >
                                                 Terminer sans sauvegarder
                                             </button>
@@ -339,16 +335,23 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                     ) : isQuizStarted ? (
                         isLoading ? (
                             <div className="flex flex-col items-center">
-                                <Loader className="w-12 h-12 animate-spin text-indigo-500 dark:text-indigo-300 mb-4" />
+                                <Loader className="w-12 h-12 animate-spin text-primary-500 dark:text-primary-300 mb-4" />
                                 <p className="text-lg font-medium text-gray-800 dark:text-gray-200">Chargement...</p>
                             </div>
                         ) : (
                             <>
-                                <div className="mb-4">
-                                    <h2 className="text-xl text-gray-700 dark:text-gray-300 font-medium mb-2 text-center">
-                                        Question {currentQuestionIndex + 1}/{currentQuiz.questions.length}
-                                    </h2>
-                                    <p className="text-lg text-gray-800 dark:text-gray-200 whitespace-normal break-words w-full text-center">
+                                <div className="mb-4 text-center">
+                                    <div className="flex flex-col lg:flex-row items-center justify-center gap-2 mb-2">
+                                        <span className="text-xl text-gray-700 dark:text-gray-300 font-medium">
+                                            Question {currentQuestionIndex + 1}/{currentQuiz.questions.length}
+                                        </span>
+                                        {currentQuestion.type === "multiple_choice" && (
+                                            <span className="px-2 py-1 text-sm font-medium bg-primary-100 text-primary-700 dark:bg-primary-800 dark:text-primary-200 rounded">
+                                                Choix multiples
+                                            </span>
+                                        )}
+                                    </div>
+                                    <p className="text-lg text-gray-800 dark:text-gray-200 whitespace-normal break-words w-full font-semibold">
                                         {currentQuestion.text}
                                     </p>
                                 </div>
@@ -362,11 +365,15 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                                 key={answer.id}
                                                 onClick={() => !isDisabled && handleAnswerSelection(answer.id)}
                                                 className={`
-                                                    w-full p-3 flex items-center justify-center text-center rounded-md shadow-sm 
+                                                    w-full p-3 flex items-center justify-center text-center rounded-md shadow-sm
                                                     whitespace-normal break-words transition-colors
                                                     border border-slate-200 dark:border-slate-700
-                                                    ${isSelected ? 'bg-indigo-600 text-white' : 'bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200'}
-                                                    ${!isDisabled ? 'cursor-pointer hover:bg-indigo-100 dark:hover:bg-indigo-900' : 'opacity-50 cursor-not-allowed'}
+                                                    ${
+                                                    isSelected
+                                                        ? 'bg-primary-900 text-white hover:bg-primary-800 focus:bg-primary-900 dark:hover:bg-primary-800'
+                                                        : 'bg-gray-50 text-gray-800 hover:bg-primary-100 dark:bg-slate-800 dark:text-gray-200 dark:hover:bg-primary-900'
+                                                }
+                                                    ${!isDisabled ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed'}
                                                 `}
                                                 role="button"
                                                 tabIndex={0}
@@ -394,7 +401,7 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                 <div className="mt-4 flex justify-end">
                                     <button
                                         onClick={handleSubmitAnswer}
-                                        className="px-4 py-2 font-semibold rounded-md bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
+                                        className="btn btn-primary"
                                         disabled={selectedAnswers.length === 0}
                                     >
                                         {currentQuestionIndex === currentQuiz.questions.length - 1 ? 'Terminer' : 'Continuer'}
@@ -433,7 +440,7 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                 {!isCompleted && (
                                     <button
                                         onClick={() => startQuiz(quiz)}
-                                        className="px-3 py-2 text-sm font-semibold rounded-md bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
+                                        className="btn btn-sm btn-primary"
                                     >
                                         Commencer
                                     </button>
