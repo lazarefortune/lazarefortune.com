@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { CheckCircle, XCircle, Loader, Timer, Check } from "lucide-react";
 
 const Quiz = ({ contentId, isUserLoggedIn }) => {
-    const [quizzes, setQuizzes] = useState(undefined); // Liste des quiz
-    const [currentQuiz, setCurrentQuiz] = useState(null); // Quiz sélectionné
+    const [quizzes, setQuizzes] = useState(undefined);
+    const [currentQuiz, setCurrentQuiz] = useState(null);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [score, setScore] = useState(0);
     const [timeLeft, setTimeLeft] = useState(0);
@@ -22,7 +22,6 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                     if (response.ok) {
                         return response.json();
                     } else if (response.status === 404) {
-                        // Si aucun quiz n'existe, on définit quizzes à null
                         setQuizzes(null);
                         return null;
                     } else {
@@ -31,12 +30,8 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                 })
                 .then((data) => {
                     if (data) {
-                        // Si un seul quiz est renvoyé, on le place dans un tableau
                         const quizzesData = Array.isArray(data) ? data : [data];
-
-                        // Trier les quiz par titre ou autre critère si nécessaire
                         const sortedQuizzes = quizzesData.sort((a, b) => a.title.localeCompare(b.title));
-
                         setQuizzes(sortedQuizzes);
                     }
                 })
@@ -49,7 +44,6 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                 const storedCompletedQuizzes = JSON.parse(localStorage.getItem('completedQuizzes')) || [];
                 setCompletedQuizzes(storedCompletedQuizzes);
             } else {
-                // Récupérer les quizzes complétés pour l'utilisateur connecté
                 fetch('/api/quiz/user/completed-quizzes')
                     .then(response => response.json())
                     .then(data => {
@@ -99,7 +93,6 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
         setShowResults(true);
         setSelectedAnswers([]);
 
-        // Initialiser timeLeft avec le timeLimit de la première question
         const initialTimeLimit = quiz.questions[0]?.timeLimit || 15;
         setTimeLeft(initialTimeLimit);
     };
@@ -109,18 +102,14 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
         const isMultipleChoice = currentQuestion.type === "multiple_choice";
 
         if (isMultipleChoice) {
-            // Pour les questions à choix multiple, on ajoute ou retire l'ID de la réponse sélectionnée
             setSelectedAnswers((prevSelected) => {
                 if (prevSelected.includes(answerId)) {
-                    // Si la réponse est déjà sélectionnée, on la retire
                     return prevSelected.filter((id) => id !== answerId);
                 } else {
-                    // Sinon, on l'ajoute
                     return [...prevSelected, answerId];
                 }
             });
         } else {
-            // Pour les questions à choix unique, on ne permet qu'une seule sélection
             setSelectedAnswers([answerId]);
         }
     };
@@ -130,16 +119,13 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
         const currentQuestion = currentQuiz.questions[currentQuestionIndex];
         const correctAnswers = currentQuestion.answers.filter(a => a.isCorrect).map(a => a.id);
 
-        // Vérifier si les réponses sélectionnées sont correctes
         const isCorrect = correctAnswers.length === selectedAnswers.length &&
             correctAnswers.every(id => selectedAnswers.includes(id));
 
-        // Calculer le score
         if (isCorrect) {
             setScore((prevScore) => prevScore + 1);
         }
 
-        // Enregistrer les réponses de l'utilisateur
         setUserAnswers((prev) => [
             ...prev,
             {
@@ -162,27 +148,22 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
             const nextQuestionIndex = currentQuestionIndex + 1;
             setCurrentQuestionIndex(nextQuestionIndex);
 
-            // Mettre à jour timeLeft avec le timeLimit de la prochaine question
             const nextTimeLimit = currentQuiz.questions[nextQuestionIndex]?.timeLimit || 15;
             setTimeLeft(nextTimeLimit);
         } else {
             setIsQuizStarted(false);
             setQuizFinished(true);
-            // Marquer le quiz comme terminé
-            // Note: Le marquage comme complété est géré lors de la soumission ou de la fin du quiz
         }
     };
 
     const closeQuiz = () => {
         setShowResults(false);
-        // Revenir à la liste des quiz
         setCurrentQuiz(null);
         setQuizFinished(false);
     };
 
     const submitScore = () => {
         if (isUserLoggedIn) {
-            // Soumettre le score via l'API
             fetch(`/api/quiz/${currentQuiz.id}/submit`, {
                 method: 'POST',
                 headers: {
@@ -192,73 +173,60 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
             })
                 .then(response => response.json())
                 .then(data => {
-                    // Marquer le quiz comme complété
                     setCompletedQuizzes(prev => [...prev, currentQuiz.id]);
-                    // Afficher un message de succès
                     alert('Score soumis avec succès !');
-                    // Revenir à la liste des quiz
                     closeQuiz();
                 })
                 .catch(error => {
                     console.error('Erreur lors de la soumission du score :', error);
                 });
         } else {
-            // L'utilisateur n'est pas connecté
             alert('Veuillez vous connecter pour soumettre votre score.');
         }
     };
 
     const completeQuizWithoutSubmitting = () => {
         if (isUserLoggedIn) {
-            // Appeler l'API pour marquer le quiz comme complété sans soumettre le score
             fetch(`/api/quiz/${currentQuiz.id}/complete`, {
                 method: 'POST',
             })
                 .then(response => response.json())
                 .then(data => {
-                    // Marquer le quiz comme complété
                     setCompletedQuizzes(prev => [...prev, currentQuiz.id]);
-                    // Revenir à la liste des quiz
                     closeQuiz();
                 })
                 .catch(error => {
                     console.error('Erreur lors du marquage du quiz comme complété :', error);
                 });
         } else {
-            // Stocker l'ID du quiz dans localStorage
             const storedCompletedQuizzes = JSON.parse(localStorage.getItem('completedQuizzes')) || [];
             const updatedCompletedQuizzes = [...storedCompletedQuizzes, currentQuiz.id];
             localStorage.setItem('completedQuizzes', JSON.stringify(updatedCompletedQuizzes));
             setCompletedQuizzes(updatedCompletedQuizzes);
-            // Revenir à la liste des quiz
             closeQuiz();
         }
     };
 
     const redirectToSignup = () => {
-        // Rediriger l'utilisateur vers la page d'inscription
         window.location.href = '/inscription';
     };
 
     if (quizzes === undefined) {
-        // Afficher le chargement initial
         return <p className="text-center text-gray-500">Chargement des quiz...</p>;
     }
 
     if (quizzes === null || quizzes.length === 0) {
-        // Si aucun quiz n'existe, ne rien afficher
         return null;
     }
 
     if (currentQuiz) {
-        // Afficher le quiz sélectionné
         const currentQuestion = currentQuiz.questions[currentQuestionIndex];
         const isMultipleChoice = currentQuestion.type === "multiple_choice";
 
         return (
             <div className="mt-10 flex flex-col items-center justify-center">
                 <div className="w-full py-4 px-4 border border-slate-200 dark:border-slate-800 shadow rounded-md bg-white dark:bg-primary-950">
-                    <h1 className="text-2xl font-medium text-center mb-2">
+                    <h1 className="text-2xl font-medium text-center mb-2 overflow-hidden text-ellipsis whitespace-nowrap max-w-full">
                         {currentQuiz.title}
                     </h1>
 
@@ -279,13 +247,15 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                                 key={index}
                                                 className="p-4 rounded-md bg-primary-100 dark:bg-primary-1000"
                                             >
-                                                <p className="text-lg font-medium mb-2">{question.text}</p>
+                                                <p className="text-lg font-medium mb-2 overflow-hidden text-ellipsis whitespace-nowrap max-w-full">
+                                                    {question.text}
+                                                </p>
                                                 {question.answers.map((answer) => {
                                                     const isUserSelected = userAnswer.selected.includes(answer.id);
                                                     return (
                                                         <div
                                                             key={answer.id}
-                                                            className={`flex items-center space-x-2 mb-1 ${
+                                                            className={`flex items-center space-x-2 mb-1 overflow-hidden text-ellipsis whitespace-nowrap max-w-full ${
                                                                 answer.isCorrect
                                                                     ? "text-green-500"
                                                                     : isUserSelected
@@ -300,7 +270,9 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                                             ) : (
                                                                 <div className="w-5 h-5"></div>
                                                             )}
-                                                            <span>{answer.text}</span>
+                                                            <span className="overflow-hidden text-ellipsis whitespace-nowrap max-w-[150px]">
+                                                                {answer.text}
+                                                            </span>
                                                         </div>
                                                     );
                                                 })}
@@ -369,24 +341,36 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                     <h2 className="text-xl text-muted font-medium mb-2">
                                         Question {currentQuestionIndex + 1}/{currentQuiz.questions.length}
                                     </h2>
-                                    <p className="text-lg text-primary-900 dark:text-primary-300">
+                                    <p className="text-lg text-primary-900 dark:text-primary-300 overflow-hidden text-ellipsis whitespace-nowrap max-w-full">
                                         {currentQuestion.text}
                                     </p>
                                 </div>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     {currentQuestion.answers.map((answer) => {
                                         const isSelected = selectedAnswers.includes(answer.id);
+                                        const isDisabled = timeLeft === 0;
+
                                         return (
-                                            <button
+                                            <div
                                                 key={answer.id}
-                                                onClick={() =>
-                                                    handleAnswerSelection(answer.id)
-                                                }
-                                                className={`btn ${isSelected ? 'btn-primary' : 'btn-light'}`}
-                                                disabled={timeLeft === 0}
+                                                onClick={() => !isDisabled && handleAnswerSelection(answer.id)}
+                                                className={`
+                                                    w-full p-3 flex items-center justify-center text-center rounded-md shadow-sm 
+                                                    whitespace-normal break-words transition-colors
+                                                    border border-slate-200 dark:border-slate-700
+                                                    ${isSelected ? 'bg-primary-900 text-white dark:bg-primary-700 dark:text-white hover:bg-primary-800 hover:text-white dark:hover:bg-primary-600 dark:hover:text-white' : 'bg-white dark:bg-primary-1000 text-slate-950 dark:text-white hover:bg-primary-100 dark:hover:bg-primary-800'}
+                                                    ${!isDisabled ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed'}
+                                                `}
+                                                role="button"
+                                                tabIndex={0}
+                                                onKeyDown={(e) => {
+                                                    if (!isDisabled && (e.key === 'Enter' || e.key === ' ')) {
+                                                        handleAnswerSelection(answer.id);
+                                                    }
+                                                }}
                                             >
                                                 {answer.text}
-                                            </button>
+                                            </div>
                                         );
                                     })}
                                 </div>
@@ -432,9 +416,11 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                     isCompleted ? 'bg-gray-100 dark:bg-gray-800 opacity-50 cursor-not-allowed' : 'bg-white dark:bg-primary-950'
                                 }`}
                             >
-                                <div className="flex items-center">
+                                <div className="flex items-center overflow-hidden text-ellipsis whitespace-nowrap max-w-[250px]">
                                     {isCompleted && <Check className="w-6 h-6 text-green-500 mr-2" />}
-                                    <span className="text-lg font-medium">{quiz.title}</span>
+                                    <span className="text-lg font-medium overflow-hidden text-ellipsis whitespace-nowrap">
+                                        {quiz.title}
+                                    </span>
                                 </div>
                                 {!isCompleted && (
                                     <button

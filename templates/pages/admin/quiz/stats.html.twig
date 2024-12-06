@@ -1,0 +1,80 @@
+{% extends 'layouts/admin/base.html.twig' %}
+
+{% block title %}
+    Statistiques du quiz : {{ item.title }}
+{% endblock %}
+
+{% block body %}
+
+    <div class="dashboard-page-header">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li>
+                    <a href="{{ path('admin_home') }}">
+                        <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                             fill="currentColor" viewBox="0 0 20 20">
+                            <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"></path>
+                        </svg>
+                        Accueil
+                    </a>
+                </li>
+                {{ icon('chevron-right') }}
+                <li>
+                    <a href="{{ path('admin_quiz_index') }}">Quiz</a>
+                </li>
+                {{ icon('chevron-right') }}
+                <li aria-current="page">
+                    <span>Statistiques</span>
+                </li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="container mt-4">
+        <h1 class="mb-4">Statistiques du quiz : {{ item.title }}</h1>
+
+        <div class="mb-4 p-4 border rounded bg-white dark:bg-primary-950">
+            <h2 class="text-xl font-semibold mb-2">Statistiques globales</h2>
+            <p>Nombre de participations : <strong>{{ count }}</strong></p>
+            <p>Score moyen : <strong>{{ averageScore|number_format(2, '.', ',') }}</strong></p>
+        </div>
+
+        {% if count > 0 %}
+            <div class="p-4 border rounded bg-white dark:bg-primary-950">
+                <h2 class="text-xl font-semibold mb-4">Détails des participations</h2>
+                <table class="table-auto w-full border-collapse">
+                    <thead>
+                    <tr class="border-b">
+                        <th class="text-left p-2 font-semibold">Utilisateur</th>
+                        <th class="text-left p-2 font-semibold">Score</th>
+                        <th class="text-left p-2 font-semibold">Date de complétion</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for result in results %}
+                        <tr class="border-b">
+                            <td class="p-2">
+                                {% if result.user is defined and result.user is not null %}
+                                    {{ result.user.fullname }}
+                                {% else %}
+                                    <em>Utilisateur non connecté</em>
+                                {% endif %}
+                            </td>
+                            <td class="p-2">
+                                {{ result.score }}
+                            </td>
+                            <td class="p-2">
+                                {{ result.completedAt|date('d/m/Y H:i') }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="p-4 border rounded bg-white dark:bg-primary-950 mt-4">
+                <p>Aucune participation pour ce quiz.</p>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
