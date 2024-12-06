@@ -96,7 +96,7 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
         const initialTimeLimit = quiz.questions[0]?.timeLimit || 15;
         setTimeLeft(initialTimeLimit);
 
-        // Désactiver le scroll global
+        // Désactiver le scroll sur le body
         document.body.style.overflow = 'hidden';
     };
 
@@ -105,7 +105,7 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
         setCurrentQuiz(null);
         setQuizFinished(false);
 
-        // Restaurer le scroll global
+        // Restaurer le scroll sur le body
         document.body.style.overflow = '';
     };
 
@@ -229,10 +229,10 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
         const currentQuestion = currentQuiz.questions[currentQuestionIndex];
         const isMultipleChoice = currentQuestion.type === "multiple_choice";
 
-        // Quand le quiz est en cours, on affiche un overlay plein écran
+        // Modal plein écran scrollable
         return (
-            <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white dark:bg-slate-900 p-4">
-                <div className="w-full max-w-3xl py-6 px-6 border border-slate-200 dark:border-slate-800 shadow-lg rounded-md">
+            <div className="fixed inset-0 z-50 bg-white dark:bg-slate-900 p-4 overflow-auto">
+                <div className="w-full max-w-3xl mx-auto py-6 px-6 border border-slate-200 dark:border-slate-800 shadow-lg rounded-md bg-white dark:bg-slate-900">
                     <h1 className="text-2xl font-semibold text-center mb-4 whitespace-normal break-words text-gray-800 dark:text-gray-200">
                         {currentQuiz.title}
                     </h1>
