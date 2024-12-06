@@ -95,6 +95,18 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
 
         const initialTimeLimit = quiz.questions[0]?.timeLimit || 15;
         setTimeLeft(initialTimeLimit);
+
+        // Désactiver le scroll global
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeQuiz = () => {
+        setShowResults(false);
+        setCurrentQuiz(null);
+        setQuizFinished(false);
+
+        // Restaurer le scroll global
+        document.body.style.overflow = '';
     };
 
     const handleAnswerSelection = (answerId) => {
@@ -154,12 +166,6 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
             setIsQuizStarted(false);
             setQuizFinished(true);
         }
-    };
-
-    const closeQuiz = () => {
-        setShowResults(false);
-        setCurrentQuiz(null);
-        setQuizFinished(false);
     };
 
     const submitScore = () => {
@@ -223,18 +229,19 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
         const currentQuestion = currentQuiz.questions[currentQuestionIndex];
         const isMultipleChoice = currentQuestion.type === "multiple_choice";
 
+        // Quand le quiz est en cours, on affiche un overlay plein écran
         return (
-            <div className="mt-10 flex flex-col items-center justify-center">
-                <div className="w-full py-4 px-4 border border-slate-200 dark:border-slate-800 shadow rounded-md bg-white dark:bg-primary-950">
-                    <h1 className="text-2xl font-medium text-center mb-2 max-w-full">
+            <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white dark:bg-slate-900 p-4">
+                <div className="w-full max-w-3xl py-6 px-6 border border-slate-200 dark:border-slate-800 shadow-lg rounded-md">
+                    <h1 className="text-2xl font-semibold text-center mb-4 whitespace-normal break-words text-gray-800 dark:text-gray-200">
                         {currentQuiz.title}
                     </h1>
 
                     {quizFinished ? (
                         showResults ? (
                             <div className="text-center">
-                                <p className="text-lg font-medium mb-4">Quiz terminé !</p>
-                                <p className="text-lg mb-6">
+                                <p className="text-xl font-medium mb-4 text-gray-800 dark:text-gray-200">Quiz terminé !</p>
+                                <p className="text-lg mb-6 text-gray-700 dark:text-gray-300">
                                     Ton score : <span className="font-bold">{score}/{currentQuiz.questions.length}</span>
                                 </p>
                                 <div className="mb-6 space-y-4">
@@ -245,9 +252,9 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                         return (
                                             <div
                                                 key={index}
-                                                className="p-4 rounded-md bg-primary-100 dark:bg-primary-1000"
+                                                className="p-4 rounded-md bg-slate-100 dark:bg-slate-800"
                                             >
-                                                <p className="text-lg font-medium mb-2 overflow-hidden text-ellipsis whitespace-nowrap max-w-full">
+                                                <p className="text-lg font-medium mb-2 whitespace-normal break-words text-gray-800 dark:text-gray-200 text-center">
                                                     {question.text}
                                                 </p>
                                                 {question.answers.map((answer) => {
@@ -255,12 +262,12 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                                     return (
                                                         <div
                                                             key={answer.id}
-                                                            className={`flex items-center space-x-2 mb-1 overflow-hidden text-ellipsis whitespace-nowrap max-w-full ${
+                                                            className={`flex items-center gap-2 mb-1 whitespace-normal break-words ${
                                                                 answer.isCorrect
                                                                     ? "text-green-500"
                                                                     : isUserSelected
                                                                         ? "text-red-500"
-                                                                        : "text-gray-500"
+                                                                        : "text-gray-700 dark:text-gray-300"
                                                             }`}
                                                         >
                                                             {answer.isCorrect ? (
@@ -270,7 +277,7 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                                             ) : (
                                                                 <div className="w-5 h-5"></div>
                                                             )}
-                                                            <span className="overflow-hidden text-ellipsis whitespace-nowrap max-w-[150px]">
+                                                            <span className="whitespace-normal break-words">
                                                                 {answer.text}
                                                             </span>
                                                         </div>
@@ -282,17 +289,17 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                 </div>
                                 {isUserLoggedIn ? (
                                     <>
-                                        <p>Voulez-vous soumettre votre score ?</p>
+                                        <p className="text-lg text-gray-800 dark:text-gray-200">Voulez-vous soumettre votre score ?</p>
                                         <div className="flex flex-col lg:flex-row gap-2 justify-center mt-4">
                                             <button
                                                 onClick={submitScore}
-                                                className="btn btn-primary"
+                                                className="px-4 py-2 font-semibold rounded-md bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
                                             >
                                                 Soumettre le score
                                             </button>
                                             <button
                                                 onClick={completeQuizWithoutSubmitting}
-                                                className="btn btn-light"
+                                                className="px-4 py-2 font-semibold rounded-md bg-gray-200 dark:bg-slate-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-slate-600 transition-colors"
                                             >
                                                 Ne pas soumettre
                                             </button>
@@ -300,17 +307,17 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                     </>
                                 ) : (
                                     <>
-                                        <p>Créez un compte pour sauvegarder votre score et suivre votre progression !</p>
+                                        <p className="text-lg text-gray-800 dark:text-gray-200">Créez un compte pour sauvegarder votre score et suivre votre progression !</p>
                                         <div className="flex flex-col lg:flex-row gap-2 justify-center mt-4">
                                             <button
                                                 onClick={redirectToSignup}
-                                                className="btn btn-primary"
+                                                className="px-4 py-2 font-semibold rounded-md bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
                                             >
                                                 Créer un compte
                                             </button>
                                             <button
                                                 onClick={completeQuizWithoutSubmitting}
-                                                className="btn btn-light"
+                                                className="px-4 py-2 font-semibold rounded-md bg-gray-200 dark:bg-slate-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-slate-600 transition-colors"
                                             >
                                                 Terminer sans sauvegarder
                                             </button>
@@ -320,10 +327,10 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                             </div>
                         ) : (
                             <div className="text-center">
-                                <p className="text-lg font-medium mb-4">Merci d'avoir participé au quiz !</p>
+                                <p className="text-lg font-medium mb-4 text-gray-800 dark:text-gray-200">Merci d'avoir participé au quiz !</p>
                                 <button
                                     onClick={closeQuiz}
-                                    className="btn btn-light"
+                                    className="px-4 py-2 font-semibold rounded-md bg-gray-200 dark:bg-slate-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-slate-600 transition-colors"
                                 >
                                     Retour à la liste des quiz
                                 </button>
@@ -332,16 +339,16 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                     ) : isQuizStarted ? (
                         isLoading ? (
                             <div className="flex flex-col items-center">
-                                <Loader className="w-12 h-12 animate-spin text-primary-500 dark:text-primary-300 mb-4" />
-                                <p className="text-lg font-medium">Chargement...</p>
+                                <Loader className="w-12 h-12 animate-spin text-indigo-500 dark:text-indigo-300 mb-4" />
+                                <p className="text-lg font-medium text-gray-800 dark:text-gray-200">Chargement...</p>
                             </div>
                         ) : (
                             <>
                                 <div className="mb-4">
-                                    <h2 className="text-xl text-muted font-medium mb-2">
+                                    <h2 className="text-xl text-gray-700 dark:text-gray-300 font-medium mb-2 text-center">
                                         Question {currentQuestionIndex + 1}/{currentQuiz.questions.length}
                                     </h2>
-                                    <p className="text-lg text-primary-900 dark:text-primary-300 whitespace-normal break-words w-full">
+                                    <p className="text-lg text-gray-800 dark:text-gray-200 whitespace-normal break-words w-full text-center">
                                         {currentQuestion.text}
                                     </p>
                                 </div>
@@ -358,8 +365,8 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                                     w-full p-3 flex items-center justify-center text-center rounded-md shadow-sm 
                                                     whitespace-normal break-words transition-colors
                                                     border border-slate-200 dark:border-slate-700
-                                                    ${isSelected ? 'bg-primary-900 text-white dark:bg-primary-700 dark:text-white hover:bg-primary-800 hover:text-white dark:hover:bg-primary-600 dark:hover:text-white' : 'bg-white dark:bg-primary-1000 text-slate-950 dark:text-white hover:bg-primary-100 dark:hover:bg-primary-800'}
-                                                    ${!isDisabled ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed'}
+                                                    ${isSelected ? 'bg-indigo-600 text-white' : 'bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200'}
+                                                    ${!isDisabled ? 'cursor-pointer hover:bg-indigo-100 dark:hover:bg-indigo-900' : 'opacity-50 cursor-not-allowed'}
                                                 `}
                                                 role="button"
                                                 tabIndex={0}
@@ -374,20 +381,20 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                         );
                                     })}
                                 </div>
-                                <div className="mt-6 flex items-center justify-between">
+                                <div className="mt-6 flex items-center justify-between text-gray-700 dark:text-gray-300">
                                     <p className="text-lg font-medium flex flex-col lg:flex-row gap-1">
                                         <span><Timer />{" "}</span>
-                                        <span> {timeLeft}s restantes</span>
+                                        <span>{timeLeft}s restantes</span>
                                     </p>
                                     <p className="text-lg font-medium flex flex-col lg:flex-row gap-1">
-                                        <span>Score : {" "}</span>
+                                        <span>Score : </span>
                                         <span>{score}/{currentQuiz.questions.length}</span>
                                     </p>
                                 </div>
                                 <div className="mt-4 flex justify-end">
                                     <button
                                         onClick={handleSubmitAnswer}
-                                        className="btn btn-primary"
+                                        className="px-4 py-2 font-semibold rounded-md bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
                                         disabled={selectedAnswers.length === 0}
                                     >
                                         {currentQuestionIndex === currentQuiz.questions.length - 1 ? 'Terminer' : 'Continuer'}
@@ -401,12 +408,12 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
         );
     }
 
-    // Afficher la liste des quiz
+    // Afficher la liste des quiz si aucun quiz en cours
     return (
-        <div className="mt-10 flex flex-col items-center justify-center">
+        <div className="mt-10 flex flex-col items-center justify-center px-4">
             <div className="w-full max-w-2xl">
-                <h2 className="text-2xl font-medium text-center mb-1">Prêt à tester vos connaissances ?</h2>
-                <p className="text-lg text-center text-muted mb-6"> Choisissez un quiz parmi la liste ci-dessous pour commencer.</p>
+                <h2 className="text-2xl font-medium text-center mb-1 text-gray-700 dark:text-gray-200">Prêt à tester vos connaissances ?</h2>
+                <p className="text-lg text-center text-gray-600 dark:text-gray-400 mb-6">Choisissez un quiz parmi la liste ci-dessous pour commencer.</p>
                 <div className="space-y-4">
                     {quizzes.map((quiz) => {
                         const isCompleted = completedQuizzes.includes(quiz.id);
@@ -414,10 +421,10 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                             <div
                                 key={quiz.id}
                                 className={`p-4 border dark:border-slate-700 rounded shadow flex flex-col lg:flex-row gap-2 items-center justify-between ${
-                                    isCompleted ? 'bg-gray-100 dark:bg-gray-800 opacity-50 cursor-not-allowed' : 'bg-white dark:bg-primary-950'
+                                    isCompleted ? 'bg-gray-100 dark:bg-gray-800 opacity-50 cursor-not-allowed' : 'bg-white dark:bg-slate-900'
                                 }`}
                             >
-                                <div className="flex items-center max-w-[350px]">
+                                <div className="flex items-center whitespace-normal break-words max-w-[350px] text-gray-800 dark:text-gray-200">
                                     {isCompleted && <Check className="w-6 h-6 text-green-500 mr-2" />}
                                     <span className="text-lg font-medium text-center lg:text-left">
                                         {quiz.title}
@@ -426,7 +433,7 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                 {!isCompleted && (
                                     <button
                                         onClick={() => startQuiz(quiz)}
-                                        className="btn btn-sm btn-primary"
+                                        className="px-3 py-2 text-sm font-semibold rounded-md bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
                                     >
                                         Commencer
                                     </button>
