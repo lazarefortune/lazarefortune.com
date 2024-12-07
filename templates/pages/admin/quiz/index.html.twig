@@ -65,7 +65,7 @@
                         {{ row.id }}
                     </td>
                     <td>
-                        {{ row.title }}
+                        {{ row.title | truncate(50) }}
                     </td>
                     <td>
                         <span class="badge {{ row.isPublished ? 'badge-success' : 'badge-danger' }}">
@@ -73,7 +73,7 @@
                         </span>
                     </td>
                     <td>
-                        {{ row.targetContent.title }}
+                        {{ row.targetContent.title | truncate(50) }}
                     </td>
                     <td class="text-end">
                         {% if is_granted('ROLE_AUTHOR') %}
