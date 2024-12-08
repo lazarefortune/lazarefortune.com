@@ -172,6 +172,10 @@ export class YoutubePlayer extends HTMLElement {
     }
 
     play () {
+        if (!this.player) {
+            this.startPlay()
+            return
+        }
         this.player.playVideo()
     }
 

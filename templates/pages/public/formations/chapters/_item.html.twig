@@ -9,9 +9,10 @@
                         {{ icon('crown') }}
                     </div>
                 {% else %}
-                    <div class="chapters__free">
-                        {{ icon('video') }}
-                    </div>
+                    <play-button class="chapters__play" data-date="{{ course.publishedAt.timestamp }}" data-video-id="course-{{ course.id }}" tabindex="-1" data-history="{{ course.id }}"></play-button>
+{#                    <div class="chapters__free">#}
+{#                        {{ icon('video') }}#}
+{#                    </div>#}
                 {% endif %}
                 <span class="chapters__title">
                   {{ course.title }}

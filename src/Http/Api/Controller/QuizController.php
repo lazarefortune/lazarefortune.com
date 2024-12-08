@@ -32,7 +32,7 @@ class QuizController extends AbstractController
         ]);
 
         if (!$quizzes) {
-            return $this->json(['error' => 'No quizzes found'], 404);
+            return $this->json(['error' => 'No quizzes found'], 204);
         }
 
         $data = array_map(function(Quiz $quiz) {

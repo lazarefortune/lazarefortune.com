@@ -28,6 +28,7 @@ class ProgressController extends AbstractController
         private readonly EventDispatcherInterface $dispatcher,
         private readonly EntityManagerInterface $em,
         private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly SerializerInterface $serializer,
     )
     {
     }
@@ -53,16 +54,24 @@ class ProgressController extends AbstractController
             return new JsonResponse([]);
         }
 
+        // return $this->serializer->serialize($path, 'path', ['url' => false]);
+
         $button = null;
         if ($content instanceof Course && $content->getFormation() instanceof Formation) {
             /** @var Formation $formation */
             $formation = $content->getFormation();
             $nextChapterId = $formation->getNextCourseId($content->getId());
             if ($nextChapterId) {
+                $path = $this->em->getRepository(Course::class)->find($nextChapterId);
                 $button = [
-                    'title' => 'Voir le chapitre suivant',
+                    'title' => 'Voir le vidéo suivante',
                     'anchor' => 'autoplay',
-                    'target' => $this->em->getRepository(Course::class)->find($nextChapterId),
+                    'target' => $this->serializer->serialize($path, 'path', ['url' => false])
+                ];
+            } else {
+                $button = [
+                    'title' => 'Voir d\'autres playlists',
+                    'target' => $this->urlGenerator->generate('app_formation_index', [], UrlGeneratorInterface::ABSOLUTE_URL),
                 ];
             }
         } elseif ($content instanceof Course) {
@@ -72,8 +81,7 @@ class ProgressController extends AbstractController
                 $button = [
                     'title' => "Voir d'autres vidéos {$technologie->getName()}",
                     'anchor' => 'tutoriels',
-                    'target' => null,
-                    'url' => $this->urlGenerator->generate( 'app_technology_show', ['slug' => $technologie->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL )
+                    'target' => $this->urlGenerator->generate( 'app_technology_show', ['slug' => $technologie->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL ),
                 ];
             }
         }

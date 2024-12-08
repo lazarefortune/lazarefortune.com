@@ -87,12 +87,12 @@
 
 
 .formation__header {
-  padding-top: 48px;
+  //padding-top: 48px;
   display: grid;
   grid-template-columns: 1fr;
   gap: 24px;
-  @apply bg-gradient-to-br from-primary-100 to-slate-50 dark:from-primary-1000 dark:to-dark-soft-2;
-  padding-bottom: 70px;
+  @apply bg-gradient-to-br from-primary-100 to-slate-50 dark:from-primary-1000 dark:to-dark-soft-2 pt-4 pb-10;
+  //padding-bottom: 70px;
 
   .breadcrumb {
     @apply bg-transparent;
@@ -139,8 +139,9 @@
 }
 
 .formation__header__image img {
-  max-width: 100%;
+  //max-width: 100%;
   height: auto;
+  max-height: 300px;
   position: relative;
   z-index: 2;
   display: block;

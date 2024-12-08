@@ -20,6 +20,10 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
             fetch(`/api/quiz/${contentId}`)
                 .then((response) => {
                     if (response.ok) {
+                        if (response.status === 204) {
+                            setQuizzes(null);
+                            return null;
+                        }
                         return response.json();
                     } else if (response.status === 404) {
                         setQuizzes(null);

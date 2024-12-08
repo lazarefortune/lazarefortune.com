@@ -2,11 +2,12 @@
     <div class="modal-box text-center">
         <img src="{{ asset('images/illustrations/success.svg') }}" alt="" class="w-40 h-40 mx-auto">
         <header class="my-1">Félicitations !</header>
-        <p>Bien joué ! On poursuit la formation avec une nouvelle vidéo ?</p>
+        <p class="mb-2">Bien joué ! On continue ?</p>
         <footer class="text-center mt3">
             {% if button %}
                 <a data-dismiss class="btn btn-block btn-primary"
-                   {% if button.target %} href="{{ path(button.target) }}#{{ button.anchor }}" {% else %} href="{{ button.url }}#{{ button.anchor }}" {% endif %}>
+                   href="{{ button.target }}#{{ button.anchor }}">
+{#                   {% if button.target %} href="{{ path(button.target) }}#{{ button.anchor }}" {% else %} href="{{ button.url }}#{{ button.anchor }}" {% endif %}>#}
                     {{ button.title }}
                 </a>
             {% endif %}
