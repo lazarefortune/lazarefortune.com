@@ -30,8 +30,13 @@
                                 <div class="formation-progress__bar" style="--progress: {{ progress.ratio * 100 }}%"></div>
                             </div>
                             <p>
-                                <a href="{{ path('app_formation_resume', {slug: formation.slug}) }}#autoplay"
-                                   class="btn btn-primary">{{ icon('play') }} Continuer</a>
+                                {% if progress.ratio == 1 %}
+                                    <a href="{{ path('app_formation_resume', {slug: formation.slug}) }}#autoplay"
+                                       class="btn btn-primary">{{ icon('play') }} Revoir la playlist</a>
+                                {% else %}
+                                    <a href="{{ path('app_formation_resume', {slug: formation.slug}) }}#autoplay"
+                                       class="btn btn-primary">{{ icon('play') }} Continuer</a>
+                                {% endif %}
                             </p>
                         {% elseif formation.firstContent %}
                             <p>
