@@ -91,7 +91,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 24px;
-  @apply bg-gradient-to-br from-primary-300 to-slate-50 dark:from-primary-700 dark:to-dark-soft-2;
+  @apply bg-gradient-to-br from-primary-100 to-slate-50 dark:from-primary-1000 dark:to-dark-soft-2;
   padding-bottom: 70px;
 
   .breadcrumb {
@@ -112,7 +112,7 @@
 }
 
 .formation__header__title {
-  @apply text-3xl lg:text-4xl font-medium text-primary-700 dark:text-slate-200;
+  @apply text-3xl lg:text-6xl font-normal text-primary-700 dark:text-slate-200;
 }
 
 .formation__header__image {
