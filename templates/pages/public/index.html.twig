@@ -1,241 +1,123 @@
 {% extends 'layouts/public/base.html.twig' %}
 
-{% block title %}Accueil - Développeur Web PHP FullStack{% endblock %}
+{% block title %}Lazare Fortune - Développeur Web Passionné{% endblock %}
+
+{% block meta %}
+    <meta name="description" content="Apprenez et explorez avec Lazare Fortune, un développeur web passionné partageant des vidéos et playlists sur PHP, Symfony, et JavaScript." />
+    <meta name="keywords" content="Lazare Fortune, développement web, PHP, Symfony, JavaScript, vidéos, playlists" />
+    <meta name="author" content="Lazare Fortune" />
+    <meta property="og:title" content="Lazare Fortune - Apprenez et Partagez" />
+    <meta property="og:description" content="Découvrez des vidéos et playlists sur le développement web. Apprenez avec moi et partagez vos expériences." />
+    <meta property="og:image" content="{{ asset('images/og-image.png') }}" />
+{% endblock %}
 
 {% block body %}
-
-    {% if app.user %}
-        {% if watchlist is not empty %}
-            <div class="container-box page-header">
-                <section class="container">
-                    <h1 class="h2 mb-4">Reprendre là où vous vous êtes arrêté</h1>
-                    <div class="courses">
-                        {% for progress in watchlist %}
-                            {% include 'pages/public/account/_progress-card.html.twig' %}
-                        {% endfor %}
-                    </div>
-                </section>
+    <div class="container mx-auto px-4 py-16">
+        <!-- Hero Section -->
+        <section class="text-center py-10">
+            <h1 class="mx-auto max-w-4xl mb-6 font-display text-5xl font-medium tracking-tight text-slate-900 sm:text-7xl reveal">
+                Apprendre et
+                <span class="relative whitespace-nowrap text-blue-600">
+                    <svg aria-hidden="true"
+                         viewBox="0 0 418 42"
+                         class="absolute left-0 top-2/3 h-[0.58em] w-full fill-blue-300/70"
+                         preserveAspectRatio="none"><path d="M203.371.916c-26.013-2.078-76.686 1.963-124.73 9.946L67.3 12.749C35.421 18.062 18.2 21.766 6.004 25.934 1.244 27.561.828 27.778.874 28.61c.07 1.214.828 1.121 9.595-1.176 9.072-2.377 17.15-3.92 39.246-7.496C123.565 7.986 157.869 4.492 195.942 5.046c7.461.108 19.25 1.696 19.17 2.582-.107 1.183-7.874 4.31-25.75 10.366-21.992 7.45-35.43 12.534-36.701 13.884-2.173 2.308-.202 4.407 4.442 4.734 2.654.187 3.263.157 15.593-.78 35.401-2.686 57.944-3.488 88.365-3.143 46.327.526 75.721 2.23 130.788 7.584 19.787 1.924 20.814 1.98 24.557 1.332l.066-.011c1.201-.203 1.53-1.825.399-2.335-2.911-1.31-4.893-1.604-22.048-3.261-57.509-5.556-87.871-7.36-132.059-7.842-23.239-.254-33.617-.116-50.627.674-11.629.54-42.371 2.494-46.696 2.967-2.359.259 8.133-3.625 26.504-9.81 23.239-7.825 27.934-10.149 28.304-14.005.417-4.348-3.529-6-16.878-7.066Z"></path>
+                    </svg>
+                    <span class="relative text-lead">partager</span>
+                </span> le Développement Web
+            </h1>
+            <p class="mt-6 mb-8 max-w-3xl mx-auto text-lg text-slate-600 reveal" data-delay=".1">
+                Rejoignez-moi dans mon parcours d’apprentissage. Découvrez mes vidéos et playlists sur PHP, Symfony, JavaScript et bien plus encore.
+            </p>
+            <div class="flex justify-center space-x-4 reveal" data-delay=".2">
+                <a href="{{ path('app_course_index') }}" class="btn btn-primary">Voir les vidéos</a>
+                <a href="{{ path('app_contact') }}" class="btn btn-outline">Me contacter</a>
             </div>
-        {% endif %}
+        </section>
 
-        <section class="container-box pb-20">
-            <div class="course__hero py-10">
-                <h2 class="h2">Contenus recommandés pour vous</h2>
-                <p class="text-muted">
-                    Voici quelques suggestions des dernières vidéos.
-                </p>
-            </div>
-            <div class="courses">
+        <!-- Latest Videos Section -->
+        <section class="mt-24 reveal" data-delay=".3">
+            <h2 class="text-3xl font-bold text-center mb-6">Dernières Vidéos et Playlists</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {% for content in latest_content %}
                     {% if content.isCourse %}
                         {% include 'pages/public/courses/_course_item.html.twig' with { course: content } %}
                     {% elseif content.isFormation %}
                         {% include 'pages/public/formations/_formation_item.html.twig' with { formation: content } %}
                     {% endif %}
+{#                    <div class="card bg-white shadow-md dark:bg-gray-800 rounded-lg overflow-hidden">#}
+{#                        <img src="{{ image_url_raw(content.image) }}" alt="{{ content.title }}" class="w-full h-48 object-cover">#}
+{#                        <div class="p-4">#}
+{#                            <h3 class="text-xl font-semibold mb-2">#}
+{#                                <a href="{{ path('app_course_show', { slug: content.slug }) }}">{{ content.title }}</a>#}
+{#                            </h3>#}
+{#                            <p class="text-gray-600 dark:text-gray-400">{{ content.content | slice(0, 100) ~ '...' }}</p>#}
+{#                        </div>#}
+{#                    </div>#}
                 {% endfor %}
             </div>
         </section>
-    {% else %}
-        <div class="hero relative container-box w-full">
-            <div class="hero__body">
-                <div class="hero__hello reveal">👋🏾 Salut, je suis</div>
-                <div class="hero__name reveal" data-delay=".2">
-                    Lazare Fortune
-                </div>
-                <div class="hero__job reveal" data-delay=".3">
-                    Développeur Web PHP FullStack
-                </div>
-                <div class="hero__cta mt-10 reveal" data-delay=".5">
-                    <a href="{{ path('app_contact') }}" class="btn btn-lg btn-primary">
-                        Me contacter
-                    </a>
-                    <a href="{{ path('app_course_index') }}" class="btn btn-lg btn-outline">
-                        Voir mes contenus
-                    </a>
-                </div>
-            </div>
-            <div class="hero__img reveal" data-delay=".6">
-                <img class="rounded-full w-80 drop-shadow-[20px_10px_4px_rgba(36,69,132,1)]" src="{{ asset('images/lazarefortune.png') }}" alt="Photo de Lazare Fortune, développeur web fullstack">
-            </div>
-            <ul class="hero__links">
-                <li>
-                    <a href="https://github.com/lazarefortune" target="_blank">
-                        {{ icon('github', '34') }}
-                    </a>
-                </li>
-                <li>
-                    <a href="https://www.linkedin.com/in/lazare-fortune/" target="_blank">
-                        {{ icon('linkedin', '34') }}
-                    </a>
-                </li>
-            </ul>
-        </div>
-    {% endif %}
 
-    {% if not app.user %}
-    <!-- Section commune à tous les utilisateurs -->
-    <section class="container-box pt-40 pb-60 grid relative bg-white dark:bg-primary-950">
-        <div class="home__bg"></div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-32">
-            <div>
-                <div class="background-halo right border-halo fade-out-image right max-w-md order-2 md:order-1 mr-auto reveal" data-delay=".3">
-                    <img src="{{ asset('images/symfony-installation-picture.png') }}" alt="Illustration de l'installation de Symfony" class="shadow-xl rounded-md mx-auto">
+        <!-- About Me Section -->
+        <section class="mt-20 reveal">
+            <h2 class="text-3xl font-bold text-center mb-6">Qui suis-je ?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <img src="{{ asset('images/lazarefortune.png') }}" alt="Photo de Lazare Fortune" class="rounded-full shadow-lg shadow-primary-500 dark:shadow-amber-200 w-48 mx-auto md:w-64">
                 </div>
-            </div>
-            <div class="stack order-1 md:order-2">
-                <h2 class="h2 reveal">Que trouverez-vous <span class="text-lead">ici</span> ?</h2>
-                <p class="text-muted reveal" data-delay=".2">
-                    Des vidéos, des playlists et des ressources sur le développement web pour vous aider à progresser.
-                </p>
-                <div class="mt-5 reveal" data-delay=".3">
-                    <a href="{{ path('app_course_index') }}" class="btn btn-primary">
-                        Découvrir mes vidéos
-                    </a>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-            <div class="stack">
-                <h2 class="h2 reveal">Qui suis-je <span class="text-lead">vraiment</span> ?</h2>
-                <p class="text-muted reveal" data-delay=".2">
-                    Un développeur web passionné, toujours à la recherche de nouvelles connaissances. Rejoignez-moi sur mes plateformes pour partager cette aventure.
-                </p>
-                <ul class="list-unstyled mt-5 mx-auto md:mr-auto md:ml-0 flex gap-4 reveal" data-delay=".3">
-                    <li>
-                        <a href="https://www.youtube.com/channel/UCITKwfT7qVXjdHHu84Atodw" target="_blank"
-                           class="flex flex-col items-center gap-1 text-primary-800 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-600">
-                            {{ icon('youtube', '24') }} YouTube
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://www.twitch.tv/lazarefortune" target="_blank"
-                           class="flex flex-col items-center gap-1 text-primary-800 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-600">
-                            {{ icon('twitch', '24') }} Twitch
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://github.com/lazarefortune" target="_blank"
-                           class="flex flex-col items-center gap-1 text-primary-800 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-600">
-                            {{ icon('github', '24') }} GitHub
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div>
-                <div class="background-halo right border-halo fade-out-image right max-w-md ml-auto reveal" data-delay=".3">
-                    <img src="{{ asset('images/live-stream.gif') }}" alt="Animation d'un live stream en direct" class="shadow-xl rounded-md">
-                </div>
-            </div>
-        </div>
-    </section>
-    {% endif %}
-
-    <!-- Section "Rejoignez la communauté" -->
-    {% if not app.user %}
-        <section class="container-box py-20 bg-white dark:bg-primary-950">
-            <div class="stack">
-                <div class="text-center mx-auto reveal">
-                    <div class="flex flex-col items-center justify-center gap-2">
-                        <span class="inline-block">{{ icon('users', 26) }}</span>
-                        <h2 class="h2">
-                            Rejoignez la <span class="text-lead">communauté</span>
-                        </h2>
-                    </div>
-                </div>
-                <p class="text-muted text-center mt-6 reveal" data-delay=".2">
-                    Créez un compte pour accéder à des avantages exclusifs et progresser plus rapidement.
-                </p>
-                <div class="mt-8 reveal" data-delay=".3">
-                    <!-- Liste des avantages -->
-                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <li class="flex items-start">
-                            <div class="flex-shrink-0">
-                                <span class="text-green-500 mt-1">
-                                    {{ icon('check-circle', 24) }}
-                                </span>
-                            </div>
-                            <div class="ml-3">
-                                <p class="font-medium">Sessions live en petit groupe</p>
-                                <p class="text-muted">Participez à des sessions interactives et posez vos questions en direct.</p>
-                            </div>
+                <div>
+                    <p class="text-lg text-gray-600 dark:text-gray-300">
+                        Je suis Lazare Fortune, développeur web passionné par le code et la programmation. À travers mes vidéos, je partage mon apprentissage et mes découvertes sur le développement web.
+                    </p>
+                    <ul class="flex justify-center md:justify-start space-x-4 mt-4">
+                        <li>
+                            <a href="https://github.com/lazarefortune" target="_blank" class="flex flex-col justify-center items-center text-gray-800 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400">
+                                {{ icon('github', '24') }} <span>GitHub</span>
+                            </a>
                         </li>
-                        <li class="flex items-start">
-                            <div class="flex-shrink-0">
-                                <span class="text-green-500 mt-1">
-                                    {{ icon('check-circle', 24) }}
-                                </span>
-                            </div>
-                            <div class="ml-3">
-                                <p class="font-medium">Accès au code source</p>
-                                <p class="text-muted">Téléchargez les ressources et codes des tutoriels pour mieux les comprendre.</p>
-                            </div>
+                        <li>
+                            <a href="https://www.linkedin.com/in/lazare-fortune/" target="_blank" class="flex flex-col justify-center items-center text-gray-800 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400">
+                                {{ icon('linkedin', '24') }} LinkedIn
+                            </a>
                         </li>
-                        <li class="flex items-start">
-                            <div class="flex-shrink-0">
-                                <span class="text-green-500 mt-1">
-                                    {{ icon('check-circle', 24) }}
-                                </span>
-                            </div>
-                            <div class="ml-3">
-                                <p class="font-medium">Suivi de progression</p>
-                                <p class="text-muted">Suivez vos progrès et reprenez vos cours là où vous les avez laissés.</p>
-                            </div>
-                        </li>
-                        <li class="flex items-start">
-                            <div class="flex-shrink-0">
-                                <span class="text-green-500 mt-1">
-                                    {{ icon('check-circle', 24) }}
-                                </span>
-                            </div>
-                            <div class="ml-3">
-                                <p class="font-medium">Contenus exclusifs</p>
-                                <p class="text-muted">Accédez à des tutoriels et ressources réservés aux membres.</p>
-                            </div>
+                        <li>
+                            <a href="https://www.youtube.com/channel/UCITKwfT7qVXjdHHu84Atodw" target="_blank" class="flex flex-col justify-center items-center text-gray-800 hover:text-red-600 dark:text-gray-300 dark:hover:text-red-400">
+                                {{ icon('youtube', '24') }} YouTube
+                            </a>
                         </li>
                     </ul>
-                    <div class="mt-8 text-center">
-                        <a href="{{ path('app_register') }}" class="btn btn-primary btn-lg">
-                            S'inscrire maintenant
-                        </a>
-                    </div>
                 </div>
             </div>
         </section>
-    {% endif %}
 
-    <!-- Section "Besoin d'aide" avec du texte condensé -->
-    <section class="container-box py-20 bg-white-soft dark:bg-primary-1000">
-        <div class="stack">
-            <h2 class="h2 text-center reveal">Besoin d'<span class="text-lead">aide</span> ?</h2>
-            <p class="text-muted text-center reveal" data-delay=".2">
-                Que vous souhaitiez un accompagnement personnalisé ou simplement discuter, je suis là pour vous aider.
-            </p>
-            <div class="mt-5 reveal grid grid-cols-1 md:grid-cols-3 gap-5" data-delay=".3">
-                <div class="card card-padding flex flex-col items-center text-center">
-                    <h3 class="h4 text-lead mb-3">Cours particuliers</h3>
-                    <p class="text-muted mb-4">Apprenez le développement web avec un accompagnement sur mesure.</p>
-                    <a href="https://www.superprof.fr/developpeur-web-php-fullstack-donne-cours-initiation-developpement-web-methodologie-pratique.html" target="_blank" class="btn btn-light">
-                        En savoir plus
-                    </a>
+        <!-- Community Section -->
+        {% if not app.user %}
+            <section class="mt-16 bg-primary-50 dark:bg-primary-1000 py-12 rounded-lg text-center">
+                <div class="text-center mx-auto reveal">
+                    <h2 class="h2">
+                        Rejoignez la <span class="text-lead">communauté</span>
+                    </h2>
                 </div>
-                <div class="card card-padding flex flex-col items-center text-center">
-                    <h3 class="h4 text-lead mb-3">Communauté Discord</h3>
-                    <p class="text-muted mb-4">Échangez avec d'autres passionnés sur notre serveur Discord.</p>
-                    <a href="https://discord.gg/AZPEVwva7R" target="_blank" class="btn btn-light">
-                        Rejoindre le serveur
-                    </a>
+                <p class="text-lg text-gray-600 dark:text-gray-300 mb-8 reveal" data-delay=".1">Connectez-vous avec des passionnés de développement web.</p>
+                <div class="mb-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 reveal" data-delay=".2">
+                    <div class="flex flex-col items-center">
+                        <span class="text-blue-600 dark:text-blue-400">{{ icon('users', '48') }}</span>
+                        <h3 class="mt-2 font-semibold">Sessions en groupe</h3>
+                        <p class="text-gray-600 dark:text-gray-300">Posez vos questions et progressez ensemble.</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <span class="text-green-600 dark:text-green-400">{{ icon('code', '48') }}</span>
+                        <h3 class="mt-2 font-semibold">Accès au code source</h3>
+                        <p class="text-gray-600 dark:text-gray-300">Téléchargez et explorez les projets.</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <span class="text-red-600 dark:text-red-400">{{ icon('video', '48') }}</span>
+                        <h3 class="mt-2 font-semibold">Vidéos exclusives</h3>
+                        <p class="text-gray-600 dark:text-gray-300">Découvrez des contenus uniques.</p>
+                    </div>
                 </div>
-                <div class="card card-padding flex flex-col items-center text-center">
-                    <h3 class="h4 text-lead mb-3">Contactez-moi</h3>
-                    <p class="text-muted mb-4">Une question ou une suggestion ? N'hésitez pas à me contacter.</p>
-                    <a href="{{ path('app_contact') }}" class="btn btn-light">
-                        Me contacter
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
+                <a href="{{ path('app_register') }}" class="btn btn-primary reveal" data-delay=".3">S'inscrire maintenant</a>
+            </section>
+        {% endif %}
+    </div>
 {% endblock %}

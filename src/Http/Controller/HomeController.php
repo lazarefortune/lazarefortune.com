@@ -41,6 +41,7 @@ class HomeController extends AbstractController
         if ( $user ) {
             $watchlist = $this->historyService->getLastWatchedContent( $user );
             $excluded = array_map( fn ( Progress $progress ) => $progress->getContent()->getId(), $watchlist );
+
             $content = $this->em->getRepository( Content::class )
                 ->findLatest( 14, $user->isPremium() )
                 ->andWhere( 'c INSTANCE OF ' . Course::class . ' OR c INSTANCE OF ' . Formation::class );
@@ -48,13 +49,22 @@ class HomeController extends AbstractController
                 $content = $content->andWhere( 'c.id NOT IN (:ids)' )->setParameter( 'ids', $excluded );
             }
 
-            return $this->render( 'pages/public/index.html.twig' , [
+            return $this->render( 'pages/public/indexOld.html.twig' , [
                 'latest_content' => $content,
                 'watchlist' => $watchlist,
             ]);
+        } else {
+            $content = $this->em->getRepository( Content::class )
+                ->findLatest( 14, false )
+                ->andWhere( 'c INSTANCE OF ' . Course::class . ' OR c INSTANCE OF ' . Formation::class );
+
+            return $this->render( 'pages/public/index.html.twig' , [
+                'latest_content' => $content,
+            ]);
         }
 
-        return $this->render( 'pages/public/index.html.twig');
+
+//        return $this->render( 'pages/public/index.html.twig');
     }
 
     #[Route( '/mauvaise-region', name: 'access_denied' )]
