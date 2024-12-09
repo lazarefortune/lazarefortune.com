@@ -8,6 +8,7 @@
     <meta name="google-site-verification" content="cVdQDiwamc06x0st9JWYRu-lqokoHUiT2rXI8yE03Vs"/>
     <meta name="theme-color" content="#ffffff">
     <title>{% block title '' %} - {{ app_name }}</title>
+    {% block meta %}{% endblock %}
     {% block meta_description %}{% endblock %}
 
     {% include 'partials/header/_favicons.html.twig' %}
@@ -33,8 +34,7 @@
         {{ encore_entry_script_tags('app') }}
     {% endblock %}
 </head>
-<body>
-
+<body class="{{ app.user and app.user.premium ? 'user-premium' : 'user-not-premium' }}">
     <div class="page-wrapper">
         <!-- Header -->
         {% include 'layouts/public/blocs/_header.html.twig' %}

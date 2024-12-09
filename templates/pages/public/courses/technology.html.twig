@@ -38,7 +38,7 @@
             {% else %}
                 <section id="formations">
                     {% if formations is not empty %}
-                        <h2 class="h3 mb-4">Formations disponibles pour {{ technology.name }}</h2>
+                        <h2 class="h3 mb-4">Playlists disponibles pour {{ technology.name }}</h2>
                         <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
                             {% for formation in formations %}
                                 {% include 'pages/public/formations/_formation_item.html.twig' with { 'formation': formation } %}
@@ -49,7 +49,7 @@
 
                 <section id="tutoriels" {% if formations is not empty and not showTabs %} class="pt-16" {% endif %}>
                     {% if courses is not empty %}
-                        <h2 class="h3 mb-4">Découvrez {{ technology.name }} à travers ces tutoriels</h2>
+                        <h2 class="h3 mb-4">Découvrez {{ technology.name }} à travers ces vidéos</h2>
                         <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
                             {% for course in courses %}
                                 {% include 'pages/public/courses/_course_item.html.twig' with { 'course': course } %}

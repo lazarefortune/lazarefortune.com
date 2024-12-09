@@ -8,7 +8,7 @@ export class PlayButton extends HTMLElement {
     constructor() {
         super();
 
-        // Si le bouton est une exclu temporaire
+        // Vérifier si le bouton est une exclu temporaire
         if (
             this.dataset.date &&
             parseInt(this.dataset.date, 10) * 1000 > Date.now() &&
@@ -31,12 +31,13 @@ export class PlayButton extends HTMLElement {
                         stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round">
-                        <use href="/icons/sprite.svg?#hourglass"></use>
+                        <use href="/icons/sprite.svg?#lock"></use>
                     </svg>
                 </div>`;
             return;
         }
 
+        // Insérer le contenu HTML du bouton
         this.innerHTML = `
             <button class="play-button">
                 <svg class="icon" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
@@ -82,7 +83,7 @@ export class PlayButton extends HTMLElement {
         }
         if (name === 'progress') {
             const progress = newValue ? parseInt(newValue, 10) : 0;
-            const circumference = 88;
+            const circumference = 88; // Circonférence du cercle pour r = 14
             if (this.circle) {
                 this.circle.style.strokeDashoffset = `${circumference - (circumference * progress) / 100}px`;
             }

@@ -1,5 +1,8 @@
 <div class="chapters__section">
-    <h3 class="chapters__section__title">{{ chapter.title }}</h3>
+    <div class="chapters__header">
+        <h3 class="chapters__header-title">{{ chapter.title }}</h3>
+        <div class="chapters__header-count">{{ chapter.modules | length }} vidéo{{ chapter.modules | length > 1 ? 's' : '' }}</div>
+    </div>
     <div class="chapters__list">
         {% for course in chapter.modules %}
             <a href="{{ path('app_course_show', {slug: course.slug}) }}#autoplay"
@@ -10,14 +13,16 @@
                     </div>
                 {% else %}
                     <play-button class="chapters__play" data-date="{{ course.publishedAt.timestamp }}" data-video-id="course-{{ course.id }}" tabindex="-1" data-history="{{ course.id }}"></play-button>
-{#                    <div class="chapters__free">#}
-{#                        {{ icon('video') }}#}
-{#                    </div>#}
                 {% endif %}
-                <span class="chapters__title">
-                  {{ course.title }}
-                </span>
-                <span class="chapters__duration">{{ course.duration | duration }}</span>
+                <div class="flex flex-col">
+                    <span class="chapters__title">
+                      {{ course.title }}
+                    </span>
+                    <span class="chapters__duration">
+                        {{ icon('clock') }}
+                        {{ course.duration | duration }}
+                    </span>
+                </div>
             </a>
         {% endfor %}
     </div>

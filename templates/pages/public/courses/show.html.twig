@@ -15,7 +15,7 @@
             {{ breadcrumb(course) }}
         </div>
 
-        <h1 class="container-box mt-3 mb-3 h1">
+        <h1 class="container-box mt-3 mb-5 text-2xl lg:text-5xl">
           <span class="hidden">
             {%- if course.formation %}
                 {{- "Formation " ~ course.formation.title ~ ' : ' -}}
@@ -26,65 +26,67 @@
             {{- course.title }}
         </h1>
 
-        <div class="container-box mt-4 mb-20 {{ course.formation ? 'is-chapter' : 'is-chapter is-folded' }}">
-            {% if course.scheduled and not userIsPremium %}
-                <div class="course-countdown" style="background-image: url({{ image_url_raw(course.image) }})">
-                    <div class="course-countdown-content">
-                        <em>Disponible dans</em>
-                        <span class="course-countdown_timer mb-2">{{ course.publishedAt | countdown }}</span>
-{#                        <a href="{{ path('app_login') }}" class="btn btn-primary">{{ icon('crown') }} Devenez premium</a>#}
+        <div class="container-box mt-4 mb-20">
+            <div class="{{ course.formation ? 'is-chapter' : 'is-chapter is-folded' }}">
+                {% if course.formation %}
+                    <div class="relative card">
+                        <button class="chapters-toggle">
+                            {{ icon('arrow-up') }}
+                        </button>
+                        <div class="course__chapters-sidebar absolute top-0 left-0 w-full h-full overflow-auto border shadow bg-white dark:bg-primary-1000 dark:border-primary-1000 dark:shadow-primary-900" is="auto-scroll" data-to="{{ current is defined ? current : "#chapter" ~ course.id }}">
+                            {% include 'pages/public/formations/chapters/_summary.html.twig' with {chapters: course.formation.chapters} only %}
+                        </div>
                     </div>
-                </div>
-            {% elseif course.premium and not userIsPremium %}
-                <div class="course-countdown" style="background-image: url({{ image_url_raw(course.image) }})">
-                    <div class="absolute flex flex-col w-full h-full justify-center items-center z-50">
-                        <a href="{{ path('app_login') }}" class="btn btn-primary">{{ icon('crown') }} Devenez premium</a>
-                        <p class="text-white text-lg mt-3 text-center">Contenu destiné aux membres premiums</p>
+                {% endif %}
+                {% if course.scheduled and not userIsPremium %}
+                    <div class="course-countdown" style="background-image: url({{ image_url_raw(course.image) }})">
+                        <div class="course-countdown-content">
+                            <em>Disponible dans</em>
+                            <span class="course-countdown_timer">{{ course.publishedAt | countdown }}</span>
+                            <p class="course-countdown_hint">Revenez bientôt pour accéder à cette vidéo exclusive !</p>
+                        </div>
                     </div>
-                </div>
-            {% elseif (course.scheduled or course.premium) and userIsPremium %}
-                <progress-tracker contentId="{{ course.id }}" data-history="{{ course.id }}" duration="{{ course.duration }}">
-                    <youtube-player
-                            class="course__player"
-                            id="course-{{ course.id }}"
-                            video="{{ course.youtubeId }}"
-                            poster="{{ image_url(course.image, 1330, 750) }}"
-                            button="#chapter{{ course.id }} play-button"
-                            duration="{{ course.duration | duration }}"
-                            class="shadow">
-                        <a href="https://www.youtube.com/watch?v={{ course.youtubeId }}" target="_blank" rel="noopener" class="course__placeholder">
-                            <span>Voir la vidéo</span>
-                            <img src="{{ image_url(course.image, 1330, 750) }}" width="1330" height="750"/>
-                        </a>
-                    </youtube-player>
-                </progress-tracker>
-            {% else %}
-                <progress-tracker contentId="{{ course.id }}" data-history="{{ course.id }}" duration="{{ course.duration }}">
-                    <youtube-player
-                            class="course__player"
-                            id="course-{{ course.id }}"
-                            video="{{ course.youtubeId }}"
-                            poster="{{ image_url(course.image, 1330, 750) }}"
-                            button="#chapter{{ course.id }} play-button"
-                            duration="{{ course.duration | duration }}"
-                            class="shadow">
-                        <a href="https://www.youtube.com/watch?v={{ course.youtubeId }}" target="_blank" rel="noopener" class="course__placeholder">
-                            <span>Voir la vidéo</span>
-                            <img src="{{ image_url(course.image, 1330, 750) }}" width="1330" height="750"/>
-                        </a>
-                    </youtube-player>
-                </progress-tracker>
-            {% endif %}
-            {% if course.formation %}
-                <div class="relative card">
-                    <button class="chapters-toggle">
-                        {{ icon('arrow-down') }}
-                    </button>
-                    <div class="absolute top-0 left-0 w-full h-full overflow-auto border shadow bg-white dark:bg-primary-1000 dark:border-primary-1000 dark:shadow-primary-900" is="auto-scroll" data-to="{{ current is defined ? current : "#chapter" ~ course.id }}">
-                        {% include 'pages/public/formations/chapters/_summary.html.twig' with {chapters: course.formation.chapters} only %}
+                {% elseif course.premium and not userIsPremium %}
+                    <div class="course-countdown" style="background-image: url({{ image_url_raw(course.image) }})">
+                        <div class="absolute flex flex-col w-full h-full justify-center items-center z-50">
+                            <a href="{{ path('app_login') }}" class="btn btn-primary">{{ icon('crown') }} Devenez premium</a>
+                            <p class="text-white text-lg mt-3 text-center">Contenu destiné aux membres premiums</p>
+                        </div>
                     </div>
-                </div>
-            {% endif %}
+                {% elseif (course.scheduled or course.premium) and userIsPremium %}
+                    <progress-tracker contentId="{{ course.id }}" data-history="{{ course.id }}" duration="{{ course.duration }}">
+                        <youtube-player
+                                class="course__player"
+                                id="course-{{ course.id }}"
+                                video="{{ course.youtubeId }}"
+                                poster="{{ image_url(course.image, 1330, 750) }}"
+                                button="#chapter{{ course.id }} play-button"
+                                duration="{{ course.duration | duration }}"
+                                class="shadow">
+                            <a href="https://www.youtube.com/watch?v={{ course.youtubeId }}" target="_blank" rel="noopener" class="course__placeholder">
+                                <span>Voir la vidéo</span>
+                                <img src="{{ image_url(course.image, 1330, 750) }}" width="1330" height="750"/>
+                            </a>
+                        </youtube-player>
+                    </progress-tracker>
+                {% else %}
+                    <progress-tracker contentId="{{ course.id }}" data-history="{{ course.id }}" duration="{{ course.duration }}">
+                        <youtube-player
+                                class="course__player"
+                                id="course-{{ course.id }}"
+                                video="{{ course.youtubeId }}"
+                                poster="{{ image_url(course.image, 1330, 750) }}"
+                                button="#chapter{{ course.id }} play-button"
+                                duration="{{ course.duration | duration }}"
+                                class="shadow">
+                            <a href="https://www.youtube.com/watch?v={{ course.youtubeId }}" target="_blank" rel="noopener" class="course__placeholder">
+                                <span>Voir la vidéo</span>
+                                <img src="{{ image_url(course.image, 1330, 750) }}" width="1330" height="750"/>
+                            </a>
+                        </youtube-player>
+                    </progress-tracker>
+                {% endif %}
+            </div>
         </div>
 
         <div class="course-page container-box">

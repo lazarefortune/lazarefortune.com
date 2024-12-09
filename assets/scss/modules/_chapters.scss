@@ -1,8 +1,8 @@
 .chapters {
-  @apply px-0 py-6;
+  @apply px-0 py-0;
 }
 .chapters-toggle {
-  @apply absolute -left-2 -translate-y-1/2 transform cursor-pointer p-2 top-[50%] bg-white-soft z-[5] dark:bg-primary-1000;
+  @apply absolute -right-2 -translate-y-1/2 transform cursor-pointer p-2 top-[50%] bg-white-soft z-[5] dark:bg-primary-900;
 }
 
 .chapters-toggle {
@@ -10,9 +10,9 @@
   top: calc(50% - 25px);
   width: 18px;
   height: 50px;
-  left: -18px;
+  right: -18px;
   background-color: #fff;
-  border-right: none;
+  border-left: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -21,7 +21,7 @@
   border-top-right-radius: 3px;
   transition: .2s;
   opacity: 0;
-  transform: translateX(10px);
+  transform: translateX(-10px);
 
   &::after {
     position: absolute;
@@ -33,7 +33,7 @@
   }
 
   &:hover {
-    @apply cursor-pointer bg-gray-100 dark:bg-primary-1000;
+    @apply cursor-pointer bg-gray-100 dark:bg-primary-800;
   }
 
   .is-chapter:hover & {
@@ -54,7 +54,16 @@
 }
 
 .chapters__section {
-  @apply bg-white dark:bg-primary-1000 py-4;
+  @apply bg-white dark:bg-primary-1000 py-0;
+}
+.chapters__header {
+  @apply flex justify-between items-center px-4 py-3 text-base font-medium border-b-2 border-slate-200 dark:border-slate-700;
+}
+.chapters__section-title {
+  @apply text-lg;
+}
+.chapters__header-count {
+  @apply text-sm;
 }
 
 .chapters__split {
@@ -64,18 +73,18 @@
   }
 }
 
-.chapters__section__title {
-  @apply mb-6 px-6 text-xl font-medium;
+.chapters__list {
+  @apply bg-slate-50 dark:bg-primary-1000;
 }
-//.chapters__list {
-//  @apply grid grid-cols-1 gap-4;
-//}
 .chapters__item {
-  @apply relative flex items-center bg-white px-6 py-4 text-base dark:text-white dark:bg-primary-1000;
-  @apply hover:cursor-pointer hover:bg-primary-300/20 hover:dark:text-white hover:dark:bg-primary-600/20;
+  @apply relative flex items-center px-6 py-4 text-base dark:text-white border-b border-slate-200 dark:border-slate-700;
+  @apply hover:cursor-pointer;
 }
 .chapters__item.is-selected {
-  @apply bg-gray-100 dark:bg-primary-950;
+  @apply bg-primary-100 text-primary-900 dark:bg-primary-900/50;
+  .chapters__title {
+    @apply text-primary-900 dark:text-white;
+  }
 }
 
 .chapters__free {
@@ -84,21 +93,19 @@
   border-radius: 32px;
 }
 .chapters__title {
-  //@apply text-base font-bold text-slate-900 dark:text-slate-200;
+  @apply text-base text-slate-900 dark:text-slate-200;
 }
 .chapters__duration {
-  @apply ml-auto whitespace-nowrap text-slate-400;
+  @apply flex items-center gap-1 mt-1 text-sm text-muted;
 }
-
 
 .chapters__play {
   //@apply cursor-pointer outline-none relative border-none w-9 h-9 rounded-full flex-none bg-primary-100/10;
 }
 
-
 .play-button {
-  @apply relative flex items-center justify-center w-10 h-10 rounded-full bg-primary-100 text-primary-900 transition-all duration-300 shadow-sm mr-4;
-  @apply hover:bg-primary-200 hover:shadow-md dark:hover:shadow-primary-800;
+  @apply relative flex items-center justify-center w-10 h-10 rounded-full bg-primary-500 text-white transition-all duration-300 shadow-sm mr-4;
+  @apply hover:bg-primary-400 hover:shadow-md dark:hover:shadow-primary-800;
   @apply dark:bg-primary-500 dark:text-white dark:hover:bg-primary-400;
 
   &.is-playing {
@@ -109,7 +116,7 @@
     stroke-dasharray: 88px;
     stroke-dashoffset: 88px;
     stroke-width: 2.5;
-    @apply stroke-primary-800 dark:stroke-primary-50;
+    @apply stroke-primary-50 dark:stroke-primary-50;
     transition: stroke-dashoffset 0.3s ease;
   }
 
