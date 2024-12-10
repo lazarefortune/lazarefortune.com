@@ -6,7 +6,8 @@
     <div class="chapters__list">
         {% for course in chapter.modules %}
             <a href="{{ path('app_course_show', {slug: course.slug}) }}#autoplay"
-               class="chapters__item" id="chapter{{ course.id }}">
+               class="chapters__item {{ current is defined ? current.id == course.id ? 'chapters__item--active' : '' }}"
+               id="chapter{{ course.id }}">
                 {% if course.premium and (not app.user or not app.user.premium) %}
                     <div class="chapters__premium">
                         {{ icon('crown') }}

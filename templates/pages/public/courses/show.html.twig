@@ -180,7 +180,7 @@
 
             {% if course.formation %}
                 <div class="container-box" id="sommaire" hidden>
-                    {% include 'pages/public/formations/chapters/_summary.html.twig' with {chapters: course.formation.chapters} only %}
+                    {% include 'pages/public/formations/chapters/_summary.html.twig' with {chapters: course.formation.chapters, current: course} only %}
                 </div>
             {% endif %}
 
