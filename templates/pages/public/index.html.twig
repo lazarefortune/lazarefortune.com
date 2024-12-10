@@ -37,7 +37,7 @@
 
         <!-- Latest Videos Section -->
         <section class="mt-24 reveal" data-delay=".3">
-            <h2 class="text-3xl font-bold text-center mb-6">Dernières Vidéos et Playlists</h2>
+            <h2 class="h2 text-center mb-6">Dernières Vidéos et Playlists</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {% for content in latest_content %}
                     {% if content.isCourse %}
@@ -60,7 +60,7 @@
 
         <!-- About Me Section -->
         <section class="mt-20 reveal">
-            <h2 class="text-3xl font-bold text-center mb-6">Qui suis-je ?</h2>
+            <h2 class="h2 text-center mb-6">Qui suis-je ?</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 <div>
                     <img src="{{ asset('images/lazarefortune.png') }}" alt="Photo de Lazare Fortune" class="rounded-full shadow-lg shadow-primary-500 dark:shadow-amber-200 w-48 mx-auto md:w-64">
