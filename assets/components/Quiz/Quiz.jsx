@@ -470,7 +470,7 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                 {!isCompleted && (
                                     <button
                                         onClick={() => startQuiz(quiz)}
-                                        className="btn btn-sm btn-primary"
+                                        className="btn btn-primary"
                                     >
                                         Commencer
                                     </button>
