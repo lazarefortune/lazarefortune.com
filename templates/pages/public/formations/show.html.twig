@@ -25,7 +25,7 @@
                             <div class="formation-progress my-3">
                                 <div class="formation-progress__label">Ma progression</div>
                                 <div class="formation-progress__count">
-                                    Chapitre {{ (progress.ratio * (formation.courses | length)) | round(0, 'floor') }}
+                                    Vidéo {{ (progress.ratio * (formation.courses | length)) | round(0, 'floor') }}
                                     / {{ formation.courses | length }}</div>
                                 <div class="formation-progress__bar" style="--progress: {{ progress.ratio * 100 }}%"></div>
                             </div>
@@ -33,6 +33,9 @@
                                 {% if progress.ratio == 1 %}
                                     <a href="{{ path('app_formation_resume', {slug: formation.slug}) }}#autoplay"
                                        class="btn btn-primary">{{ icon('play') }} Revoir la playlist</a>
+                                {% elseif progress.ratio > 0 %}
+                                    <a href="{{ path('app_formation_resume', {slug: formation.slug}) }}#autoplay"
+                                       class="btn btn-primary">{{ icon('play') }} Continuer</a>
                                 {% else %}
                                     <a href="{{ path('app_formation_resume', {slug: formation.slug}) }}#autoplay"
                                        class="btn btn-primary">{{ icon('play') }} Continuer</a>

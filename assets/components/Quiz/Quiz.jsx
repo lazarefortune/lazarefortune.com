@@ -447,7 +447,7 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
 
     // Afficher la liste des quiz si aucun quiz en cours
     return (
-        <div className="mt-10 flex flex-col items-center justify-center px-4">
+        <div className="mt-10 flex flex-col items-start justify-start">
             <div className="w-full max-w-2xl">
                 <h2 className="text-2xl font-medium text-center mb-1 text-gray-700 dark:text-gray-200">Prêt à tester vos connaissances ?</h2>
                 <p className="text-lg text-center text-gray-600 dark:text-gray-400 mb-6">Choisissez un quiz parmi la liste ci-dessous pour commencer.</p>
