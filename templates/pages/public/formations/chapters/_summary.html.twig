@@ -1,5 +1,7 @@
 <div class="{{ class ?? 'chapters' }}">
+    {% set currentCourseId = current is defined ? current.id : null %}
+
     {% for chapter in chapters %}
-        {% include 'pages/public/formations/chapters/_item.html.twig' %}
+        {% include 'pages/public/formations/chapters/_item.html.twig' with {chapter: chapter, currentCourseId: currentCourseId} only %}
     {% endfor %}
 </div>

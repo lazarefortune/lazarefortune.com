@@ -28,16 +28,6 @@
 
         <div class="container-box mt-4 mb-20">
             <div class="{{ course.formation ? 'is-chapter' : 'is-chapter is-folded' }}">
-                {% if course.formation %}
-                    <div class="relative card">
-                        <button class="chapters-toggle">
-                            {{ icon('arrow-up') }}
-                        </button>
-                        <div class="course__chapters-sidebar absolute top-0 left-0 w-full h-full overflow-auto border shadow bg-white dark:bg-primary-1000 dark:border-primary-1000 dark:shadow-primary-900" is="auto-scroll" data-to="{{ current is defined ? current : "#chapter" ~ course.id }}">
-                            {% include 'pages/public/formations/chapters/_summary.html.twig' with {chapters: course.formation.chapters} only %}
-                        </div>
-                    </div>
-                {% endif %}
                 {% if course.scheduled and not userIsPremium %}
                     <div class="course-countdown" style="background-image: url({{ image_url_raw(course.image) }})">
                         <div class="course-countdown-content">
@@ -48,7 +38,7 @@
                     </div>
                 {% elseif course.premium and not userIsPremium %}
                     <div class="course-countdown" style="background-image: url({{ image_url_raw(course.image) }})">
-                        <div class="absolute flex flex-col w-full h-full justify-center items-center z-50">
+                        <div class="absolute flex flex-col w-full h-full justify-center items-center z-10">
                             <a href="{{ path('app_login') }}" class="btn btn-primary">{{ icon('crown') }} Devenez premium</a>
                             <p class="text-white text-lg mt-3 text-center">Contenu destiné aux membres premiums</p>
                         </div>
@@ -86,6 +76,29 @@
                         </youtube-player>
                     </progress-tracker>
                 {% endif %}
+                {% if course.formation %}
+                    <!-- Bouton chapitres mobile -->
+                    <div class="chapters-mobile-trigger block lg:hidden">
+                        <button id="chapters-mobile-button" class="btn btn-sm btn-light">
+                            {{ icon('list-ordered') }} Chapitres
+                        </button>
+                    </div>
+
+                    <!-- Wrapper des chapitres -->
+                    <div class="chapters-wrapper card" is="auto-scroll" data-to="{{ course is defined ? '#chapter' ~ course.id : '' }}">
+                        <!-- Bouton fermer mobile -->
+                        <button class="chapters-mobile-close lg:hidden" aria-label="Fermer">
+                            {{ icon('x') }}
+                        </button>
+
+                        {% include 'pages/public/formations/chapters/_summary.html.twig' with {chapters: course.formation.chapters, current: course} only %}
+                    </div>
+
+                    <!-- Toggle desktop -->
+                    <button class="chapters-toggle lg:flex hidden" aria-label="Replier/Déplier">
+                        {{ icon('arrow-down') }}
+                    </button>
+                {% endif %}
             </div>
         </div>
 
@@ -97,28 +110,24 @@
                         {{ icon('file-text') }}
                         Description
                     </a>
-                    <a href="#sommaire" aria-controls="sommaire" >
-                        {{ icon('list-ordered') }}
-                        Sommaire
-                    </a>
                 </nav-tabs>
             {% endif %}
 
             <div class="container-box py-5 mb-16" id="description">
 
-            <div class="course-actions py-3">
-                {% if course.source is not empty and app.user %}
-                    <a href="{{ vich_uploader_asset(course, 'sourceFile') }}"
-                       target="_blank"
-                       download="{{ course.source }}"
-                       class="btn btn-sm btn-light">
-                        Télécharger les sources
-                    </a>
-                {% endif %}
-            </div>
+                <div class="course-actions py-3">
+                    {% if course.source is not empty and app.user %}
+                        <a href="{{ vich_uploader_asset(course, 'sourceFile') }}"
+                           target="_blank"
+                           download="{{ course.source }}"
+                           class="btn btn-sm btn-light">
+                            Télécharger les sources
+                        </a>
+                    {% endif %}
+                </div>
 
 
-            <div class="course-details">
+                <div class="course-details">
                     <div>
                         <div class="h2 mb-6" aria-hidden="true">À propos de cette vidéo</div>
                         <div class="formatted">
@@ -178,12 +187,6 @@
                 </div>
             </div>
 
-            {% if course.formation %}
-                <div class="container-box" id="sommaire" hidden>
-                    {% include 'pages/public/formations/chapters/_summary.html.twig' with {chapters: course.formation.chapters, current: course} only %}
-                </div>
-            {% endif %}
-
         </div>
     </div>
 
@@ -200,5 +203,53 @@
                 })
             }
         })()
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const shareButton = document.getElementById('share-button');
+            const shareMenu = document.getElementById('share-menu');
+            const copyLinkButton = document.getElementById('copy-link');
+
+            // Toggle the share menu
+            shareButton.addEventListener('click', () => {
+                shareMenu.classList.toggle('show');
+            });
+
+            // Copy the link
+            copyLinkButton.addEventListener('click', () => {
+                const url = copyLinkButton.dataset.url;
+                navigator.clipboard.writeText(url).then(() => {
+                    alert('Lien copié dans le presse-papier !');
+                }).catch(err => {
+                    console.error('Erreur lors de la copie : ', err);
+                });
+            });
+
+            // Close the menu if clicked outside
+            document.addEventListener('click', (event) => {
+                if (!shareButton.contains(event.target) && !shareMenu.contains(event.target)) {
+                    shareMenu.classList.remove('show');
+                }
+            });
+
+            // Mobile drawer
+            const drawer = document.querySelector('.chapters-wrapper');
+            const mobileBtn = document.getElementById('chapters-mobile-button');
+            const mobileClose = document.querySelector('.chapters-mobile-close');
+
+            if (mobileBtn && drawer) {
+                mobileBtn.addEventListener('click', () => {
+                    drawer.classList.add('open');
+                    // relancer auto-scroll si nécessaire
+                });
+            }
+
+            if (mobileClose && drawer) {
+                mobileClose.addEventListener('click', () => {
+                    drawer.classList.remove('open');
+                });
+            }
+        });
+
     </script>
 {% endblock %}

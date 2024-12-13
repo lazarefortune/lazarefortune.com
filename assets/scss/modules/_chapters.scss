@@ -1,175 +1,239 @@
 .chapters {
   @apply px-0 py-0;
 }
-.chapters-toggle {
-  @apply absolute -right-2 -translate-y-1/2 transform cursor-pointer p-2 top-[50%] bg-white-soft z-[5] dark:bg-primary-900;
+
+.is-chapter {
+  position: relative; /* Pour ancrer le toggle */
+
+  @media (min-width: 1100px) {
+    display: grid;
+    grid-template-columns: 1fr 385px; /* sidebar à droite */
+    transition: grid-template-columns 0.2s ease-in-out;
+
+    &.is-folded {
+      grid-template-columns: 1fr 0;
+      /* Quand plié, on cache la wrapper */
+      .chapters-wrapper {
+        display: none;
+      }
+    }
+
+    /* Au survol de .is-chapter, le toggle apparait (desktop only) */
+    &:hover .chapters-toggle {
+      opacity: 1;
+      transform: translateY(-50%) scale(1);
+    }
+  }
 }
 
-.chapters-toggle {
-  position: absolute;
-  top: calc(50% - 25px);
-  width: 18px;
-  height: 50px;
-  right: -18px;
-  background-color: #fff;
-  border-left: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-top-left-radius: 3px;
-  z-index: 10;
-  border-top-right-radius: 3px;
-  transition: .2s;
-  opacity: 0;
-  transform: translateX(-10px);
+.chapters-wrapper {
+  @apply relative transition-all duration-300 ease-in-out bg-white dark:bg-primary-1000;
 
-  &::after {
-    position: absolute;
-    top: -20px;
-    left: -20px;
+  @media (min-width: 1100px) {
+    border-left: 1px solid #ddd;
+    @apply dark:border-primary-1000;
+    position: relative;
+    /* Pas d'overflow nécessaire, laissez par défaut */
+    /* overflow: visible; */
+  }
+
+  @media (max-width: 1099px) {
+    @apply fixed inset-x-0 bottom-0 max-h-[70vh] transform translate-y-full z-[9999] rounded-t-xl shadow-lg border border-slate-200 dark:border-slate-700 overflow-auto;
+
+    &.open {
+      @apply translate-y-0;
+    }
+
+    .chapters-mobile-close {
+      @apply absolute top-2 right-2 p-2;
+      svg {
+        @apply w-5 h-5 text-slate-700 dark:text-slate-300;
+      }
+    }
+
+    &::before {
+      content: '';
+      @apply absolute top-2 left-1/2 -translate-x-1/2 w-10 h-1 bg-slate-300 rounded;
+    }
+  }
+}
+
+/* Cacher le bouton close mobile sur desktop */
+@media (min-width: 1100px) {
+  .chapters-mobile-close {
+    display: none;
+  }
+}
+
+/* Le toggle sur desktop */
+.chapters-toggle {
+  @apply absolute lg:flex items-center justify-center cursor-pointer bg-white dark:bg-primary-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700;
+
+  top: 50%;
+  transform: translateY(-50%) scale(0.9);
+  opacity: 0;
+  z-index: 10;
+  width: 20px;
+  height: 50px;
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+  transition: opacity 0.2s, transform 0.2s, right 0.2s;
+
+  /* Par défaut (sidebar ouverte) */
+  right: 385px;
+
+  /* Quand la sidebar est fermée */
+  .is-chapter.is-folded & {
     right: 0;
-    bottom: -20px;
-    content:'';
   }
 
   &:hover {
-    @apply cursor-pointer bg-gray-100 dark:bg-primary-800;
-  }
-
-  .is-chapter:hover & {
-    opacity: 1;
-    transform: translateX(0px);
+    @apply bg-slate-100 dark:bg-primary-800;
   }
 
   .icon {
-    flex: none;
-    width: 16px;
-    height: 16px;
-    transform: rotate(-90deg);
+    @apply w-4 h-4 transform;
+    rotate: -90deg;
   }
 
-  .is-folded & .icon {
-    transform: rotate(90deg);
+  /* Quand plié, on inverse la flèche */
+  .is-chapter.is-folded & .icon {
+    transform: rotate(180deg);
   }
 }
 
+/* Styles des chapitres */
 .chapters__section {
-  @apply bg-white dark:bg-primary-1000 py-0;
-}
-.chapters__header {
-  @apply flex justify-between items-center px-4 py-3 text-base font-medium border-b-2 border-slate-200 dark:border-slate-700;
-}
-.chapters__section-title {
-  @apply text-lg;
-}
-.chapters__header-count {
-  @apply text-sm;
+  @apply bg-white dark:bg-primary-1000 border-b border-slate-200 dark:border-slate-700;
 }
 
-.chapters__split {
-  @apply flex flex-col gap-6;
-  .chapters__section {
-    @apply rounded-md border border-slate-200 dark:border-slate-700;
-  }
+.chapters__header {
+  @apply flex justify-between items-center px-4 py-3 text-base font-medium bg-slate-50 dark:bg-primary-950 border-b border-slate-200 dark:border-slate-700;
+}
+
+.chapters__header-title {
+  @apply text-lg font-medium text-slate-800 dark:text-primary-400;
+}
+
+.chapters__header-count {
+  @apply text-sm text-slate-600 dark:text-primary-400;
 }
 
 .chapters__list {
-  @apply bg-slate-50 dark:bg-primary-1000;
+  @apply bg-white dark:bg-primary-1000;
 }
+
 .chapters__item {
-  @apply relative flex items-center px-6 py-4 text-base dark:text-white border-b border-slate-200 dark:border-slate-700;
-  @apply hover:cursor-pointer;
-}
-.chapters__item.is-selected {
-  @apply bg-primary-100 text-primary-900 dark:bg-primary-900/50;
-  .chapters__title {
-    @apply text-primary-900 dark:text-white;
-  }
-}
-.chapters__item.chapters__item--active {
-  @apply bg-primary-100 text-primary-900 dark:bg-primary-900/50;
-  .chapters__title {
-    @apply text-primary-900 dark:text-white;
-  }
+  @apply relative flex gap-3 p-3 items-start transition-colors duration-300 hover:bg-slate-100 dark:hover:bg-primary-900/50 border-b border-slate-200 dark:border-slate-700;
 }
 
-.chapters__free {
-  @apply flex flex-none justify-center items-center h-9 w-9 text-sm font-semibold text-slate-900 bg-primary-300/50 dark:bg-primary-700/50 dark:text-white;
-  margin-right: 20px;
-  border-radius: 32px;
+.chapters__item:last-child {
+  @apply border-b-0;
 }
-.chapters__title {
-  @apply text-base text-slate-900 dark:text-slate-200;
+
+.chapters__item.is-current {
+  @apply bg-primary-50 dark:bg-primary-900;
+  border-left: 4px solid #1d9bf0;
+  padding-left: calc(0.75rem - 4px);
 }
+
+.chapters__thumbnail {
+  @apply relative flex-shrink-0 w-40 h-auto rounded overflow-hidden;
+}
+
+.chapters__img {
+  @apply w-full h-auto object-cover rounded shadow-sm;
+}
+
 .chapters__duration {
-  @apply flex items-center gap-1 mt-1 text-sm text-muted;
+  @apply absolute bottom-1 right-1 text-xs bg-slate-900/80 text-white rounded px-1 py-1 flex items-center gap-1;
 }
 
-.chapters__play {
-  //@apply cursor-pointer outline-none relative border-none w-9 h-9 rounded-full flex-none bg-primary-100/10;
+.chapters__lock {
+  @apply absolute inset-0 flex items-center justify-center bg-black/50 text-white text-xl;
+  .icon {
+    @apply w-6 h-6;
+  }
 }
 
+.chapters__play-button {
+  @apply absolute inset-0 flex items-center justify-center bg-black/30 text-white opacity-0 transition-opacity duration-300;
+}
+
+.chapters__item[data-locked="false"]:hover .chapters__play-button {
+  opacity: 1;
+}
+
+.chapters__details {
+  @apply flex-1 flex flex-col justify-center;
+}
+
+.chapters__title {
+  @apply text-base font-medium text-slate-900 dark:text-white leading-tight line-clamp-2;
+}
+
+.chapters__info {
+  @apply text-sm text-slate-600 dark:text-slate-400 mt-1;
+}
+
+/* Play button */
 .play-button {
-  @apply relative flex items-center justify-center w-10 h-10 rounded-full bg-primary-500 text-white transition-all duration-300 shadow-sm mr-4;
-  @apply hover:bg-primary-400 hover:shadow-md dark:hover:shadow-primary-800;
-  @apply dark:bg-primary-500 dark:text-white dark:hover:bg-primary-400;
+  @apply relative flex items-center justify-center w-10 h-10 rounded-full bg-primary-500 text-white shadow-sm transition-all duration-300 hover:bg-primary-400 dark:hover:shadow-primary-800 dark:bg-primary-500 dark:text-white dark:hover:bg-primary-400;
+}
 
-  &.is-playing {
-    @apply bg-green-500 text-white hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700;
+.play-button.is-playing {
+  @apply bg-green-500 text-white hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700;
+}
+
+.play-button .progress-circle {
+  stroke-dasharray: 88px;
+  stroke-dashoffset: 88px;
+  stroke-width: 2.5;
+  @apply stroke-primary-50 dark:stroke-primary-50 transition-all duration-300;
+}
+
+.play-button.is-playing .progress-circle {
+  @apply stroke-green-500;
+}
+
+.play-button.is-checked .progress-circle {
+  @apply stroke-blue-500;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .chapters__thumbnail {
+    @apply w-28;
   }
-
-  & .progress-circle {
-    stroke-dasharray: 88px;
-    stroke-dashoffset: 88px;
-    stroke-width: 2.5;
-    @apply stroke-primary-50 dark:stroke-primary-50;
-    transition: stroke-dashoffset 0.3s ease;
+  .play-button {
+    @apply w-8 h-8;
   }
-
-  &.is-playing .progress-circle {
-    @apply stroke-green-500;
+  .chapters__title {
+    @apply text-sm;
   }
-
-  &.is-checked .progress-circle {
-    @apply stroke-blue-500;
-  }
-
-  & .icon {
-    @apply w-10 h-10;
-  }
-
-  & .play-icon {
-    @apply block;
-  }
-
-  & .pause-icon {
-    @apply hidden;
-  }
-
-  &.is-playing .play-icon {
-    @apply hidden;
-  }
-
-  &.is-playing .pause-icon {
-    @apply block;
+  .chapters__info {
+    @apply text-xs;
   }
 }
 
-.chapters__premium {
-  @apply flex  flex-none items-center justify-center h-10 w-10 text-sm font-semibold rounded-full mr-5;
-  @apply bg-orange-200 text-orange-900 shadow-sm;
-  @apply hover:bg-orange-300 hover:shadow-md dark:hover:shadow-orange-800;
-  @apply dark:bg-orange-300 dark:text-orange-800;
-
-  & > .icon {
-    @apply w-4 h-4;
-  }
+/* Bouton mobile pour ouvrir le drawer */
+.chapters-mobile-trigger {
+  @apply flex justify-center mt-4;
 }
 
-.chapters__free {
-  @apply flex items-center justify-center h-9 w-9 text-sm font-semibold rounded-full;
-  @apply bg-primary-200/50 text-primary-900 shadow-sm;
-  @apply hover:bg-primary-300/50 hover:shadow-md;
-  @apply dark:bg-primary-600/50 dark:text-white;
+.chapters-mobile-trigger button {
+  @apply flex items-center gap-2 py-2 px-4 bg-gray-100 border border-slate-300 rounded text-sm text-slate-800 hover:bg-gray-200 dark:bg-primary-800 dark:border-primary-700 dark:text-white dark:hover:bg-primary-700;
 }
 
+/* Menu partage */
+#share-menu {
+  @apply absolute hidden flex-col mt-2 bg-white dark:bg-primary-1000 shadow-lg rounded p-2 border border-slate-200 dark:border-slate-700 z-50 min-w-48;
+}
+
+#share-menu.show {
+  @apply block;
+}
+
+.share-menu-item {
+  @apply w-full flex items-center gap-2 px-4 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition;
+}

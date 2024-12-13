@@ -4,25 +4,44 @@
         <div class="chapters__header-count">{{ chapter.modules | length }} vidéo{{ chapter.modules | length > 1 ? 's' : '' }}</div>
     </div>
     <div class="chapters__list">
-        {% for course in chapter.modules %}
-            <a href="{{ path('app_course_show', {slug: course.slug}) }}#autoplay"
-               class="chapters__item {{ current is defined ? current.id == course.id ? 'chapters__item--active' : '' }}"
-               id="chapter{{ course.id }}">
-                {% if course.premium and (not app.user or not app.user.premium) %}
-                    <div class="chapters__premium">
-                        {{ icon('crown') }}
-                    </div>
-                {% else %}
-                    <play-button class="chapters__play" data-date="{{ course.publishedAt.timestamp }}" data-video-id="course-{{ course.id }}" tabindex="-1" data-history="{{ course.id }}"></play-button>
-                {% endif %}
-                <div class="flex flex-col">
-                    <span class="chapters__title">
-                      {{ course.title }}
-                    </span>
-                    <span class="chapters__duration">
+        {% for c in chapter.modules %}
+            {% set isLocked = (c.premium and (not app.user or not app.user.premium)) or c.isScheduled %}
+            {% set isCurrentCourse = (currentCourseId == c.id) %}
+            <a href="{{ path('app_course_show', {slug: c.slug}) }}{% if not isLocked %}#autoplay{% endif %}"
+               class="chapters__item {{ isCurrentCourse ? 'is-current' : '' }}"
+               id="chapter{{ c.id }}"
+               data-locked="{{ isLocked ? 'true' : 'false' }}">
+                <div class="chapters__thumbnail">
+                    <img src="{{ image_url(c.image, 1330, 750) }}" alt="{{ c.title }}" class="chapters__img">
+
+                    <div class="chapters__duration">
                         {{ icon('clock') }}
-                        {{ course.duration | duration }}
-                    </span>
+                        {{ c.duration | duration }}
+                    </div>
+
+                    {% if isLocked %}
+                        <div class="chapters__lock">
+                            {{ icon('lock') }}
+                        </div>
+                    {% else %}
+                        <play-button
+                                class="chapters__play-button"
+                                data-date="{{ c.publishedAt.timestamp }}"
+                                data-video-id="course-{{ c.id }}"
+                                tabindex="-1"
+                                data-history="{{ c.id }}">
+                        </play-button>
+                    {% endif %}
+                </div>
+                <div class="chapters__details">
+                    <span class="chapters__title">{{ c.title }}</span>
+                    <span class="chapters__info">
+                            {% if c.isScheduled %}
+                                Disponible dans {{ c.publishedAt | countdown }}
+                            {% else %}
+                                Publié {{ c.publishedAt | ago }}
+                            {% endif %}
+                        </span>
                 </div>
             </a>
         {% endfor %}

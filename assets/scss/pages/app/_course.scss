@@ -180,7 +180,8 @@
 
 @media (min-width: 1100px) {
   .is-chapter {
-    grid-template-columns: 385px 1fr;
+    //grid-template-columns: 385px 1fr;
+    grid-template-columns: 1fr 385px;
     transition: grid-template-columns 0.2s ease-in-out;
 
     .course__player {
@@ -188,7 +189,7 @@
     }
 
     &.is-folded {
-      grid-template-columns: 0 1fr;
+      grid-template-columns: 1fr 0;
       .course__chapters-sidebar {
         display: none;
       }
