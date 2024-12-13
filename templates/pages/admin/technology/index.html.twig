@@ -78,7 +78,7 @@
                             {{ count }}
                         </a>
                     </td>
-                    <td class="text-end">
+                    <td>
                         {% if is_granted('ROLE_AUTHOR') %}
                             <a href="{{ link }}" class="btn-icon">{{ icon('pencil') }}</a>
                             {% if count  == 0 %}
