@@ -12,13 +12,11 @@
 
     &.is-folded {
       grid-template-columns: 1fr 0;
-      /* Quand plié, on cache la wrapper */
       .chapters-wrapper {
         display: none;
       }
     }
 
-    /* Au survol de .is-chapter, le toggle apparait (desktop only) */
     &:hover .chapters-toggle {
       opacity: 1;
       transform: translateY(-50%) scale(1);
@@ -31,9 +29,10 @@
   @apply border border-slate-200 dark:border-slate-800 shadow dark:shadow-primary-700;
 
   @media (min-width: 1100px) {
-    position: relative;
+    //position: relative;
+    @apply absolute top-0 left-0 w-full h-full overflow-auto;
     /* Pas d'overflow nécessaire, laissez par défaut */
-    /* overflow: visible; */
+    // overflow: visible;
   }
 
   @media (max-width: 1099px) {
@@ -236,6 +235,10 @@
 
 .chapters-mobile-trigger button {
   @apply flex items-center gap-2 py-2 px-4 bg-gray-100 border border-slate-300 rounded text-sm text-slate-800 hover:bg-gray-200 dark:bg-primary-800 dark:border-primary-700 dark:text-white dark:hover:bg-primary-700;
+}
+
+.chapters__split {
+  @apply flex flex-col items-center gap-10;
 }
 
 /* Menu partage */

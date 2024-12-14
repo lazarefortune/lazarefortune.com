@@ -165,38 +165,6 @@
     @apply border border-slate-200 dark:border-slate-800 rounded shadow shadow-primary-900 dark:shadow-primary-500;
 }
 
-@media (min-width: 1200px) {
-  .course__player {
-    width: 80%;
-    height: auto;
-    left: 10%;
-    right: 10%;
-  }
-}
-
-.is-chapter {
-  @apply grid;
-}
-
-@media (min-width: 1100px) {
-  .is-chapter {
-    //grid-template-columns: 385px 1fr;
-    grid-template-columns: 1fr 385px;
-    transition: grid-template-columns 0.2s ease-in-out;
-
-    .course__player {
-      width: 100%;
-    }
-
-    &.is-folded {
-      grid-template-columns: 1fr 0;
-      .course__chapters-sidebar {
-        display: none;
-      }
-    }
-  }
-}
-
 .course-page {
   @apply bg-white dark:bg-primary-1000 py-2;
 }

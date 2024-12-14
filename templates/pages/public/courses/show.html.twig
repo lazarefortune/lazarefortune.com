@@ -85,7 +85,8 @@
                     </div>
 
                     <!-- Wrapper des chapitres -->
-                    <div class="chapters-wrapper" is="auto-scroll" data-to="{{ course is defined ? '#chapter' ~ course.id : '' }}">
+                    <div class="relative">
+                        <div class="chapters-wrapper" is="auto-scroll" data-to="{{ course is defined ? '#chapter' ~ course.id : '' }}">
                         <div class="flex items-center justify-end">
                             <!-- Bouton fermer mobile -->
                             <button class="chapters-mobile-close" aria-label="Fermer">
@@ -94,6 +95,7 @@
                         </div>
 
                         {% include 'pages/public/formations/chapters/_summary.html.twig' with {chapters: course.formation.chapters, current: course} only %}
+                    </div>
                     </div>
 
                     <!-- Toggle desktop -->
