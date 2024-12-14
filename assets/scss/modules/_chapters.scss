@@ -27,11 +27,10 @@
 }
 
 .chapters-wrapper {
-  @apply relative transition-all duration-300 ease-in-out bg-white dark:bg-primary-1000;
+  @apply relative transition-all duration-300 ease-in-out bg-white dark:bg-primary-1000 rounded-r;
+  @apply border border-slate-200 dark:border-slate-800 shadow dark:shadow-primary-700;
 
   @media (min-width: 1100px) {
-    border-left: 1px solid #ddd;
-    @apply dark:border-primary-1000;
     position: relative;
     /* Pas d'overflow nécessaire, laissez par défaut */
     /* overflow: visible; */
@@ -45,7 +44,7 @@
     }
 
     .chapters-mobile-close {
-      @apply absolute top-2 right-2 p-2;
+      @apply mr-2 my-2 p-1 bg-slate-100 dark:bg-primary-950 text-slate-700 dark:text-slate-300 rounded;
       svg {
         @apply w-5 h-5 text-slate-700 dark:text-slate-300;
       }
@@ -104,11 +103,11 @@
 
 /* Styles des chapitres */
 .chapters__section {
-  @apply bg-white dark:bg-primary-1000 border-b border-slate-200 dark:border-slate-700;
+  @apply bg-white dark:bg-primary-1000 rounded border-b border-slate-200 dark:border-slate-700;
 }
 
 .chapters__header {
-  @apply flex justify-between items-center px-4 py-3 text-base font-medium bg-slate-50 dark:bg-primary-950 border-b border-slate-200 dark:border-slate-700;
+  @apply flex justify-between items-center px-4 py-3 rounded-t text-base font-medium bg-slate-50 dark:bg-primary-950 border-b border-slate-200 dark:border-slate-700;
 }
 
 .chapters__header-title {
@@ -132,8 +131,7 @@
 }
 
 .chapters__item.is-current {
-  @apply bg-primary-50 dark:bg-primary-900;
-  border-left: 4px solid #1d9bf0;
+  @apply bg-primary-50 dark:bg-primary-900 border-l-4 border-l-primary-600;
   padding-left: calc(0.75rem - 4px);
 }
 
@@ -159,6 +157,9 @@
 .chapters__play-button {
   @apply absolute inset-0 flex items-center justify-center bg-black/30 text-white opacity-0 transition-opacity duration-300;
 }
+.chapters__item[data-locked="false"].is-current .chapters__play-button {
+  opacity: 1;
+}
 
 .chapters__item[data-locked="false"]:hover .chapters__play-button {
   opacity: 1;
@@ -174,6 +175,13 @@
 
 .chapters__info {
   @apply text-sm text-slate-600 dark:text-slate-400 mt-1;
+}
+
+#chapters-mobile-button {
+  @apply focus:outline-none focus:ring-0 focus:ring-offset-0;
+}
+#chapters-mobile-button.open {
+  @apply bg-slate-200 dark:bg-primary-900;
 }
 
 /* Play button */
@@ -203,16 +211,16 @@
 /* Responsive */
 @media (max-width: 640px) {
   .chapters__thumbnail {
-    @apply w-28;
+    @apply w-40;
   }
   .play-button {
-    @apply w-8 h-8;
+    @apply w-10 h-10;
   }
   .chapters__title {
-    @apply text-sm;
+    @apply text-base;
   }
   .chapters__info {
-    @apply text-xs;
+    @apply text-sm;
   }
 }
 

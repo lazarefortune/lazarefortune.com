@@ -85,11 +85,13 @@
                     </div>
 
                     <!-- Wrapper des chapitres -->
-                    <div class="chapters-wrapper card" is="auto-scroll" data-to="{{ course is defined ? '#chapter' ~ course.id : '' }}">
-                        <!-- Bouton fermer mobile -->
-                        <button class="chapters-mobile-close lg:hidden" aria-label="Fermer">
-                            {{ icon('x') }}
-                        </button>
+                    <div class="chapters-wrapper" is="auto-scroll" data-to="{{ course is defined ? '#chapter' ~ course.id : '' }}">
+                        <div class="flex items-center justify-end">
+                            <!-- Bouton fermer mobile -->
+                            <button class="chapters-mobile-close lg:hidden" aria-label="Fermer">
+                                {{ icon('x') }}
+                            </button>
+                        </div>
 
                         {% include 'pages/public/formations/chapters/_summary.html.twig' with {chapters: course.formation.chapters, current: course} only %}
                     </div>
@@ -242,7 +244,8 @@
 
             if (mobileBtn && drawer) {
                 mobileBtn.addEventListener('click', () => {
-                    drawer.classList.add('open');
+                    drawer.classList.toggle('open');
+                    mobileBtn.classList.toggle('open');
                     // relancer auto-scroll si nécessaire
                 });
             }
