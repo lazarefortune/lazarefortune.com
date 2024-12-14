@@ -228,6 +228,11 @@
 .chapters-mobile-trigger {
   @apply flex justify-center mt-4;
 }
+@media (min-width: 1100px) {
+  .chapters-mobile-trigger {
+    display: none;
+  }
+}
 
 .chapters-mobile-trigger button {
   @apply flex items-center gap-2 py-2 px-4 bg-gray-100 border border-slate-300 rounded text-sm text-slate-800 hover:bg-gray-200 dark:bg-primary-800 dark:border-primary-700 dark:text-white dark:hover:bg-primary-700;

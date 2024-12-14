@@ -18,15 +18,15 @@
         <h1 class="container-box mt-3 mb-5 text-2xl lg:text-5xl">
           <span class="hidden">
             {%- if course.formation %}
-                {{- "Formation " ~ course.formation.title ~ ' : ' -}}
+                {{- "Playlist " ~ course.formation.title ~ ' : ' -}}
             {% else %}
-                {{- "Tutoriel " ~ course.mainTechnologies|map(t => "#{t.name}")|join(' & ') ~ ' : ' -}}
+                {{- "Vidéo " ~ course.mainTechnologies|map(t => "#{t.name}")|join(' & ') ~ ' : ' -}}
             {% endif -%}
           </span>
             {{- course.title }}
         </h1>
 
-        <div class="container-box mt-4 mb-20">
+        <div class="container-box mt-4 mb-4">
             <div class="{{ course.formation ? 'is-chapter' : 'is-chapter is-folded' }}">
                 {% if course.scheduled and not userIsPremium %}
                     <div class="course-countdown" style="background-image: url({{ image_url_raw(course.image) }})">
@@ -78,8 +78,8 @@
                 {% endif %}
                 {% if course.formation %}
                     <!-- Bouton chapitres mobile -->
-                    <div class="chapters-mobile-trigger block lg:hidden">
-                        <button id="chapters-mobile-button" class="btn btn-sm btn-light">
+                    <div class="chapters-mobile-trigger block">
+                        <button id="chapters-mobile-button" class="btn btn-sm btn-light w-full">
                             {{ icon('list-ordered') }} Chapitres
                         </button>
                     </div>
@@ -88,7 +88,7 @@
                     <div class="chapters-wrapper" is="auto-scroll" data-to="{{ course is defined ? '#chapter' ~ course.id : '' }}">
                         <div class="flex items-center justify-end">
                             <!-- Bouton fermer mobile -->
-                            <button class="chapters-mobile-close lg:hidden" aria-label="Fermer">
+                            <button class="chapters-mobile-close" aria-label="Fermer">
                                 {{ icon('x') }}
                             </button>
                         </div>
@@ -102,33 +102,25 @@
                     </button>
                 {% endif %}
             </div>
-        </div>
 
-        <div class="course-page container-box">
-
-            {% if course.formation %}
-                <nav-tabs class="course-tabs bg-light">
-                    <a href="#description" aria-controls="content"  aria-selected="true">
-                        {{ icon('file-text') }}
-                        Description
-                    </a>
-                </nav-tabs>
-            {% endif %}
-
-            <div class="container-box py-5 mb-16" id="description">
-
-                <div class="course-actions py-3">
+            <div class="mt-5 flex justify-between items-center gap-2">
+                <div></div>
+                <div class="flex justify-end items-center flex-wrap gap-2">
                     {% if course.source is not empty and app.user %}
                         <a href="{{ vich_uploader_asset(course, 'sourceFile') }}"
                            target="_blank"
                            download="{{ course.source }}"
                            class="btn btn-sm btn-light">
-                            Télécharger les sources
+                            {{ icon('code') }}
+                            Code source
                         </a>
                     {% endif %}
                 </div>
+            </div>
+        </div>
 
-
+        <div class="course-page">
+            <div class="container-box pb-5 mb-16" id="description">
                 <div class="course-details">
                     <div>
                         <div class="h2 mb-6" aria-hidden="true">À propos de cette vidéo</div>
@@ -188,7 +180,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -196,6 +187,33 @@
 
 {% block javascripts__footer %}
     <script>
+        // Fonction helper pour recalculer le offsetTop
+        function offsetTop(el, parent) {
+            let top = 0;
+            let element = el;
+            while (element && element !== parent) {
+                top += element.offsetTop;
+                element = element.offsetParent;
+            }
+            return top;
+        }
+
+        function reAutoScroll() {
+            const drawer = document.querySelector('.chapters-wrapper');
+            if (!drawer) return;
+            const targetSelector = drawer.dataset.to;
+            if (targetSelector) {
+                const target = document.querySelector(targetSelector);
+                if (target) {
+                    drawer.scrollTo(
+                        0,
+                        offsetTop(target, drawer) - target.getBoundingClientRect().height / 2 - drawer.getBoundingClientRect().height / 2
+                    );
+                    target.classList.add("is-selected");
+                }
+            }
+        }
+
         (function () {
             const toggle = document.querySelector('.chapters-toggle')
             const container = document.querySelector('.is-chapter')
@@ -246,7 +264,8 @@
                 mobileBtn.addEventListener('click', () => {
                     drawer.classList.toggle('open');
                     mobileBtn.classList.toggle('open');
-                    // relancer auto-scroll si nécessaire
+                    // relancer auto-scroll
+                    reAutoScroll();
                 });
             }
 
