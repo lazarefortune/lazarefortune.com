@@ -96,7 +96,9 @@
 
                         {% include 'pages/public/formations/chapters/_summary.html.twig' with {chapters: course.formation.chapters, current: course} only %}
                     </div>
+                        <div class="chapters-backdrop"></div>
                     </div>
+
 
                     <!-- Toggle desktop -->
                     <button class="chapters-toggle lg:flex hidden" aria-label="Replier/Déplier">
@@ -106,7 +108,27 @@
             </div>
 
             <div class="mt-5 flex justify-between items-center gap-2">
-                <div></div>
+                <div>
+                    <div class="inline-block relative">
+                        <button id="share-button" class="btn btn-sm btn-light flex items-center gap-2">
+                            {{ icon('share') }} Partager
+                        </button>
+                        <div id="share-menu" class="absolute hidden flex-col mt-2 bg-white dark:bg-primary-1000 shadow-lg rounded-lg p-2 border border-slate-200 dark:border-slate-700 z-10">
+                            <a href="https://twitter.com/intent/tweet?url={{ app.request.uri }}" target="_blank" class="share-menu-item flex items-center gap-2 px-4 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded">
+                                {{ icon('twitter') }} Twitter
+                            </a>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.uri }}" target="_blank" class="share-menu-item flex items-center gap-2 px-4 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded">
+                                {{ icon('facebook') }} Facebook
+                            </a>
+                            <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ app.request.uri }}" target="_blank" class="share-menu-item flex items-center gap-2 px-4 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded">
+                                {{ icon('linkedin') }} LinkedIn
+                            </a>
+                            <button id="copy-link" data-url="{{ app.request.uri }}" class="share-menu-item flex items-center gap-2 px-4 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded">
+                                {{ icon('copy') }} Copier le lien
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 <div class="flex justify-end items-center flex-wrap gap-2">
                     {% if course.source is not empty and app.user %}
                         <a href="{{ vich_uploader_asset(course, 'sourceFile') }}"
@@ -117,6 +139,10 @@
                             Code source
                         </a>
                     {% endif %}
+
+{#                    <a href="" class="btn btn-sm btn-light">#}
+{#                        {{ icon('download') }} Télécharger#}
+{#                    </a>#}
                 </div>
             </div>
         </div>
@@ -261,19 +287,32 @@
             const drawer = document.querySelector('.chapters-wrapper');
             const mobileBtn = document.getElementById('chapters-mobile-button');
             const mobileClose = document.querySelector('.chapters-mobile-close');
+            const backdrop = document.querySelector('.chapters-backdrop');
 
-            if (mobileBtn && drawer) {
+            if (mobileBtn && drawer && backdrop) {
                 mobileBtn.addEventListener('click', () => {
                     drawer.classList.toggle('open');
                     mobileBtn.classList.toggle('open');
+
+                    backdrop.classList.add('open');
+                    document.body.style.overflow = 'hidden';
                     // relancer auto-scroll
                     reAutoScroll();
+                });
+
+                backdrop.addEventListener('click', (e) => {
+                    // ferme si clic sur le backdrop
+                    drawer.classList.remove('open');
+                    backdrop.classList.remove('open');
+                    document.body.style.overflow = '';
                 });
             }
 
             if (mobileClose && drawer) {
                 mobileClose.addEventListener('click', () => {
                     drawer.classList.remove('open');
+                    backdrop.classList.remove('open');
+                    document.body.style.overflow = '';
                 });
             }
         });
