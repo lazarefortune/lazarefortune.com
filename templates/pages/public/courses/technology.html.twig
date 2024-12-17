@@ -5,13 +5,13 @@
 {% block body %}
     <header class="technology__header page-header container-box">
         <div class="stack w-full">
-            <h1 class="h1">{{ technology.name }}</h1>
-            <div class="text-lg">
+            <h1 class="h1 text-center md:text-left">{{ technology.name }}</h1>
+            <div class="text-lg text-center md:text-left">
                 <p>{{ technology.content }}</p>
             </div>
         </div>
         <div class="technology__header__logo">
-            <img src="{{ vich_uploader_asset(technology, 'imageFile') }}" alt="{{ technology.name }}">
+            <img src="{{ vich_uploader_asset(technology, 'imageFile') }}" alt="{{ technology.name }}" class="w-24 h-24">
         </div>
     </header>
     {% if showTabs %}
