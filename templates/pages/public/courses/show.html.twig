@@ -87,15 +87,15 @@
                     <!-- Wrapper des chapitres -->
                     <div class="relative">
                         <div class="chapters-wrapper" is="auto-scroll" data-to="{{ course is defined ? '#chapter' ~ course.id : '' }}">
-                        <div class="flex items-center justify-end">
-                            <!-- Bouton fermer mobile -->
-                            <button class="chapters-mobile-close" aria-label="Fermer">
-                                {{ icon('x') }}
-                            </button>
-                        </div>
+                            <div class="chapters-wrapper__header">
+                                <!-- Bouton fermer mobile -->
+                                <button class="chapters-mobile-close" aria-label="Fermer">
+                                    {{ icon('x') }}
+                                </button>
+                            </div>
 
-                        {% include 'pages/public/formations/chapters/_summary.html.twig' with {chapters: course.formation.chapters, current: course} only %}
-                    </div>
+                            {% include 'pages/public/formations/chapters/_summary.html.twig' with {chapters: course.formation.chapters, current: course} only %}
+                        </div>
                         <div class="chapters-backdrop"></div>
                     </div>
 
@@ -139,10 +139,6 @@
                             Code source
                         </a>
                     {% endif %}
-
-{#                    <a href="" class="btn btn-sm btn-light">#}
-{#                        {{ icon('download') }} Télécharger#}
-{#                    </a>#}
                 </div>
             </div>
         </div>
@@ -211,111 +207,4 @@
         </div>
     </div>
 
-{% endblock %}
-
-{% block javascripts__footer %}
-    <script>
-        // Fonction helper pour recalculer le offsetTop
-        function offsetTop(el, parent) {
-            let top = 0;
-            let element = el;
-            while (element && element !== parent) {
-                top += element.offsetTop;
-                element = element.offsetParent;
-            }
-            return top;
-        }
-
-        function reAutoScroll() {
-            const drawer = document.querySelector('.chapters-wrapper');
-            if (!drawer) return;
-            const targetSelector = drawer.dataset.to;
-            if (targetSelector) {
-                const target = document.querySelector(targetSelector);
-                if (target) {
-                    drawer.scrollTo(
-                        0,
-                        offsetTop(target, drawer) - target.getBoundingClientRect().height / 2 - drawer.getBoundingClientRect().height / 2
-                    );
-                    target.classList.add("is-selected");
-                }
-            }
-        }
-
-        (function () {
-            const toggle = document.querySelector('.chapters-toggle')
-            const container = document.querySelector('.is-chapter')
-            if (toggle) {
-                toggle.addEventListener('click',function () {
-                    container.classList.toggle('is-folded')
-                })
-            }
-        })()
-
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const shareButton = document.getElementById('share-button');
-            const shareMenu = document.getElementById('share-menu');
-            const copyLinkButton = document.getElementById('copy-link');
-
-            if (shareButton && shareMenu && copyLinkButton) {
-                // Toggle the share menu
-                shareButton.addEventListener('click', () => {
-                    shareMenu.classList.toggle('show');
-                });
-
-                // Copy the link
-                copyLinkButton.addEventListener('click', () => {
-                    const url = copyLinkButton.dataset.url;
-                    navigator.clipboard.writeText(url).then(() => {
-                        alert('Lien copié dans le presse-papier !');
-                    }).catch(err => {
-                        console.error('Erreur lors de la copie : ', err);
-                    });
-                });
-
-                // Close the menu if clicked outside
-                document.addEventListener('click', (event) => {
-                    if (!shareButton.contains(event.target) && !shareMenu.contains(event.target)) {
-                        shareMenu.classList.remove('show');
-                    }
-                });
-            }
-
-
-            // Mobile drawer
-            const drawer = document.querySelector('.chapters-wrapper');
-            const mobileBtn = document.getElementById('chapters-mobile-button');
-            const mobileClose = document.querySelector('.chapters-mobile-close');
-            const backdrop = document.querySelector('.chapters-backdrop');
-
-            if (mobileBtn && drawer && backdrop) {
-                mobileBtn.addEventListener('click', () => {
-                    drawer.classList.toggle('open');
-                    mobileBtn.classList.toggle('open');
-
-                    backdrop.classList.add('open');
-                    document.body.style.overflow = 'hidden';
-                    // relancer auto-scroll
-                    reAutoScroll();
-                });
-
-                backdrop.addEventListener('click', (e) => {
-                    // ferme si clic sur le backdrop
-                    drawer.classList.remove('open');
-                    backdrop.classList.remove('open');
-                    document.body.style.overflow = '';
-                });
-            }
-
-            if (mobileClose && drawer) {
-                mobileClose.addEventListener('click', () => {
-                    drawer.classList.remove('open');
-                    backdrop.classList.remove('open');
-                    document.body.style.overflow = '';
-                });
-            }
-        });
-
-    </script>
 {% endblock %}

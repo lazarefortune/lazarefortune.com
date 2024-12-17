@@ -33,6 +33,8 @@ customElements.define('auto-submit', AutoSubmit, { extends: 'form' })
 customElements.define('markdown-editor', MarkdownEditor, { extends: 'textarea' })
 
 /* Modules */
+import './modules/app/chapters'
+import './modules/app/share-button'
 import './modules/highlight.js'
 import './modules/scrollreveal.js'
 import './modules/modal.js'
