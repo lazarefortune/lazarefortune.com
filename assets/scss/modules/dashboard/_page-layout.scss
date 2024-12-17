@@ -13,8 +13,7 @@
   @apply flex justify-between md:justify-end items-center mb-5;
 
   a {
-    @apply flex flex-row items-center gap-2 px-4 py-1.5 bg-primary-900 text-white rounded hover:text-white hover:bg-primary-950
-      dark:bg-primary-600;
+    @apply btn btn-primary;
     ;
   }
 }
