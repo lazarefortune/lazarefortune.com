@@ -2,6 +2,7 @@
 
 namespace App\Http\Controller\Course;
 
+use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Course\Entity\Course;
 use App\Domain\Course\Entity\Formation;
 use App\Domain\Course\Service\FormationService;
@@ -19,7 +20,8 @@ class FormationController extends AbstractController
 {
     public function __construct(
         private readonly FormationService $formationService,
-        private readonly ProgressRepository $progressRepository
+        private readonly ProgressRepository $progressRepository,
+        private readonly HistoryService $historyService,
     )
     {
     }
@@ -28,8 +30,14 @@ class FormationController extends AbstractController
     public function index(): Response
     {
         $formations = $this->formationService->getFormations();
+
+        /** @var User $user */
+        if (null !== $user = $this->getUser()) {
+            $watchlist = $this->historyService->getLastWatchedContent($user);
+        }
         return $this->render('pages/public/formations/index.html.twig', [
-            'formations' => $formations
+            'formations' => $formations,
+            'watchlist' => $watchlist ?? []
         ]);
     }
 

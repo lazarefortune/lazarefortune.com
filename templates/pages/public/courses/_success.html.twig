@@ -6,7 +6,7 @@
         <footer class="text-center mt3">
             {% if button %}
                 <a data-dismiss class="btn btn-block btn-primary"
-                   href="{{ button.target }}#{{ button.anchor }}">
+                   href="{{ button.target }}{% if button.anchor %}#{{ button.anchor }}{% endif %}">
 {#                   {% if button.target %} href="{{ path(button.target) }}#{{ button.anchor }}" {% else %} href="{{ button.url }}#{{ button.anchor }}" {% endif %}>#}
                     {{ button.title }}
                 </a>

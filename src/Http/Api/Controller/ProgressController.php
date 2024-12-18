@@ -71,6 +71,7 @@ class ProgressController extends AbstractController
             } else {
                 $button = [
                     'title' => 'Voir d\'autres playlists',
+                    'anchor' => '',
                     'target' => $this->urlGenerator->generate('app_formation_index', [], UrlGeneratorInterface::ABSOLUTE_URL),
                 ];
             }

@@ -1,46 +1,76 @@
-<article class="course {% if course.isScheduled and ((app.user and not app.user.premium) or not app.user) %}is__scheduled{% endif %} {% if course.premium %}course__premium{% endif %}">
-    <div class="course__body stack">
-        <div class="course__icons">
-            {% for technology in course.mainTechnologies %}
-                <a href="" class="course__icon" tabindex="-1" title="Tous les tutoriels {{ technology.name }}">
-                    <img src="{{ uploads_path('icons/' ~ technology.image) }}" alt="{{ technology.name }}">
-                </a>
-            {% endfor %}
-        </div>
-        <h2 class="course__title">
-            <a href="{{ path('app_course_show', {slug: course.slug}) }}"
-               class="course__link">
-                {{ course.title }}
-            </a>
-        </h2>
-        <div class="course__description">
-            <p>
-                {{ course.content | markdown | striptags | excerpt(130) | raw }}
-            </p>
-            <div class="course__countdown">
-                <em>Disponible dans</em>
-                <strong>{{ course.publishedAt|countdown }} </strong>
+<article class="course">
+    {% set isLocked = (course.premium and (not app.user or not app.user.premium)) or course.isScheduled %}
+    {% set courseUrl = not isLocked ? path('app_course_show', {slug: course.slug}) ~ '#autoplay' : path('app_course_show', {slug: course.slug}) %}
+
+    <a href="{{ courseUrl }}" class="course__link block">
+        <div class="relative rounded aspect-video bg-black/10">
+            <img class="w-full h-full object-cover rounded"
+                 src="{{ image_url(course.image, 1330, 750) }}"
+                 alt="{{ course.title }}">
+
+            {% if course.isScheduled %}
+                <div class="course__overlay-icon">
+                    <div class="course__countdown">
+                        <em>Disponible dans</em>
+                        <strong>{{ course.publishedAt|countdown }} </strong>
+                    </div>
+                </div>
+            {% elseif course.premium and (not app.user or not app.user.premium) %}
+                <div class="course__overlay-icon">
+                    {{ icon('crown', 28) }}
+                </div>
+            {% endif %}
+
+            {% if watchlist is defined %}
+                {% for watch in watchlist %}
+                    {% if watch.content.id == course.id %}
+                        <div class="course__progress {{ watch.ratio == 1 ? 'is-completed' : '' }}"><span style="--progress: {{ watch.ratio }}"></span></div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+
+            <div class="course__duration">
+                {{ icon('clock') }}
+                {{ course.duration|duration }}
             </div>
         </div>
-    </div>
-    <div class="content__progress"><span></span></div>
-    <footer class="course__footer">
-        {% if course.premium %}
-            <div class="course__pills">
-                <div class="course__pill uppercase">
-                    {{ icon('crown') }}
-                    Premium
+    </a>
+
+    <div class="px-2 py-1">
+
+
+        <div class="course__info">
+            <div>
+                <img class="course__author__avatar" src="{{ course.author | avatar }}" alt="{{ course.author.fullname }}">
+            </div>
+            <div class="flex-1 flex flex-col justify-center">
+                <h1 class="text-base font-medium text-slate-900 dark:text-white leading-tight line-clamp-2">{{ course.title }}</h1>
+                <div class="text-sm text-slate-600 dark:text-slate-400 mt-1">
+                    <span>{{ course.author.fullname }}</span>
+                    {% if not course.isScheduled %}
+                        <span>•</span>
+                        <span>{{ course.publishedAt | ago }}</span>
+                    {% endif %}
                 </div>
             </div>
-        {% endif %}
-        {% if course.formation %}
-            <div class="course__playlist">
-                {{ course.formation.title | truncate('24') }}
+{#            {% if course.formation %}#}
+{#                <span class="course__playlist text-primary-600 dark:text-primary-400">#}
+{#                    {{ course.formation.title }}#}
+{#                </span>#}
+{#            {% endif %}#}
+        </div>
+
+        {% if course.mainTechnologies is not empty %}
+            <div class="course__technologies">
+                {% for technology in course.mainTechnologies %}
+                    <a href="{{ path('app_technology_show', {slug: technology.slug}) }}"
+                       title="Tous les tutoriels {{ technology.name }}"
+                       class="course__tech">
+                        <img src="{{ uploads_path('icons/' ~ technology.image) }}" alt="{{ technology.name }}" class="w-4 h-4 object-contain">
+                        <span>{{ technology.name }}</span>
+                    </a>
+                {% endfor %}
             </div>
         {% endif %}
-        <div class="course__duration">
-            {{ icon('clock') }}
-            {{ course.duration|duration }}
-        </div>
-    </footer>
+    </div>
 </article>

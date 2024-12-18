@@ -1,0 +1,70 @@
+// technology
+.technology__content {
+  @apply bg-primary-50 dark:bg-primary-1000;
+  display: grid;
+  gap: 24px;
+}
+@media (min-width: 1100px) {
+  .technology__content {
+    grid-template-columns: 1fr 300px;
+  }
+}
+
+.technology__header {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  min-height: 250px;
+  grid-row-gap: 24px;
+}
+
+@media (min-width: 690px) {
+  .technology__header {
+    grid-template-columns: 1fr 300px;
+  }
+}
+@media (min-width: 1000px) {
+  .technology__header {
+    grid-template-columns: 1fr 400px;
+  }
+}
+
+.technology__header__logo {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 200px;
+  flex: none;
+  order: -1;
+}
+.technology__header__logo img {
+  width: 100%;
+  max-height: 160px;
+  object-fit: contain;
+}
+@media (min-width: 690px) {
+  .technology__header__logo {
+    height: 100px;
+    order: 2;
+  }
+}
+.technology__requirements {
+  @apply grid;
+
+  & > :first-child {
+    @apply border-t border-slate-200 dark:border-slate-700;
+  }
+
+  & > :not(:first-child) {
+    @apply border-t border-slate-200 dark:border-slate-700;
+  }
+
+  & > :last-child {
+    @apply border-t border-b border-slate-200 dark:border-slate-700;
+  }
+
+  .technology__requirement {
+    @apply cursor-pointer text-slate-600 dark:text-slate-300 py-4 hover:bg-primary-100 hover:text-primary-900
+    dark:hover:bg-primary-950 dark:hover:text-primary-400 hover:pl-2 transition-all duration-300;
+  }
+}

@@ -5,6 +5,7 @@ namespace App\Http\Controller\Course;
 use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Course\CourseService;
 use App\Domain\Course\Entity\Course;
+use App\Domain\History\Service\HistoryService;
 use App\Helper\Paginator\PaginatorInterface;
 use App\Http\Controller\AbstractController;
 use App\Http\Requirements;
@@ -17,7 +18,10 @@ use Vich\UploaderBundle\Storage\StorageInterface;
 class CourseController extends AbstractController
 {
 
-    public function __construct(private readonly CourseService $courseService)
+    public function __construct(
+        private readonly CourseService  $courseService,
+        private readonly HistoryService $historyService,
+    )
     {
     }
 
@@ -29,9 +33,15 @@ class CourseController extends AbstractController
 
         $courses = $paginator->paginate( $query->setMaxResults(10)->getQuery() );
 
+        /** @var User $user */
+        if (null !== $user = $this->getUser()) {
+            $watchlist = $this->historyService->getLastWatchedContent($user);
+        }
+
         return $this->render('pages/public/courses/index.html.twig', [
             'courses' => $courses,
             'page' => $page,
+            'watchlist' => $watchlist ?? []
         ]);
     }
 

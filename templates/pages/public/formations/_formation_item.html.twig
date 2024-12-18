@@ -1,35 +1,113 @@
-<article class="formation {% if formation.isScheduled %}is__scheduled{% endif %} {% if formation.premium %}formation__premium{% endif %}">
-    <div class="formation__body stack">
-        <div class="formation__icons">
-            {% for technology in formation.mainTechnologies %}
-                <a href="" class="formation__icon" tabindex="-1" title="Tous les tutoriels {{ technology.name }}">
-                    <img src="{{ uploads_path('icons/' ~ technology.image) }}" alt="{{ technology.name }}">
-                </a>
-            {% endfor %}
+{#<article class="formation {% if formation.isScheduled %}is__scheduled{% endif %} {% if formation.premium %}formation__premium{% endif %}">#}
+{#    <div class="formation__body stack">#}
+{#        <div class="formation__icons">#}
+{#            {% for technology in formation.mainTechnologies %}#}
+{#                <a href="" class="formation__icon" tabindex="-1" title="Tous les tutoriels {{ technology.name }}">#}
+{#                    <img src="{{ uploads_path('icons/' ~ technology.image) }}" alt="{{ technology.name }}">#}
+{#                </a>#}
+{#            {% endfor %}#}
+{#        </div>#}
+{#        <h2 class="formation__title">#}
+{#            <a href="{{ path('app_formation_show', {slug: formation.slug}) }}"#}
+{#               class="formation__link">#}
+{#                {{ formation.title }}#}
+{#            </a>#}
+{#        </h2>#}
+{#        <div class="formation__description">#}
+{#            <p>#}
+{#                {% if formation.short %}#}
+{#                    {{ formation.short | truncate(130) | raw }}#}
+{#                {% endif %}#}
+{#            </p>#}
+{#        </div>#}
+{#    </div>#}
+{#    <div class="content__progress"><span></span></div>#}
+{#    <footer class="formation__footer">#}
+{#        <div class="flex items-center gap-1">#}
+{#            {{ icon('library-big') }}#}
+{#            {{ formation.courses | length }} Chapitres#}
+{#        </div>#}
+{#        <div class="flex items-center gap-1">#}
+{#            {{ icon('clock') }}#}
+{#            {{ formation.duration | duration }}#}
+{#        </div>#}
+{#    </footer>#}
+{#</article>#}
+
+<article class="formation">
+    {% set isLocked = (formation.premium and (not app.user or not app.user.premium)) or formation.isScheduled %}
+    {% set formationUrl = path('app_formation_show', {slug: formation.slug}) %}
+
+    <a href="{{ formationUrl }}" class="formation__link block">
+        <div class="formation__image-wrapper">
+            {% if formation.image %}
+            <img class="formation__image"
+                 src="{{ image_url(formation.image, 1330, 750) }}"
+                 alt="{{ formation.title }}">
+            {% else %}
+                <div class="absolute top-0 left-0 z-[2] flex items-center justify-center w-full h-full bg-slate-100 dark:bg-slate-800 text-slate-300 dark:text-slate-400 border border-slate-200 dark:border-slate-500">
+                    {{ icon('video', 38) }}
+                </div>
+            {% endif %}
+
+            {% if formation.isScheduled %}
+                <div class="formation__overlay-icon">
+                    <div class="formation__countdown">
+                        <em>Disponible dans</em>
+                        <strong>{{ formation.publishedAt|countdown }} </strong>
+                    </div>
+                </div>
+            {% elseif formation.premium and (not app.user or not app.user.premium) %}
+                <div class="formation__overlay-icon">
+                    {{ icon('crown', 28) }}
+                </div>
+            {% endif %}
+
+            {% if watchlist is defined %}
+                {% for watch in watchlist %}
+                    {% if watch.content.id == formation.id %}
+                        <div class="formation__progress {{ watch.ratio == 1 ? 'is-completed' : '' }}"><span style="--progress: {{ watch.ratio }}"></span></div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+
+            <div class="formation__duration">
+                {{ icon('clock') }}
+                {{ formation.duration|duration }}
+            </div>
         </div>
-        <h2 class="formation__title">
-            <a href="{{ path('app_formation_show', {slug: formation.slug}) }}"
-               class="formation__link">
-                {{ formation.title }}
-            </a>
-        </h2>
-        <div class="formation__description">
-            <p>
-                {% if formation.short %}
-                    {{ formation.short | truncate(130) | raw }}
-                {% endif %}
-            </p>
+    </a>
+
+    <div class="px-2 py-1">
+
+
+        <div class="formation__info">
+            <div>
+                <img class="formation__author__avatar" src="{{ formation.author | avatar }}" alt="{{ formation.author.fullname }}">
+            </div>
+            <div class="flex-1 flex flex-col justify-center">
+                <h1 class="text-base font-medium text-slate-900 dark:text-white leading-tight line-clamp-2">{{ formation.title }}</h1>
+                <div class="text-sm text-slate-600 dark:text-slate-400 mt-1">
+                    <span>{{ formation.author.fullname }}</span>
+                    {% if not formation.isScheduled %}
+                        <span>•</span>
+                        <span>{{ formation.publishedAt | ago }}</span>
+                    {% endif %}
+                </div>
+            </div>
         </div>
+
+        {% if formation.mainTechnologies is not empty %}
+            <div class="formation__technologies">
+                {% for technology in formation.mainTechnologies %}
+                    <a href="{{ path('app_technology_show', {slug: technology.slug}) }}"
+                       title="Toutes les vidéos {{ technology.name }}"
+                       class="formation__tech">
+                        <img src="{{ uploads_path('icons/' ~ technology.image) }}" alt="{{ technology.name }}" class="w-4 h-4 object-contain">
+                        <span>{{ technology.name }}</span>
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
     </div>
-    <div class="content__progress"><span></span></div>
-    <footer class="formation__footer">
-        <div class="flex items-center gap-1">
-            {{ icon('library-big') }}
-            {{ formation.courses | length }} Chapitres
-        </div>
-        <div class="flex items-center gap-1">
-            {{ icon('clock') }}
-            {{ formation.duration | duration }}
-        </div>
-    </footer>
 </article>

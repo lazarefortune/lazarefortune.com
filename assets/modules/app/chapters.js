@@ -90,54 +90,56 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Début du drag depuis le handle (pseudo-element avant)
-    drawer.addEventListener('touchstart', (e) => {
-        const rect = drawer.getBoundingClientRect();
-        const handleX = rect.left + rect.width / 2 - 20;
-        const handleY = rect.top + 2;
-        const handleWidth = 40;
-        const handleHeight = 20;
+    if (drawer) {
+        // Début du drag depuis le handle (pseudo-element avant)
+        drawer.addEventListener('touchstart', (e) => {
+            const rect = drawer.getBoundingClientRect();
+            const handleX = rect.left + rect.width / 2 - 20;
+            const handleY = rect.top + 2;
+            const handleWidth = 40;
+            const handleHeight = 20;
 
-        const touch = e.touches[0];
-        const x = touch.clientX;
-        const y = touch.clientY;
+            const touch = e.touches[0];
+            const x = touch.clientX;
+            const y = touch.clientY;
 
-        // Vérifie si le toucher est sur la zone du handle
-        const isOnHandle = (x >= handleX && x <= handleX + handleWidth && y >= handleY && y <= handleY + handleHeight);
-        if (isOnHandle) {
-            dragging = true;
-            startY = y;
-            drawer.style.transition = 'none';
-        }
-    }, { passive: true });
+            // Vérifie si le toucher est sur la zone du handle
+            const isOnHandle = (x >= handleX && x <= handleX + handleWidth && y >= handleY && y <= handleY + handleHeight);
+            if (isOnHandle) {
+                dragging = true;
+                startY = y;
+                drawer.style.transition = 'none';
+            }
+        }, { passive: true });
 
-    // Pendant le drag
-    drawer.addEventListener('touchmove', (e) => {
-        if (!dragging) return;
-        const touch = e.touches[0];
-        currentY = touch.clientY;
-        let deltaY = currentY - startY;
+        // Pendant le drag
+        drawer.addEventListener('touchmove', (e) => {
+            if (!dragging) return;
+            const touch = e.touches[0];
+            currentY = touch.clientY;
+            let deltaY = currentY - startY;
 
-        if (deltaY > 0) {
-            deltaY = Math.min(deltaY, 200);
-            drawer.style.transform = `translateY(${deltaY}px)`;
-        }
-    }, { passive: true });
+            if (deltaY > 0) {
+                deltaY = Math.min(deltaY, 200);
+                drawer.style.transform = `translateY(${deltaY}px)`;
+            }
+        }, { passive: true });
 
-    // Fin du drag
-    drawer.addEventListener('touchend', () => {
-        if (!dragging) return;
-        dragging = false;
+        // Fin du drag
+        drawer.addEventListener('touchend', () => {
+            if (!dragging) return;
+            dragging = false;
 
-        let deltaY = currentY - startY;
-        drawer.style.transition = 'transform 0.3s ease';
+            let deltaY = currentY - startY;
+            drawer.style.transition = 'transform 0.3s ease';
 
-        if (deltaY > 100) {
-            // Si assez tiré vers le bas, on ferme
-            closeDrawer();
-        } else {
-            // Sinon, on remet le drawer en place
-            drawer.style.transform = `translateY(0)`;
-        }
-    }, { passive: true });
+            if (deltaY > 100) {
+                // Si assez tiré vers le bas, on ferme
+                closeDrawer();
+            } else {
+                // Sinon, on remet le drawer en place
+                drawer.style.transform = `translateY(0)`;
+            }
+        }, { passive: true });
+    }
 });

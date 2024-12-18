@@ -15,7 +15,7 @@
 }
 
 .course {
-  @apply relative flex w-full flex-col rounded border border-slate-200 bg-white text-base dark:bg-[#22244d] dark:border-[#2a2e5e]/50;
+  @apply relative bg-transparent rounded;
 }
 
 .course__body {
@@ -44,17 +44,17 @@
 }
 
 .course__title a {
-  @apply text-base font-medium text-slate-900 transition duration-300 hover:text-primary-600 dark:text-white dark:hover:text-primary-400;
+  @apply text-base font-medium text-slate-900 dark:text-white leading-tight line-clamp-2;
 }
 
 .course__link {
   @apply static;
   &::after{
     content: '';
-    @apply absolute inset-0 block cursor-pointer rounded border border-transparent transition duration-300 z-[2];
+    @apply absolute inset-0 block cursor-pointer rounded border border-transparent transition duration-100 z-[2];
   }
   &:hover::after {
-    @apply border-primary-500;
+    @apply shadow shadow-slate-200 dark:shadow-primary-500;
   }
 }
 
@@ -168,6 +168,7 @@
 .course-page {
   @apply bg-white dark:bg-primary-1000 py-2;
 }
+
 .course-tabs {
   @apply relative flex w-full overflow-x-auto overflow-y-hidden border-b border-slate-200 dark:border-slate-700;
   padding-left: calc(50% - (calc(100vw - 32px * 2) / 2));
@@ -181,6 +182,7 @@
     @apply text-primary-900 border-primary-900 border-b-[3px] dark:text-primary-400 dark:border-primary-400;
   }
 }
+
 @media (min-width: 1100px) {
   .course-tabs {
     @apply hidden;
@@ -199,89 +201,18 @@
 .course__author__avatar {
   @apply w-[50px] h-[50px] rounded-full border-2 border-slate-200 dark:border-slate-700;
 }
+
 .course__author__info {
   @apply w-full ml-5;
 }
+
 .course__author__name {
   @apply text-base text-slate-500 dark:text-slate-400;
 }
 
-
-// technology
-.technology__content {
-  @apply bg-primary-50 dark:bg-primary-1000;
-  display: grid;
-  gap: 24px;
-}
-@media (min-width: 1100px) {
-  .technology__content {
-    grid-template-columns: 1fr 300px;
-  }
-}
-
-.technology__header {
-  display: grid;
-  grid-template-columns: 1fr;
-  justify-items: center;
-  min-height: 250px;
-  grid-row-gap: 24px;
-}
-
-@media (min-width: 690px) {
-  .technology__header {
-    grid-template-columns: 1fr 300px;
-  }
-}
-@media (min-width: 1000px) {
-  .technology__header {
-    grid-template-columns: 1fr 400px;
-  }
-}
-
-.technology__header__logo {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  max-width: 200px;
-  flex: none;
-  order: -1;
-}
-.technology__header__logo img {
-  width: 100%;
-  max-height: 160px;
-  object-fit: contain;
-}
-@media (min-width: 690px) {
-  .technology__header__logo {
-    height: 100px;
-    order: 2;
-  }
-}
-.technology__requirements {
-  @apply grid;
-
-  & > :first-child {
-    @apply border-t border-slate-200 dark:border-slate-700;
-  }
-
-  & > :not(:first-child) {
-      @apply border-t border-slate-200 dark:border-slate-700;
-  }
-
-  & > :last-child {
-      @apply border-t border-b border-slate-200 dark:border-slate-700;
-  }
-
-  .technology__requirement {
-    @apply cursor-pointer text-slate-600 dark:text-slate-300 py-4 hover:bg-primary-100 hover:text-primary-900
-    dark:hover:bg-primary-950 dark:hover:text-primary-400 hover:pl-2 transition-all duration-300;
-  }
-}
-
 .progress-delete {
-  @apply absolute block w-8 h-8 rounded -top-3 -right-3 opacity-0 z-[3] text-slate-900 cursor-pointer bg-slate-200 p-1.5
-  dark:text-white dark:bg-slate-700;
-  transition: opacity .3s;
+  @apply absolute block w-7 h-7 rounded -top-3 -right-3 opacity-100 z-[3] text-slate-900 cursor-pointer bg-slate-200 p-1.5
+  dark:text-white dark:bg-slate-700/90 transition-opacity duration-200 lg:opacity-0;
 
   .courses > *:hover & {
     opacity: 1;
@@ -292,3 +223,38 @@
     height: 100%;
   }
 }
+
+.course__overlay-icon {
+  @apply absolute inset-0 flex items-center justify-center rounded text-white bg-black/70;
+
+  .course__countdown {
+    @apply flex flex-col items-center justify-center text-4xl;
+    & > em {
+      @apply text-base not-italic;
+    }
+    & > strong {
+      @apply text-3xl font-normal;
+    }
+  }
+}
+.course__duration {
+  @apply absolute bottom-1.5 right-1.5 text-xs bg-slate-900/95 text-white rounded px-1 py-1 flex items-center gap-1;
+}
+.course__tech {
+  @apply flex items-center gap-1 text-sm px-2 py-1 z-[3] rounded bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-600 transition;
+}
+.course__info {
+  @apply text-sm text-slate-600 dark:text-slate-400 mt-1 flex flex-wrap items-center gap-2;
+}
+.course__technologies {
+  @apply flex items-center gap-1 mt-2 flex-wrap;
+}
+
+.course__progress {
+  @apply absolute mt-auto block bottom-0 rounded-b left-0 w-full bg-slate-400;
+  span {
+    width: calc(var(--progress, 0) * 100%);
+    @apply block h-1 rounded-bl bg-primary-600 dark:bg-primary-600;
+  }
+}
+
