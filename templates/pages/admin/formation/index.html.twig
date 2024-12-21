@@ -55,10 +55,12 @@
                         {{ row.technologies|join(', ') }}
                     </td>
                     <td>
-                        {% if row.online %}
-                            <span class="badge badge-success">Publié</span>
+                        {% if row.online and (row.publishedAt|date('U') <= "now"|date('U')) %}
+                            <span class="badge badge-success">En ligne</span>
+                        {% elseif row.online and (row.publishedAt|date('U') > "now"|date('U')) %}
+                            <span class="badge badge-warning">En ligne (planifié)</span>
                         {% else %}
-                            <span class="badge badge-danger">Brouillon</span>
+                            <span class="badge badge-danger">Hors ligne</span>
                         {% endif %}
                     </td>
                     <td>
