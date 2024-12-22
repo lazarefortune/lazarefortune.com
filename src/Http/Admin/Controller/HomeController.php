@@ -69,13 +69,18 @@ class HomeController extends AbstractController
         */
 
         $youtubeSubscribersCount = 0;
-        try {
-            $youtubeSubscribersCount = $this->youtubeService->getSubscribersCount();
-        } catch ( NotFoundYoutubeAccount $exception ){
-            $this->addFlash('error', $exception->getMessage());
-        } catch ( \Exception $e ) {
-            $this->addFlash( 'error', "Impossible de charger les données depuis YouTube" );
-        }
+
+        $youtubeSubscribersCount = $cache->get('admin.youtube-subscribers-count', function (ItemInterface $item) {
+            $item->expiresAfter(3600);
+            try {
+                return $this->youtubeService->getSubscribersCount();
+            } catch (NotFoundYoutubeAccount $exception) {
+                $this->addFlash('error', $exception->getMessage());
+            } catch (\Exception $e) {
+                $this->addFlash('error', "Impossible de charger les données depuis YouTube");
+            }
+            return 0;
+        });
 
         $countUsers = $cache->get( 'admin.users-count', function ( ItemInterface $item ) {
             $item->expiresAfter( 3600 );

@@ -14,7 +14,6 @@ class EmailTestForm extends AbstractType
             'attr' => [
                 'class' => 'form-input',
                 'autocomplete' => 'off',
-                'placeholder' => 'Email',
             ]
         ]);
     }
