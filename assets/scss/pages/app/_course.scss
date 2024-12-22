@@ -47,6 +47,10 @@
   @apply text-base font-medium text-slate-900 dark:text-white leading-tight line-clamp-2;
 }
 
+.course__image {
+  @apply w-full h-full object-cover rounded;
+}
+
 .course__link {
   @apply static;
   &::after{
@@ -54,7 +58,10 @@
     @apply absolute inset-0 block cursor-pointer rounded border border-transparent transition duration-100 z-[2];
   }
   &:hover::after {
-    @apply shadow shadow-slate-200 dark:shadow-primary-500;
+    @apply shadow shadow-slate-200 dark:shadow-primary-500 transition-all duration-200;
+  }
+  &:hover .course__image {
+    @apply transition transform scale-105 -rotate-2 ease-in-out duration-200;
   }
 }
 
