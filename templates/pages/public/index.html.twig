@@ -47,7 +47,14 @@
                     {% endif %}
                 {% endfor %}
             </div>
+            {% if latest_content|length == 8 %}
+                <div class="flex justify-center w-full mt-10">
+                    <a href="{{ path('app_course_index') }}" class="btn btn-primary">Voir plus de vidéos</a>
+                </div>
+            {% endif %}
         </section>
+
+        <div class="border-t border-gray-200 dark:border-gray-800 mt-16"></div>
 
         <!-- About Me Section -->
         <section class="mt-20 reveal">
@@ -80,6 +87,8 @@
                 </div>
             </div>
         </section>
+
+        <div class="border-t border-gray-200 dark:border-gray-800 mt-16"></div>
 
         <!-- Community Section -->
         {% if not app.user %}

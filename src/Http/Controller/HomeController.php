@@ -43,19 +43,19 @@ class HomeController extends AbstractController
             $excluded = array_map( fn ( Progress $progress ) => $progress->getContent()->getId(), $watchlist );
 
             $content = $this->em->getRepository( Content::class )
-                ->findLatest( 14, $user->isPremium() )
+                ->findLatest( 8, $user->isPremium() )
                 ->andWhere( 'c INSTANCE OF ' . Course::class . ' OR c INSTANCE OF ' . Formation::class );
             if ( !empty( $excluded ) ) {
                 $content = $content->andWhere( 'c.id NOT IN (:ids)' )->setParameter( 'ids', $excluded );
             }
 
-            return $this->render( 'pages/public/indexOld.html.twig' , [
+            return $this->render( 'pages/public/index-logged.html.twig' , [
                 'latest_content' => $content,
                 'watchlist' => $watchlist,
             ]);
         } else {
             $content = $this->em->getRepository( Content::class )
-                ->findLatest( 14, false )
+                ->findLatest( 8, false )
                 ->andWhere( 'c INSTANCE OF ' . Course::class . ' OR c INSTANCE OF ' . Formation::class );
 
             return $this->render( 'pages/public/index.html.twig' , [

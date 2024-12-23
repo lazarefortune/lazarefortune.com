@@ -1,0 +1,34 @@
+include:
+  - templates.yaml
+
+App\Domain\Auth\Core\Entity\User:
+  user{1..5} (extends user):
+  director (extends user):
+    fullname: Director
+    email: director@lazarefortune.com
+  admin (extends user):
+    fullname: LazareFortune
+    email: admin@lazarefortune.com
+
+App\Domain\Course\Entity\Course:
+  course{1..100} (extends course):
+
+App\Domain\Course\Entity\Formation:
+  formation{1..5} (extends formation):
+
+App\Domain\Course\Entity\Technology:
+  technology{1..5} (extends technology):
+
+App\Domain\Course\Entity\TechnologyUsage:
+  technology_usage_course{1..100}:
+    version: <numberBetween(100, 5000)>
+    technology: '@technology<numberBetween(1, 5)>'
+    content: '@course<current()>'
+  technology_usage_formation{1..5}:
+    version: <numberBetween(100, 5000)>
+    technology: '@technology<numberBetween(1, 5)>'
+    content: '@formation<current()>'
+
+App\Domain\Comment\Entity\Comment:
+  comment{1..50} (extends comment):
+

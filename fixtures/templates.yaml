@@ -1,0 +1,53 @@
+App\Domain\Course\Entity\Course:
+  course (template):
+    title: <sentence(3, true)>
+    slug: <slug()>
+    content: <text(1500)>
+    created_at: <dateTimeImmutableThisYear()>
+    updated_at: <dateTimeImmutableThisYear()>
+    published_at: <dateTimeImmutableThisYear()>
+    online: true
+    duration: <numberBetween(100, 5000)>
+    youtube_id: 7UURBqlUUUk
+    video_path: video/<numberBetween(100, 5000)>.mp4
+    source: '50%? 1: 0'
+    premium: '10%? 1: 0'
+    author: '@user1'
+
+App\Domain\Course\Entity\Formation:
+  formation (template):
+    title: <sentence(5, true)>
+    slug: <slug()>
+    content: <text(500)>
+    created_at: <dateTimeImmutableThisYear()>
+    updated_at: <dateTimeImmutableThisYear()>
+    published_at: <dateTimeImmutableThisYear()>
+    short: <sentence(15, true)>
+    youtube_playlist: xwKmkuBxUdI
+    author: '@user1'
+    online: true
+
+App\Domain\Course\Entity\Technology:
+  technology (template):
+    name: <words(1, true)>
+    slug: <slug()>
+    content: <sentence(45)>
+    image: <randomElement(['symfony', 'react', 'javascript' ])>.svg
+    updated_at: <dateTimeImmutableThisYear()>
+
+App\Domain\Auth\Core\Entity\User:
+  user (template):
+    fullname: John<current()>
+    email: john<current()>\@doe.fr
+    password: <password('0000')>
+    cgu: true
+    createdAt: <dateTimeImmutableThisYear()>
+
+App\Domain\Comment\Entity\Comment:
+  comment (template):
+    username: john<numberBetween(0, 1000)>
+    createdAt: <dateTimeImmutableThisYear()>
+    content: <sentence(100)>
+    parent: '20%? @comment*'
+    author: '@user*'
+    target: '@course*'

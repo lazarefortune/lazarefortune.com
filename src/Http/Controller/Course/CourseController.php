@@ -31,7 +31,7 @@ class CourseController extends AbstractController
         $query = $this->courseService->getCourseList();
         $page = $request->query->getInt('page', 1);
 
-        $courses = $paginator->paginate( $query->setMaxResults(10)->getQuery() );
+        $courses = $paginator->paginate( $query->setMaxResults(12)->getQuery() );
 
         /** @var User $user */
         if (null !== $user = $this->getUser()) {
