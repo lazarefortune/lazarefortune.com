@@ -175,7 +175,7 @@
                                            href="{{ path('app_technology_show', {slug: technology.slug}) }}">
                                             {{ technology.name }}
                                             {% if technology.version %}
-                                                <span class="badge badge-primary">{{ technology.version }}</span>
+                                                <span class="text-muted">v{{ technology.version }}</span>
                                             {% endif %}
                                         </a>
                                         {% if not loop.last %}

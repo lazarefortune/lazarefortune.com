@@ -27,7 +27,7 @@
         </nav-tabs>
     {% endif %}
 
-    <div class="container-box pt-6 pb-24 technology__content">
+    <div class="container-box pt-6 pb-24 {% if technology.requirements is not empty %}technology__content{% endif %}">
         <div class="order-2 md:order-1">
             {% if isEmpty %}
                 <div class="max-w-xl">
@@ -38,8 +38,8 @@
             {% else %}
                 <section id="formations">
                     {% if formations is not empty %}
-                        <h2 class="h3 mb-4">Playlists disponibles pour {{ technology.name }}</h2>
-                        <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
+                        <h2 class="h3 mb-6">Playlists disponibles pour {{ technology.name }}</h2>
+                        <div class="{% if technology.requirements is not empty %}grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3{% else %}formations{% endif %}">
                             {% for formation in formations %}
                                 {% include 'pages/public/formations/_formation_item.html.twig' with { 'formation': formation } %}
                             {% endfor %}
@@ -49,8 +49,8 @@
 
                 <section id="tutoriels" {% if formations is not empty and not showTabs %} class="pt-16" {% endif %}>
                     {% if courses is not empty %}
-                        <h2 class="h3 mb-4">Découvrez {{ technology.name }} à travers ces vidéos</h2>
-                        <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
+                        <h2 class="h3 mb-6">Découvrez {{ technology.name }} à travers ces vidéos</h2>
+                        <div class="{% if technology.requirements is not empty %}grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3{% else %}courses{% endif %}">
                             {% for course in courses %}
                                 {% include 'pages/public/courses/_course_item.html.twig' with { 'course': course } %}
                             {% endfor %}
@@ -61,8 +61,8 @@
                 </section>
             {% endif %}
         </div>
+        {% if technology.requirements is not empty %}
         <div class="stack order-1 md:order-2">
-            {% if technology.requirements is not empty %}
                 <section class="stack">
                     <h2 class="h3">Prérequis</h2>
                     <p class="text-muted">
@@ -77,8 +77,8 @@
                         {% endfor %}
                     </div>
                 </section>
-            {% endif %}
         </div>
+        {% endif %}
     </div>
 
 {% endblock %}

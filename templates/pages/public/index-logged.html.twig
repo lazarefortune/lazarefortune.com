@@ -80,8 +80,7 @@
                             </div>
                             <div class="ml-3">
                                 <p class="font-medium">Sessions live en petit groupe</p>
-                                <p class="text-muted">Participez à des sessions interactives et posez vos questions en
-                                    direct.</p>
+                                <p class="text-muted">Participez à des sessions interactives et posez vos questions en direct.</p>
                             </div>
                         </li>
                         <li class="flex items-start">
@@ -92,8 +91,7 @@
                             </div>
                             <div class="ml-3">
                                 <p class="font-medium">Accès au code source</p>
-                                <p class="text-muted">Téléchargez les ressources et codes des tutoriels pour mieux les
-                                    comprendre.</p>
+                                <p class="text-muted">Téléchargez les ressources et codes des tutoriels pour mieux les comprendre.</p>
                             </div>
                         </li>
                         <li class="flex items-start">
@@ -104,8 +102,7 @@
                             </div>
                             <div class="ml-3">
                                 <p class="font-medium">Suivi de progression</p>
-                                <p class="text-muted">Suivez vos progrès et reprenez vos cours là où vous les avez
-                                    laissés.</p>
+                                <p class="text-muted">Suivez vos progrès et reprenez vos cours là où vous les avez laissés.</p>
                             </div>
                         </li>
                         <li class="flex items-start">
@@ -130,7 +127,7 @@
         </section>
     {% endif %}
 
-    <!-- Section "Besoin d'aide" avec du texte condensé -->
+    <!-- Section "Besoin d'aide" -->
     <section class="container-box py-20 bg-white-soft dark:bg-primary-1000">
         <div class="stack">
             <h2 class="h2 text-center reveal">Besoin d'<span class="text-lead">aide</span> ?</h2>
@@ -160,6 +157,51 @@
                         Me contacter
                     </a>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section "Contribuer" -->
+    <section class="container-box py-20 bg-white dark:bg-primary-950 reveal" data-delay=".4">
+        <div class="stack max-w-3xl mx-auto text-center">
+            <h2 class="h2 mb-4">
+                Vous souhaitez <span class="text-lead">contribuer</span> ?
+            </h2>
+            <p class="text-muted">
+                Aidez-moi à faire évoluer cette plateforme en rejoignant le développement sur GitHub
+                ou en devenant auteur pour partager vos propres contenus.
+            </p>
+        </div>
+
+        <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Contribuer au développement -->
+            <div class="card card-padding flex flex-col items-center text-center bg-white-soft dark:bg-primary-1000 shadow-sm">
+                <span class="text-primary-600 dark:text-primary-400">{{ icon('github', '48') }}</span>
+                <h3 class="h4 text-lead mb-3 mt-4">Contribuez au code</h3>
+                <p class="text-muted mb-4">
+                    Partagez vos idées, résolvez des problèmes et participez activement
+                    au développement via GitHub.
+                </p>
+                <a href="https://github.com/lazarefortune/lazarefortune.com"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="btn btn-primary">
+                    Accéder au GitHub
+                </a>
+            </div>
+
+            <!-- Devenir auteur -->
+            <div class="card card-padding flex flex-col items-center text-center bg-white-soft dark:bg-primary-1000 shadow-sm">
+                <span class="text-orange-600 dark:text-orange-400">{{ icon('pen', '48') }}</span>
+                <h3 class="h4 text-lead mb-3 mt-4">Devenez auteur</h3>
+                <p class="text-muted mb-4">
+                    Publiez vos propres articles, tutoriels ou vidéos.
+                    Partagez vos connaissances avec la communauté et faites grandir la plateforme.
+                </p>
+                <a href="{{ path('app_contact') }}"
+                   class="btn btn-primary">
+                    Contactez-moi
+                </a>
             </div>
         </div>
     </section>
