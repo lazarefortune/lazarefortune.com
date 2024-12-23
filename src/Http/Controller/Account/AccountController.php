@@ -12,6 +12,7 @@ use App\Domain\Auth\Core\Form\UpdatePasswordForm;
 use App\Domain\Auth\Core\Service\AccountService;
 use App\Domain\Auth\Core\Service\DeleteAccountService;
 use App\Domain\Auth\Core\Service\EmailChangeService;
+use App\Domain\Badge\BadgeService;
 use App\Domain\History\Service\HistoryService;
 use App\Http\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,6 +34,7 @@ class AccountController extends AbstractController
         private readonly DeleteAccountService        $deleteAccountService,
         private readonly UserPasswordHasherInterface $passwordHasher,
         private readonly HistoryService              $historyService,
+        private readonly BadgeService                $badgeService
     )
     {
     }
@@ -109,8 +111,13 @@ class AccountController extends AbstractController
 
         $watchlist = $this->historyService->getLastWatchedContent($user);
 
+        $badges = $this->badgeService->getBadges();
+        $unlocks = $this->badgeService->getUnlocksForUser($this->getUserOrThrow());
+
         return $this->render( 'pages/public/account/index.html.twig', [
             'watchlist' => $watchlist,
+            'badges' => $badges,
+            'unlocks' => $unlocks,
             'formProfile' => $formProfile->createView(),
             'formEmail'   => $formEmail->createView(),
             'formPassword' => $formPassword->createView(),

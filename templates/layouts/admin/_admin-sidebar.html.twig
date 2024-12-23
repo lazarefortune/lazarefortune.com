@@ -59,12 +59,9 @@
                 </a>
             </li>
             <li class="sidebar__nav-item">
-                <a href="{{ path('admin_quiz_index') }}" class="sidebar__nav-link {{ menu_active('admin_quiz_') }} sidebar__nav-feature">
+                <a href="{{ path('admin_quiz_index') }}" class="sidebar__nav-link {{ menu_active('admin_quiz_') }}">
                     {{ icon('message-circle-question' ) }}
                     <span>Quiz</span>
-                    <span class="sidebar__nav-feature__icon">
-                        {{ icon('award' ) }}
-                    </span>
                 </a>
             </li>
         </ul>
@@ -73,6 +70,15 @@
         {% if is_granted('ROLE_SUPER_ADMIN') %}
         <div class="sidebar__nav-title">Divers</div>
         <ul class="sidebar__nav-list">
+            <li class="sidebar__nav-item">
+                <a href="{{ path('admin_badge_index') }}" class="sidebar__nav-link {{ menu_active('admin_badge') }} sidebar__nav-feature">
+                    {{ icon('award') }}
+                    <span>Badges</span>
+                    <span class="sidebar__nav-feature__icon">
+                        {{ icon('award' ) }}
+                    </span>
+                </a>
+            </li>
             <li class="sidebar__nav-item">
                 <a href="{{ path('admin_option_index') }}" class="sidebar__nav-link {{ menu_active('admin_option_') }}">
                     {{ icon('list') }}

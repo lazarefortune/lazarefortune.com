@@ -1,0 +1,72 @@
+{% extends 'layouts/admin/base.html.twig' %}
+
+{% block title %}
+    Gestion des badges
+{% endblock %}
+
+{% block body %}
+
+    <div class="dashboard-page-header">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li>
+                    <a href="{{ path('admin_home') }}">
+                        <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                             fill="currentColor" viewBox="0 0 20 20">
+                            <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"></path>
+                        </svg>
+                        Accueil
+                    </a>
+                </li>
+                {{ icon('chevron-right') }}
+                <li>
+                    <span>Badges</span>
+                </li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="dashboard-page-table-button">
+        <a href="{{ path(prefix ~ '_new') }}">
+            {{ icon('plus') }}
+            Ajouter
+        </a>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="table">
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Action</th>
+            <th>Compteur</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in rows %}
+            {% set link = path(prefix ~ '_edit', {id: row.id}) %}
+            <tr>
+                <td>
+                    <a href="{{ link }}">{{ row.name }}</a>
+                </td>
+                <td>{{ row.action }}</td>
+                <td>{{ row.actionCount }}</td>
+                <td>
+                    <a href="{{ path(prefix ~ '_edit', {id: row.id}) }}" class="btn-icon">
+                        {{ icon('pencil') }}
+                    </a>
+                    <ajax-delete class="btn-icon"
+                                 target="tr"
+                                 url="{{ path(prefix ~ '_delete', {id: row.id}) }}">
+                        {{ icon('trash') }}
+                    </ajax-delete>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+    {{ paginate(rows) }}
+{% endblock %}

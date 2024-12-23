@@ -1,0 +1,47 @@
+{{ form_start(form, {attr: {class: 'stacked'}}) }}
+
+<section class="stack-large">
+
+    <section>
+        <h2 class="h2">Personnalisation du badge</h2>
+
+        <div class="stack-large">
+            <div class="grid2">
+                {{ form_row(form.name) }}
+                {{ form_row(form.theme) }}
+            </div>
+            {{ form_row(form.description) }}
+            {{ form_row(form.unlockable, {label: 'Badge débloquable'}) }}
+            <div class="grid2">
+                {{ form_row(form.imageFile) }}
+                {% if entity.image %}
+                    <div class="flex flex-col justify-stretch gap-2">
+                        <label class="required">Aperçu du badge</label>
+                        <div class="center">
+                            <div class="badge-icon badge-icon-{{ entity.theme }}">
+                                {% if entity.image %}
+                                    {{ image(entity) }}
+                                {% else %}
+                                    <span class="uppercase font-bold">
+                                      {{ entity.name|slice(0,1) }}
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="grid2">
+                {{ form_row(form.action, {label: 'Action à réaliser'}) }}
+                {{ form_row(form.actionCount, {label: 'Nombre d\'actions à réaliser'}) }}
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <button type="submit" class="btn btn-primary">Sauvegarder</button>
+    </section>
+
+</section>
+
+{{ form_end(form) }}

@@ -1,0 +1,96 @@
+.badge-icon {
+  @apply relative inline-flex items-center justify-center
+  rounded-full text-white overflow-hidden
+  w-24 h-24 shadow-md p-1
+  transform transition-transform duration-200 ease-out
+  dark:text-gray-100;
+
+  /*
+    On définit un container 3D :
+    - preserve-3d : pour conserver l'effet 3D sur l'élément
+    - perspective() sur le parent ou sur l'élément lui-même
+  */
+  transform-style: preserve-3d;
+  perspective: 600px;
+
+  /*
+    Halo léger autour du badge
+    On utilise RGBA qui s'adapte mieux en dark mode + un halo plus neutre
+  */
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+  @apply dark:shadow-[0_0_12px_rgba(0,0,0,0.8)];
+
+  /* Effet de "lumière" radiale derrière le badge */
+  &::before {
+    content: '';
+    @apply absolute inset-0 rounded-full pointer-events-none z-[-1];
+    @apply bg-gradient-to-b from-white to-transparent opacity-30;
+    /*
+      Pour le dark mode, on peut changer le dégradé :
+      - from-gray-700 (ou 800) to-transparent, par ex.
+    */
+    @apply dark:from-gray-800 dark:to-transparent dark:opacity-40;
+  }
+
+  /* Effet de survol : zoom + halo renforcé + rotation 3D */
+  &:hover {
+    @apply cursor-pointer;
+    transform: perspective(600px) rotateX(8deg) rotateY(8deg) scale(1.08);
+
+    box-shadow: 0 0 24px rgba(255, 255, 255, 0.6);
+    @apply dark:shadow-[0_0_24px_rgba(0,0,0,0.9)];
+
+    &::before {
+      @apply opacity-50;
+    }
+  }
+
+  /* Image à l'intérieur du badge (occuper tout l'espace en cercle) */
+  img {
+    @apply w-full h-full rounded-full object-cover;
+    /*
+      On peut ajouter un léger "reflet" en pseudo-élément
+      si on veut accentuer l'aspect 3D, mais c'est facultatif.
+    */
+  }
+
+  /* Thèmes colorés (arrière-plan du badge)
+     + ajustement pour le dark mode */
+  &-grey {
+    @apply bg-gray-400 dark:bg-gray-600;
+  }
+  &-blue {
+    @apply bg-blue-600 dark:bg-blue-500;
+  }
+  &-red {
+    @apply bg-red-600 dark:bg-red-500;
+  }
+  &-green {
+    @apply bg-green-600 dark:bg-green-500;
+  }
+  &-orange {
+    @apply bg-orange-600 dark:bg-orange-500;
+  }
+
+  /* Style "verrouillé" / "placeholder" */
+  &.badge-locked {
+    @apply relative opacity-50 grayscale cursor-not-allowed;
+
+    &::after {
+      content: '🔒';
+      @apply absolute text-2xl;
+      @apply top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+    }
+    /*
+      En mode survol, on pourrait désactiver l'effet 3D / zoom
+      si le badge est verrouillé.
+    */
+    &:hover {
+      transform: none;
+      box-shadow: none;
+      &::before {
+        @apply opacity-30;
+      }
+    }
+  }
+}

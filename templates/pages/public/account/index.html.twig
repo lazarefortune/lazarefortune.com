@@ -38,6 +38,10 @@
             {{ icon('history') }}
             Historique
         </a>
+        <a href="#badges" data-tab-id="badges">
+            {{ icon('award') }}
+            Badges
+        </a>
     </nav-tabs>
 
     <div class="container-box pt-5 pb-10 stack-large bg-slate-50 dark:bg-primary-1000 grid grid-cols-1 gap-4">
@@ -232,6 +236,23 @@
                         </div>
                     </section>
                 {% endif %}
+            </div>
+        </div>
+
+        <div id="badges" class="col-span-full">
+            <div class="stack">
+                <h3 class="h3">Mes badges</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    {% for badge in badges %}
+                        <div class="flex flex-col items-center justify-stretch gap-2">
+                            <div class="badge-icon badge-icon-{{ badge.theme }} {% if unlocks[badge.id] is not defined %}badge-locked{% endif %}">
+                                {{ image(badge) }}
+                            </div>
+                            <div class="text-big bold text-center {% if unlocks[badge.id] is not defined %}text-muted{% endif %}">{{ badge.name }}</div>
+                            <div class="text-muted text-center">{{ badge.description }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
