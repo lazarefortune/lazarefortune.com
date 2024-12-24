@@ -52,6 +52,9 @@ class BadgeUnlockSubscriber implements EventSubscriberInterface
             return;
         }
         $this->service->unlock($user, 'years', (int) $user->getCreatedAt()->diff(new \DateTimeImmutable())->format('%y'));
+
+        $daysCount = (int) $user->getCreatedAt()->diff(new \DateTimeImmutable())->format('%a');
+        $this->service->unlock($user, 'days', $daysCount);
     }
 
 }
