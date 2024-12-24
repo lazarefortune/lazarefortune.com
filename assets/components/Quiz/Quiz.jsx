@@ -326,24 +326,45 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
     // Liste des quiz
     return (
         <div className="mt-10 flex flex-col items-center justify-start">
-            <div className="w-full max-w-2xl">
-                <h2 className="text-2xl font-medium text-center mb-4 text-gray-700 dark:text-gray-200">Prêt à tester vos connaissances ?</h2>
-                <div className="space-y-4">
+            <div className="w-full max-w-2xl px-4">
+                <h2 className="text-2xl font-semibold text-center mb-6 text-gray-700 dark:text-gray-200">
+                    Prêt à tester vos connaissances ?
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     {quizzes.map((quiz) => {
                         const isCompleted = completedQuizzes.includes(quiz.id);
+
                         return (
                             <div
                                 key={quiz.id}
-                                className={`p-4 border dark:border-slate-700 rounded shadow flex flex-col lg:flex-row gap-2 items-center justify-between transition-all duration-300
-                                    ${isCompleted ? 'bg-gray-100 dark:bg-gray-800 opacity-50 cursor-not-allowed' : 'bg-white dark:bg-slate-900 hover:shadow-lg'}
+                                className={`
+                                relative rounded border dark:border-slate-700 p-5
+                                shadow-sm hover:shadow-md transition-shadow duration-300
+                                hover:shadow-slate-200 hover:dark:shadow-primary-900
+                                flex flex-col gap-3
+                                ${
+                                    isCompleted
+                                        ? 'bg-gray-100 dark:bg-primary-950 opacity-70 cursor-not-allowed border border-green-500 dark:border-green-500'
+                                        : 'bg-white dark:bg-primary-950'
+                                    }
                                 `}
                             >
-                                <div className="flex items-center whitespace-normal break-words max-w-[350px] text-gray-800 dark:text-gray-200">
-                                    {isCompleted && <Check className="w-6 h-6 text-green-500 mr-2" />}
-                                    <span className="text-lg font-medium text-center lg:text-left">
-                                        {quiz.title}
+                                {isCompleted && (
+                                    <span className="absolute top-3 right-3 text-green-500">
+                                      <Check className="w-6 h-6"/>
                                     </span>
-                                </div>
+                                )}
+
+                                <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 line-clamp-2">
+                                    {quiz.title}
+                                </h3>
+
+                                {quiz.description && (
+                                    <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-3">
+                                        {quiz.description}
+                                    </p>
+                                )}
+
                                 {!isCompleted && (
                                     <button
                                         onClick={() => startQuiz(quiz)}
