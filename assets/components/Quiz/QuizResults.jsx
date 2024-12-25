@@ -39,62 +39,86 @@ const QuizResults = ({
                         (answer) => answer.questionIndex === index
                     );
                     const userSelectedAnswers = userAnswer?.selected || [];
+                    // Indique si la question est globalement “réussie” ou “ratée” (pour un badge)
+                    const questionIsCorrect = userAnswer?.isCorrect ?? false;
 
                     // Pour les lettres (A, B, C…)
-                    const letters = [
-                        'A', 'B', 'C', 'D', 'E', 'F',
-                        'G', 'H', 'I', 'J', 'K', 'L'
-                    ];
+                    const letters = ['A','B','C','D','E','F','G','H','I','J','K','L'];
 
                     return (
                         <div
                             key={index}
                             className="p-4 rounded bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-left"
                         >
-                            <p className="text-lg font-medium mb-3 text-gray-800 dark:text-gray-100">
-                                {question.text}
-                            </p>
+                            {/* En-tête de la question + badge (Bonne / Mauvaise réponse) */}
+                            <div className="flex items-start sm:items-center sm:justify-between flex-col sm:flex-row mb-3 gap-2">
+                                <p className="text-lg font-medium text-gray-800 dark:text-gray-100">
+                                    {question.text}
+                                </p>
+                                {userAnswer && (
+                                    <span
+                                        className={
+                                            `px-2 py-1 text-sm font-semibold rounded-md border-2 ${
+                                                questionIsCorrect
+                                                    ? 'text-green-700 dark:text-green-200 bg-green-100 dark:bg-green-900 border-green-600'
+                                                    : 'text-red-700 dark:text-red-200 bg-red-100 dark:bg-red-900 border-red-600'
+                                            }`
+                                        }
+                                    >
+                                        {questionIsCorrect ? 'Bonne réponse' : 'Mauvaise réponse'}
+                                    </span>
+                                )}
+                            </div>
+
                             <div className="space-y-2">
                                 {question.answers.map((answer, answerIdx) => {
                                     const isUserSelected = userSelectedAnswers.includes(answer.id);
                                     const isCorrect = answer.isCorrect;
 
-                                    let answerClasses = "flex items-start gap-2 p-2 rounded border-2 ";
+                                    // Conteneur principal de la réponse
+                                    let answerWrapperClasses =
+                                        "flex items-start gap-2 p-3 rounded-md border-2 transition-all duration-300";
+
+                                    // Carré de la lettre (A, B, C…)
+                                    let letterBlockClasses =
+                                        "flex items-center justify-center w-8 h-8 border-2 rounded-tl rounded-tr rounded-bl shrink-0 text-sm font-semibold";
+
+                                    // Logique pour colorer la réponse
                                     if (isCorrect) {
-                                        answerClasses +=
-                                            "border-green-600 bg-green-50 dark:bg-green-900 text-green-700 dark:text-green-200";
-                                    } else if (isUserSelected && !isCorrect) {
-                                        answerClasses +=
-                                            "border-red-600 bg-red-50 dark:bg-red-900 text-red-700 dark:text-red-200";
+                                        // Bonne réponse
+                                        answerWrapperClasses +=
+                                            " border-green-600 bg-green-50 dark:bg-green-900 text-green-700 dark:text-green-200";
+                                        letterBlockClasses +=
+                                            " border-green-600 bg-green-100 dark:bg-green-800 text-green-700 dark:text-green-200";
+                                    } else if (isUserSelected) {
+                                        // Mauvaise réponse sélectionnée
+                                        answerWrapperClasses +=
+                                            " border-red-600 bg-red-50 dark:bg-red-900 text-red-700 dark:text-red-200";
+                                        letterBlockClasses +=
+                                            " border-red-600 bg-red-100 dark:bg-red-800 text-red-700 dark:text-red-200";
                                     } else {
-                                        answerClasses +=
-                                            "border-gray-300 dark:border-slate-600 bg-gray-100 dark:bg-slate-700 text-gray-800 dark:text-gray-200";
+                                        // Ni correct ni sélectionné => neutre
+                                        answerWrapperClasses +=
+                                            " border-gray-300 dark:border-slate-600 bg-gray-100 dark:bg-slate-700 text-gray-800 dark:text-gray-200";
+                                        letterBlockClasses +=
+                                            " border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-200";
                                     }
 
                                     return (
-                                        <div key={answer.id} className={answerClasses}>
-                                            {/* Icône ou espace */}
-                                            <div className="mt-1">
-                                                {isCorrect ? (
-                                                    <CheckCircle className="w-5 h-5 flex-shrink-0" />
-                                                ) : isUserSelected ? (
-                                                    <XCircle className="w-5 h-5 flex-shrink-0" />
-                                                ) : (
-                                                    <div className="w-5 h-5 flex-shrink-0"></div>
-                                                )}
+                                        <div key={answer.id} className={answerWrapperClasses}>
+                                            {/* Bloc lettre (A, B, C…) */}
+                                            <div className={letterBlockClasses}>
+                                                {letters[answerIdx]}
                                             </div>
-                                            {/* Étiquette (A, B, ...) + texte */}
-                                            <div className="flex flex-col sm:flex-row gap-2 flex-1">
-                                                <span className="font-bold">
-                                                    {letters[answerIdx]}
-                                                </span>
-                                                <span className="break-words">
-                                                    {answer.text}
-                                                </span>
+
+                                            {/* Texte de la réponse */}
+                                            <div className="break-words flex-1">
+                                                {answer.text}
                                             </div>
                                         </div>
                                     );
                                 })}
+
                                 {userSelectedAnswers.length === 0 && (
                                     <div className="text-sm text-gray-500 dark:text-gray-400 italic">
                                         Aucune réponse sélectionnée
