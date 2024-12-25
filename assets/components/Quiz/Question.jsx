@@ -47,7 +47,7 @@ const Question = ({
     const totalTime = currentQuestion?.timeLimit || 15;
     const timeRatio = timeLeft / totalTime;
 
-    let strokeColor = 'stroke-blue-500';
+    let strokeColor = 'stroke-primary-500';
     if (timeRatio <= 0.2) {
         strokeColor = 'stroke-red-500';
     } else if (timeRatio <= 0.4) {
@@ -86,7 +86,7 @@ const Question = ({
                 </div>
                 <div className="w-full bg-gray-200 rounded h-2 dark:bg-gray-700 transition-all">
                     <div
-                        className="bg-blue-600 h-2 rounded transition-all duration-500"
+                        className="bg-primary-600 h-2 rounded transition-all duration-500"
                         style={{ width: `${progressPercentage}%` }}
                     />
                 </div>
@@ -145,12 +145,12 @@ const Question = ({
                         // Pas encore soumis
                         if (isSelected) {
                             // Sélectionné (mais pas encore validé)
-                            wrapperClasses += ' border-blue-600';
+                            wrapperClasses += ' border-primary-600';
                             letterBlockClasses +=
-                                ' border-blue-600 bg-blue-100 dark:bg-blue-800 text-blue-700 dark:text-blue-100';
+                                ' border-primary-600 bg-primary-100 dark:bg-primary-800 text-primary-700 dark:text-primary-100';
                         } else {
                             // Non sélectionné
-                            wrapperClasses += ' border-gray-300 dark:border-slate-700 hover:border-blue-600';
+                            wrapperClasses += ' border-gray-300 dark:border-slate-700 hover:border-primary-600';
                             letterBlockClasses +=
                                 ' border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200';
                         }
@@ -254,7 +254,7 @@ const Question = ({
                         disabled={selectedAnswers.length === 0}
                         aria-label="Soumettre la réponse"
                     >
-                        Soumettre
+                        Valider
                     </button>
                 ) : (
                     <button
