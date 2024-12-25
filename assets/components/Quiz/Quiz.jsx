@@ -34,13 +34,17 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                         setQuizzes(null);
                         return null;
                     } else {
-                        throw new Error('Une erreur est survenue lors de la récupération des quiz.');
+                        throw new Error(
+                            "Une erreur est survenue lors de la récupération des quiz."
+                        );
                     }
                 })
                 .then((data) => {
                     if (data) {
                         const quizzesData = Array.isArray(data) ? data : [data];
-                        const sortedQuizzes = quizzesData.sort((a, b) => a.title.localeCompare(b.title));
+                        const sortedQuizzes = quizzesData.sort((a, b) =>
+                            a.title.localeCompare(b.title)
+                        );
                         setQuizzes(sortedQuizzes);
                     }
                 })
@@ -50,16 +54,20 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                 });
 
             if (!isUserLoggedIn) {
-                const storedCompletedQuizzes = JSON.parse(localStorage.getItem('completedQuizzes')) || [];
+                const storedCompletedQuizzes =
+                    JSON.parse(localStorage.getItem("completedQuizzes")) || [];
                 setCompletedQuizzes(storedCompletedQuizzes);
             } else {
-                fetch('/api/quiz/user/completed-quizzes')
-                    .then(response => response.json())
-                    .then(data => {
+                fetch("/api/quiz/user/completed-quizzes")
+                    .then((response) => response.json())
+                    .then((data) => {
                         setCompletedQuizzes(data.completedQuizIds);
                     })
-                    .catch(error => {
-                        console.error('Erreur lors de la récupération des quizzes complétés :', error);
+                    .catch((error) => {
+                        console.error(
+                            "Erreur lors de la récupération des quizzes complétés :",
+                            error
+                        );
                     });
             }
         }
@@ -79,15 +87,15 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
         const handleBeforeUnload = (e) => {
             if (isQuizStarted && !quizFinished) {
                 e.preventDefault();
-                e.returnValue = '';
-                return '';
+                e.returnValue = "";
+                return "";
             }
         };
 
-        window.addEventListener('beforeunload', handleBeforeUnload);
+        window.addEventListener("beforeunload", handleBeforeUnload);
 
         return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
+            window.removeEventListener("beforeunload", handleBeforeUnload);
         };
     }, [isQuizStarted, quizFinished]);
 
@@ -108,19 +116,18 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
         const initialTimeLimit = quiz.questions[0]?.timeLimit || 15;
         setTimeLeft(initialTimeLimit);
 
-        document.body.style.overflow = 'hidden';
+        document.body.style.overflow = "hidden";
     };
 
     const closeQuiz = () => {
         setShowResults(false);
         setCurrentQuiz(null);
         setQuizFinished(false);
-        document.body.style.overflow = '';
+        document.body.style.overflow = "";
     };
 
     const handleAnswerSelection = (answerId) => {
         if (answerSubmitted) return; // Pas de changement après soumission
-
         const currentQuestion = currentQuiz.questions[currentQuestionIndex];
         const isMultipleChoice = currentQuestion.type === "multiple_choice";
 
@@ -141,10 +148,13 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
     const handleSubmitAnswer = () => {
         setIsLoading(true);
         const currentQuestion = currentQuiz.questions[currentQuestionIndex];
-        const correctAnswers = currentQuestion.answers.filter(a => a.isCorrect).map(a => a.id);
+        const correctAnswers = currentQuestion.answers
+            .filter((a) => a.isCorrect)
+            .map((a) => a.id);
 
-        const isCorrect = correctAnswers.length === selectedAnswers.length &&
-            correctAnswers.every(id => selectedAnswers.includes(id));
+        const isCorrect =
+            correctAnswers.length === selectedAnswers.length &&
+            correctAnswers.every((id) => selectedAnswers.includes(id));
 
         if (isCorrect) {
             setScore((prevScore) => prevScore + 1);
@@ -156,8 +166,8 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                 questionIndex: currentQuestionIndex,
                 selected: selectedAnswers,
                 isCorrect,
-                correctAnswers,
-            },
+                correctAnswers
+            }
         ]);
 
         setShowImmediateFeedback(true);
@@ -174,7 +184,8 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
         if (currentQuestionIndex < currentQuiz.questions.length - 1) {
             const nextQuestionIndex = currentQuestionIndex + 1;
             setCurrentQuestionIndex(nextQuestionIndex);
-            const nextTimeLimit = currentQuiz.questions[nextQuestionIndex]?.timeLimit || 15;
+            const nextTimeLimit =
+                currentQuiz.questions[nextQuestionIndex]?.timeLimit || 15;
             setTimeLeft(nextTimeLimit);
             setSelectedAnswers([]);
         } else {
@@ -192,9 +203,9 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                 selected: [],
                 isCorrect: false,
                 correctAnswers: currentQuiz.questions[currentQuestionIndex].answers
-                    .filter(a => a.isCorrect)
-                    .map(a => a.id),
-            },
+                    .filter((a) => a.isCorrect)
+                    .map((a) => a.id)
+            }
         ]);
         handleNextQuestion();
     };
@@ -202,60 +213,72 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
     const submitScore = () => {
         if (isUserLoggedIn) {
             fetch(`/api/quiz/${currentQuiz.id}/submit`, {
-                method: 'POST',
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ score }),
+                body: JSON.stringify({ score })
             })
-                .then(response => response.json())
+                .then((response) => response.json())
                 .then(() => {
-                    setCompletedQuizzes(prev => [...prev, currentQuiz.id]);
-                    alert('Score soumis avec succès !');
+                    setCompletedQuizzes((prev) => [...prev, currentQuiz.id]);
+                    alert("Score soumis avec succès !");
                     closeQuiz();
                 })
-                .catch(error => {
-                    console.error('Erreur lors de la soumission du score :', error);
+                .catch((error) => {
+                    console.error("Erreur lors de la soumission du score :", error);
                 });
         } else {
-            alert('Veuillez vous connecter pour soumettre votre score.');
+            alert("Veuillez vous connecter pour soumettre votre score.");
         }
     };
 
     const completeQuizWithoutSubmitting = () => {
         if (isUserLoggedIn) {
             fetch(`/api/quiz/${currentQuiz.id}/complete`, {
-                method: 'POST',
+                method: "POST"
             })
-                .then(response => response.json())
+                .then((response) => response.json())
                 .then(() => {
-                    setCompletedQuizzes(prev => [...prev, currentQuiz.id]);
+                    setCompletedQuizzes((prev) => [...prev, currentQuiz.id]);
                     closeQuiz();
                 })
-                .catch(error => {
-                    console.error('Erreur lors du marquage du quiz comme complété :', error);
+                .catch((error) => {
+                    console.error(
+                        "Erreur lors du marquage du quiz comme complété :",
+                        error
+                    );
                 });
         } else {
-            const storedCompletedQuizzes = JSON.parse(localStorage.getItem('completedQuizzes')) || [];
+            const storedCompletedQuizzes =
+                JSON.parse(localStorage.getItem("completedQuizzes")) || [];
             const updatedCompletedQuizzes = [...storedCompletedQuizzes, currentQuiz.id];
-            localStorage.setItem('completedQuizzes', JSON.stringify(updatedCompletedQuizzes));
+            localStorage.setItem(
+                "completedQuizzes",
+                JSON.stringify(updatedCompletedQuizzes)
+            );
             setCompletedQuizzes(updatedCompletedQuizzes);
             closeQuiz();
         }
     };
 
     const redirectToSignup = () => {
-        window.location.href = '/inscription';
+        window.location.href = "/inscription";
     };
 
     if (quizzes === undefined) {
-        return <p className="text-center text-gray-500 mt-10">Chargement des quiz...</p>;
+        return (
+            <p className="text-center text-gray-500 mt-10">
+                Chargement des quiz...
+            </p>
+        );
     }
 
     if (quizzes === null || quizzes.length === 0) {
         return null;
     }
 
+    // Affichage du quiz en cours
     if (currentQuiz) {
         if (quizFinished) {
             return (
@@ -274,7 +297,9 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                             />
                         ) : (
                             <div className="text-center">
-                                <p className="text-lg font-medium mb-4 text-gray-800 dark:text-gray-200">Merci d'avoir participé au quiz !</p>
+                                <p className="text-lg font-medium mb-4 text-gray-800 dark:text-gray-200">
+                                    Merci d'avoir participé au quiz !
+                                </p>
                                 <button
                                     onClick={closeQuiz}
                                     className="px-4 py-2 font-semibold rounded bg-gray-200 dark:bg-slate-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-slate-600 transition-colors"
@@ -298,7 +323,9 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                     {isLoading ? (
                         <div className="flex flex-col items-center">
                             <Loader className="w-12 h-12 animate-spin text-primary-500 dark:text-primary-300 mb-4" />
-                            <p className="text-lg font-medium text-gray-800 dark:text-gray-200">Chargement...</p>
+                            <p className="text-lg font-medium text-gray-800 dark:text-gray-200">
+                                Chargement...
+                            </p>
                         </div>
                     ) : (
                         <Question
@@ -313,7 +340,9 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                             score={score}
                             isCorrectFeedback={isCorrectFeedback}
                             showImmediateFeedback={showImmediateFeedback}
-                            isMultipleChoice={currentQuestion.type === "multiple_choice"}
+                            isMultipleChoice={
+                                currentQuestion.type === "multiple_choice"
+                            }
                             handleNextQuestion={handleNextQuestion}
                             answerSubmitted={answerSubmitted}
                         />
@@ -330,7 +359,13 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                 <h2 className="text-2xl font-semibold text-center mb-6 text-gray-700 dark:text-gray-200">
                     Prêt à tester vos connaissances ?
                 </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div
+                    className={`grid ${
+                        quizzes.length === 1
+                            ? 'grid-cols-1'
+                            : 'grid-cols-1 sm:grid-cols-2'
+                    } gap-5`}
+                >
                     {quizzes.map((quiz) => {
                         const isCompleted = completedQuizzes.includes(quiz.id);
 
@@ -338,41 +373,44 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                             <div
                                 key={quiz.id}
                                 className={`
-                                relative rounded border dark:border-slate-700 p-5
-                                shadow-sm hover:shadow-md transition-shadow duration-300
-                                hover:shadow-slate-200 hover:dark:shadow-primary-900
-                                flex flex-col gap-3
-                                ${
+                                    flex flex-col h-full relative rounded border dark:border-slate-700 p-5
+                                    shadow-sm hover:shadow-md transition-shadow duration-300
+                                    hover:shadow-slate-200 hover:dark:shadow-primary-900
+                                    ${
                                     isCompleted
                                         ? 'bg-gray-100 dark:bg-primary-950 opacity-70 cursor-not-allowed border border-green-500 dark:border-green-500'
                                         : 'bg-white dark:bg-primary-950'
-                                    }
+                                }
                                 `}
                             >
                                 {isCompleted && (
                                     <span className="absolute top-3 right-3 text-green-500">
-                                      <Check className="w-6 h-6"/>
+                                        <Check className="w-6 h-6" />
                                     </span>
                                 )}
 
-                                <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 line-clamp-2">
-                                    {quiz.title}
-                                </h3>
+                                <div className="flex-grow">
+                                    <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2 line-clamp-2">
+                                        {quiz.title}
+                                    </h3>
 
-                                {quiz.description && (
-                                    <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-3">
-                                        {quiz.description}
-                                    </p>
-                                )}
+                                    {quiz.description && (
+                                        <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
+                                            {quiz.description}
+                                        </p>
+                                    )}
+                                </div>
 
                                 {!isCompleted && (
-                                    <button
-                                        onClick={() => startQuiz(quiz)}
-                                        className="btn btn-primary"
-                                        aria-label={`Commencer le quiz ${quiz.title}`}
-                                    >
-                                        Commencer
-                                    </button>
+                                    <div className="mt-auto pt-2">
+                                        <button
+                                            onClick={() => startQuiz(quiz)}
+                                            className="btn btn-primary w-full"
+                                            aria-label={`Commencer le quiz ${quiz.title}`}
+                                        >
+                                            Commencer
+                                        </button>
+                                    </div>
                                 )}
                             </div>
                         );

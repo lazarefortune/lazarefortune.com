@@ -8,10 +8,14 @@ function formatTime(totalSeconds) {
 
     if (hours > 0) {
         // Format HH:MM:SS
-        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        return `${hours.toString().padStart(2, '0')}:${minutes
+            .toString()
+            .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     } else {
         // Format MM:SS
-        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        return `${minutes.toString().padStart(2, '0')}:${seconds
+            .toString()
+            .padStart(2, '0')}`;
     }
 }
 
@@ -40,7 +44,6 @@ const Question = ({
     }, [currentQuestionIndex]);
 
     const progressPercentage = ((currentQuestionIndex + 1) / questionCount) * 100;
-
     const totalTime = currentQuestion?.timeLimit || 15;
     const timeRatio = timeLeft / totalTime;
 
@@ -51,10 +54,9 @@ const Question = ({
         strokeColor = "stroke-orange-500";
     }
 
-    // On agrandit légèrement le cercle
     const radius = 45;
     const circumference = 2 * Math.PI * radius;
-    const offset = circumference - (timeRatio * circumference);
+    const offset = circumference - timeRatio * circumference;
 
     const QuestionIcon = isMultipleChoice ? ListChecks : CircleDot;
 
@@ -67,12 +69,20 @@ const Question = ({
         ? "Vous pouvez sélectionner plusieurs réponses."
         : "Sélectionnez une réponse.";
 
+    // Pour afficher des lettres (A, B, C, …)
+    const letters = [
+        'A', 'B', 'C', 'D', 'E', 'F',
+        'G', 'H', 'I', 'J', 'K', 'L'
+    ];
+
     return (
         <div>
             {/* Barre de progression du quiz */}
             <div className="mb-6">
                 <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Progression</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Progression
+                    </span>
                     <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                         {currentQuestionIndex + 1}/{questionCount}
                     </span>
@@ -80,7 +90,7 @@ const Question = ({
                 <div className="w-full bg-gray-200 rounded h-2 dark:bg-gray-700 transition-all">
                     <div
                         className="bg-blue-600 h-2 rounded transition-all duration-500"
-                        style={{width: `${progressPercentage}%`}}
+                        style={{ width: `${progressPercentage}%` }}
                     />
                 </div>
             </div>
@@ -97,43 +107,46 @@ const Question = ({
             {/* Icône type de question et instructions */}
             <div className="flex items-center gap-2 mb-4">
                 <QuestionIcon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
-                <span className="text-sm text-gray-600 dark:text-gray-400">{instructionText}</span>
+                <span className="text-sm text-gray-600 dark:text-gray-400">
+                    {instructionText}
+                </span>
             </div>
 
             {/* Réponses */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                {currentQuestion.answers.map((answer) => {
+                {currentQuestion.answers.map((answer, index) => {
                     const isSelected = selectedAnswers.includes(answer.id);
+                    const isDisabled = answerSubmitted || timeLeft === 0;
 
-                    let answerClasses = `
-                        w-full p-3 flex items-center justify-center text-center rounded shadow 
-                        whitespace-normal break-words transition-all duration-300
-                        border border-slate-200 dark:border-slate-700 cursor-pointer
-                    `;
+                    // Détermine les classes en fonction de l'état
+                    let answerClasses =
+                        "flex items-center border rounded p-3 transition-all duration-300 relative cursor-pointer";
 
                     if (answerSubmitted) {
                         if (answer.isCorrect) {
-                            answerClasses += " bg-green-100 text-green-700 dark:bg-green-800 dark:text-green-200";
+                            // Bonne réponse
+                            answerClasses += " border-green-600";
                         } else if (isSelected && !answer.isCorrect) {
-                            answerClasses += " bg-red-100 text-red-700 dark:bg-red-800 dark:text-red-200";
+                            // Mauvaise réponse sélectionnée
+                            answerClasses += " border-red-600";
                         } else {
-                            answerClasses += " bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200";
+                            answerClasses += " border-gray-300 dark:border-slate-700";
                         }
                     } else {
+                        // Pas encore soumis
                         if (isSelected) {
-                            answerClasses += " bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100";
+                            answerClasses += " border-blue-600";
                         } else {
-                            answerClasses += " bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-blue-900";
+                            answerClasses +=
+                                " border-gray-300 dark:border-slate-700 hover:border-blue-600";
                         }
                     }
-
-                    const isDisabled = answerSubmitted || timeLeft === 0;
 
                     return (
                         <div
                             key={answer.id}
                             onClick={() => !isDisabled && handleAnswerSelection(answer.id)}
-                            className={answerClasses + " rounded"}
+                            className={answerClasses}
                             role="button"
                             tabIndex={0}
                             aria-label={`Réponse : ${answer.text}`}
@@ -143,7 +156,14 @@ const Question = ({
                                 }
                             }}
                         >
-                            {answer.text}
+                            {/* Étiquette (A, B, C…) */}
+                            <div className="mr-3 px-2 py-1 border-r border-gray-300 dark:border-slate-500 text-sm font-bold text-gray-700 dark:text-gray-200">
+                                {letters[index]}
+                            </div>
+                            {/* Texte de la réponse */}
+                            <div className="break-words text-gray-800 dark:text-gray-200">
+                                {answer.text}
+                            </div>
                         </div>
                     );
                 })}
@@ -151,10 +171,12 @@ const Question = ({
 
             {/* Bloc bas : timer + score + actions */}
             <div className="flex flex-col lg:flex-row items-center justify-between gap-4 mt-6">
-
                 {/* Timer circulaire */}
                 <div className="relative flex items-center justify-center w-16 h-16">
-                    <svg className="transform -rotate-90 absolute w-full h-full" viewBox="0 0 100 100">
+                    <svg
+                        className="transform -rotate-90 absolute w-full h-full"
+                        viewBox="0 0 100 100"
+                    >
                         <circle
                             cx="50"
                             cy="50"
@@ -180,7 +202,11 @@ const Question = ({
 
             {/* Feedback après soumission */}
             {answerSubmitted && (
-                <p className={`text-center text-lg font-bold mt-6 ${isCorrectFeedback ? 'text-green-600' : 'text-red-600'}`}>
+                <p
+                    className={`text-center text-lg font-bold mt-6 ${
+                        isCorrectFeedback ? 'text-green-600' : 'text-red-600'
+                    }`}
+                >
                     {feedbackMessage}
                 </p>
             )}
