@@ -66,8 +66,8 @@ const Question = ({
     }
 
     const instructionText = isMultipleChoice
-        ? 'Vous pouvez sélectionner plusieurs réponses.'
-        : 'Sélectionnez une réponse.';
+        ? 'Plusieurs réponses attendues.'
+        : 'Sélectionnez une seule réponse.';
 
     // Pour afficher des lettres (A, B, C, …)
     const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P'];
@@ -78,7 +78,7 @@ const Question = ({
             <div className="mb-6">
                 <div className="flex items-center justify-between mb-2">
           <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-            Progression
+            Question
           </span>
                     <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
             {currentQuestionIndex + 1}/{questionCount}
@@ -102,12 +102,16 @@ const Question = ({
             </p>
 
             {/* Icône type de question et instructions */}
-            <div className="flex items-center gap-2 mb-4">
-                <QuestionIcon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
-                <span className="text-sm text-gray-600 dark:text-gray-400">
-          {instructionText}
-        </span>
+            {isMultipleChoice && (
+            <div className="mb-4">
+                <div className="inline-flex items-center gap-2 border-2 px-2 py-1 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-md">
+                    <QuestionIcon className="w-5 h-5 text-slate-700 dark:text-slate-300" />
+                    <span className="text-sm text-slate-900 dark:text-slate-200">
+                      {instructionText}
+                    </span>
+                </div>
             </div>
+            )}
 
             {/* Réponses */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
@@ -117,11 +121,11 @@ const Question = ({
 
                     // BORDURE autour de la réponse complète
                     let wrapperClasses =
-                        'flex items-center border-2 rounded p-3 transition-all duration-300 relative cursor-pointer';
+                        'flex items-center border-2 rounded-md p-3 transition-all duration-300 relative cursor-pointer';
 
                     // Carré de la lettre (A, B, C…) - on va le personnaliser
                     let letterBlockClasses =
-                        'mr-3 px-2 py-1 border-2 rounded-tl rounded-tr rounded-bl';
+                        'mr-3 px-2 py-1 border-2 rounded-tl-md rounded-tr-md rounded-bl-md';
 
                     // Couleurs après soumission
                     if (answerSubmitted) {
@@ -175,7 +179,7 @@ const Question = ({
                                 {letters[index]}
                             </div>
                             {/* Texte de la réponse */}
-                            <div className="break-words text-gray-800 dark:text-gray-200">
+                            <div className="break-words text-slate-800 dark:text-slate-200">
                                 {answer.text}
                             </div>
                         </div>
@@ -195,23 +199,18 @@ const Question = ({
                             cx="50"
                             cy="50"
                             r={radius}
-                            strokeWidth="10"
+                            strokeWidth="5"
                             strokeDasharray={circumference}
                             strokeDashoffset={offset}
                             className={`transition-all duration-500 ${strokeColor}`}
                             fill="transparent"
                         />
                     </svg>
-                    <div className="flex flex-col items-center justify-center z-10 text-gray-800 dark:text-gray-200">
+                    <div className="flex flex-col items-center justify-center z-10 text-slate-900 dark:text-slate-200">
                         <Timer className="w-4 h-4 mb-1" />
-                        <span className="text-xs font-bold">{formatTime(timeLeft)}</span>
+                        <span className="text-sm font-medium">{formatTime(timeLeft)}</span>
                     </div>
                 </div>
-
-                {/* Score */}
-                <p className="text-lg font-medium text-gray-700 dark:text-gray-300">
-                    Score : {score}/{questionCount}
-                </p>
             </div>
 
             {/* Feedback après soumission */}

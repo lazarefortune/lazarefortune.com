@@ -30,7 +30,7 @@ select {
 
 /* Textarea */
 .form-textarea {
-  @apply block w-full appearance-none rounded border text-base text-slate-900 shadow-sm placeholder-slate-400 border-slate-200 bg-slate-50;
+  @apply block w-full appearance-none rounded-md border text-base text-slate-900 shadow-sm placeholder-slate-400 border-slate-200 bg-slate-50;
   @apply dark:bg-primary-950 dark:text-white dark:border-slate-700 dark:placeholder-slate-500;
   &__noresize {
     @apply resize-none;
@@ -38,13 +38,13 @@ select {
 }
 
 .form-select {
-    @apply rounded border text-base text-slate-900 dark:text-slate-950 border-slate-300 dark:border-slate-700 bg-white dark:bg-primary-950;
+    @apply rounded-md border text-base text-slate-900 dark:text-slate-950 border-slate-300 dark:border-slate-700 bg-white dark:bg-primary-950;
     @apply dark:bg-primary-950 dark:text-white dark:ring-slate-700 dark:placeholder-gray-400 dark:focus:ring-primary-600;
 }
 
 /* Checkbox and radio */
 .form-checkbox {
-  @apply h-5 w-5 cursor-pointer rounded border border-zinc-300 bg-zinc-50 text-primary-600 hover:bg-zinc-100 focus:ring-primary-800 focus:ring-1;
+  @apply h-5 w-5 cursor-pointer rounded-md border border-zinc-300 bg-zinc-50 text-primary-600 hover:bg-zinc-100 focus:ring-primary-800 focus:ring-1;
   @apply dark:bg-transparent dark:border-slate-700 dark:text-white dark:focus:ring-primary-800 dark:focus:ring-offset-0 dark:focus:bg-transparent dark:focus:ring-1 dark:hover:bg-transparent dark:hover:border-primary-500;
 }
 

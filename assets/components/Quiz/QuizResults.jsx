@@ -58,7 +58,7 @@ const QuizResults = ({
                                 {userAnswer && (
                                     <span
                                         className={
-                                            `px-2 py-1 text-sm font-semibold rounded-md border-2 ${
+                                            `min-w-40 text-center px-2 py-1 text-sm font-semibold rounded-md border-2 ${
                                                 questionIsCorrect
                                                     ? 'text-green-700 dark:text-green-200 bg-green-100 dark:bg-green-900 border-green-600'
                                                     : 'text-red-700 dark:text-red-200 bg-red-100 dark:bg-red-900 border-red-600'

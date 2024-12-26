@@ -164,6 +164,7 @@ module.exports = {
             'hanken-grotesk': ['Hanken Grotesk'],
             'fira-sans': ['Fira Sans'],
             'jetbrains-mono': ['JetBrains Mono'],
+            'overpass': ['Overpass'],
         }
     },
     plugins: [

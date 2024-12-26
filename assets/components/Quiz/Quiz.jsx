@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Loader, Check } from "lucide-react";
+import { Loader, Check, Clock } from "lucide-react";
 import QuizResults from "./QuizResults";
 import Question from "./Question";
 
@@ -34,9 +34,7 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                         setQuizzes(null);
                         return null;
                     } else {
-                        throw new Error(
-                            "Une erreur est survenue lors de la récupération des quiz."
-                        );
+                        throw new Error("Une erreur est survenue lors de la récupération des quiz.");
                     }
                 })
                 .then((data) => {
@@ -64,10 +62,7 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                         setCompletedQuizzes(data.completedQuizIds);
                     })
                     .catch((error) => {
-                        console.error(
-                            "Erreur lors de la récupération des quizzes complétés :",
-                            error
-                        );
+                        console.error("Erreur lors de la récupération des quizzes complétés :", error);
                     });
             }
         }
@@ -93,7 +88,6 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
         };
 
         window.addEventListener("beforeunload", handleBeforeUnload);
-
         return () => {
             window.removeEventListener("beforeunload", handleBeforeUnload);
         };
@@ -244,10 +238,7 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                     closeQuiz();
                 })
                 .catch((error) => {
-                    console.error(
-                        "Erreur lors du marquage du quiz comme complété :",
-                        error
-                    );
+                    console.error("Erreur lors du marquage du quiz comme complété :", error);
                 });
         } else {
             const storedCompletedQuizzes =
@@ -282,8 +273,8 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
     if (currentQuiz) {
         if (quizFinished) {
             return (
-                <div className="fixed inset-0 z-50 bg-white dark:bg-slate-900 p-4 overflow-auto">
-                    <div className="w-full max-w-3xl mx-auto py-6 px-6 border border-slate-200 dark:border-slate-800 shadow-lg rounded bg-white dark:bg-slate-900">
+                <div className="fixed inset-0 z-50 bg-white dark:bg-primary-950 p-4 overflow-auto">
+                    <div className="w-full max-w-3xl mx-auto py-6 px-6 border border-slate-200 dark:border-slate-800 shadow-lg rounded-md bg-white dark:bg-primary-950">
                         {showResults ? (
                             <QuizResults
                                 currentQuiz={currentQuiz}
@@ -302,7 +293,7 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                 </p>
                                 <button
                                     onClick={closeQuiz}
-                                    className="px-4 py-2 font-semibold rounded bg-gray-200 dark:bg-slate-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-slate-600 transition-colors"
+                                    className="btn btn-light"
                                     aria-label="Retour à la liste des quiz"
                                 >
                                     Retour à la liste des quiz
@@ -318,8 +309,8 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
         const questionCount = currentQuiz.questions.length;
 
         return (
-            <div className="fixed inset-0 z-50 bg-white dark:bg-slate-900 p-4 overflow-auto">
-                <div className="w-full max-w-3xl mx-auto py-6 px-6 border border-slate-200 dark:border-slate-800 shadow-lg rounded bg-white dark:bg-slate-900">
+            <div className="fixed inset-0 z-50 bg-white dark:bg-primary-950 p-4 overflow-auto">
+                <div className="w-full max-w-3xl mx-auto py-6 px-6 border border-slate-200 dark:border-slate-800 shadow-lg rounded bg-white dark:bg-primary-950">
                     {isLoading ? (
                         <div className="flex flex-col items-center">
                             <Loader className="w-12 h-12 animate-spin text-primary-500 dark:text-primary-300 mb-4" />
@@ -340,9 +331,7 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                             score={score}
                             isCorrectFeedback={isCorrectFeedback}
                             showImmediateFeedback={showImmediateFeedback}
-                            isMultipleChoice={
-                                currentQuestion.type === "multiple_choice"
-                            }
+                            isMultipleChoice={currentQuestion.type === "multiple_choice"}
                             handleNextQuestion={handleNextQuestion}
                             answerSubmitted={answerSubmitted}
                         />
@@ -352,66 +341,93 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
         );
     }
 
-    // Liste des quiz
+    // -----------------------
+    // LISTE DES QUIZ
+    // -----------------------
     return (
-        <div className="mt-10 flex flex-col items-center justify-start">
-            <div className="w-full max-w-2xl px-4">
-                <h2 className="text-2xl font-semibold text-center mb-6 text-gray-700 dark:text-gray-200">
-                    Prêt à tester vos connaissances ?
+        <div className="my-8 flex flex-col items-center justify-start">
+            {/* Titre et intro */}
+            <div className="w-full px-4 text-center mb-6">
+                <h2 className="text-2xl sm:text-3xl font-medium mb-2">
+                    Prêt à tester vos connaissances&nbsp;?
                 </h2>
+                <p className="text-base text-gray-600 dark:text-gray-300">
+                    Explorez ces quiz et mettez vos compétences à l’épreuve.
+                </p>
+            </div>
+
+            <div className="w-full max-w-4xl px-4">
                 <div
                     className={`grid ${
                         quizzes.length === 1
-                            ? 'grid-cols-1'
-                            : 'grid-cols-1 sm:grid-cols-2'
+                            ? "grid-cols-1"
+                            : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
                     } gap-5`}
                 >
                     {quizzes.map((quiz) => {
                         const isCompleted = completedQuizzes.includes(quiz.id);
 
+                        const questionCount = quiz.questions?.length || 0;
+                        const totalTimeSeconds = quiz.questions?.reduce(
+                            (acc, q) => acc + (q.timeLimit || 15),
+                            0
+                        ) || 0;
+                        const totalTimeMinutes = Math.ceil(totalTimeSeconds / 60);
+
                         return (
                             <div
                                 key={quiz.id}
                                 className={`
-                                    flex flex-col h-full relative rounded border dark:border-slate-700 p-5
-                                    shadow-sm hover:shadow-md transition-shadow duration-300
-                                    hover:shadow-slate-200 hover:dark:shadow-primary-900
-                                    ${
-                                    isCompleted
-                                        ? 'bg-gray-100 dark:bg-primary-950 opacity-70 cursor-not-allowed border border-green-500 dark:border-green-500'
-                                        : 'bg-white dark:bg-primary-950'
-                                }
-                                `}
+                  relative bg-white dark:bg-primary-950 
+                  rounded border border-slate-200 dark:border-slate-700
+                  p-5 transition-colors
+                  ${isCompleted ? "opacity-80" : ""}
+                `}
                             >
                                 {isCompleted && (
                                     <span className="absolute top-3 right-3 text-green-500">
-                                        <Check className="w-6 h-6" />
-                                    </span>
+                    <Check className="w-6 h-6" />
+                  </span>
                                 )}
 
-                                <div className="flex-grow">
-                                    <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2 line-clamp-2">
-                                        {quiz.title}
-                                    </h3>
+                                {/* Titre */}
+                                <h3 className="text-lg font-medium text-gray-800 dark:text-gray-100 mb-1 line-clamp-2">
+                                    {quiz.title}
+                                </h3>
 
-                                    {quiz.description && (
-                                        <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
-                                            {quiz.description}
-                                        </p>
-                                    )}
+                                {/* Description (facultative) */}
+                                {quiz.description && (
+                                    <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 line-clamp-3">
+                                        {quiz.description}
+                                    </p>
+                                )}
+
+                                {/* Infos (questions & durée) */}
+                                <div className="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400 mt-auto">
+                                    <span>{questionCount} questions</span>
+                                    <div className="w-1 h-1 bg-gray-300 dark:bg-gray-600 rounded-full" />
+                                    <div className="flex items-center gap-1">
+                                        <Clock className="w-4 h-4" />
+                                        <span>~ {totalTimeMinutes} min</span>
+                                    </div>
                                 </div>
 
-                                {!isCompleted && (
-                                    <div className="mt-auto pt-2">
+                                {/* Footer : bouton ou label */}
+                                <div className="flex justify-end mt-3">
+                                    {isCompleted ? (
+                                        <p className="inline-block px-3 py-1 text-xs font-medium rounded bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200">
+                                            Quiz complété
+                                        </p>
+                                    ) : (
                                         <button
                                             onClick={() => startQuiz(quiz)}
-                                            className="btn btn-primary w-full"
+                                            className="btn btn-primary"
                                             aria-label={`Commencer le quiz ${quiz.title}`}
                                         >
                                             Commencer
                                         </button>
-                                    </div>
-                                )}
+                                    )}
+                                </div>
                             </div>
                         );
                     })}

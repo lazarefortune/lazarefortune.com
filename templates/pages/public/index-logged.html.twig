@@ -163,11 +163,11 @@
 
     <!-- Section "Contribuer" -->
     <section class="container-box py-20 bg-white dark:bg-primary-950 reveal" data-delay=".4">
-        <div class="stack max-w-3xl mx-auto text-center">
+        <div class="max-w-3xl mx-auto text-center">
             <h2 class="h2 mb-4">
                 Vous souhaitez <span class="text-lead">contribuer</span> ?
             </h2>
-            <p class="text-muted">
+            <p class="text-slate-500 dark:text-slate-300 text-lg">
                 Aidez-moi à faire évoluer cette plateforme en rejoignant le développement sur GitHub
                 ou en devenant auteur pour partager vos propres contenus.
             </p>
@@ -175,33 +175,43 @@
 
         <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
             <!-- Contribuer au développement -->
-            <div class="card card-padding flex flex-col items-center text-center bg-white-soft dark:bg-primary-1000 shadow-sm">
-                <span class="text-primary-600 dark:text-primary-400">{{ icon('github', '48') }}</span>
-                <h3 class="h4 text-lead mb-3 mt-4">Contribuez au code</h3>
-                <p class="text-muted mb-4">
+            <div class="flex flex-col items-center text-center">
+                <div class="flex justify-center items-center bg-primary-700 text-white p-2 rounded-lg w-10 h-10">
+                    <span class="">{{ icon('github', 24) }}</span>
+                </div>
+                <h3 class="h4 mb-2 mt-4">Contribuez au code</h3>
+                <p class="text-muted mb-6">
                     Partagez vos idées, résolvez des problèmes et participez activement
                     au développement via GitHub.
                 </p>
-                <a href="https://github.com/lazarefortune/lazarefortune.com"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   class="btn btn-primary">
-                    Accéder au GitHub
-                </a>
+                <div class="mt-auto">
+                    <a href="https://github.com/lazarefortune/lazarefortune.com"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="btn-link">
+                        Accéder au GitHub
+                        <span class="ml-1">{{ icon('external-link', '16') }}</span>
+                    </a>
+                </div>
             </div>
 
             <!-- Devenir auteur -->
-            <div class="card card-padding flex flex-col items-center text-center bg-white-soft dark:bg-primary-1000 shadow-sm">
-                <span class="text-orange-600 dark:text-orange-400">{{ icon('pen', '48') }}</span>
-                <h3 class="h4 text-lead mb-3 mt-4">Devenez auteur</h3>
-                <p class="text-muted mb-4">
+            <div class="flex flex-col items-center text-center">
+                <div class="flex justify-center items-center bg-primary-700 text-white p-2 rounded-lg w-10 h-10">
+                    <span class="">{{ icon('pencil-line', 24) }}</span>
+                </div>
+                <h3 class="h4 mb-2 mt-4">Devenez auteur</h3>
+                <p class="text-muted mb-6">
                     Publiez vos propres vidéos ou playlists sur la plateforme.
                     Partagez vos connaissances avec la communauté et faites grandir la plateforme.
                 </p>
-                <a href="{{ path('app_contact') }}"
-                   class="btn btn-primary">
-                    Contactez-moi
-                </a>
+                <div class="mt-auto">
+                    <a href="{{ path('app_contact') }}"
+                       class="btn-link">
+                        Devenir auteur
+                        <span class="ml-1">{{ icon('arrow-right', '16') }}</span>
+                    </a>
+                </div>
             </div>
         </div>
     </section>
