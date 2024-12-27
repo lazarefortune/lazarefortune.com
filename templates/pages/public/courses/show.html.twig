@@ -185,13 +185,20 @@
                                 </div>
                             </div>
                             <div>
-                                <div class="flex">
-                                    <img class="course__author__avatar" src="{{ course.author | avatar }}" alt="{{ course.author.fullname }}">
-                                    <div class="course__author__info">
-                                        <strong class="h5">Auteur : </strong><br>
+                                <div class="flex flex-col">
+                                    <h4 class="mr-2 h5 mb-2">Auteur</h4>
+                                    <a class="flex items-center gap-3" href="{{ path('app_author_show', {id: course.author.id}) }}">
+                                        <img class="course__author__avatar" src="{{ course.author | avatar }}" alt="{{ course.author.fullname }}">
                                         <span title="{{ course.author.fullname }}" class="course__author__name">{{ course.author.fullname }}</span>
-                                    </div>
+                                    </a>
                                 </div>
+{#                                <div class="flex">#}
+{#                                    <img class="course__author__avatar" src="{{ course.author | avatar }}" alt="{{ course.author.fullname }}">#}
+{#                                    <div class="course__author__info">#}
+{#                                        <strong class="h5">Auteur : </strong><br>#}
+{#                                        <span title="{{ course.author.fullname }}" class="course__author__name">{{ course.author.fullname }}</span>#}
+{#                                    </div>#}
+{#                                </div>#}
                             </div>
                             {% if is_granted('ROLE_SUPER_ADMIN') %}
                                 <div>

@@ -11,18 +11,10 @@
                     <div class="md:mr-4 flex-shrink-0">
                         <div>
                             <img src="{{ user | avatar }}" alt="" class="rounded-full w-24 h-24 object-cover border-2 border-primary-900 dark:border-primary-300 p-0.5">
-                            <div class="profil-header__upload">
-                                {{ icon('cloud') }}
-                            </div>
                         </div>
                     </div>
                     <div class="text-center md:text-left">
                         <h2 class="h2">{{ user.fullname }}</h2>
-                        {#
-                        <div class="my-2">
-                            <span class="px-2 py-1 bg-orange-100 text-orange-800 dark:bg-yellow-900/50 dark:text-yellow-100 rounded-md text-sm text-center font-semibold">Auteur</span>
-                        </div>
-                        #}
                         <p class="text-muted text-sm">
                             <span>Inscrit <span class="lowercase">{{ user.createdAt | ago }}</span></span>
                         </p>
@@ -37,20 +29,12 @@
             {{ icon('history') }}
             Activité
         </a>
-        <a href="#courses" data-tab-id="courses">
-            {{ icon('list') }}
-            Cours et formations
-        </a>
     </nav-tabs>
 
     <div class="container-box pt-5 pb-10 stack-large bg-slate-50 dark:bg-primary-1000 grid grid-cols-1 gap-4">
         <div id="activity">
-            <h1 class="h2">Activité</h1>
+            <h2 class="h3">Activité</h2>
 
-        </div>
-
-        <div id="courses">
-            <h1 class="h2">Cours et formations</h1>
         </div>
     </div>
 

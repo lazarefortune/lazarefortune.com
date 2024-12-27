@@ -52,4 +52,26 @@ abstract class AbstractController extends \Symfony\Bundle\FrameworkBundle\Contro
         }
         $this->addFlash( 'error', implode( "\n", $messages ) );
     }
+
+    protected function hasRole(User $user, string $role): bool
+    {
+        $roles = $user->getRoles();
+        $roleHierarchy = [
+            'ROLE_SUPER_ADMIN' => ['ROLE_AUTHOR', 'ROLE_ADMIN', 'ROLE_ALLOWED_TO_SWITCH'],
+            'ROLE_AUTHOR' => ['ROLE_ADMIN'],
+            'ROLE_ADMIN' => ['ROLE_ALLOWED_TO_SWITCH'],
+        ];
+
+        if (in_array($role, $roles)) {
+            return true;
+        }
+
+        foreach ($roles as $userRole) {
+            if (isset($roleHierarchy[$userRole]) && in_array($role, $roleHierarchy[$userRole])) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
