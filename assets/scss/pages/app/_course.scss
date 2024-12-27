@@ -205,8 +205,12 @@
   }
 }
 
+.course__author--link {
+  @apply z-50;
+}
+
 .course__author__avatar {
-  @apply w-[50px] h-[50px] rounded-full border-2 border-slate-200 dark:border-slate-700;
+  @apply w-[50px] h-[50px] z-50 rounded-full border-2 border-slate-200 dark:border-slate-700;
 }
 
 .course__author__info {

@@ -40,9 +40,9 @@
 
 
         <div class="course__info">
-            <div>
+            <a href="{{ path('app_author_show', {id: course.author.id}) }}" class="course__author--link">
                 <img class="course__author__avatar" src="{{ course.author | avatar }}" alt="{{ course.author.fullname }}">
-            </div>
+            </a>
             <div class="flex-1 flex flex-col justify-center">
                 <h1 class="text-base font-medium text-slate-900 dark:text-white leading-tight line-clamp-2">{{ course.title }}</h1>
                 <div class="text-sm text-slate-600 dark:text-slate-400 mt-1">
