@@ -42,7 +42,7 @@ class ImageController extends AbstractController
     public function image( int $width, int $height , string $path, Request $request ) : Response
     {
         $server = ServerFactory::create([
-            'course' => $this->publicPath,
+            'source' => $this->publicPath,
             'cache' => $this->cachePath,
             'driver' => 'imagick',
             'response' => new SymfonyResponseFactory(),

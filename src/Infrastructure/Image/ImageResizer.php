@@ -25,12 +25,12 @@ class ImageResizer
             return '';
         }
         return $url;
+
         /*
         if (null === $width && null === $height) {
             $url = $this->urlGenerator->generate('app_image_jpg', ['path' => trim($url, '/')]);
-        }
-        else {
-            $url = $this->urlGenerator->generate('app_image_resizer', ['path' => trim($url, '/'), 'width' => $width, 'height' => $height]);
+        } else {
+            $url = $this->urlGenerator->generate('app_image_resize', ['path' => trim($url, '/'), 'width' => $width, 'height' => $height]);
         }
         $urlBuilder = UrlBuilderFactory::create('/', $this->signKey);
 

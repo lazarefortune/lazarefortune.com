@@ -43,9 +43,9 @@ class TwigPathExtension extends AbstractExtension
             return null;
         }
 
-        if ('jpg' !== pathinfo($path, PATHINFO_EXTENSION)) {
-            return $path;
-        }
+//        if ('jpg' !== pathinfo($path, PATHINFO_EXTENSION)) {
+//            return $path;
+//        }
 
         return $this->imageResizer->resize($this->helper->asset($entity), $width, $height);
     }
