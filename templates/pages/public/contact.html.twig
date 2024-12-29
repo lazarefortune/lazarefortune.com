@@ -1,51 +1,55 @@
 {% extends 'layouts/public/base.html.twig' %}
 
-{% block title %}Contact | Lazare Fortune - Développeur Web PHP FullStack{% endblock %}
+{% block title %}Me contacter{% endblock %}
 
-{% block meta_description %}
+{% block meta %}
     <meta name="description" content="Contactez Lazare Fortune, développeur web PHP FullStack, en remplissant ce formulaire.">
 {% endblock %}
 
 {% block body %}
 
-    <header class="page-header">
-        <div class="container-box">
-            <h1 class="h1">
+    <header class="page-header py-12">
+        <div class="container-box text-center">
+            <h1 class="h1 text-4xl font-extrabold">
                 Me <span class="text-lead">contacter</span>
             </h1>
-            <p class="text-muted">
+            <p class="text-lg mt-4">
                 Vous pouvez me contacter en remplissant le formulaire ci-dessous.
             </p>
         </div>
     </header>
 
-    <section class="container-box pb-10">
-        <div class="stack">
-
+    <section class="container-box py-16">
+        <div class="max-w-3xl mx-auto">
             {{ include('partials/flash.html.twig') }}
 
             {{ form_start(form, {
-                'attr': {'class': 'stack'},
+                'attr': {'class': 'space-y-6'},
                 'action': path('app_contact'),
                 'method': 'POST'
             }) }}
 
-            <div class="stack">
+            <div class="space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {{ form_row(form.name) }}
-                    {{ form_row(form.email) }}
+                    {{ form_row(form.name, {
+                    }) }}
+                    {{ form_row(form.email, {
+                    }) }}
                 </div>
 
-                {{ form_row(form.subject) }}
-                {{ form_row(form.message) }}
+                {{ form_row(form.subject, {
+                }) }}
+                {{ form_row(form.message, {
+                }) }}
 
-                <!-- Centrer le captcha sur mobile -->
                 <div class="flex justify-center md:justify-start">
-                    {{ form_row(form.captcha) }}
+                    {{ form_row(form.captcha, {
+                        'attr': {'class': 'border rounded-md shadow-sm'}
+                    }) }}
                 </div>
             </div>
 
-            <div class="text-end mt-4">
+            <div class="text-center md:text-left mt-8">
                 <button type="submit" class="btn btn-primary">
                     Envoyer le message
                 </button>

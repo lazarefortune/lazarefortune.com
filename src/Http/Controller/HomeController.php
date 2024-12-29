@@ -73,6 +73,12 @@ class HomeController extends AbstractController
         return $this->render( 'pages/public/country-access-denied.html.twig');
     }
 
+    #[Route( '/a-propos', name: 'about' )]
+    public function about() : Response
+    {
+        return $this->render( 'pages/public/about.html.twig');
+    }
+
     #[Route( '/ui', name: 'ui' )]
     public function ui() : Response
     {
