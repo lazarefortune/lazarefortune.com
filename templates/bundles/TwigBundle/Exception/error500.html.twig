@@ -1,19 +1,21 @@
 {% extends 'bundles/TwigBundle/Exception/base_error.html.twig' %}
 
+{% block title 'Erreur 500' %}
+
+{% block error_title 'Quelque chose s\'est mal passé' %}
+
 {% block error_image %}
     <img src="{{ asset('images/illustrations/500.svg') }}" alt="astronaut image">
 {% endblock %}
 
-{% block error_title 'Quelque chose s\'est mal passé' %}
-
 {% block error_message %}
     <div class="max-w-xl mx-auto">
-        <h1 class="text-5xl font-medium text-gray-800">Ce n'est pas toi, c'est nous</h1>
-        <p class="mt-4 text-lg text-gray-600">
+        <h1 class="text-5xl font-medium text-slate-900 dark:text-white">Ce n'est pas toi, c'est nous</h1>
+        <p class="mt-2 text-lg text-slate-600 dark:text-slate-300">
             Nous avons rencontré un problème technique. Si le problème persiste, n'hésite pas à
             <a href="{{ path('app_contact') }}">nous contacter</a>.
         </p>
-        <a href="" class="btn btn-light mt-5">
+        <a href="{{ path('app_home') }}" class="btn btn-light mt-5">
             Retourner à l'accueil
         </a>
     </div>
