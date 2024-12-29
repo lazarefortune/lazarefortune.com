@@ -8,5 +8,13 @@
 
 
 {% block error_message %}
-    Oups ! Je crois que tu n'as pas le droit d'accéder à cette page.
+    <div class="max-w-xl mx-auto">
+        <h1 class="text-5xl font-medium text-gray-800">Oups! Accès refusé</h1>
+        <p class="mt-4 text-lg text-gray-600">
+            Nous sommes désolés, mais vous n'avez pas la permission d'accéder à cette page.
+        </p>
+        <a href="" class="btn btn-light mt-5">
+            Retourner à l'accueil
+        </a>
+    </div>
 {% endblock %}

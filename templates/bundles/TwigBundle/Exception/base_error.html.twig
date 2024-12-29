@@ -1,31 +1,26 @@
 {% extends 'layouts/public/base.html.twig' %}
 
+{% block title 'Erreur' %}
+
 {% block body %}
+    <div class="container-box">
+        <main class="page-header py-6">
+            <div class="flex flex-col lg:flex-row justify-between">
+                <!-- Section Titre et Message -->
+                <div class="flex flex-col items-center lg:items-start text-center lg:text-left">
+                    <h1 class="text-xl text-lead mb-2">{% block error_title '' %}</h1>
+                    <p class="text-lg text-gray-600">
+                        {% block error_message '' %}
+                    </p>
+                </div>
 
-    <div class="flex flex-col justify-center items-center px-6 mx-auto h-screen xl:px-0 dark:bg-gray-900">
-        <div class="block md:max-w-lg">
-            {% block error_image '' %}
-        </div>
-        <div class="text-center xl:max-w-4xl">
-            <h1 class="mb-3 text-2xl font-bold leading-tight text-gray-900 sm:text-4xl lg:text-5xl dark:text-white">
-                {% block error_title '' %}
-            </h1>
-            <p class="mb-5 text-base font-normal text-gray-500 md:text-lg dark:text-gray-400">
-                {% block error_message '' %}
-            </p>
-            <div class="mt-10 flex flex-col lg:flex-row items-center justify-center gap-x-6 ">
-                <a href="{{ path('app_home') }}"
-                   class="btn btn-md btn-primary">
-                    {{ icon('arrow-left') }}
-                    Retour à l'accueil
-                </a>
-                <a href="{{ path('app_contact') }}" class="btn btn-link mt-5 lg:mt-0">
-                    Besoin d'aide ?
-                    <span aria-hidden="true">&rarr;</span>
-                </a>
+                <!-- Section Image -->
+                <div class="flex justify-center lg:justify-end w-full h-auto lg:w-72">
+                    {% block error_image %}{% endblock %}
+                </div>
             </div>
+        </main>
 
-        </div>
+        {{ render(controller('App\\Http\\Controller\\Error\\ErrorController::body')) }}
     </div>
-
 {% endblock %}

@@ -1,0 +1,8 @@
+<section class="mt-6 mb-10">
+    <h2 class="h2 mb-4">Profitons pour voir quelques vidéos</h2>
+    <div class="courses">
+        {% for course in courses %}
+            {% include 'pages/public/courses/_course_item.html.twig' %}
+        {% endfor %}
+    </div>
+</section>

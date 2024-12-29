@@ -97,4 +97,17 @@ class CourseRepository extends AbstractRepository
 
         return $queryBuilder->getQuery()->getResult();
     }
+
+    /**
+     * @return Course[]
+     */
+    public function findRandom(int $limit): array
+    {
+        return $this->createQueryBuilder('c')
+            #->orderBy('RANDOM()')
+            ->where('c.online = true')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -7,5 +7,14 @@
 {% block error_title 'Quelque chose s\'est mal passé' %}
 
 {% block error_message %}
-    C'est toujours l'heure de la pause café. On devrait être de retour quand tu auras fini ton café.
+    <div class="max-w-xl mx-auto">
+        <h1 class="text-5xl font-medium text-gray-800">Ce n'est pas toi, c'est nous</h1>
+        <p class="mt-4 text-lg text-gray-600">
+            Nous avons rencontré un problème technique. Si le problème persiste, n'hésite pas à
+            <a href="{{ path('app_contact') }}">nous contacter</a>.
+        </p>
+        <a href="" class="btn btn-light mt-5">
+            Retourner à l'accueil
+        </a>
+    </div>
 {% endblock %}
