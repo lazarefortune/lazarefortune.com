@@ -39,6 +39,21 @@
         <!-- Latest Videos Section -->
         <section class="mt-24 reveal" data-delay=".3">
             <h2 class="h2 text-center mb-6">Dernières Vidéos et Playlists</h2>
+
+            <div class="overflow-x-auto scrollbar-hide md:overflow-visible mb-6">
+                <div class="flex md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {% for content in latest_content %}
+                        {% if content.isCourse %}
+                            {% include 'pages/public/courses/_course_item.html.twig' with { course: content } %}
+                        {% elseif content.isFormation %}
+                            {% include 'pages/public/formations/_formation_item.html.twig' with { formation: content } %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+
+            {#
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {% for content in latest_content %}
                     {% if content.isCourse %}
@@ -48,6 +63,7 @@
                     {% endif %}
                 {% endfor %}
             </div>
+            #}
 
             {% if latest_content|length == 8 %}
                 <div class="flex justify-center w-full mt-10">
