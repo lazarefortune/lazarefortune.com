@@ -40,7 +40,7 @@
         <section class="mt-24 reveal" data-delay=".3">
             <h2 class="h2 text-center mb-6">Dernières Vidéos et Playlists</h2>
 
-            <div class="overflow-x-auto scrollbar-hide md:overflow-visible mb-6">
+            <div class="overflow-x-auto scrollbar-hide md:overflow-visible mb-6 py-10">
                 <div class="flex md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {% for content in latest_content %}
                         {% if content.isCourse %}
@@ -65,11 +65,9 @@
             </div>
             #}
 
-            {% if latest_content|length == 8 %}
-                <div class="flex justify-center w-full mt-10">
-                    <a href="{{ path('app_course_index') }}" class="btn btn-primary">Voir plus de vidéos</a>
-                </div>
-            {% endif %}
+            <div class="flex justify-center w-full mt-10">
+                <a href="{{ path('app_course_index') }}" class="btn btn-primary">Voir plus de vidéos</a>
+            </div>
         </section>
 
         <div class="border-t border-gray-200 dark:border-gray-800 mt-16"></div>
