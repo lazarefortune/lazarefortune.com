@@ -11,10 +11,11 @@
             width="{{ attr.width }}" height="{{ attr.height }}"
             piece-width="{{ attr.pieceWidth }}" piece-height="{{ attr.pieceHeight }}"
             src="{{ attr.src }}"
+            input-name="{{ form.answer.vars.full_name }}"
         >
-                {{ form_widget(form.challenge, {value: challenge}) }}
-                {{ form_widget(form.answer) }}
+{#                {{ form_widget(form.answer) }}#}
         </puzzle-challenge>
+        {{ form_widget(form.challenge, {value: challenge}) }}
         <div class="mt-2">
             <span class="text-sm text-muted">{{ form_help(form) }}</span>
         </div>

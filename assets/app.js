@@ -25,7 +25,6 @@ customElements.define('time-countdown', TimeCountdown)
 customElements.define('time-ago', TimeAgo)
 customElements.define('play-button', PlayButton)
 customElements.define('auto-scroll', AutoScroll, { extends: 'div' })
-customElements.define('puzzle-challenge', PuzzleCaptcha)
 customElements.define('progress-tracker', ProgressTracker)
 customElements.define('ajax-delete', AjaxDelete)
 customElements.define('loader-overlay', LoaderOverlay)
@@ -47,7 +46,6 @@ import { TimeCountdown } from "./elements/TimeCountdown";
 import { PlayButton } from "./elements/PlayButton";
 import { AutoScroll } from "./elements/AutoScroll";
 import { TimeAgo } from "./elements/TimeAgo";
-import { PuzzleCaptcha } from "./elements/Captcha";
 import { ProgressTracker } from "./elements/player/ProgressTracker";
 import { AjaxDelete } from "./elements/AjaxDelete";
 import LoaderOverlay from "./elements/LoaderOverlay";
@@ -64,6 +62,7 @@ import ReactDOM from "react-dom/client"
 import reactToWebComponent from "react-to-webcomponent"
 import Comments from "./components/Comments";
 import Quiz from "./components/Quiz/Quiz";
+import PuzzleCaptcha from "./components/Captcha";
 
 const CommentsElement = reactToWebComponent(Comments, React, ReactDOM, {
     shadow: false, // pour ne pas utiliser le Shadow DOM
@@ -75,5 +74,12 @@ const QuizElement = reactToWebComponent(Quiz, React, ReactDOM, {
     props: ['contentId', 'isUserLoggedIn']
 });
 
+const PuzzleCaptchaElement = reactToWebComponent(PuzzleCaptcha, React, ReactDOM, {
+    shadow: false,
+    props: ['width', 'height', 'pieceWidth', 'pieceHeight', 'src', 'inputName']
+});
+
+
+customElements.define('puzzle-challenge', PuzzleCaptchaElement)
 customElements.define('comments-area', CommentsElement)
 customElements.define('quiz-area', QuizElement)
