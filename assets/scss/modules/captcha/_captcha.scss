@@ -33,6 +33,10 @@
     @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10;
   }
 
+  &-loader {
+    @apply border-t-2 w-12 h-12 border-primary-600 rounded-full animate-spin;
+  }
+
   &--error {
     animation: wiggle 0.4s linear;
 

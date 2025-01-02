@@ -3,6 +3,7 @@
 namespace App\Http\Controller;
 
 use App\Domain\AntiSpam\ChallengeGenerator;
+use App\Domain\AntiSpam\Exception\TooManyTryException;
 use App\Domain\AntiSpam\Puzzle\PuzzleChallenge;
 use App\Http\DTO\CaptchaGuessDTO;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,13 +29,18 @@ class CaptchaController extends AbstractController
         #[MapRequestPayload] CaptchaGuessDTO $guess,
         PuzzleChallenge $keyService,
     ): Response {
-        $isValid = $keyService->verifyKey($guess->key, $guess->response);
-        # $isValid = $keyService->verifyKey($guess->response);
+        try {
+            $isValid = $keyService->verifyKey($guess->key, $guess->response);
 
-        if ($isValid) {
-            return new Response(null, Response::HTTP_NO_CONTENT);
+            if ($isValid) {
+                return new Response(null, Response::HTTP_NO_CONTENT);
+            }
+
+            return new Response('{}', Response::HTTP_UNPROCESSABLE_ENTITY);
+        } catch (TooManyTryException $e) {
+            // Générer une nouvelle clé si le maximum d'essais est atteint
+//            $newKey = $keyService->generateKey();
+            return new Response(json_encode(['newKey' => $e->getNewKey()]), Response::HTTP_FORBIDDEN);
         }
-
-        return new Response('{}', Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }

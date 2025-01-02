@@ -16,14 +16,21 @@ const PuzzleCaptcha = ({ src, width, height, pieceWidth, pieceHeight, answerInpu
     const [isLocked, setIsLocked] = useState(false);
     const [status, setStatus] = useState("waiting");
     const [hasMoved, setHasMoved] = useState(false);
-
-    const challengeKey = new URL(src).searchParams.get("challenge");
+    const [isLoading, setIsLoading] = useState(false);
+    const [currentSrc, setCurrentSrc] = useState(src);
+    const [challengeKey, setChallengeKey] = useState(new URL(src).searchParams.get("challenge"));
 
     const maxX = width - pieceWidth;
     const maxY = height - pieceHeight;
 
+    const updateSrcWithChallengeKey = (newKey) => {
+        const url = new URL(currentSrc);
+        url.searchParams.set("challenge", newKey);
+        setCurrentSrc(url.toString());
+    };
+
     const handlePointerDown = () => {
-        if (isLocked) return;
+        if (isLocked || isLoading) return;
         setIsDragging(true);
         setStatus("moving");
         setHasMoved(false);
@@ -50,10 +57,26 @@ const PuzzleCaptcha = ({ src, width, height, pieceWidth, pieceHeight, answerInpu
 
             setStatus("solved");
         } catch (e) {
-            setStatus("error");
-            if (e.status === HTTP_FORBIDDEN) {
-                setTimeout(() => setStatus("waiting"), 500);
+            if (e.status === HTTP_FORBIDDEN && e.data?.newKey) {
+                setStatus("error");
+                setTimeout(() => {
+                    setIsLoading(true); // Afficher le loader
+                    setStatus("waiting");
+                    const newKey = e.data.newKey;
+
+                    // Mettre à jour la clé du challenge et réinitialiser le captcha
+                    setChallengeKey(newKey);
+                    updateSrcWithChallengeKey(newKey);
+
+                    setPosition({
+                        x: randomNumberBetween(0, maxX),
+                        y: randomNumberBetween(0, maxY),
+                    });
+
+                    setTimeout(() => setIsLoading(false), 1000); // Masquer le loader après le chargement
+                }, 500); // Attendre l'animation d'échec
             } else {
+                setStatus("error");
                 setTimeout(() => setStatus("default"), 500);
             }
         }
@@ -86,13 +109,18 @@ const PuzzleCaptcha = ({ src, width, height, pieceWidth, pieceHeight, answerInpu
     }, [isDragging, position]);
 
     return (
-        <div className="w-full flex flex-col justify-center items-center">
+        <div className="w-full flex flex-col justify-center items-center relative">
+            {isLoading && (
+                <div className="absolute inset-0 flex justify-center items-center bg-white/50 dark:bg-black/50 z-10">
+                    <div className="captcha-loader"/>
+                </div>
+            )}
             <div
                 className={`captcha captcha--${status}`}
                 style={{
                     "--width": `${width}px`,
                     "--height": `${height}px`,
-                    "--image": `url(${src})`,
+                    "--image": `url(${currentSrc}`,
                     "--pieceWidth": `${pieceWidth}px`,
                     "--pieceHeight": `${pieceHeight}px`,
                 }}
@@ -107,11 +135,11 @@ const PuzzleCaptcha = ({ src, width, height, pieceWidth, pieceHeight, answerInpu
 
                 {status === "solved" && (
                     <div className="captcha-check-icon">
-                        <CheckCircle color="white" size={48}/>
+                        <CheckCircle color="white" size={48} />
                     </div>
                 )}
             </div>
-            <div className="text-sm text-slate-600 dark:text-slate-300 mtw-2">
+            <div className="text-sm text-slate-600 dark:text-slate-300 mt-2">
                 Placez la pièce du puzzle si vous n'êtes pas un robot
             </div>
 
@@ -121,9 +149,10 @@ const PuzzleCaptcha = ({ src, width, height, pieceWidth, pieceHeight, answerInpu
                 value={`${Math.round(position.x)}-${Math.round(position.y)}`}
             />
 
-            <input type="hidden"
-                   name={challengeInputName}
-                   value={challengeKey}
+            <input
+                type="hidden"
+                name={challengeInputName}
+                value={challengeKey}
             />
         </div>
     );
