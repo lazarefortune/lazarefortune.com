@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { CheckCircle } from "lucide-react";
 import { HTTP_FORBIDDEN, jsonFetch } from "../functions/api";
 
 const clamp = (n, min, max) => Math.min(Math.max(n, min), max);
@@ -6,7 +7,7 @@ const clamp = (n, min, max) => Math.min(Math.max(n, min), max);
 const randomNumberBetween = (min, max) =>
     Math.floor(Math.random() * (max - min + 1) + min);
 
-const PuzzleCaptcha = ({ src, width, height, pieceWidth, pieceHeight, inputName }) => {
+const PuzzleCaptcha = ({ src, width, height, pieceWidth, pieceHeight, answerInputName, challengeInputName }) => {
     const [position, setPosition] = useState({
         x: randomNumberBetween(0, width - pieceWidth),
         y: randomNumberBetween(0, height - pieceHeight),
@@ -14,8 +15,8 @@ const PuzzleCaptcha = ({ src, width, height, pieceWidth, pieceHeight, inputName 
     const [isDragging, setIsDragging] = useState(false);
     const [isLocked, setIsLocked] = useState(false);
     const [status, setStatus] = useState("waiting");
+    const [hasMoved, setHasMoved] = useState(false);
 
-    // Récupération de la clé challenge dans l'URL
     const challengeKey = new URL(src).searchParams.get("challenge");
 
     const maxX = width - pieceWidth;
@@ -25,6 +26,7 @@ const PuzzleCaptcha = ({ src, width, height, pieceWidth, pieceHeight, inputName 
         if (isLocked) return;
         setIsDragging(true);
         setStatus("moving");
+        setHasMoved(false);
     };
 
     const handlePointerUp = async () => {
@@ -32,8 +34,12 @@ const PuzzleCaptcha = ({ src, width, height, pieceWidth, pieceHeight, inputName 
 
         setIsDragging(false);
 
+        if (!hasMoved) {
+            setStatus("waiting");
+            return;
+        }
+
         try {
-            // Envoi de la requête à l'API pour valider la position
             await jsonFetch("/captcha/validate", {
                 method: "POST",
                 body: JSON.stringify({
@@ -44,10 +50,9 @@ const PuzzleCaptcha = ({ src, width, height, pieceWidth, pieceHeight, inputName 
 
             setStatus("solved");
         } catch (e) {
-            // En cas d'erreur API
             setStatus("error");
             if (e.status === HTTP_FORBIDDEN) {
-                setTimeout(() => setStatus("loading"), 500);
+                setTimeout(() => setStatus("waiting"), 500);
             } else {
                 setTimeout(() => setStatus("default"), 500);
             }
@@ -56,6 +61,8 @@ const PuzzleCaptcha = ({ src, width, height, pieceWidth, pieceHeight, inputName 
 
     const handlePointerMove = (e) => {
         if (!isDragging || isLocked) return;
+
+        setHasMoved(true);
 
         setPosition((prev) => ({
             x: clamp(prev.x + e.movementX, 0, maxX),
@@ -79,28 +86,44 @@ const PuzzleCaptcha = ({ src, width, height, pieceWidth, pieceHeight, inputName 
     }, [isDragging, position]);
 
     return (
-        <div
-            className={`captcha captcha--${status}`}
-            style={{
-                "--width": `${width}px`,
-                "--height": `${height}px`,
-                "--image": `url(${src})`,
-                "--pieceWidth": `${pieceWidth}px`,
-                "--pieceHeight": `${pieceHeight}px`,
-            }}
-        >
+        <div className="w-full flex flex-col justify-center items-center">
             <div
-                className="captcha-piece"
-                onPointerDown={handlePointerDown}
+                className={`captcha captcha--${status}`}
                 style={{
-                    transform: `translate(${position.x}px, ${position.y}px)`,
+                    "--width": `${width}px`,
+                    "--height": `${height}px`,
+                    "--image": `url(${src})`,
+                    "--pieceWidth": `${pieceWidth}px`,
+                    "--pieceHeight": `${pieceHeight}px`,
                 }}
-            ></div>
-            {/* Input caché contenant la valeur */}
+            >
+                <div
+                    className="captcha-piece"
+                    onPointerDown={handlePointerDown}
+                    style={{
+                        transform: `translate(${position.x}px, ${position.y}px)`,
+                    }}
+                ></div>
+
+                {status === "solved" && (
+                    <div className="captcha-check-icon">
+                        <CheckCircle color="white" size={48}/>
+                    </div>
+                )}
+            </div>
+            <div className="text-sm text-slate-600 dark:text-slate-300 mtw-2">
+                Placez la pièce du puzzle si vous n'êtes pas un robot
+            </div>
+
             <input
                 type="hidden"
-                name={inputName}
+                name={answerInputName}
                 value={`${Math.round(position.x)}-${Math.round(position.y)}`}
+            />
+
+            <input type="hidden"
+                   name={challengeInputName}
+                   value={challengeKey}
             />
         </div>
     );

@@ -29,25 +29,23 @@
     }
   }
 
+  .captcha-check-icon {
+    @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10;
+  }
+
   &--error {
     animation: wiggle 0.4s linear;
 
     &::before {
       content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(255, 0, 0, 0.2);
-      z-index: 1;
+      @apply absolute inset-0 z-[1] bg-red-400/40;
     }
   }
 
   &--solved {
     &::before {
       content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 255, 0, 0.2);
-      z-index: 1;
+      @apply absolute inset-0 z-[1] bg-green-500/40;
     }
   }
 }

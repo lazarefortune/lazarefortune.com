@@ -76,7 +76,7 @@ const QuizElement = reactToWebComponent(Quiz, React, ReactDOM, {
 
 const PuzzleCaptchaElement = reactToWebComponent(PuzzleCaptcha, React, ReactDOM, {
     shadow: false,
-    props: ['width', 'height', 'pieceWidth', 'pieceHeight', 'src', 'inputName']
+    props: ['width', 'height', 'pieceWidth', 'pieceHeight', 'src', 'answerInputName', 'challengeInputName']
 });
 
 

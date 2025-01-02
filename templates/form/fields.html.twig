@@ -6,16 +6,20 @@
 {% endblock %}
 
 {% block captcha_row %}
-    <div class="">
+    <div class="w-full flex justify-center">
         <puzzle-challenge
             width="{{ attr.width }}" height="{{ attr.height }}"
             piece-width="{{ attr.pieceWidth }}" piece-height="{{ attr.pieceHeight }}"
             src="{{ attr.src }}"
-            input-name="{{ form.answer.vars.full_name }}"
+            answer-input-name="{{ form.answer.vars.full_name }}"
+            challenge-input-name="{{ form.challenge.vars.full_name }}"
         >
-{#                {{ form_widget(form.answer) }}#}
+{#
+            TODO: enhance
+            {{ form_widget(form.answer) }}
+            {{ form_widget(form.challenge, {value: challenge}) }}
+#}
         </puzzle-challenge>
-        {{ form_widget(form.challenge, {value: challenge}) }}
         <div class="mt-2">
             <span class="text-sm text-muted">{{ form_help(form) }}</span>
         </div>
