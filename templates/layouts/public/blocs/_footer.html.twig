@@ -46,18 +46,14 @@
                         <span>Playlists</span>
                     </a>
                 </li>
+                {#
                 <li>
                     <a href="" class="text-muted hover:text-primary-600 flex items-center gap-2">
                         {{ icon('user', '20') }}
                         <span>À propos de moi</span>
                     </a>
                 </li>
-                <li>
-                    <a href="{{ path('app_contact') }}" class="text-muted hover:text-primary-600 flex items-center gap-2">
-                        {{ icon('mail', '20') }}
-                        <span>Contact</span>
-                    </a>
-                </li>
+                #}
                 <li>
                     <a href="{{ path('app_cgu') }}" class="text-muted hover:text-primary-600 flex items-center gap-2">
                         {{ icon('file-text', '20') }}
