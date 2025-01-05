@@ -24,7 +24,6 @@ class ImageResizer
         if ( empty($url) ) {
             return '';
         }
-        # return $url;
 
         if (null === $width && null === $height) {
             $url = $this->urlGenerator->generate('app_image_jpg', ['path' => trim($url, '/')]);
@@ -34,7 +33,5 @@ class ImageResizer
         $urlBuilder = UrlBuilderFactory::create('/', $this->signKey);
 
         return $urlBuilder->getUrl($url);
-        /*
-        */
     }
 }
