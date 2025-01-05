@@ -1,8 +1,33 @@
 image: php:8.1-cli
 
 stages:
+  - deploy_new_vps
   - deploy_vps
   - deploy
+
+deploy_new_vps:
+  stage: deploy_new_vps
+  script:
+    - apt-get update -yqq
+    - apt-get install -yqq openssh-client
+    - apt-get update && apt-get install -y libssl-dev
+    - mkdir -p ~/.ssh
+    - echo "$SSH_VPS_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - eval "$(ssh-agent -s)"
+    - ssh-add ~/.ssh/id_rsa
+    - ssh-keyscan -H $SSH_NEW_VPS_HOST >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+    - ssh -p $SSH_NEW_VPS_PORT -i ~/.ssh/id_rsa $SSH_NEW_VPS_USER@$SSH_NEW_VPS_HOST pwd
+    - ssh -p $SSH_NEW_VPS_PORT -i ~/.ssh/id_rsa $SSH_NEW_VPS_USER@$SSH_NEW_VPS_HOST "cd /var/www/lazarefortune && git reset --hard HEAD && git pull gitlab new_vps"
+    - ssh -p $SSH_NEW_VPS_PORT -i ~/.ssh/id_rsa $SSH_NEW_VPS_USER@$SSH_NEW_VPS_HOST "cd /var/www/lazarefortune && composer install --prefer-dist --no-ansi --no-interaction --no-scripts --no-dev"
+    #- ssh -p $SSH_NEW_VPS_PORT -i ~/.ssh/id_rsa $SSH_NEW_VPS_USER@$SSH_NEW_VPS_HOST "cd /var/www/lazarefortune && php bin/console doctrine:migrations:migrate --no-interaction"
+    - ssh -p $SSH_NEW_VPS_PORT -i ~/.ssh/id_rsa $SSH_NEW_VPS_USER@$SSH_NEW_VPS_HOST "cd /var/www/lazarefortune && pnpm install"
+    - ssh -p $SSH_NEW_VPS_PORT -i ~/.ssh/id_rsa $SSH_NEW_VPS_USER@$SSH_NEW_VPS_HOST "cd /var/www/lazarefortune && pnpm run build"
+    #- ssh -p $SSH_NEW_VPS_PORT -i ~/.ssh/id_rsa $SSH_NEW_VPS_USER@$SSH_NEW_VPS_HOST "cd /var/www/lazarefortune && php bin/console cache:clear"
+
+  only:
+    - new_vps
 
 deploy_vps:
   stage: deploy_vps
