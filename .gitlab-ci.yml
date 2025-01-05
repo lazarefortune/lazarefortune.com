@@ -21,10 +21,10 @@ deploy_new_vps:
     - ssh -p $SSH_NEW_VPS_PORT -i ~/.ssh/id_rsa $SSH_NEW_VPS_USER@$SSH_NEW_VPS_HOST pwd
     - ssh -p $SSH_NEW_VPS_PORT -i ~/.ssh/id_rsa $SSH_NEW_VPS_USER@$SSH_NEW_VPS_HOST "cd /var/www/lazarefortune && git reset --hard HEAD && git pull gitlab new_vps"
     - ssh -p $SSH_NEW_VPS_PORT -i ~/.ssh/id_rsa $SSH_NEW_VPS_USER@$SSH_NEW_VPS_HOST "cd /var/www/lazarefortune && composer install --prefer-dist --no-ansi --no-interaction --no-scripts --no-dev"
-    #- ssh -p $SSH_NEW_VPS_PORT -i ~/.ssh/id_rsa $SSH_NEW_VPS_USER@$SSH_NEW_VPS_HOST "cd /var/www/lazarefortune && php bin/console doctrine:migrations:migrate --no-interaction"
+    - ssh -p $SSH_NEW_VPS_PORT -i ~/.ssh/id_rsa $SSH_NEW_VPS_USER@$SSH_NEW_VPS_HOST "cd /var/www/lazarefortune && php bin/console doctrine:migrations:migrate --no-interaction"
     - ssh -p $SSH_NEW_VPS_PORT -i ~/.ssh/id_rsa $SSH_NEW_VPS_USER@$SSH_NEW_VPS_HOST "cd /var/www/lazarefortune && pnpm install"
     - ssh -p $SSH_NEW_VPS_PORT -i ~/.ssh/id_rsa $SSH_NEW_VPS_USER@$SSH_NEW_VPS_HOST "cd /var/www/lazarefortune && pnpm run build"
-    #- ssh -p $SSH_NEW_VPS_PORT -i ~/.ssh/id_rsa $SSH_NEW_VPS_USER@$SSH_NEW_VPS_HOST "cd /var/www/lazarefortune && php bin/console cache:clear"
+    - ssh -p $SSH_NEW_VPS_PORT -i ~/.ssh/id_rsa $SSH_NEW_VPS_USER@$SSH_NEW_VPS_HOST "cd /var/www/lazarefortune && php bin/console cache:clear"
 
   only:
     - new_vps
