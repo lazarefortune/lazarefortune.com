@@ -6,13 +6,38 @@
 
     <div class="text-left">
         <h1 class="text-3xl font-bold text-primary-900 reveal">
-            Salut,
+            Bon retour !
         </h1>
-        <p class="mt-1 text-base text-slate-400 reveal" data-delay=".2">
-            Connectez-vous pour accéder à votre compte.
+        <p class="mt-1 text-base text-slate-400 dark:text-slate-400 reveal" data-delay=".2">
+            Accède à tout le contenu en un clic.
         </p>
     </div>
     <form class="space-y-4 md:space-y-6 reveal" data-delay=".4" action="#" method="post">
+
+        <div class="mt-6 w-full flex gap-2 justify-between">
+            <a href="{{ path('app_oauth_connect', {service: 'google'}) }}"
+               class="btn btn-light w-full">
+                <svg class="social-icon">
+                    <use href="/icons/social.svg#google"></use>
+                </svg>
+                <span>Google</span>
+            </a>
+
+            <a href="{{ path('app_oauth_connect', {service: 'github'}) }}"
+               class="btn btn-light w-full">
+                <svg class="social-icon">
+                    <use href="/icons/social.svg#github"></use>
+                </svg>
+                <span>GitHub</span>
+            </a>
+        </div>
+
+        <!-- ou divider -->
+        <div class="flex items-center space-x-2">
+            <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+            <span class="px-1 text-slate-600 dark:text-slate-100">ou avec votre e-mail</span>
+            <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+        </div>
 
         <!-- Display flash messages -->
         <div class="col-span-full">
@@ -26,32 +51,31 @@
         </div>
 
         <div class="space-y-1">
-            <label for="email" class="label">E-mail</label>
             <input type="email" name="email" id="email" value="{{ last_username }}"
-                   required="" class="form-input">
-        </div>
-        <div class="space-y-1">
-            <label for="password" class="label">
-                Mot de passe
-            </label>
-            <input type="password" name="password" id="password" class="form-input"
-                   autocomplete="current-password"
-                   required="">
-            <p class="mt-2">
-                <a href="{{ path('app_forgot_password') }}"
-                   class="text-base font-medium text-primary-600 dark:text-primary-500">
-                    Vous avez oublié votre mot de passe ?
-                </a>
-            </p>
+                   required="" class="form-input" placeholder="E-mail">
         </div>
 
-        <div class="flex items-center justify-between">
-            <label for="remember_me" class="flex items-center">
-                <input id="remember_me" type="checkbox"
-                       class="form-checkbox"
-                       name="remember_me">
-                <span class="ml-2 text-base text-gray-600 dark:text-gray-400">Se souvenir de moi</span>
-            </label>
+        <div class="space-y-3">
+            <input type="password" name="password" id="password" class="form-input"
+                   autocomplete="current-password"
+                   required="" placeholder="Mot de passe">
+
+            <div class="flex items-center justify-between space-y-2 sm:space-y-0">
+                <!-- Checkbox "Se souvenir de moi" -->
+                <label for="remember_me" class="hidden md:flex items-center space-x-2 sm:space-x-2">
+                    <input id="remember_me" type="checkbox"
+                           class="form-checkbox"
+                           name="remember_me">
+                    <span class="text-base text-gray-600 dark:text-gray-400">Se souvenir de moi</span>
+                </label>
+
+                <!-- Lien "Mot de passe oublié" -->
+                <a href="{{ path('app_forgot_password') }}"
+                   class="text-base font-medium text-primary-600 dark:text-primary-500">
+                    Mot de passe oublié ?
+                </a>
+            </div>
+
         </div>
 
         <div class="flex flex-col">
@@ -68,26 +92,6 @@
                 Inscrivez-vous
             </a>
         </p>
-
-        <div class="my-4 border border-slate-100 dark:border-slate-800"></div>
-
-        <div class="w-full flex flex-col gap-4 justify-between">
-            <a href="{{ path('app_oauth_connect', {service: 'google'}) }}"
-               class="btn btn-light">
-                <svg class="social-icon">
-                    <use href="/icons/social.svg#google"></use>
-                </svg>
-                <span>Se connecter avec Google</span>
-            </a>
-
-            <a href="{{ path('app_oauth_connect', {service: 'github'}) }}"
-               class="btn btn-social__github">
-                <svg class="social-icon">
-                    <use href="/icons/social.svg#github"></use>
-                </svg>
-                <span class="text-white">Se connecter avec GitHub</span>
-            </a>
-        </div>
     </form>
 
 {% endblock %}

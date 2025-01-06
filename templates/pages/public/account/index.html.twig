@@ -191,31 +191,31 @@
 
                 </div>
                 <div class="stack-large col-span-full lg:col-span-2 mt-10 lg:mt-0">
-                    <div class="stack">
+                    <div>
                         <h3 class="h3">Mon abonnement</h3>
-                        <p class="text-muted">Vous êtes actuellement <strong>premium</strong> à vie.</p>
+                        <p class="text-muted">Aucun abonnement en cours</p>
                     </div>
 
-                    <div class="stack">
-                        <h4 class="h4">Connexion social</h4>
+                    <div>
+                        <h3 class="h3">Réseaux sociaux</h3>
                         <p class="text-muted">Reliez votre compte à un réseau social afin de l'utiliser comme mode de connexion</p>
-                        <div class="stack">
-                            <div>
-                                <a href="{{ path(app.user.githubId ? 'app_oauth_unlink' : 'app_oauth_connect', {service: 'github'}) }}"
-                                   class="btn btn-social__github">
-                                    <svg class="social-icon">
-                                        <use href="/icons/social.svg#github"></use>
-                                    </svg>
-                                    <span class="text-white">{{ app.user.githubId ? 'Dissocier' : 'Lier' }} votre compte GitHub</span>
-                                </a>
-                            </div>
+                        <div class="stack mt-6">
                             <div>
                                 <a href="{{ path(app.user.googleId ? 'app_oauth_unlink' : 'app_oauth_connect', {service: 'google'}) }}"
-                                   class="btn btn-social__google">
+                                   class="btn btn-light">
                                     <svg class="social-icon">
                                         <use href="/icons/social.svg#google"></use>
                                     </svg>
                                     <span class="text-white">{{ app.user.googleId ? 'Dissocier' : 'Lier' }} votre compte Google</span>
+                                </a>
+                            </div>
+                            <div>
+                                <a href="{{ path(app.user.githubId ? 'app_oauth_unlink' : 'app_oauth_connect', {service: 'github'}) }}"
+                                   class="btn btn-light">
+                                    <svg class="social-icon">
+                                        <use href="/icons/social.svg#github"></use>
+                                    </svg>
+                                    <span class="text-white">{{ app.user.githubId ? 'Dissocier' : 'Lier' }} votre compte GitHub</span>
                                 </a>
                             </div>
                         </div>
