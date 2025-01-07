@@ -227,6 +227,12 @@
         <div id="courses" class="col-span-full">
             <div class="stack">
                 <h3 class="h3">Historique de visionnage</h3>
+                {% if watchlist is empty %}
+                    <div class="notification-info">
+                        <h2 class="alert-heading">Aucune vidéo en cours</h2>
+                        <p>Vous n'avez pas encore commencé de vidéo. <br> Découvrez les vidéos et commencez à apprendre.</p>
+                    </div>
+                {% endif %}
                 {% if watchlist is not empty %}
                     <section>
                         <div class="courses">
