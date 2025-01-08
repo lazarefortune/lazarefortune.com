@@ -50,6 +50,7 @@
         </section>
 
         <!-- Latest Videos Section -->
+        {% if latest_content is not empty %}
         <section class="mt-24 reveal" data-delay=".3">
             <h2 class="h2 text-center mb-6">Dernières Vidéos et Playlists</h2>
 
@@ -82,6 +83,7 @@
                 <a href="{{ path('app_course_index') }}" class="btn btn-primary">Voir plus de vidéos</a>
             </div>
         </section>
+        {% endif %}
 
         <div class="border-t border-gray-200 dark:border-gray-800 mt-16"></div>
 
