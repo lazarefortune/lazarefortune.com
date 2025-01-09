@@ -22,11 +22,11 @@
                     {% endif %}
 
                     <a href="{{ path(settings.googleId ? 'admin_youtube_config_unlink' : 'admin_youtube_config_link') }}"
-                       class="btn btn-sm {{ settings.googleId ? 'btn-danger' : 'btn-success' }} d-flex align-items-center mr-3">
+                       class="btn btn-sm btn-light">
                         <svg width="20" height="20">
                             <use href="/icons/social.svg#google"></use>
                         </svg>
-                        <span class="text-white">{{ settings.googleId ? 'Dissocier le' : 'Lier un' }} compte Google</span>
+                        <span>{{ settings.googleId ? 'Dissocier le' : 'Lier un' }} compte Google</span>
                     </a>
                 </div>
             </div>
