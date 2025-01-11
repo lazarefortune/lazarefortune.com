@@ -26,7 +26,7 @@
                         <svg width="20" height="20">
                             <use href="/icons/social.svg#google"></use>
                         </svg>
-                        <span>{{ settings.googleId ? 'Dissocier le' : 'Lier un' }} compte Google</span>
+                        <span>{{ settings.googleId ? 'Dissocier le' : 'Lier un' }} compte Google {% if settings.googleId %}{{ settings.email }}{% endif %}</span>
                     </a>
                 </div>
             </div>
