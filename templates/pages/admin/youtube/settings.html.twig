@@ -3,34 +3,53 @@
 {% block title %}Chaîne YouTube{% endblock %}
 
 {% block body %}
-
-    <div class="container py-5">
-        <div class="mb-5">
-            <h1 class="h3 mb-2">Gestion de la Chaîne YouTube</h1>
+    <div class="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <!-- Header Section -->
+        <div class="mb-6 text-center">
+            <h1 class="text-3xl font-bold text-gray-800">Chaîne YouTube</h1>
+            <p class="text-slate-600 dark:text-slate-400 mt-2 max-w-md mx-auto text-sm sm:text-base">
+                Connectez votre compte Google pour gérer vos vidéos
+            </p>
         </div>
 
-        <div class="card shadow-sm p-4">
-            <div class="card-body">
-                <h5 class="card-title mb-3">Compte Google associé</h5>
-                <p class="text-muted">Liez le compte Google de votre chaîne YouTube pour pouvoir gérer vos contenus directement depuis ce site.</p>
+        <!-- Carte de gestion du compte Google -->
+        <div class="bg-white border border-gray-200 dark:bg-primary-1000 dark:border-slate-800 rounded-lg p-6 sm:p-8 md:flex md:items-center md:justify-between">
+            <div class="flex items-center gap-4 mb-6 md:mb-0">
+                <!-- Avatar / Icon -->
+                <div class="bg-gray-100 rounded-full p-2 flex justify-center items-center">
+                    <svg width="30" height="30" class="text-red-500">
+                        <use href="/icons/social.svg#google"></use>
+                    </svg>
+                </div>
+                <!-- Infos du compte -->
+                <div>
+                    <!-- Titre (email) -->
+                    <!-- Truncate sur une seule ligne, 150px sur mobile, plus large sur sm -->
+                    <h3 class="truncate max-w-[170px] sm:max-w-xs text-lg font-semibold text-gray-800"
+                        title="{{ settings.googleId ? settings.email : 'Aucun compte' }}">
+                        {{ settings.googleId ? settings.email : 'Aucun compte' }}
+                    </h3>
 
-                <div class="d-flex align-items-center mt-4">
-                    {% if settings.googleId %}
-                        <div class="my-2">
-                            <p class="mb-1"><strong>Email associé :</strong> {{ settings.email }}</p>
-                        </div>
-                    {% endif %}
-
-                    <a href="{{ path(settings.googleId ? 'admin_youtube_config_unlink' : 'admin_youtube_config_link') }}"
-                       class="btn btn-sm btn-light">
-                        <svg width="20" height="20">
-                            <use href="/icons/social.svg#google"></use>
-                        </svg>
-                        <span>{{ settings.googleId ? 'Dissocier le' : 'Lier un' }} compte Google {% if settings.googleId %}{{ settings.email }}{% endif %}</span>
-                    </a>
+                    <!-- Texte explicatif (option 1 : retour à la ligne si nécessaire) -->
+                    <p class="text-sm text-slate-600 dark:text-slate-400">
+                        {{ settings.googleId
+                        ? 'Votre compte Google est lié à votre chaîne YouTube.'
+                        : 'Liez votre compte Google pour gérer vos vidéos YouTube directement depuis ce site.'
+                        }}
+                    </p>
                 </div>
             </div>
+
+            <!-- Bouton d'action -->
+            <a href="{{ path(settings.googleId ? 'admin_youtube_config_unlink' : 'admin_youtube_config_link') }}"
+               class="btn btn-light inline-flex items-center gap-2 px-4 py-2 rounded-md text-gray-700 hover:bg-gray-100 border border-gray-300">
+                <svg width="20" height="20" class="text-current">
+                    <use href="/icons/social.svg#google"></use>
+                </svg>
+                <span>
+                {{ settings.googleId ? 'Dissocier le compte' : 'Lier un compte' }}
+            </span>
+            </a>
         </div>
     </div>
-
 {% endblock %}
