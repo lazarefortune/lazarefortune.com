@@ -6,7 +6,7 @@
     <div class="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <!-- Header Section -->
         <div class="mb-6 text-center">
-            <h1 class="text-3xl font-bold text-gray-800">Chaîne YouTube</h1>
+            <h1 class="text-3xl font-medium text-gray-800">Chaîne YouTube</h1>
             <p class="text-slate-600 dark:text-slate-400 mt-2 max-w-md mx-auto text-sm sm:text-base">
                 Connectez votre compte Google pour gérer vos vidéos
             </p>
@@ -25,7 +25,7 @@
                 <div>
                     <!-- Titre (email) -->
                     <!-- Truncate sur une seule ligne, 150px sur mobile, plus large sur sm -->
-                    <h3 class="truncate max-w-[170px] sm:max-w-xs text-lg font-semibold text-gray-800"
+                    <h3 class="truncate max-w-[170px] sm:max-w-xs text-lg font-medium text-gray-800"
                         title="{{ settings.googleId ? settings.email : 'Aucun compte' }}">
                         {{ settings.googleId ? settings.email : 'Aucun compte' }}
                     </h3>
