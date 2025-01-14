@@ -1,39 +1,3 @@
-{#<article class="formation {% if formation.isScheduled %}is__scheduled{% endif %} {% if formation.premium %}formation__premium{% endif %}">#}
-{#    <div class="formation__body stack">#}
-{#        <div class="formation__icons">#}
-{#            {% for technology in formation.mainTechnologies %}#}
-{#                <a href="" class="formation__icon" tabindex="-1" title="Tous les tutoriels {{ technology.name }}">#}
-{#                    <img src="{{ uploads_path('icons/' ~ technology.image) }}" alt="{{ technology.name }}">#}
-{#                </a>#}
-{#            {% endfor %}#}
-{#        </div>#}
-{#        <h2 class="formation__title">#}
-{#            <a href="{{ path('app_formation_show', {slug: formation.slug}) }}"#}
-{#               class="formation__link">#}
-{#                {{ formation.title }}#}
-{#            </a>#}
-{#        </h2>#}
-{#        <div class="formation__description">#}
-{#            <p>#}
-{#                {% if formation.short %}#}
-{#                    {{ formation.short | truncate(130) | raw }}#}
-{#                {% endif %}#}
-{#            </p>#}
-{#        </div>#}
-{#    </div>#}
-{#    <div class="content__progress"><span></span></div>#}
-{#    <footer class="formation__footer">#}
-{#        <div class="flex items-center gap-1">#}
-{#            {{ icon('library-big') }}#}
-{#            {{ formation.courses | length }} Chapitres#}
-{#        </div>#}
-{#        <div class="flex items-center gap-1">#}
-{#            {{ icon('clock') }}#}
-{#            {{ formation.duration | duration }}#}
-{#        </div>#}
-{#    </footer>#}
-{#</article>#}
-
 <article class="formation">
     {% set isLocked = (formation.premium and (not app.user or not app.user.premium)) or formation.isScheduled %}
     {% set formationUrl = path('app_formation_show', {slug: formation.slug}) %}
@@ -45,7 +9,7 @@
                  src="{{ image_url(formation.image, 1330, 750) }}"
                  alt="{{ formation.title }}">
             {% else %}
-                <div class="absolute top-0 left-0 z-[2] flex items-center justify-center w-full h-full bg-slate-100 dark:bg-slate-800 text-slate-300 dark:text-slate-400 border border-slate-200 dark:border-slate-500">
+                <div class="absolute top-0 left-0 z-[2] flex items-center justify-center w-full h-full bg-slate-100 rounded-xl dark:bg-slate-800 text-slate-300 dark:text-slate-400 border border-slate-200 dark:border-slate-500">
                     {{ icon('video', 38) }}
                 </div>
             {% endif %}
@@ -79,8 +43,6 @@
     </a>
 
     <div class="px-2 py-1">
-
-
         <div class="formation__info">
             <div>
                 <img class="formation__author__avatar" src="{{ formation.author | avatar }}" alt="{{ formation.author.fullname }}">

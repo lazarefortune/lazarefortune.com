@@ -11,6 +11,7 @@
             {{ form_row(form.slug) }}
             {{ form_row(form.author) }}
             {{ form_row(form.publishedAt) }}
+            {{ form_row(form.deprecatedBy, {label: 'Déprécié par'}) }}
             {{ form_row(form.image, {row_attr: {class: 'form-attachment', style:'grid-row-start:1; align-self:stretch;'}}) }}
         </div>
         <div class="w-full flex flex-col sm:flex-row gap-4 mt-4">
@@ -18,16 +19,20 @@
             {{ form_row(form.source, { label: 'Code source ?' }) }}
             {{ form_row(form.premium, { label: 'Premium ?' }) }}
         </div>
+        <div class="grid2">
+            {{ form_row(form.mainTechnologies) }}
+            {{ form_row(form.secondaryTechnologies) }}
+        </div>
     </section>
 
     <section class="stack">
         <h1 class="h3">
-            Contenu
+            Gestion de la vidéo
         </h1>
         <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {{ form_row(form.videoPath, {label: 'Video'}) }}
             <div class="relative">
-                {{ form_row(form.youtube) }}
+                {{ form_row(form.youtube, { label: 'Youtube ID' }) }}
                 {%if entity.id%}
                 <button type="submit" name="uploadVideoDetails" value="1" class="absolute top-9 right-2 mt-2 mr-2 text-slate-400 hover:text-primary-800 transition-colors duration-200">
                     {{ icon('upload') }}
@@ -35,16 +40,26 @@
                 {% endif %}
             </div>
             <div class="relative">
-                {{ form_row(form.duration) }}
+                {{ form_row(form.duration, { label: 'Durée (en secondes)' }) }}
                 {%if entity.id%}
                 <button type="submit" name="fetchVideoDuration" value="1" class="absolute top-9 right-2 mt-2 mr-2 text-slate-400 hover:text-primary-800 transition-colors duration-200">
                     {{ icon('refresh-cw') }}
                 </button>
                 {% endif %}
             </div>
-            {{ form_row(form.deprecatedBy, {label: 'Déprécié par'}) }}
+            {{ form_row(form.youtubeThumbnail, {row_attr: {class: 'form-attachment', style:'grid-row-start:1; align-self:stretch;'}}) }}
+        </div>
+    </section>
+
+    <section>
+
+        <h1 class="h3 mb-4">
+            Article
+        </h1>
+
+        <div class="grid3 mb-8">
             <div class="flex flex-col gap-2">
-                {{ form_row(form.sourceFile, {disabled: not entity.id}) }}
+                {{ form_row(form.sourceFile, {disabled: not entity.id, label: 'Code Source'}) }}
                 {% if entity.source %}
                     <a href="{{ vich_uploader_asset(entity, 'sourceFile') }}"
                        target="_blank"
@@ -54,18 +69,12 @@
                     </a>
                 {% endif %}
             </div>
-            {{ form_row(form.youtubeThumbnail, {row_attr: {class: 'form-attachment', style:'grid-row-start:1; align-self:stretch;'}}) }}
         </div>
-        <div class="grid2">
-            {{ form_row(form.mainTechnologies) }}
-            {{ form_row(form.secondaryTechnologies) }}
-        </div>
-    </section>
 
-    <section>
-        <h1 class="h3 mb-4">
-            Description
-        </h1>
+        <div class="grid2">
+            <div class="alert alert-info">💡 Conseil : Rédigé un article détaillé pour accompagné votre vidéo. Cela permettra d'augmenter son référencement et de mieux la comprendre.</div>
+        </div>
+
         {{ form_row(form.content, {label: false}) }}
     </section>
 
@@ -76,6 +85,229 @@
         {% endif %}
     </section>
 
+    <div class="mb-10">
+        <input type="file" id="file-input" accept="video/*" />
+        <button id="upload-btn" class="btn btn-sm btn-primary">Uploader</button>
+        <div id="progress-container" style="display: none;">
+            <progress id="upload-progress" value="0" max="100"></progress>
+            <span id="progress-text">0%</span>
+        </div>
+    </div>
+
 </section>
+
+
+{#<script type="text/javascript">#}
+{#    async function initializeUpload(videoFile, accessToken) {#}
+{#        const metadata = {#}
+{#            snippet: {#}
+{#                title: "Titre de la vidéo de TEST 2",#}
+{#                description: "Description de la vidéo TEST 2",#}
+{#                tags: ["tag1", "tag2"],#}
+{#                categoryId: 28 // 28 = Education#}
+{#            },#}
+{#            status: {#}
+{#                privacyStatus: "public" // ou 'private', 'unlisted'#}
+{#            }#}
+{#        };#}
+
+{#        try {#}
+{#            const response = await fetch(#}
+{#                "https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&part=snippet,status",#}
+{#                {#}
+{#                    method: "POST",#}
+{#                    headers: {#}
+{#                        Authorization: `Bearer ${accessToken}`,#}
+{#                        "Content-Type": "application/json",#}
+{#                        "X-Upload-Content-Length": videoFile.size,#}
+{#                        "X-Upload-Content-Type": videoFile.type,#}
+{#                    },#}
+{#                    body: JSON.stringify(metadata),#}
+{#                }#}
+{#            );#}
+
+{#            if (response.ok) {#}
+{#                return response.headers.get("location"); // URL d'upload résumable#}
+{#            } else {#}
+{#                throw new Error("Erreur lors de l'initialisation de l'upload.");#}
+{#            }#}
+{#        } catch (error) {#}
+{#            console.error("Erreur :", error.message);#}
+{#            throw error;#}
+{#        }#}
+{#    }#}
+
+{#    async function uploadInChunks(videoFile, uploadUrl) {#}
+{#        const chunkSize = 1024 * 1024 * 5; // 5MB#}
+{#        let uploadedBytes = 0;#}
+{#        const totalBytes = videoFile.size;#}
+{#        const progressBar = document.getElementById("upload-progress");#}
+{#        const progressText = document.getElementById("progress-text");#}
+
+{#        while (uploadedBytes < totalBytes) {#}
+{#            const chunk = videoFile.slice(uploadedBytes, uploadedBytes + chunkSize);#}
+{#            const start = uploadedBytes;#}
+{#            const end = Math.min(start + chunk.size - 1, totalBytes - 1);#}
+
+{#            try {#}
+{#                const response = await fetch(uploadUrl, {#}
+{#                    method: "PUT",#}
+{#                    headers: {#}
+{#                        "Content-Length": chunk.size,#}
+{#                        "Content-Range": `bytes ${start}-${end}/${totalBytes}`,#}
+{#                    },#}
+{#                    body: chunk,#}
+{#                });#}
+
+{#                if (response.ok || response.status === 308) {#}
+{#                    uploadedBytes += chunk.size;#}
+{#                    const progress = Math.min((uploadedBytes / totalBytes) * 100, 100);#}
+{#                    progressBar.value = progress;#}
+{#                    progressText.textContent = `${Math.round(progress)}%`;#}
+{#                } else {#}
+{#                    throw new Error("Erreur lors de l'upload d'un chunk.");#}
+{#                }#}
+{#            } catch (error) {#}
+{#                console.error("Erreur :", error.message);#}
+{#                throw error;#}
+{#            }#}
+{#        }#}
+
+{#        console.log("Upload terminé !");#}
+{#    }#}
+
+{#    document.getElementById("upload-btn").addEventListener("click", async (event) => {#}
+{#        event.preventDefault();#}
+{#        const fileInput = document.getElementById("file-input");#}
+{#        const videoFile = fileInput.files[0];#}
+{#        const accessToken = "ya29.a0AeDClZAijOfA3gdSWMuqQ3Rz0PkGpgroAkhoYo7vI_anhfMWQD2tXlYS_7MBFtzmHiM0Nw6XLbkKoUeq1LlXeKF9qRSDN4AnXGxH33StTzLD5B9OL1GnXeObnzYc331iiIs-mhAfRvXrTzQDR4b1KIWlBTuvux91Ig4aCgYKAfESARASFQHGX2MiUOIf58Wc6l7tzg3dhAF9yQ0170"; // Remplacez par un token valide.#}
+
+{#        if (!videoFile) {#}
+{#            alert("Sélectionnez une vidéo avant de continuer !");#}
+{#            return;#}
+{#        }#}
+
+{#        try {#}
+{#            const progressContainer = document.getElementById("progress-container");#}
+{#            progressContainer.style.display = "block";#}
+
+{#            const uploadUrl = await initializeUpload(videoFile, accessToken);#}
+{#            await uploadInChunks(videoFile, uploadUrl);#}
+{#            alert("Vidéo uploadée avec succès !");#}
+{#        } catch (error) {#}
+{#            console.error("Erreur :", error.message);#}
+{#            alert("Une erreur est survenue lors de l'upload.");#}
+{#        }#}
+{#    });#}
+{#</script>#}
+
+
+
+<script type="text/javascript">
+    const courseId = {{ entity.id|json_encode|raw }};
+    console.log(courseId);
+
+    async function getResumableUploadUrl(courseId) {
+        const response = await fetch(`/wp-admin/videos/init-upload`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ courseId }),
+        });
+
+        if (!response.ok) {
+            throw new Error("Erreur lors de la récupération de l'URL d'upload résumable.");
+        }
+
+        const data = await response.json();
+        return data.uploadUrl; // Retourne l'URL d'upload
+    }
+
+    async function uploadInChunks(videoFile, uploadUrl) {
+        const chunkSize = 1024 * 1024 * 5; // Taille des chunks (5 MB)
+        let uploadedBytes = 0;
+        const totalBytes = videoFile.size;
+        const progressBar = document.getElementById("upload-progress");
+        const progressText = document.getElementById("progress-text");
+
+        for (let start = 0; start < totalBytes; start += chunkSize) {
+            const chunk = videoFile.slice(start, Math.min(start + chunkSize, totalBytes));
+
+            try {
+                const response = await fetch(uploadUrl, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Length": chunk.size,
+                        "Content-Range": `bytes ${start}-${Math.min(start + chunk.size - 1, totalBytes - 1)}/${totalBytes}`,
+                    },
+                    body: chunk,
+                });
+
+                // Gérer la progression
+                if (response.ok || response.status === 308) {
+                    uploadedBytes += chunk.size;
+                    const progress = Math.min((uploadedBytes / totalBytes) * 100, 100);
+                    progressBar.value = progress;
+                    progressText.textContent = `${Math.round(progress)}%`;
+                } else {
+                    throw new Error(`Erreur lors de l'upload d'un chunk : ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error("Erreur lors de l'upload :", error.message);
+                throw new Error("Erreur critique pendant l'upload.");
+            }
+        }
+
+        console.log("Upload terminé !");
+    }
+
+    async function finalizeVideoUpload(courseId, uploadUrl) {
+        const response = await fetch('/wp-admin/videos/finalize-upload-backend', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ courseId, uploadUrl }),
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log("Finalisation réussie :", data);
+            alert("Vidéo finalisée avec succès !");
+        } else {
+            throw new Error("Erreur lors de la finalisation de l'upload.");
+        }
+    }
+
+    document.getElementById("upload-btn").addEventListener("click", async () => {
+        event.preventDefault();
+        const fileInput = document.getElementById("file-input");
+        const videoFile = fileInput.files[0];
+
+        if (!videoFile) {
+            alert("Sélectionnez une vidéo avant de continuer !");
+            return;
+        }
+
+        try {
+            const progressContainer = document.getElementById("progress-container");
+            progressContainer.style.display = "block";
+
+            // Étape 1 : Obtenir l'URL d'upload résumable depuis le backend
+            const uploadUrl = await getResumableUploadUrl(courseId);
+
+            // Étape 2 : Effectuer l'upload en chunks
+            await uploadInChunks(videoFile, uploadUrl);
+
+            // Étape 3 : Finaliser l'upload côté backend
+            // await finalizeVideoUpload(courseId, uploadUrl);
+        } catch (error) {
+            console.error("Erreur :", error.message);
+            alert("Une erreur est survenue lors de l'upload.");
+        }
+    });
+</script>
+
 
 {{ form_end(form) }}

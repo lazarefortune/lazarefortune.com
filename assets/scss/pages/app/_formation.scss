@@ -30,18 +30,18 @@
   }
 }
 .formation__image-wrapper {
-  @apply relative rounded aspect-video bg-slate-100 dark:bg-slate-800 text-slate-300 dark:text-slate-400 border border-slate-200 dark:border-slate-500;
+  @apply relative rounded-xl aspect-video bg-slate-100 dark:bg-slate-800 text-slate-300 dark:text-slate-400 border border-slate-200 dark:border-slate-500;
   &::after {
     content: '';
-    @apply absolute inset-0 bg-gradient-to-t from-transparent to-primary-600 dark:to-primary-900 transition duration-200 border border-slate-200 dark:border-slate-500 z-[1] rounded -translate-y-[10px] scale-95;
+    @apply absolute inset-0 bg-gradient-to-t from-transparent to-primary-600 dark:to-primary-900 transition duration-200 border border-slate-200 dark:border-slate-500 z-[1] rounded-xl -translate-y-[10px] scale-95;
   }
   &::before {
     content: '';
-    @apply absolute inset-0 bg-gradient-to-t from-transparent to-primary-600/50 dark:to-primary-900/50 transition duration-200 border border-slate-200 dark:border-slate-500 z-[1] rounded -translate-y-[18px] scale-90;
+    @apply absolute inset-0 bg-gradient-to-t from-transparent to-primary-600/50 dark:to-primary-900/50 transition duration-200 border border-slate-200 dark:border-slate-500 z-[1] rounded-xl -translate-y-[18px] scale-90;
   }
 }
 .formation__image {
-  @apply w-full h-full object-cover rounded absolute top-0 left-0 z-[2];
+  @apply w-full h-full object-cover rounded-xl absolute top-0 left-0 z-[2];
 }
 .formation:hover .formation__image-wrapper::after {
   @apply rotate-1 -translate-y-[12px];
