@@ -88,10 +88,11 @@
                     <div class="relative">
                         <div class="chapters-wrapper" is="auto-scroll" data-to="{{ course is defined ? '#chapter' ~ course.id : '' }}">
                             <div class="chapters-wrapper__header">
-                                <!-- Bouton fermer mobile -->
+                                <!-- Bouton fermer mobile
                                 <button class="chapters-mobile-close" aria-label="Fermer">
                                     {{ icon('x') }}
                                 </button>
+                                -->
                             </div>
 
                             {% include 'pages/public/formations/chapters/_summary.html.twig' with {chapters: course.formation.chapters, current: course} only %}
