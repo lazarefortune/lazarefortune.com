@@ -15,243 +15,249 @@
 
 {% block body %}
 
-    {% if app.user %}
+    <div class="container-box mx-auto px-4 py-4 pb-16">
+
         {% if watchlist is not empty %}
-            <div class="container-box page-header">
-                <section class="container">
-                    <h1 class="h2 mb-4">Reprendre là où vous vous êtes arrêté</h1>
-                    <div class="courses">
+            <section class="page-header">
+                <div>
+                    <h1 class="h2 mb-6">Reprendre là où vous vous êtes arrêté</h1>
+                    <div class="courses pt-4">
                         {% for progress in watchlist %}
                             {% include 'pages/public/account/_progress-card.html.twig' %}
                         {% endfor %}
                     </div>
-                </section>
-            </div>
+                </div>
+            </section>
         {% endif %}
 
-        <section class="container-box pb-20">
+        <section class="relative mb-0 md:mb-20">
             <div class="course__hero py-10">
-                <h2 class="h2">Contenus recommandés pour vous</h2>
+                <h2 class="h2">Découvrez d'autres vidéos</h2>
                 <p class="text-muted">
-                    Voici quelques suggestions des dernières vidéos.
+                    Voici quelques suggestions de vidéos
                 </p>
             </div>
-            <div class="courses">
-                {% for content in latest_content %}
-                    {% if content.isCourse %}
-                        {% include 'pages/public/courses/_course_item.html.twig' with { course: content } %}
-                    {% elseif content.isFormation %}
-                        {% include 'pages/public/formations/_formation_item.html.twig' with { formation: content } %}
-                    {% endif %}
-                {% endfor %}
+
+            <div class="overflow-x-auto max-h-[52rem] overflow-y-hidden md:overflow-y-hidden scrollbar-hide md:overflow-visible mb-6 py-10">
+                <div class="flex md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {% for content in latest_content %}
+                        {% if content.isCourse %}
+                            {% include 'pages/public/courses/_course_item.html.twig' with { course: content } %}
+                        {% elseif content.isFormation %}
+                            {% include 'pages/public/formations/_formation_item.html.twig' with { formation: content } %}
+                        {% endif %}
+                    {% endfor %}
+                    <div class="flex md:hidden lg:hidden xl:hidden">
+                        <a href="{{ path('app_course_index') }}" class="btn btn-light">
+                            {{ icon('arrow-right', 24) }}
+                        </a>
+                    </div>
+                </div>
             </div>
 
-            {% if latest_content|length == 8 %}
-                <div class="flex justify-center w-full mt-10">
-                    <a href="{{ path('app_course_index') }}" class="btn btn-primary">Voir plus de vidéos</a>
+            {% if latest_content|length > 8 %}
+                <div class="z-[20] absolute inset-x-0 bottom-0 hidden md:flex h-36 items-end justify-center bg-gradient-to-t from-white dark:from-primary-950">
+                    <a href="{{ path('app_course_index') }}" class="rounded-full py-2 px-6 bg-primary-600 text-white border-primary-600 hover:bg-primary-800 hover:border-primary-800 hover:text-white
+                dark:bg-primary-600 dark:text-white dark:border-primary-600 dark:hover:bg-primary-700 dark:hover:text-white dark:hover:border-primary-700
+                focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2
+                dark:focus:ring-offset-primary-950 dark:focus:ring-primary-900">
+                        Voir toutes les vidéos
+                    </a>
                 </div>
             {% endif %}
         </section>
-    {% endif %}
 
-    <!-- Section "Rejoignez la communauté" -->
-    {% if not app.user %}
-        <section class="container-box py-20 bg-white dark:bg-primary-950">
-            <div class="stack">
-                <div class="text-center mx-auto reveal">
-                    <div class="flex flex-col items-center justify-center gap-2">
-                        <span class="inline-block">{{ icon('users', 26) }}</span>
-                        <h2 class="h2">
-                            Rejoignez la <span class="text-lead">communauté</span>
-                        </h2>
+        <div class="border-t border-gray-200 dark:border-gray-800 mt-16"></div>
+
+        <!-- Community Section -->
+        <section class="mt-16 py-16 bg-primary-50 dark:bg-primary-1000 rounded-md">
+            <div class="mx-auto text-center">
+                <div class="px-6">
+                    <h2 class="h2 mb-4">
+                        Rejoignez la <span class="text-lead">communauté</span>
+                    </h2>
+                    <p class="text-lg text-slate-600 dark:text-slate-300 mb-10">
+                        Connectez-vous avec des passionnés de développement web et progressons ensemble.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Card 1 -->
+                    <div class="flex flex-col items-center p-6 text-center">
+                        <div class="text-blue-600 dark:text-blue-400 mb-4">
+                            {{ icon('users', '48') }}
+                        </div>
+                        <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-2">
+                            Sessions en groupe
+                        </h3>
+                        <p class="text-slate-600 dark:text-slate-400">
+                            Posez vos questions et progressez ensemble grâce à des discussions interactives.
+                        </p>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="flex flex-col items-center p-6 text-center">
+                        <div class="text-green-600 dark:text-green-400 mb-4">
+                            {{ icon('code', '48') }}
+                        </div>
+                        <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-2">
+                            Accès au code source
+                        </h3>
+                        <p class="text-slate-600 dark:text-slate-400">
+                            Téléchargez, explorez et apprenez avec des projets open-source détaillés.
+                        </p>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="flex flex-col items-center p-6 text-center">
+                        <div class="text-red-600 dark:text-red-400 mb-4">
+                            {{ icon('video', '48') }}
+                        </div>
+                        <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-2">
+                            Vidéos exclusives
+                        </h3>
+                        <p class="text-slate-600 dark:text-slate-400">
+                            Accédez à des vidéos et playlists exclusives pour approfondir vos compétences.
+                        </p>
                     </div>
                 </div>
-                <p class="text-muted text-center mt-6 reveal" data-delay=".2">
-                    Créez un compte pour accéder à des avantages exclusifs et progresser plus rapidement.
+
+                <div class="mt-10">
+                    <a href="{{ path('app_register') }}" class="btn btn-primary px-6 py-3 text-lg">
+                        Rejoindre maintenant
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section "Besoin d'aide" -->
+        <section class="py-20">
+            <div class="stack">
+                <h2 class="h2 text-center reveal">Besoin d'<span class="text-lead">aide</span> ?</h2>
+                <p class="text-muted text-center reveal" data-delay=".2">
+                    Que vous souhaitiez un accompagnement personnalisé ou simplement discuter, je suis là pour vous aider.
                 </p>
-                <div class="mt-8 reveal" data-delay=".3">
-                    <!-- Liste des avantages -->
-                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <li class="flex items-start">
-                            <div class="flex-shrink-0">
-                                <span class="text-green-500 mt-1">
-                                    {{ icon('check-circle', 24) }}
-                                </span>
-                            </div>
-                            <div class="ml-3">
-                                <p class="font-medium">Sessions live en petit groupe</p>
-                                <p class="text-muted">Participez à des sessions interactives et posez vos questions en direct.</p>
-                            </div>
-                        </li>
-                        <li class="flex items-start">
-                            <div class="flex-shrink-0">
-                                <span class="text-green-500 mt-1">
-                                    {{ icon('check-circle', 24) }}
-                                </span>
-                            </div>
-                            <div class="ml-3">
-                                <p class="font-medium">Accès au code source</p>
-                                <p class="text-muted">Téléchargez les ressources et codes des tutoriels pour mieux les comprendre.</p>
-                            </div>
-                        </li>
-                        <li class="flex items-start">
-                            <div class="flex-shrink-0">
-                                <span class="text-green-500 mt-1">
-                                    {{ icon('check-circle', 24) }}
-                                </span>
-                            </div>
-                            <div class="ml-3">
-                                <p class="font-medium">Suivi de progression</p>
-                                <p class="text-muted">Suivez vos progrès et reprenez vos cours là où vous les avez laissés.</p>
-                            </div>
-                        </li>
-                        <li class="flex items-start">
-                            <div class="flex-shrink-0">
-                                <span class="text-green-500 mt-1">
-                                    {{ icon('check-circle', 24) }}
-                                </span>
-                            </div>
-                            <div class="ml-3">
-                                <p class="font-medium">Contenus exclusifs</p>
-                                <p class="text-muted">Accédez à des tutoriels et ressources réservés aux membres.</p>
-                            </div>
-                        </li>
-                    </ul>
-                    <div class="mt-8 text-center">
-                        <a href="{{ path('app_register') }}" class="btn btn-primary btn-lg">
-                            S'inscrire maintenant
+                <div class="mt-5 reveal grid grid-cols-1 md:grid-cols-3 gap-5" data-delay=".3">
+                    <div class="card card-padding flex flex-col items-center text-center">
+                        <h3 class="h4 text-lead mb-3">Cours particuliers</h3>
+                        <p class="text-muted mb-4">Apprenez le développement web avec un accompagnement sur mesure.</p>
+                        <a href="https://www.superprof.fr/developpeur-web-php-fullstack-donne-cours-initiation-developpement-web-methodologie-pratique.html"
+                           target="_blank" class="btn btn-light">
+                            En savoir plus
+                        </a>
+                    </div>
+                    <div class="card card-padding flex flex-col items-center text-center">
+                        <h3 class="h4 text-lead mb-3">Communauté Discord</h3>
+                        <p class="text-muted mb-4">Échangez avec d'autres passionnés sur notre serveur Discord.</p>
+                        <a href="https://discord.gg/AZPEVwva7R" target="_blank" class="btn btn-light">
+                            Rejoindre le serveur
+                        </a>
+                    </div>
+                    <div class="card card-padding flex flex-col items-center text-center">
+                        <h3 class="h4 text-lead mb-3">Contactez-moi</h3>
+                        <p class="text-muted mb-4">Une question ou une suggestion ? N'hésitez pas à me contacter.</p>
+                        <a href="{{ path('app_contact') }}" class="btn btn-light">
+                            Me contacter
                         </a>
                     </div>
                 </div>
             </div>
         </section>
-    {% endif %}
 
-    <!-- Section "Besoin d'aide" -->
-    <section class="container-box py-20 bg-primary-50 dark:bg-primary-1000">
-        <div class="stack">
-            <h2 class="h2 text-center reveal">Besoin d'<span class="text-lead">aide</span> ?</h2>
-            <p class="text-muted text-center reveal" data-delay=".2">
-                Que vous souhaitiez un accompagnement personnalisé ou simplement discuter, je suis là pour vous aider.
-            </p>
-            <div class="mt-5 reveal grid grid-cols-1 md:grid-cols-3 gap-5" data-delay=".3">
-                <div class="card card-padding flex flex-col items-center text-center">
-                    <h3 class="h4 text-lead mb-3">Cours particuliers</h3>
-                    <p class="text-muted mb-4">Apprenez le développement web avec un accompagnement sur mesure.</p>
-                    <a href="https://www.superprof.fr/developpeur-web-php-fullstack-donne-cours-initiation-developpement-web-methodologie-pratique.html"
-                       target="_blank" class="btn btn-light">
-                        En savoir plus
-                    </a>
-                </div>
-                <div class="card card-padding flex flex-col items-center text-center">
-                    <h3 class="h4 text-lead mb-3">Communauté Discord</h3>
-                    <p class="text-muted mb-4">Échangez avec d'autres passionnés sur notre serveur Discord.</p>
-                    <a href="https://discord.gg/AZPEVwva7R" target="_blank" class="btn btn-light">
-                        Rejoindre le serveur
-                    </a>
-                </div>
-                <div class="card card-padding flex flex-col items-center text-center">
-                    <h3 class="h4 text-lead mb-3">Contactez-moi</h3>
-                    <p class="text-muted mb-4">Une question ou une suggestion ? N'hésitez pas à me contacter.</p>
-                    <a href="{{ path('app_contact') }}" class="btn btn-light">
-                        Me contacter
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+        <div class="border-t border-gray-200 dark:border-gray-800 mt-16"></div>
 
-    <!-- Section "Contribuer" -->
-    <section class="container-box py-20 bg-white dark:bg-primary-950 reveal" data-delay=".4">
-        <div class="max-w-3xl mx-auto text-center">
-            <h2 class="h2 mb-4">
-                Vous souhaitez <span class="text-lead">contribuer</span> ?
-            </h2>
-            <p class="text-slate-500 dark:text-slate-300 text-lg">
-                Aidez-moi à faire évoluer cette plateforme en rejoignant le développement sur GitHub
-                ou en devenant auteur pour partager vos propres contenus.
-            </p>
-        </div>
-
-        <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Contribuer au développement -->
-            <div class="flex flex-col items-center text-center">
-                <div class="flex justify-center items-center bg-primary-700 text-white p-2 rounded-lg w-10 h-10">
-                    <span class="">{{ icon('github', 24) }}</span>
-                </div>
-                <h3 class="h4 mb-2 mt-4">Contribuez au code</h3>
-                <p class="text-muted mb-6">
-                    Partagez vos idées, résolvez des problèmes et participez activement
-                    au développement via GitHub.
+        <!-- Section "Contribuer" -->
+        <section class="py-20 bg-white dark:bg-primary-950 reveal" data-delay=".4">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="h2 mb-4">
+                    Vous souhaitez <span class="text-lead">contribuer</span> ?
+                </h2>
+                <p class="text-slate-500 dark:text-slate-300 text-lg">
+                    Aidez-moi à faire évoluer cette plateforme en rejoignant le développement sur GitHub
+                    ou en devenant auteur pour partager vos propres contenus.
                 </p>
-                <div class="mt-auto">
-                    <a href="https://github.com/lazarefortune/lazarefortune.com"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       class="btn-link">
-                        Accéder au GitHub
-                        <span class="ml-1">{{ icon('external-link', '16') }}</span>
-                    </a>
-                </div>
             </div>
 
-            <!-- Devenir auteur -->
-            <div class="flex flex-col items-center text-center">
-                <div class="flex justify-center items-center bg-primary-700 text-white p-2 rounded-lg w-10 h-10">
-                    <span class="">{{ icon('pencil-line', 24) }}</span>
+            <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Contribuer au développement -->
+                <div class="flex flex-col items-center text-center">
+                    <div class="flex justify-center items-center bg-primary-700 text-white p-2 rounded-lg w-10 h-10">
+                        <span class="">{{ icon('github', 24) }}</span>
+                    </div>
+                    <h3 class="h4 mb-2 mt-4">Contribuez au code</h3>
+                    <p class="text-muted mb-6">
+                        Partagez vos idées, résolvez des problèmes et participez activement
+                        au développement via GitHub.
+                    </p>
+                    <div class="mt-auto">
+                        <a href="https://github.com/lazarefortune/lazarefortune.com"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="btn-link">
+                            Accéder au GitHub
+                            <span class="ml-1">{{ icon('external-link', '16') }}</span>
+                        </a>
+                    </div>
                 </div>
-                <h3 class="h4 mb-2 mt-4">Devenez auteur</h3>
-                <p class="text-muted mb-6">
-                    Publiez vos propres vidéos ou playlists sur la plateforme.
-                    Partagez vos connaissances avec la communauté et faites grandir la plateforme.
+
+                <!-- Devenir auteur -->
+                <div class="flex flex-col items-center text-center">
+                    <div class="flex justify-center items-center bg-primary-700 text-white p-2 rounded-lg w-10 h-10">
+                        <span class="">{{ icon('pencil-line', 24) }}</span>
+                    </div>
+                    <h3 class="h4 mb-2 mt-4">Devenez auteur</h3>
+                    <p class="text-muted mb-6">
+                        Publiez vos propres vidéos ou playlists sur la plateforme.
+                        Partagez vos connaissances avec la communauté et faites grandir la plateforme.
+                    </p>
+                    <div class="mt-auto">
+                        <a href="{{ path('app_contact') }}"
+                           class="btn-link">
+                            Devenir auteur
+                            <span class="ml-1">{{ icon('arrow-right', '16') }}</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Newsletter -->
+        {#
+        <section class="py-20 bg-white-soft dark:bg-primary-1000 reveal" data-delay=".4">
+            <div class="stack max-w-2xl mx-auto text-center">
+                <span class="inline-block mx-auto">{{ icon('mail', 26) }}</span>
+
+                <h2 class="h2 mb-2">
+                    Restons en <span class="text-lead">contact</span>
+                </h2>
+
+                <p class="text-muted">
+                    Recevez mes dernières vidéos, actualités et ressources directement dans votre boîte mail.
                 </p>
-                <div class="mt-auto">
-                    <a href="{{ path('app_contact') }}"
-                       class="btn-link">
-                        Devenir auteur
-                        <span class="ml-1">{{ icon('arrow-right', '16') }}</span>
-                    </a>
-                </div>
+
+                <form
+                      class="mt-6 flex flex-col md:flex-row gap-3 justify-center items-center">
+                    <input
+                            type="email"
+                            name="email"
+                            required
+                            class="form-input"
+                            placeholder="Votre adresse e-mail"
+                            aria-label="Email" />
+
+                    <button
+                            type="submit"
+                            class="btn btn-primary">
+                        Je m'abonne
+                    </button>
+                </form>
+
+                <!-- Note sur la protection des données -->
+                <p class="mt-3 text-xs text-gray-500 dark:text-gray-400">
+                    Nous respectons votre vie privée. Pas de spam, désabonnement possible en un clic.
+                </p>
             </div>
-        </div>
-    </section>
-
-    <!-- Section Newsletter -->
-    {#
-    <section class="container-box py-20 bg-white-soft dark:bg-primary-1000 reveal" data-delay=".4">
-        <div class="stack max-w-2xl mx-auto text-center">
-            <span class="inline-block mx-auto">{{ icon('mail', 26) }}</span>
-
-            <h2 class="h2 mb-2">
-                Restons en <span class="text-lead">contact</span>
-            </h2>
-
-            <p class="text-muted">
-                Recevez mes dernières vidéos, actualités et ressources directement dans votre boîte mail.
-            </p>
-
-            <form
-                  class="mt-6 flex flex-col md:flex-row gap-3 justify-center items-center">
-                <input
-                        type="email"
-                        name="email"
-                        required
-                        class="form-input"
-                        placeholder="Votre adresse e-mail"
-                        aria-label="Email" />
-
-                <button
-                        type="submit"
-                        class="btn btn-primary">
-                    Je m'abonne
-                </button>
-            </form>
-
-            <!-- Note sur la protection des données -->
-            <p class="mt-3 text-xs text-gray-500 dark:text-gray-400">
-                Nous respectons votre vie privée. Pas de spam, désabonnement possible en un clic.
-            </p>
-        </div>
-    </section>
-    #}
+        </section>
+        #}
+    </div>
 {% endblock %}

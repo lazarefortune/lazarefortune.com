@@ -3,7 +3,7 @@
     {% set courseUrl = not isLocked ? path('app_course_show', {slug: course.slug}) ~ '#autoplay' : path('app_course_show', {slug: course.slug}) %}
 
     <a href="{{ courseUrl }}" class="course__link block">
-        <div class="relative rounded-xl aspect-video bg-black/10 overflow-hidden">
+        <div class="course__wrapper">
             <img class="course__image"
                  src="{{ image_url(course.image, 1330, 750) }}"
                  alt="{{ course.title }}">

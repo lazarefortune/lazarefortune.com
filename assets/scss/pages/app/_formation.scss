@@ -23,7 +23,7 @@
   @apply static;
   &::after{
     content: '';
-    @apply absolute inset-0 block cursor-pointer rounded border border-transparent transition duration-100 z-[5];
+    @apply absolute inset-0 block cursor-pointer rounded-xl border border-transparent transition duration-100 z-[5];
   }
   &:hover::after {
     @apply shadow shadow-slate-200 dark:shadow-primary-500 transition-all duration-200;
@@ -78,10 +78,11 @@
   @apply flex items-center gap-1 mt-2 flex-wrap;
 }
 .formation__progress {
-  @apply absolute mt-auto block bottom-0 rounded-b left-0 w-full bg-slate-400 z-[6];
+  width: calc(100% - 10px);
+  @apply absolute mt-auto block bottom-0 rounded-b-full left-1 bg-slate-400 z-[6];
   span {
     width: calc(var(--progress, 0) * 100%);
-    @apply block h-1 rounded-bl bg-primary-600 dark:bg-primary-600;
+    @apply block h-1 rounded-bl-xl bg-primary-600 dark:bg-primary-600;
   }
 }
 

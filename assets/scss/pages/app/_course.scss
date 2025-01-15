@@ -51,20 +51,29 @@
   @apply w-full h-full object-cover rounded;
 }
 
+.course__wrapper {
+  @apply relative rounded-xl aspect-video bg-black/10 overflow-hidden;
+}
+
 .course__link {
   @apply static;
   &::after{
     content: '';
-    @apply absolute inset-0 block cursor-pointer rounded border border-transparent transition duration-100 z-[2];
+    @apply absolute inset-0 block cursor-pointer rounded-xl border border-transparent transition duration-100 z-[2];
   }
   &:hover::after {
     @apply shadow shadow-slate-200 dark:shadow-primary-500 transition-all duration-200;
   }
   &:hover .course__image {
-    @apply transition transform scale-105 -rotate-2 ease-in-out duration-200;
+    @apply transition transform scale-100 ease-in-out duration-200;
+  }
+  &:hover .course__wrapper {
+    @apply rounded-b-none;
+  }
+  &:hover .course__progress span {
+    @apply rounded-none;
   }
 }
-
 .course__description {
   p {
     @apply text-slate-600 text-[15px] dark:text-slate-400;

@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container mx-auto px-4 py-16">
+    <div class="container-box mx-auto px-4 py-16">
         <!-- Hero Section -->
         <section class="relative text-center py-10">
             <h1 class="mx-auto max-w-4xl mb-6 font-display text-5xl font-medium tracking-tight text-slate-900 sm:text-7xl reveal">
@@ -51,10 +51,10 @@
 
         <!-- Latest Videos Section -->
         {% if latest_content is not empty %}
-        <section class="mt-24 reveal" data-delay=".3">
+        <section class="mt-24 reveal relative" data-delay=".3">
             <h2 class="h2 text-center mb-6">Dernières Vidéos et Playlists</h2>
 
-            <div class="overflow-x-auto scrollbar-hide md:overflow-visible mb-6 py-10">
+            <div class="overflow-x-auto max-h-[52rem] overflow-y-hidden md:overflow-y-hidden scrollbar-hide md:overflow-visible mb-6 py-10">
                 <div class="flex md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {% for content in latest_content %}
                         {% if content.isCourse %}
@@ -63,25 +63,25 @@
                             {% include 'pages/public/formations/_formation_item.html.twig' with { formation: content } %}
                         {% endif %}
                     {% endfor %}
+                    <div class="flex md:hidden lg:hidden xl:hidden">
+                        <a href="{{ path('app_course_index') }}" class="btn btn-light">
+                            {{ icon('arrow-right', 24) }}
+                        </a>
+                    </div>
                 </div>
             </div>
 
-
-            {#
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {% for content in latest_content %}
-                    {% if content.isCourse %}
-                        {% include 'pages/public/courses/_course_item.html.twig' with { course: content } %}
-                    {% elseif content.isFormation %}
-                        {% include 'pages/public/formations/_formation_item.html.twig' with { formation: content } %}
-                    {% endif %}
-                {% endfor %}
+            {% if latest_content|length > 8 %}
+            <div class="z-[20] absolute inset-x-0 bottom-0 hidden md:flex h-36 items-end justify-center bg-gradient-to-t from-white dark:from-primary-950">
+                <a href="{{ path('app_course_index') }}" class="rounded-full py-2 px-6 bg-primary-600 text-white border-primary-600 hover:bg-primary-800 hover:border-primary-800 hover:text-white
+                dark:bg-primary-600 dark:text-white dark:border-primary-600 dark:hover:bg-primary-700 dark:hover:text-white dark:hover:border-primary-700
+                focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2
+                dark:focus:ring-offset-primary-950 dark:focus:ring-primary-900">
+                    Voir toutes les vidéos
+                </a>
             </div>
-            #}
+            {% endif %}
 
-            <div class="flex justify-center w-full mt-10">
-                <a href="{{ path('app_course_index') }}" class="btn btn-primary">Voir plus de vidéos</a>
-            </div>
         </section>
         {% endif %}
 
