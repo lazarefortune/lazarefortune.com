@@ -3,7 +3,7 @@
     <div class="header__left">
         <!-- Logo -->
         <a href="{{ path('app_home') }}" {{ menu_active_aria('app_home') }} class="header__logo">
-            <span class="text-xl font-hanken-grotesk font-medium">lazarefortune.com</span>
+            <span class="text-xl font-hanken-grotesk font-medium text-slate-900 dark:text-white">lazarefortune<span class="text-primary-600 dark:text-primary-400">.com</span></span>
 {#            <span class="lg:hidden text-xl font-hanken-grotesk font-medium">LF</span>#}
         </a>
 
@@ -26,34 +26,35 @@
 
     <!-- Menu mobile -->
     <div id="mobile-menu">
-        <ul class="container-box mt-10">
-            {% if not app.user %}
-                <li class="mb-3">
-                    <a href="{{ path('app_register') }}" class="btn btn-primary w-full">
-                        {{ icon('user-plus') }}
-                        Inscription
+        <div class="container-box mt-10">
+            <div>
+                {% if not app.user %}
+                    <div class="flex gap-2 items-center w-full mb-5">
+                        <a href="{{ path('app_register') }}" class="btn btn-primary w-full">
+                            {{ icon('user-plus') }}
+                            Inscription
+                        </a>
+                        <a href="{{ path('app_login') }}" class="btn btn-light w-full">
+                            {{ icon('user') }}
+                            Connexion
+                        </a>
+                    </div>
+                {% endif %}
+
+                <div>
+                    <a href="{{ path('app_course_index') }}" {{ menu_active_aria('app_course_') }} class="mobile-menu__link">
+                        {{ icon('video') }}
+                        <span>Vidéos</span>
                     </a>
-                </li>
-                <li>
-                    <a href="{{ path('app_login') }}" class="btn btn-light w-full">
-                        {{ icon('user') }}
-                        Connexion
+                </div>
+                <div>
+                    <a href="{{ path('app_formation_index') }}" {{ menu_active_aria('app_formation_') }} class="mobile-menu__link">
+                        {{ icon('library-big') }}
+                        <span>Playlists</span>
                     </a>
-                </li>
-            {% endif %}
-            <li>
-                <a href="{{ path('app_course_index') }}" {{ menu_active_aria('app_course_') }} class="mobile-menu__link">
-                    {{ icon('video') }}
-                    <span>Vidéos</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ path('app_formation_index') }}" {{ menu_active_aria('app_formation_') }} class="mobile-menu__link">
-                    {{ icon('library-big') }}
-                    <span>Playlists</span>
-                </a>
-            </li>
-        </ul>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Section droite : Menu utilisateur -->
@@ -88,13 +89,17 @@
             </div>
         {% else %}
             <div class="header__auth">
-                <a href="{{ path('app_register') }}" {{ menu_active_aria('app_register') }} class="header__nav-link">
-                    {{ icon('user-plus') }}
-                    <span>Inscription</span>
-                </a>
-                <span class="text-muted">·</span>
-                <a href="{{ path('app_login') }}" {{ menu_active_aria('app_login') }} class="header__nav-link">
-                    <span>Connexion</span>
+{#                <a href="{{ path('app_register') }}" {{ menu_active_aria('app_register') }} class="header__nav-link">#}
+{#                    {{ icon('user-plus') }}#}
+{#                    <span>Inscription</span>#}
+{#                </a>#}
+{#                <span class="text-muted">·</span>#}
+{#                <a href="{{ path('app_login') }}" {{ menu_active_aria('app_login') }} class="header__nav-link">#}
+{#                    <span>Connexion</span>#}
+{#                </a>#}
+                <a href="{{ path('app_login') }}" class="btn btn-primary ml-2">
+                    {{ icon('user') }}
+                    <span>Mon compte</span>
                 </a>
             </div>
         {% endif %}

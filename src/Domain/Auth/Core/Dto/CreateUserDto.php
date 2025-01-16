@@ -3,8 +3,10 @@
 namespace App\Domain\Auth\Core\Dto;
 
 use App\Domain\Auth\Core\Entity\User;
+use App\Validator\Unique;
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[Unique( field: 'email', entityClass: User::class )]
 class CreateUserDto
 {
     #[Assert\NotBlank( message: 'Veuillez renseigner votre nom complet' )]
@@ -25,5 +27,13 @@ class CreateUserDto
 
     public function __construct( public User $user )
     {
+    }
+
+    public function getId() : ?int
+    {
+        if ( method_exists( $this->user, 'getId' ) ) {
+            return $this->user->getId();
+        }
+        throw new \RuntimeException( "L'entité doit avoir une méthode getId()" );
     }
 }

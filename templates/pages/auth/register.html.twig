@@ -14,6 +14,7 @@
         </p>
     </div>
 
+
     {{ form_start(registrationForm, {
         attr: {
             class: 'space-y-4 md:space-y-6 reveal',
@@ -54,23 +55,38 @@
         <div class="alert alert-danger">{{ flash_error }}</div>
     {% endfor %}
 
-    {{ form_widget(registrationForm.fullname, {
-        attr: {
-            placeholder: 'Nom complet',
-        }
-    }) }}
+    <div>
+        {{ form_widget(registrationForm.fullname, {
+            attr: {
+                placeholder: 'Nom complet',
+            }
+        }) }}
+        <div class="form-error">
+            {{ form_errors(registrationForm.fullname) }}
+        </div>
+    </div>
 
-    {{ form_widget(registrationForm.email, {
-        attr: {
-            placeholder: 'E-mail',
-        }
-    }) }}
+    <div>
+        {{ form_widget(registrationForm.email, {
+            attr: {
+                placeholder: 'E-mail',
+            }
+        }) }}
+        <div class="form-error">
+            {{ form_errors(registrationForm.email) }}
+        </div>
+    </div>
 
-    {{ form_widget(registrationForm.plainPassword, {
-        attr: {
-            placeholder: 'Saisir un mot de passe',
-        }
-    }) }}
+    <div>
+        {{ form_widget(registrationForm.plainPassword, {
+            attr: {
+                placeholder: 'Saisir un mot de passe',
+            }
+        }) }}
+        <div class="form-error">
+            {{ form_errors(registrationForm.plainPassword) }}
+        </div>
+    </div>
 
     <div class="flex justify-between flex-col">
         <div class="flex items-start">

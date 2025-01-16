@@ -105,7 +105,6 @@ abstract class CrudController extends BaseController
         /** @var Request $request */
         $request = $this->requestStack->getCurrentRequest();
         $form = $this->createForm( $data->getFormClass(), $data );
-//        dd( $data );
         $form->handleRequest( $request );
 
         if ( $form->isSubmitted() && $form->isValid() ) {

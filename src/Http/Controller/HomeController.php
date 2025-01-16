@@ -10,6 +10,7 @@ use App\Domain\Application\Service\OptionManager;
 use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Course\Entity\Course;
 use App\Domain\Course\Entity\Formation;
+use App\Domain\Course\Entity\Technology;
 use App\Domain\History\Entity\Progress;
 use App\Domain\History\Service\HistoryService;
 use App\Infrastructure\Spam\GeoLocationService;
@@ -37,6 +38,7 @@ class HomeController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
+        $technologies = $this->em->getRepository( Technology::class )->findAll();
 
         if ( $user ) {
             $watchlist = $this->historyService->getLastWatchedContent( $user );
@@ -52,6 +54,7 @@ class HomeController extends AbstractController
             return $this->render( 'pages/public/index-logged.html.twig' , [
                 'latest_content' => $content,
                 'watchlist' => $watchlist,
+                'technologies' => $technologies,
             ]);
         } else {
             $content = $this->em->getRepository( Content::class )
@@ -60,6 +63,7 @@ class HomeController extends AbstractController
 
             return $this->render( 'pages/public/index.html.twig' , [
                 'latest_content' => $content,
+                'technologies' => $technologies,
             ]);
         }
 
