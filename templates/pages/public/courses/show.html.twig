@@ -111,20 +111,20 @@
             <div class="mt-5 flex justify-between items-center gap-2">
                 <div>
                     <div class="inline-block relative">
-                        <button id="share-button" class="btn btn-sm btn-light flex items-center gap-2">
+                        <button id="share-button" class="btn btn-light flex items-center gap-2">
                             {{ icon('share') }} Partager
                         </button>
-                        <div id="share-menu" class="absolute hidden flex-col mt-2 bg-white dark:bg-primary-1000 shadow-lg rounded-lg p-2 border border-slate-200 dark:border-slate-700 z-10">
-                            <a href="https://twitter.com/intent/tweet?url={{ app.request.uri }}" target="_blank" class="share-menu-item flex items-center gap-2 px-4 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded">
+                        <div id="share-menu" class="absolute hidden">
+                            <a href="https://twitter.com/intent/tweet?url={{ app.request.uri }}" target="_blank" class="share-menu-item">
                                 {{ icon('twitter') }} Twitter
                             </a>
-                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.uri }}" target="_blank" class="share-menu-item flex items-center gap-2 px-4 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded">
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.uri }}" target="_blank" class="share-menu-item">
                                 {{ icon('facebook') }} Facebook
                             </a>
-                            <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ app.request.uri }}" target="_blank" class="share-menu-item flex items-center gap-2 px-4 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded">
+                            <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ app.request.uri }}" target="_blank" class="share-menu-item">
                                 {{ icon('linkedin') }} LinkedIn
                             </a>
-                            <button id="copy-link" data-url="{{ app.request.uri }}" class="share-menu-item flex items-center gap-2 px-4 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded">
+                            <button id="copy-link" data-url="{{ app.request.uri }}" class="share-menu-item">
                                 {{ icon('copy') }} Copier le lien
                             </button>
                         </div>
@@ -135,7 +135,7 @@
                         <a href="{{ vich_uploader_asset(course, 'sourceFile') }}"
                            target="_blank"
                            download="{{ course.source }}"
-                           class="btn btn-sm btn-light">
+                           class="btn btn-light">
                             {{ icon('code') }}
                             Code source
                         </a>

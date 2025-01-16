@@ -263,7 +263,7 @@
 
 /* Menu partage */
 #share-menu {
-  @apply absolute hidden flex-col mt-2 bg-white dark:bg-primary-1000 shadow-lg rounded p-2 border border-slate-200 dark:border-slate-700 z-50 min-w-48;
+  @apply flex-col mt-2 bg-white dark:bg-primary-1000 shadow-lg p-2 border border-slate-200 dark:border-slate-700 z-10 rounded-2xl min-w-48;
 }
 
 #share-menu.show {
@@ -271,5 +271,5 @@
 }
 
 .share-menu-item {
-  @apply w-full flex items-center gap-2 px-4 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition;
+  @apply w-full transition flex items-center gap-2 px-4 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-primary-950 dark:hover:text-white rounded-xl;
 }

@@ -11,10 +11,10 @@
   flex items-center justify-center
   w-10 h-10
   rounded-md
-  bg-primary-50
   transition-all duration-300
-  cursor-pointer
-  dark:bg-primary-900
+  cursor-pointer;
+  //bg-primary-50
+  //dark:bg-primary-900
 }
 
 .theme-switcher__label:hover {
@@ -30,9 +30,9 @@
 }
 
 .theme-switcher__input:not(:checked) + .theme-switcher__label .icon-moon {
-  @apply opacity-100 text-primary-700;
+  @apply opacity-100 text-slate-900 dark:text-slate-50;
 }
 
 .theme-switcher__input:checked + .theme-switcher__label .icon-sun {
-  @apply opacity-100 text-yellow-300;
+  @apply opacity-100 text-slate-900 dark:text-slate-50;
 }
