@@ -39,7 +39,7 @@
     @apply fixed inset-x-0 bottom-0 max-h-[70vh] transform translate-y-full z-[9999] rounded-t-xl shadow-lg border border-slate-200 dark:border-slate-700 overflow-auto;
 
     &__header {
-      @apply sticky top-0 z-[10000] bg-white dark:bg-primary-950 w-full flex items-center justify-end shadow shadow-slate-400 dark:shadow-primary-700;
+      @apply sticky top-0 z-[10000] bg-white dark:bg-primary-950 w-full h-8 flex items-center justify-end shadow shadow-slate-400 dark:shadow-primary-700;
       &::before {
         content: '';
         @apply absolute top-2 left-1/2 -translate-x-1/2 w-10 h-1 bg-slate-300 rounded;
