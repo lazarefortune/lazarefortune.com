@@ -11,6 +11,7 @@ use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Course\Entity\Course;
 use App\Domain\Course\Entity\Formation;
 use App\Domain\Course\Entity\Technology;
+use App\Domain\Course\Repository\TechnologyRepository;
 use App\Domain\History\Entity\Progress;
 use App\Domain\History\Service\HistoryService;
 use App\Infrastructure\Spam\GeoLocationService;
@@ -28,6 +29,7 @@ class HomeController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
+        private readonly TechnologyRepository $technologyRepository,
         private readonly HistoryService         $historyService
     )
     {
@@ -38,7 +40,7 @@ class HomeController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
-        $technologies = $this->em->getRepository( Technology::class )->findAll();
+        $technologies = $this->technologyRepository->findAllWithContentCount();
 
         if ( $user ) {
             $watchlist = $this->historyService->getLastWatchedContent( $user );
@@ -66,9 +68,6 @@ class HomeController extends AbstractController
                 'technologies' => $technologies,
             ]);
         }
-
-
-//        return $this->render( 'pages/public/index.html.twig');
     }
 
     #[Route( '/mauvaise-region', name: 'access_denied' )]

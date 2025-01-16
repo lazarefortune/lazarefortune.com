@@ -77,4 +77,22 @@ class TechnologyRepository extends AbstractRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * Trouve toutes les technologies avec le nombre de courses et de formations associées.
+     * @return array
+     */
+    public function findAllWithContentCount(): array
+    {
+        $query = $this->createQueryBuilder('t')
+            ->select('t.id', 't.name', 't.slug', 't.image', 'COUNT(DISTINCT c.id) AS courseCount', 'COUNT(DISTINCT f.id) AS formationCount')
+            ->leftJoin('t.usages', 'u') // Jointure avec TechnologyUsage
+            ->leftJoin('u.content', 'c', 'WITH', 'c INSTANCE OF App\Domain\Course\Entity\Course') // Filtre pour les cours
+            ->leftJoin('u.content', 'f', 'WITH', 'f INSTANCE OF App\Domain\Course\Entity\Formation') // Filtre pour les formations
+            ->groupBy('t.id')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
 }
