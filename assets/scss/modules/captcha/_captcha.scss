@@ -6,6 +6,8 @@
   background-image: var(--image);
   background-size: cover;
   touch-action: none;
+  border-radius: 10px;
+  overflow: hidden;
 
   .captcha-piece {
     position: absolute;
