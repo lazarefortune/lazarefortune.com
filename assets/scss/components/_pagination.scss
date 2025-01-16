@@ -6,7 +6,7 @@
 
 .pagination li a,
 .pagination li span{
-  @apply m-1 whitespace-nowrap px-3 py-2 text-center text-slate-950 border-2 rounded dark:text-white;
+  @apply m-1 whitespace-nowrap px-3 py-1.5 text-center text-slate-950 border rounded-full dark:text-white;
 }
 
 .pagination li span {
