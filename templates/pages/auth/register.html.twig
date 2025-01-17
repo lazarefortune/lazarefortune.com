@@ -7,7 +7,7 @@
 {% block auth_body %}
     <div class="mb-4">
         <h1 class="text-2xl text-gray-600 font-medium leading-tight tracking-tight md:text-3xl dark:text-white mb-2 reveal">
-            <span class="text-primary-900 dark:text-slate-100">Tu me rejoins ?</span>
+            <span class="text-primary-900 dark:text-slate-100">Tu nous rejoins ?</span>
         </h1>
         <p class="text-gray-400 dark:text-gray-400 reveal" data-delay=".2">
             Accède à tout le contenu en un clic.
@@ -21,31 +21,6 @@
             'data-delay': '.4'
         }
     }) }}
-
-    <div class="mt-6 w-full flex gap-2 justify-between">
-        <a href="{{ path('app_oauth_connect', {service: 'google'}) }}"
-           class="btn btn-light w-full">
-            <svg class="social-icon">
-                <use href="/icons/social.svg#google"></use>
-            </svg>
-            <span>Google</span>
-        </a>
-
-        <a href="{{ path('app_oauth_connect', {service: 'github'}) }}"
-           class="btn btn-light w-full">
-            <svg class="social-icon">
-                <use href="/icons/social.svg#github"></use>
-            </svg>
-            <span>GitHub</span>
-        </a>
-    </div>
-
-    <!-- ou divider -->
-    <div class="flex items-center space-x-2">
-        <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
-        <span class="px-1 text-slate-600 dark:text-slate-100">ou avec votre e-mail</span>
-        <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
-    </div>
 
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}"
@@ -120,12 +95,36 @@
             class="btn btn-primary w-full">
         Créer mon compte
     </button>
-    <p class="text-base font-light text-gray-500">
-        <span>Vous avez déjà un compte ?</span>
-        <a href="{{ path('app_login') }}"
-           class="font-medium text-primary-600 dark:text-primary-500">
-            Connectez-vous
+
+    <a href="{{ path('app_login') }}"
+       class="btn btn-outline w-full">
+        J'ai déjà un compte
+    </a>
+
+    <!-- ou divider -->
+    <div class="flex items-center space-x-2">
+        <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+        <span class="px-1 text-slate-600 dark:text-slate-100">ou continuez avec</span>
+        <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+    </div>
+
+    <div class="mt-6 w-full flex gap-2 justify-between">
+        <a href="{{ path('app_oauth_connect', {service: 'google'}) }}"
+           class="btn btn-light w-full">
+            <svg class="social-icon">
+                <use href="/icons/social.svg#google"></use>
+            </svg>
+            <span>Google</span>
         </a>
-    </p>
+
+        <a href="{{ path('app_oauth_connect', {service: 'github'}) }}"
+           class="btn btn-light w-full">
+            <svg class="social-icon">
+                <use href="/icons/social.svg#github"></use>
+            </svg>
+            <span>GitHub</span>
+        </a>
+    </div>
+
     {{ form_end(registrationForm) }}
 {% endblock %}
