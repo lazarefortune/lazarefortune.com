@@ -77,14 +77,12 @@
                     <div class="stack">
                         <h3 class="h3">Adresse email</h3>
 
-                        {% if requestEmailChange and not requestEmailChange.createdAt|is_older_than_hours(1) %}
-                            <div class="notification-info">
-                                <h2 class="notification-heading">Attention !</h2>
-                                <p>
-                                    Vous avez demandé un changement d'adresse email.
-                                    <br>
-                                    Veuillez vérifier votre
-                                    nouvelle boîte {{ requestEmailChange.email }} pour confirmer.
+                        {% if requestEmailChange and not requestEmailChange.isExpired() %}
+                            <div class="bg-white dark:bg-primary-950 border border-slate-100 dark:border-slate-700 px-4 py-6 rounded-xl">
+                                <h2 class="text-lg font-medium mb-2">Vous avez demandé un changement d'adresse email.</h2>
+                                <p class="text-muted">
+                                    Vérifier votre nouvelle boîte <b>{{ requestEmailChange.email }}</b> pour confirmer.
+                                    Si vous n'avez pas reçu le mail, vous pouvez renouveler dans {{ requestEmailChange.expiresAt|countdown }}
                                 </p>
                             </div>
                         {% else %}

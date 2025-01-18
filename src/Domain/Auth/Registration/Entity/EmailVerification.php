@@ -29,6 +29,9 @@ class EmailVerification
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $expiresAt = null;
+
     public function getId() : ?int
     {
         return $this->id;
@@ -82,11 +85,22 @@ class EmailVerification
         return $this;
     }
 
+    public function getExpiresAt() : ?\DateTimeImmutable
+    {
+        return $this->expiresAt;
+    }
+
+    public function setExpiresAt( \DateTimeImmutable $expiresAt ) : self
+    {
+        $this->expiresAt = $expiresAt;
+
+        return $this;
+    }
+
     public function isExpired() : bool
     {
         $now = new \DateTimeImmutable();
-        $expirationTime = $this->createdAt->modify( '+' . self::TOKEN_EXPIRATION_TIME . ' seconds' );
 
-        return $now > $expirationTime;
+        return $now > $this->expiresAt;
     }
 }

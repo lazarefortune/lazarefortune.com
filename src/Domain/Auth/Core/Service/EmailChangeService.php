@@ -52,6 +52,7 @@ class EmailChangeService
             ->setEmail( $newEmail )
             ->setAuthor( $user )
             ->setCreatedAt( new \DateTimeImmutable() )
+            ->setExpiresAt( new \DateTimeImmutable( sprintf( '+%d seconds', EmailVerification::TOKEN_EXPIRATION_TIME ) ) )
             ->setToken( $this->tokenGeneratorService->generate() );
 
         $this->entityManager->persist( $emailVerification );
