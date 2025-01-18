@@ -8,13 +8,15 @@ use App\Domain\Search\Service\SearchService;
 use App\Http\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 #[Route('/search', name: 'search_')]
 class SearchController extends AbstractController
 {
 
     public function __construct(
-        private readonly SearchService $searchService
+        private readonly SearchService $searchService,
+        private readonly UrlGeneratorInterface $urlGenerator
     ) {}
 
     #[Route('/{query}', name: 'index', methods: ['GET'])]
@@ -30,7 +32,7 @@ class SearchController extends AbstractController
                         'type' => 'formation',
                         'id' => $result->getId(),
                         'title' => $result->getTitle(),
-                        'url' => '',
+                        'url' => $this->urlGenerator->generate('app_formation_show', ['slug' => $result->getSlug()]),
                         'image' => $result->getImage(),
                         'duration' => $result->getDuration(),
                         'createdAt' => $result->getCreatedAt(),
@@ -41,7 +43,7 @@ class SearchController extends AbstractController
                         'type' => 'course',
                         'id' => $result->getId(),
                         'title' => $result->getTitle(),
-                        'url' => '',
+                        'url' => $this->urlGenerator->generate('app_course_show', ['slug' => $result->getSlug()]),
                         'image' => $result->getImage(),
                         'duration' => $result->getDuration(),
                         'createdAt' => $result->getCreatedAt(),
