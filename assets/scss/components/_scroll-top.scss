@@ -1,25 +1,15 @@
 .scroll-top {
-  color: #fff;
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  position: fixed;
-  right: 15px;
-  bottom: 15px;
-  border-radius: 4px;
-  background-color: rgba(0, 0, 0, .3);
-  opacity: 1;
-  cursor: pointer;
-  z-index: 2000;
-  transition: opacity .5s, background .3s;
+  @apply fixed grid place-items-center bottom-5 right-5 z-[2000] w-10 h-10 bg-black text-white bg-opacity-30 rounded-full;
+  @apply transition-all duration-300 cursor-pointer;
+  svg {
+    @apply w-6 h-6;
+  }
 }
 
 .scroll-top:hover {
-  background-color: rgba(0, 0, 0, .4);
+  @apply bg-primary-500;
 }
 
 .scroll-top[hidden] {
-  pointer-events: none;
-  opacity: 0;
+  @apply pointer-events-none opacity-0;
 }
