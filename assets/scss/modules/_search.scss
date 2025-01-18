@@ -1,0 +1,87 @@
+.search-overlay {
+  @apply fixed inset-0 z-[9999] bg-gray-200/70 dark:bg-gray-900/90 backdrop-blur-sm flex justify-center items-start opacity-0 pointer-events-none;
+  transition: opacity 0.2s ease;
+  &.active {
+    @apply opacity-100 pointer-events-auto;
+  }
+}
+
+.search-container {
+  width: calc(100% - 40px);
+  @apply relative opacity-0 -translate-y-3 rounded bg-white dark:bg-primary-1000 max-w-[calc(100vw-40px)]
+  lg:max-w-2xl mt-[20vh];
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  animation: slide-down 0.3s ease forwards;
+
+  @keyframes slide-down {
+    0% {
+      transform: translateY(-20px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}
+
+.search-bar {
+  @apply w-full;
+}
+.search-input-wrapper {
+  @apply relative w-full;
+
+  .search-icon {
+    @apply absolute inset-y-0 left-3 flex items-center text-gray-400 dark:text-gray-500 pointer-events-none;
+    svg {
+      @apply w-5 h-5;
+    }
+  }
+
+  input {
+    @apply w-full pl-10 p-4 bg-transparent border-none outline-none text-gray-900 dark:text-white text-base rounded-lg focus:ring-0;
+    &::placeholder {
+      @apply text-gray-500 dark:text-gray-400;
+    }
+  }
+}
+
+.search-suggestions {
+  @apply space-y-6 bg-white dark:bg-gray-800 text-gray-900 dark:text-white py-4 px-3 border-t border-gray-200 dark:border-gray-700 max-h-60 overflow-y-auto;
+
+  li {
+    @apply list-none;
+
+    a {
+      @apply block px-4 py-2 rounded-md transition duration-200 ease-in-out text-base text-gray-900 dark:text-white hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-700;
+    }
+
+    &.active a {
+      @apply bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-white;
+    }
+  }
+
+  mark {
+    @apply bg-yellow-200 text-yellow-900 dark:bg-yellow-500 dark:text-yellow-50;
+  }
+}
+
+.search-footer {
+  @apply text-sm text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 p-3 text-center;
+  span {
+    @apply text-blue-600 dark:text-blue-400;
+  }
+}
+
+.search-loader {
+  @apply absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 pointer-events-none;
+  svg {
+    @apply w-5 h-5 animate-spin;
+  }
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -63,6 +63,7 @@ import reactToWebComponent from "react-to-webcomponent"
 import Comments from "./components/Comments";
 import Quiz from "./components/Quiz/Quiz";
 import PuzzleCaptcha from "./components/Captcha";
+import { Search } from "./components/Search";
 
 const CommentsElement = reactToWebComponent(Comments, React, ReactDOM, {
     shadow: false, // pour ne pas utiliser le Shadow DOM
@@ -79,7 +80,13 @@ const PuzzleCaptchaElement = reactToWebComponent(PuzzleCaptcha, React, ReactDOM,
     props: ['width', 'height', 'pieceWidth', 'pieceHeight', 'src', 'answerInputName', 'challengeInputName']
 });
 
+const SearchElement = reactToWebComponent(Search, React, ReactDOM, {
+    shadow: false,
+    props: ['searchUrl', 'searchApi']
+});
+
 
 customElements.define('puzzle-challenge', PuzzleCaptchaElement)
 customElements.define('comments-area', CommentsElement)
 customElements.define('quiz-area', QuizElement)
+customElements.define('search-button', SearchElement)

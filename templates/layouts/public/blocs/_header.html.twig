@@ -4,7 +4,6 @@
         <!-- Logo -->
         <a href="{{ path('app_home') }}" {{ menu_active_aria('app_home') }} class="header__logo">
             <span class="text-xl font-hanken-grotesk font-medium text-slate-900 dark:text-white">lazarefortune<span class="text-primary-600 dark:text-primary-400">.com</span></span>
-{#            <span class="lg:hidden text-xl font-hanken-grotesk font-medium">LF</span>#}
         </a>
 
         <!-- Navigation principale (visible sur desktop) -->
@@ -23,6 +22,15 @@
             </li>
         </ul>
     </div>
+
+{#    <div class="header__search">#}
+{#        <form action="" method="get" class="flex items-center relative">#}
+{#            <input type="search" name="q" placeholder="Rechercher" class="rounded-l-full border border-gray-300 px-3 py-2 w-64">#}
+{#            <button type="submit" class="absolute -right-[44px] top-0 bottom-0 px-3 py-2 border border-gray-300 bg-primary-200 text-slate-900 rounded-r-full">#}
+{#                {{ icon('search') }}#}
+{#            </button>#}
+{#        </form>#}
+{#    </div>#}
 
     <!-- Menu mobile -->
     <div id="mobile-menu">
@@ -59,6 +67,8 @@
 
     <!-- Section droite : Menu utilisateur -->
     <div class="header__right">
+        <search-button class="mr-1"></search-button>
+
         {% if app.user %}
             <!-- Dropdown utilisateur -->
             <div class="dropdown">
@@ -107,11 +117,11 @@
         <!-- Bouton hamburger (visible sur mobile) -->
         <button id="header-hamburger" class="hamburger">
             <span class="sr-only">Ouvrir le menu</span>
-            <div class="hamburger__icon">
+            <span class="hamburger__icon">
                 <span aria-hidden="true" class="hamburger__line"></span>
                 <span aria-hidden="true" class="hamburger__line"></span>
                 <span aria-hidden="true" class="hamburger__line"></span>
-            </div>
+            </span>
         </button>
     </div>
 </nav>

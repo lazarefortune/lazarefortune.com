@@ -71,4 +71,13 @@ class ContentRepository extends AbstractRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function search(string $query): array
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.title LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
+            ->getQuery()
+            ->getResult();
+    }
 }

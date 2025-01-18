@@ -39,8 +39,8 @@
                 {% elseif course.premium and not userIsPremium %}
                     <div class="course-countdown" style="background-image: url({{ image_url_raw(course.image) }})">
                         <div class="absolute flex flex-col w-full h-full justify-center items-center z-10">
+                            <p class="text-white text-lg mb-3 text-center">Cette vidéo est premium</p>
                             <a href="{{ path('app_login') }}" class="btn btn-primary">{{ icon('crown') }} Devenez premium</a>
-                            <p class="text-white text-lg mt-3 text-center">Contenu destiné aux membres premiums</p>
                         </div>
                     </div>
                 {% elseif (course.scheduled or course.premium) and userIsPremium %}
@@ -108,7 +108,16 @@
                 {% endif %}
             </div>
 
-            <div class="mt-5 flex justify-between items-center gap-2">
+            <div class="mt-5 flex justify-start items-center gap-2">
+                {% if course.source is not empty and app.user %}
+                    <a href="{{ vich_uploader_asset(course, 'sourceFile') }}"
+                       target="_blank"
+                       download="{{ course.source }}"
+                       class="btn btn-light">
+                        {{ icon('code') }}
+                        Code source
+                    </a>
+                {% endif %}
                 <div>
                     <div class="inline-block relative">
                         <button id="share-button" class="btn btn-light flex items-center gap-2">
@@ -129,17 +138,6 @@
                             </button>
                         </div>
                     </div>
-                </div>
-                <div class="flex justify-end items-center flex-wrap gap-2">
-                    {% if course.source is not empty and app.user %}
-                        <a href="{{ vich_uploader_asset(course, 'sourceFile') }}"
-                           target="_blank"
-                           download="{{ course.source }}"
-                           class="btn btn-light">
-                            {{ icon('code') }}
-                            Code source
-                        </a>
-                    {% endif %}
                 </div>
             </div>
         </div>
