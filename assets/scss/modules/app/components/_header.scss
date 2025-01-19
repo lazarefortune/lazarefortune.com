@@ -83,7 +83,7 @@
 
 /* --- Styles du menu mobile --- */
 #mobile-menu {
-  @apply w-full h-[calc(100vh-56px)] fixed z-[1000] top-16 left-0 bg-white dark:bg-primary-950 dark:text-white flex transform -translate-x-full opacity-0 transition-all duration-300 pointer-events-none;
+  @apply w-full h-[calc(100vh-56px)] fixed z-[1000] top-20 left-0 bg-white dark:bg-primary-950 dark:text-white flex transform -translate-x-full opacity-0 transition-all duration-300 pointer-events-none;
 }
 
 #mobile-menu.active {
