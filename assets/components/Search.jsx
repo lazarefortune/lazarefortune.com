@@ -34,7 +34,7 @@ export function Search() {
 
     return (
         <>
-            <button onClick={toggleSearchBar} aria-label="Rechercher" className="border-2 border-primary-600 text-primary-600 p-3 rounded-full ">
+            <button onClick={toggleSearchBar} aria-label="Rechercher" className="border-2 border-primary-600 text-primary-600 dark:text-white p-3 rounded-full ">
                 <SearchIcon size={17}/>
             </button>
             {isSearchVisible && <SearchBar onClose={toggleSearchBar}/>}

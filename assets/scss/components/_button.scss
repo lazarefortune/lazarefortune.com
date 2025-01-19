@@ -1,7 +1,7 @@
 /* Base pour tous les boutons avec taille par défaut (moyenne) */
 .btn {
   @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border-2 shadow-sm cursor-pointer
-  focus:outline-none focus:ring-2 focus:ring-offset-2 px-5 py-2 text-base transition-colors duration-200;
+  focus:outline-none focus:ring-2 focus:ring-offset-2 px-6 py-2 text-base transition-colors duration-200;
 
   & > i {
     @apply inline-block leading-none;
@@ -98,11 +98,13 @@
   /* Light mode */
   @apply bg-red-800 text-white border-red-800
   hover:bg-red-700 hover:border-red-700
+  focus:ring-2 focus:ring-offset-2 focus:ring-red-800 focus:ring-offset-white
   disabled:bg-red-200 disabled:border-red-200 disabled:cursor-not-allowed;
 
   /* Dark mode */
   @apply dark:bg-red-500 dark:text-white dark:border-red-500
   dark:hover:bg-red-400 dark:hover:border-red-400
+  dark:focus:ring-2 dark:focus:ring-offset-2 dark:focus:ring-red-400 dark:focus:ring-offset-primary-950
   dark:disabled:bg-red-300 dark:disabled:border-red-300;
 }
 
