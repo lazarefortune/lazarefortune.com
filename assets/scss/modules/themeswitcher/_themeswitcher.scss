@@ -30,9 +30,9 @@
 }
 
 .theme-switcher__input:not(:checked) + .theme-switcher__label .icon-moon {
-  @apply opacity-100 text-slate-900 dark:text-slate-50;
+  @apply opacity-100 text-slate-700 dark:text-slate-100;
 }
 
 .theme-switcher__input:checked + .theme-switcher__label .icon-sun {
-  @apply opacity-100 text-slate-900 dark:text-slate-50;
+  @apply opacity-100 text-slate-700 dark:text-slate-100;
 }
