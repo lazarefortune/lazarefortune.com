@@ -47,18 +47,14 @@
 }
 
 .search-suggestions {
-  @apply space-y-6 bg-white dark:bg-gray-800 text-gray-900 dark:text-white py-4 px-3 border-t border-gray-200 dark:border-gray-700 max-h-60 overflow-y-auto;
+  @apply space-y-6 bg-white dark:bg-primary-950 text-gray-900 dark:text-white py-4 px-3 border-t border-gray-200 dark:border-primary-950 max-h-60 overflow-y-auto;
 
-  li {
-    @apply list-none;
+  a {
+    @apply block px-4 py-2 rounded-md transition duration-200 ease-in-out text-base text-gray-900 dark:text-white hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-700;
+  }
 
-    a {
-      @apply block px-4 py-2 rounded-md transition duration-200 ease-in-out text-base text-gray-900 dark:text-white hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-700;
-    }
-
-    &.active a {
-      @apply bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-white;
-    }
+  &.active a {
+    @apply bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-white;
   }
 
   mark {
