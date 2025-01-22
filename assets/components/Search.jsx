@@ -127,7 +127,7 @@ function SearchInput({ onClose }) {
                             key={index}
                             className={index === selectedIndex ? "active" : ""}
                         >
-                            <a href={result.url} className="flex gap-2">
+                            <a href={result.url} className="flex gap-2 py-2">
                                 <div className="relative flex-shrink-0 w-40 h-auto rounded overflow-hidden">
                                     {result.image ? (
                                         <img
