@@ -8,7 +8,7 @@
 }
 .spotlight--bar {
   width: calc(100% - 40px);
-  @apply relative opacity-0 -translate-y-3 rounded bg-white dark:bg-primary-1000 max-w-[calc(100vw-40px)]
+  @apply relative opacity-0 -translate-y-3 rounded-xl bg-white dark:bg-primary-1000 max-w-[calc(100vw-40px)]
   lg:max-w-2xl mt-[20vh];
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
@@ -25,7 +25,7 @@
   }
 }
 .spotlight--search-container input {
-  @apply block p-4 ps-10 rounded-t rounded-b-none text-base px-4 w-full border-none shadow-none focus:ring-0 focus:outline-none focus:ring-offset-0
+  @apply block p-4 ps-10 rounded-t-xl rounded-b-none text-base px-4 w-full border-none shadow-none focus:ring-0 focus:outline-none focus:ring-offset-0
   bg-white text-slate-900
   dark:bg-primary-1000 dark:text-white;
 }
@@ -41,7 +41,7 @@
 // Suggestions
 .spotlight--suggestions {
   @apply py-6 px-5 border-t border-t-slate-200 dark:border-t-slate-800 top-full left-0 right-0 bg-white text-slate-900
-  dark:bg-slate-900 dark:text-white rounded-b;
+  dark:bg-primary-1000 dark:text-white rounded-b;
 }
 .spotlight--suggestions mark{
   @apply bg-primary-200 text-primary-800 dark:bg-slate-500 dark:text-white;

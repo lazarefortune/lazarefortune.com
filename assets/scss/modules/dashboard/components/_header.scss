@@ -15,9 +15,9 @@
   }
   &-button {
     @apply text-base transition-colors duration-100 ease-in-out text-slate-300 py-2 pr-4 pl-10  w-full
-    appearance-none leading-normal border border-transparent rounded text-left select-none
+    appearance-none leading-normal border border-transparent rounded-full text-left select-none
     truncate bg-slate-100
-    dark:bg-slate-800 dark:text-slate-600
+    dark:bg-primary-1000 dark:text-slate-600
     flex justify-between items-center gap-8;
   }
   &-icon {
