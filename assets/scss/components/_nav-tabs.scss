@@ -4,7 +4,7 @@
   padding-right: calc(50% - (calc(100vw - 32px * 2) / 2));
 
   a {
-    @apply relative z-20 rounded-t-md flex items-center whitespace-nowrap px-6 py-4 text-slate-900 dark:text-white;
+    @apply relative z-20 rounded-t-xl flex items-center whitespace-nowrap px-6 py-4 text-slate-900 dark:text-white;
     @apply hover:text-primary-900 hover:bg-primary-100 dark:hover:text-white dark:hover:bg-primary-800/60;
   }
 
@@ -16,7 +16,7 @@
 }
 
 .nav-tabs--content {
-  @apply px-4 py-8 border-t-0 border-x-2 border-b-2;
+  @apply px-4 py-8 border-t-0 border-x-2 border-b-2 rounded-b-xl;
   @apply border-slate-200;
   @apply dark:border-slate-800 dark:bg-primary-1000;
 }
