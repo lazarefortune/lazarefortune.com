@@ -142,11 +142,11 @@
 }
 
 .chapters__thumbnail {
-  @apply relative flex-shrink-0 w-40 h-auto rounded overflow-hidden;
+  @apply relative flex-shrink-0 w-40 h-auto rounded-xl overflow-hidden;
 }
 
 .chapters__img {
-  @apply w-full h-auto object-cover rounded shadow-sm;
+  @apply w-full h-auto object-cover rounded-xl shadow-sm;
 }
 
 .chapters__duration {
