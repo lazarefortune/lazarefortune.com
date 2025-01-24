@@ -164,11 +164,21 @@ export class PlayButton extends HTMLElement {
         if (!this.video) return;
         e.preventDefault();
         e.stopPropagation();
+
+        const youtubePlayer = this.video.closest('youtube-player'); // Trouve le composant parent
         if (this.getAttribute('playing')) {
             this.video.pause();
         } else {
             this.video.play();
+            if (youtubePlayer) {
+                youtubePlayer.startPlay(); // Appelle startPlay pour cacher le poster
+            }
         }
+        // if (this.getAttribute('playing')) {
+        //     this.video.pause();
+        // } else {
+        //     this.video.play();
+        // }
     }
 
     disconnectedCallback() {

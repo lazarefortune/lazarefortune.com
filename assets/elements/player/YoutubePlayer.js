@@ -116,6 +116,7 @@ export class YoutubePlayer extends HTMLElement {
         switch (event.data) {
             case YT.PlayerState.PLAYING:
                 this.startTimer();
+                this.updatePoster(false); // Cache le poster
                 this.dispatchEvent(new Event('play', { bubbles: true }));
                 break;
             case YT.PlayerState.ENDED:
@@ -124,10 +125,11 @@ export class YoutubePlayer extends HTMLElement {
                 break;
             case YT.PlayerState.PAUSED:
                 this.stopTimer();
-                this.dispatchEvent(new Event('pause'));
+                this.dispatchEvent(new Event('pause', { bubbles: true }));
                 break;
         }
     }
+
 
     /**
      * Déclenché lorsque le lecteur YouTube est prêt
