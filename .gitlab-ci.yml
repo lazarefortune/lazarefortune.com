@@ -2,8 +2,8 @@ image: php:8.1-cli
 
 stages:
   - deploy_new_vps
-  - deploy_vps
-  - deploy
+#  - deploy_vps
+#  - deploy
 
 deploy_new_vps:
   stage: deploy_new_vps
