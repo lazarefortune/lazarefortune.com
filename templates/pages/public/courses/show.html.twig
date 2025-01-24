@@ -15,14 +15,7 @@
             {{ breadcrumb(course) }}
         </div>
 
-        <h1 class="container-box mt-3 mb-5 text-2xl lg:text-5xl">
-          <span class="hidden">
-            {%- if course.formation %}
-                {{- "Playlist " ~ course.formation.title ~ ' : ' -}}
-            {% else %}
-                {{- "Vidéo " ~ course.mainTechnologies|map(t => "#{t.name}")|join(' & ') ~ ' : ' -}}
-            {% endif -%}
-          </span>
+        <h1 class="container-box mt-3 mb-5 text-lg font-medium lg:text-3xl">
             {{- course.title }}
         </h1>
 

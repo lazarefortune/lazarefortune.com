@@ -133,7 +133,7 @@
 
 
 .course-countdown {
-  @apply relative w-full bg-cover text-center;
+  @apply relative w-full bg-cover text-center rounded-xl overflow-hidden shadow shadow-primary-900 dark:shadow-primary-100;
   max-height: calc(100vh - 291px);
   padding-bottom: 56%;
 
@@ -172,7 +172,9 @@
 }
 
 .course__player {
-    @apply border border-slate-200 dark:border-slate-800 rounded shadow shadow-primary-900 dark:shadow-primary-500;
+  @apply border border-slate-200 dark:border-slate-800 rounded-xl -mx-4 md:mx-0 overflow-hidden shadow shadow-primary-900 dark:shadow-primary-100;
+  --max-height: calc(100vh - 291px);
+  --font-family: 'IBM Plex Sans', sans-serif;
 }
 
 .course-page {
