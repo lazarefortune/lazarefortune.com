@@ -7,6 +7,11 @@
   transition: 0.2s;
   @apply rounded-xl bg-slate-50 border border-slate-100 dark:bg-primary-1000 dark:border-primary-950 dark:shadow dark:shadow-primary-500/50;
   @apply hover:border-slate-200 hover:shadow dark:hover:border-primary-900;
+  &:hover {
+    .input-attachment__button-remove {
+        opacity: 1;
+    }
+  }
 }
 
 .input-attachment::after {
@@ -49,11 +54,10 @@
 }
 
 .input-attachment__button-remove {
-  @apply absolute z-[2] top-2 right-2 p-2 m-1 text-white text-sm font-medium rounded-full bg-primary-500 duration-200 ease-in-out
+  @apply absolute z-[2] top-2 right-2 p-2 m-1 opacity-100 xl:opacity-0 text-white text-sm font-medium rounded-full bg-primary-500 duration-200 ease-in-out
   shadow hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-300 transition-all
   dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-500;
 }
-
 
 .input-attachement__modal-dialog {
   @apply flex flex-col;
