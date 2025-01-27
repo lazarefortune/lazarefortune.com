@@ -35,13 +35,16 @@ iframe ~ .ratio-svg {
   transition: transform 0.3s, opacity 0.5s;
 }
 
-.poster:hover .play {
-  transform: scale(1.2);
-  filter: drop-shadow(0 2px 24px var(--accent-color));
+.poster .play{
+    transform: scale(1.2);
+    filter: drop-shadow(0 2px 24px var(--accent-color));
 }
-
-.poster:hover::before {
-  opacity: 0.8;
+.poster::before {
+    opacity: 0.8;
+}
+.poster .title {
+  transform: translateY(0);
+  opacity: 1;
 }
 
 .title {
@@ -59,10 +62,19 @@ iframe ~ .ratio-svg {
   opacity: 0;
 }
 
-.poster:hover .title {
-  transform: translateY(0);
-  opacity: 1;
-}
+// .poster:hover .play {
+//   transform: scale(1.2);
+//   filter: drop-shadow(0 2px 24px var(--accent-color));
+// }
+//
+// .poster:hover::before {
+//   opacity: 0.8;
+// }
+//
+// .poster:hover .title {
+//   transform: translateY(0);
+//   opacity: 1;
+// }
 
 .title em {
   display: block;
