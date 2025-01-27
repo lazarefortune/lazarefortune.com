@@ -11,6 +11,11 @@
   src: url('../../fonts/Overpass/Overpass-VariableFont_wght.ttf');
 }
 
+// --- Bricolage Grotesque ---
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  src: url('../../fonts/Bricolage_Grotesque/BricolageGrotesque-VariableFont_opsz,wdth,wght.ttf');
+}
 
 // ------------------------------ Plus Jakarta Sans ------------------------------
 @font-face {
@@ -177,7 +182,8 @@ h1, h2, h3, h4, h5, h6,
 h1 *, h2 *, h3 *, h4 *, h5 *, h6 *,
 .h1, .h2, .h3, .h4, .h5, .h6,
 .h1 *, .h2 *, .h3 *, .h4 *, .h5 *, .h6 * {
-  @apply font-hanken-grotesk text-slate-900 dark:text-white;
+  @apply font-bricolage text-slate-900 dark:text-white;
+  //@apply font-hanken-grotesk text-slate-900 dark:text-white;
 }
 
 .text-muted {
