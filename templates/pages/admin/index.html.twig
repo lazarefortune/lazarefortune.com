@@ -8,8 +8,10 @@
 
     {% if is_granted('ROLE_SUPER_ADMIN') %}
     <div class="mt-4 grid gap-8 sm:grid-cols-2 xl:grid-cols-4">
-        <div>
+        <div class="border border-slate-200 dark:border-slate-700 rounded-xl p-4">
+            {#
             <hr role="presentation" class="w-full border-t border-zinc-950/10 dark:border-white/10">
+            #}
             <div class="mt-6 text-3xl font-medium sm:text-3xl">{{ countUsers }}</div>
             <div class="text-lg font-normal sm:text-base text-slate-500 dark:text-slate-300">Utilisateurs</div>
             <!--
@@ -18,25 +20,22 @@
             <span class="text-zinc-500">from last week</span></div>
             -->
         </div>
-        <div>
-            <hr role="presentation" class="w-full border-t border-zinc-950/10 dark:border-white/10">
+        <div class="border border-slate-200 dark:border-slate-700 rounded-xl p-4">
             <div class="mt-6 text-3xl font-medium sm:text-3xl">{{ youtubeSubscribersCount }}</div>
             <div class="text-lg font-normal sm:text-base text-slate-500 dark:text-slate-300">Abonnés YouTube</div>
         </div>
-        <div>
-            <hr role="presentation" class="w-full border-t border-zinc-950/10 dark:border-white/10">
+        <div class="border border-slate-200  dark:border-slate-700 rounded-xl p-4">
             <div class="mt-6 text-3xl font-medium sm:text-3xl">{{ countOnlineFormations }}</div>
             <div class="text-lg font-normal sm:text-base text-slate-500 dark:text-slate-300">Formations</div>
         </div>
-        <div>
-            <hr role="presentation" class="w-full border-t border-zinc-950/10 dark:border-white/10">
+        <div class="border border-slate-200  dark:border-slate-700 rounded-xl p-4">
             <div class="mt-6 text-3xl font-medium sm:text-3xl">{{ countOnlineCourses }}</div>
             <div class="text-lg font-normal sm:text-base text-slate-500 dark:text-slate-300">Vidéos</div>
         </div>
     </div>
 
     <div class="mt-20 stack">
-        <h2 class="h3">Inscriptions</h2>
+        <h2 class="h3">Stats utilisateurs</h2>
 
         <div>
             <nav-tabs class="nav-tabs">
@@ -54,22 +53,35 @@
         </div>
     </div>
 
-    <div class="mt-10 grid2">
-        <div class="stack">
-            <h2 class="h3">Actions</h2>
+    <div class="mt-16 grid2">
+        <div>
+            <div class="stack border border-slate-200 dark:border-slate-800 rounded-lg px-4 py-7">
+                <div class="mb-4">
+                    <h2 class="h3">Cache système</h2>
+                    <p class="text-muted">Vider le cache du système pour éviter les problèmes de
+                        performance</p>
+                </div>
 
-            <form action="{{ path('admin_cache_clean') }}" method="post">
-                <button class="btn btn-danger">{{ icon('trash') }} Vider le cache</button>
-            </form>
+                <form action="{{ path('admin_cache_clean') }}" method="post">
+                    <button class="btn btn-primary">{{ icon('trash') }} Vider le cache</button>
+                </form>
+            </div>
         </div>
-        <div class="stack">
-            <h2 class="h3">Tester les emails</h2>
 
-            <div>
-                {{ form_start(formTestEmail) }}
-                {{ form_row(formTestEmail.email) }}
-                <button type="submit" class="btn btn-primary mt-2">Envoyer un email</button>
-                {{ form_end(formTestEmail) }}
+        <div>
+            <div class="stack border border-slate-200 dark:border-slate-800 rounded-lg px-4 py-7">
+                <div>
+                    <h2 class="h3">Système de mail</h2>
+                    <p class="text-muted">Envoyer un email de test pour vérifier que le serveur
+                        fonctionne correctement</p>
+                </div>
+
+                <div>
+                    {{ form_start(formTestEmail) }}
+                    {{ form_widget(formTestEmail.email, { 'attr': { 'placeholder': 'Saisir une adresse email' } }) }}
+                    <button type="submit" class="btn btn-primary mt-4">Envoyer un email</button>
+                    {{ form_end(formTestEmail) }}
+                </div>
             </div>
         </div>
     </div>
