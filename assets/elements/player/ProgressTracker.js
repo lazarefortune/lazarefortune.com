@@ -4,7 +4,7 @@ import confetti from 'canvas-confetti'
 import { wait } from '../../functions/timers.js'
 import { strToDom } from '../../functions/dom.js'
 
-const TIME_FOR_TRACKING = 10 // Nombre de secondes consécutives avant de considérer un visionnage
+const TIME_FOR_TRACKING = 2 // Nombre de secondes consécutives avant de considérer un visionnage
 
 /**
  * @property {HTMLVideoElement} video

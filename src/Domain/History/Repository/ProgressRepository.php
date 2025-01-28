@@ -48,7 +48,7 @@ class ProgressRepository extends AbstractRepository
             ->addSelect( 'c' )
             ->where( 'p.author = :user' )
             ->andWhere( '(c INSTANCE OF ' . Course::class . ' OR c INSTANCE OF ' . Formation::class . ')' )
-            ->andWhere( 'p.progress < :progress' )
+            ->andWhere( 'p.progress <= :progress' )
             ->orderBy( 'p.updatedAt', 'DESC' )
             ->setMaxResults( 4 )
             ->setParameters( [

@@ -19,7 +19,7 @@ select {
 /* Inputs */
 .form-input {
   //@apply block w-full appearance-none rounded-md border-0 px-3 py-2.5 text-base text-slate-900 shadow-sm ring-1 ring-inset ring-zinc-300 placeholder-zinc-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 md:text-sm;
-  @apply block w-full appearance-none rounded-2xl border-0 px-4 py-3 text-base text-slate-900 shadow-sm
+  @apply block w-full appearance-none rounded-xl border-0 px-4 py-3 text-base text-slate-900 shadow-sm
   ring-1 ring-inset ring-zinc-300 placeholder-zinc-400 focus:ring-2 focus:ring-inset focus:ring-primary-600;
   @apply dark:bg-primary-950 dark:text-white dark:ring-slate-700 dark:placeholder-gray-400 dark:focus:ring-primary-600;
   /* readonly */
@@ -30,7 +30,7 @@ select {
 
 /* Textarea */
 .form-textarea {
-  @apply block w-full appearance-none rounded-2xl border text-base text-slate-900 shadow-sm placeholder-slate-400 border-slate-200 bg-slate-50;
+  @apply block w-full appearance-none rounded-xl border text-base text-slate-900 shadow-sm placeholder-slate-400 border-slate-200 bg-slate-50;
   @apply dark:bg-primary-950 dark:text-white dark:border-slate-700 dark:placeholder-slate-500;
   &__noresize {
     @apply resize-none;
@@ -38,7 +38,7 @@ select {
 }
 
 .form-select {
-    @apply rounded-2xl border text-base text-slate-900 dark:text-slate-950 border-slate-300 dark:border-slate-700 bg-white dark:bg-primary-950;
+    @apply rounded-xl border text-base text-slate-900 dark:text-slate-950 border-slate-300 dark:border-slate-700 bg-white dark:bg-primary-950;
     @apply dark:bg-primary-950 dark:text-white dark:ring-slate-700 dark:placeholder-gray-400 dark:focus:ring-primary-600;
 }
 
