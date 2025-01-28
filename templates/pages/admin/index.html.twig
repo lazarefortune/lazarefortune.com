@@ -4,40 +4,47 @@
 
 {% block body %}
 
-    <h1 class="text-2xl sm:text-2xl font-medium text-slate-950  dark:text-white">Salut, <span class="text-primary-700 dark:text-primary-400">{{ app.user.fullname }}</span> </h1>
+    <h1 class="h3">Salut, <span class="text-lead">{{ app.user.fullname }}</span> </h1>
 
     {% if is_granted('ROLE_SUPER_ADMIN') %}
-    <div class="mt-4 grid gap-8 sm:grid-cols-2 xl:grid-cols-4">
-        <div class="border border-slate-200 dark:border-slate-700 rounded-xl p-4">
+    <div class="mt-6 grid gap-8 sm:grid-cols-2 xl:grid-cols-4">
+        <div class="relative border border-slate-200 dark:border-slate-700 rounded-xl p-4">
             {#
             <hr role="presentation" class="w-full border-t border-zinc-950/10 dark:border-white/10">
             #}
             <div class="mt-6 text-3xl font-medium sm:text-3xl">{{ countUsers }}</div>
             <div class="text-lg font-normal sm:text-base text-slate-500 dark:text-slate-300">Utilisateurs</div>
-            <!--
-            <div class="mt-3 text-sm/6 sm:text-xs/6"><span
-                    class="inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-lime-400/20 text-lime-700 group-data-[hover]:bg-lime-400/30 dark:bg-lime-400/10 dark:text-lime-300 dark:group-data-[hover]:bg-lime-400/15">+4.5%</span>
-            <span class="text-zinc-500">from last week</span></div>
-            -->
+            <div class="absolute top-4 right-4 text-slate-500 dark:text-slate-300">
+                {{ icon('users', 30) }}
+            </div>
         </div>
-        <div class="border border-slate-200 dark:border-slate-700 rounded-xl p-4">
+        <div class="relative border border-slate-200 dark:border-slate-700 rounded-xl p-4">
             <div class="mt-6 text-3xl font-medium sm:text-3xl">{{ youtubeSubscribersCount }}</div>
             <div class="text-lg font-normal sm:text-base text-slate-500 dark:text-slate-300">Abonnés YouTube</div>
+            <div class="absolute top-4 right-4 text-slate-500 dark:text-slate-300">
+                {{ icon('youtube', 30) }}
+            </div>
         </div>
-        <div class="border border-slate-200  dark:border-slate-700 rounded-xl p-4">
+        <div class="relative border border-slate-200  dark:border-slate-700 rounded-xl p-4">
             <div class="mt-6 text-3xl font-medium sm:text-3xl">{{ countOnlineFormations }}</div>
             <div class="text-lg font-normal sm:text-base text-slate-500 dark:text-slate-300">Formations</div>
+            <div class="absolute top-4 right-4 text-slate-500 dark:text-slate-300">
+                {{ icon('library-big', 30) }}
+            </div>
         </div>
-        <div class="border border-slate-200  dark:border-slate-700 rounded-xl p-4">
+        <div class="relative border border-slate-200  dark:border-slate-700 rounded-xl p-4">
             <div class="mt-6 text-3xl font-medium sm:text-3xl">{{ countOnlineCourses }}</div>
             <div class="text-lg font-normal sm:text-base text-slate-500 dark:text-slate-300">Vidéos</div>
+            <div class="absolute top-4 right-4 text-slate-500 dark:text-slate-300">
+                {{ icon('video', 30) }}
+            </div>
         </div>
     </div>
 
     <div class="mt-20 stack">
-        <h2 class="h3">Stats utilisateurs</h2>
+        <h2 class="h3">Inscription des utilisateurs</h2>
 
-        <div>
+        <div class="mt-4">
             <nav-tabs class="nav-tabs">
                 <a href="#day" aria-controls="day">30 derniers jours</a>
                 <a href="#month" aria-controls="month">24 derniers mois</a>
