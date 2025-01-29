@@ -65,9 +65,11 @@
                             {% endif %}
                         {% endfor %}
                         <div class="flex md:hidden lg:hidden xl:hidden">
-                            <a href="{{ path('app_course_index') }}" class="btn btn-light">
-                                {{ icon('arrow-right', 24) }}
-                            </a>
+                            <div class="w-full h-full flex justify-center items-center">
+                                <a href="{{ path('app_course_index') }}" class="rounded-full border border-slate-200 dark:border-slate-700 p-4">
+                                    {{ icon('arrow-right', 24) }}
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
