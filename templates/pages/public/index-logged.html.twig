@@ -15,13 +15,13 @@
 
 {% block body %}
 
-    <div class="container-box mx-auto px-4 py-4 pb-16">
+    <div class="container-box mx-auto px-4 pb-16">
 
         {% if watchlist is not empty %}
             <section class="page-header">
                 <div>
-                    <h1 class="h2 mb-6">Reprendre là où vous vous êtes arrêté</h1>
-                    <div class="courses pt-4">
+                    <h1 class="h2 mb-6">Continuer votre visionnage</h1>
+                    <div class="courses">
                         {% for progress in watchlist %}
                             {% include 'pages/public/account/_progress-card.html.twig' %}
                         {% endfor %}
@@ -31,14 +31,14 @@
         {% endif %}
 
         <section class="relative mb-0 md:mb-20">
-            <div class="course__hero py-10">
-                <h2 class="h2">Découvrez d'autres vidéos</h2>
+            <div class="course__hero mt-10 mb-6">
+                <h2 class="h2">Voir d'autres vidéos</h2>
                 <p class="text-muted">
                     Voici quelques suggestions de vidéos
                 </p>
             </div>
 
-            <div class="overflow-x-auto max-h-[52rem] overflow-y-hidden md:overflow-y-hidden scrollbar-hide md:overflow-visible mb-6 py-10">
+            <div class="overflow-x-auto max-h-[52rem] overflow-y-hidden md:overflow-y-hidden scrollbar-hide md:overflow-visible mb-6 pb-10">
                 <div class="flex md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {% for content in latest_content %}
                         {% if content.isCourse %}
@@ -48,9 +48,11 @@
                         {% endif %}
                     {% endfor %}
                     <div class="flex md:hidden lg:hidden xl:hidden">
-                        <a href="{{ path('app_course_index') }}" class="btn btn-light">
-                            {{ icon('arrow-right', 24) }}
-                        </a>
+                        <div class="w-full h-full flex justify-center items-center">
+                            <a href="{{ path('app_course_index') }}" class="rounded-full border border-slate-200 dark:border-slate-700 p-4">
+                                {{ icon('arrow-right', 24) }}
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

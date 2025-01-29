@@ -91,9 +91,9 @@
 }
 
 .mobile-menu__link {
-  @apply flex items-center gap-3 py-6 border-b border-slate-200 dark:border-slate-700 text-slate-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-300;
+  @apply flex items-center gap-3 px-6 py-6 border-b border-slate-200 dark:border-slate-700 text-slate-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-300;
   & span {
-    @apply font-medium;
+    @apply font-medium text-lg;
   }
 
   &[aria-current="page"] {
