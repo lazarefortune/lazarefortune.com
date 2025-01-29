@@ -100,3 +100,10 @@
       @apply text-primary-700 dark:text-primary-300;
   }
 }
+
+#header-dropdown-menu {
+  &.is-visible {
+    //@apply opacity-100 scale-100 visible pointer-events-auto;
+    @apply translate-y-0 opacity-100 pointer-events-auto;
+  }
+}

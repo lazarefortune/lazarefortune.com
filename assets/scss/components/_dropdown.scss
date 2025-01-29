@@ -39,10 +39,3 @@
     @apply border-t border-slate-200 dark:border-slate-800 my-1;
   }
 }
-
-#header-dropdown-menu {
-  &.is-visible {
-    //@apply opacity-100 scale-100 visible pointer-events-auto;
-    @apply translate-y-0 opacity-100 pointer-events-auto;
-  }
-}
