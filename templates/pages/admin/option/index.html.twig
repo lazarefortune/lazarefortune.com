@@ -45,7 +45,7 @@
             {% for key, value in options %}
                 <tr>
                     <td>
-                        <label for="{{ key }}">{{ key }}</label>
+                        <label for="{{ key }}">{% if key == 'spam_words' %}Mots de spam{% else %}{{ key }}{% endif %}</label>
                     </td>
                     <td>
                         <form method="post" is="autosave-blur">

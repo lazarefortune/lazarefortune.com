@@ -83,7 +83,7 @@ class QuestionsEditor extends HTMLElement {
                         <use href="/icons/sprite.svg#chevron-down"></use>
                     </svg>
                 </div>
-                <input type="text" class="questions-editor__question-text" value="${question.text}" placeholder="Saisir une question">
+                <input type="text" class="questions-editor__question-text" value="${question.text}" placeholder="Entrez une question">
                 <div class="questions-editor__question-handle">
                     <!-- Icône de déplacement -->
                     <svg class="questions-editor__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">

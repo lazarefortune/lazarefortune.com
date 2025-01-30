@@ -3,7 +3,7 @@
 }
 /* Question */
 .questions-editor__question {
-  @apply mb-4 border rounded-xl bg-white dark:bg-primary-950 shadow;
+  @apply mb-4 border rounded-xl bg-white dark:bg-primary-950;
   @apply border-gray-300 dark:border-primary-900;
 }
 
@@ -24,7 +24,7 @@
 
 /* Input du titre de la question */
 .questions-editor__question-text {
-  @apply flex-grow border-0 focus:ring-0;
+  @apply flex-grow border-0 focus:ring-0 dark:bg-primary-1000;
 }
 
 /* Bouton de suppression de la question */

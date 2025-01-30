@@ -80,3 +80,7 @@
 .text-leading {
   @apply text-primary-900 dark:text-primary-300;
 }
+
+.divider {
+  @apply border-t border-slate-200 dark:border-slate-700;
+}

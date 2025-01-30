@@ -30,8 +30,7 @@
     {% if is_granted('ROLE_AUTHOR') %}
         <div class="dashboard-page-table-button">
             <a href="{{ path(prefix ~ '_new') }}">
-                {{ icon('plus') }}
-                Ajouter
+                Créer un quiz
             </a>
         </div>
     {% endif %}

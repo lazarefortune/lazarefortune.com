@@ -2,34 +2,41 @@
 
 <div class="stack-large">
 
-    <section class="stack">
-        <h1 class="h3">
-            Testez vos connaissances
-        </h1>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {{ form_row(form.title) }}
-            {{ form_row(form.targetContent, {label: 'Contenu cible'}) }}
-        </div>
-        <div>
-            {{ form_row(form.isPublished, {label: 'Publié'}) }}
+    <div>
+        <div class="stack">
+            <h1 class="h3">Réglages du quiz</h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {{ form_row(form.title) }}
+                {{ form_row(form.targetContent, {label: 'Contenu cible'}) }}
+            </div>
+            <div>
+                {{ form_row(form.isPublished, {label: 'Rendre le quiz visible en ligne'}) }}
+            </div>
         </div>
 
-        {{ form_row(form.questions) }}
-    </section>
+        <div class="divider my-10"></div>
+
+        <div class="stack">
+            <h2 class="h3">Questions</h2>
+            {{ form_row(form.questions) }}
+        </div>
+    </div>
 
     <div class="border-t border-gray-200 dark:border-gray-700 pt-4">
-        <button type="submit" class="btn btn-primary">Sauvegarder</button>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        {#
         {%if entity.id%}
             {% set targetEntity = entity.targetContent %}
             {% if targetEntity is defined and entity.isPublished %}
-                {% if is_instance_of(targetEntity, 'App\\Domain\\Course\\Entity\\Course') %}
-                    <a href="{{ path('app_course_show', {slug: targetEntity.slug}) }}" target="_blank" class="btn btn-light ml-2">Voir en ligne</a>
-                {% elseif is_instance_of(targetEntity, 'App\\Domain\\Course\\Entityy\\Formation') %}
-                    <a href="{{ path('app_formation_show', {slug: targetEntity.slug}) }}" target="_blank" class="btn btn-light ml-2">Voir en ligne</a>
-                {% endif %}
+                    <a href="{% if is_instance_of(targetEntity, 'App\\Domain\\Course\\Entity\\Course') %}{{ path('app_course_show', {slug: targetEntity.slug}) }}{% elseif is_instance_of(targetEntity, 'App\\Domain\\Course\\Entityy\\Formation') %}{{ path('app_formation_show', {slug: targetEntity.slug}) }}{% endif %}"
+                        target="_blank" class="btn btn-light ml-2">
+                        {{ icon('external-link') }}
+                        Voir en ligne
+                    </a>
             {% endif %}
         {% endif %}
     </div>
+    #}
 
 </div>
 
