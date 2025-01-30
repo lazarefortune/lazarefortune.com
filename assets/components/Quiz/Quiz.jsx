@@ -347,8 +347,8 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
     return (
         <div className="my-8 flex flex-col items-center justify-start">
             {/* Titre et intro */}
-            <div className="w-full px-4 text-center mb-6">
-                <h2 className="text-2xl sm:text-3xl font-medium mb-2">
+            <div className="w-full px-4 text-left mb-6">
+                <h2 className="text-2xl sm:text-3xl font-medium">
                     Prêt à tester vos connaissances&nbsp;?
                 </h2>
                 <p className="text-base text-gray-600 dark:text-gray-300">

@@ -77,23 +77,23 @@ class QuestionsEditor extends HTMLElement {
         // Créer les éléments pour éditer la question
         questionElement.innerHTML = `
             <div class="questions-editor__question-header">
-                <div class="questions-editor__question-handle">
-                    <!-- Icône de déplacement -->
-                    <svg class="questions-editor__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                        <use href="/icons/sprite.svg#move"></use>
-                    </svg>
-                </div>
                 <div class="questions-editor__question-toggle">
                     <!-- Icône de repli/dépliement -->
                     <svg class="questions-editor__icon questions-editor__icon--toggle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
                         <use href="/icons/sprite.svg#chevron-down"></use>
                     </svg>
                 </div>
-                <input type="text" class="questions-editor__question-text" value="${question.text}" placeholder="Titre de la question">
+                <input type="text" class="questions-editor__question-text" value="${question.text}" placeholder="Saisir une question">
+                <div class="questions-editor__question-handle">
+                    <!-- Icône de déplacement -->
+                    <svg class="questions-editor__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <use href="/icons/sprite.svg#grip-vertical"></use>
+                    </svg>
+                </div>
                 <button type="button" class="questions-editor__delete-question-btn">
                     <!-- Icône de suppression -->
                     <svg class="questions-editor__icon questions-editor__icon--delete" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                        <use href="/icons/sprite.svg#trash"></use>
+                        <use href="/icons/sprite.svg#trash-2"></use>
                     </svg>
                 </button>
             </div>
@@ -103,7 +103,12 @@ class QuestionsEditor extends HTMLElement {
                         <label class="questions-editor__label">Type de question :</label>
                         <select class="questions-editor__question-type">
                             <option value="choice" ${question.type === 'choice' ? 'selected' : ''}>Choix unique</option>
-                            <option value="multiple_choice" ${question.type === 'multiple_choice' ? 'selected' : ''}>Choix multiple</option>
+                            <option value="multiple_choice" ${question.type === 'multiple_choice' ? 'selected' : ''}>
+                                <svg class="questions-editor__icon questions-editor__icon--add" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <use href="/icons/sprite.svg#plus"></use>
+                                </svg>
+                                Choix multiples 
+                            </option>
                         </select>
                     </div>
                     <div>
@@ -111,14 +116,14 @@ class QuestionsEditor extends HTMLElement {
                         <input type="number" class="questions-editor__question-timeLimit" value="${question.timeLimit}">
                     </div>
                 </div>
-                <label class="questions-editor__label">Options :</label>
+                <label class="questions-editor__label">Réponses :</label>
                 <ul class="questions-editor__options-list"></ul>
                 <button type="button" class="questions-editor__add-option-btn">
                     <!-- Icône d'ajout -->
                     <svg class="questions-editor__icon questions-editor__icon--add" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
                         <use href="/icons/sprite.svg#plus"></use>
                     </svg>
-                    Ajouter une option
+                    Ajouter une réponse
                 </button>
             </div>
         `;
@@ -226,18 +231,18 @@ class QuestionsEditor extends HTMLElement {
         optionElement.optionData = option;
 
         optionElement.innerHTML = `
+            <input type="${question.type === 'choice' ? 'radio' : 'checkbox'}" class="questions-editor__option-isCorrect" ${option.isCorrect ? 'checked' : ''} name="question_${this.questions.indexOf(question)}">
+            <input type="text" class="questions-editor__option-text" placeholder="" value="${option.text}">
             <div class="questions-editor__option-handle">
                 <!-- Icône de déplacement -->
                 <svg class="questions-editor__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                    <use href="/icons/sprite.svg#move"></use>
+                    <use href="/icons/sprite.svg#grip-vertical"></use>
                 </svg>
             </div>
-            <input type="${question.type === 'choice' ? 'radio' : 'checkbox'}" class="questions-editor__option-isCorrect" ${option.isCorrect ? 'checked' : ''} name="question_${this.questions.indexOf(question)}">
-            <input type="text" class="questions-editor__option-text" placeholder="Texte de l'option" value="${option.text}">
             <button type="button" class="questions-editor__delete-option-btn">
                 <!-- Icône de suppression -->
                 <svg class="questions-editor__icon questions-editor__icon--delete" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                    <use href="/icons/sprite.svg#trash"></use>
+                    <use href="/icons/sprite.svg#trash-2"></use>
                 </svg>
             </button>
         `;
