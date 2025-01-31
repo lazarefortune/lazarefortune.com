@@ -15,6 +15,7 @@ import './modules/highlight.js'
 import './modules/modal.js'
 import './modules/dropdown.js'
 import './modules/scrollreveal.js'
+import './modules/dashboard/header.js'
 import './modules/dashboard/sidebar.js'
 import './modules/dashboard/sidebar-dropdown.js'
 /* ===== Pages ===== */

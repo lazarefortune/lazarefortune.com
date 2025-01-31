@@ -1,25 +1,51 @@
 {% extends 'layouts/dashboard/header/_header.html.twig' %}
 
 {% block header_nav %}
-    <div class="dropdown">
-        <button class="dropdown-button" data-dropdown-button="user-menu" aria-haspopup="true" aria-expanded="false">
-            <img class="h-8 w-8 rounded object-cover" src="{{ app.user|avatar }}" alt="{{ app.user.fullname }}">
+    <div id="test"></div>
+    <div class="relative">
+        <button id="header-dropdown-button" class="header-dropdown flex items-center pr-0 lg:pr-4 gap-2 border border-slate-200 dark:border-slate-700 rounded-full text-md" aria-controls="dropdown-user" aria-expanded="false">
+            <img class="h-10 w-10 rounded-full object-cover border border-b-gray-400" src="{{ app.user|avatar }}" alt="{{ app.user.fullname }} avatar">
             <span class="hidden lg:inline-flex">{{ app.user.fullname | truncate(15) }}</span>
         </button>
-        <div class="dropdown-menu mt-3.5" data-dropdown-menu="user-menu" role="menu">
+        <div id="header-dropdown-menu" class="absolute z-[4000] right-0 top-[35px] min-w-80 bg-white dark:bg-primary-950 dark:text-white
+                 border border-slate-200 dark:border-slate-800 shadow-lg rounded-xl
+                 flex flex-col justify-center items-start
+                 scale-95 transform transition-all duration-100 ease-out
+                 pointer-events-none p-4 mt-3 opacity-0 visible -translate-y-4
+                ">
+            <div class="flex items-center justify-start gap-2 w-full pb-4 border-b border-slate-200 dark:border-slate-700">
+                <img class="h-10 w-10 rounded-full object-cover border border-b-gray-400" src="{{ app.user|avatar }}" alt="{{ app.user.fullname }} avatar">
+                <span class="ml-2 h4">{{ app.user.fullname }}</span>
+            </div>
+
+            <div class="w-full mb-3 border-b border-slate-200 dark:border-slate-700 py-4 grid grid-cols-2 gap-2">
+                <a href="{{ path('app_account_profile') }}#courses" class="flex flex-col items-center bg-slate-100 dark:bg-primary-1000 transition-colors duration-200 p-4 rounded-xl text-slate-900 dark:text-white font-medium hover:text-slate-900 hover:bg-slate-200">
+                    {{ icon('history', 20) }}
+                    <span>Historique</span>
+                </a>
+                <a href="{{ path('app_account_profile') }}#badges" class="flex flex-col items-center bg-slate-100 dark:bg-primary-1000 transition-colors duration-200 p-4 rounded-xl text-slate-900 dark:text-white font-medium hover:text-slate-900 hover:bg-slate-200">
+                    {{ icon('award', 20) }}
+                    <span>Badges</span>
+                </a>
+            </div>
             {% if app.user and is_granted('ROLE_PREVIOUS_ADMIN') %}
-                <a href="{{ impersonation_exit_path(path('admin_users_index')) }}" role="menuitem"
-                   class="dropdown-menu-item">
-                    {{ icon('monitor-x') }}
-                    <span>Arrêter le switch</span>
+                {#  <a href="{{ path('admin_users_index', {'_switch_user': '_exit'}) }}" class="dropdown-menu-item"> #}
+                <a href="{{ impersonation_exit_path(path('admin_users_index')) }}" class="w-full flex justify-start items-center gap-4 px-4 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-lg
+                    font-medium">
+                    {{ icon('monitor-x') }} <span>Revenir à mon compte</span>
                 </a>
             {% endif %}
-            <a href="{{ path('app_account_profile') }}" role="menuitem" class="dropdown-menu-item">
-                {{ icon('user' ) }}
-                <span>Mon compte</span>
+            <a href="{{ path('app_account_profile') }}" class="w-full flex justify-start items-center gap-4 px-4 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-lg
+                    font-medium">
+                {{ icon('user', 20) }} <span>Gérer le compte</span>
             </a>
-            <a href="{{ path('app_logout') }}" role="menuitem" class="dropdown-menu-item">
-                {{ icon('log-out' ) }}
+            <a href="{{ path('app_home') }}" class="w-full flex justify-start items-center gap-4 px-4 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-lg
+                    font-medium">
+                {{ icon('undo-2', 20) }} <span>Retour au site</span>
+            </a>
+            <a href="{{ path('app_logout') }}" class="w-full bg-gray-100 dark:bg- rounded-lg text-red-600 font-medium mt-3 px-4 py-2.5
+                    flex justify-center items-center gap-2 hover:cursor-pointer hover:bg-gray-200 hover:text-red-600
+                    dark:bg-slate-700 dark:text-white dark:hover:text-white dark:hover:bg-slate-600 transition-colors duration-300">
                 <span>Déconnexion</span>
             </a>
         </div>
