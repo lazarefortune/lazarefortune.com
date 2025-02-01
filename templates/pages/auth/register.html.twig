@@ -22,6 +22,31 @@
         }
     }) }}
 
+    <div class="mt-6 w-full flex gap-2 justify-between">
+        <a href="{{ path('app_oauth_connect', {service: 'google'}) }}"
+           class="btn btn-light w-full">
+            <svg class="social-icon">
+                <use href="/icons/social.svg#google"></use>
+            </svg>
+            <span>Google</span>
+        </a>
+
+        <a href="{{ path('app_oauth_connect', {service: 'github'}) }}"
+           class="btn btn-light w-full">
+            <svg class="social-icon">
+                <use href="/icons/social.svg#github"></use>
+            </svg>
+            <span>GitHub</span>
+        </a>
+    </div>
+
+    <!-- ou divider -->
+    <div class="flex items-center space-x-2">
+        <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+        <span class="px-1 text-slate-600 dark:text-slate-100">ou continuez avec</span>
+        <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+    </div>
+
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}"
     >
@@ -100,31 +125,6 @@
        class="btn btn-outline w-full">
         J'ai déjà un compte
     </a>
-
-    <!-- ou divider -->
-    <div class="flex items-center space-x-2">
-        <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
-        <span class="px-1 text-slate-600 dark:text-slate-100">ou continuez avec</span>
-        <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
-    </div>
-
-    <div class="mt-6 w-full flex gap-2 justify-between">
-        <a href="{{ path('app_oauth_connect', {service: 'google'}) }}"
-           class="btn btn-light w-full">
-            <svg class="social-icon">
-                <use href="/icons/social.svg#google"></use>
-            </svg>
-            <span>Google</span>
-        </a>
-
-        <a href="{{ path('app_oauth_connect', {service: 'github'}) }}"
-           class="btn btn-light w-full">
-            <svg class="social-icon">
-                <use href="/icons/social.svg#github"></use>
-            </svg>
-            <span>GitHub</span>
-        </a>
-    </div>
 
     {{ form_end(registrationForm) }}
 {% endblock %}
