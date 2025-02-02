@@ -1,6 +1,6 @@
 /* Base */
 :root {
-    --primary: #361f5d;
+    --primary: #3076e0;
     /*--primary: #843dff;*/
 }
 
@@ -226,12 +226,12 @@ img {
 
 .button {
     -webkit-text-size-adjust: none;
-    border-radius: 6px;
+    border-radius: calc(infinity * 1px);;
     color: #fff;
     display: inline-block;
     overflow: hidden;
     text-decoration: none;
-    padding: 10px 20px;
+    padding: 10px 24px;
     /*font-size: 16px;*/
 }
 
@@ -252,18 +252,18 @@ img {
 
 .button-blue,
 .button-primary {
-    background-color: #361f5d;
-    /*border-bottom: 8px solid #361f5d;*/
-    /*border-left: 18px solid #361f5d;*/
-    /*border-right: 18px solid #361f5d;*/
-    /*border-top: 8px solid #361f5d;*/
+    background-color: #3076e0;
+    /*border-bottom: 8px solid #3076e0;*/
+    /*border-left: 18px solid #3076e0;*/
+    /*border-right: 18px solid #3076e0;*/
+    /*border-top: 8px solid #3076e0;*/
 }
 
 .button-outline-primary {
     background-color: #fff;
-    border: 1px solid #361f5d;
+    border: 1px solid #3076e0;
     padding: 8px 16px;
-    color: #361f5d;
+    color: #3076e0;
 }
 
 .button-green,
