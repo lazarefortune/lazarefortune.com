@@ -29,7 +29,7 @@
     }
 
     &-title {
-      @apply text-sm text-slate-400 capitalize px-4;
+      @apply text-sm text-slate-400 capitalize px-6;
     }
 
     &-list {
@@ -41,7 +41,7 @@
     }
 
     &-link {
-      @apply px-4 py-2 flex items-center gap-3 rounded-lg
+      @apply px-6 py-2 flex items-center gap-3 rounded-full
       bg-white text-base text-slate-800 hover:text-primary-900 hover:bg-primary-100
       dark:text-white dark:bg-primary-950 dark:hover:text-white dark:hover:bg-primary-800;
 

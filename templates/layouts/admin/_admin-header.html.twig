@@ -30,20 +30,20 @@
             </div>
             {% if app.user and is_granted('ROLE_PREVIOUS_ADMIN') %}
                 {#  <a href="{{ path('admin_users_index', {'_switch_user': '_exit'}) }}" class="dropdown-menu-item"> #}
-                <a href="{{ impersonation_exit_path(path('admin_users_index')) }}" class="w-full flex justify-start items-center gap-4 px-4 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-lg
+                <a href="{{ impersonation_exit_path(path('admin_users_index')) }}" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
                     font-medium">
                     {{ icon('monitor-x') }} <span>Revenir à mon compte</span>
                 </a>
             {% endif %}
-            <a href="{{ path('app_account_profile') }}" class="w-full flex justify-start items-center gap-4 px-4 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-lg
+            <a href="{{ path('app_account_profile') }}" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
                     font-medium">
                 {{ icon('user', 20) }} <span>Gérer le compte</span>
             </a>
-            <a href="{{ path('app_home') }}" class="w-full flex justify-start items-center gap-4 px-4 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-lg
+            <a href="{{ path('app_home') }}" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
                     font-medium">
                 {{ icon('undo-2', 20) }} <span>Retour au site</span>
             </a>
-            <a href="{{ path('app_logout') }}" class="w-full bg-gray-100 dark:bg- rounded-lg text-red-600 font-medium mt-3 px-4 py-2.5
+            <a href="{{ path('app_logout') }}" class="w-full bg-gray-100 dark:bg- rounded-full text-red-600 font-medium mt-3 px-6 py-2.5
                     flex justify-center items-center gap-2 hover:cursor-pointer hover:bg-gray-200 hover:text-red-600
                     dark:bg-slate-700 dark:text-white dark:hover:text-white dark:hover:bg-slate-600 transition-colors duration-300">
                 <span>Déconnexion</span>
