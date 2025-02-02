@@ -26,6 +26,7 @@ class YoutubeConfigController extends AbstractController
     #[Route('/', name: 'index', methods: ['GET'])]
     public function settings(): Response
     {
+        throw new \Exception('Test log');
         $settings = $this->youtubeService->getAccount();
 
         return $this->render('pages/admin/youtube/settings.html.twig', [
