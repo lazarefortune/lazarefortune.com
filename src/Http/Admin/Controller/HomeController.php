@@ -10,6 +10,7 @@ use App\Domain\Youtube\Exception\NotFoundYoutubeAccount;
 use App\Http\Controller\AbstractController;
 use App\Infrastructure\Mailing\MailService;
 use App\Infrastructure\Youtube\YoutubeService;
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,16 +39,13 @@ class HomeController extends AbstractController
      * @throws InvalidArgumentException
      */
     #[Route( '/', name: 'home', methods: ['GET', 'POST'] )]
-    public function home( Request $request, MailService $mailService ) : Response
+    public function home( Request $request, MailService $mailService, CacheItemPoolInterface $cache ) : Response
     {
         // if the user is only author
         if ( in_array('ROLE_AUTHOR', $this->getUser()->getRoles()) ) {
             return $this->authorHome();
             #$this->redirectToRoute('admin_home_author');
         }
-
-        $cache = new FilesystemAdapter();
-
 
         /*
         $youtubeSubscribersCount = $cache->get( 'admin.youtube-subscribers-count',
