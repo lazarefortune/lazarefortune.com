@@ -28,6 +28,7 @@ customElements.define('auto-scroll', AutoScroll, { extends: 'div' })
 customElements.define('progress-tracker', ProgressTracker)
 customElements.define('ajax-delete', AjaxDelete)
 customElements.define('loader-overlay', LoaderOverlay)
+customElements.define('auto-submit-form', AutoSubmitForm);
 customElements.define('auto-submit', AutoSubmit, { extends: 'form' })
 customElements.define('markdown-editor', MarkdownEditor, { extends: 'textarea' })
 
@@ -50,6 +51,7 @@ import { ProgressTracker } from "./elements/player/ProgressTracker";
 import { AjaxDelete } from "./elements/AjaxDelete";
 import LoaderOverlay from "./elements/LoaderOverlay";
 import { AutoSubmit } from "./elements/AutoSubmit";
+import { AutoSubmitForm } from "./elements/AutoSubmitForm";
 import { MarkdownEditor } from "./elements/editor";
 
 registerHeaderBehavior()
