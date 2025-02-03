@@ -140,6 +140,12 @@
                     <span>Espace membre</span>
                 </a>
             </div>
+            <div class="inline-flex lg:hidden">
+                <a href="{{ path('app_login') }}" class="rounded-full px-3 py-3 bg-primary-600 text-white font-medium hover:bg-primary-700 hover:text-white transition-colors duration-200
+                    dark:bg-primary-600 dark:text-white dark:hover:bg-primary-700 dark:hover:text-white">
+                    {{ icon('user') }}
+                </a>
+            </div>
         {% endif %}
     </div>
 </nav>
