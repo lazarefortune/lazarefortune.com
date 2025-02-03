@@ -1,4 +1,4 @@
-<article class="course">
+<article class="course" style="scroll-snap-align: center">
     {% set isLocked = (course.premium and (not app.user or not app.user.premium)) or course.isScheduled %}
     {% set courseUrl = not isLocked ? path('app_course_show', {slug: course.slug}) ~ '#autoplay' : path('app_course_show', {slug: course.slug}) %}
 

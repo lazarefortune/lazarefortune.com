@@ -1,4 +1,4 @@
-<article class="formation">
+<article class="formation" style="scroll-snap-align: center">
     {% set isLocked = (formation.premium and (not app.user or not app.user.premium)) or formation.isScheduled %}
     {% set formationUrl = path('app_formation_show', {slug: formation.slug}) %}
 
