@@ -1,22 +1,22 @@
 .nav-tabs {
-  @apply relative flex gap-1 w-full rounded-t-md overflow-x-auto overflow-y-hidden;
-  padding-left: calc(50% - (calc(100vw - 32px * 2) / 2));
-  padding-right: calc(50% - (calc(100vw - 32px * 2) / 2));
+  @apply relative inline-flex gap-1 p-1 bg-primary-100 dark:bg-primary-1000 rounded-full overflow-x-auto;
+  //padding-left: calc(50% - (calc(100vw - 32px * 2) / 2));
+  //padding-right: calc(50% - (calc(100vw - 32px * 2) / 2));
 
   a {
-    @apply relative z-20 rounded-t-lg flex items-center whitespace-nowrap px-4 py-3 text-slate-900 dark:text-white;
-    @apply hover:text-primary-900 hover:bg-primary-100 dark:hover:text-white dark:hover:bg-primary-800/60;
+    @apply relative z-20 rounded-full flex items-center whitespace-nowrap px-4 py-2 text-slate-900 dark:text-white;
+    @apply hover:text-primary-900 hover:bg-primary-500/20 dark:hover:text-white dark:hover:bg-primary-800/60;
+    @apply dark:bg-primary-1000;
   }
 
   a[aria-selected="true"] {
-    @apply text-primary-700 border-primary-700 border-t border-x border-b-0;
-    @apply bg-primary-100 text-primary-900 border-slate-200;
-    @apply dark:bg-primary-1000 dark:text-white dark:border-slate-800;
+    @apply bg-primary-600 text-white;
+    @apply dark:bg-primary-700 dark:text-white;
   }
 }
 
 .nav-tabs--content {
-  @apply px-4 py-8 border rounded-b-xl;
+  @apply px-4 py-8 border rounded-xl;
   @apply border-slate-200;
   @apply dark:border-slate-800 dark:bg-primary-1000;
 }
