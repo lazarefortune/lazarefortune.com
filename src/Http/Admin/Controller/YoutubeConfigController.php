@@ -39,6 +39,9 @@ class YoutubeConfigController extends AbstractController
         $redirectUri = $this->generateUrl('admin_youtube_config_callback', [], UrlGeneratorInterface::ABSOLUTE_URL);
         $googleClient->setRedirectUri($redirectUri);
         $googleClient->setAccessType('offline');
+        // TODO: à améliorer
+        // Force la demande de consentement
+        $googleClient->setPrompt('consent');
         $authUrl = $googleClient->createAuthUrl(implode(' ', YoutubeScopes::UPLOAD));
 
         return $this->redirect($authUrl);
