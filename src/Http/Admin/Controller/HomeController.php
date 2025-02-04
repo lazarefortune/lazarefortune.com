@@ -41,7 +41,7 @@ class HomeController extends AbstractController
      * @throws InvalidArgumentException
      */
     #[Route( '/', name: 'home', methods: ['GET', 'POST'] )]
-    public function home( Request $request, MessageBusInterface $bus, CacheItemPoolInterface $cache ) : Response
+    public function home( Request $request, MailService $mailService, CacheItemPoolInterface $cache ) : Response
     {
         // if the user is only author
         if ( in_array('ROLE_AUTHOR', $this->getUser()->getRoles()) ) {
@@ -112,8 +112,11 @@ class HomeController extends AbstractController
                 $data = $formTestEmail->getData();
                 $emailTo = $data['email'];
 
-                // Envoi du message asynchrone via Messenger
-                $bus->dispatch(new SendTestEmailMessage( $emailTo ));
+                $email = $mailService->createEmail('mails/test.twig', [])
+                    ->to($emailTo)
+                    ->subject('Email de test');
+
+                $mailService->send($email);
 
                 $this->addFlash('success', 'Message en cours d\'envoi');
             } catch ( LoaderError|RuntimeError|SyntaxError $e ) {
