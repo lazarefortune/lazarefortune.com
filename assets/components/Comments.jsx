@@ -158,7 +158,7 @@ function Comments(props) {
                 />
             ) : (
                     <div className="mt-4 relative">
-                        <div className="blur opacity-40">
+                        <div className="blur-[2px] opacity-50">
                             <textarea
                                 className="form-textarea form-textarea__noresize mt-4"
                                 placeholder="Votre commentaire"

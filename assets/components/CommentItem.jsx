@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import CommentList from "./CommentList";
 import CommentForm from "./CommentForm";
-import { Reply, Trash, Pencil } from 'lucide-react';
+import { Reply, Trash, Pencil } from "lucide-react";
 
 function CommentItem({
                          comment,
@@ -32,7 +32,6 @@ function CommentItem({
     const handleUpdate = async (e) => {
         e.preventDefault();
         if (editContent.trim() === "") return;
-
         try {
             await onEdit({ ...comment, content: editContent });
             setIsEditing(false);
@@ -71,20 +70,16 @@ function CommentItem({
                             <div className="comment__date">
                                 <time-ago time={comment.createdAt} />
                             </div>
-                            {/* Boutons d'action */}
+                            {/* Bouton Répondre toujours affiché */}
                             {currentDepth < maxDepth && (
-                                <button
-                                    onClick={() => setIsReplying(!isReplying)}
-                                >
+                                <button onClick={() => setIsReplying(!isReplying)}>
                                     <Reply className="icon" size={16} strokeWidth={1.75} />
                                     <span>Répondre</span>
                                 </button>
                             )}
                             {isAuthor && (
                                 <>
-                                    <button
-                                        onClick={() => setIsEditing(true)}
-                                    >
+                                    <button onClick={() => setIsEditing(true)}>
                                         <Pencil className="icon" size={16} strokeWidth={1.75} />
                                         <span>Modifier</span>
                                     </button>
@@ -124,23 +119,55 @@ function CommentItem({
                             </div>
                         </form>
                     ) : (
-                        <>
-                            <p className="comment__content">{comment.content}</p>
-                        </>
+                        <p className="comment__content">{comment.content}</p>
                     )}
                 </div>
             </div>
 
             <div className="comment__replies">
-                {/* Formulaire de réponse */}
-                {isReplying && currentDepth < maxDepth && (
+                {/* Affichage conditionnel du formulaire de réponse */}
+                {isReplying && (
                     <div className="mt-3 ml-3">
-                        <CommentForm
-                            currentUserId={currentUserId}
-                            onSubmit={handleAddReply}
-                            onCancel={() => setIsReplying(false)}
-                            autoFocus={true}
-                        />
+                        {currentUserId ? (
+                            // Utilisateur connecté → formulaire classique de réponse
+                            <CommentForm
+                                currentUserId={currentUserId}
+                                onSubmit={handleAddReply}
+                                onCancel={() => setIsReplying(false)}
+                                autoFocus={true}
+                            />
+                        ) : (
+                            // Utilisateur non connecté → afficher un "formulaire" désactivé avec message
+                            <div className="mt-4 relative">
+                                <div className="blur-[2px] opacity-50">
+                                    <textarea
+                                        className="form-textarea form-textarea__noresize mt-4"
+                                        placeholder="Votre commentaire"
+                                        minLength={4}
+                                        cols={30}
+                                        rows={6}
+                                        required
+                                        disabled
+                                    />
+                                    <div className="flex gap-2 mt-4">
+                                        <button className="btn btn-disabled" type="submit">
+                                            Envoyer
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="absolute inset-0 text-center text-2xl flex flex-col justify-center items-center">
+                                    <p className="mb-2">
+                                        Vous devez être connecté pour laisser un commentaire.
+                                    </p>
+                                    <a
+                                        href={`/connexion?redirect=${encodeURIComponent(window.location.href)}`}
+                                        className="btn btn-primary"
+                                    >
+                                        Connectez-vous
+                                    </a>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 )}
 
