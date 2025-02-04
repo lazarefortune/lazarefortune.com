@@ -3,6 +3,7 @@
 namespace App\Http\Admin\Controller;
 
 use App\Domain\Application\Form\EmailTestForm;
+use App\Domain\Application\Message\SendTestEmailMessage;
 use App\Domain\Auth\Core\Repository\UserRepository;
 use App\Domain\Course\CourseService;
 use App\Domain\Course\Service\FormationService;
@@ -15,6 +16,7 @@ use Psr\Cache\InvalidArgumentException;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -39,7 +41,7 @@ class HomeController extends AbstractController
      * @throws InvalidArgumentException
      */
     #[Route( '/', name: 'home', methods: ['GET', 'POST'] )]
-    public function home( Request $request, MailService $mailService, CacheItemPoolInterface $cache ) : Response
+    public function home( Request $request, MessageBusInterface $bus, CacheItemPoolInterface $cache ) : Response
     {
         // if the user is only author
         if ( in_array('ROLE_AUTHOR', $this->getUser()->getRoles()) ) {
@@ -107,13 +109,13 @@ class HomeController extends AbstractController
             $emailTo = $data['email'];
 
             try {
-                $email = $mailService->createEmail( 'mails/test.twig', [] )
-                    ->to( $emailTo )
-                    ->subject( 'Email de test' );
+                $data = $formTestEmail->getData();
+                $emailTo = $data['email'];
 
-                $mailService->send( $email );
+                // Envoi du message asynchrone via Messenger
+                $bus->dispatch(new SendTestEmailMessage( $emailTo ));
 
-                $this->addFlash( 'success', 'Message envoyé avec succès' );
+                $this->addFlash('success', 'Message en cours d\'envoi');
             } catch ( LoaderError|RuntimeError|SyntaxError $e ) {
                 $this->addFlash( 'error', $e->getMessage() );
             }
