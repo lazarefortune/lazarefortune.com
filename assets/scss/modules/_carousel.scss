@@ -28,7 +28,7 @@
 }
 .carousel-button {
   @apply absolute top-1/2 -translate-y-1/2 hidden md:flex
-  z-50 bg-white border border-slate-300
+  z-40 bg-white border border-slate-300
   shadow-lg w-10 h-10 rounded-full
   items-center justify-center
   text-slate-700 hover:bg-slate-100
