@@ -27,7 +27,7 @@
   @apply flex-shrink-0;
 }
 .carousel-button {
-  @apply absolute top-1/2 -translate-y-1/2 hidden
+  @apply absolute top-1/2 -translate-y-1/2 hidden md:flex
   z-50 bg-white border border-slate-300
   shadow-lg w-10 h-10 rounded-full
   items-center justify-center

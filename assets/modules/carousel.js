@@ -54,18 +54,20 @@ document.addEventListener('DOMContentLoaded', () => {
         function updateButtons() {
             if (!btnPrev || !btnNext) return; // si pas de bouton
             if (isAtStart()) {
+                // btnPrev.style.display = 'none';
                 btnPrev.style.opacity = '0';
                 btnPrev.style.pointerEvents = 'none';
             } else {
-                btnPrev.style.display = 'flex';
+                // btnPrev.style.display = 'flex';
                 btnPrev.style.opacity = '1';
                 btnPrev.style.pointerEvents = 'auto';
             }
             if (isAtEnd()) {
+                // btnNext.style.display = 'none';
                 btnNext.style.opacity = '0';
                 btnNext.style.pointerEvents = 'none';
             } else {
-                btnNext.style.display = 'flex';
+                // btnNext.style.display = 'flex';
                 btnNext.style.opacity = '1';
                 btnNext.style.pointerEvents = 'auto';
             }
