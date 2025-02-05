@@ -16,20 +16,20 @@ function Chapter({ chapter, onUpdate, onRemoveCourse, onAddCourse, editPath, sea
 
     li.innerHTML = `
         <div class="chapters-editor__chapter-header">
-            <div class="chapters-editor__chapter-handle">
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                    <use href="/icons/sprite.svg?#move"></use>
-                </svg>
-            </div>
             <input
                 type="text"
                 value="${chapter.title}"
                 class="chapters-editor__chapter-input"
                 placeholder="Titre du chapitre"
             />
+            <div class="chapters-editor__chapter-handle">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                    <use href="/icons/sprite.svg?#grip-vertical"></use>
+                </svg>
+            </div>
             <button type="button" class="chapters-editor__chapter-delete">
                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                    <use href="/icons/sprite.svg?#trash"></use>
+                    <use href="/icons/sprite.svg?#trash-2"></use>
                 </svg>
             </button>
         </div>
@@ -64,15 +64,15 @@ function Course({ course, onRemoveCourse, editPath }) {
     li.dataset.title = course.title;
 
     li.innerHTML = `
+        <a href="${editPath.replace('/0', `/${course.id}`)}" target="_blank" class="chapters-editor__course-link">${course.title}</a>
         <div class="chapters-editor__course-handle">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                <use href="/icons/sprite.svg?#move"></use>
+                <use href="/icons/sprite.svg?#grip-vertical"></use>
             </svg>
         </div>
-        <a href="${editPath.replace('/0', `/${course.id}`)}" target="_blank" class="chapters-editor__course-link">${course.title}</a>
         <button type="button" class="chapters-editor__course-delete">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                <use href="/icons/sprite.svg?#trash"></use>
+                <use href="/icons/sprite.svg?#trash-2"></use>
             </svg>
         </button>
     `;
