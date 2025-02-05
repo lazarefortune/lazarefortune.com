@@ -51,7 +51,7 @@
                 <div class="stack-large col-span-full lg:col-span-6">
                     {% if app.user.deletedAt %}
                         <div class="flex">
-                            <div class="bg-red-50 dark:bg-red-950 -mx-5 px-5 py-6 rounded-xl">
+                            <div class="bg-red-50 dark:bg-primary-950 -mx-5 px-5 py-6 rounded-xl">
                                 <h2 class="text-xl text-red-700 dark:text-red-300 font-medium mb-1">Votre compte va être supprimé</h2>
                                 <p class="text-slate-700 dark:text-slate-300 mb-4">
                                     Vous avez demandé un la suppression de votre compte.
@@ -131,29 +131,14 @@
                     {{ form_end(formPassword) }}
 
 
+                    {% if not app.user.deletedAt %}
                     <div class="stack">
                         <h3 class="font-hanken-grotesk text-2xl font-medium text-danger-800 dark:text-danger-300">Zone dangereuse</h3>
 
-                        {% if not app.user.deletedAt %}
                             <p>Vous n'êtes pas satisfait de nos services ? Vous pouvez demander la suppression de votre compte.
-                                Vous aurez 7 jours pour changer d'avis. Passé ce délai, votre compte sera supprimé définitivement.</p>
-                        {% endif %}
+                                Vous aurez 5 jours pour changer d'avis. Passé ce délai, votre compte sera supprimé définitivement.</p>
 
-                        {% if app.user.deletedAt %}
-                            <div class="flex">
-                                <div class="bg-white dark:bg-primary-950 border-2 border-red-700 dark:border-red-300 px-4 py-6 rounded-xl">
-                                    <h2 class="text-xl text-red-700 dark:text-red-300 font-medium mb-2">Votre compte est en cours de suppression</h2>
-                                    <p class="text-slate-900 dark:text-slate-300 mb-4">
-                                        Vous avez demandé la suppression de votre compte.
-                                        Votre compte sera supprimé {{ app.user.deletedAt|date_diff }}.
-                                    </p>
-                                    <a href="{{ path('app_account_delete_cancel') }}" class="btn btn-success">
-                                        {{ icon('sparkles') }}
-                                        <span>Restaurer mon compte</span>
-                                    </a>
-                                </div>
-                            </div>
-                        {% else %}
+                        {% if not app.user.deletedAt %}
                             <div class="text-start">
                                 <button class="btn btn-danger" data-modal-id="deleteAccountModal">
                                     {{ icon('trash') }}
@@ -192,7 +177,7 @@
                             </modal-dialog>
                         {% endif %}
                     </div>
-
+                    {% endif %}
                 </div>
                 <div class="stack-large col-span-full lg:col-span-2 mt-10 lg:mt-0">
                     <div>
