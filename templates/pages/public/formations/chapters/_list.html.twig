@@ -1,0 +1,7 @@
+<div class="flex flex-col gap-6">
+    {% set currentCourseId = current is defined ? current.id : null %}
+
+    {% for chapter in chapters %}
+        {% include 'pages/public/formations/chapters/_list_item.html.twig' with {chapter: chapter, currentCourseId: currentCourseId} only %}
+    {% endfor %}
+</div>

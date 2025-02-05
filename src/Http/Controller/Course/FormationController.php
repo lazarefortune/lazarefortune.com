@@ -52,15 +52,18 @@ class FormationController extends AbstractController
 //            ], 301);
 //        }
 
-        $user = $this->getUser();
         $progress = null;
-        if ($user) {
+
+        /** @var User $user */
+        if (null !== $user = $this->getUser()) {
             $progress = $this->progressRepository->findOneByContent($user, $formation);
+            $watchlist = $this->historyService->getLastWatchedContent($user);
         }
 
         return $this->render('pages/public/formations/show.html.twig', [
             'formation' => $formation,
             'progress' => $progress,
+            'watchlist' => $watchlist ?? []
         ]);
     }
 

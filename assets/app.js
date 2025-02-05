@@ -40,6 +40,7 @@ import './modules/scrollreveal.js'
 import './modules/modal.js'
 import './modules/dropdown.js'
 import './modules/password-toggle.js'
+import './modules/carousel.js'
 
 import { registerHeaderBehavior } from "./modules/app/header";
 import { YoutubePlayer } from "./elements/player/YoutubePlayer";

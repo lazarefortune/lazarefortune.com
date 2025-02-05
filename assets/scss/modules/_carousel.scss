@@ -1,0 +1,49 @@
+.carousel {
+  @apply relative;
+}
+.carousel-container {
+  @apply flex flex-nowrap gap-4
+  overflow-x-auto overflow-y-hidden
+  w-full;
+}
+.carousel-container {
+  @apply flex flex-nowrap gap-4 overflow-x-auto overflow-y-hidden w-full;
+
+  /* Empêche tout snap par défaut */
+  scroll-snap-type: none;
+}
+
+/* Uniquement sur mobile (<md) => snap */
+@media (max-width: 767px) {
+  .carousel-container {
+    scroll-snap-type: x mandatory;
+  }
+  .carousel-item {
+    scroll-snap-align: start;
+  }
+}
+
+.carousel-item {
+  @apply flex-shrink-0;
+}
+.carousel-button {
+  @apply absolute top-1/2 -translate-y-1/2 hidden
+  z-50 bg-white border border-slate-300
+  shadow-lg w-10 h-10 rounded-full
+  items-center justify-center
+  text-slate-700 hover:bg-slate-100
+  transition-colors;
+}
+.carousel-button.prev {
+  @apply -left-3;
+}
+.carousel-button.next {
+  @apply -right-3;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}

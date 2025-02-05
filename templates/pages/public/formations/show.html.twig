@@ -7,97 +7,131 @@
 {% endblock %}
 
 {% block body %}
-    {% set first_course = formation.firstContent %}
-
-    <header>
+    {# Header de la formation #}
+    <header class="py-8">
         <div class="container-box">
-            <div class="formation__header rounded-lg shadow shadow-primary-300 dark:shadow-primary-500 mb-4 lg:my-4 -mx-8 px-8">
-                <div>
-                    {{ breadcrumb(formation) }}
-                    <div class="formation__header__body stack">
-                        <h1 class="formation__header__title">{{ formation.title }}</h1>
-                        {% if formation.short %}
-                            <p>{{ formation.short }}</p>
-                        {% else %}
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between overflow-hidden">
+                <div class="lg:w-1/2 space-y-4">
+                    <div>
+                        {{ breadcrumb(formation) }}
+                    </div>
+                    <h1 class="text-3xl font-medium text-gray-800 dark:text-gray-100">
+                        {{ formation.title }}
+                    </h1>
+                    {% if formation.short %}
+                        <p class="text-gray-600 dark:text-gray-300">
+                            {{ formation.short }}
+                        </p>
+                    {% else %}
+                        <div class="prose dark:prose-dark">
                             {{ formation.content | raw }}
-                        {% endif %}
-                        {% if progress %}
-                            <div class="formation-progress my-3">
-                                <div class="formation-progress__label">Ma progression</div>
-                                <div class="formation-progress__count">
-                                    Vidéo {{ (progress.ratio * (formation.courses | length)) | round(0, 'floor') }}
-                                    / {{ formation.courses | length }}</div>
-                                <div class="formation-progress__bar" style="--progress: {{ progress.ratio * 100 }}%"></div>
+                        </div>
+                    {% endif %}
+
+                    {# Bloc de progression ou call-to-action #}
+                    {% if progress %}
+                        <div class="mt-4">
+                            <div class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                                Ma progression
                             </div>
-                            <p>
+                            <div class="flex items-center justify-between">
+                                <div class="text-sm text-gray-600 dark:text-gray-400">
+                                    Vidéo {{ (progress.ratio * (formation.courses | length)) | round(0, 'floor') }} / {{ formation.courses | length }}
+                                </div>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 h-2 rounded mt-2">
+                                <div class="h-2 rounded bg-primary-500" style="width: {{ progress.ratio * 100 }}%;"></div>
+                            </div>
+                            <div class="mt-4">
                                 {% if progress.ratio == 1 %}
                                     <a href="{{ path('app_formation_resume', {slug: formation.slug}) }}#autoplay"
-                                       class="btn btn-primary">{{ icon('play') }} Revoir la playlist</a>
-                                {% elseif progress.ratio > 0 %}
-                                    <a href="{{ path('app_formation_resume', {slug: formation.slug}) }}#autoplay"
-                                       class="btn btn-primary">{{ icon('play') }} Continuer</a>
+                                       class="btn btn-primary inline-flex items-center px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white">
+                                        {{ icon('play') }} <span class="ml-2">Revoir la playlist</span>
+                                    </a>
                                 {% else %}
                                     <a href="{{ path('app_formation_resume', {slug: formation.slug}) }}#autoplay"
-                                       class="btn btn-primary">{{ icon('play') }} Continuer</a>
+                                       class="btn btn-primary inline-flex items-center px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white">
+                                        {{ icon('play') }} <span class="ml-2">Continuer</span>
+                                    </a>
                                 {% endif %}
-                            </p>
-                        {% elseif formation.firstContent %}
-                            <p>
-                                <a href="{{ path('app_course_show', {slug: first_course.slug}) }}#autoplay"
-                                   class="btn btn-primary">{{ icon('play') }}
-                                    Commencer</a>
-                            </p>
-                        {% else %}
-                            <div class="text-center mt-4">
-                                <p class="border border-primary-400 p-2 rounded-lg">
-                                    Cette formation ne contient pas de contenu pour le moment.
-                                </p>
                             </div>
-                        {% endif %}
-                    </div>
+                        </div>
+                    {% elseif formation.firstContent %}
+                        <div class="mt-4">
+                            <a href="{{ path('app_course_show', {slug: formation.firstContent.slug}) }}#autoplay"
+                               class="btn btn-primary inline-flex items-center px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white">
+                                {{ icon('play') }} <span class="ml-2">Commencer</span>
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="mt-4 text-center p-4 border border-blue-400 rounded">
+                            <p class="text-gray-600 dark:text-gray-300">
+                                Aucune vidéo pour le moment dans cette playlist.
+                            </p>
+                        </div>
+                    {% endif %}
                 </div>
-                <div class="formation__header__image">
+                <div class="lg:w-1/2 formation__header__image">
                     {% if formation.image is not empty %}
-                        <img src="{{ formation.image | image }}" alt="{{ formation.title }}">
+                        <img src="{{ formation.image | image }}" alt="{{ formation.title }}"
+                             class="">
                     {% elseif formation.mainTechnologies is not empty %}
-                        <img src="{{ uploads_path('icons/' ~ formation.mainTechnologies[0].image) }}" alt="">
+                        <img src="{{ uploads_path('icons/' ~ formation.mainTechnologies[0].image) }}" alt="{{ formation.title }}"
+                             class="">
                     {% endif %}
                 </div>
             </div>
         </div>
     </header>
 
-    <main class="formation__information container-box mt-8 mb-10">
-        <div class="formation__summary">
-            <h2 class="h2 mb-3">Présentation</h2>
-            <div class="formation__summary__content">
-                {{ formation.content | raw }}
-            </div>
+    <nav-tabs class="nav-tabs-bar container-box">
+        <a href="#videos" data-tab-id="profil">
+            {{ icon('video') }}
+            Vidéos
+        </a>
+        <a href="#details" data-tab-id="courses">
+            {{ icon('info') }}
+            A propos
+        </a>
+    </nav-tabs>
 
-            <div class="mt-4 text-slate-400">
-                {{ formation.publishedAt | ago }}
-            </div>
-            <div class="flex my-4">
-                <img class="course__author__avatar" src="{{ formation.author | avatar }}" alt="{{ formation.author.fullname }}">
-                <div class="course__author__info">
-                    <strong class="h5">Auteur : </strong><br>
-                    <span title="{{ formation.author.fullname }}" class="course__author__name">{{ formation.author.fullname }}</span>
-                </div>
-            </div>
-            {% if is_granted('ROLE_SUPER_ADMIN') %}
-                <a href="{{ path('admin_formation_edit', {id: formation.id}) }}" target="_blank"
-                   class="btn btn-light mt-4">
-                    {{ icon('pencil') }}
-                    Editer
-                </a>
+        {# Section Chapitres #}
+        <section id="videos" class="container-box pt-5 pb-10">
+            <h2 class="h3 font-medium text-lead mb-4">Vidéos</h2>
+            {% if formation.chapters %}
+                {% include 'pages/public/formations/chapters/_list.html.twig' with {chapters: formation.chapters} only %}
+            {% else %}
+                Aucune vidéo pour le moment.
             {% endif %}
-        </div>
+        </section>
 
-        {% if formation.chapters %}
-            <div class="formation__chapters">
-                <h2 class="h2 mb-3">Chapitres</h2>
-                {% include 'pages/public/formations/chapters/_summary.html.twig' with {chapters: formation.chapters, class: 'chapters__split'} only %}
+        {# Section Présentation et Auteur #}
+        <section id="details" class="container-box pt-5 pb-10 space-y-6">
+            <div class="formation__summary">
+                <h2 class="h3 font-medium text-lead mb-4">A propos</h2>
+                <div class="prose dark:prose-dark">
+                    {{ formation.content | raw }}
+                </div>
+                <div class="mt-4 text-gray-500 dark:text-gray-400 text-sm">
+                    {{ formation.publishedAt | ago }}
+                </div>
+                <div class="flex items-center mt-4">
+                    <img class="w-12 h-12 rounded-full mr-4" src="{{ formation.author | avatar }}" alt="{{ formation.author.fullname }}">
+                    <div class="text-gray-700 dark:text-gray-300">
+                        <strong>Auteur :</strong>
+                        <div title="{{ formation.author.fullname }}">
+                            {{ formation.author.fullname }}
+                        </div>
+                    </div>
+                </div>
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                    <div class="mt-4">
+                        <a href="{{ path('admin_formation_edit', {id: formation.id}) }}" target="_blank"
+                           class="btn btn-light">
+                            {{ icon('pencil') }} <span class="ml-2">Editer la playlist</span>
+                        </a>
+                    </div>
+                {% endif %}
             </div>
-        {% endif %}
-    </main>
+        </section>
 {% endblock %}
