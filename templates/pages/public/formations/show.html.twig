@@ -10,7 +10,7 @@
     {# Header de la formation #}
     <header class="py-8">
         <div class="container-box">
-            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between overflow-hidden">
+            <div class="flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between overflow-hidden">
                 <div class="lg:w-1/2 space-y-4">
                     <div>
                         {{ breadcrumb(formation) }}
@@ -30,7 +30,7 @@
 
                     {# Bloc de progression ou call-to-action #}
                     {% if progress %}
-                        <div class="mt-4">
+                        <div class="mt-4 text-center md:text-left">
                             <div class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
                                 Ma progression
                             </div>
@@ -57,7 +57,7 @@
                             </div>
                         </div>
                     {% elseif formation.firstContent %}
-                        <div class="mt-4">
+                        <div class="mt-4 text-center md:text-left">
                             <a href="{{ path('app_course_show', {slug: formation.firstContent.slug}) }}#autoplay"
                                class="btn btn-primary inline-flex items-center px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white">
                                 {{ icon('play') }} <span class="ml-2">Commencer</span>
