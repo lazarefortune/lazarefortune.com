@@ -1,83 +1,86 @@
 <div>
     <h2 class="h4 mb-2">{{ chapter.title }} ({{ chapter.modules | length }} vidéo{{ chapter.modules | length > 1 ? 's' : '' }})</h2>
 
+    {% if chapter.modules is empty %}
+    <div class="text-muted">Aucune vidéo disponible</div>
+    {% else %}
     <div class="carousel py-2.5" data-carousel>
         <div class="carousel-container no-scrollbar -mx-2 px-2 py-2">
             {% for course in chapter.modules %}
-                {% set isLocked = (course.premium and (not app.user or not app.user.premium)) or course.isScheduled %}
-                {% set isCurrentCourse = (currentCourseId == course.id) %}
-                <article class="carousel-item course min-w-64 max-w-64">
                     {% set isLocked = (course.premium and (not app.user or not app.user.premium)) or course.isScheduled %}
-                    {% set courseUrl = not isLocked ? path('app_course_show', {slug: course.slug}) ~ '#autoplay' : path('app_course_show', {slug: course.slug}) %}
+                    {% set isCurrentCourse = (currentCourseId == course.id) %}
+                    <article class="carousel-item course min-w-64 max-w-64">
+                        {% set isLocked = (course.premium and (not app.user or not app.user.premium)) or course.isScheduled %}
+                        {% set courseUrl = not isLocked ? path('app_course_show', {slug: course.slug}) ~ '#autoplay' : path('app_course_show', {slug: course.slug}) %}
 
-                    <a href="{{ courseUrl }}" class="course__link block">
-                        <div class="course__wrapper">
-                            <img class="course__image"
-                                 src="{{ image_url(course.image, 256, 144) }}"
-                                 alt="{{ course.title }}">
+                        <a href="{{ courseUrl }}" class="course__link block">
+                            <div class="course__wrapper">
+                                <img class="course__image"
+                                     src="{{ image_url(course.image, 256, 144) }}"
+                                     alt="{{ course.title }}">
 
-                            {% if course.isScheduled %}
-                                <div class="course__overlay-icon">
-                                    <div class="course__countdown">
-                                        <em>Disponible dans</em>
-                                        <strong>{{ course.publishedAt|countdown }} </strong>
+                                {% if course.isScheduled %}
+                                    <div class="course__overlay-icon">
+                                        <div class="course__countdown">
+                                            <em>Disponible dans</em>
+                                            <strong>{{ course.publishedAt|countdown }} </strong>
+                                        </div>
+                                    </div>
+                                {% elseif course.premium and (not app.user or not app.user.premium) %}
+                                    <div class="course__overlay-icon">
+                                        {{ icon('crown', 28) }}
+                                    </div>
+                                {% endif %}
+
+
+                                {% if watchlist is defined %}
+                                    {% for watch in watchlist %}
+                                        {% if watch.content.id == course.id %}
+                                            <div class="course__progress {{ watch.ratio == 1 ? 'is-completed' : '' }}"><span style="--progress: {{ watch.ratio }}"></span></div>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+
+                                <div class="course__duration">
+                                    {{ icon('clock') }}
+                                    {{ course.duration|duration }}
+                                </div>
+                            </div>
+                        </a>
+                        <div class="px-2 py-1">
+                            <div class="course__info">
+                                <a href="{{ path('app_author_show', {id: course.author.id}) }}" class="course__author--link">
+                                    <img class="course__author__avatar" src="{{ course.author | avatar }}" alt="{{ course.author.fullname }}">
+                                </a>
+                                <div class="flex-1 flex flex-col justify-center">
+                                    <h1 class="text-base font-medium text-slate-900 dark:text-white leading-tight line-clamp-2">{{ course.title }}</h1>
+                                    <div class="text-sm text-slate-600 dark:text-slate-400 mt-1">
+                                        <span>{{ course.author.fullname }}</span>
+                                        {% if not course.isScheduled %}
+                                            <span>•</span>
+                                            <span>{{ course.publishedAt | ago }}</span>
+                                        {% endif %}
                                     </div>
                                 </div>
-                            {% elseif course.premium and (not app.user or not app.user.premium) %}
-                                <div class="course__overlay-icon">
-                                    {{ icon('crown', 28) }}
+                            </div>
+
+                            {% if course.mainTechnologies is not empty %}
+                                <div class="course__technologies">
+                                    {% for technology in course.mainTechnologies %}
+                                        <a href="{{ path('app_technology_show', {slug: technology.slug}) }}"
+                                           title="Tous les tutoriels {{ technology.name }}"
+                                           class="course__tech">
+                                            <img src="{{ uploads_path('icons/' ~ technology.image) }}" alt="{{ technology.name }}" class="w-4 h-4 object-contain">
+                                            <span>{{ technology.name }}</span>
+                                        </a>
+                                    {% endfor %}
                                 </div>
                             {% endif %}
-
-
-                            {% if watchlist is defined %}
-                                {% for watch in watchlist %}
-                                    {% if watch.content.id == course.id %}
-                                        <div class="course__progress {{ watch.ratio == 1 ? 'is-completed' : '' }}"><span style="--progress: {{ watch.ratio }}"></span></div>
-                                    {% endif %}
-                                {% endfor %}
-                            {% endif %}
-
-                            <div class="course__duration">
-                                {{ icon('clock') }}
-                                {{ course.duration|duration }}
-                            </div>
                         </div>
-                    </a>
-                    <div class="px-2 py-1">
-                        <div class="course__info">
-                            <a href="{{ path('app_author_show', {id: course.author.id}) }}" class="course__author--link">
-                                <img class="course__author__avatar" src="{{ course.author | avatar }}" alt="{{ course.author.fullname }}">
-                            </a>
-                            <div class="flex-1 flex flex-col justify-center">
-                                <h1 class="text-base font-medium text-slate-900 dark:text-white leading-tight line-clamp-2">{{ course.title }}</h1>
-                                <div class="text-sm text-slate-600 dark:text-slate-400 mt-1">
-                                    <span>{{ course.author.fullname }}</span>
-                                    {% if not course.isScheduled %}
-                                        <span>•</span>
-                                        <span>{{ course.publishedAt | ago }}</span>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-
-                        {% if course.mainTechnologies is not empty %}
-                            <div class="course__technologies">
-                                {% for technology in course.mainTechnologies %}
-                                    <a href="{{ path('app_technology_show', {slug: technology.slug}) }}"
-                                       title="Tous les tutoriels {{ technology.name }}"
-                                       class="course__tech">
-                                        <img src="{{ uploads_path('icons/' ~ technology.image) }}" alt="{{ technology.name }}" class="w-4 h-4 object-contain">
-                                        <span>{{ technology.name }}</span>
-                                    </a>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    </div>
-                </article>
+                    </article>
 
 
-            {% endfor %}
+                {% endfor %}
         </div>
         <button class="carousel-button prev">
             {{ icon('chevron-left') }}
@@ -86,4 +89,5 @@
             {{ icon('chevron-right') }}
         </button>
     </div>
+    {% endif %}
 </div>
