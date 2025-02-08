@@ -7,6 +7,7 @@ use App\Domain\Auth\AuthService;
 use App\Domain\Comment\DTO\CreateCommentDTO;
 use App\Domain\Comment\DTO\UpdateCommentDTO;
 use App\Domain\Comment\Entity\Comment;
+use App\Domain\Comment\Event\CommentCreatedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -41,7 +42,7 @@ class CommentService
             ->setTarget( $target );
         $this->em->persist( $comment );
         $this->em->flush();
-        # $this->dispatcher->dispatch(new CommentCreatedEvent($comment));
+        $this->dispatcher->dispatch(new CommentCreatedEvent($comment));
 
         return $comment;
     }

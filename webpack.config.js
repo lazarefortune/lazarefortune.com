@@ -16,6 +16,8 @@ Encore
 
     .configureDevServerOptions(options => {
         options.host = '0.0.0.0';  // Écoute sur toutes les interfaces réseau
+        options.allowedHosts = 'all';
+
     })
     /*
      * ENTRY CONFIG

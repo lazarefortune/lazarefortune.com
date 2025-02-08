@@ -4,6 +4,7 @@ namespace App\Domain\Auth\Core\Entity;
 
 use App\Domain\Auth\Core\Repository\UserRepository;
 use App\Domain\Auth\Registration\Entity\EmailVerification;
+use App\Domain\Notification\Entity\Notifiable;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -21,6 +22,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[UniqueEntity( fields: ['email'], message: 'There is already an account with this email' )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    use Notifiable;
+
     public const DAYS_FOR_PREVENT_DELETE_UNVERIFIED_USER = 4;
     public const DAYS_BEFORE_DELETE_UNVERIFIED_USER = 7;
     public const DAYS_FOR_PREVENT_DELETE_USER = 3;
@@ -94,7 +97,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column( type: Types::STRING, nullable: true )]
     private ?string $githubId = null;
 
+    #[ORM\Column(type: Types::INTEGER, options: ['default'=>0] )]
+    private int $xp = 0;
 
+    #[ORM\Column(type: Types::INTEGER, options:['default'=>0])]
+    private int $quizzesCompleted = 0;
 
     public function __construct()
     {
@@ -425,6 +432,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getGithubId() : ?string
     {
         return $this->githubId;
+    }
+
+    public function getXp(): int
+    {
+        return $this->xp;
+    }
+
+    public function addXp(int $amount): self
+    {
+        $this->xp += $amount;
+        return $this;
+    }
+
+    public function getQuizzesCompleted(): int
+    {
+        return $this->quizzesCompleted;
+    }
+
+    public function incrementQuizzesCompleted(): self
+    {
+        $this->quizzesCompleted++;
+        return $this;
     }
 
     public function isPremium() : bool

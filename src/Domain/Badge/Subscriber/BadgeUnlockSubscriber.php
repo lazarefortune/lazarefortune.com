@@ -4,7 +4,6 @@ namespace App\Domain\Badge\Subscriber;
 
 use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Badge\BadgeService;
-use App\Domain\Badge\Event\BadgeUnlockEvent;
 use App\Domain\Comment\Entity\Comment;
 use App\Domain\Comment\Event\CommentCreatedEvent;
 use App\Domain\Comment\Repository\CommentRepository;
@@ -21,17 +20,9 @@ class BadgeUnlockSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            BadgeUnlockEvent::class => 'onBadgeUnlock',
             CommentCreatedEvent::class => 'onCommentCreated',
             LoginSuccessEvent::class => 'onLogin',
         ];
-    }
-
-    public function onBadgeUnlock( BadgeUnlockEvent $event ) {
-        $badge = $event->getBadge();
-        $user = $event->getUser();
-
-        // TODO: notify user
     }
 
     public function onCommentCreated(CommentCreatedEvent $event): void

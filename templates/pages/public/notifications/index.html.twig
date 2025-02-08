@@ -1,0 +1,31 @@
+{% extends 'layouts/public/base.html.twig' %}
+
+{% block title %}Notifications{% endblock %}
+
+{% block body %}
+
+    <header class="page-header py-12">
+        <div class="container-box text-center">
+            <h1 class="h1 text-4xl font-extrabold">
+                Notifications
+            </h1>
+            <p class="text-muted text-lg">
+                Toutes les notifications de votre compte
+            </p>
+        </div>
+    </header>
+
+    <section class="container-box py-16">
+        <div class="max-w-3xl mx-auto stack-large">
+            {% for notification in notifications %}
+                <div class="card p-6">
+                    <p>
+                        <a class="formatted ignore-br" href="{{ notification.url }}">{{ notification.message | raw }}</a>
+                    </p>
+                    <div class="text-muted text-small">{{ notification.createdAt | ago }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+{% endblock %}

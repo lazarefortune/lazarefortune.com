@@ -5,6 +5,7 @@ twig:
   default_path: '%kernel.project_dir%/templates'
   globals:
     app_name: '%app.name%'
+    MERCURE_PUBLIC_URL: '%env(resolve:MERCURE_PUBLIC_URL)%'
 
 when@test:
   twig:

@@ -2,6 +2,9 @@
 
 namespace App\Http\Admin\Controller;
 
+use App\Domain\Application\Event\ContentCreatedEvent;
+use App\Domain\Application\Event\ContentDeletedEvent;
+use App\Domain\Application\Event\ContentUpdatedEvent;
 use App\Domain\Course\Entity\Course;
 use App\Domain\Youtube\Entity\YoutubeSetting;
 use App\Http\Admin\Data\Crud\CourseCrudData;
@@ -10,6 +13,7 @@ use App\Infrastructure\Youtube\YoutubeScopes;
 use App\Infrastructure\Youtube\YoutubeService;
 use Google_Service_Exception;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -29,7 +33,11 @@ class CourseController extends CrudController
     protected string $entity = Course::class;
     protected bool $indexOnSave = false;
     protected string $routePrefix = 'admin_course';
-    protected array $events = [];
+    protected array $events = [
+        'update' => ContentUpdatedEvent::class,
+        'delete' => ContentDeletedEvent::class,
+        'create' => ContentCreatedEvent::class,
+    ];
 
     #[Route(path: '/', name: 'index')]
     public function index(Request $request): Response
@@ -186,6 +194,28 @@ class CourseController extends CrudController
             return $this->redirectToRoute('admin_course_edit', ['id' => $courseId]);
         }
     }
+
+    /* TODO : upload resumable
+    #[Route('/init-upload', name: 'init_upload', methods: ['GET', 'POST'])]
+    public function initUpload(Request $request, YoutubeService $youtubeService): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $courseId = $data['courseId'] ?? null;
+
+        if (!$courseId) {
+            return $this->json(['error' => 'courseId is required'], 400);
+        }
+
+        try {
+//            $uploadUrl = $youtubeService->initiateResumableUpload(2);
+            $uploadUrl = $youtubeService->initiateResumableUpload($courseId);
+            return $this->json(['uploadUrl' => $uploadUrl]);
+        } catch (\Exception $e) {
+            return $this->json(['error' => $e->getMessage()], 500);
+        }
+    }
+    */
 
     private function getAccessToken(\Google_Client $googleClient, YoutubeSetting $settings, Request $request): ?array
     {

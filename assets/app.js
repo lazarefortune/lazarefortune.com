@@ -41,6 +41,7 @@ import './modules/modal.js'
 import './modules/dropdown.js'
 import './modules/password-toggle.js'
 import './modules/carousel.js'
+import { registerBadgeAlert } from "./modules/badges";
 
 import { registerHeaderBehavior } from "./modules/app/header";
 import { YoutubePlayer } from "./elements/player/YoutubePlayer";
@@ -56,6 +57,7 @@ import { AutoSubmitForm } from "./elements/AutoSubmitForm";
 import { MarkdownEditor } from "./elements/editor";
 
 registerHeaderBehavior()
+registerBadgeAlert()
 
 // start the Stimulus application
 // import './bootstrap';
@@ -66,7 +68,9 @@ import reactToWebComponent from "react-to-webcomponent"
 import Comments from "./components/Comments";
 import Quiz from "./components/Quiz/Quiz";
 import PuzzleCaptcha from "./components/Captcha";
+import { Notifications } from "./components/Notifications";
 import { Search } from "./components/Search";
+import { BadgeUnlock } from "./components/BadgeUnlock";
 
 const CommentsElement = reactToWebComponent(Comments, React, ReactDOM, {
     shadow: false, // pour ne pas utiliser le Shadow DOM
@@ -88,8 +92,18 @@ const SearchElement = reactToWebComponent(Search, React, ReactDOM, {
     props: ['searchUrl', 'searchApi']
 });
 
+const NotificationsElement = reactToWebComponent(Notifications, React, ReactDOM, {
+    shadow: false,
+});
+
+const BadgeUnlockElement = reactToWebComponent(BadgeUnlock, React, ReactDOM, {
+    shadow: false,
+    props: ['name', 'description', 'theme', 'image']
+});
 
 customElements.define('puzzle-challenge', PuzzleCaptchaElement)
 customElements.define('comments-area', CommentsElement)
 customElements.define('quiz-area', QuizElement)
 customElements.define('search-button', SearchElement)
+customElements.define('notifications-area', NotificationsElement)
+customElements.define('badge-unlock', BadgeUnlockElement)

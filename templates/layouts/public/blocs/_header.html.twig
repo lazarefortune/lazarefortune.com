@@ -12,7 +12,7 @@
     <div class="header__left">
         <!-- Logo -->
         <a href="{{ path('app_home') }}" {{ menu_active_aria('app_home') }} class="header__logo">
-            <span class="text-xl font-hanken-grotesk font-medium text-slate-900 dark:text-white">lazarefortune<span class="text-primary-600 dark:text-primary-400">.com</span></span>
+            <span class="text-xl font-hanken-grotesk font-medium text-slate-900 dark:text-white">lf<span class="text-primary-600 dark:text-primary-400">.com</span></span>
         </a>
 
         <!-- Navigation principale (visible sur desktop) -->
@@ -77,7 +77,7 @@
     <!-- Section droite : Menu utilisateur -->
     <div class="header__right">
         <search-button class="mr-1"></search-button>
-
+        <notifications-area class="mr-1"></notifications-area>
 
         {% if app.user %}
             <!-- Dropdown utilisateur -->
