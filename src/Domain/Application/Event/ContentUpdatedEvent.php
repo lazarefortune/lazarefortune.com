@@ -6,6 +6,8 @@ use App\Domain\Application\Entity\Content;
 
 class ContentUpdatedEvent
 {
+    const NAME = 'content.updated';
+
     public function __construct(private readonly Content $content, private readonly Content $previous)
     {
     }

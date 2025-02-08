@@ -6,6 +6,8 @@ use App\Domain\Application\Entity\Content;
 
 class ContentDeletedEvent
 {
+    const NAME = 'content.deleted';
+
     public function __construct(private readonly Content $content)
     {
     }

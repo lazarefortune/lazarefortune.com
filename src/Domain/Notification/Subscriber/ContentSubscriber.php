@@ -23,8 +23,8 @@ class ContentSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            ContentUpdatedEvent::class => 'onUpdate',
-            ContentCreatedEvent::class => 'onCreate',
+            ContentUpdatedEvent::NAME => 'onUpdate',
+            ContentCreatedEvent::NAME => 'onCreate',
         ];
     }
 
