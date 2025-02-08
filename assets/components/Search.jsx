@@ -34,10 +34,12 @@ export function Search() {
 
     return (
         <>
-            <button onClick={toggleSearchBar} aria-label="Rechercher" className="border-2 border-primary-600 text-primary-600 dark:text-white p-3 rounded-full ">
-                <SearchIcon size={17}/>
-            </button>
-            {isSearchVisible && <SearchBar onClose={toggleSearchBar}/>}
+            <div className="relative flex items-center">
+                <button onClick={toggleSearchBar} aria-label="Rechercher">
+                    <SearchIcon size={24}/>
+                </button>
+                {isSearchVisible && <SearchBar onClose={toggleSearchBar}/>}
+            </div>
         </>
     );
 }
