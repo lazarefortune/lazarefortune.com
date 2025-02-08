@@ -41,7 +41,7 @@ const CommentForm = forwardRef(({ currentUserId, onSubmit, onCancel, autoFocus =
                 className="form-textarea form-textarea__noresize mt-4"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                placeholder="Votre commentaire"
+                placeholder="Laissez votre commentaire"
                 minLength={4}
                 cols={30}
                 rows={6}

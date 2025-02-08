@@ -139,15 +139,6 @@ function Comments(props) {
 
             <div className="border-t border-slate-200 dark:border-slate-700 mt-2 mb-6"></div>
 
-            <CommentList
-                comments={commentTree}
-                currentUserId={currentUserId}
-                onReply={handleAddComment}
-                onEdit={handleUpdateComment}
-                onDelete={handleDeleteComment}
-                depth={0}
-            />
-
             {/* Formulaire principal */}
             {currentUserId ? (
                 <CommentForm
@@ -157,7 +148,7 @@ function Comments(props) {
                     ref={commentFormRef}
                 />
             ) : (
-                    <div className="mt-4 relative">
+                    <div className="mt-4 mb-10 relative">
                         <div className="blur-[2px] opacity-50">
                             <textarea
                                 className="form-textarea form-textarea__noresize mt-4"
@@ -185,6 +176,15 @@ function Comments(props) {
                         </div>
                     </div>
             )}
+
+            <CommentList
+                comments={commentTree}
+                currentUserId={currentUserId}
+                onReply={handleAddComment}
+                onEdit={handleUpdateComment}
+                onDelete={handleDeleteComment}
+                depth={0}
+            />
         </div>
     );
 }

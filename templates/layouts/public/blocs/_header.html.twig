@@ -25,7 +25,7 @@
             </li>
             <li>
                 <a href="{{ path('app_formation_index') }}" {{ menu_active_aria('app_formation_') }} class="header__nav-link">
-                    {{ icon('library-big') }}
+                    {{ icon('gallery-vertical-end') }}
                     <span>Playlists</span>
                 </a>
             </li>
@@ -66,7 +66,7 @@
                 </div>
                 <div>
                     <a href="{{ path('app_formation_index') }}" {{ menu_active_aria('app_formation_') }} class="mobile-menu__link">
-                        {{ icon('library-big', 20) }}
+                        {{ icon('gallery-vertical-end', 20) }}
                         <span>Playlists</span>
                     </a>
                 </div>
@@ -111,7 +111,7 @@
                     {% if is_granted('ROLE_ADMIN') %}
                         <a href="{{ path('admin_home') }}" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
                     font-medium">
-                            {{ icon('shield', 20) }} <span>Dashboard</span>
+                            {{ icon('clapperboard', 20) }} <span>Studio</span>
                         </a>
                         <div class="dropdown-divider"></div>
                     {% endif %}
@@ -124,7 +124,7 @@
                     {% endif %}
                     <a href="{{ path('app_account_profile') }}" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
                     font-medium">
-                        {{ icon('user', 20) }} <span>Gérer le compte</span>
+                        {{ icon('settings', 20) }} <span>Gérer le compte</span>
                     </a>
                     <a href="{{ path('app_logout') }}" class="w-full bg-gray-100 dark:bg- rounded-full text-red-600 font-medium mt-3 px-6 py-2.5
                     flex justify-center items-center gap-2 hover:cursor-pointer hover:bg-gray-200 hover:text-red-600
