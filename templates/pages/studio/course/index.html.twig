@@ -1,7 +1,7 @@
-{% extends 'layouts/admin/base.html.twig' %}
+{% extends 'layouts/studio/base.html.twig' %}
 
 {% block title  %}
-    Gestion des tutoriels
+    Gestion des vidéos
 {% endblock %}
 
 {% block body %}
@@ -10,7 +10,7 @@
         <nav class="breadcrumb" aria-label="Breadcrumb">
             <ol>
                 <li>
-                    <a href="{{ path('admin_home') }}">
+                    <a href="{{ path('studio_home') }}">
                         <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                              fill="currentColor" viewBox="0 0 20 20">
                             <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"></path>
@@ -39,8 +39,7 @@
         <table class="table">
             <thead>
             <tr>
-                <th>{{ sort_by(rows, 'ID', 'row.id') }}</th>
-                <th>{{ sort_by(rows, 'Titre', 'row.title') }}</th>
+                <th>{{ sort_by(rows, 'Vidéo', 'row.title') }}</th>
                 <th>Technologies</th>
                 <th>{{ sort_by(rows, 'Statut', 'row.online') }}</th>
                 <th>{{ sort_by(rows, 'Date de publication', 'row.publishedAt') }}</th>
@@ -58,22 +57,41 @@
             {% endif %}
             {% for row in rows %}
                 <tr>
-                    <td>{{ row.id }}</td>
-                    <td>{{ row.title | truncate(50) }}</td>
+                    <td class="flex justify-start items-center gap-4">
+                        <div class="w-40 flex items-center gap-2">
+                            {% if row.image %}
+                                <img class="course__image"
+                                     src="{{ image_url(row.image, 288, 162) }}"
+                                     alt="{{ row.title }}">
+                            {% else %}
+                                <div class="w-40 h-24 bg-gray-200 dark:bg-slate-700 animate-pulse rounded"></div>
+                            {% endif %}
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <h3 class="text-base font-bricolage font-medium">
+                                {{ row.title | truncate(50) }}
+                            </h3>
+                            <p class="text-sm text-muted">{{ row.content | truncate(50) }}</p>
+                        </div>
+                    </td>
                     <td>
                         {{ row.technologies|join(', ') }}
                     </td>
                     <td>
-                        {% if row.online and (row.publishedAt|date('U') <= "now"|date('U')) %}
-                            <span class="badge badge-success">En ligne</span>
-                        {% elseif row.online and (row.publishedAt|date('U') > "now"|date('U')) %}
-                            <span class="badge badge-warning">En ligne (planifié)</span>
-                        {% else %}
-                            <span class="badge badge-danger">Hors ligne</span>
-                        {% endif %}
-
+                        <div class="flex justify-start items-center gap-2">
+                            {% if row.online and (row.publishedAt|date('U') <= "now"|date('U')) %}
+                                {{ icon('eye') }}
+                                <span>En ligne</span>
+                            {% elseif row.online and (row.publishedAt|date('U') > "now"|date('U')) %}
+                                {{ icon('clock') }}
+                                <span>Planifiée</span>
+                            {% else %}
+                                {{ icon('lock') }}
+                                <span>Privée</span>
+                            {% endif %}
+                        </div>
                     </td>
-                    <td>{{ row.publishedAt|date('d/m/Y à H:i') }}</td>
+                    <td>{{ row.publishedAt|date('d M Y à H:i') }}</td>
                     <td>
                         {% if is_granted('edit', row) %}
                             <a href="{{ path(prefix ~ '_edit', {id: row.id}) }}" class="btn-icon">

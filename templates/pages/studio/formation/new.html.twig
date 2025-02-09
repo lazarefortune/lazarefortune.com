@@ -1,6 +1,6 @@
-{% extends 'layouts/admin/base.html.twig' %}
+{% extends 'layouts/studio/base.html.twig' %}
 
-{% block title %}{{ entity.title }}{% endblock %}
+{% block title %}Nouvelle playlist{% endblock %}
 
 {% block body %}
     <div class="dashboard-page-header">
@@ -17,18 +17,18 @@
                 </li>
                 {{ icon('chevron-right') }}
                 <li>
-                    <a href="{{ path('admin_formation_index') }}">Playlists</a>
+                    <a href="{{ path('studio_formation_index') }}">Playlists</a>
                 </li>
                 {{ icon('chevron-right') }}
                 <li aria-current="page">
-                    <span>Edition</span>
+                    <span>Nouveau</span>
                 </li>
             </ol>
         </nav>
     </div>
 
     <div class="mt-6">
-        {% include 'pages/admin/formation/_form.html.twig' with {
+        {% include 'pages/studio/formation/_form.html.twig' with {
             form: form,
             button_label: 'Enregistrer',
             button_back_to_list: false
@@ -37,3 +37,4 @@
 
 
 {% endblock %}
+

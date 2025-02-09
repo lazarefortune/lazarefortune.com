@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Admin\Controller;
+namespace App\Http\Studio\Controller;
 
 
 use App\Domain\Course\Entity\Formation;
+use App\Http\Admin\Controller\CrudController;
 use App\Http\Admin\Data\Crud\FormationCrudData;
 use App\Http\Security\ContentVoter;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,11 +15,12 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route(path: '/playlists', name: 'formation_')]
 final class FormationController extends CrudController
 {
+    protected string $templateDirectory = 'pages/studio';
     protected string $templatePath = 'formation';
     protected string $menuItem = 'formation';
     protected string $entity = Formation::class;
     protected bool $indexOnSave = false;
-    protected string $routePrefix = 'admin_formation';
+    protected string $routePrefix = 'studio_formation';
     protected array $events = [];
 
     #[Route(path: '/', name: 'index')]

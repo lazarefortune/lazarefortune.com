@@ -108,9 +108,16 @@
                         </a>
                     </div>
 
-                    {% if is_granted('ROLE_ADMIN') %}
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}
                         <a href="{{ path('admin_home') }}" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
-                    font-medium">
+                        font-medium">
+                            {{ icon('shield', 20) }} <span>Administration</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                    {% endif %}
+                    {% if is_granted('ROLE_AUTHOR') %}
+                        <a href="{{ path('studio_home') }}" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
+                        font-medium">
                             {{ icon('clapperboard', 20) }} <span>Studio</span>
                         </a>
                         <div class="dropdown-divider"></div>
@@ -118,17 +125,17 @@
                     {% if app.user and is_granted('ROLE_PREVIOUS_ADMIN') %}
                     {#  <a href="{{ path('admin_users_index', {'_switch_user': '_exit'}) }}" class="dropdown-menu-item"> #}
                         <a href="{{ impersonation_exit_path(path('admin_users_index')) }}" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
-                    font-medium">
+                            font-medium">
                             {{ icon('monitor-x') }} <span>Revenir à mon compte</span>
                         </a>
                     {% endif %}
                     <a href="{{ path('app_account_profile') }}" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
-                    font-medium">
+                            font-medium">
                         {{ icon('settings', 20) }} <span>Gérer le compte</span>
                     </a>
                     <a href="{{ path('app_logout') }}" class="w-full bg-gray-100 dark:bg- rounded-full text-red-600 font-medium mt-3 px-6 py-2.5
-                    flex justify-center items-center gap-2 hover:cursor-pointer hover:bg-gray-200 hover:text-red-600
-                    dark:bg-slate-700 dark:text-white dark:hover:text-white dark:hover:bg-slate-600 transition-colors duration-300">
+                            flex justify-center items-center gap-2 hover:cursor-pointer hover:bg-gray-200 hover:text-red-600
+                            dark:bg-slate-700 dark:text-white dark:hover:text-white dark:hover:bg-slate-600 transition-colors duration-300">
                         {{ icon('log-out', 20) }}
                         <span>Déconnexion</span>
                     </a>

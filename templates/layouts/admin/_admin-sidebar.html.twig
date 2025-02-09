@@ -1,6 +1,13 @@
 {% extends 'layouts/dashboard/sidebar/_sidebar.html.twig' %}
 
-{% block sidebar_header %}{% endblock %}
+{% block sidebar_header %}
+    <div class="sidebar__header">
+        <a href="{{ path('admin_home') }}" class="sidebar__logo">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="sidebar__logo-image">
+            <span class="h3">Admin</span>
+        </a>
+    </div>
+{% endblock %}
 
 {% block sidebar_nav %}
     <div class="sidebar__nav-section">
@@ -24,36 +31,6 @@
                 </a>
             </li>
         </ul>
-
-        {% if is_granted('ROLE_ADMIN') %}
-        <div class="sidebar__nav-title">Education</div>
-        <ul class="sidebar__nav-list">
-            <li class="sidebar__nav-item">
-                <a href="{{ path('admin_course_index') }}" class="sidebar__nav-link {{ menu_active('admin_course_') }}">
-                    {{ icon('video') }}
-                    <span>Vidéos</span>
-                </a>
-            </li>
-            <li class="sidebar__nav-item">
-                <a href="{{ path('admin_formation_index') }}" class="sidebar__nav-link {{ menu_active('admin_formation_') }}">
-                    {{ icon('gallery-vertical-end' ) }}
-                    <span>Playlists</span>
-                </a>
-            </li>
-            <li class="sidebar__nav-item">
-                <a href="{{ path('admin_technology_index') }}" class="sidebar__nav-link {{ menu_active('admin_technology_') }}">
-                    {{ icon('tags') }}
-                    <span>Tags</span>
-                </a>
-            </li>
-            <li class="sidebar__nav-item">
-                <a href="{{ path('admin_quiz_index') }}" class="sidebar__nav-link {{ menu_active('admin_quiz_') }}">
-                    {{ icon('message-circle-question' ) }}
-                    <span>Quiz</span>
-                </a>
-            </li>
-        </ul>
-        {% endif %}
 
         {% if is_granted('ROLE_SUPER_ADMIN') %}
             <div class="sidebar__nav-title">Administration</div>
@@ -115,7 +92,7 @@
     <div class="sidebar__nav-item">
         <a href="{{ path('app_home') }}" class="sidebar__nav-link">
             {{ icon('undo-2') }}
-            <span>Retour au site</span>
+            <span>Quitter l'admin</span>
         </a>
     </div>
 {% endblock %}

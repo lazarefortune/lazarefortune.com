@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Http\Admin\Controller;
+namespace App\Http\Studio\Controller;
 
 use App\Domain\Application\Event\ContentCreatedEvent;
 use App\Domain\Application\Event\ContentDeletedEvent;
 use App\Domain\Application\Event\ContentUpdatedEvent;
 use App\Domain\Course\Entity\Course;
 use App\Domain\Youtube\Entity\YoutubeSetting;
+use App\Http\Admin\Controller\CrudController;
 use App\Http\Admin\Data\Crud\CourseCrudData;
 use App\Http\Security\ContentVoter;
 use App\Infrastructure\Youtube\YoutubeScopes;
 use App\Infrastructure\Youtube\YoutubeService;
 use Google_Service_Exception;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -28,11 +28,12 @@ class CourseController extends CrudController
 {
     private const SESSION_COURSE_ID = 'session_course_id';
 
+    protected string $templateDirectory = 'pages/studio';
     protected string $templatePath = 'course';
     protected string $menuItem = 'course';
     protected string $entity = Course::class;
     protected bool $indexOnSave = false;
-    protected string $routePrefix = 'admin_course';
+    protected string $routePrefix = 'studio_course';
     protected array $events = [
         'update' => ContentUpdatedEvent::class,
         'delete' => ContentDeletedEvent::class,
@@ -89,7 +90,7 @@ class CourseController extends CrudController
 
         if ($request->request->get('fetchVideoDuration')) {
             $session->set(self::SESSION_COURSE_ID, $course->getId());
-            return $this->redirectToRoute('admin_course_update_duration');
+            return $this->redirectToRoute('studio_course_update_duration');
         }
 
         return $response;
@@ -146,11 +147,11 @@ class CourseController extends CrudController
             $this->addFlash('success', "La vidéo est en cours d'envoi sur YouTube");
         } catch (Google_Service_Exception $e) {
             $this->addFlash('danger', $e->getMessage());
-            return $this->redirectToRoute('admin_course_edit', ['id' => $courseId]);
+            return $this->redirectToRoute('studio_course_edit', ['id' => $courseId]);
         }
 
         $session->remove(self::SESSION_COURSE_ID);
-        return $this->redirectToRoute('admin_course_edit', ['id' => $courseId]);
+        return $this->redirectToRoute('studio_course_edit', ['id' => $courseId]);
     }
 
     #[Route(path: '/update-duration', name: 'update_duration', methods: ['GET'])]
@@ -173,7 +174,7 @@ class CourseController extends CrudController
             return $this->redirectToRoute('admin_youtube_config_index');
         }
 
-        $redirectUri = $this->generateUrl('admin_course_update_duration', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $redirectUri = $this->generateUrl('studio_course_update_duration', [], UrlGeneratorInterface::ABSOLUTE_URL);
         $googleClient->setRedirectUri($redirectUri);
 
         $accessToken = $this->getAccessToken($googleClient, $settings, $request);
@@ -188,10 +189,10 @@ class CourseController extends CrudController
             $this->em->flush();
 
             $this->addFlash('success', "La durée de la vidéo a bien été mise à jour");
-            return $this->redirectToRoute('admin_course_edit', ['id' => $courseId]);
+            return $this->redirectToRoute('studio_course_edit', ['id' => $courseId]);
         } catch (\Exception $e) {
             $this->addFlash('danger', $e->getMessage());
-            return $this->redirectToRoute('admin_course_edit', ['id' => $courseId]);
+            return $this->redirectToRoute('studio_course_edit', ['id' => $courseId]);
         }
     }
 

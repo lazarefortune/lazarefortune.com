@@ -3,7 +3,6 @@
 namespace App\Http\Admin\Controller;
 
 use App\Domain\Application\Form\EmailTestForm;
-use App\Domain\Application\Message\SendTestEmailMessage;
 use App\Domain\Auth\Core\Repository\UserRepository;
 use App\Domain\Course\CourseService;
 use App\Domain\Course\Service\FormationService;

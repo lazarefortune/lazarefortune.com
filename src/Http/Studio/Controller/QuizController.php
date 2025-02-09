@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Admin\Controller;
+namespace App\Http\Studio\Controller;
 
 use App\Domain\Quiz\Entity\Quiz;
 use App\Domain\Quiz\Repository\QuizResultRepository;
+use App\Http\Admin\Controller\CrudController;
 use App\Http\Admin\Data\Crud\QuizCrudData;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,11 +14,12 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ADMIN')]
 class QuizController extends CrudController
 {
+    protected string $templateDirectory = 'pages/studio';
     protected string $templatePath = 'quiz';
     protected string $entity = Quiz::class;
     protected string $menuItem = 'quiz';
     protected bool $indexOnSave = false;
-    protected string $routePrefix = 'admin_quiz';
+    protected string $routePrefix = 'studio_quiz';
     protected array $events = [
         'update' => null,
         'delete' => null,
@@ -74,7 +76,7 @@ class QuizController extends CrudController
         // - Score minimal
         // - Répartition des scores
 
-        return $this->render('pages/admin/quiz/stats.html.twig', [
+        return $this->render('pages/studio/quiz/stats.html.twig', [
             'item' => $quiz,
             'count' => $count,
             'averageScore' => $averageScore,

@@ -197,7 +197,7 @@
                             </div>
                             {% if is_granted('ROLE_SUPER_ADMIN') %}
                                 <div>
-                                    <a href="{{ path('admin_course_edit', {id: course.id}) }}" class="btn btn-light" target="_blank">
+                                    <a href="{{ path('studio_course_edit', {id: course.id}) }}" class="btn btn-light" target="_blank">
                                         {{ icon('pencil') }} Editer
                                     </a>
                                 </div>

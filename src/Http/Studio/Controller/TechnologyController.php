@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Admin\Controller;
+namespace App\Http\Studio\Controller;
 
 use App\Domain\Course\Entity\Technology;
 use App\Domain\Course\Repository\TechnologyRepository;
+use App\Http\Admin\Controller\CrudController;
 use App\Http\Admin\Data\Crud\TechnologyCrudData;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,10 +14,11 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route(path: '/technologie', name: 'technology_')]
 class TechnologyController extends CrudController
 {
+    protected string $templateDirectory = 'pages/studio';
     protected string $templatePath = 'technology';
     protected string $menuItem = 'technology';
     protected string $entity = Technology::class;
-    protected string $routePrefix = 'admin_technology';
+    protected string $routePrefix = 'studio_technology';
     protected string $searchField = 'name';
 
     #[Route(path: '/', name: 'index', methods: ['GET'])]

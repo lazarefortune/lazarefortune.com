@@ -11,7 +11,7 @@
 }
 
 .comment__author {
-  @apply text-lg font-semibold;
+  @apply text-lg font-medium font-bricolage;
 }
 
 .comment__content {
@@ -23,7 +23,7 @@
 }
 
 .comment__date {
-  @apply text-base text-muted w-full lg:inline-flex lg:w-fit text-nowrap;
+  @apply text-sm text-muted w-full lg:inline-flex lg:w-fit text-nowrap;
 }
 
 .comment__actions button {

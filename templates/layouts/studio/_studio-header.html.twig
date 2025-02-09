@@ -34,10 +34,10 @@
                     {{ icon('monitor-x') }} <span>Revenir à mon compte</span>
                 </a>
             {% endif %}
-            {% if is_granted('ROLE_ADMIN') %}
-                <a href="{{ path('studio_home') }}" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
-                    font-medium">
-                    {{ icon('clapperboard', 20) }} <span>Studio</span>
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <a href="{{ path('admin_home') }}" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
+                        font-medium">
+                    {{ icon('shield', 20) }} <span>Administration</span>
                 </a>
                 <div class="dropdown-divider"></div>
             {% endif %}

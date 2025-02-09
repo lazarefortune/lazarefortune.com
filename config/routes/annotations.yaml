@@ -4,6 +4,12 @@ admin_controllers:
   resource: ../../src/Http/Admin/Controller/
   type: attribute
 
+studio_controllers:
+  name_prefix: studio_
+  prefix: /studio
+  resource: ../../src/Http/Studio/Controller/
+  type: attribute
+
 api_controllers:
   name_prefix: api_
   prefix: /api

@@ -44,6 +44,10 @@ services:
     resource: '../src/Http/Admin/Controller'
     tags: [ 'controller.service_arguments' ]
 
+  App\Http\Studio\Controller\:
+    resource: '../src/Http/Studio/Controller'
+    tags: [ 'controller.service_arguments' ]
+
   App\Http\Api\Controller\:
     resource: '../src/Http/Api/Controller'
     tags: [ 'controller.service_arguments' ]
