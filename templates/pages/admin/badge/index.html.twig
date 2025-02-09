@@ -36,7 +36,7 @@
         <table class="table">
         <thead>
         <tr>
-            <th>Nom</th>
+            <th>Badge</th>
             <th>Action</th>
             <th>Compteur</th>
             <th></th>
@@ -47,7 +47,22 @@
             {% set link = path(prefix ~ '_edit', {id: row.id}) %}
             <tr>
                 <td>
-                    <a href="{{ link }}">{{ row.name }}</a>
+                    <a href="{{ link }}" class="table-cell-link"></a>
+                    <div class="flex items-center gap-2">
+                        <div class="badge-icon badge-icon-{{ row.theme }}">
+                            {% if row.image %}
+                                {{ image(row) }}
+                            {% else %}
+                                <span class="uppercase font-bold">
+                                  {{ row.name|slice(0,1) }}
+                                </span>
+                            {% endif %}
+                        </div>
+                        <div class="flex flex-col">
+                            <div class="font-medium font-bricolage text-slate-950 dark:text-slate-100">{{ row.name }}</div>
+                            <div class="text-muted text-sm">{{ row.description }}</div>
+                        </div>
+                    </div>
                 </td>
                 <td>{{ row.action }}</td>
                 <td>{{ row.actionCount }}</td>

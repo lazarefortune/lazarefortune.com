@@ -3,16 +3,7 @@
         <thead>
         <tr>
             <th>
-                {{ sort_by(rows, 'ID', 'row.id') }}
-            </th>
-            <th>
-                Photo
-            </th>
-            <th>
-                {{ sort_by(rows, 'Nom', 'row.fullname') }}
-            </th>
-            <th>
-                {{ sort_by(rows, 'Email', 'row.email') }}
+                {{ sort_by(rows, 'Utilisateur', 'row.id') }}
             </th>
             <th>
                 {{ sort_by(rows, 'Ancienneté', 'row.createdAt') }}
@@ -38,20 +29,15 @@
             <tr>
                 <td>
                     <a href="{{ link }}" class="table-cell-link"></a>
-                    {{ row.id }}
-                </td>
-                <td>
-                    <a href="{{ link }}" class="table-cell-link"></a>
-                    <img class="h-10 w-10 rounded-full object-cover {{ row.isVerified ? 'border-2 border-green-500' : 'border-2 border-red-500' }}"
-                         src="{{ row|avatar }}"
-                         alt="{{ row.fullname }}">
-                </td>
-                <td class="capitalize">
-                    <a href="{{ link }}" class="table-cell-link"></a>
-                    {{ row.fullname }}
-                </td>
-                <td><a href="{{ link }}" class="table-cell-link"></a>
-                    {{ row.email }}
+                    <div class="flex items-center gap-2">
+                        <img class="h-10 w-10 rounded-full object-cover {{ row.isVerified ? 'border-2 border-green-500' : 'border-2 border-red-500' }}"
+                             src="{{ row|avatar }}"
+                             alt="{{ row.fullname }}">
+                        <div class="flex flex-col">
+                            <div class="font-medium font-bricolage text-slate-950 dark:text-slate-100">{{ row.fullname }}</div>
+                            <div class="text-muted text-sm">{{ row.email }}</div>
+                        </div>
+                    </div>
                 </td>
                 <td>
                     <a href="{{ link }}" class="table-cell-link"></a>

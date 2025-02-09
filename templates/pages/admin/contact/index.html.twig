@@ -17,7 +17,7 @@
                 </li>
                 {{ icon('chevron-right') }}
                 <li aria-current="page">
-                    <span>Contact reçus</span>
+                    <span>Contacts reçus</span>
                 </li>
             </ol>
         </nav>
@@ -25,41 +25,95 @@
 
     <div class="table-wrapper">
         <table class="table">
-                <thead>
+            <thead>
+            <tr>
+                <th>Email</th>
+                <th>Date</th>
+                <th>Objet</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if contacts is empty %}
                 <tr>
-                    <th>
-                        Date
-                    </th>
-                    <th>
-                        Email
-                    </th>
-                    <th>
-                        Objet
-                    </th>
+                    <td colspan="4" class="text-center">
+                        Aucune donnée disponible
+                    </td>
                 </tr>
-                </thead>
-                <tbody>
-                {% if contacts is empty %}
-                    <tr>
-                        <td colspan="3" class="text-center">
-                            Aucune donnée disponible
-                        </td>
-                    </tr>
-                {% endif %}
-                {% for contact in contacts %}
-                    <tr>
-                        <td>
-                            {{ contact.createdAt|ago }}
-                        </td>
-                        <td>
-                            {{ contact.email }}
-                        </td>
-                        <td>
-                            {{ contact.subject|truncate(50) }}
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+            {% endif %}
+            {% for contact in contacts %}
+                <tr>
+                    <td>
+                        {{ contact.email }}
+                    </td>
+                    <td>
+                        {{ contact.createdAt|ago }}
+                    </td>
+                    <td>
+                        {{ contact.subject|truncate(50) }}
+                    </td>
+                    <td>
+                        <!-- Bouton pour ouvrir la modale -->
+                        <button class="btn-icon" data-modal-id="showContact{{ contact.id }}" title="Voir le message">
+                            {{ icon('eye') }}
+                        </button>
+                    </td>
+                </tr>
+
+                <!-- Modale affichant le contact sous forme d'email -->
+                <modal-dialog
+                        id="showContact{{ contact.id }}"
+                        hidden="hidden"
+                        overlay-close
+                >
+                    <section class="modal-box max-w-lg w-full p-6 bg-white dark:bg-primary-950 rounded shadow-lg">
+                        <!-- Entête de la modale -->
+                        <div class="flex items-center justify-between mb-2">
+                            <h2 class="text-xl font-semibold text-slate-800 dark:text-slate-100">
+                                {{ contact.subject }}
+                            </h2>
+                            <button data-dismiss aria-label="Close" class="modal-close text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">
+                                {{ icon('x') }}
+                            </button>
+                        </div>
+
+                        <hr class="my-4 border-slate-200 dark:border-slate-700"/>
+
+                        <!-- “En-tête” façon email -->
+                        <div class="mb-3">
+                            <p class="text-sm text-slate-600 dark:text-slate-300">
+                                <strong>De :</strong>
+                                <span class="ml-1 font-medium text-slate-800 dark:text-slate-100">
+                                    {{ contact.email }}
+                                </span>
+                            </p>
+                            <p class="text-sm text-slate-600 dark:text-slate-300">
+                                <strong>Reçu le :</strong>
+                                <span class="ml-1 font-medium text-slate-800 dark:text-slate-100">
+                                    {{ contact.createdAt|date('d/m/Y H:i') }}
+                                </span>
+                            </p>
+                        </div>
+
+                        <!-- Corps du message -->
+                        <div class="mt-3 text-base leading-relaxed text-slate-700 dark:text-slate-200 whitespace-pre-line">
+                            {% if contact.message is defined %}
+                                {{ contact.message }}
+                            {% else %}
+                                <em>Aucun message fourni.</em>
+                            {% endif %}
+                        </div>
+
+                        <!-- Pied de modale (bouton de fermeture) -->
+                        <div class="flex justify-end mt-6">
+                            <button class="btn btn-light" data-dismiss>
+                                Fermer
+                            </button>
+                        </div>
+                    </section>
+                </modal-dialog>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}
