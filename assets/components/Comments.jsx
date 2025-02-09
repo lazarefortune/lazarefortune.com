@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { X } from "lucide-react";
 import { jsonFetch } from "../functions/api";
 import CommentList from "./CommentList";
 import CommentForm from "./CommentForm";
@@ -6,6 +7,9 @@ import CommentForm from "./CommentForm";
 function Comments(props) {
     const [comments, setComments] = useState([]);
     const [currentUserId, setCurrentUserId] = useState(null);
+
+    // This holds the ID of the comment we want to delete (if any)
+    const [commentToDelete, setCommentToDelete] = useState(null);
 
     const { contentId } = props;
     const contentIdNumber = parseInt(contentId, 10);
@@ -15,9 +19,7 @@ function Comments(props) {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await jsonFetch(
-                    `/api/comments?content=${contentIdNumber}`
-                );
+                const response = await jsonFetch(`/api/comments?content=${contentIdNumber}`);
                 if (response) {
                     setComments(response);
                 }
@@ -35,6 +37,7 @@ function Comments(props) {
         fetchData();
     }, [contentIdNumber]);
 
+    // Build tree for nested comments
     const buildCommentTree = (comments) => {
         const map = {};
         const roots = [];
@@ -57,6 +60,7 @@ function Comments(props) {
 
     const commentTree = buildCommentTree(comments);
 
+    // Handlers for adding, updating, and deleting comments
     const handleAddComment = async (content, parentId = null) => {
         const data = {
             content,
@@ -71,14 +75,13 @@ function Comments(props) {
             });
             if (response) {
                 setComments([...comments, response]);
-                // Réinitialiser le formulaire principal
+                // Reset the main form if it's a top-level comment
                 if (parentId === null && commentFormRef.current) {
                     commentFormRef.current.resetForm();
                 }
             }
         } catch (error) {
             console.error("Erreur lors de la création du commentaire :", error);
-
             if (error.status === 403) {
                 alert("Vous devez être connecté pour laisser un commentaire.");
             } else if (error.status === 400) {
@@ -112,79 +115,132 @@ function Comments(props) {
         }
     };
 
-    const handleDeleteComment = async (commentId) => {
-        if (window.confirm("Voulez-vous vraiment supprimer ce commentaire ?")) {
-            try {
-                await jsonFetch(`/api/comments/${commentId}`, {
-                    method: "DELETE",
-                });
-                setComments(comments.filter((comment) => comment.id !== commentId));
-            } catch (error) {
-                console.error("Erreur lors de la suppression du commentaire :", error);
-                alert("Une erreur est survenue lors de la suppression du commentaire.");
-            }
+    const openDeleteConfirmation = (commentId) => {
+        setCommentToDelete(commentId);
+    };
+
+    const confirmDeleteComment = async () => {
+        if (!commentToDelete) return;
+
+        try {
+            await jsonFetch(`/api/comments/${commentToDelete}`, {
+                method: "DELETE",
+            });
+            setComments(comments.filter((comment) => comment.id !== commentToDelete));
+        } catch (error) {
+            console.error("Erreur lors de la suppression du commentaire :", error);
+            alert("Une erreur est survenue lors de la suppression du commentaire.");
+        } finally {
+            // Close the modal (remove from DOM)
+            setCommentToDelete(null);
         }
     };
 
-    // Calcul du nombre total de commentaires
+    // Called if the user wants to cancel from the modal
+    const cancelDeleteComment = () => {
+        setCommentToDelete(null);
+    };
+
+    // If the user clicked the overlay, close the modal
+    const handleOverlayClick = (event) => {
+        if (event.target === event.currentTarget) {
+            cancelDeleteComment();
+        }
+    };
+
+    // Total comment count
     const totalComments = comments.length;
 
     return (
-        <div>
-            <h1 className="h2 mt-6">
+        <div className="comments-section">
+            {/* Title */}
+            <h2 className="h4 text-lead mt-8 mb-2">
                 {totalComments === 0
-                    ? "Aucun commentaire"
-                    : `Commentaire${totalComments > 1 ? "s" : ""} (${totalComments})`}
-            </h1>
+                    ? "Aucun commentaire pour l’instant"
+                    : `Commentaires (${totalComments})`}
+            </h2>
 
-            <div className="border-t border-slate-200 dark:border-slate-700 mt-2 mb-6"></div>
+            <hr className="divider mb-4" />
 
-            {/* Formulaire principal */}
-            {currentUserId ? (
-                <CommentForm
+            {/* If there are comments, show them in a structured list */}
+            {totalComments > 0 && (
+                <CommentList
+                    comments={commentTree}
                     currentUserId={currentUserId}
-                    onSubmit={handleAddComment}
-                    autoFocus={false} // "true" si on veut le focus par défaut
-                    ref={commentFormRef}
+                    onDelete={openDeleteConfirmation}
+                    onReply={handleAddComment}
+                    onEdit={handleUpdateComment}
+                    depth={0}
                 />
-            ) : (
-                    <div className="mt-4 mb-10 relative">
-                        <div className="blur-[2px] opacity-50">
-                            <textarea
-                                className="form-textarea form-textarea__noresize mt-4"
-                                placeholder="Votre commentaire"
-                                minLength={4}
-                                cols={30}
-                                rows={6}
-                                required
-                            />
-                            <div className="flex gap-2 mt-4">
-                                <button className="btn btn-disabled" type="submit">
-                                    Envoyer
+            )}
+
+
+
+            {/* Form to add new comment, or a prompt to log in if not connected */}
+            <div className="mt-6">
+                {currentUserId ? (
+                    <>
+                        <CommentForm
+                            currentUserId={currentUserId}
+                            onSubmit={handleAddComment}
+                            autoFocus={false}
+                            ref={commentFormRef}
+                        />
+                    </>
+                ) : (
+                    <div className="relative flex flex-col items-center border border-slate-200 p-4 rounded">
+                        <p className="text-center mb-2">
+                            Connectez-vous pour ajouter un commentaire et rejoindre la discussion !
+                        </p>
+                        <a
+                            href={`/connexion?redirect=${encodeURIComponent(window.location.href)}`}
+                            className="btn btn-primary"
+                        >
+                            Se connecter
+                        </a>
+                    </div>
+                )}
+            </div>
+
+            {/* Confirmation modal for comment deletion */}
+            {commentToDelete !== null && (
+                <modal-dialog
+                    className="badge-modal"
+                    overlay-close="true"
+                    onClick={handleOverlayClick}
+                >
+                    <section className="modal-box">
+                        <button
+                            data-dismiss="true"
+                            aria-label="Close"
+                            className="modal-close"
+                            onClick={cancelDeleteComment}
+                        >
+                            <X size={24} />
+                        </button>
+                        <div className="stack">
+                            <div className="h4 text-center mt-4">
+                                Voulez-vous vraiment supprimer ce commentaire ?
+                            </div>
+                            <hr className="my-2" />
+                            <div className="flex justify-center items-center gap-4">
+                                <button
+                                    className="btn btn-danger"
+                                    onClick={confirmDeleteComment}
+                                >
+                                    Supprimer
+                                </button>
+                                <button
+                                    className="btn btn-light"
+                                    onClick={cancelDeleteComment}
+                                >
+                                    Annuler
                                 </button>
                             </div>
                         </div>
-                        <div
-                            className="absolute inset-0 text-center text-2xl flex flex-col justify-center items-center">
-                            <p className="mb-2">
-                                Vous devez être connecté pour laisser un commentaire.
-                            </p>
-                            <a href={`/connexion?redirect=${encodeURIComponent(window.location.href)}`}
-                               className="btn btn-primary">
-                                Connectez-vous
-                            </a>
-                        </div>
-                    </div>
+                    </section>
+                </modal-dialog>
             )}
-
-            <CommentList
-                comments={commentTree}
-                currentUserId={currentUserId}
-                onReply={handleAddComment}
-                onEdit={handleUpdateComment}
-                onDelete={handleDeleteComment}
-                depth={0}
-            />
         </div>
     );
 }

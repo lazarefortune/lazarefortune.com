@@ -17,137 +17,141 @@
         </div>
         #}
 
-        <div class="container-box mt-4 mb-4">
-            <div class="{{ course.formation ? 'is-chapter' : 'is-chapter is-folded' }}">
-                {% if course.scheduled and not userIsPremium %}
-                    <div class="course-countdown" style="background-image: url({{ image_url_raw(course.image) }})">
-                        <div class="course-countdown-content">
-                            <em>Disponible dans</em>
-                            <span class="course-countdown_timer">{{ course.publishedAt | countdown }}</span>
-                            <p class="course-countdown_hint">Revenez bientôt pour accéder à cette vidéo exclusive !</p>
+        <div class="bg-white dark:bg-primary-950 py-5">
+            <div class="container-box mb-4">
+                <div class="{{ course.formation ? 'is-chapter' : 'is-chapter is-folded' }}">
+                    {% if course.scheduled and not userIsPremium %}
+                        <div class="course-countdown" style="background-image: url({{ image_url_raw(course.image) }})">
+                            <div class="course-countdown-content">
+                                <em>Disponible dans</em>
+                                <span class="course-countdown_timer">{{ course.publishedAt | countdown }}</span>
+                                <p class="course-countdown_hint">Revenez bientôt pour accéder à cette vidéo exclusive !</p>
+                            </div>
                         </div>
-                    </div>
-                {% elseif course.premium and not userIsPremium %}
-                    <div class="course-countdown" style="background-image: url({{ image_url_raw(course.image) }})">
-                        <div class="absolute flex flex-col w-full h-full justify-center items-center z-10">
-                            <p class="text-white text-lg mb-3 text-center">Cette vidéo est premium</p>
-                            <a href="{{ path('app_login') }}" class="btn btn-primary">{{ icon('crown') }} Devenez premium</a>
+                    {% elseif course.premium and not userIsPremium %}
+                        <div class="course-countdown" style="background-image: url({{ image_url_raw(course.image) }})">
+                            <div class="absolute flex flex-col w-full h-full justify-center items-center z-10">
+                                <p class="text-white text-lg mb-3 text-center">Cette vidéo est premium</p>
+                                <a href="{{ path('app_login') }}" class="btn btn-primary">{{ icon('crown') }} Devenez premium</a>
+                            </div>
                         </div>
-                    </div>
-                {% elseif (course.scheduled or course.premium) and userIsPremium %}
-                    <progress-tracker contentId="{{ course.id }}" data-history="{{ course.id }}" duration="{{ course.duration }}">
-                        <youtube-player
-                                class="course__player"
-                                id="course-{{ course.id }}"
-                                video="{{ course.youtubeId }}"
-                                poster="{{ image_url(course.image, 1330, 750) }}"
-                                button="#chapter{{ course.id }} play-button"
-                                duration="{{ course.duration | duration }}"
-                                class="shadow">
-                            <a href="https://www.youtube.com/watch?v={{ course.youtubeId }}" target="_blank" rel="noopener" class="course__placeholder">
-                                <span>Voir la vidéo</span>
-                                <img src="{{ image_url(course.image, 1330, 750) }}" width="1330" height="750"/>
-                            </a>
-                        </youtube-player>
-                    </progress-tracker>
-                {% else %}
-                    <progress-tracker contentId="{{ course.id }}" data-history="{{ course.id }}" duration="{{ course.duration }}">
-                        <youtube-player
-                                class="course__player"
-                                id="course-{{ course.id }}"
-                                video="{{ course.youtubeId }}"
-                                poster="{{ image_url(course.image, 1330, 750) }}"
-                                button="#chapter{{ course.id }} play-button"
-                                duration="{{ course.duration | duration }}"
-                                class="shadow">
-                            <a href="https://www.youtube.com/watch?v={{ course.youtubeId }}" target="_blank" rel="noopener" class="course__placeholder">
-                                <span>Voir la vidéo</span>
-                                <img src="{{ image_url(course.image, 1330, 750) }}" width="1330" height="750"/>
-                            </a>
-                        </youtube-player>
-                    </progress-tracker>
-                {% endif %}
+                    {% elseif (course.scheduled or course.premium) and userIsPremium %}
+                        <progress-tracker contentId="{{ course.id }}" data-history="{{ course.id }}" duration="{{ course.duration }}">
+                            <youtube-player
+                                    class="course__player"
+                                    id="course-{{ course.id }}"
+                                    video="{{ course.youtubeId }}"
+                                    poster="{{ image_url(course.image, 1330, 750) }}"
+                                    button="#chapter{{ course.id }} play-button"
+                                    duration="{{ course.duration | duration }}"
+                                    class="shadow">
+                                <a href="https://www.youtube.com/watch?v={{ course.youtubeId }}" target="_blank" rel="noopener" class="course__placeholder">
+                                    <span>Voir la vidéo</span>
+                                    <img src="{{ image_url(course.image, 1330, 750) }}" width="1330" height="750"/>
+                                </a>
+                            </youtube-player>
+                        </progress-tracker>
+                    {% else %}
+                        <progress-tracker contentId="{{ course.id }}" data-history="{{ course.id }}" duration="{{ course.duration }}">
+                            <youtube-player
+                                    class="course__player"
+                                    id="course-{{ course.id }}"
+                                    video="{{ course.youtubeId }}"
+                                    poster="{{ image_url(course.image, 1330, 750) }}"
+                                    button="#chapter{{ course.id }} play-button"
+                                    duration="{{ course.duration | duration }}"
+                                    class="shadow">
+                                <a href="https://www.youtube.com/watch?v={{ course.youtubeId }}" target="_blank" rel="noopener" class="course__placeholder">
+                                    <span>Voir la vidéo</span>
+                                    <img src="{{ image_url(course.image, 1330, 750) }}" width="1330" height="750"/>
+                                </a>
+                            </youtube-player>
+                        </progress-tracker>
+                    {% endif %}
 
-                {% if course.formation %}
-                    <!-- Wrapper des chapitres -->
-                    <div class="relative">
-                        <div class="chapters-wrapper" is="auto-scroll" data-to="{{ course is defined ? '#chapter' ~ course.id : '' }}">
-                            <div class="chapters-wrapper__header">
-                                <!-- Bouton fermer mobile
+                    {% if course.formation %}
+                        <!-- Wrapper des chapitres -->
+                        <div class="relative">
+                            <div class="chapters-wrapper" is="auto-scroll" data-to="{{ course is defined ? '#chapter' ~ course.id : '' }}">
+                                <div class="chapters-wrapper__header">
+                                    <!-- Bouton fermer mobile
                                 <button class="chapters-mobile-close" aria-label="Fermer">
                                     {{ icon('x') }}
                                 </button>
                                 -->
+                                </div>
+
+                                {% include 'pages/public/formations/chapters/_summary.html.twig' with {chapters: course.formation.chapters, current: course} only %}
                             </div>
-
-                            {% include 'pages/public/formations/chapters/_summary.html.twig' with {chapters: course.formation.chapters, current: course} only %}
+                            <div class="chapters-backdrop"></div>
                         </div>
-                        <div class="chapters-backdrop"></div>
-                    </div>
 
 
-                    <!-- Toggle desktop -->
-                    <button class="chapters-toggle lg:flex hidden" aria-label="Replier/Déplier">
-                        {{ icon('arrow-down') }}
-                    </button>
-                {% endif %}
-
-            </div>
-
-            <h1 class="container-box mt-3 mb-2 h3 font-medium lg:text-3xl">
-                {{- course.title }}
-            </h1>
-            <div class="text-left mb-3">
-                <small class="text-muted text-base italic">
-                    {% if course.isScheduled %}
-                        Disponible dans {{ course.publishedAt | countdown }}
-                    {% else %}
-                        Publié <span class="lowercase">{{ course.publishedAt | ago }}</span>
+                        <!-- Toggle desktop -->
+                        <button class="chapters-toggle lg:flex hidden" aria-label="Replier/Déplier">
+                            {{ icon('arrow-down') }}
+                        </button>
                     {% endif %}
-                </small>
-            </div>
 
-            <div class="flex flex-col items-start gap-4 md:flex-row md:justify-between justify-between">
-                <a class="flex items-center gap-3" href="{{ path('app_author_show', {id: course.author.id}) }}">
-                    <img class="course__author__avatar" src="{{ course.author | avatar }}" alt="{{ course.author.fullname }}">
-                    <span title="{{ course.author.fullname }}" class="course__author__name">{{ course.author.fullname }}</span>
-                </a>
+                </div>
 
-                <div class="flex justify-start items-center gap-2">
-                    {% if course.source is not empty and app.user %}
-                        <a href="{{ vich_uploader_asset(course, 'sourceFile') }}"
-                           target="_blank"
-                           download="{{ course.source }}"
-                           class="btn btn-sm btn-light">
-                            {{ icon('download') }}
-                            Code source
-                        </a>
-                    {% endif %}
-                    <div>
-                        <div class="inline-block relative">
-                            <button id="share-button" class="btn btn-sm btn-light flex items-center gap-2">
-                                {{ icon('share') }} Partager
-                            </button>
-                            <div id="share-menu" class="absolute hidden">
-                                <a href="https://twitter.com/intent/tweet?url={{ app.request.uri }}" target="_blank" class="share-menu-item">
-                                    {{ icon('twitter') }} Twitter
-                                </a>
-                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.uri }}" target="_blank" class="share-menu-item">
-                                    {{ icon('facebook') }} Facebook
-                                </a>
-                                <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ app.request.uri }}" target="_blank" class="share-menu-item">
-                                    {{ icon('linkedin') }} LinkedIn
-                                </a>
-                                <button id="copy-link" data-url="{{ app.request.uri }}" class="share-menu-item">
-                                    {{ icon('copy') }} Copier le lien
+                <h1 class="container-box mt-3 mb-2 h3 font-medium lg:text-3xl">
+                    {{- course.title }}
+                </h1>
+                <div class="text-left mb-3">
+                    <small class="text-muted text-base">
+                        {% if course.isScheduled %}
+                            Disponible dans {{ course.publishedAt | countdown }}
+                        {% else %}
+                            Publié <span class="lowercase">{{ course.publishedAt | ago }}</span>
+                        {% endif %}
+                    </small>
+                </div>
+
+                <div class="divider my-4"></div>
+
+                <div class="flex flex-col items-start gap-4 md:flex-row md:justify-between justify-between">
+                    <a class="flex items-center gap-3" href="{{ path('app_author_show', {id: course.author.id}) }}">
+                        <img class="course__author__avatar" src="{{ course.author | avatar }}" alt="{{ course.author.fullname }}">
+                        <span title="{{ course.author.fullname }}" class="course__author__name">{{ course.author.fullname }}</span>
+                    </a>
+
+                    <div class="flex justify-start items-center gap-2">
+                        {% if course.source is not empty and app.user %}
+                            <a href="{{ vich_uploader_asset(course, 'sourceFile') }}"
+                               target="_blank"
+                               download="{{ course.source }}"
+                               class="btn btn-sm btn-light">
+                                {{ icon('download') }}
+                                Code source
+                            </a>
+                        {% endif %}
+                        <div>
+                            <div class="inline-block relative">
+                                <button id="share-button" class="btn btn-sm btn-light flex items-center gap-2">
+                                    {{ icon('share') }} Partager
                                 </button>
+                                <div id="share-menu" class="absolute hidden">
+                                    <a href="https://twitter.com/intent/tweet?url={{ app.request.uri }}" target="_blank" class="share-menu-item">
+                                        {{ icon('twitter') }} Twitter
+                                    </a>
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.uri }}" target="_blank" class="share-menu-item">
+                                        {{ icon('facebook') }} Facebook
+                                    </a>
+                                    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ app.request.uri }}" target="_blank" class="share-menu-item">
+                                        {{ icon('linkedin') }} LinkedIn
+                                    </a>
+                                    <button id="copy-link" data-url="{{ app.request.uri }}" class="share-menu-item">
+                                        {{ icon('copy') }} Copier le lien
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+
             </div>
-
-
         </div>
 
         {% if course.formation %}
@@ -175,7 +179,7 @@
                     <div>
                         <div class="stack-large">
                             <div>
-                                <div class="h4 text-lead mb-4">Technologies utilisées</div>
+                                <div class="h4 text-lead mb-4">Tags</div>
                                 <div class="flex flex-wrap gap-1 border-t py-2 border-b border-slate-200 dark:border-slate-600">
                                     {% for technology in course.mainTechnologies %}
                                         <a class="flex items-center gap-2"

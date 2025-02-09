@@ -105,12 +105,12 @@ function CommentItem({
                                 onChange={(e) => setEditContent(e.target.value)}
                                 required
                             />
-                            <div className="flex gap-2 mt-2">
-                                <button className="btn btn-sm btn-primary" type="submit">
-                                    Mettre à jour
+                            <div className="flex gap-2 mt-4">
+                                <button className="btn btn-primary" type="submit">
+                                    Enregistrer
                                 </button>
                                 <button
-                                    className="btn btn-sm btn-light"
+                                    className="btn btn-light"
                                     type="button"
                                     onClick={() => setIsEditing(false)}
                                 >

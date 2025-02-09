@@ -245,7 +245,7 @@
 }
 
 .chapters-mobile-trigger button {
-  @apply flex items-center gap-2 py-3 px-4 bg-slate-200/90 border border-slate-300 rounded text-base font-bricolage text-slate-800 hover:bg-gray-200 dark:bg-primary-800 dark:border-primary-700 dark:text-white dark:hover:bg-primary-700;
+  @apply flex items-center gap-2 py-3 px-4 bg-gray-200/95 text-slate-950 rounded-full border border-slate-300 text-base font-bricolage hover:bg-gray-200 dark:bg-primary-800/95 dark:border-primary-700 dark:text-white dark:hover:bg-primary-700;
 }
 
 .chapters__split {
