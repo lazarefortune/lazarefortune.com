@@ -11,13 +11,11 @@
 
 {% block body %}
     <div>
+        {#
         <div class="container-box">
             {{ breadcrumb(course) }}
         </div>
-
-        <h1 class="container-box mt-3 mb-5 text-lg font-medium lg:text-3xl">
-            {{- course.title }}
-        </h1>
+        #}
 
         <div class="container-box mt-4 mb-4">
             <div class="{{ course.formation ? 'is-chapter' : 'is-chapter is-folded' }}">
@@ -69,14 +67,8 @@
                         </youtube-player>
                     </progress-tracker>
                 {% endif %}
-                {% if course.formation %}
-                    <!-- Bouton chapitres mobile -->
-                    <div class="chapters-mobile-trigger block">
-                        <button id="chapters-mobile-button" class="btn btn-sm btn-light w-full">
-                            {{ icon('list-ordered') }} Chapitres
-                        </button>
-                    </div>
 
+                {% if course.formation %}
                     <!-- Wrapper des chapitres -->
                     <div class="relative">
                         <div class="chapters-wrapper" is="auto-scroll" data-to="{{ course is defined ? '#chapter' ~ course.id : '' }}">
@@ -99,47 +91,79 @@
                         {{ icon('arrow-down') }}
                     </button>
                 {% endif %}
+
             </div>
 
-            <div class="mt-5 flex justify-start items-center gap-2">
-                {% if course.source is not empty and app.user %}
-                    <a href="{{ vich_uploader_asset(course, 'sourceFile') }}"
-                       target="_blank"
-                       download="{{ course.source }}"
-                       class="btn btn-sm btn-light">
-                        {{ icon('code') }}
-                        Code source
-                    </a>
-                {% endif %}
-                <div>
-                    <div class="inline-block relative">
-                        <button id="share-button" class="btn btn-sm btn-light flex items-center gap-2">
-                            {{ icon('share') }} Partager
-                        </button>
-                        <div id="share-menu" class="absolute hidden">
-                            <a href="https://twitter.com/intent/tweet?url={{ app.request.uri }}" target="_blank" class="share-menu-item">
-                                {{ icon('twitter') }} Twitter
-                            </a>
-                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.uri }}" target="_blank" class="share-menu-item">
-                                {{ icon('facebook') }} Facebook
-                            </a>
-                            <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ app.request.uri }}" target="_blank" class="share-menu-item">
-                                {{ icon('linkedin') }} LinkedIn
-                            </a>
-                            <button id="copy-link" data-url="{{ app.request.uri }}" class="share-menu-item">
-                                {{ icon('copy') }} Copier le lien
+            <h1 class="container-box mt-3 mb-2 h3 font-medium lg:text-3xl">
+                {{- course.title }}
+            </h1>
+            <div class="text-left mb-3">
+                <small class="text-muted text-base italic">
+                    {% if course.isScheduled %}
+                        Disponible dans {{ course.publishedAt | countdown }}
+                    {% else %}
+                        Publié <span class="lowercase">{{ course.publishedAt | ago }}</span>
+                    {% endif %}
+                </small>
+            </div>
+
+            <div class="flex flex-col items-start gap-4 md:flex-row md:justify-between justify-between">
+                <a class="flex items-center gap-3" href="{{ path('app_author_show', {id: course.author.id}) }}">
+                    <img class="course__author__avatar" src="{{ course.author | avatar }}" alt="{{ course.author.fullname }}">
+                    <span title="{{ course.author.fullname }}" class="course__author__name">{{ course.author.fullname }}</span>
+                </a>
+
+                <div class="flex justify-start items-center gap-2">
+                    {% if course.source is not empty and app.user %}
+                        <a href="{{ vich_uploader_asset(course, 'sourceFile') }}"
+                           target="_blank"
+                           download="{{ course.source }}"
+                           class="btn btn-sm btn-light">
+                            {{ icon('download') }}
+                            Code source
+                        </a>
+                    {% endif %}
+                    <div>
+                        <div class="inline-block relative">
+                            <button id="share-button" class="btn btn-sm btn-light flex items-center gap-2">
+                                {{ icon('share') }} Partager
                             </button>
+                            <div id="share-menu" class="absolute hidden">
+                                <a href="https://twitter.com/intent/tweet?url={{ app.request.uri }}" target="_blank" class="share-menu-item">
+                                    {{ icon('twitter') }} Twitter
+                                </a>
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.uri }}" target="_blank" class="share-menu-item">
+                                    {{ icon('facebook') }} Facebook
+                                </a>
+                                <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ app.request.uri }}" target="_blank" class="share-menu-item">
+                                    {{ icon('linkedin') }} LinkedIn
+                                </a>
+                                <button id="copy-link" data-url="{{ app.request.uri }}" class="share-menu-item">
+                                    {{ icon('copy') }} Copier le lien
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+
         </div>
+
+        {% if course.formation %}
+            <!-- Bouton chapitres mobile -->
+            <div class="chapters-mobile-trigger block">
+                <button id="chapters-mobile-button" class="btn btn-sm btn-light w-full">
+                    {{ icon('gallery-vertical-end') }} Voir la playlist
+                </button>
+            </div>
+        {% endif %}
 
         <div class="course-page">
             <div class="container-box pb-5 mb-16" id="description">
                 <div class="course-details">
                     <div>
-                        <div class="h2 mb-6" aria-hidden="true">À propos de cette vidéo</div>
+                        <div class="h4 text-lead mb-6" aria-hidden="true">À propos de cette vidéo</div>
                         <div class="formatted">
                             {{ course.content | markdown }}
                         </div>
@@ -150,17 +174,8 @@
                     </div>
                     <div>
                         <div class="stack-large">
-                            <div class="text-right">
-                                <small class="text-muted text-base">
-                                    {% if course.isScheduled %}
-                                        Disponible dans {{ course.publishedAt | countdown }}
-                                    {% else %}
-                                        Publié <span class="lowercase">{{ course.publishedAt | ago }}</span>
-                                    {% endif %}
-                                </small>
-                            </div>
                             <div>
-                                <div class="h4 mb-4">Technologies utilisées</div>
+                                <div class="h4 text-lead mb-4">Technologies utilisées</div>
                                 <div class="flex flex-wrap gap-1 border-t py-2 border-b border-slate-200 dark:border-slate-600">
                                     {% for technology in course.mainTechnologies %}
                                         <a class="flex items-center gap-2"
@@ -175,22 +190,6 @@
                                         {% endif %}
                                     {% endfor %}
                                 </div>
-                            </div>
-                            <div>
-                                <div class="flex flex-col">
-                                    <h4 class="mr-2 h5 mb-2">Auteur</h4>
-                                    <a class="flex items-center gap-3" href="{{ path('app_author_show', {id: course.author.id}) }}">
-                                        <img class="course__author__avatar" src="{{ course.author | avatar }}" alt="{{ course.author.fullname }}">
-                                        <span title="{{ course.author.fullname }}" class="course__author__name">{{ course.author.fullname }}</span>
-                                    </a>
-                                </div>
-{#                                <div class="flex">#}
-{#                                    <img class="course__author__avatar" src="{{ course.author | avatar }}" alt="{{ course.author.fullname }}">#}
-{#                                    <div class="course__author__info">#}
-{#                                        <strong class="h5">Auteur : </strong><br>#}
-{#                                        <span title="{{ course.author.fullname }}" class="course__author__name">{{ course.author.fullname }}</span>#}
-{#                                    </div>#}
-{#                                </div>#}
                             </div>
                             {% if is_granted('ROLE_SUPER_ADMIN') %}
                                 <div>
