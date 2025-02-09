@@ -4,6 +4,18 @@
 
 {% block sidebar_nav %}
     <div class="sidebar__nav-section">
+        <div class="header__search">
+            <div class="header__search-container">
+                <button id="spotlight--trigger" class="header__search-button">
+                    <span>Rechercher</span>
+                    <span class="hidden sm:inline">⌘k</span>
+                </button>
+                <div class="header__search-icon">
+                    {{ icon('search', 18) }}
+                </div>
+            </div>
+        </div>
+
         <ul class="sidebar__nav-list">
             <li class="sidebar__nav-item">
                 <a href="{{ path('admin_home') }}" class="sidebar__nav-link {{ menu_active('admin_home') }}">

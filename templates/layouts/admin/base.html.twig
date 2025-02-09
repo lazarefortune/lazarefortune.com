@@ -48,5 +48,15 @@
 {% block javascripts_bottom %}
     {{ encore_entry_script_tags('dashboard') }}
 {% endblock %}
+
+<script>
+    window.website = {
+        ...(window.website || {}),
+        ADMIN: {{ is_granted('SUPERADMIN') ? 'true' : 'false' }},
+        USER: {{ app.user ? app.user.id : 'null' }},
+        MERCURE_URL: "{{ MERCURE_PUBLIC_URL }}",
+        NOTIFICATION: new Date({{ (app.user and app.user.notificationsReadAt) ? app.user.notificationsReadAt.timestamp : 0 }} * 1000)
+    }
+</script>
 </body>
 </html>

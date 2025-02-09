@@ -15,7 +15,18 @@ import { MarkdownEditor } from "./editor";
 import { AutosaveBlur } from "./AutosaveBlur";
 import { FileManager } from "./admin/FileManager";
 import { TimeCountdown } from "./TimeCountdown";
+import { Notifications } from "../components/Notifications";
 import "./admin/QuestionEditor";
+import reactToWebComponent from "react-to-webcomponent";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { registerBadgeAlert } from "../modules/badges";
+
+const NotificationsElement = reactToWebComponent(Notifications, React, ReactDOM, {
+    shadow: false,
+});
+
+registerBadgeAlert()
 
 customElements.define('spotlight-bar', Spotlight)
 customElements.define('nav-tabs', NavTabs)
@@ -37,4 +48,4 @@ customElements.define('autosave-blur', AutosaveBlur, {extends: 'form'})
 customElements.define('time-ago', TimeAgo)
 customElements.define('markdown-editor', MarkdownEditor, { extends: 'textarea' })
 customElements.define('file-manager', FileManager);
-
+customElements.define('notifications-area', NotificationsElement)

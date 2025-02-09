@@ -1,7 +1,6 @@
 {% extends 'layouts/dashboard/header/_header.html.twig' %}
 
 {% block header_nav %}
-    <div id="test"></div>
     <div class="relative">
         <button id="header-dropdown-button" class="header-dropdown flex items-center pr-0 lg:pr-4 gap-2 border border-slate-200 dark:border-slate-700 rounded-full text-md" aria-controls="dropdown-user" aria-expanded="false">
             <img class="h-10 w-10 rounded-full object-cover border border-b-gray-400" src="{{ app.user|avatar }}" alt="{{ app.user.fullname }} avatar">
