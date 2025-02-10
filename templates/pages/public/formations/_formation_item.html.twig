@@ -36,8 +36,8 @@
             {% endif %}
 
             <div class="formation__duration">
-                {{ icon('clock') }}
-                {{ formation.duration|duration }}
+                {{ icon('library-big') }}
+                {{ formation.chapters | length }} chapitre{{ formation.chapters | length > 1 ? 's' : '' }}
             </div>
         </div>
     </a>

@@ -126,7 +126,7 @@
                 </div>
                 {% if is_granted('ROLE_SUPER_ADMIN') %}
                     <div class="mt-4">
-                        <a href="{{ path('admin_formation_edit', {id: formation.id}) }}" target="_blank"
+                        <a href="{{ path('studio_formation_edit', {id: formation.id}) }}" target="_blank"
                            class="btn btn-light">
                             {{ icon('pencil') }} <span class="ml-2">Editer la playlist</span>
                         </a>
