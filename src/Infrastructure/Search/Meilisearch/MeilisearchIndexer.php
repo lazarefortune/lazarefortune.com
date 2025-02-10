@@ -13,9 +13,11 @@ class MeilisearchIndexer implements IndexerInterface
     public function settings(): void
     {
         $this->client->patch('indexes/content/settings', [
-            'minWordSizeForTypos' => [
-                'oneTypo' => 2, // autoriser une faute dès 2 caractères
-                'twoTypos' => 4, // autoriser 2 fautes dès 4 caractères
+            'typoTolerance' => [
+                'minWordSizeForTypos' => [
+                    'oneTypo' => 2,
+                    'twoTypos' => 4,
+                ],
             ],
             'searchableAttributes' => [
                 'title',
