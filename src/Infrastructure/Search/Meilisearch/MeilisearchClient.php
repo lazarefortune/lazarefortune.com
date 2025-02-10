@@ -39,15 +39,25 @@ class MeilisearchClient
     {
         $headers = [];
         if (!empty($this->apiKey)) {
-            $headers['Authorization'] = 'Bearer '.$this->apiKey;
+            $headers['Authorization'] = 'Bearer ' . $this->apiKey;
         }
-        $response = $this->client->request($method, "http://{$this->host}/{$endpoint}", [
+
+        // Vérifier si le host contient déjà un schéma (http:// ou https://)
+        $host = $this->host;
+        if (!preg_match('#^https?://#i', $host)) {
+            $host = 'http://' . $host;
+        }
+
+        $url = rtrim($host, '/') . '/' . ltrim($endpoint, '/');
+        $response = $this->client->request($method, $url, [
             'json' => $data,
             'headers' => $headers,
         ]);
+
         if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
             return json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
         }
         throw new MeilisearchException($response);
     }
+
 }
