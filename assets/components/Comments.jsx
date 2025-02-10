@@ -188,16 +188,32 @@ function Comments(props) {
                         />
                     </>
                 ) : (
-                    <div className="relative flex flex-col items-center border border-slate-200 p-4 rounded">
-                        <p className="text-center mb-2">
-                            Connectez-vous pour ajouter un commentaire et rejoindre la discussion !
-                        </p>
-                        <a
-                            href={`/connexion?redirect=${encodeURIComponent(window.location.href)}`}
-                            className="btn btn-primary"
-                        >
-                            Se connecter
-                        </a>
+                    <div className="mt-4 mb-10 relative">
+                        <div className="blur-[2px] opacity-50">
+                            <textarea
+                                className="form-textarea form-textarea__noresize mt-4"
+                                placeholder="Laissez votre commentaire"
+                                minLength={4}
+                                cols={30}
+                                rows={6}
+                                required
+                            />
+                            <div className="flex gap-2 mt-4">
+                                <button className="btn btn-disabled" type="submit">
+                                    Envoyer
+                                </button>
+                            </div>
+                        </div>
+                        <div
+                            className="absolute inset-0 text-center text-2xl flex flex-col justify-center items-center">
+                            <p className="mb-2">
+                                Connectez-vous pour rejoindre la discussion
+                            </p>
+                            <a href={`/connexion?redirect=${encodeURIComponent(window.location.href)}`}
+                               className="btn btn-primary">
+                                Rejoindre la discussion
+                            </a>
+                        </div>
                     </div>
                 )}
             </div>
@@ -216,13 +232,13 @@ function Comments(props) {
                             className="modal-close"
                             onClick={cancelDeleteComment}
                         >
-                            <X size={24} />
+                            <X size={24}/>
                         </button>
                         <div className="stack">
                             <div className="h4 text-center mt-4">
                                 Voulez-vous vraiment supprimer ce commentaire ?
                             </div>
-                            <hr className="my-2" />
+                            <hr className="my-2"/>
                             <div className="flex justify-center items-center gap-4">
                                 <button
                                     className="btn btn-danger"
