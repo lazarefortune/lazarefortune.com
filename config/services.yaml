@@ -18,6 +18,12 @@ parameters:
 
   image_resize_key: '%env(resolve:IMAGE_RESIZE_KEY)%'
 
+  meilisearch_default_host: "localhost:7700"
+  empty: ""
+  meilisearch_key: '%env(default:empty:MEILISEARCH_KEY)%'
+  meilisearch_host: '%env(default:meilisearch_default_host:MEILISEARCH_HOST)%'
+
+
 services:
   # default configuration for services in *this* file
   _defaults:
@@ -122,6 +128,15 @@ services:
 
   App\Http\Twig\TwigBreadcrumbExtension:
     arguments: [ !tagged_iterator app.breadcrumb ]
+
+  App\Infrastructure\Search\Meilisearch\MeilisearchClient:
+    arguments: [ '%meilisearch_host%', '%meilisearch_key%' ]
+
+  App\Infrastructure\Search\IndexerInterface:
+    class: App\Infrastructure\Search\Meilisearch\MeilisearchIndexer
+
+  App\Infrastructure\Search\SearchInterface:
+    class: App\Infrastructure\Search\Meilisearch\MeilisearchSearch
 
 # TODO: Si besoin d'utiliser le nom de l'application en BDD dans les templates, décommenter les lignes ci-dessous
 #  App\Domain\Application\EventListener\ConfigListener:

@@ -4,55 +4,54 @@ namespace App\Http\Api\Controller;
 
 use App\Domain\Course\Entity\Course;
 use App\Domain\Course\Entity\Formation;
+use App\Domain\Course\Entity\Technology;
+use App\Domain\Course\Repository\TechnologyRepository;
 use App\Domain\Search\Service\SearchService;
 use App\Http\Controller\AbstractController;
+use App\Infrastructure\Search\SearchInterface;
+use App\Infrastructure\Search\SearchResultItemInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
-#[Route('/search', name: 'search_')]
 class SearchController extends AbstractController
 {
 
     public function __construct(
-        private readonly SearchService $searchService,
-        private readonly UrlGeneratorInterface $urlGenerator
+        private readonly SearchInterface $search,
+        private readonly TechnologyRepository $technologyRepository,
+        private readonly SerializerInterface $serializer,
     ) {}
 
-    #[Route('/{query}', name: 'index', methods: ['GET'])]
-    public function index( $query ): JsonResponse
+    #[Route(path: '/search', name: 'search')]
+    public function search(Request $request): JsonResponse
     {
-        $results = $this->searchService->search($query);
-
-        // if is results check if is formation or course
-        if (count($results) > 0) {
-            foreach ($results as $key => $result) {
-                if ($result instanceof Formation) {
-                    $results[$key] = [
-                        'type' => 'formation',
-                        'id' => $result->getId(),
-                        'title' => $result->getTitle(),
-                        'url' => $this->urlGenerator->generate('app_formation_show', ['slug' => $result->getSlug()]),
-                        'image' => $result->getImage(),
-                        'duration' => $result->getDuration(),
-                        'createdAt' => $result->getCreatedAt(),
-                        'updatedAt' => $result->getUpdatedAt(),
-                    ];
-                } else if ($result instanceof Course) {
-                    $results[$key] = [
-                        'type' => 'course',
-                        'id' => $result->getId(),
-                        'title' => $result->getTitle(),
-                        'url' => $this->urlGenerator->generate('app_course_show', ['slug' => $result->getSlug()]),
-                        'image' => $result->getImage(),
-                        'duration' => $result->getDuration(),
-                        'createdAt' => $result->getCreatedAt(),
-                        'updatedAt' => $result->getUpdatedAt(),
-                    ];
-                }
-            }
+        $q = trim((string) $request->get('q', ''));
+        if (empty($q)) {
+            return $this->json([]);
         }
 
-        return $this->json($results);
+        // On trouve les technologies qui correspondent à la recherche
+        $technologies = $this->technologyRepository->searchByName($q);
+        $technologiesMatches = array_map(fn (Technology $technology) => [
+            'title' => $technology->getName(),
+            'url' => $this->serializer->serialize($technology, 'path'),
+            'category' => 'Technologie',
+        ], $technologies);
+
+        // On trouve les contenus qui correspondent à la recheche
+        $results = $this->search->search($q, [], 5);
+        $contentMatches = array_map(fn (SearchResultItemInterface $item) => [
+            'title' => $item->getTitle(),
+            'url' => $item->getUrl(),
+            'category' => $item->getType(),
+        ], $results->getItems());
+
+        return $this->json([
+            'items' => array_merge($technologiesMatches, $contentMatches),
+            'hits' => $results->getTotal(),
+        ]);
     }
 }

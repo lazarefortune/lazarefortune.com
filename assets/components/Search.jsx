@@ -1,17 +1,62 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import ReactDOM from "react-dom";
-import { Search as SearchIcon, Loader, Video } from "lucide-react";
+import { Loader } from "lucide-react";
 
-const SEARCH_API = "/api/search";
+// Définition des endpoints (à adapter si besoin)
+const SEARCH_URL = "/recherche";   // Page complète de recherche
+const SEARCH_API = "/api/search";  // API renvoyant un JSON de la forme { items: [...], hits: number }
 
+/**
+ * Fonction debounce pour limiter les appels API.
+ */
+function debounce(fn, delay) {
+    let timer;
+    return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn(...args), delay);
+    };
+}
+
+/**
+ * Fonction pour échapper une chaîne afin de construire une RegExp.
+ */
+function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+/**
+ * Applique le highlight sur les correspondances.
+ * Les occurrences du `query` dans le texte seront entourées d'une balise <mark>.
+ */
+function highlightMatches(text, query) {
+    if (!query) return text;
+    const regex = new RegExp(`(${escapeRegExp(query)})`, "gi");
+    return text.replace(regex, "<mark>$1</mark>");
+}
+
+/**
+ * Formate le résultat en appliquant la surbrillance sur le titre, sauf si l'élément est marqué comme extra.
+ */
+function formatResult(item, query) {
+    if (item.extra) return item.title; // Ne pas appliquer de highlight sur l'élément extra
+    if (item.category) {
+        return `<span style="font-size: 0.8rem; color: #999;">${item.category}</span><br>${highlightMatches(item.title, query)}`;
+    }
+    return highlightMatches(item.title, query);
+}
+
+/**
+ * Composant principal : affiche le bouton de recherche qui ouvre la modale.
+ */
 export function Search() {
     const [isSearchVisible, setSearchVisible] = useState(false);
 
     const toggleSearchBar = () => setSearchVisible((prev) => !prev);
 
+    // Raccourci clavier : Ctrl+K ou Ctrl+Espace pour ouvrir/fermer la recherche
     useEffect(() => {
         const handler = (e) => {
-            if (e.ctrlKey && e.key === "k") {
+            if ((e.key === "k" || e.key === " ") && e.ctrlKey) {
                 e.preventDefault();
                 toggleSearchBar();
             }
@@ -20,145 +65,46 @@ export function Search() {
         return () => window.removeEventListener("keydown", handler);
     }, []);
 
+    // Désactive le scroll du body quand la recherche est ouverte
     useEffect(() => {
-        if (isSearchVisible) {
-            document.body.style.overflow = "hidden"; // Désactive le défilement
-        } else {
-            document.body.style.overflow = ""; // Réinitialise le défilement
-        }
-
+        document.body.style.overflow = isSearchVisible ? "hidden" : "";
         return () => {
-            document.body.style.overflow = ""; // Réinitialise au cas où
+            document.body.style.overflow = "";
         };
     }, [isSearchVisible]);
 
     return (
-        <>
-            <div className="relative flex items-center">
-                <button onClick={toggleSearchBar} aria-label="Rechercher">
-                    <SearchIcon size={24}/>
-                </button>
-                {isSearchVisible && <SearchBar onClose={toggleSearchBar}/>}
-            </div>
-        </>
-    );
-}
-
-function SearchInput({ onClose }) {
-    const inputRef = useRef(null);
-    const [ query, setQuery ] = useState("");
-    const [ results, setResults] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [selectedIndex, setSelectedIndex] = useState(null);
-
-    const suggest = useCallback(
-        debounce(async (value) => {
-            if (!value) return;
-            setLoading(true);
-            const response = await fetch(`${SEARCH_API}/${encodeURIComponent(value)}`);
-            const data = await response.json();
-            setResults(data || []);
-            // setResults(data.items || []);
-            setLoading(false);
-        }, 300),
-        []
-    );
-
-    const handleInput = (e) => {
-        const value = e.target.value;
-        setQuery(value);
-        suggest(value);
-    };
-
-    const handleKeyDown = (e) => {
-        if (!results.length) return;
-
-        if (e.key === "ArrowDown") {
-            e.preventDefault();
-            setSelectedIndex((prev) => (prev === null ? 0 : Math.min(prev + 1, results.length - 1)));
-        } else if (e.key === "ArrowUp") {
-            e.preventDefault();
-            setSelectedIndex((prev) => (prev === null ? results.length - 1 : Math.max(prev - 1, 0)));
-        } else if (e.key === "Enter" && selectedIndex !== null) {
-            e.preventDefault();
-            window.location.href = results[selectedIndex]?.url || "/";
-        }
-    };
-
-    useEffect(() => {
-        inputRef.current?.focus();
-    }, []);
-
-    return (
-        <div className="search-bar">
-            <div className="search-input-wrapper">
-                <div className="search-icon">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={2}
-                        stroke="currentColor"
-                        className="w-5 h-5"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"
-                        />
-                    </svg>
-                </div>
-                <input
-                    type="text"
-                    ref={inputRef}
-                    value={query}
-                    onChange={handleInput}
-                    onKeyDown={handleKeyDown}
-                    placeholder="Rechercher..."
-                />
-            </div>
-            {loading && (
-                <div className="search-loader">
-                    <Loader size={20} />
-                </div>
-            )}
-            {results.length > 0 && (
-                <div className="search-suggestions">
-                    {results.map((result, index) => (
-                        <div
-                            key={index}
-                            className={index === selectedIndex ? "active" : ""}
-                        >
-                            <a href={result.url} className="flex gap-2 py-2">
-                                <div className="relative flex-shrink-0 w-40 h-auto rounded overflow-hidden">
-                                    {result.image ? (
-                                        <img
-                                            src={result.image.url}
-                                            alt={result.title}
-                                            className="w-full h-auto object-cover rounded shadow-sm"
-                                        />
-                                    ) : (
-                                        <div className="relative w-full h-24 bg-gray-200 dark:bg-slate-600">
-                                            <Video size={24} className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500" />
-                                        </div>
-                                    )}
-                                </div>
-
-                                {result.title}
-                            </a>
-                        </div>
-                    ))}
-                </div>
-            )}
+        <div className="relative flex items-center">
+            <button onClick={toggleSearchBar} aria-label="Rechercher">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                >
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"
+                    />
+                </svg>
+            </button>
+            {isSearchVisible && <SearchBar onClose={() => setSearchVisible(false)} />}
         </div>
     );
 }
 
+/**
+ * Composant SearchBar : overlay de la recherche.
+ * Utilise createPortal pour afficher l’overlay par-dessus tout.
+ */
 function SearchBar({ onClose }) {
     useEffect(() => {
         const handleEscape = (e) => {
             if (e.key === "Escape") {
-                e.preventDefault(); // Empêche le comportement par défaut
+                e.preventDefault();
                 onClose();
             }
         };
@@ -170,8 +116,10 @@ function SearchBar({ onClose }) {
         <div className="search-overlay active" onClick={onClose}>
             <div className="search-container" onClick={(e) => e.stopPropagation()}>
                 <SearchInput onClose={onClose} />
-                <div className="search-footer">
-                    Appuyez sur <span>Échap</span> pour fermer
+                <div className="search-footer hidden sm:block">
+                    <small className="text-muted">
+                        Touchez l'extérieur (ou Échap) pour fermer
+                    </small>
                 </div>
             </div>
         </div>,
@@ -179,12 +127,184 @@ function SearchBar({ onClose }) {
     );
 }
 
+/**
+ * Composant SearchInput : le formulaire de recherche avec suggestions.
+ */
+function SearchInput({ onClose }) {
+    const [query, setQuery] = useState("");
+    const [results, setResults] = useState([]);
+    const [hits, setHits] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [selectedIndex, setSelectedIndex] = useState(null);
+    const inputRef = useRef(null);
+    const resultsRef = useRef([]);
 
-// Fonction debounce pour limiter les appels à l'API
-function debounce(fn, delay) {
-    let timer;
-    return (...args) => {
-        clearTimeout(timer);
-        timer = setTimeout(() => fn(...args), delay);
+    useEffect(() => {
+        inputRef.current?.focus();
+    }, []);
+
+    useEffect(() => {
+        if (selectedIndex !== null && resultsRef.current[selectedIndex]) {
+            resultsRef.current[selectedIndex].scrollIntoView({
+                block: "nearest",
+            });
+        }
+    }, [selectedIndex]);
+
+    const suggest = useCallback(
+        debounce(async (value) => {
+            if (!value) {
+                setResults([]);
+                setHits(0);
+                return;
+            }
+            setLoading(true);
+            try {
+                const response = await fetch(`${SEARCH_API}?q=${encodeURIComponent(value)}`);
+                if (!response.ok) {
+                    setLoading(false);
+                    return;
+                }
+                const data = await response.json();
+                setResults(data.items || []);
+                setHits(data.hits || 0);
+                setSelectedIndex(null);
+            } catch (e) {
+                console.error(e);
+            } finally {
+                setLoading(false);
+            }
+        }, 300),
+        []
+    );
+
+    const handleInput = (e) => {
+        const value = e.target.value;
+        setQuery(value);
+        suggest(value);
     };
+
+    // Calcul du nombre total d'éléments affichés : ajoute 1 si on affiche l'élément extra.
+    const totalDisplayed =
+        query !== "" && hits > results.length ? results.length + 1 : results.length;
+
+    const handleKeyDown = (e) => {
+        if (totalDisplayed === 0) return;
+        switch (e.key) {
+            case "ArrowDown":
+                e.preventDefault();
+                setSelectedIndex((prev) =>
+                    prev === null ? 0 : Math.min(prev + 1, totalDisplayed - 1)
+                );
+                break;
+            case "ArrowUp":
+                e.preventDefault();
+                setSelectedIndex((prev) =>
+                    prev === null ? totalDisplayed - 1 : Math.max(prev - 1, 0)
+                );
+                break;
+            case "Enter":
+                if (selectedIndex !== null) {
+                    e.preventDefault();
+                    // Si l'élément extra est sélectionné, rediriger vers la page complète
+                    if (
+                        query !== "" &&
+                        hits > results.length &&
+                        selectedIndex === totalDisplayed - 1
+                    ) {
+                        window.location.href = `${SEARCH_URL}?q=${encodeURIComponent(query)}&redirect=0`;
+                    } else {
+                        window.location.href = results[selectedIndex]?.url || "/";
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (selectedIndex !== null && results[selectedIndex]) {
+            window.location.href = results[selectedIndex].url;
+        } else {
+            window.location.href = `${SEARCH_URL}?q=${encodeURIComponent(query)}`;
+        }
+    };
+
+    // Construction de l'array affiché incluant l'élément "Voir les X résultats"
+    let displayedResults = [...results];
+    if (query !== "" && hits > results.length) {
+        displayedResults.push({
+            title: `Voir les <strong>${hits}</strong> résultats`,
+            url: `${SEARCH_URL}?q=${encodeURIComponent(query)}&redirect=0`,
+            category: "",
+            extra: true, // Marque cet élément pour ne pas appliquer le highlight
+        });
+    }
+
+    return (
+        <div className="search-bar">
+            <form onSubmit={handleSubmit}>
+                <div className="search-input-wrapper">
+                    <div className="search-icon">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={2}
+                            stroke="currentColor"
+                            className="w-5 h-5"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"
+                            />
+                        </svg>
+                    </div>
+                    <input
+                        type="text"
+                        ref={inputRef}
+                        value={query}
+                        onChange={handleInput}
+                        onKeyDown={handleKeyDown}
+                        placeholder="Rechercher..."
+                    />
+                </div>
+
+                {loading && (
+                    <div className="search-loader">
+                        <Loader size={20} />
+                    </div>
+                )}
+
+                {displayedResults.length > 0 && (
+                    <div className="search-suggestions">
+                        {displayedResults.map((result, index) => {
+                            const isSelected = index === selectedIndex;
+                            return (
+                                <div key={index}>
+                                    <a
+                                        ref={(el) => (resultsRef.current[index] = el)}
+                                        href={result.url}
+                                        className={
+                                            isSelected
+                                                ? "block px-4 py-2 rounded-md text-base bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-white"
+                                                : "block px-4 py-2 rounded-md text-base hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-700"
+                                        }
+                                        dangerouslySetInnerHTML={{
+                                            __html: formatResult(result, query),
+                                        }}
+                                    />
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
+            </form>
+        </div>
+    );
 }
+
+export default Search;

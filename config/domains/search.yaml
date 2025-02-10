@@ -1,0 +1,20 @@
+parameters:
+  meilisearch_default_host: "localhost:7700"
+  empty: ""
+  meilisearch_key:    '%env(default:empty:MEILISEARCH_KEY)%'
+  meilisearch_host:   '%env(default:meilisearch_default_host:MEILISEARCH_HOST)%'
+
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: false
+    public: false
+
+  App\Infrastructure\Search\Meilisearch\MeilisearchClient:
+    arguments: ['%meilisearch_host%', '%meilisearch_key%']
+
+  App\Infrastructure\Search\IndexerInterface:
+    class: App\Infrastructure\Search\Meilisearch\MeilisearchIndexer
+
+  App\Infrastructure\Search\SearchInterface:
+    class: App\Infrastructure\Search\Meilisearch\MeilisearchSearch
