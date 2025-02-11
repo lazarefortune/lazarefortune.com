@@ -53,7 +53,7 @@
         <!-- Latest Videos Section -->
         {% if latest_content is not empty %}
             <section class="mt-24 reveal relative" data-delay=".2">
-                <h2 class="h2 text-center mb-6">Dernières Vidéos et Playlists</h2>
+                <h2 class="h1 text-center mb-6">Dernières Vidéos et Playlists</h2>
 
                 <div style="scroll-snap-type: x proximity;" class="overflow-x-auto -mx-4 px-4 max-h-[52rem] overflow-y-hidden md:overflow-y-hidden scrollbar-hide md:overflow-visible mb-6 py-10">
                     <div class="flex md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -93,7 +93,7 @@
         <!-- Technologies Section -->
         <section class="mt-16 reveal"  data-delay=".2">
             <div class="max-w-3xl mx-auto text-center">
-                <h2 class="h2 mb-3">Explorez par <span class="text-lead">sujet</span></h2>
+                <h2 class="h1 mb-3">Explorez par <span class="text-lead">sujet</span></h2>
                 <p class="text-lg text-muted">
                     Explorez les technologies et les sujets que j'aborde dans mes vidéos et playlists.
                 </p>
@@ -140,7 +140,7 @@
                          class="rounded-full shadow-lg shadow-primary-500 dark:shadow-amber-200 w-48 mx-auto md:w-64">
                 </div>
                 <div>
-                    <h2 class="h2 mb-6">Qui suis-je ?</h2>
+                    <h2 class="h1 mb-6">Qui suis-je ?</h2>
                     <p class="text-lg text-gray-600 dark:text-gray-300">
                         Je suis Lazare Fortune, développeur web passionné par le code et la programmation. À travers mes
                         vidéos, je partage mon apprentissage et mes découvertes sur le développement web.
@@ -174,22 +174,19 @@
         <!-- Community Section -->
         <section class="mt-16 py-16 rounded-md reveal"  data-delay=".2">
             <div class="mx-auto text-center">
-                <div class="px-6">
-                    <h2 class="h2 mb-3">
+                <div class="px-6 mb-10">
+                    <h2 class="h1 mb-3">
                         Rejoignez la <span class="text-lead">communauté</span>
                     </h2>
-                    <p class="text-lg text-muted mb-10">
-                        Connectez-vous avec des passionnés de développement web et progressons ensemble.
-                    </p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <!-- Card 1 -->
                     <div class="flex flex-col items-center p-6 text-center">
                         <div class="text-blue-600 dark:text-blue-400 mb-4">
                             {{ icon('users', '48') }}
                         </div>
-                        <h3 class="text-xl font-medium text-slate-900 dark:text-white mb-2">
+                        <h3 class="h3 mb-2">
                             Sessions en groupe
                         </h3>
                         <p class="text-slate-600 dark:text-slate-400">
@@ -202,7 +199,7 @@
                         <div class="text-green-600 dark:text-green-400 mb-4">
                             {{ icon('code', '48') }}
                         </div>
-                        <h3 class="text-xl font-medium text-slate-900 dark:text-white mb-2">
+                        <h3 class="h3 mb-2">
                             Accès au code source
                         </h3>
                         <p class="text-slate-600 dark:text-slate-400">
@@ -215,7 +212,7 @@
                         <div class="text-red-600 dark:text-red-400 mb-4">
                             {{ icon('video', '48') }}
                         </div>
-                        <h3 class="text-xl font-medium text-slate-900 dark:text-white mb-2">
+                        <h3 class="h3 mb-2">
                             Vidéos exclusives
                         </h3>
                         <p class="text-slate-600 dark:text-slate-400">
@@ -235,22 +232,18 @@
         <!-- Contribute Section -->
         <section class="mt-16 reveal" data-delay=".2">
             <div class="max-w-3xl mx-auto text-center">
-                <h2 class="h2 mb-4">
+                <h2 class="h1 mb-4">
                     Vous souhaitez <span class="text-lead">contribuer</span> ?
                 </h2>
-                <p class="text-slate-500 dark:text-slate-300 text-lg">
-                    Aidez-moi à faire évoluer cette plateforme en rejoignant le développement sur GitHub
-                    ou en devenant auteur pour partager vos propres contenus.
-                </p>
             </div>
 
             <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Contribuer au développement -->
-                <div class="flex flex-col items-center text-center">
+                <div class="flex flex-col items-center text-center border border-slate-200 dark:border-slate-800 rounded-xl px-6 py-14">
                     <div class="flex justify-center items-center bg-primary-700 text-white p-2 rounded-lg w-10 h-10">
-                        <span class="">{{ icon('github', 24) }}</span>
+                        <span>{{ icon('github', 24) }}</span>
                     </div>
-                    <h3 class="h4 mb-2 mt-4">Contribuez au code</h3>
+                    <h3 class="h3 mb-2 mt-4">Contribuez au code</h3>
                     <p class="text-muted mb-6">
                         Partagez vos idées, résolvez des problèmes et participez activement
                         au développement via GitHub.
@@ -259,7 +252,7 @@
                         <a href="https://github.com/lazarefortune/lazarefortune.com"
                            target="_blank"
                            rel="noopener noreferrer"
-                           class="btn btn-light">
+                           class="btn btn-outline">
                             Accéder au GitHub
                             <span class="ml-1">{{ icon('external-link', '16') }}</span>
                         </a>
@@ -267,19 +260,19 @@
                 </div>
 
                 <!-- Devenir auteur -->
-                <div class="flex flex-col items-center text-center">
+                <div class="flex flex-col items-center text-center border border-slate-200 dark:border-slate-800 rounded-xl px-6 py-14">
                     <div class="flex justify-center items-center bg-primary-700 text-white p-2 rounded-lg w-10 h-10">
-                        <span class="">{{ icon('pencil-line', 24) }}</span>
+                        <span>{{ icon('pencil-line', 24) }}</span>
                     </div>
-                    <h3 class="h4 mb-2 mt-4">Devenez auteur</h3>
+                    <h3 class="h3 mb-2 mt-4">Devenez auteur</h3>
                     <p class="text-muted mb-6">
                         Publiez vos propres vidéos ou playlists sur la plateforme.
                         Partagez vos connaissances avec la communauté et faites grandir la plateforme.
                     </p>
                     <div class="mt-auto">
                         <a href="{{ path('app_author_request_collaboration') }}"
-                           class="btn btn-light">
-                            Je souhaite participer
+                           class="btn btn-outline">
+                            Faire ma demande
                         </a>
                     </div>
                 </div>
