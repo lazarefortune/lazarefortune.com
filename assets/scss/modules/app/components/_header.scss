@@ -1,6 +1,6 @@
 /* --- Styles du header --- */
 .header {
-  @apply relative z-50 w-full bg-white dark:bg-primary-950 dark:text-white flex justify-between items-center py-6 transition-colors duration-300;
+  @apply relative z-50 w-full bg-white dark:bg-primary-950 dark:text-white flex justify-between items-center gap-4 py-6 transition-colors duration-300;
 
   &::after {
     content: "";
