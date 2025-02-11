@@ -17,9 +17,9 @@ class HistoryService
     /**
      * @return Progress[]
      */
-    public function getLastWatchedContent( User $user ) : array
+    public function getLastWatchedContent( User $user , $limit = null ) : array
     {
-        return $this->progressRepository->findLastForUser( $user );
+        return $this->progressRepository->findLastForUser( $user, $limit );
     }
 
     public function getNextContentIdToWatch( User $user, Formation $formation ) : ?int

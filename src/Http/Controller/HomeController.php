@@ -31,7 +31,7 @@ class HomeController extends AbstractController
         $technologies = $this->technologyRepository->findAllWithContentCount();
 
         if ( $user ) {
-            $watchlist = $this->historyService->getLastWatchedContent( $user );
+            $watchlist = $this->historyService->getLastWatchedContent( $user , 4);
             $excluded = array_map( fn ( Progress $progress ) => $progress->getContent()->getId(), $watchlist );
 
             $content = $this->em->getRepository( Content::class )

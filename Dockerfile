@@ -1,4 +1,4 @@
-FROM php:8.1.0-apache
+FROM php:8.3.0-apache
 
 WORKDIR /var/www/html
 
@@ -27,6 +27,7 @@ RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \
 # Désactivé pour le moment
 RUN docker-php-ext-install gettext intl pdo_mysql gd zip opcache
 RUN pecl install apcu && docker-php-ext-enable apcu
+RUN pecl install redis && docker-php-ext-enable redis
 
 # Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer

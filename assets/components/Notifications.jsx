@@ -4,7 +4,7 @@ import { isAuthenticated, lastNotificationRead } from '../functions/auth.js'
 import { loadNotifications, onNotification } from '../api/notifications.js'
 import { jsonFetch } from '../functions/api.js'
 import { SlideIn } from "./SlideIn";
-import { Bell, Loader, XCircle } from "lucide-react";
+import { Bell, Loader, X } from "lucide-react";
 
 const OPEN = 0
 const CLOSE = 1
@@ -109,7 +109,7 @@ function Popup({ notifications = [], onClickOutside = () => {}, loading = false,
             <div className="notifications_title">
                 Notifications
                 <button aria-label="Fermer" onClick={onClickOutside}>
-                    <XCircle size={24} />
+                    <X size={20} />
                 </button>
             </div>
             <div className="notifications_body">

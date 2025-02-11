@@ -1,36 +1,27 @@
 <nav class="header container-box" id="app-header">
-    <!-- Bouton hamburger (visible sur mobile) -->
-    <button id="header-hamburger" class="hamburger">
-        <span class="sr-only">Ouvrir le menu</span>
-        <span class="hamburger__icon">
-                <span aria-hidden="true" class="hamburger__line"></span>
-                <span aria-hidden="true" class="hamburger__line"></span>
-                <span aria-hidden="true" class="hamburger__line"></span>
-            </span>
-    </button>
     <!-- Section gauche : Logo et navigation -->
-    <div class="header__left">
+    <ul class="header__left">
         <!-- Logo -->
-        <a href="{{ path('app_home') }}" {{ menu_active_aria('app_home') }} class="header__logo">
-            <span class="text-xl font-hanken-grotesk font-medium text-slate-900 dark:text-white">lf<span class="text-primary-600 dark:text-primary-400">.com</span></span>
-        </a>
+        <li class="h-11 flex items-center">
+            <a href="{{ path('app_home') }}" {{ menu_active_aria('app_home') }} class="header__logo">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo de la plateforme" class="h-8 w-auto">
+            </a>
+        </li>
 
         <!-- Navigation principale (visible sur desktop) -->
-        <ul class="header__nav">
-            <li>
-                <a href="{{ path('app_course_index') }}" {{ menu_active_aria('app_course_') }} class="header__nav-link">
-                    {{ icon('video') }}
-                    <span>Vidéos</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ path('app_formation_index') }}" {{ menu_active_aria('app_formation_') }} class="header__nav-link">
-                    {{ icon('gallery-vertical-end') }}
-                    <span>Playlists</span>
-                </a>
-            </li>
-        </ul>
-    </div>
+        <li >
+            <a href="{{ path('app_course_index') }}" {{ menu_active_aria('app_course_') }} class="header__nav-link">
+                {{ icon('video') }}
+                <span>Vidéos</span>
+            </a>
+        </li>
+        <li >
+            <a href="{{ path('app_formation_index') }}" {{ menu_active_aria('app_formation_') }} class="header__nav-link">
+                {{ icon('gallery-vertical-end') }}
+                <span>Playlists</span>
+            </a>
+        </li>
+    </ul>
 
 {#    <div class="header__search">#}
 {#        <form action="" method="get" class="flex items-center relative">#}
@@ -76,17 +67,17 @@
 
     <!-- Section droite : Menu utilisateur -->
     <div class="header__right">
-        <search-button class="mr-1"></search-button>
-        <notifications-area class="mr-1"></notifications-area>
+        <search-button></search-button>
+        <notifications-area></notifications-area>
 
         {% if app.user %}
             <!-- Dropdown utilisateur -->
             <div class="relative">
                 <button id="header-dropdown-button" class="header-dropdown flex items-center pr-0 lg:pr-4 gap-2 border border-slate-200 dark:border-slate-700 rounded-full text-md" aria-controls="dropdown-user" aria-expanded="false">
-                    <img class="h-10 w-10 rounded-full object-cover border border-b-gray-400" src="{{ app.user|avatar }}" alt="{{ app.user.fullname }} avatar">
+                    <img class="h-auto w-11 rounded-full object-cover border border-b-gray-400" src="{{ app.user|avatar }}" alt="{{ app.user.fullname }} avatar">
                     <span class="hidden lg:inline-flex">{{ app.user.fullname | truncate(15) }}</span>
                 </button>
-                <div id="header-dropdown-menu" class="absolute z-[4000] right-0 top-[35px] min-w-80 bg-white dark:bg-primary-950 dark:text-white
+                <div id="header-dropdown-menu" class="absolute z-[4000] -right-10 md:right-0 top-[35px] min-w-80 bg-white dark:bg-primary-950 dark:text-white
                  border border-slate-200 dark:border-slate-800 shadow-lg rounded-xl
                  flex flex-col justify-center items-start
                  scale-95 transform transition-all duration-100 ease-out
@@ -149,11 +140,20 @@
                 </a>
             </div>
             <div class="inline-flex lg:hidden">
-                <a href="{{ path('app_login') }}" class="rounded-full px-3 py-3 bg-primary-600 text-white font-medium hover:bg-primary-700 hover:text-white transition-colors duration-200
-                    dark:bg-primary-600 dark:text-white dark:hover:bg-primary-700 dark:hover:text-white">
-                    {{ icon('user') }}
+                <a href="{{ path('app_login') }}" class="text-slate-950 dark:text-white">
+                    {{ icon('user', 24) }}
                 </a>
             </div>
         {% endif %}
+
+        <!-- Bouton hamburger (visible sur mobile) -->
+        <button id="header-hamburger" class="hamburger {% if not app.user %}hidden{% endif %}">
+            <span class="sr-only">Ouvrir le menu</span>
+            <span class="hamburger__icon">
+                <span aria-hidden="true" class="hamburger__line"></span>
+                <span aria-hidden="true" class="hamburger__line"></span>
+                <span aria-hidden="true" class="hamburger__line"></span>
+            </span>
+        </button>
     </div>
 </nav>

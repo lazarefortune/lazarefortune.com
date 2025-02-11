@@ -41,22 +41,26 @@ class ProgressRepository extends AbstractRepository
         ] );
     }
 
-    public function findLastForUser( User $user ) : array
+    public function findLastForUser(User $user, ?int $limit = null): array
     {
-        return $this->createQueryBuilder( 'p' )
-            ->leftJoin( 'p.content', 'c' )
-            ->addSelect( 'c' )
-            ->where( 'p.author = :user' )
-            ->andWhere( '(c INSTANCE OF ' . Course::class . ' OR c INSTANCE OF ' . Formation::class . ')' )
-            ->andWhere( 'p.progress <= :progress' )
-            ->orderBy( 'p.updatedAt', 'DESC' )
-            ->setMaxResults( 4 )
-            ->setParameters( [
+        $qb = $this->createQueryBuilder('p')
+            ->leftJoin('p.content', 'c')
+            ->addSelect('c')
+            ->where('p.author = :user')
+            ->andWhere('(c INSTANCE OF ' . Course::class . ' OR c INSTANCE OF ' . Formation::class . ')')
+            ->andWhere('p.progress <= :progress')
+            ->orderBy('p.updatedAt', 'DESC')
+            ->setParameters([
                 'user' => $user,
                 'progress' => Progress::TOTAL,
-            ] )
-            ->getQuery()
-            ->getResult();
+            ]);
+
+        // Appliquer la limite uniquement si elle est définie
+        if ($limit !== null) {
+            $qb->setMaxResults($limit);
+        }
+
+        return $qb->getQuery()->getResult();
     }
 
     /**

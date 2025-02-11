@@ -20,15 +20,15 @@
 }
 
 .header__left {
-  @apply flex items-center;
+  @apply flex items-center flex-wrap overflow-hidden h-11 space-x-4 md:space-x-6;
 }
 
 .header__logo {
-  @apply ml-1 lg:ml-0;
+  //@apply ml-1 lg:ml-0;
 }
 
 .header__nav {
-  @apply hidden lg:flex ml-5 space-x-6 items-center;
+  @apply  flex flex-wrap overflow-hidden h-11 lg:flex ml-5 space-x-6 items-center;
 }
 
 .header__nav-link {
@@ -42,7 +42,7 @@
 }
 
 .header__right {
-  @apply flex items-center gap-1 relative;
+  @apply flex items-center gap-1 h-11 relative;
 }
 
 .header__auth {
