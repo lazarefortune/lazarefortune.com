@@ -97,7 +97,6 @@
 
         {# Section Chapitres #}
         <section id="videos" class="container-box pt-5 pb-10">
-            <h2 class="h3 font-medium text-lead mb-4">Vidéos</h2>
             {% if formation.chapters %}
                 {% include 'pages/public/formations/chapters/_list.html.twig' with {chapters: formation.chapters} only %}
             {% else %}
@@ -108,7 +107,6 @@
         {# Section Présentation et Auteur #}
         <section id="details" class="container-box pt-5 pb-10 space-y-6">
             <div class="formation__summary">
-                <h2 class="h3 font-medium text-lead mb-4">A propos</h2>
                 <div class="prose dark:prose-dark">
                     {{ formation.content | raw }}
                 </div>
