@@ -5,61 +5,107 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container-box py-10 w-full mx-auto">
+    <div class="container-box py-10">
+        <div class="grid gap-8 lg:grid-cols-2 lg:gap-12">
+            <div class="order-2 lg:order-1">
+                <!-- En-tête -->
+                <h1 class="text-center text-4xl font-bold mb-8 flex items-center justify-center gap-2">
+                    Devenez Premium
+                </h1>
 
-{#        <nav-tabs class="tabs-toggle" style="margin-bottom: 35px;">#}
-            {% for plan in plans %}
-                <button aria-controls="plan{{ plan.id }}">{{ plan.name }}</button>
-            {% endfor %}
-{#        </nav-tabs>#}
+                <!-- Navigation onglets (ne pas modifier) -->
+                <div class="overflow-x-auto mb-4 flex justify-center">
+                    <nav-tabs class="nav-tabs">
+                        {% for plan in plans %}
+                            <button aria-controls="plan{{ plan.id }}">
+                                {{ plan.name }}
+                            </button>
+                        {% endfor %}
+                    </nav-tabs>
+                </div>
 
-        {% for plan in plans %}
-            <div class="card pricing" id="plan{{ plan.id }}">
-                <div class="pricing__price">{{ plan.price }}<sup>€ TTC</sup></div>
-                {# <div class="pricing__eco">(économiser 10%)</div> #}
-                <div class="pricing__item">
-                    Visionner les tutoriels
-                    <strong>en avance</strong>
-                </div>
-                <div class="pricing__item">
-                    Voir les vidéos
-{#                    <a href="{{ path('course_premium') }}"><strong>premium</strong></a>#}
-                </div>
-                <div class="pricing__item">
-                    <strong>Télécharger</strong>
-                    les vidéos
-                </div>
-                <div class="pricing__item">
-                    <strong>Télécharger</strong>
-                    les sources
-                </div>
-                <div class="pricing__action">
-                    <premium-button plan="{{ plan.id }}" price="{{ plan.price }}" duration="{{ plan.duration }}" stripe-key="{{ stripeKey() }}" paypal-id="{{ paypalClientId() }}" children="Devenir premium ({{ plan.name }})">
-
-                    </premium-button>
+                <!-- Contenu des offres, un à la fois via les nav-tabs -->
+                <div  class="max-w-lg mx-auto">
+                    {% for plan in plans %}
+                        <div id="plan{{ plan.id }}" class="p-6 bg-white dark:bg-primary-1000 shadow-xl rounded-lg mb-8">
+                            <h2 class="text-center text-2xl font-semibold mb-4">{{ plan.name }}</h2>
+                            <div class="text-center mb-6">
+                                <span class="text-5xl font-bold text-primary-600 dark:text-primary-500">{{ plan.price }}</span>
+                                <sup class="text-xl align-bottom">€ TTC</sup>
+                            </div>
+                            <div class="pricing__action text-center mb-6 border-b border-slate-200 dark:border-slate-700 pb-6">
+                                <premium-button
+                                        plan="{{ plan.id }}"
+                                        price="{{ plan.price }}"
+                                        duration="{{ plan.duration }}"
+                                        stripe-key="{{ stripeKey() }}"
+                                        paypal-id="{{ paypalClientId() }}"
+                                        children="Devenir premium ({{ plan.name }})">
+                                </premium-button>
+                            </div>
+                            <ul class="space-y-3">
+                                <li class="flex items-center">
+                                    {{ icon('check') }}<span class="ml-2">Visionner les vidéos <strong>en avance</strong></span>
+                                </li>
+                                <li class="flex items-center">
+                                    {{ icon('check') }}<span class="ml-2">Accès à toutes les vidéos <strong>premium</strong></span>
+                                </li>
+                                <li class="flex items-center">
+                                    {{ icon('check') }}<span class="ml-2"><strong>Télécharger</strong> les vidéos</span>
+                                </li>
+                                <li class="flex items-center">
+                                    {{ icon('check') }}<span class="ml-2"><strong>Télécharger</strong> les sources</span>
+                                </li>
+                                <li class="flex items-center">
+                                    {{ icon('check') }}<span class="ml-2">Support <strong>prioritaire</strong></span>
+                                </li>
+                                <li class="flex items-center">
+                                    {{ icon('check') }}<span class="ml-2">Badge <strong>premium</strong></span>
+                                </li>
+                                <li class="flex items-center">
+                                    {{ icon('check') }}<span class="ml-2">Accès aux <strong>quiz</strong></span>
+                                </li>
+                                <li class="flex items-center">
+                                    {{ icon('check') }}<span class="ml-2">Avant-première des <strong>nouvelles fonctionnalités</strong></span>
+                                </li>
+                            </ul>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
-        {% endfor %}
+            <!-- Section mise en avant de l'offre -->
+            <div class="text-center px-4 order-1 lg:order-2">
+                <h3 class="text-2xl font-bold mb-3">Pourquoi opter pour Premium ?</h3>
+                <p class="text-slate-600 dark:text-slate-300 text-lg max-w-2xl mx-auto">
+                    En devenant Premium, vous bénéficiez d’un accès exclusif à du contenu en avant-première, de la possibilité de télécharger vidéos et sources, et d’un support prioritaire pour une expérience optimale.
+                </p>
+
+                <div class="mt-8">
+                    <img src="{{ asset('images/illustrations/bloggers-video.svg') }}" alt="Devenez premium" class="mx-auto max-w-xs lg:max-w-md" />
+                </div>
+
+            </div>
+        </div>
     </div>
 
+    <!-- Modal de succès -->
     {% if app.request.get('success') %}
         <modal-dialog overlay-close>
-            <section class="modal-box">
-            <con-fetti>
-                <div class="text-center" style="margin-top: -115px;">
-                    <img src="{{ asset('images/illustrations/payment.svg') }}" alt="" style="max-width: 200px;" />
-                </div>
-            </con-fetti>
-            <h1 class="h1 text-center mb-3">Merci</h1>
-            <p class="formatted text-center mb-6">
-                Vous êtes maintenant premium jusqu'au <br/><strong>{{ app.user.premiumEnd | format_date('long') }}</strong>.
-            </p>
-
-
-            <a class="btn btn-primary" href="">
-                {{ icon('star') }}
-                Voir les vidéos premium
-            </a>
+            <section class="modal-box p-6 bg-white dark:bg-primary-950 rounded-lg shadow-xl text-center">
+                <con-fetti>
+                    <div class="mx-auto mb-4">
+                        <img src="{{ asset('images/illustrations/payment.svg') }}" alt="Paiement réussi" class="mx-auto max-w-xs" />
+                    </div>
+                </con-fetti>
+                <h1 class="text-4xl font-bold mb-3 flex items-center justify-center gap-2">
+                    Merci !
+                </h1>
+                <p class="mb-6 text-lg">
+                    Vous êtes maintenant premium jusqu'au <br/><strong>{{ app.user.premiumEnd | format_date('long') }}</strong>.
+                </p>
+                <a class="btn btn-primary" href="/videos-premium">
+                    {{ icon('star') }} Voir les vidéos premium
+                </a>
             </section>
         </modal-dialog>
     {% endif %}

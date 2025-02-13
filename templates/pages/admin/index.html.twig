@@ -44,10 +44,12 @@
         <div class="mt-20 stack">
             <h2 class="h3">Inscription des utilisateurs</h2>
 
-            <nav-tabs class="nav-tabs">
-                <a href="#day" aria-controls="day">30 derniers jours</a>
-                <a href="#month" aria-controls="month">24 derniers mois</a>
-            </nav-tabs>
+            <div class="overflow-x-auto">
+                <nav-tabs class="nav-tabs">
+                    <button aria-controls="day">30 derniers jours</button>
+                    <button aria-controls="month">24 derniers mois</button>
+                </nav-tabs>
+            </div>
             <div class="nav-tabs--content">
                 <div id="day">
                     <line-chart points="{{ dailyUsersLast30Days | json_encode }}" x="day" y="users"></line-chart>

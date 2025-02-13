@@ -16,7 +16,7 @@ export function PremiumButton({ children, plan, price, duration, stripeKey, payp
 
     if (!isAuthenticated()) {
         return (
-            <a href="/connexion?redirect=/premium" className="btn btn-primary">
+            <a href="/connexion?redirect=/premium" className="btn btn-primary w-full">
                 {children}
             </a>
         )
@@ -24,7 +24,7 @@ export function PremiumButton({ children, plan, price, duration, stripeKey, payp
 
     if (!payment) {
         return (
-            <button className="btn btn-primary" onClick={togglePayment}>
+            <button className="btn btn-primary w-full" onClick={togglePayment}>
                 {children}
             </button>
         )

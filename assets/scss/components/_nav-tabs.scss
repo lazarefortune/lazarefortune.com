@@ -3,13 +3,13 @@
   //padding-left: calc(50% - (calc(100vw - 32px * 2) / 2));
   //padding-right: calc(50% - (calc(100vw - 32px * 2) / 2));
 
-  a {
+  a, button {
     @apply relative z-20 rounded-full flex items-center whitespace-nowrap px-4 py-2 text-slate-900 dark:text-white;
     @apply hover:text-primary-900 hover:bg-primary-500/20 dark:hover:text-white dark:hover:bg-primary-800/60;
     @apply dark:bg-primary-1000;
   }
 
-  a[aria-selected="true"] {
+  a[aria-selected="true"], button[aria-selected="true"] {
     @apply bg-primary-600 text-white;
     @apply dark:bg-primary-700 dark:text-white;
   }
