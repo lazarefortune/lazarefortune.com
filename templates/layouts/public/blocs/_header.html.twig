@@ -9,7 +9,7 @@
         </li>
 
         <!-- Navigation principale (visible sur desktop) -->
-        <li >
+        <li>
             <a href="{{ path('app_course_index') }}" {{ menu_active_aria('app_course_') }} class="header__nav-link">
                 {{ icon('video') }}
                 <span>Vidéos</span>
@@ -19,6 +19,12 @@
             <a href="{{ path('app_formation_index') }}" {{ menu_active_aria('app_formation_') }} class="header__nav-link">
                 {{ icon('gallery-vertical-end') }}
                 <span>Playlists</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('app_premium') }}" {{ menu_active_aria('app_premium') }} class="header__nav-link">
+                {{ icon('sparkles') }}
+                <span>Premium</span>
             </a>
         </li>
     </ul>
@@ -59,6 +65,12 @@
                     <a href="{{ path('app_formation_index') }}" {{ menu_active_aria('app_formation_') }} class="mobile-menu__link">
                         {{ icon('gallery-vertical-end', 20) }}
                         <span>Playlists</span>
+                    </a>
+                </div>
+                <div>
+                    <a href="{{ path('app_premium') }}" {{ menu_active_aria('app_premium') }} class="mobile-menu__link">
+                        {{ icon('sparkles', 20) }}
+                        <span>Premium</span>
                     </a>
                 </div>
             </div>
