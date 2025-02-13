@@ -73,7 +73,7 @@ import PuzzleCaptcha from "./components/Captcha";
 import { Notifications } from "./components/Notifications";
 import { Search } from "./components/Search";
 import { BadgeUnlock } from "./components/BadgeUnlock";
-import { PremiumButton } from "./components/premium/PremiumButton";
+import { PremiumButton } from "./components/Premium/PremiumButton";
 
 const CommentsElement = reactToWebComponent(Comments, React, ReactDOM, {
     shadow: false, // pour ne pas utiliser le Shadow DOM
