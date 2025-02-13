@@ -175,7 +175,7 @@ function PaymentPaypal({ planId, price, description, paypalId }) {
             {country && (
                 <div
                     ref={container}
-                    className="min-h-[52px] border rounded-xl"
+                    className="min-h-[52px]"
                     style={{ display: loading ? 'none' : undefined }}
                 />
             )}
