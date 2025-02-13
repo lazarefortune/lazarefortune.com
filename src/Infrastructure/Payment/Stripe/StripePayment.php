@@ -4,6 +4,7 @@ namespace App\Infrastructure\Payment\Stripe;
 
 use App\Infrastructure\Payment\Payment;
 use Stripe\BalanceTransaction;
+use Stripe\Charge;
 use Stripe\Checkout\Session;
 use Stripe\Invoice;
 use Stripe\InvoiceLineItem;
@@ -11,14 +12,8 @@ use Stripe\PaymentIntent;
 
 class StripePayment extends Payment
 {
-    public function __construct( PaymentIntent $intent, object $extra, private readonly StripeApi $api)
+    public function __construct( PaymentIntent $intent, Charge $charge, object $extra )
     {
-        $charge = $intent->latest_charge;
-
-        if (is_string($charge)) {
-            $charge = $this->api->getCharge($charge);
-        }
-
         $this->id =$intent->id;
         $this->planId = $intent->metadata['plan_id'];
         $this->firstname = $charge->billing_details['name'] ?: '';

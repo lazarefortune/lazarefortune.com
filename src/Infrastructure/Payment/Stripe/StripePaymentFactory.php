@@ -29,12 +29,12 @@ class StripePaymentFactory
             $subscription = $this->api->getSubscription((string) $invoice->subscription);
             $intent->metadata = $subscription->metadata;
 
-            return new StripePayment($intent, $invoice);
+            return new StripePayment($intent, $charge, $invoice);
         }
 
         // Le paiement provient d'une checkout session
         $session = $this->api->getCheckoutSessionFromIntent($intent->id);
 
-        return new StripePayment($intent, $session);
+        return new StripePayment($intent, $charge, $session);
     }
 }

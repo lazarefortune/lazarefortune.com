@@ -11,14 +11,9 @@
 
 {% block body %}
     <div>
-        {#
-        <div class="container-box">
-            {{ breadcrumb(course) }}
-        </div>
-        #}
-
-        <div class="bg-white dark:bg-primary-950 py-5">
+        <div class="bg-white dark:bg-primary-950 pb-5">
             <div class="container-box mb-4">
+                {{ breadcrumb(course) }}
                 <div class="{{ course.formation ? 'is-chapter' : 'is-chapter is-folded' }}">
                     {% if course.scheduled and not userIsPremium %}
                         <div class="course-countdown" style="background-image: url({{ image_url_raw(course.image) }})">

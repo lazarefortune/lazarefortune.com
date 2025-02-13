@@ -5,94 +5,110 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container-box py-10">
-        <div class="grid gap-8 lg:grid-cols-2 lg:gap-12">
-            <div class="order-2 lg:order-1">
-                <!-- En-tête -->
-                <h1 class="text-center text-4xl font-bold mb-8 flex items-center justify-center gap-2">
-                    Devenez Premium
-                </h1>
-
-                {% if plans is empty %}
-                    <p class="text-center text-lg text-slate-600 dark:text-slate-300 mb-6">
-                        Aucune offre n'est disponible pour le moment. <br>
-                        Ne tardez pas à revenir pour découvrir les nouveautés !
-                    </p>
-                {% else %}
-                    <div class="overflow-x-auto mb-4 flex justify-center">
-                        <nav-tabs class="nav-tabs">
-                            {% for plan in plans %}
-                                <button aria-controls="plan{{ plan.id }}">
-                                    {{ plan.name }}
-                                </button>
-                            {% endfor %}
-                        </nav-tabs>
-                    </div>
-
-                    <!-- Contenu des offres -->
-                    <div  class="max-w-lg mx-auto">
-                        {% for plan in plans %}
-                            <div id="plan{{ plan.id }}" class="p-6 bg-white dark:bg-primary-1000 shadow-xl rounded-lg mb-8">
-                                <h2 class="text-center text-2xl font-semibold mb-4">{{ plan.name }}</h2>
-                                <div class="text-center mb-6">
-                                    <span class="text-5xl font-bold text-primary-600 dark:text-primary-500">{{ plan.price }}</span>
-                                    <sup class="text-xl align-bottom">€ TTC</sup>
-                                </div>
-                                <div class="pricing__action text-center mb-6 border-b border-slate-200 dark:border-slate-700 pb-6">
-                                    <premium-button
-                                            plan="{{ plan.id }}"
-                                            price="{{ plan.price }}"
-                                            duration="{{ plan.duration }}"
-                                            stripe-key="{{ stripeKey() }}"
-                                            paypal-id="{{ paypalClientId() }}"
-                                            children="Devenir premium ({{ plan.name }})">
-                                    </premium-button>
-                                </div>
-                                <ul class="space-y-3">
-                                    <li class="flex items-center">
-                                        {{ icon('check') }}<span class="ml-2">Visionner les vidéos <strong>en avance</strong></span>
-                                    </li>
-                                    <li class="flex items-center">
-                                        {{ icon('check') }}<span class="ml-2">Accès à toutes les vidéos <strong>premium</strong></span>
-                                    </li>
-                                    <li class="flex items-center">
-                                        {{ icon('check') }}<span class="ml-2"><strong>Télécharger</strong> les vidéos</span>
-                                    </li>
-                                    <li class="flex items-center">
-                                        {{ icon('check') }}<span class="ml-2"><strong>Télécharger</strong> les sources</span>
-                                    </li>
-                                    <li class="flex items-center">
-                                        {{ icon('check') }}<span class="ml-2">Support <strong>prioritaire</strong></span>
-                                    </li>
-                                    <li class="flex items-center">
-                                        {{ icon('check') }}<span class="ml-2">Badge <strong>premium</strong></span>
-                                    </li>
-                                    <li class="flex items-center">
-                                        {{ icon('check') }}<span class="ml-2">Accès aux <strong>quiz</strong></span>
-                                    </li>
-                                    <li class="flex items-center">
-                                        {{ icon('check') }}<span class="ml-2">Avant-première des <strong>nouvelles fonctionnalités</strong></span>
-                                    </li>
-                                </ul>
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            </div>
-            <!-- Section mise en avant de l'offre -->
-            <div class="text-center px-4 order-1 lg:order-2">
-                <h3 class="text-2xl font-bold mb-3">Pourquoi opter pour Premium ?</h3>
-                <p class="text-slate-600 dark:text-slate-300 text-lg max-w-2xl mx-auto">
-                    En devenant Premium, vous bénéficiez d’un accès exclusif à du contenu en avant-première, de la possibilité de télécharger vidéos et sources, et d’un support prioritaire pour une expérience optimale.
+    {% if app.user and app.user.isPremium %}
+        <div class="container-box py-10">
+            <div class="max-w-3xl mx-auto text-center">
+                <h1 class="text-4xl font-bold mb-4">Merci pour votre soutien !</h1>
+                <p class="text-lg text-slate-600 dark:text-slate-300 mb-6">
+                    Vous êtes déjà Premium et nous vous remercions pour votre fidélité.<br> Votre abonnement premium est actif jusqu'au
+                    <strong>{{ app.user.premiumEnd | format_date('long') }}</strong>.
                 </p>
-
-                <div class="mt-8">
-                    <img src="{{ asset('images/illustrations/bloggers-video.svg') }}" alt="Devenez premium" class="mx-auto max-w-xs lg:max-w-md" />
+                <div class="mb-6">
+                        <img src="{{ asset('images/illustrations/premium-thank-you.svg') }}" alt="Merci pour votre soutien" class="mx-auto max-w-xs lg:max-w-md" />
                 </div>
-
+                <a class="btn btn-primary" href="/videos-premium">
+                    {{ icon('star') }} Voir les vidéos premium
+                </a>
             </div>
         </div>
-    </div>
+    {% else %}
+        <div class="container-box py-10">
+            <div class="grid gap-8 lg:grid-cols-2 lg:gap-12">
+                <div class="order-2 lg:order-1">
+                    <!-- En-tête -->
+                    <h1 class="text-center text-4xl font-bold mb-8 flex items-center justify-center gap-2">
+                        Devenez Premium
+                    </h1>
+
+                    {% if plans is empty %}
+                        <p class="text-center text-lg text-slate-600 dark:text-slate-300 mb-6">
+                            Aucune offre n'est disponible pour le moment. <br>
+                            Ne tardez pas à revenir pour découvrir les nouveautés !
+                        </p>
+                    {% else %}
+                        <div class="overflow-x-auto mb-4 flex justify-center">
+                            <nav-tabs class="nav-tabs">
+                                {% for plan in plans %}
+                                    <button aria-controls="plan{{ plan.id }}">
+                                        {{ plan.name }}
+                                    </button>
+                                {% endfor %}
+                            </nav-tabs>
+                        </div>
+
+                        <!-- Contenu des offres -->
+                        <div class="max-w-lg mx-auto">
+                            {% for plan in plans %}
+                                <div id="plan{{ plan.id }}" class="p-6 bg-white dark:bg-primary-1000 shadow-xl rounded-lg mb-8">
+                                    <h2 class="text-center text-2xl font-semibold mb-4">{{ plan.name }}</h2>
+                                    <div class="text-center mb-6">
+                                        <span class="text-5xl font-bold text-primary-600 dark:text-primary-500">{{ plan.price }}</span>
+                                        <sup class="text-xl align-bottom">€ TTC</sup>
+                                    </div>
+                                    <div class="pricing__action text-center mb-6 border-b border-slate-200 dark:border-slate-700 pb-6">
+                                        <premium-button
+                                                plan="{{ plan.id }}"
+                                                price="{{ plan.price }}"
+                                                duration="{{ plan.duration }}"
+                                                stripe-key="{{ stripeKey() }}"
+                                                paypal-id="{{ paypalClientId() }}"
+                                                children="Devenir premium ({{ plan.name }})">
+                                        </premium-button>
+                                    </div>
+                                    <ul class="space-y-3">
+                                        <li class="flex items-center">
+                                            {{ icon('check') }}<span class="ml-2">Visionner les vidéos <strong>en avance</strong></span>
+                                        </li>
+                                        <li class="flex items-center">
+                                            {{ icon('check') }}<span class="ml-2">Accès à toutes les vidéos <strong>premium</strong></span>
+                                        </li>
+                                        <li class="flex items-center">
+                                            {{ icon('check') }}<span class="ml-2"><strong>Télécharger</strong> les vidéos</span>
+                                        </li>
+                                        <li class="flex items-center">
+                                            {{ icon('check') }}<span class="ml-2"><strong>Télécharger</strong> les sources</span>
+                                        </li>
+                                        <li class="flex items-center">
+                                            {{ icon('check') }}<span class="ml-2">Support <strong>prioritaire</strong></span>
+                                        </li>
+                                        <li class="flex items-center">
+                                            {{ icon('check') }}<span class="ml-2">Badge <strong>premium</strong></span>
+                                        </li>
+                                        <li class="flex items-center">
+                                            {{ icon('check') }}<span class="ml-2">Accès aux <strong>quiz</strong></span>
+                                        </li>
+                                        <li class="flex items-center">
+                                            {{ icon('check') }}<span class="ml-2">Avant-première des <strong>nouvelles fonctionnalités</strong></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <!-- Section mise en avant de l'offre -->
+                <div class="text-center px-4 order-1 lg:order-2">
+                    <h3 class="text-2xl font-bold mb-3">Pourquoi opter pour Premium ?</h3>
+                    <p class="text-slate-600 dark:text-slate-300 text-lg max-w-2xl mx-auto">
+                        En devenant Premium, vous bénéficiez d’un accès exclusif à du contenu en avant-première, de la possibilité de télécharger vidéos et sources, et d’un support prioritaire pour une expérience optimale.
+                    </p>
+                    <div class="mt-8">
+                        <img src="{{ asset('images/illustrations/bloggers-video.svg') }}" alt="Devenez premium" class="mx-auto max-w-xs lg:max-w-md" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 
     <!-- Modal de succès -->
     {% if app.request.get('success') %}
