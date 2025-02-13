@@ -32,7 +32,7 @@ export function PremiumButton({ children, plan, price, duration, stripeKey, payp
 
     return (
         <SlideIn show={true}>
-            <div className="p-6 bg-white dark:bg-primary-950 rounded-xl shadow-lg">
+            <div className="p-6 bg-gray-50 dark:bg-primary-950 rounded-xl">
                 <PaymentMethods
                     plan={plan}
                     price={price}
@@ -58,15 +58,15 @@ function PaymentMethods({ plan, onPaypalApproval, description, price, stripeKey,
                 <div className="flex space-x-2">
                     <button
                         onClick={() => setMethod(PAYMENT_CARD)}
-                        className={classNames('btn btn-light', method === PAYMENT_CARD && 'active')}
+                        className={classNames(method === PAYMENT_CARD ? 'btn btn-primary' : 'btn btn-light')}
                     >
-                        <img src="/images/payment-methods.png" width="76" className="mr-1" alt="Carte bancaire" />
+                        <img src="/images/payment-methods.png" width="76" className="mr-1" alt="Carte bancaire"/>
                     </button>
                     <button
                         onClick={() => setMethod(PAYMENT_PAYPAL)}
-                        className={classNames('btn btn-light', method === PAYMENT_PAYPAL && 'active')}
+                        className={classNames(method === PAYMENT_PAYPAL ? 'btn btn-primary' : 'btn btn-light')}
                     >
-                        <img src="/images/paypal.svg" width="20" className="mr-1" alt="PayPal" />
+                        <img src="/images/paypal.svg" width="20" className="mr-1" alt="PayPal"/>
                     </button>
                 </div>
             </div>
@@ -79,7 +79,7 @@ function PaymentMethods({ plan, onPaypalApproval, description, price, stripeKey,
                     paypalId={paypalId}
                 />
             ) : (
-                <PaymentCard plan={plan} publicKey={stripeKey} />
+                <PaymentCard plan={plan} publicKey={stripeKey}/>
             )}
         </div>
     )
@@ -227,7 +227,7 @@ function PaymentCard({ plan, publicKey }) {
                 <p className="text-sm text-slate-500 dark:text-slate-300">
                     Le renouvellement automatique est activé, vous serez prélevé automatiquement à la fin de chaque période.
                     Vous pourrez interrompre l'abonnement à tout moment depuis{' '}
-                    <a href="/profil/edit" target="_blank" rel="noopener noreferrer" className="link">
+                    <a href="/mon-compte" target="_blank" rel="noopener noreferrer" className="link">
                         votre compte
                     </a>.
                 </p>

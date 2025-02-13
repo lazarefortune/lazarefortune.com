@@ -11,20 +11,25 @@ use Stripe\PaymentIntent;
 
 class StripePayment extends Payment
 {
-    public function __construct( PaymentIntent $intent, object $extra )
+    public function __construct( PaymentIntent $intent, object $extra, private readonly StripeApi $api)
     {
         $charge = $intent->latest_charge;
+
+        if (is_string($charge)) {
+            $charge = $this->api->getCharge($charge);
+        }
+
         $this->id =$intent->id;
         $this->planId = $intent->metadata['plan_id'];
-//        $this->firstname = $charge->billing_details['name'] ?: '';
-//        $this->lastname = '';
-//        $this->address = $charge->billing_details['address']['line1']."\n".$charge->billing_details['address']['line2'];
-//        $this->city = $charge->billing_details['address']['city'] ?: '';
-//        $this->postalCode = $charge->billing_details['address']['postal_code'] ?: '';
-//        $this->countryCode = $charge->billing_details['address']['country'] ?: '';
-//        /** @var BalanceTransaction $transaction */
-//        $transaction = $charge->balance_transaction;
-//        $this->fee = $transaction->fee / 100;
+        $this->firstname = $charge->billing_details['name'] ?: '';
+        $this->lastname = '';
+        $this->address = $charge->billing_details['address']['line1']."\n".$charge->billing_details['address']['line2'];
+        $this->city = $charge->billing_details['address']['city'] ?: '';
+        $this->postalCode = $charge->billing_details['address']['postal_code'] ?: '';
+        $this->countryCode = $charge->billing_details['address']['country'] ?: '';
+        /** @var BalanceTransaction $transaction */
+        $transaction = $charge->balance_transaction;
+        $this->fee = $transaction->fee / 100;
 
         // Paiement lié à une facture
         if ($extra instanceof Invoice) {
