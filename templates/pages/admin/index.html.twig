@@ -7,89 +7,183 @@
     <h1 class="h3 mt-4">Salut, <span class="text-lead">{{ app.user.fullname }}</span> </h1>
 
     {% if is_granted('ROLE_SUPER_ADMIN') %}
-    <div class="mt-6 grid gap-8 sm:grid-cols-2 xl:grid-cols-4">
-        <div class="relative border border-slate-200 dark:border-slate-700 rounded-xl p-4">
-            {#
-            <hr role="presentation" class="w-full border-t border-zinc-950/10 dark:border-white/10">
-            #}
-            <div class="mt-6 text-3xl font-medium sm:text-3xl">{{ countUsers }}</div>
-            <div class="text-lg font-normal sm:text-base text-slate-500 dark:text-slate-300">Utilisateurs</div>
-            <div class="absolute top-4 right-4 text-slate-500 dark:text-slate-300">
-                {{ icon('users', 30) }}
-            </div>
-        </div>
-        <div class="relative border border-slate-200 dark:border-slate-700 rounded-xl p-4">
-            <div class="mt-6 text-3xl font-medium sm:text-3xl">{{ youtubeSubscribersCount }}</div>
-            <div class="text-lg font-normal sm:text-base text-slate-500 dark:text-slate-300">Abonnés YouTube</div>
-            <div class="absolute top-4 right-4 text-slate-500 dark:text-slate-300">
-                {{ icon('youtube', 30) }}
-            </div>
-        </div>
-        <div class="relative border border-slate-200  dark:border-slate-700 rounded-xl p-4">
-            <div class="mt-6 text-3xl font-medium sm:text-3xl">{{ countOnlineFormations }}</div>
-            <div class="text-lg font-normal sm:text-base text-slate-500 dark:text-slate-300">Formations</div>
-            <div class="absolute top-4 right-4 text-slate-500 dark:text-slate-300">
-                {{ icon('library-big', 30) }}
-            </div>
-        </div>
-        <div class="relative border border-slate-200  dark:border-slate-700 rounded-xl p-4">
-            <div class="mt-6 text-3xl font-medium sm:text-3xl">{{ countOnlineCourses }}</div>
-            <div class="text-lg font-normal sm:text-base text-slate-500 dark:text-slate-300">Vidéos</div>
-            <div class="absolute top-4 right-4 text-slate-500 dark:text-slate-300">
-                {{ icon('video', 30) }}
-            </div>
-        </div>
-    </div>
-
-    <div class="mt-20 stack">
-        <h2 class="h3">Inscription des utilisateurs</h2>
-
-        <nav-tabs class="nav-tabs">
-            <a href="#day" aria-controls="day">30 derniers jours</a>
-            <a href="#month" aria-controls="month">24 derniers mois</a>
-        </nav-tabs>
-        <div class="nav-tabs--content">
-            <div id="day">
-                <line-chart points="{{ dailyUsersLast30Days | json_encode }}" x="day" y="users"></line-chart>
-            </div>
-            <div id="month">
-                <line-chart points="{{ monthlyUsersLast24Months | json_encode }}" x="month" y="users"></line-chart>
-            </div>
-        </div>
-    </div>
-
-    <div class="mt-16 grid2">
-        <div>
-            <div class="stack border border-slate-200 dark:border-slate-800 rounded-lg px-4 py-7">
-                <div class="mb-4">
-                    <h2 class="h3">Cache système</h2>
-                    <p class="text-muted">Vider le cache du système pour éviter les problèmes de
-                        performance</p>
+        <div class="mt-6 grid gap-8 sm:grid-cols-2 xl:grid-cols-4">
+            <div class="relative border border-slate-200 dark:border-slate-700 rounded-xl p-4">
+                {#
+                <hr role="presentation" class="w-full border-t border-zinc-950/10 dark:border-white/10">
+                #}
+                <div class="mt-6 text-3xl font-medium sm:text-3xl">{{ countUsers }}</div>
+                <div class="text-lg font-normal sm:text-base text-slate-500 dark:text-slate-300">Utilisateurs</div>
+                <div class="absolute top-4 right-4 text-slate-500 dark:text-slate-300">
+                    {{ icon('users', 30) }}
                 </div>
-
-                <form action="{{ path('admin_cache_clean') }}" method="post">
-                    <button class="btn btn-primary">{{ icon('trash') }} Vider le cache</button>
-                </form>
             </div>
-        </div>
-
-        <div>
-            <div class="stack border border-slate-200 dark:border-slate-800 rounded-lg px-4 py-7">
-                <div>
-                    <h2 class="h3">Système de mail</h2>
-                    <p class="text-muted">Envoyer un email de test pour vérifier que le serveur
-                        fonctionne correctement</p>
+            <div class="relative border border-slate-200 dark:border-slate-700 rounded-xl p-4">
+                <div class="mt-6 text-3xl font-medium sm:text-3xl">{{ youtubeSubscribersCount }}</div>
+                <div class="text-lg font-normal sm:text-base text-slate-500 dark:text-slate-300">Abonnés YouTube</div>
+                <div class="absolute top-4 right-4 text-slate-500 dark:text-slate-300">
+                    {{ icon('youtube', 30) }}
                 </div>
-
-                <div>
-                    {{ form_start(formTestEmail) }}
-                    {{ form_widget(formTestEmail.email, { 'attr': { 'placeholder': 'Saisir une adresse email' } }) }}
-                    <button type="submit" class="btn btn-primary mt-4">Envoyer un email</button>
-                    {{ form_end(formTestEmail) }}
+            </div>
+            <div class="relative border border-slate-200  dark:border-slate-700 rounded-xl p-4">
+                <div class="mt-6 text-3xl font-medium sm:text-3xl">{{ countOnlineFormations }}</div>
+                <div class="text-lg font-normal sm:text-base text-slate-500 dark:text-slate-300">Formations</div>
+                <div class="absolute top-4 right-4 text-slate-500 dark:text-slate-300">
+                    {{ icon('library-big', 30) }}
+                </div>
+            </div>
+            <div class="relative border border-slate-200  dark:border-slate-700 rounded-xl p-4">
+                <div class="mt-6 text-3xl font-medium sm:text-3xl">{{ countOnlineCourses }}</div>
+                <div class="text-lg font-normal sm:text-base text-slate-500 dark:text-slate-300">Vidéos</div>
+                <div class="absolute top-4 right-4 text-slate-500 dark:text-slate-300">
+                    {{ icon('video', 30) }}
                 </div>
             </div>
         </div>
-    </div>
+
+        <div class="mt-20 stack">
+            <h2 class="h3">Inscription des utilisateurs</h2>
+
+            <nav-tabs class="nav-tabs">
+                <a href="#day" aria-controls="day">30 derniers jours</a>
+                <a href="#month" aria-controls="month">24 derniers mois</a>
+            </nav-tabs>
+            <div class="nav-tabs--content">
+                <div id="day">
+                    <line-chart points="{{ dailyUsersLast30Days | json_encode }}" x="day" y="users"></line-chart>
+                </div>
+                <div id="month">
+                    <line-chart points="{{ monthlyUsersLast24Months | json_encode }}" x="month" y="users"></line-chart>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-16 grid2">
+            <div>
+                <div class="stack border border-slate-200 dark:border-slate-800 rounded-lg px-4 py-7">
+                    <div class="mb-4">
+                        <h2 class="h3">Cache système</h2>
+                        <p class="text-muted">Vider le cache du système pour éviter les problèmes de
+                            performance</p>
+                    </div>
+
+                    <form action="{{ path('admin_cache_clean') }}" method="post">
+                        <button class="btn btn-primary">{{ icon('trash') }} Vider le cache</button>
+                    </form>
+                </div>
+            </div>
+
+            <div>
+                <div class="stack border border-slate-200 dark:border-slate-800 rounded-lg px-4 py-7">
+                    <div>
+                        <h2 class="h3">Système de mail</h2>
+                        <p class="text-muted">Envoyer un email de test pour vérifier que le serveur
+                            fonctionne correctement</p>
+                    </div>
+
+                    <div>
+                        {{ form_start(formTestEmail) }}
+                        {{ form_widget(formTestEmail.email, { 'attr': { 'placeholder': 'Saisir une adresse email' } }) }}
+                        <button type="submit" class="btn btn-primary mt-4">Envoyer un email</button>
+                        {{ form_end(formTestEmail) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if scheduled_jobs | length > 0 %}
+            <section class="mb-16">
+                <div class="flex items-center mb-4">
+                    <h1 class="h3">
+                        Tâches programmées
+                    </h1>
+                </div>
+                <div class="table-wrapper">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Message</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for job in scheduled_jobs %}
+                            <tr>
+                                <td>
+                                    {{ job.publishDate | ago }}
+                                </td>
+                                <td>
+                                    <h4 class="mb-1 font-medium">{{ job.messageClass }}</h4>
+                                    <p>{{ job.getDescription }}</p>
+                                </td>
+                                <td>
+                                    <div class="flex space-x-2">
+                                        <form action="{{ path('admin_job_delete', { id: job.id, delayed: true }) }}" method="post">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button class="btn-icon">
+                                                {{ icon('trash-2') }}
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        {% endif %}
+
+        {% if failed_jobs | length > 0 %}
+            <section class="mb-16">
+                <div class="flex items-center mb-4">
+                    <h1 class="h3">
+                        Tâches échouées
+                    </h1>
+                </div>
+                <div class="table-wrapper">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Message</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for job in failed_jobs %}
+                            <tr class="border-b">
+                                <td>
+                                    {{ job.failedAt | ago }}
+                                </td>
+                                <td>
+                                    <h4 class="mb-1 font-medium">{{ job.messageClass }}</h4>
+                                    <p>{{ job.errorMessage }}</p>
+                                </td>
+                                <td>
+                                    <div class="flex space-x-2">
+                                        <form action="{{ path('admin_job_retry', { id: job.id }) }}" method="post">
+                                            <button class="btn-icon">
+                                                {{ icon('refresh-ccw') }}
+                                            </button>
+                                        </form>
+                                        <form action="{{ path('admin_job_delete', { id: job.id }) }}" method="post">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button class="btn-icon">
+                                                {{ icon('trash-2') }}
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        {% endif %}
+
     {% endif %}
 
     {% include 'pages/admin/partials/_last_course.html.twig' with { 'lastCourses': lastCourses } %}

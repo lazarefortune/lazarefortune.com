@@ -12,9 +12,10 @@ use App\Infrastructure\Mailing\MailService;
 use App\Infrastructure\Youtube\YoutubeService;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Cache\InvalidArgumentException;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Infrastructure\Queue\FailedJobsService;
+use App\Infrastructure\Queue\ScheduledJobsService;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -32,6 +33,8 @@ class HomeController extends AbstractController
         private readonly FormationService $formationService,
         private readonly YoutubeService   $youtubeService,
         private readonly UserRepository   $userRepository,
+        private readonly FailedJobsService $failedJobsService,
+        private readonly ScheduledJobsService $scheduledJobsService,
     )
     {
     }
@@ -40,7 +43,7 @@ class HomeController extends AbstractController
      * @throws InvalidArgumentException
      */
     #[Route( '/', name: 'home', methods: ['GET', 'POST'] )]
-    public function home( Request $request, MailService $mailService, CacheItemPoolInterface $cache ) : Response
+    public function home( Request $request, MailService $mailService, CacheItemPoolInterface $cache , MessageBusInterface $bus) : Response
     {
         // if the user is only author
         if ( in_array('ROLE_AUTHOR', $this->getUser()->getRoles()) ) {
@@ -132,7 +135,9 @@ class HomeController extends AbstractController
             'dailyUsersLast30Days' => $dailyUsersLast30Days,
             'monthlyUsersLast24Months' => $monthlyUsersLast24Months,
             'formTestEmail' => $formTestEmail->createView(),
-            'lastCourses' => $this->courseService->getLastCourses( 4 )
+            'lastCourses' => $this->courseService->getLastCourses( 4 ),
+            'scheduled_jobs' => $this->scheduledJobsService->getJobs(),
+            'failed_jobs' => $this->failedJobsService->getJobs(),
         ] );
     }
 

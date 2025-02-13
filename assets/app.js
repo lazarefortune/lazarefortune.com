@@ -15,6 +15,7 @@ import './libs/flatpickr'
 import { ThemeSwitcher } from "./elements/ThemeSwitcher";
 
 customElements.define('nav-tabs', NavTabs)
+customElements.define('con-fetti', Confetti)
 customElements.define('scroll-top', ScrollTop)
 customElements.define('alert-message', Alert)
 customElements.define('alert-floating', FloatingAlert)
@@ -55,6 +56,7 @@ import LoaderOverlay from "./elements/LoaderOverlay";
 import { AutoSubmit } from "./elements/AutoSubmit";
 import { AutoSubmitForm } from "./elements/AutoSubmitForm";
 import { MarkdownEditor } from "./elements/editor";
+import { Confetti } from "./elements/Confetti";
 
 registerHeaderBehavior()
 registerBadgeAlert()
@@ -71,6 +73,7 @@ import PuzzleCaptcha from "./components/Captcha";
 import { Notifications } from "./components/Notifications";
 import { Search } from "./components/Search";
 import { BadgeUnlock } from "./components/BadgeUnlock";
+import { PremiumButton } from "./components/premium/PremiumButton";
 
 const CommentsElement = reactToWebComponent(Comments, React, ReactDOM, {
     shadow: false, // pour ne pas utiliser le Shadow DOM
@@ -101,9 +104,16 @@ const BadgeUnlockElement = reactToWebComponent(BadgeUnlock, React, ReactDOM, {
     props: ['name', 'description', 'theme', 'image']
 });
 
+
+const PremiumButtonElement = reactToWebComponent(PremiumButton, React, ReactDOM, {
+    shadow: false,
+    props: ['plan', 'price', 'duration', 'stripeKey', 'paypalId', 'children'],
+});
+
 customElements.define('puzzle-challenge', PuzzleCaptchaElement)
 customElements.define('comments-area', CommentsElement)
 customElements.define('quiz-area', QuizElement)
 customElements.define('search-button', SearchElement)
 customElements.define('notifications-area', NotificationsElement)
 customElements.define('badge-unlock', BadgeUnlockElement)
+customElements.define('premium-button', PremiumButtonElement)

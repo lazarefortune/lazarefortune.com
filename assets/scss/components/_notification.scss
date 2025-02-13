@@ -1,6 +1,6 @@
 /* Conteneur principal de la popup des notifications */
 .notifications {
-  @apply absolute -right-10 md:right-0 top-[35px] min-w-64 md:min-w-80 bg-white dark:bg-gray-900 shadow-xl rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 transform opacity-0 scale-95 invisible;
+  @apply absolute -right-10 md:right-0 top-[45px] min-w-64 md:min-w-80 bg-white dark:bg-gray-900 shadow-xl rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 transform opacity-0 scale-95 invisible;
   z-index: 1000;
   // On ajoute un pseudo-élément pour le triangle
 }
@@ -12,7 +12,7 @@
 
 /* En-tête de la popup */
 .notifications_title {
-  @apply flex justify-between items-center px-4 py-3 bg-gray-100 dark:bg-primary-950 text-gray-800 dark:text-gray-200 font-medium font-bricolage border-b border-gray-200 dark:border-gray-700;
+  @apply flex justify-between items-center px-4 py-3 bg-gray-50 dark:bg-primary-950 text-gray-800 dark:text-gray-200 font-medium font-bricolage border-b border-gray-200 dark:border-gray-700;
 }
 
 /* Bouton de fermeture de la popup */
@@ -48,5 +48,5 @@
 
 /* Pied de page avec lien vers toutes les notifications */
 .notifications_footer {
-  @apply block text-center py-3 bg-gray-100 dark:bg-primary-950 text-primary-600 dark:text-primary-400 font-medium border-t border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:text-white dark:hover:bg-primary-600 transition;
+  @apply block text-center py-3 bg-gray-50 dark:bg-primary-950 text-primary-600 dark:text-primary-400 font-medium border-t border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:text-white dark:hover:bg-primary-600 transition;
 }

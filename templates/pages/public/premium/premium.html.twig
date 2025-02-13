@@ -1,0 +1,66 @@
+{% extends 'layouts/public/base.html.twig' %}
+
+{% block title %}
+    Premium
+{% endblock %}
+
+{% block body %}
+    <div class="container-box py-10 w-full mx-auto">
+
+{#        <nav-tabs class="tabs-toggle" style="margin-bottom: 35px;">#}
+            {% for plan in plans %}
+                <button aria-controls="plan{{ plan.id }}">{{ plan.name }}</button>
+            {% endfor %}
+{#        </nav-tabs>#}
+
+        {% for plan in plans %}
+            <div class="card pricing" id="plan{{ plan.id }}">
+                <div class="pricing__price">{{ plan.price }}<sup>€ TTC</sup></div>
+                {# <div class="pricing__eco">(économiser 10%)</div> #}
+                <div class="pricing__item">
+                    Visionner les tutoriels
+                    <strong>en avance</strong>
+                </div>
+                <div class="pricing__item">
+                    Voir les vidéos
+{#                    <a href="{{ path('course_premium') }}"><strong>premium</strong></a>#}
+                </div>
+                <div class="pricing__item">
+                    <strong>Télécharger</strong>
+                    les vidéos
+                </div>
+                <div class="pricing__item">
+                    <strong>Télécharger</strong>
+                    les sources
+                </div>
+                <div class="pricing__action">
+                    <premium-button plan="{{ plan.id }}" price="{{ plan.price }}" duration="{{ plan.duration }}" stripe-key="{{ stripeKey() }}" paypal-id="{{ paypalClientId() }}" children="Devenir premium ({{ plan.name }})">
+
+                    </premium-button>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if app.request.get('success') %}
+        <modal-dialog overlay-close>
+            <section class="modal-box">
+            <con-fetti>
+                <div class="text-center" style="margin-top: -115px;">
+                    <img src="{{ asset('images/illustrations/payment.svg') }}" alt="" style="max-width: 200px;" />
+                </div>
+            </con-fetti>
+            <h1 class="h1 text-center mb-3">Merci</h1>
+            <p class="formatted text-center mb-6">
+                Vous êtes maintenant premium jusqu'au <br/><strong>{{ app.user.premiumEnd | format_date('long') }}</strong>.
+            </p>
+
+
+            <a class="btn btn-primary" href="">
+                {{ icon('star') }}
+                Voir les vidéos premium
+            </a>
+            </section>
+        </modal-dialog>
+    {% endif %}
+{% endblock %}

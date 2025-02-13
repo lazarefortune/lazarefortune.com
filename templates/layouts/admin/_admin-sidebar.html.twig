@@ -57,6 +57,22 @@
         {% endif %}
 
         {% if is_granted('ROLE_SUPER_ADMIN') %}
+        <div class="sidebar__nav-title">Finances</div>
+        <ul class="sidebar__nav-list">
+            <li class="sidebar__nav-item">
+                <a href="{{ path('admin_transaction_index') }}" class="sidebar__nav-link {{ menu_active('admin_transaction_') }}">
+                    {{ icon('landmark') }}
+                    <span>Transactions</span>
+                </a>
+            </li>
+            <li class="sidebar__nav-item">
+                <a href="{{ path('admin_plan_index') }}" class="sidebar__nav-link {{ menu_active('admin_plan_') }}">
+                    {{ icon('sparkles') }}
+                    <span>Abonnements</span>
+                </a>
+            </li>
+        </ul>
+
         <div class="sidebar__nav-title">Divers</div>
         <ul class="sidebar__nav-list">
             <li class="sidebar__nav-item">

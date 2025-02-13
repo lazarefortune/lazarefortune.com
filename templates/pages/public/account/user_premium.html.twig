@@ -1,0 +1,38 @@
+<div>
+    {% if subscription %}
+        <h2 class="h3">
+            Mon abonnement
+        </h2>
+        {% if subscription.active %}
+            <p class="mb-2 formatted text-muted">
+                Vous êtes actuellement abonné. Votre prochain prélèvement aura lieu le
+                <strong>{{ subscription.nextPayment | format_date('short') }}</strong>.
+            </p>
+
+            <form action="{{ path('app_user_subscription') }}" method="post" target="_blank">
+                <button class="btn btn-primary">{{ icon('pen') }} Gérer mon abonnement</button>
+            </form>
+        {% else %}
+            <p class="mb-2 formatted text-muted">
+                Vous avez annulé votre abonnement. Il sera automatiquement suspendu après le
+                <strong>{{ subscription.nextPayment | format_date('short') }}</strong>
+            </p>
+            <form action="{{ path('app_user_subscription') }}" method="post" target="_blank">
+                <button class="btn btn-primary">{{ icon('refresh-cw') }} Réactiver mon abonnement</button>
+            </form>
+        {% endif %}
+    {% elseif (user.premium) %}
+        <h2 class="h3 mb-4">
+            Mon abonnement
+        </h2>
+        <p class="mb2 formatted text-muted">
+            Vous êtes actuellement premium jusqu'au <strong>{{ user.premiumEnd | format_date('short') }}</strong>.
+        </p>
+    {% else %}
+        <h2 class="h5 mb-4">
+            Vous n'êtes pas premium :(
+        </h2>
+        <a href="{{ path('app_premium') }}" class="btn btn-primary">{{ icon('sparkle')}} Devenir premium</a>
+    {% endif %}
+
+</div>

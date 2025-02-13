@@ -181,6 +181,11 @@
                 </div>
                 <div class="stack-large col-span-full lg:col-span-2 mt-10 lg:mt-0">
                     <div>
+                        {{ render(controller(
+                            'App\\Http\\Controller\\Template\\PremiumStateController::state'
+                        )) }}
+                    </div>
+                    <div>
                         <h3 class="h3">Réseaux sociaux</h3>
                         <p class="text-muted">Reliez votre compte à un réseau social afin de l'utiliser comme mode de connexion</p>
                         <div class="stack mt-6">

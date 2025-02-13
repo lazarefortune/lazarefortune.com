@@ -107,7 +107,7 @@ function Popup({ notifications = [], onClickOutside = () => {}, loading = false,
     return (
         <div ref={ref} {...props}>
             <div className="notifications_title">
-                Notifications
+                <h3 className="h4">Notifications</h3>
                 <button aria-label="Fermer" onClick={onClickOutside}>
                     <X size={20} />
                 </button>

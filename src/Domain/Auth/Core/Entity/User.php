@@ -5,6 +5,7 @@ namespace App\Domain\Auth\Core\Entity;
 use App\Domain\Auth\Core\Repository\UserRepository;
 use App\Domain\Auth\Registration\Entity\EmailVerification;
 use App\Domain\Notification\Entity\Notifiable;
+use App\Domain\Premium\Entity\PremiumTrait;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -23,6 +24,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use Notifiable;
+    use PremiumTrait;
 
     public const DAYS_FOR_PREVENT_DELETE_UNVERIFIED_USER = 4;
     public const DAYS_BEFORE_DELETE_UNVERIFIED_USER = 7;
@@ -61,6 +63,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Vich\UploadableField( mapping: 'avatar_images', fileNameProperty: 'avatar' )]
     private ?File $avatarFile = null;
 
+    #[ORM\Column(type: 'string', length: 2, nullable: true, options: ['default' => 'FR'])]
+    private ?string $country = null;
+
     #[ORM\Column( type: Types::DATETIME_MUTABLE, nullable: true )]
     private ?DateTimeInterface $createdAt = null;
 
@@ -87,6 +92,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column( type: Types::TEXT, nullable: true )]
     private ?string $stripeId = null;
+
+    #[ORM\Column( type: 'string', nullable: true, options: ['default' => null] )]
+    private ?string $invoiceInfo = null;
 
     #[ORM\Column( type: Types::STRING, nullable: true )]
     private ?string $apiKey = null;
@@ -216,6 +224,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPhone( ?string $phone ) : self
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getCountry(): string
+    {
+        return $this->country ?: 'FR';
+    }
+
+    public function setCountry(?string $country): User
+    {
+        $this->country = $country;
 
         return $this;
     }
@@ -456,9 +476,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function isPremium() : bool
+    public function getInvoiceInfo(): ?string
     {
-        return false;
+        return $this->invoiceInfo;
+    }
+
+    public function setInvoiceInfo(?string $invoiceInfo): User
+    {
+        $this->invoiceInfo = $invoiceInfo;
+
+        return $this;
     }
 
 //    public function __sleep()

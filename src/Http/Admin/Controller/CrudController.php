@@ -3,7 +3,6 @@
 namespace App\Http\Admin\Controller;
 
 use App\Domain\Auth\Core\Entity\User;
-use App\Domain\Prestation\Entity\Prestation;
 use App\Helper\Paginator\PaginatorInterface;
 use App\Http\Admin\Data\CrudDataInterface;
 use Doctrine\ORM\EntityManagerInterface;
