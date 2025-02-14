@@ -6,8 +6,10 @@ use App\Domain\Badge\Entity\Badge;
 use App\Http\Admin\Data\Crud\BadgeCrudData;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route(path: '/badges', name: 'badge_')]
+#[IsGranted('ROLE_SUPER_ADMIN')]
 class BadgesController extends CrudController
 {
     protected string $templatePath = 'badge';

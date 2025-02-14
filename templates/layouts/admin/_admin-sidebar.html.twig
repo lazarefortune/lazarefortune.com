@@ -32,9 +32,10 @@
             </li>
         </ul>
 
-        {% if is_granted('ROLE_SUPER_ADMIN') %}
+        {% if is_granted('ROLE_ADMIN') %}
             <div class="sidebar__nav-title">Administration</div>
             <ul class="sidebar__nav-list">
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <li class="sidebar__nav-item">
                     <a href="{{ path('admin_users_index') }}" class="sidebar__nav-link {{ menu_active('admin_user') }}">
                         {{ icon('users') }}
@@ -47,6 +48,7 @@
                         <span>Chaîne YouTube</span>
                     </a>
                 </li>
+                {% endif %}
                 <li class="sidebar__nav-item">
                     <a href="{{ path('admin_contact_index') }}" class="sidebar__nav-link {{ menu_active('admin_contact_') }}">
                         {{ icon('inbox' ) }}
@@ -72,9 +74,12 @@
                 </a>
             </li>
         </ul>
+        {% endif %}
 
+        {% if is_granted('ROLE_ADMIN') %}
         <div class="sidebar__nav-title">Divers</div>
         <ul class="sidebar__nav-list">
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
             <li class="sidebar__nav-item">
                 <!-- <a href="{{ path('admin_badge_index') }}" class="sidebar__nav-link {{ menu_active('admin_badge') }} sidebar__nav-feature"> -->
                 <a href="{{ path('admin_badge_index') }}" class="sidebar__nav-link {{ menu_active('admin_badge') }}">
@@ -93,6 +98,7 @@
                     <span>Options</span>
                 </a>
             </li>
+            {% endif %}
             <li class="sidebar__nav-item">
                 <a href="{{ path('admin_comment_index') }}" class="sidebar__nav-link {{ menu_active('admin_comment_') }}">
                     {{ icon('message-square-warning') }}

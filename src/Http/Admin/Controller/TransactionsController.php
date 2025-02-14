@@ -11,12 +11,14 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @method getRepository() App\Domain\
  */
 #[Route(path: '/transactions', name: 'transaction_')]
+#[IsGranted('ROLE_SUPER_ADMIN')]
 final class TransactionsController extends CrudController
 {
     protected string $templatePath = 'transactions';

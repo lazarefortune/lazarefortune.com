@@ -6,8 +6,10 @@ use App\Domain\Premium\Entity\Plan;
 use App\Http\Admin\Data\Crud\CrudPlanData;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route(path: '/plan', name: 'plan_')]
+#[IsGranted('ROLE_SUPER_ADMIN')]
 class PlanController extends CrudController
 {
     protected string $templatePath = 'plan';
