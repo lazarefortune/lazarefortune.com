@@ -8,6 +8,7 @@ use App\Domain\Auth\Core\Entity\User;
 use App\Http\Admin\Form\ChaptersForm;
 use App\Http\Admin\Form\Field\TechnologyChoiceType;
 use App\Http\Admin\Form\Field\UserChoiceType;
+use App\Http\Type\BadgeActionChoiceType;
 use App\Http\Type\ChoiceMultipleType;
 use App\Http\Type\ContentChoiceType;
 use App\Http\Type\DateTimeType;
@@ -54,6 +55,7 @@ class AutomaticForm extends AbstractType
         'links' => TextareaType::class,
         'questions' => QuestionsForm::class,
         'targetContent' => ContentChoiceType::class,
+        'action' => BadgeActionChoiceType::class,
     ];
 
     public function buildForm( FormBuilderInterface $builder, array $options ) : void
