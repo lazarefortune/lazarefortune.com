@@ -20,14 +20,14 @@
                             <div class="course-countdown-content">
                                 <em>Disponible dans</em>
                                 <span class="course-countdown_timer">{{ course.publishedAt | countdown }}</span>
-                                <p class="course-countdown_hint">Revenez bientôt pour accéder à cette vidéo exclusive !</p>
+                                <a href="{{ path('app_premium') }}" class="btn btn-primary mt-4">{{ icon('sparkles') }} Devenez premium</a>
                             </div>
                         </div>
                     {% elseif course.premium and not userIsPremium %}
                         <div class="course-countdown" style="background-image: url({{ image_url_raw(course.image) }})">
                             <div class="absolute flex flex-col w-full h-full justify-center items-center z-10">
                                 <p class="text-white text-lg mb-3 text-center">Cette vidéo est premium</p>
-                                <a href="{{ path('app_login') }}" class="btn btn-primary">{{ icon('crown') }} Devenez premium</a>
+                                <a href="{{ path('app_premium') }}" class="btn btn-primary">{{ icon('sparkles') }} Devenez premium</a>
                             </div>
                         </div>
                     {% elseif (course.scheduled or course.premium) and userIsPremium %}

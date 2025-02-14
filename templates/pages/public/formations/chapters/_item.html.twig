@@ -6,6 +6,8 @@
     <div class="chapters__list">
         {% for c in chapter.modules %}
             {% set isLocked = (c.premium and (not app.user or not app.user.premium)) or c.isScheduled %}
+            {% set isScheduled = c.isScheduled and (not app.user or not app.user.premium) %}
+{#            {% set isLocked = (c.premium and (not app.user or not app.user.premium)) or c.isScheduled %}#}
             {% set isCurrentCourse = (currentCourseId == c.id) %}
             <a href="{{ path('app_course_show', {slug: c.slug}) }}{% if not isLocked %}#autoplay{% endif %}"
                class="chapters__item {{ isCurrentCourse ? 'is-current' : '' }}"
@@ -19,9 +21,13 @@
                         {{ c.duration | duration }}
                     </div>
 
-                    {% if isLocked %}
+                    {% if isLocked and not isScheduled %}
                         <div class="chapters__lock">
-                            {{ icon('lock') }}
+                            {{ icon('sparkles') }}
+                        </div>
+                    {% elseif isScheduled %}
+                        <div class="chapters__lock">
+                            {{ icon('clock') }}
                         </div>
                     {% else %}
                         <play-button

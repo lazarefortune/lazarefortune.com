@@ -22,17 +22,17 @@
             </form>
         {% endif %}
     {% elseif (user.premium) %}
-        <h2 class="h3 mb-4">
+        <h2 class="h3">
             Mon abonnement
         </h2>
-        <p class="mb2 formatted text-muted">
+        <p class="formatted text-muted">
             Vous êtes actuellement premium jusqu'au <strong>{{ user.premiumEnd | format_date('short') }}</strong>.
         </p>
     {% else %}
         <h2 class="h5 mb-4">
             Vous n'êtes pas premium :(
         </h2>
-        <a href="{{ path('app_premium') }}" class="btn btn-primary">{{ icon('sparkle')}} Devenir premium</a>
+        <a href="{{ path('app_premium') }}" class="btn btn-primary">{{ icon('sparkles')}} Devenir premium</a>
     {% endif %}
 
 </div>
