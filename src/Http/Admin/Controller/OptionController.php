@@ -8,6 +8,7 @@ use App\Domain\Application\Form\OptionForm;
 use App\Domain\Application\Service\OptionManager;
 use App\Helper\OptionManagerInterface;
 use App\Http\Controller\AbstractController;
+use App\Infrastructure\Payment\Stripe\StripeApi;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,10 +21,11 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class OptionController extends AbstractController
 {
 
-    final public const MANAGEABLE_KEYS = ['spam_words'];
+    final public const MANAGEABLE_KEYS = ['spam_words','stripe_taxes_key'];
 
     public function __construct(
-        private readonly OptionManagerInterface $optionManager
+        private readonly OptionManagerInterface $optionManager,
+        private readonly StripeApi $api
     )
     {}
 

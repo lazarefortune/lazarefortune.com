@@ -4,6 +4,7 @@ namespace App\Infrastructure\Payment\Stripe;
 
 use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Premium\Entity\Plan;
+use App\Helper\OptionManagerInterface;
 use Stripe\BalanceTransaction;
 use Stripe\Checkout\Session;
 use Stripe\Customer;
@@ -19,13 +20,15 @@ class StripeApi
     private readonly StripeClient $stripe;
     private array $taxes = [];
 
-    public function __construct(string $privateKey)
+    public function __construct(string $privateKey, private readonly OptionManagerInterface $optionManager)
     {
         Stripe::setApiVersion('2020-08-27');
-        # $this->taxes = ['txr_1QrdtKKMIKbffFOxLVAZsbUj'];
-        $this->taxes = ['txr_1Qs0pwA0DNjLouKa80XQQtBa'];
+        $taxesKey = $this->optionManager->get('stripe_taxes_key') ?: '';
+        $this->taxes = [$taxesKey];
+//        $this->taxes = ['txr_1Qs0pwA0DNjLouKa80XQQtBa'];
         if (str_contains($privateKey, 'live')) {
-            $this->taxes = ['txr_1I7c7DFCMNgisvowdAol5zkl'];
+//            $this->taxes = ['txr_1I7c7DFCMNgisvowdAol5zkl'];
+            $taxesKey = $this->optionManager->get('stripe_taxes_key') ?: '';
         }
         $this->stripe = new StripeClient($privateKey);
     }
