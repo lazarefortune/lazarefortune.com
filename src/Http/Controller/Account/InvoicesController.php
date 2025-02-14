@@ -45,7 +45,7 @@ class InvoicesController extends AbstractController
         $em->flush();
         $this->addFlash('success', 'Vos informations ont bien été enregistrées');
 
-        return $this->redirectToRoute('app_user_invoices');
+        return $this->redirectToRoute('app_account_profile');
     }
 
     #[Route(path: '/mon-compte/factures/{id}', name: 'user_invoice', requirements: ['id' => Requirements::ID])]

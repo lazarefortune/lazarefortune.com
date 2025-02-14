@@ -1,0 +1,68 @@
+<div class="py-5">
+    <main>
+        <h2 class="h3 mb-3">
+            <strong>Mes derniers paiements</strong>
+        </h2>
+        {% if transactions is empty %}
+            <div class="py-4 text-muted text-center h3">
+                Vous n'avez aucune facture :(
+            </div>
+        {% else %}
+           <div class="table-wrapper">
+               <table class="table">
+                   <thead>
+                   <tr>
+                       <th>Date</th>
+                       <th>Description</th>
+                       <th>Prix</th>
+                       <th></th>
+                   </tr>
+                   </thead>
+                   <tbody>
+                   {% for transaction in transactions %}
+                       <tr>
+                           <td>
+                               {{ transaction.createdAt | format_date('long') }}
+                           </td>
+                           <td>Compte premium {{ transaction.duration }} mois</td>
+                           <td>{{ transaction.price | format_currency('EUR') }}</td>
+                           <td>
+                               <a target="_blank" href="{{ path('app_user_invoice', {id: transaction.id}) }}" class="btn-icon">{{ icon('download') }}</a>
+                           </td>
+                       </tr>
+                   {% endfor %}
+                   </tbody>
+               </table>
+           </div>
+        {% endif %}
+    </main>
+    <aside>
+        <div class="my-4">
+            {{ render(controller(
+                'App\\Http\\Controller\\Template\\PremiumStateController::state'
+            )) }}
+        </div>
+
+        {% if transactions is not empty %}
+            <div class="mt-5">
+                <h2 class="h3 mb-2">
+                    {{ icon('email') }}
+                    Informations de facturations
+                </h2>
+                <form action="{{ path('app_user_invoices') }}"
+                      class="stack" method="post">
+                    <p class="text-muted">
+                        Si vous souhaitez préciser des informations supplémentaires (n° de TVA, n° de SIRET ou autres) vous pouvez les ajouter ici.
+                    </p>
+                    <div class="form-group">
+                        <textarea name="invoiceInfo" class="form-input" id="invoice-info" placeholder="Informations à faire figurer sur chaque facture"
+                                  aria-label="Informations de facturations">{{ app.user.invoiceInfo }}</textarea>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary">Sauvegarder</button>
+                    </div>
+                </form>
+            </div>
+        {% endif %}
+    </aside>
+</div>

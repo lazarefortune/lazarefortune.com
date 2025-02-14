@@ -14,6 +14,7 @@ use App\Domain\Auth\Core\Service\DeleteAccountService;
 use App\Domain\Auth\Core\Service\EmailChangeService;
 use App\Domain\Badge\BadgeService;
 use App\Domain\History\Service\HistoryService;
+use App\Domain\Premium\Repository\TransactionRepository;
 use App\Http\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormError;
@@ -34,7 +35,8 @@ class AccountController extends AbstractController
         private readonly DeleteAccountService        $deleteAccountService,
         private readonly UserPasswordHasherInterface $passwordHasher,
         private readonly HistoryService              $historyService,
-        private readonly BadgeService                $badgeService
+        private readonly BadgeService                $badgeService,
+        private readonly TransactionRepository       $transactionRepository
     )
     {
     }
@@ -114,6 +116,8 @@ class AccountController extends AbstractController
         $badges = $this->badgeService->getBadges();
         $unlocks = $this->badgeService->getUnlocksForUser($this->getUserOrThrow());
 
+        $transactions = $this->transactionRepository->findfor($user);
+
         return $this->render( 'pages/public/account/index.html.twig', [
             'watchlist' => $watchlist,
             'badges' => $badges,
@@ -123,6 +127,7 @@ class AccountController extends AbstractController
             'formPassword' => $formPassword->createView(),
             'formDeleteAccount' => $formDeleteAccount->createView(),
             'requestEmailChange' => $requestEmailChange,
+            'transactions' => $transactions,
         ] );
     }
 
