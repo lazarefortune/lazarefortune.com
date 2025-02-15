@@ -40,9 +40,9 @@
             </p>
 
         {% else %}
-            <ul class="stack-large space-y-7">
+            <ul class="stack-large space-y-7 search-results">
                 {% for result in results %}
-                    <li class="">
+                    <li>
                         <h2 class="h5">
                             <a href="{{ result.url }}">{{ result.title | raw }}</a>
                         </h2>

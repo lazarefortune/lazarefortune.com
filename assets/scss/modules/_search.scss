@@ -58,7 +58,7 @@
   }
 
   mark {
-    @apply bg-yellow-200 text-yellow-900 dark:bg-yellow-500 dark:text-yellow-50;
+    @apply bg-primary-200 text-primary-900 dark:bg-primary-800 dark:text-primary-50;
   }
 }
 
@@ -96,4 +96,10 @@
 
 .search-hero-title {
   @apply text-3xl font-medium text-gray-900 dark:text-white flex-none mr-4;
+}
+
+.search-results {
+  em {
+    @apply bg-primary-200 text-primary-900 dark:bg-primary-800 dark:text-primary-50;
+  }
 }
