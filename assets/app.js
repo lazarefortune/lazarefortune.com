@@ -71,7 +71,7 @@ import Comments from "./components/Comments";
 import Quiz from "./components/Quiz/Quiz";
 import PuzzleCaptcha from "./components/Captcha";
 import { Notifications } from "./components/Notifications";
-import { Search } from "./components/Search";
+import { Search, SearchInput } from "./components/Search";
 import { BadgeUnlock } from "./components/BadgeUnlock";
 import { PremiumButton } from "./components/Premium/PremiumButton";
 
@@ -110,6 +110,12 @@ const PremiumButtonElement = reactToWebComponent(PremiumButton, React, ReactDOM,
     props: ['plan', 'price', 'duration', 'stripeKey', 'paypalId', 'children'],
 });
 
+const SearchInputElement = reactToWebComponent(SearchInput, React, ReactDOM, {
+    shadow: false,
+    props: ['defaultValue']
+});
+
+customElements.define('search-input', SearchInputElement)
 customElements.define('puzzle-challenge', PuzzleCaptchaElement)
 customElements.define('comments-area', CommentsElement)
 customElements.define('quiz-area', QuizElement)

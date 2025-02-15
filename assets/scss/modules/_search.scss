@@ -81,3 +81,19 @@
     transform: rotate(360deg);
   }
 }
+
+.search-header {
+  @apply w-full flex flex-col gap-4 justify-start items-start lg:flex-row lg:items-center lg:justify-between;
+
+  & search-input {
+    @apply flex-grow lg:ml-10 w-full relative border border-gray-200 dark:border-gray-700 rounded-lg;
+  }
+
+  & .search-suggestions {
+    @apply absolute inset-x-0 border border-slate-200 dark:border-slate-700 rounded-xl;
+  }
+}
+
+.search-hero-title {
+  @apply text-3xl font-medium text-gray-900 dark:text-white flex-none mr-4;
+}

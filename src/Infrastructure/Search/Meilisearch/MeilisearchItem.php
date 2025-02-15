@@ -39,10 +39,10 @@ class MeilisearchItem implements SearchResultItemInterface
     {
         $type = $this->item['type'];
         if ('course' === $type) {
-            return 'Tutoriel';
+            return 'Vidéo';
         }
         if ('formation' === $type) {
-            return 'Formation';
+            return 'Playlist';
         }
 
         return $type;

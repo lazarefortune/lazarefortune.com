@@ -130,7 +130,7 @@ function SearchBar({ onClose }) {
 /**
  * Composant SearchInput : le formulaire de recherche avec suggestions.
  */
-function SearchInput({ onClose }) {
+export function SearchInput({ onClose }) {
     const [query, setQuery] = useState("");
     const [results, setResults] = useState([]);
     const [hits, setHits] = useState(0);
