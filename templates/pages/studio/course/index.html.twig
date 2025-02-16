@@ -40,7 +40,6 @@
             <thead>
             <tr>
                 <th>{{ sort_by(rows, 'Vidéo', 'row.title') }}</th>
-                <th>Technologies</th>
                 <th>{{ sort_by(rows, 'Statut', 'row.online') }}</th>
                 <th>{{ sort_by(rows, 'Date de publication', 'row.publishedAt') }}</th>
                 <th>Actions</th>
@@ -75,9 +74,6 @@
                         </div>
                     </td>
                     <td>
-                        {{ row.technologies|join(', ') }}
-                    </td>
-                    <td>
                         <div class="flex justify-start items-center gap-2">
                             {% if row.online and (row.publishedAt|date('U') <= "now"|date('U')) %}
                                 {{ icon('eye') }}
@@ -91,7 +87,7 @@
                             {% endif %}
                         </div>
                     </td>
-                    <td>{{ row.publishedAt|date('d M Y à H:i') }}</td>
+                    <td>{{ row.publishedAt | format_datetime('long', 'short') }}</td>
                     <td>
                         {% if is_granted('edit', row) %}
                             <a href="{{ path(prefix ~ '_edit', {id: row.id}) }}" class="btn-icon">

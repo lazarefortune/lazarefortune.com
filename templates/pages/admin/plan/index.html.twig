@@ -1,7 +1,7 @@
 {% extends 'layouts/admin/base.html.twig' %}
 
 {% block title %}
-    Gestion des formules
+    Gestion des Plans
 {% endblock %}
 
 {% block body %}
@@ -19,7 +19,7 @@
                 </li>
                 {{ icon('chevron-right') }}
                 <li aria-current="page">
-                    <span>Formules</span>
+                    <span>Plans</span>
                 </li>
             </ol>
         </nav>
@@ -27,9 +27,8 @@
 
     <div class="dashboard-page-table-button">
         <a href="{{ path('admin_plan_new') }}">
-            {{ icon('plus') }}
             <span>
-                Créer une formule
+                Créer un plan
             </span>
         </a>
     </div>
@@ -38,7 +37,7 @@
         <table class="table">
             <thead>
             <tr>
-                <th>Formule</th>
+                <th>Plan</th>
                 <th>Prix</th>
                 <th>Durée</th>
                 <th class="text-right">Action</th>
