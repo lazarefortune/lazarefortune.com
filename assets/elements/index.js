@@ -21,6 +21,8 @@ import reactToWebComponent from "react-to-webcomponent";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { registerBadgeAlert } from "../modules/badges";
+import { AutoSubmitForm } from "./AutoSubmitForm";
+import { AutoSubmit } from "./AutoSubmit";
 
 const NotificationsElement = reactToWebComponent(Notifications, React, ReactDOM, {
     shadow: false,
@@ -49,3 +51,5 @@ customElements.define('time-ago', TimeAgo)
 customElements.define('markdown-editor', MarkdownEditor, { extends: 'textarea' })
 customElements.define('file-manager', FileManager);
 customElements.define('notifications-area', NotificationsElement)
+customElements.define('auto-submit-form', AutoSubmitForm);
+customElements.define('auto-submit', AutoSubmit, { extends: 'form' })
