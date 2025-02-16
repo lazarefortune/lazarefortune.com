@@ -51,7 +51,7 @@
             <tbody>
             {% for row in rows %}
                 <tr>
-                    <td>{{ row.createdAt.format('d/m/Y H:i') }}</td>
+                    <td>{{ row.createdAt | format_datetime('long', 'short') }}</td>
                     <td>{{ row.price | format_currency('EUR') }}</td>
                     <td>
                         <a href="{{ path('admin_users_show', {id: row.author.id}) }}">
