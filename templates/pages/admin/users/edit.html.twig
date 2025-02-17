@@ -2,69 +2,78 @@
 
 {% block body %}
 
-    <div>
-        <a class="inline-flex items-center gap-2 text-sm/6 text-slate-900 dark:text-slate-400"
-           href="{{ path('admin_users_index') }}">
-            {{ icon('chevron-left') }}
-            Retour
-        </a>
+    <div class="dashboard-page-header">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li>
+                    <a href="{{ path('admin_home') }}">
+                        <svg class="h-3 w-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                             fill="currentColor" viewBox="0 0 20 20">
+                            <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"></path>
+                        </svg>
+                        Accueil
+                    </a>
+                </li>
+                {{ icon('chevron-right') }}
+                <li>
+                    <a href="{{ path('admin_users_index') }}">
+                        Utilisateurs
+                    </a>
+                </li>
+                {{ icon('chevron-right') }}
+                <li aria-current="page">
+                    {{ entity.fullname }}
+                </li>
+            </ol>
+        </nav>
     </div>
 
-    <div class="mt-6 max-w-7xl mx-auto">
+    <div class="mt-6">
 
         <!-- User profile -->
-        <div class="flex items-center gap-x-4 mb-4 border-b border-slate-200 dark:border-slate-800 pb-4">
+        <div class="flex items-center gap-x-4 mb-4">
             <img src="{{ entity|avatar }}" alt="{{ entity.fullname }}" id="avatar-preview"
-                 class="w-16 h-16 rounded-full object-cover border-2 border-primary-900 dark:border-primary-300 p-0.5">
+                 class="w-16 h-16 rounded-full object-cover border-2 {{ entity.isVerified ? 'border-2 border-green-500' : 'border-2 border-red-500' }} p-0.5">
             <div>
                 <div class="flex items-center gap-x-1">
-                    <h4 class="h4">{{ entity.fullname }}</h4>
-                    {% if entity.isVerified %}
-                        <span class="text-primary-700">
-                            {{ icon('badge-check') }}
-                        </span>
-                    {% else %}
-                        <span class="text-red-700">
-                            {{ icon('badge-x') }}
-                        </span>
-                    {% endif %}
+                    <h4 class="h3">{{ entity.fullname }}</h4>
                 </div>
+                {% if entity.isPremium %}
+                    <div class="badge-premium my-1">
+                        {{ icon('sparkles') }}
+                        <span>Compte Premium</span>
+                    </div>
+                {% else %}
+                    <a href="{{ path('app_premium') }}" class="badge-standard my-1">Compte Standard</a>
+                {% endif %}
                 <p class="text-sm text-slate-500">Inscrit <span class="lowercase">{{ entity.createdAt|ago }}</span></p>
             </div>
         </div>
 
+        <div class="divider my-6"></div>
+
         <!-- Informations -->
-        <div class="grid grid-cols-1 gap-4 md:grid-cols-4 mt-6 border-b border-slate-200 dark:border-slate-800 pb-4">
+        <div class="grid grid-cols-1 gap-10 md:gap-4 md:grid-cols-3">
             <div class="col-span-1">
-                <div class="flex flex-col gap-2">
-                    <div class="flex items-center gap-x-2">
-                        {{ icon('user') }}
-                        <span class="text-sm text-slate-500">Identifiant</span>
-                    </div>
-                    <span class="ml-6 text-sm text-slate-900 dark:text-slate-400">#{{ entity.id }}</span>
-                </div>
-            </div>
-            <div class="col-span-1">
-                <div class="flex flex-col gap-2">
-                    <div class="flex items-center gap-x-2">
+                <div class="flex flex-row gap-4">
+                    <div class="flex justify-center items-center bg-primary-100 dark:bg-primary-900 rounded-full w-10 h-10 text-primary-800 dark:text-primary-300">
                         {{ icon('mail') }}
-                        <span class="text-sm text-slate-500">Email</span>
                     </div>
-                    <span class="ml-6 text-sm">
-                        <a href="mailto:{{ entity.email }}" class="border px-2 py-1 rounded-md
-                            {{ entity.isVerified ? 'border-primary-800 text-primary-800 hover:bg-primary-800 hover:text-white' :
-                            'border-red-800 text-red-800 hover:bg-red-800 hover:text-white' }}">
-                            {{ entity.email|truncate(24) }}</a>
-                    </span>
+                    <div class="flex flex-col justify-center">
+                        <div class="text-sm text-slate-400 uppercase">Email</div>
+                        <a href="mailto:{{ entity.email }}" class="text-base text-slate-900 dark:text-slate-400">
+                            {{ entity.email }}
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="col-span-1">
-                <div class="flex flex-col gap-2">
-                    <div class="flex items-center gap-x-2">
+                <div class="flex flex-row gap-4">
+                    <div class="flex justify-center items-center bg-primary-100 dark:bg-primary-900 rounded-full w-10 h-10 text-primary-800 dark:text-primary-300">
                         {{ icon('phone') }}
-                        <span class="text-sm text-slate-500">Téléphone</span>
                     </div>
-                    <span class="ml-6 text-sm text-slate-900 dark:text-slate-400">
+                    <div class="flex flex-col justify-center">
+                        <div class="text-sm text-slate-400 uppercase">Téléphone</div>
                         {% if entity.phone %}
                             <a href="tel:{{ entity.phone }}" class="border border-primary-800 px-2 py-1 rounded-md text-primary-800 hover:bg-primary-800 hover:text-white">
                                 {{ entity.phone }}
@@ -72,61 +81,69 @@
                         {% else %}
                             Non renseigné
                         {% endif %}
-                    </span>
+                    </div>
                 </div>
             </div>
             <div class="col-span-1">
-                <div class="flex flex-col gap-2">
-                    <div class="flex items-center gap-x-2">
+                <div class="flex flex-row gap-4">
+                    <div class="flex justify-center items-center bg-primary-100 dark:bg-primary-900 rounded-full w-10 h-10 text-primary-800 dark:text-primary-300">
                         {{ icon('calendar') }}
-                        <span class="text-sm text-slate-500">Date de naissance</span>
                     </div>
-                    <span class="ml-6 text-sm text-slate-900 dark:text-slate-400">
-                        {% if entity.dateOfBirthday %}
-                            {{ entity.dateOfBirthday|date('d/m/Y') }}
-                        {% else %}
-                            Non renseignée
-                        {% endif %}
-                    </span>
+                    <div class="flex flex-col justify-center">
+                        <div class="text-sm text-slate-400 uppercase">Date de naissance</div>
+                        <span class="text-base text-slate-900 dark:text-slate-400">
+                            {% if entity.dateOfBirthday %}
+                                {{ entity.dateOfBirthday|date('d/m/Y') }}
+                            {% else %}
+                                Non renseignée
+                            {% endif %}
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <div class="divider my-6"></div>
+
         <!-- if user is not verified -->
         {% if not entity.isVerified %}
-        <div class="mt-6 border-b border-slate-200 dark:border-slate-800 pb-4">
-            <h4 class="text-lg text-red-900 font-semibold">Attention !</h4>
-            <p class="text-sm text-red-800">Cet utilisateur n'a pas encore confirmé son email.</p>
+        <div>
+            <h4 class="h4">Email non vérifié</h4>
+            <p class="text-sm text-muted">Cet utilisateur n'a pas encore vérifié son email</p>
             <div class="mt-4">
-                <a href="{{ path('admin_users_resend_verification_email', {id: entity.id}) }}" class="btn btn-primary">
+                <a href="{{ path('admin_users_resend_verification_email', {id: entity.id}) }}" class="btn btn-light">
                     {{ icon('mail') }}
-                    Envoyer l'email de vérification
+                    Renvoyer l'email de vérification
                 </a>
             </div>
         </div>
+
+        <div class="divider my-6"></div>
         {% endif %}
 
         <!-- User roles -->
-        <div class="mt-6 border-b border-slate-200 dark:border-slate-800 pb-4">
+        <div>
             {{ form_start(form) }}
             <div class="mb-4">
-                <h4 class="text-lg font-semibold">Rôles</h4>
-                <p class="text-sm text-slate-500">Liste des rôles attribués à l'utilisateur</p>
+                <h4 class="h4">Accès et rôles</h4>
+                <p class="text-sm text-slate-500">Modifier les rôles de cet utilisateur</p>
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2 mt-4">
                     {{ form_row(form.roles) }}
                 </div>
             </div>
             <!-- modifier role -->
-            <div class="flex justify-end">
+            <div class="flex justify-start">
                 <button type="submit" class="btn btn-primary">Enregistrer</button>
             </div>
             {{ form_end(form) }}
         </div>
 
+        <div class="divider my-6"></div>
+
         <!-- warning zone for impersonate -->
-        <div class="mt-6 border-b border-slate-200 dark:border-slate-800 pb-4">
-            <h4 class="text-lg text-red-900 font-medium">Prendre le contrôle de cet utilisateur</h4>
-            <p class="text-muted max-w-md">
+        <div>
+            <h4 class="font-bricolage text-xl font-medium text-red-700 dark:text-red-300">Prendre le contrôle de cet utilisateur</h4>
+            <p class="text-muted max-w-xl">
                 Attention, vous allez prendre le contrôle de cet utilisateur. Il est obligatoire d'avoir l'autorisation de l'utilisateur concerné.
             </p>
             <div class="mt-4">

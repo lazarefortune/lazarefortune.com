@@ -22,6 +22,7 @@ class UserController extends CrudController
     protected string $searchField = 'name';
     protected string $entity = User::class;
     protected string $routePrefix = 'admin_users';
+    protected bool $indexOnSave = false;
     protected array $events = [
         'delete' => null,
         'create' => UserCreatedEvent::class,
