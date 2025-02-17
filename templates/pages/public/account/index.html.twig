@@ -21,6 +21,16 @@
                     </div>
                     <div class="text-center md:text-left">
                         <h2 class="h2">{{ app.user.fullname }}</h2>
+                        {% if app.user.isPremium %}
+                            <div class="badge-premium my-1">
+                                {{ icon('sparkles') }}
+                                <span>Compte Premium</span>
+                            </div>
+                        {% else %}
+                            <a href="{{ path('app_premium') }}" class="badge-standard my-1">
+                                <span>Compte Standard</span>
+                            </a>
+                        {% endif %}
                         <p class="text-muted text-sm">
                             <span>Inscrit <span class="lowercase">{{ app.user.createdAt|ago }}</span></span>
                         </p>

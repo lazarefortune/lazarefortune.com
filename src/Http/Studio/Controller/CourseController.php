@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Vich\UploaderBundle\Handler\UploadHandler;
 
-#[IsGranted('ROLE_ADMIN')]
+#[IsGranted('ROLE_AUTHOR')]
 #[Route(path: '/videos', name: 'course_')]
 class CourseController extends CrudController
 {

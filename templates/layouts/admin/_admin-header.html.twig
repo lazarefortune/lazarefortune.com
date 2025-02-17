@@ -14,7 +14,17 @@
                 ">
             <div class="flex items-center justify-start gap-2 w-full pb-4 border-b border-slate-200 dark:border-slate-700">
                 <img class="h-10 w-10 rounded-full object-cover border border-b-gray-400" src="{{ app.user|avatar }}" alt="{{ app.user.fullname }} avatar">
-                <span class="ml-2 h4">{{ app.user.fullname }}</span>
+                <div class="ml-2 h4">
+                    <div>{{ app.user.fullname }}</div>
+                    {% if app.user.isPremium %}
+                        <div class="badge-premium">
+                            {{ icon('sparkles') }}
+                            <span>Compte Premium</span>
+                        </div>
+                    {% else %}
+                        <a href="{{ path('app_premium') }}" class="badge-standard">Compte Standard</a>
+                    {% endif %}
+                </div>
             </div>
 
             <div class="w-full mb-3 border-b border-slate-200 dark:border-slate-700 py-4 grid grid-cols-2 gap-2">
@@ -34,7 +44,7 @@
                     {{ icon('monitor-x') }} <span>Revenir à mon compte</span>
                 </a>
             {% endif %}
-            {% if is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_AUTHOR') %}
                 <a href="{{ path('studio_home') }}" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
                     font-medium">
                     {{ icon('clapperboard', 20) }} <span>Studio</span>

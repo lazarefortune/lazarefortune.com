@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        {% if is_granted('ROLE_ADMIN') %}
+        {% if is_granted('ROLE_AUTHOR') %}
             <ul class="sidebar__nav-list">
                 <li class="sidebar__nav-item">
                     <a href="{{ path('studio_home') }}" class="sidebar__nav-link {{ menu_active('studio_home') }}">

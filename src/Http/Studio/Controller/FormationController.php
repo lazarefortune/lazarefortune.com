@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-
+#[IsGranted('ROLE_AUTHOR')]
 #[Route(path: '/playlists', name: 'formation_')]
 final class FormationController extends CrudController
 {

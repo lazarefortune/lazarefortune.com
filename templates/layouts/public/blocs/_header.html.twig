@@ -97,7 +97,17 @@
                 ">
                     <div class="flex items-center justify-start gap-2 w-full pb-4 border-b border-slate-200 dark:border-slate-700">
                         <img class="h-10 w-10 rounded-full object-cover border border-b-gray-400" src="{{ app.user|avatar }}" alt="{{ app.user.fullname }} avatar">
-                        <span class="ml-2 h4">{{ app.user.fullname }}</span>
+                        <div class="ml-2 h4">
+                            <div>{{ app.user.fullname }}</div>
+                            {% if app.user.isPremium %}
+                                <div class="badge-premium">
+                                    {{ icon('sparkles') }}
+                                    <span>Compte Premium</span>
+                                </div>
+                            {% else %}
+                                <a href="{{ path('app_premium') }}" class="badge-standard">Compte Standard</a>
+                            {% endif %}
+                        </div>
                     </div>
 
                     <div class="w-full mb-3 border-b border-slate-200 dark:border-slate-700 py-4 grid grid-cols-2 gap-2">
@@ -110,7 +120,13 @@
                             <span>Badges</span>
                         </a>
                     </div>
-
+                    {% if app.user and is_granted('ROLE_PREVIOUS_ADMIN') %}
+                        {#  <a href="{{ path('admin_users_index', {'_switch_user': '_exit'}) }}" class="dropdown-menu-item"> #}
+                        <a href="{{ impersonation_exit_path(path('admin_users_index')) }}" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
+                            font-medium">
+                            {{ icon('monitor-x') }} <span>Revenir à mon compte</span>
+                        </a>
+                    {% endif %}
                     {% if is_granted('ROLE_ADMIN') %}
                         <a href="{{ path('admin_home') }}" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
                         font-medium">
@@ -124,13 +140,6 @@
                             {{ icon('clapperboard', 20) }} <span>Studio</span>
                         </a>
                         <div class="dropdown-divider"></div>
-                    {% endif %}
-                    {% if app.user and is_granted('ROLE_PREVIOUS_ADMIN') %}
-                    {#  <a href="{{ path('admin_users_index', {'_switch_user': '_exit'}) }}" class="dropdown-menu-item"> #}
-                        <a href="{{ impersonation_exit_path(path('admin_users_index')) }}" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
-                            font-medium">
-                            {{ icon('monitor-x') }} <span>Revenir à mon compte</span>
-                        </a>
                     {% endif %}
                     <a href="{{ path('app_account_profile') }}" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
                             font-medium">

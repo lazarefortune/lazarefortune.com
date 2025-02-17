@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route(path: '/quiz', name: 'quiz_')]
-#[IsGranted('ROLE_ADMIN')]
+#[IsGranted('ROLE_AUTHOR')]
 class QuizController extends CrudController
 {
     protected string $templateDirectory = 'pages/studio';

@@ -41,3 +41,15 @@
 .empty-circle-danger {
   @apply bg-red-500;
 }
+
+.badge-premium {
+  @apply inline-flex items-center gap-2 text-xs bg-primary-200 dark:bg-primary-900 text-primary-600 dark:text-primary-300 rounded-full px-4 py-1;
+  @apply transition-colors hover:bg-primary-300 hover:text-primary-700 dark:hover:bg-primary-700 dark:hover:text-primary-200;
+  @apply dark:bg-primary-700 dark:text-primary-200 dark:hover:bg-primary-600 dark:hover:text-primary-100;
+}
+
+.badge-standard {
+  @apply inline-flex items-center gap-2 text-xs bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full px-4 py-1 hover:cursor-pointer;
+  @apply transition-colors hover:bg-gray-300 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-gray-200;
+  @apply dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-gray-100;
+}
