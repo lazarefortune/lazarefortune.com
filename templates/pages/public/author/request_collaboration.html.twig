@@ -21,22 +21,15 @@
 
             {{ form_start(form, {
                 'attr': {'class': 'space-y-6'},
-                'action': path('app_contact'),
-                'method': 'POST'
             }) }}
 
             <div class="space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {{ form_row(form.name, {
-                    }) }}
-                    {{ form_row(form.email, {
+                    {{ form_row(form.roleRequested, {
                     }) }}
                 </div>
 
-                {{ form_row(form.subject, {'value': 'Demande de collaboration', 'attr': {'readonly': true}}) }}
-
-
-                {{ form_row(form.message, {'label': 'Parlez-moi de votre projet' }) }}
+                {{ form_row(form.message) }}
 
                 <div class="inline-flex">
                     {{ form_row(form.captcha, {

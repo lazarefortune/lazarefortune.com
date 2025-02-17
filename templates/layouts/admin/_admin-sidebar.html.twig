@@ -48,6 +48,12 @@
                         <span>Chaîne YouTube</span>
                     </a>
                 </li>
+                <li class="sidebar__nav-item">
+                    <a href="{{ path('admin_collaboration_request_index') }}" class="sidebar__nav-link {{ menu_active('admin_collaboration_request') }}">
+                        {{ icon('heart-handshake') }}
+                        <span>Collaborations</span>
+                    </a>
+                </li>
                 {% endif %}
                 <li class="sidebar__nav-item">
                     <a href="{{ path('admin_contact_index') }}" class="sidebar__nav-link {{ menu_active('admin_contact_') }}">

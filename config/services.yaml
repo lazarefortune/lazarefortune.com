@@ -83,6 +83,10 @@ services:
     arguments:
       $adminEmail: '%admin_email%'
 
+  App\Domain\Collaboration\Subscriber\CollaborationRequestSubscriber:
+    arguments:
+      $adminEmail: '%admin_email%'
+
   App\Infrastructure\Spam\SpamService:
     arguments: [ [ 'App\Domain\Comment\Entity\Message' ] ]
 

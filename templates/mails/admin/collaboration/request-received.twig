@@ -1,0 +1,31 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as element %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+        Une nouvelle demande de collaboration a été reçue
+        ==============================================
+
+        Une demande de collaboration a été soumise par **{{ request.requester.fullname }}**.
+
+        **Rôle demandé :** {{ request.roleRequested.label() }}
+
+        **Message de l'utilisateur :**
+        {{ request.message }}
+    {% endapply %}
+
+    {{ element.button('Voir la demande', adminRequestUrl|raw ) }}
+
+    {% apply markdown_email %}
+        Vous pouvez gérer cette demande depuis votre espace administrateur.
+    {% endapply %}
+
+    {% apply markdown_email %}
+        Cordialement,
+
+        L'équipe {{ app_name }}
+    {% endapply %}
+
+{% endblock %}

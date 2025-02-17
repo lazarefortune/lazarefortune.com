@@ -1,0 +1,26 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as element %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+        Votre demande de collaboration a été refusée ❌
+        =============================================
+
+        Bonjour **{{ request.requester.fullname }}**,
+
+        Après examen de votre demande pour devenir **{{ request.roleRequested.label() }}**, nous sommes au regret de vous informer que celle-ci a été **refusée**.
+
+        Si vous souhaitez en savoir plus, n'hésitez pas à nous contacter.
+    {% endapply %}
+
+    {{ element.button('Contacter le support', supportUrl|raw ) }}
+
+    {% apply markdown_email %}
+        Cordialement,
+
+        L'équipe {{ app_name }}
+    {% endapply %}
+
+{% endblock %}

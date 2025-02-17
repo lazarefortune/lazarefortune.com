@@ -1,0 +1,30 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as element %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+        Votre demande de collaboration a bien été reçue 🎉
+        =================================================
+
+        Bonjour **{{ request.requester.fullname }}**,
+
+        Nous avons bien reçu votre demande pour devenir **{{ request.roleRequested.label() }}**.
+
+        **Récapitulatif de votre demande :**
+        - **Rôle demandé :** {{ request.roleRequested.label() }}
+        - **Statut actuel :** 🟡 En attente d'examen
+
+        Nous vous informerons dès que votre demande aura été traitée.
+    {% endapply %}
+
+    {{ element.button('Suivre ma demande', userRequestUrl|raw ) }}
+
+    {% apply markdown_email %}
+        Cordialement,
+
+        L'équipe {{ app_name }}
+    {% endapply %}
+
+{% endblock %}

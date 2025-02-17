@@ -492,4 +492,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 //    {
 //        return array_diff(array_keys(get_object_vars($this)), ['avatarFile']);
 //    }
+    public function hasRole( $role ) : bool
+    {
+        return in_array( $role , $this->roles );
+    }
 }

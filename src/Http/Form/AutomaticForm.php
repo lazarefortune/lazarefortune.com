@@ -77,6 +77,7 @@ class AutomaticForm extends AbstractType
                     'choices' => [
                         'Utilisateur' => 'ROLE_USER',
                         'Auteur' => 'ROLE_AUTHOR',
+                        'Modérateur' => 'ROLE_MODERATOR',
                         'Admin' => 'ROLE_ADMIN',
                         'Super Admin' => 'ROLE_SUPER_ADMIN',
                     ],

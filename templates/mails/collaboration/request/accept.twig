@@ -1,0 +1,26 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as element %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+        Félicitations ! Votre demande a été acceptée 🎉
+        =============================================
+
+        Bonjour **{{ request.requester.fullname }}**,
+
+        Bonne nouvelle ! Votre demande pour obtenir le rôle **{{ request.roleRequested.label() }}** a été **acceptée**.
+
+        Vous pouvez maintenant accéder à vos nouvelles permissions et commencer à collaborer avec nous ! 🚀
+    {% endapply %}
+
+    {{ element.button('Accéder à mon espace', userProfileUrl|raw ) }}
+
+    {% apply markdown_email %}
+        Cordialement,
+
+        L'équipe {{ app_name }}
+    {% endapply %}
+
+{% endblock %}
