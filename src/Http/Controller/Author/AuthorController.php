@@ -18,6 +18,7 @@ use App\Http\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/auteur', name: 'author_')]
 class AuthorController extends AbstractController
@@ -45,15 +46,12 @@ class AuthorController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/demande-de-collaboration', name: 'request_collaboration', methods: ['GET', 'POST'])]
     public function requestCollaboration( Request $request , CollaborationRequestService $collaborationRequestService) : Response
     {
         /** @var User $user */
         $user = $this->getUser();
-
-        if (!$user) {
-            return $this->redirectToRoute('app_login');
-        }
 
         $form = $this->createForm( CollaborationRequestForm::class, new CollaborationRequest( $user ) );
 
