@@ -39,7 +39,6 @@
         <table class="table">
             <thead>
             <tr>
-                <th>ID</th>
                 <th>Nom</th>
                 <th>Technologies</th>
                 <th>Status</th>
@@ -50,10 +49,6 @@
             {% for row in rows %}
                 {% set link = path(prefix ~ '_edit', {id: row.id}) %}
                 <tr>
-                    <td>
-                        <a href="{{ link }}" class="table-cell-link"></a>
-                        {{ row.id }}
-                    </td>
                     <td>
                         <a href="{{ link }}" class="table-cell-link"></a>
                         {{ row.title }}
