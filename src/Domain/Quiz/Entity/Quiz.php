@@ -20,7 +20,7 @@ class Quiz
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Content::class)]
+    #[ORM\ManyToOne(targetEntity: Content::class, inversedBy: "quizzes")]
     #[ORM\JoinColumn(nullable: false)]
     private ?Content $targetContent = null;
 
