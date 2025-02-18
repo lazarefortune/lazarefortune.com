@@ -6,7 +6,7 @@ import { isActiveWindow } from '../functions/window.js'
 import { flash } from '../elements/Alert.js'
 
 /**
- * Enregistre l'alerte de déblocage de badege
+ * Enregistre l'alerte de déblocage de badge
  */
 let cleanBadgeListener
 export function registerBadgeAlert () {

@@ -14,6 +14,7 @@ class BadgeActionChoiceType extends AbstractType
             'choices' => [
                 'Nombre de commentaires' => 'comments',
                 'Ancienneté en jours' => 'days',
+                'Nombre de vidéos publiées' => 'published_videos',
             ],
             'attr' => [
                 'class' => 'select2 form-input'
