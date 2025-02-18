@@ -9,6 +9,9 @@
                 {{ sort_by(rows, 'Ancienneté', 'row.createdAt') }}
             </th>
             <th>
+                {{ sort_by(rows, 'Dernière connexion', 'row.lastLogin') }}
+            </th>
+            <th>
                 {{ sort_by(rows, 'Rôles', 'row.roles') }}
             </th>
             <th>
@@ -49,6 +52,10 @@
                 <td>
                     <a href="{{ link }}" class="table-cell-link"></a>
                     {{ row.createdAt|date_age }}
+                </td>
+                <td>
+                    <a href="{{ link }}" class="table-cell-link"></a>
+                    {{ row.lastLogin ? row.lastLogin|date_age : 'Jamais' }}
                 </td>
                 <td>
                     {% for role in row.roles %}

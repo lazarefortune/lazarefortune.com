@@ -23,13 +23,23 @@ import ReactDOM from "react-dom/client";
 import { registerBadgeAlert } from "../modules/badges";
 import { AutoSubmitForm } from "./AutoSubmitForm";
 import { AutoSubmit } from "./AutoSubmit";
+import { Confetti } from "./Confetti";
+import { BadgeUnlock } from "../components/BadgeUnlock";
 
 const NotificationsElement = reactToWebComponent(Notifications, React, ReactDOM, {
     shadow: false,
 });
 
+const BadgeUnlockElement = reactToWebComponent(BadgeUnlock, React, ReactDOM, {
+    shadow: false,
+    props: ['name', 'description', 'theme', 'image']
+});
+
+
 registerBadgeAlert()
 
+customElements.define('badge-unlock', BadgeUnlockElement)
+customElements.define('con-fetti', Confetti)
 customElements.define('spotlight-bar', Spotlight)
 customElements.define('nav-tabs', NavTabs)
 customElements.define('scroll-top', ScrollTop)
