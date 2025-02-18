@@ -55,7 +55,7 @@ select {
 
 /* Labels */
 .label {
-  @apply block text-sm font-medium leading-6 text-slate-500 mb-0.5 dark:text-slate-200;
+  @apply block uppercase text-sm font-normal leading-6 text-slate-500 mb-0.5 dark:text-slate-200;
 }
 
 /* Password toggle */
