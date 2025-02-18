@@ -117,9 +117,7 @@ function SearchBar({ onClose }) {
             <div className="search-container" onClick={(e) => e.stopPropagation()}>
                 <SearchInput onClose={onClose} />
                 <div className="search-footer hidden sm:block">
-                    <small className="text-muted">
-                        Touchez l'extérieur (ou Échap) pour fermer
-                    </small>
+                    <span>Entrée</span> pour sélectionner, <span>Échap</span> pour fermer, <span>↑</span> et <span>↓</span> pour naviguer
                 </div>
             </div>
         </div>,

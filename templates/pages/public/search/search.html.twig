@@ -19,20 +19,14 @@
 
     <div class="container-box py-5">
         {% if q is empty %}
-            <div class="formatted">
+            <div class="min-h-52">
                 <p>
-                    Essayez de taper au moins un mot clé. Sinon je ne sais pas quoi vous trouver :(
-                </p>
-                <p>
-                    Sérieusement je ne peux vraiment pas vous trouver ce que vous cherchez si vous ne m'aidez pas un peu.<br/>
-                    Alors je sais, parfois on arrive sur une nouvelle page et on ne sait plus ce que l'on cherche, ça arrive !<br/>
-                    Dans ce cas là il va falloir travailler un peu votre mémoire.
+                    Veuillez saisir un mot-clé pour lancer une recherche.
                 </p>
 
-                <div class="ratio">
-                    <iframe width="560" height="315" src="//www.youtube-nocookie.com/embed/Crh3MtpVZxM?rel=0&showinfo=0" frameborder="0" allow="encrypted-media; picture-in-picture" allowfullscreen=""></iframe>
-                </div>
+                <div class="divider my-6"></div>
 
+                {{ render(controller('App\\Http\\Controller\\Error\\ErrorController::body')) }}
             </div>
         {% elseif results is empty %}
             <p class="text-center text-muted h3">
