@@ -86,8 +86,8 @@
  {% endblock %}
 
 {% block choice_multiple_row %}
-    {% set container_attributes = block('widget_container_attributes')|spaceless %}
-    {% set widget_attributes = block('widget_attributes')|spaceless %}
+    {% set container_attributes = block('widget_container_attributes')|trim %}
+    {% set widget_attributes = block('widget_attributes')|trim %}
     {% include 'components/_choice_multiple.html.twig' with {'container_attributes': container_attributes, 'widget_attributes': widget_attributes} %}
 {% endblock %}
 

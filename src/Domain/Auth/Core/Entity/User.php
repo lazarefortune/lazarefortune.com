@@ -3,6 +3,7 @@
 namespace App\Domain\Auth\Core\Entity;
 
 use App\Domain\Auth\Core\Repository\UserRepository;
+use App\Domain\Auth\Password\Entity\PasswordReset;
 use App\Domain\Auth\Registration\Entity\EmailVerification;
 use App\Domain\Notification\Entity\Notifiable;
 use App\Domain\Premium\Entity\PremiumTrait;
@@ -111,6 +112,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::INTEGER, options:['default'=>0])]
     private int $quizzesCompleted = 0;
 
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: PasswordReset::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $passwordResets;
+
     public function __construct()
     {
         $this->fullname = '';
@@ -119,6 +123,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
         $this->emailVerifications = new ArrayCollection();
+        $this->passwordResets = new ArrayCollection();
     }
 
     public function getId() : ?int
@@ -186,7 +191,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials() : void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
@@ -473,6 +478,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function incrementQuizzesCompleted(): self
     {
         $this->quizzesCompleted++;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PasswordReset>
+     */
+    public function getPasswordResets(): Collection
+    {
+        return $this->passwordResets;
+    }
+
+    public function addPasswordReset(PasswordReset $passwordReset): self
+    {
+        if (!$this->passwordResets->contains($passwordReset)) {
+            $this->passwordResets->add($passwordReset);
+            $passwordReset->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removePasswordReset(PasswordReset $passwordReset): self
+    {
+        if ($this->passwordResets->removeElement($passwordReset)) {
+            if ($passwordReset->getAuthor() === $this) {
+                $passwordReset->setAuthor(null);
+            }
+        }
+
         return $this;
     }
 

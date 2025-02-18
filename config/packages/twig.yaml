@@ -7,6 +7,9 @@ twig:
     app_name: '%app.name%'
     MERCURE_PUBLIC_URL: '%env(resolve:MERCURE_PUBLIC_URL)%'
 
+  paths:
+    '%kernel.project_dir%/templates/components': components
+
 when@test:
   twig:
     strict_variables: true

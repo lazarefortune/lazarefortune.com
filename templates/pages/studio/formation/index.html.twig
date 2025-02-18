@@ -48,9 +48,16 @@
             </thead>
             <tbody>
             {% for row in rows %}
+                {% set link = path(prefix ~ '_edit', {id: row.id}) %}
                 <tr>
-                    <td>{{ row.id }}</td>
-                    <td>{{ row.title }}</td>
+                    <td>
+                        <a href="{{ link }}" class="table-cell-link"></a>
+                        {{ row.id }}
+                    </td>
+                    <td>
+                        <a href="{{ link }}" class="table-cell-link"></a>
+                        {{ row.title }}
+                    </td>
                     <td>
                         {{ row.technologies|join(', ') }}
                     </td>

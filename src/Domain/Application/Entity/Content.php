@@ -61,7 +61,7 @@ abstract class Content
     #[ORM\OneToMany( mappedBy: 'content', targetEntity: TechnologyUsage::class, cascade: ['persist'] )]
     private Collection $technologyUsages;
 
-    #[ORM\OneToMany(mappedBy: 'content', targetEntity: Quiz::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'targetContent', targetEntity: Quiz::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $quizzes;
 
     public function __construct()

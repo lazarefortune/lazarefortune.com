@@ -55,9 +55,11 @@
                 </tr>
             {% endif %}
             {% for row in rows %}
+                {% set link = path(prefix ~ '_edit', {id: row.id}) %}
                 <tr>
                     <td class="flex justify-start items-center gap-4">
                         <div class="w-40 flex items-center gap-2">
+                            <a href="{{ link }}" class="table-cell-link"></a>
                             {% if row.image %}
                                 <img class="course__image"
                                      src="{{ image_url(row.image, 288, 162) }}"
@@ -74,6 +76,7 @@
                         </div>
                     </td>
                     <td>
+                        <a href="{{ link }}" class="table-cell-link"></a>
                         <div class="flex justify-start items-center gap-2">
                             {% if row.online and (row.publishedAt|date('U') <= "now"|date('U')) %}
                                 {{ icon('eye') }}
@@ -87,7 +90,10 @@
                             {% endif %}
                         </div>
                     </td>
-                    <td>{{ row.publishedAt | format_datetime('long', 'short') }}</td>
+                    <td>
+                        <a href="{{ link }}" class="table-cell-link"></a>
+                        {{ row.publishedAt | format_datetime('long', 'short') }}
+                    </td>
                     <td>
                         {% if is_granted('edit', row) %}
                             <a href="{{ path(prefix ~ '_edit', {id: row.id}) }}" class="btn-icon">

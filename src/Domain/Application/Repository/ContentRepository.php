@@ -18,7 +18,7 @@ class ContentRepository extends AbstractRepository
         parent::__construct($registry, Content::class);
     }
 
-    public function findAll()
+    public function findAll() : array
     {
         return $this->createQueryBuilder('c')
             ->where('c.online = true')

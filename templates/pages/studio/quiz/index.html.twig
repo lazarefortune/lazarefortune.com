@@ -40,9 +40,6 @@
             <thead>
                 <tr>
                     <th>
-                        {{ sort_by(rows, 'ID', 'row.id') }}
-                    </th>
-                    <th>
                         {{ sort_by(rows, 'Title', 'row.title') }}
                     </th>
                     <th>
@@ -61,9 +58,7 @@
                 {% set link = path(prefix ~ '_edit', {id: row.id}) %}
                 <tr>
                     <td>
-                        {{ row.id }}
-                    </td>
-                    <td>
+                        <a href="{{ link }}" class="table-cell-link"></a>
                         {{ row.title | truncate(50) }}
                     </td>
                     <td>
