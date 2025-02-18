@@ -25,7 +25,6 @@ class OptionController extends AbstractController
 
     public function __construct(
         private readonly OptionManagerInterface $optionManager,
-        private readonly StripeApi $api
     )
     {}
 

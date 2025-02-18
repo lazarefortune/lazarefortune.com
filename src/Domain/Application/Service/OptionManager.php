@@ -49,31 +49,26 @@ class OptionManager implements OptionManagerInterface
         $this->optionRepository->remove($option, true);
     }
 
-    public function all( ?array $keys = null ) : array
+    public function all(?array $keys = null): array
     {
-        $options = [];
-        if (null === $keys) {
-            $this->optionRepository->findAll();
-        } else {
-            $options = $this->optionRepository->findBy([
-                'key' => $keys
-            ]);
-        }
+        // Récupération des options selon la condition
+        $options = (null === $keys)
+            ? $this->optionRepository->findAll()
+            : $this->optionRepository->findBy(['key' => $keys]);
 
-        $optionsByKey = array_reduce($options, function (array $options, Option $option) {
+        // Transformer les options en tableau clé-valeur
+        $optionsByKey = array_reduce($options, function (array $acc, Option $option) {
             $acc[$option->getKey()] = $option->getValue();
-
             return $acc;
         }, []);
 
+        // Si aucune clé spécifique n'est demandée, on renvoie tout
         if (null === $keys) {
             return $optionsByKey;
         }
 
-        return array_reduce($keys, function(array $acc, string $key) use ($optionsByKey) {
-            $acc[$key] = $optionsByKey[$key] ?? null;
-
-            return $acc;
-        }, []);
+        // Retourne uniquement les clés demandées (avec valeur null si absentes)
+        return array_merge(array_fill_keys($keys, null), $optionsByKey);
     }
+
 }
