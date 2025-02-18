@@ -31,7 +31,7 @@
                     <a href="{{ link }}" class="table-cell-link"></a>
                     <div class="flex items-center gap-2">
                         <div class="relative">
-                            <img class="h-10 w-10 rounded-full object-cover {{ row.isVerified ? 'border-2 border-green-500' : 'border-2 border-red-500' }}"
+                            <img class="h-10 min-w-10 rounded-full object-cover {{ row.isVerified ? 'border-2 border-green-500' : 'border-2 border-red-500' }}"
                                  src="{{ row|avatar }}"
                                  alt="{{ row.fullname }}">
                             {% if row.isPremium %}

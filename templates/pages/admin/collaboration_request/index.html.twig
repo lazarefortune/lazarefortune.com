@@ -37,6 +37,13 @@
             </tr>
             </thead>
             <tbody>
+            {% if collaborationRequests is empty %}
+                <tr>
+                    <td colspan="5" class="text-center">
+                        Aucune donnée disponible
+                    </td>
+                </tr>
+            {% endif %}
             {% for collaborationRequest in collaborationRequests %}
                 <tr>
                     <td>{{ collaborationRequest.createdAt | format_datetime('long', 'short') }}</td>
