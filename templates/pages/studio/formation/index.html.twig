@@ -57,13 +57,18 @@
                         {{ row.technologies|join(', ') }}
                     </td>
                     <td>
+                        <div class="flex justify-start items-center gap-2">
                         {% if row.online and (row.publishedAt|date('U') <= "now"|date('U')) %}
-                            <span class="badge badge-success">En ligne</span>
+                            {{ icon('eye') }}
+                            <span>En ligne</span>
                         {% elseif row.online and (row.publishedAt|date('U') > "now"|date('U')) %}
-                            <span class="badge badge-warning">En ligne (planifié)</span>
+                            {{ icon('clock') }}
+                            <span>Planifiée</span>
                         {% else %}
-                            <span class="badge badge-danger">Hors ligne</span>
+                            {{ icon('lock') }}
+                            <span>Privée</span>
                         {% endif %}
+                        </div>
                     </td>
                     <td>
                         {% if is_granted('edit', row) %}

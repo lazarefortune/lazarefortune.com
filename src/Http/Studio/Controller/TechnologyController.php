@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_AUTHOR')]
-#[Route(path: '/technologie', name: 'technology_')]
+#[Route(path: '/tags', name: 'technology_')]
 class TechnologyController extends CrudController
 {
     protected string $templateDirectory = 'pages/studio';

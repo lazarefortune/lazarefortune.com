@@ -62,9 +62,15 @@
                         {{ row.title | truncate(50) }}
                     </td>
                     <td>
-                        <span class="badge {{ row.isPublished ? 'badge-success' : 'badge-danger' }}">
-                            {{ row.isPublished ? 'Publié' : 'Non publié' }}
-                        </span>
+                        <div class="flex justify-start items-center gap-2">
+                            {% if row.isPublished %}
+                                {{ icon('eye') }}
+                                <span>En ligne</span>
+                            {% else %}
+                                {{ icon('lock') }}
+                                <span>Privée</span>
+                            {% endif %}
+                        </div>
                     </td>
                     <td>
                         {{ row.targetContent.title | truncate(50) }}
