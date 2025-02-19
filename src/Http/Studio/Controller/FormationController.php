@@ -3,6 +3,9 @@
 namespace App\Http\Studio\Controller;
 
 
+use App\Domain\Application\Event\ContentCreatedEvent;
+use App\Domain\Application\Event\ContentDeletedEvent;
+use App\Domain\Application\Event\ContentUpdatedEvent;
 use App\Domain\Course\Entity\Formation;
 use App\Http\Admin\Controller\CrudController;
 use App\Http\Admin\Data\Crud\FormationCrudData;
@@ -21,7 +24,11 @@ final class FormationController extends CrudController
     protected string $entity = Formation::class;
     protected bool $indexOnSave = false;
     protected string $routePrefix = 'studio_formation';
-    protected array $events = [];
+    protected array $events = [
+        'update' => ContentUpdatedEvent::class,
+        'delete' => ContentDeletedEvent::class,
+        'create' => ContentCreatedEvent::class,
+    ];
 
     #[Route(path: '/', name: 'index')]
     public function index(): Response
