@@ -3,13 +3,16 @@
 namespace App\Domain\Notification\Subscriber;
 
 use App\Domain\Application\Event\ContentCreatedEvent;
+use App\Domain\Application\Event\ContentDeletedEvent;
 use App\Domain\Application\Event\ContentUpdatedEvent;
 use App\Domain\Course\Entity\Course;
 use App\Domain\Course\Entity\Formation;
 use App\Domain\Course\Entity\Technology;
+use App\Domain\Course\Repository\FormationRepository;
 use App\Domain\Notification\NotificationService;
 use App\Helper\TimeHelper;
 use App\Infrastructure\Queue\EnqueueMethod;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ContentSubscriber implements EventSubscriberInterface
@@ -17,6 +20,8 @@ class ContentSubscriber implements EventSubscriberInterface
     public function __construct(
         private readonly NotificationService $service,
         private readonly EnqueueMethod $enqueueMethod,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly FormationRepository $formationRepository
     ) {
     }
 
@@ -25,6 +30,7 @@ class ContentSubscriber implements EventSubscriberInterface
         return [
             ContentUpdatedEvent::NAME => 'onUpdate',
             ContentCreatedEvent::NAME => 'onCreate',
+            ContentDeletedEvent::NAME => 'onDelete',
         ];
     }
 
@@ -34,6 +40,18 @@ class ContentSubscriber implements EventSubscriberInterface
     public function onUpdate(ContentUpdatedEvent $event): void
     {
         $content = $event->getContent();
+        if ($content instanceof Formation) {
+            $previousOnline = $event->getPrevious()->isOnline();
+            $currentOnline = $content->isOnline();
+
+            if ($previousOnline !== $currentOnline) {
+                foreach ($content->getCourses() as $course) {
+                    $course->setOnline($currentOnline);
+                }
+                $this->entityManager->flush();
+            }
+        }
+
         if (
             ($content instanceof Course || $content instanceof Formation)
             && true === $content->isOnline()
@@ -50,6 +68,14 @@ class ContentSubscriber implements EventSubscriberInterface
     public function onCreate(ContentCreatedEvent $event): void
     {
         $content = $event->getContent();
+
+        if ($content instanceof Formation) {
+            foreach ($content->getCourses() as $course) {
+                $course->setOnline($content->isOnline());
+            }
+            $this->entityManager->flush();
+        }
+
         if (
             ($content instanceof Course || $content instanceof Formation)
             && true === $content->isOnline()
@@ -82,5 +108,10 @@ class ContentSubscriber implements EventSubscriberInterface
                 $clonedContent,
             ], $content->getCreatedAt());
         }
+    }
+
+    public function onDelete(ContentDeletedEvent $event): void
+    {
+        // TODO: Implement onDelete() method.
     }
 }

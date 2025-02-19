@@ -55,9 +55,8 @@ class CourseController extends AbstractController
             ], 301);
         }
 
-        $response = new Response();
-        if ( false === $course->isOnline() ) {
-            $response->setStatusCode(Response::HTTP_NOT_FOUND);
+        if ( !$course->isOnline() ) {
+            throw $this->createNotFoundException();
         }
         /** @var User $user */
         $user = $this->getUser();

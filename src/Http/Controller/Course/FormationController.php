@@ -52,6 +52,11 @@ class FormationController extends AbstractController
 //            ], 301);
 //        }
 
+        // Check if formation is online
+        if (!$formation->isOnline()) {
+            throw $this->createNotFoundException();
+        }
+
         $progress = null;
 
         /** @var User $user */
