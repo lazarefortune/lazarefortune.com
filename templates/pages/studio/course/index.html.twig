@@ -99,11 +99,11 @@
                             <a href="{{ path(prefix ~ '_edit', {id: row.id}) }}" class="btn-icon">
                                 {{ icon('pencil') }}
                             </a>
-                            {% if row.online %}
-                                <button class="btn-icon" data-modal-id="setOfflineCourse{{ row.id }}" title="Mettre hors ligne">
-                                    {{ icon('eye-off') }}
-                                </button>
-                            {% endif %}
+                            <ajax-delete class="btn-icon"
+                                         target="tr"
+                                         url="{{ path(prefix ~ '_delete', {id: row.id}) }}">
+                                {{ icon('trash') }}
+                            </ajax-delete>
                         {% endif %}
                         {% if row.online %}
                         <a href="{{ path('app_course_show', {slug: row.slug}) }}" target="_blank" class="btn-icon">
@@ -111,35 +111,6 @@
                         </a>
                         {% endif %}
                     </td>
-                    <modal-dialog id="setOfflineCourse{{ row.id }}" hidden="hidden" overlay-close>
-                        <section class="modal-box">
-                            <header>Souhaitez-vous continuer ?</header>
-                            <button data-dismiss aria-label="Close" class="modal-close">
-                                {{ icon('x') }}
-                            </button>
-
-                            <div class="stack">
-                                <p class="text-muted">
-                                    Vous êtes sur le point de retirer cette vidéo en ligne.
-                                    Elle sera désormais en brouillon.
-                                </p>
-
-                                <form action="{{ path(prefix ~ '_edit', {id: row.id}) }}" method="post" class="stack">
-                                    <input type="hidden" name="_method" value="DELETE" />
-                                    <div class="flex justify-end gap-2">
-                                        <button type="button" class="btn btn-light" data-dismiss>
-                                            <span>Annuler</span>
-                                        </button>
-                                        <button type="submit" class="btn btn-danger">
-                                            {{ icon('eye-off') }}
-                                            Mettre hors ligne
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-
-                        </section>
-                    </modal-dialog>
                 </tr>
             {% endfor %}
             </tbody>

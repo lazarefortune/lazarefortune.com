@@ -96,9 +96,18 @@ class CourseController extends CrudController
         return $response;
     }
 
-    #[Route(path: '/{id<\d+>}', methods: ['DELETE'])]
+    #[Route( path: '/{id<\d+>}', name: 'delete', methods: ['DELETE'] )]
     #[IsGranted('ROLE_AUTHOR')]
-    public function delete(Course $course, EventDispatcherInterface $dispatcher): Response
+    public function delete(Course $course): Response
+    {
+        $this->denyAccessUnlessGranted(ContentVoter::DELETE, $course);
+
+        return $this->crudAjaxDelete($course);
+    }
+
+    #[Route( path: '/{id<\d+>}', name: 'put_offline', methods: ['POST'] )]
+    #[IsGranted('ROLE_AUTHOR')]
+    public function putOffline(Course $course, EventDispatcherInterface $dispatcher): Response
     {
         $this->denyAccessUnlessGranted(ContentVoter::DELETE, $course);
 
@@ -106,10 +115,6 @@ class CourseController extends CrudController
         $course->setUpdatedAt(new \DateTime());
         $this->em->flush();
         $this->addFlash('success', 'Le tutoriel a bien été mis hors ligne');
-
-        if ($this->events['delete'] ?? null) {
-            $dispatcher->dispatch(new $this->events['delete']($course));
-        }
 
         return $this->redirectBack(($this->routePrefix . '_index'));
     }
