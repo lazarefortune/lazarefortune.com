@@ -13,6 +13,11 @@
         Bonne nouvelle ! Votre demande pour obtenir le rôle **{{ request.roleRequested.label() }}** a été **acceptée**.
 
         Vous pouvez maintenant accéder à vos nouvelles permissions et commencer à collaborer avec nous ! 🚀
+
+        {% if request.responseMessage is not empty %}
+            **Message du support :**
+            {{ request.responseMessage }}
+        {% endif %}
     {% endapply %}
 
     {{ element.button('Accéder à mon espace', userProfileUrl|raw ) }}

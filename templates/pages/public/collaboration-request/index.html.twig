@@ -1,0 +1,54 @@
+{% extends 'layouts/public/base.html.twig' %}
+
+{% block title 'Demande de collaboration' %}
+
+{% block body %}
+
+    <header class="page-header py-12">
+        <div class="container-box text-center">
+            <h1 class="h1 text-4xl font-extrabold">
+                Demande de <span class="text-lead">collaboration</span>
+            </h1>
+            <p class="text-lg text-muted">
+                Ensemble, nous pouvons réaliser de grandes choses.
+            </p>
+        </div>
+    </header>
+
+    <div class="container-box pt-5 pb-10">
+        <div class="max-w-3xl mx-auto">
+            {{ include('partials/flash.html.twig') }}
+
+            {{ form_start(form, {
+                'attr': {'class': 'space-y-6'},
+            }) }}
+
+            <div class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {{ form_row(form.roleRequested, {
+                    }) }}
+                </div>
+
+                {{ form_row(form.message) }}
+
+                <div class="inline-flex">
+                    {{ form_row(form.captcha, {
+                        'attr': {'class': 'border rounded-md shadow-sm'}
+                    }) }}
+                </div>
+            </div>
+
+            <div class="text-center md:text-left mt-8">
+                <button type="submit" class="btn btn-primary">
+                    Envoyer la demande
+                </button>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+
+
+
+{% endblock %}

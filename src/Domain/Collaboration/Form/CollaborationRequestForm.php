@@ -26,9 +26,10 @@ class CollaborationRequestForm extends AbstractType
                 ],
             ])
             ->add('message', TextareaType::class, [
-                'label' => 'Expliquez pourquoi vous souhaitez ce rôle',
+                'label' => 'Votre message',
                 'required' => true,
                 'attr' => [
+                    'placeholder' => 'N\'hésitez pas à en dire plus sur vous, vos motivations et vos compétences',
                     'minlength' => 10,
                     'rows' => 6,
                     'class' => 'form-input',

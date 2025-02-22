@@ -12,6 +12,11 @@
 
         Après examen de votre demande pour devenir **{{ request.roleRequested.label() }}**, nous sommes au regret de vous informer que celle-ci a été **refusée**.
 
+        {% if request.responseMessage is not empty %}
+            **Message du support :**
+            {{ request.responseMessage }}
+        {% endif %}
+
         Si vous souhaitez en savoir plus, n'hésitez pas à nous contacter.
     {% endapply %}
 

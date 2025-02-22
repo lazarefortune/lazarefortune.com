@@ -73,9 +73,17 @@
         <div class="divider my-6"></div>
 
         <div class="flex flex-col gap-y-2 justify-center items-start">
-            <span class="text-sm text-muted uppercase">Message</span>
+            <span class="text-sm text-muted uppercase">Message du demandeur</span>
             <p>{{ collaborationRequest.message }}</p>
         </div>
+
+        {% if collaborationRequest.responseMessage is not empty %}
+            <div class="divider my-6"></div>
+            <div class="flex flex-col gap-y-2 justify-center items-start">
+                <span class="text-sm text-muted uppercase">{{ collaborationRequest.status.value == 'accepted' ? 'Message d\'acceptation' : 'Motif de refus' }}</span>
+                <p>{{ collaborationRequest.responseMessage }}</p>
+            </div>
+        {% endif %}
 
         {% if collaborationRequest.status.value == 'pending' %}
         <div class="divider my-6"></div>
@@ -96,7 +104,7 @@
                 <section class="modal-box max-w-lg w-full p-6 bg-white dark:bg-primary-950 rounded shadow-lg">
                     <div class="flex items-center justify-between mb-2">
                         <h2 class="text-xl font-semibold text-slate-800 dark:text-slate-100">
-                            Accepter la demande
+                            Accepter la demande ?
                         </h2>
                         <button data-dismiss aria-label="Close" class="modal-close text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">
                             {{ icon('x') }}
@@ -107,13 +115,18 @@
 
                     <p class="text-slate-600 dark:text-slate-300">Voulez-vous vraiment accepter la demande de collaboration de {{ collaborationRequest.requester.fullName }} ?</p>
 
-                    <div class="flex justify-end gap-x-2 mt-6">
-                        <button class="btn btn-light" data-dismiss>Annuler</button>
+                    <form class="mt-5" action="{{ path('admin_collaboration_request_accept', {id: collaborationRequest.id}) }}" method="post">
+                        <div>
+                            <label for="message" class="label">Message (optionnel)</label>
+                            <textarea name="message" id="message" class="form-input"></textarea>
+                        </div>
 
-                        <form action="{{ path('admin_collaboration_request_accept', {id: collaborationRequest.id}) }}" method="post">
+                        <div class="flex justify-end gap-x-2 mt-6">
+                            <button type="button" class="btn btn-light" data-dismiss>Annuler</button>
+
                             <button type="submit" class="btn btn-primary">Accepter</button>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </section>
             </modal-dialog>
 
@@ -121,7 +134,7 @@
                 <section class="modal-box max-w-lg w-full p-6 bg-white dark:bg-primary-950 rounded shadow-lg">
                     <div class="flex items-center justify-between mb-2">
                         <h2 class="text-xl font-semibold text-slate-800 dark:text-slate-100">
-                            Rejeter la demande
+                            Rejeter la demande ?
                         </h2>
                         <button data-dismiss aria-label="Close" class="modal-close text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">
                             {{ icon('x') }}
@@ -132,12 +145,17 @@
 
                     <p class="text-slate-600 dark:text-slate-300">Voulez-vous vraiment rejeter la demande de collaboration de {{ collaborationRequest.requester.fullName }} ?</p>
 
-                    <div class="flex justify-end gap-x-2 mt-6">
-                        <button class="btn btn-light" data-dismiss>Annuler</button>
-                        <form action="{{ path('admin_collaboration_request_reject', {id: collaborationRequest.id}) }}" method="post">
+                    <form class="mt-5" action="{{ path('admin_collaboration_request_reject', {id: collaborationRequest.id}) }}" method="post">
+                        <div>
+                            <label for="message" class="label">Message (optionnel)</label>
+                            <textarea name="message" id="message" class="form-input"></textarea>
+                        </div>
+
+                        <div class="flex justify-end gap-x-2 mt-6">
+                            <button type="button" class="btn btn-light" data-dismiss>Annuler</button>
                             <button type="submit" class="btn btn-danger">Rejeter</button>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
 
                 </section>
             </modal-dialog>

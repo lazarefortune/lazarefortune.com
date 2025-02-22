@@ -27,8 +27,12 @@ class CollaborationRequest
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $message = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $responseMessage = null;
+
     #[ORM\Column(type: Types::STRING, enumType: CollaborationRequestStatus::class, options: ["default" => CollaborationRequestStatus::PENDING])]
     private CollaborationRequestStatus $status = CollaborationRequestStatus::PENDING;
+
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private \DateTimeImmutable $createdAt;
@@ -80,6 +84,17 @@ class CollaborationRequest
     public function setMessage(?string $message): self
     {
         $this->message = $message;
+        return $this;
+    }
+
+    public function getResponseMessage(): ?string
+    {
+        return $this->responseMessage;
+    }
+
+    public function setResponseMessage(?string $responseMessage): self
+    {
+        $this->responseMessage = $responseMessage;
         return $this;
     }
 

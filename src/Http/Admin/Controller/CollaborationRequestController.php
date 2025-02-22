@@ -6,6 +6,7 @@ use App\Domain\Collaboration\Entity\CollaborationRequest;
 use App\Domain\Collaboration\Repository\CollaborationRequestRepository;
 use App\Domain\Collaboration\Service\CollaborationRequestService;
 use App\Http\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -39,16 +40,32 @@ class CollaborationRequestController extends AbstractController
     }
 
     #[Route('/{id}/accepter', name: 'accept', methods: ['POST'])]
-    public function accept( CollaborationRequest $collaborationRequest ) : Response
+    public function accept( Request $request, CollaborationRequest $collaborationRequest ) : Response
     {
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
+
+        $message = $request->request->get('message');
+
+        if ( $message ) {
+            $collaborationRequest->setResponseMessage( $message );
+        }
+
         $this->collaborationRequestService->accept( $collaborationRequest );
 
         return $this->redirectToRoute('admin_collaboration_request_index');
     }
 
     #[Route('/{id}/refuser', name: 'reject', methods: ['POST'])]
-    public function reject( CollaborationRequest $collaborationRequest ) : Response
+    public function reject( Request $request, CollaborationRequest $collaborationRequest ) : Response
     {
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
+
+        $message = $request->request->get('message');
+
+        if ( $message ) {
+            $collaborationRequest->setResponseMessage( $message );
+        }
+
         $this->collaborationRequestService->reject( $collaborationRequest );
 
         return $this->redirectToRoute('admin_collaboration_request_index');
