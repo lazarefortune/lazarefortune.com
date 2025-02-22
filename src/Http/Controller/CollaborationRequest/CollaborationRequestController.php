@@ -13,13 +13,13 @@ use App\Http\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/demandes-de-collaboration', name: 'collaboration_request_')]
-#[IsGranted('ROLE_USER')]
 class CollaborationRequestController extends AbstractController
 {
     #[Route('/', name: 'index', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function requestCollaboration( Request $request , CollaborationRequestService $collaborationRequestService) : Response
     {
         /** @var User $user */
