@@ -42,7 +42,7 @@
 }
 
 .header__right {
-  @apply flex items-center gap-1 h-11 relative;
+  @apply flex items-center gap-1.5 md:gap-3 h-11 relative;
 }
 
 .header__auth {
