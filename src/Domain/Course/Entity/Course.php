@@ -14,10 +14,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[Vich\Uploadable()]
 #[ORM\Entity(repositoryClass: CourseRepository::class)]
-#[UniqueEntity(
-    fields: ['youtubeThumbnail'],
-    message: 'Cette miniature YouTube est déjà utilisée pour une autre vidéo.'
-)]
 class Course extends Content
 {
     #[ORM\Column(type: Types::SMALLINT, options: ['default' => 0])]
@@ -29,7 +25,8 @@ class Course extends Content
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $youtubeUploadUrl = null;
 
-    #[ORM\OneToOne(targetEntity: Attachment::class, cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Attachment::class, cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'youtube_thumbnail_id', referencedColumnName: 'id')]
     private ?Attachment $youtubeThumbnail = null;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
