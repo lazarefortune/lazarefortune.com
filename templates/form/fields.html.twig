@@ -66,6 +66,7 @@
     <div class="flex flex-col gap-1">
         {{ form_label(form, null, { 'label_attr': {'class': 'label'} }) }}
         {{ form_widget(form) }}
+        <span class="text-sm text-muted">{{ form_help(form) }}</span>
         {% if form.vars.errors %}
             <div class="form-error">
                 {{ form_errors(form) }}

@@ -1,0 +1,143 @@
+{# ======================= #
+   FORMULAIRE D’EDITION
+   ======================= #}
+{{ form_start(form, { attr: { class: 'stacked' } }) }}
+
+<div class="stack-large">
+
+    {# =============================== #
+       SECTION 1 : INFORMATIONS GÉNÉRALES
+       =============================== #}
+    <section class="stack">
+        <div>
+            <h1 class="h3">Informations générales</h1>
+            <p class="text-sm text-muted mb-4">
+                Renseignez les informations clés de votre cours.
+                Le titre et l'auteur s'afficheront publiquement.
+                Vous pouvez également planifier sa date de publication.
+            </p>
+        </div>
+
+        <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {# ===== Titre ===== #}
+            {{ form_row(form.title, {
+                label: 'Titre de la vidéo',
+            }) }}
+
+            {# ===== Slug ===== #}
+            {{ form_row(form.slug, {
+                label: 'URL Slug',
+            }) }}
+
+            {# ===== Auteur ===== #}
+            {{ form_row(form.author, {
+                label: 'Auteur'
+            }) }}
+
+            {# ===== Image ===== #}
+            {{ form_row(form.image, {
+                label: 'Image de couverture',
+                row_attr: {
+                    class: 'form-attachment',
+                    style: 'grid-row-start:1; align-self:stretch;'
+                },
+            }) }}
+
+            {# ===== Date de publication ===== #}
+            {{ form_row(form.publishedAt, {
+                label: 'Date de publication',
+                help: 'Si la date est future, la vidéo sera planifiée.'
+            }) }}
+
+            {# ===== Déprécié par ===== #}
+            {{ form_row(form.deprecatedBy, {
+                label: 'Remplacé par',
+            }) }}
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="flex flex-col gap-4 mt-6">
+            {# ===== En ligne ? ===== #}
+            <div class="flex-1">
+                {{ form_row(form.online, {
+                    label: 'En ligne ?',
+                }) }}
+            </div>
+
+            {# ===== Premium ? ===== #}
+            <div class="flex-1">
+                {{ form_row(form.premium, {
+                    label: 'Est-ce un cours Premium ?',
+                }) }}
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="grid2 mt-6">
+            {# ===== Tags principaux ===== #}
+            {{ form_row(form.mainTechnologies, {
+                label: 'Tags principaux',
+                help: 'Choisir les tags les plus importants.'
+            }) }}
+
+            {# ===== Tags secondaires ===== #}
+            {{ form_row(form.secondaryTechnologies, {
+                label: 'Tags secondaires',
+                help: 'Choisir des tags complémentaires.'
+            }) }}
+
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    {# ============================== #
+       SECTION 2 : GESTION DE LA VIDÉO
+       ============================== #}
+    <section class="stack-large">
+        <div>
+            <h1 class="h3">Gestion de la vidéo</h1>
+            <p class="text-sm text-muted">
+                Indiquez le fichier vidéo et les métadonnées liées (ID YouTube, durée).
+                Vous pouvez également lancer l'upload vers YouTube si vous disposez
+                des autorisations nécessaires.
+            </p>
+        </div>
+        <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {{ form_row(form.youtubeThumbnail, {
+                row_attr: {
+                    class: 'form-attachment',
+                    style: 'grid-row-start:1; align-self:stretch;'
+                }
+            }) }}
+        </div>
+    </section>
+
+    <div class="divider"></div>
+    {# ============================= #
+       SECTION 4 : DESCRIPTION
+       ============================= #}
+    <section class="stack-large">
+        <div>
+            <h1 class="h3">Description</h1>
+            <p class="text-sm text-muted">
+                Rédigez un contenu détaillé pour accompagner votre vidéo.
+                Un contenu riche améliore le référencement et l'impact pédagogique.
+            </p>
+        </div>
+        {{ form_row(form.content, { label: false }) }}
+    </section>
+
+    <div class="divider"></div>
+    {# ============================= #
+       SECTION 5 : BOUTONS DE SOUMISSION
+       ============================= #}
+    <section>
+        <button type="submit" class="btn btn-primary">Etape suivante</button>
+    </section>
+
+</div>
+
+{{ form_end(form) }}

@@ -5,6 +5,7 @@ namespace App\Infrastructure\Queue\Handler;
 use App\Domain\Notification\NotificationService;
 use App\Infrastructure\Queue\Message\ServiceMethodMessage;
 //use App\Infrastructure\Youtube\YoutubeUploaderService;
+use App\Infrastructure\Youtube\YoutubeUploaderService;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mercure\HubInterface;
@@ -32,7 +33,7 @@ class ServiceMethodMessageHandler implements ServiceSubscriberInterface
     public static function getSubscribedServices(): array
     {
         return [
-//            YoutubeUploaderService::class => YoutubeUploaderService::class,
+            YoutubeUploaderService::class => YoutubeUploaderService::class,
             MailerInterface::class => MailerInterface::class,
             HubInterface::class => HubInterface::class,
             NotificationService::class => NotificationService::class,

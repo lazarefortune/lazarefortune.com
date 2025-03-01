@@ -26,6 +26,9 @@ select {
   &[disabled] {
       @apply bg-zinc-50 text-zinc-400 dark:bg-slate-800 dark:text-slate-600;
   }
+  &[readonly] {
+      // @apply bg-zinc-50 text-zinc-400 dark:bg-slate-800 dark:text-slate-600;
+  }
 }
 
 /* Textarea */

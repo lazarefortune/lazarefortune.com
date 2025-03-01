@@ -30,8 +30,8 @@ class CourseTransformer
         if ($formation) {
             $title = "{$formation->getTitle()} : {$title}";
         } else {
-            $technologies = collect($course->getMainTechnologies())->map(fn (Technology $t) => $t->getName())->join('/');
-            $title = "Tutoriel {$technologies} : {$title}";
+            # $technologies = collect($course->getMainTechnologies())->map(fn (Technology $t) => $t->getName())->join('/');
+            $title = "{$title}";
         }
 
         // On crée l'objet Vidéo
@@ -39,11 +39,10 @@ class CourseTransformer
         $snippet = new \Google_Service_YouTube_VideoSnippet();
         $snippet->setCategoryId('28');
         $snippet->setDescription("
-        Découvrez le tutoriel complet sur https://lazarefortune.com
+        Découvrez la vidéo complète sur https://lazarefortune.com
         Retrouvez moi sur:
         Le site ► https://lazarefortune.com
-        Twitter ► https://twitter.com/lazarefortune
-        Discord ► https://lazarefortune.com/tchat");
+        Twitter ► https://twitter.com/lazarefortune");
         $snippet->setTitle($title);
         $snippet->setDefaultAudioLanguage('fr');
         $snippet->setDefaultLanguage('fr');
@@ -51,11 +50,16 @@ class CourseTransformer
         $status = new \Google_Service_YouTube_VideoStatus();
         $status->setEmbeddable(true);
         $status->setPublicStatsViewable(false);
-        if ($course->getPublishedAt() > new \DateTimeImmutable()) {
-            $status->setPrivacyStatus('private');
-            $status->setPublishAt($course->getPublishedAt()->format(DATE_ISO8601));
+
+        if ($course->isPremium()) {
+            $status->setPrivacyStatus('unlisted');
         } else {
-            $status->setPrivacyStatus('public');
+            if ($course->getPublishedAt() > new \DateTimeImmutable()) {
+                $status->setPrivacyStatus('private');
+                $status->setPublishAt($course->getPublishedAt()->format(DATE_ISO8601));
+            } else {
+                $status->setPrivacyStatus('public');
+            }
         }
         $video->setStatus($status);
         if ($youtubeId) {

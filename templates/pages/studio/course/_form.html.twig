@@ -1,313 +1,473 @@
-{{ form_start(form, {attr: {class: 'stacked'}}) }}
-
+{{ form_start(form) }}
 <section class="stack-large">
 
+    {# =============================== #
+       SECTION 1 : INFORMATIONS GÉNÉRALES
+       =============================== #}
     <section class="stack">
-        <h1 class="h3">
-            Informations générales
-        </h1>
+        <h1 class="h3">Informations générales</h1>
+        <p class="text-sm text-muted mb-4">
+            Renseignez les informations clés de votre cours. Le titre et l'auteur
+            s'afficheront publiquement. Vous pouvez également planifier sa date de publication.
+        </p>
+
         <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            {{ form_row(form.title) }}
-            {{ form_row(form.slug) }}
-            {{ form_row(form.author) }}
+            {{ form_row(form.title, {
+                label: 'Titre de la vidéo',
+            }) }}
+            {{ form_row(form.slug, {
+                label: 'URL Slug',
+            }) }}
+            {{ form_row(form.author, {
+                label: 'Auteur',
+            }) }}
+            {{ form_row(form.image, {
+                label: 'Image de couverture',
+                row_attr: {
+                    class: 'form-attachment',
+                    style: 'grid-row-start:1; align-self:stretch;'
+                },
+            }) }}
             {{ form_row(form.publishedAt) }}
-            {{ form_row(form.deprecatedBy, {label: 'Déprécié par'}) }}
-            {{ form_row(form.image, {row_attr: {class: 'form-attachment', style:'grid-row-start:1; align-self:stretch;'}}) }}
+            {{ form_row(form.deprecatedBy, {
+                label: 'Remplacé par',
+            }) }}
         </div>
-        <div class="w-full flex flex-col sm:flex-row gap-4 mt-4">
+
+        <div class="divider"></div>
+
+        <div class="flex flex-col gap-4 mt-6">
             {{ form_row(form.online, { label: 'En ligne ?' }) }}
-            {{ form_row(form.source, { label: 'Code source ?' }) }}
-            {{ form_row(form.premium, { label: 'Premium ?' }) }}
+            {{ form_row(form.premium, { label: 'Est-ce un cours Premium ?' }) }}
         </div>
-        <div class="grid2">
-            {{ form_row(form.mainTechnologies) }}
-            {{ form_row(form.secondaryTechnologies) }}
-        </div>
-    </section>
 
-    <section class="stack">
-        <h1 class="h3">
-            Gestion de la vidéo
-        </h1>
-        <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            {{ form_row(form.videoPath, {label: 'Video'}) }}
-            <div class="relative">
-                {{ form_row(form.youtube, { label: 'Youtube ID' }) }}
-                {%if entity.id%}
-                <button type="submit" name="uploadVideoDetails" value="1" class="absolute top-9 right-2 mt-2 mr-2 text-slate-400 hover:text-primary-800 transition-colors duration-200">
-                    {{ icon('upload') }}
-                </button>
-                {% endif %}
-            </div>
-            <div class="relative">
-                {{ form_row(form.duration, { label: 'Durée (en secondes)' }) }}
-                {%if entity.id%}
-                <button type="submit" name="fetchVideoDuration" value="1" class="absolute top-9 right-2 mt-2 mr-2 text-slate-400 hover:text-primary-800 transition-colors duration-200">
-                    {{ icon('refresh-cw') }}
-                </button>
-                {% endif %}
-            </div>
-            {{ form_row(form.youtubeThumbnail, {row_attr: {class: 'form-attachment', style:'grid-row-start:1; align-self:stretch;'}}) }}
+        <div class="divider"></div>
+        <div class="grid2 mt-6">
+            {{ form_row(form.mainTechnologies, {
+                label: 'Tags principaux',
+                help: 'Choisir les tags les plus importants.'
+            }) }}
+            {{ form_row(form.secondaryTechnologies, {
+                label: 'Tags secondaires',
+                help: 'Choisir des tags complémentaires.'
+            }) }}
         </div>
     </section>
 
-    <section>
+    <div class="divider"></div>
 
-        <h1 class="h3 mb-4">
-            Article
-        </h1>
+    {# ============================== #
+   SECTION 2 : GESTION DE LA VIDÉO
+   ============================== #}
+    <section class="stack-large">
+        <div>
+            <h1 class="h3">Gestion de la vidéo</h1>
+            <p class="text-sm text-muted">
+                Vous pouvez soit fournir un ID YouTube existant, soit uploader la vidéo directement.
+                La miniature peut être choisie à tout moment et sera synchronisée dès que l'ID sera disponible.
+            </p>
+        </div>
 
-        <div class="grid3 mb-8">
-            <div class="flex flex-col gap-2">
-                {{ form_row(form.sourceFile, {disabled: not entity.id, label: 'Code Source'}) }}
-                {% if entity.source %}
-                    <a href="{{ vich_uploader_asset(entity, 'sourceFile') }}"
-                       target="_blank"
-                       download="{{ entity.source }}"
-                       class="btn btn-sm btn-light">
-                        Télécharger la source {{ entity.source }}
-                    </a>
-                {% endif %}
+        {# Champ pour la miniature locale (toujours affiché) #}
+        <div class="mb-6 max-w-md">
+            {{ form_row(form.youtubeThumbnail, {
+                label: "Miniature YouTube",
+                row_attr: {
+                    class: 'form-attachment'
+                },
+                help: "Cette miniature sera envoyée sur YouTube une fois l'ID renseigné."
+            }) }}
+        </div>
+
+        {# SI on a déjà un youtubeId => on affiche la gestion de la durée et le bouton de synchro #}
+        {% if entity.youtubeId %}
+            <div class="flex flex-col sm:flex-row gap-4 items-start">
+                <div class="relative">
+                    {{ form_row(form.duration, {
+                        label: 'Durée (secondes)',
+                        help: 'Cliquez pour actualiser la durée depuis YouTube.'
+                    }) }}
+                    <button
+                            type="submit"
+                            name="fetchVideoDuration"
+                            value="1"
+                            class="absolute top-9 right-2 mt-2 mr-2 text-slate-400 hover:text-primary-800 transition-colors duration-200"
+                            title="Récupérer la durée depuis YouTube"
+                    >
+                        {{ icon('refresh-cw') }}
+                    </button>
+                </div>
+                <div>
+                    {{ form_row(form.youtubeId, {
+                        label: 'YouTube ID',
+                        help: 'Identifiant de la vidéo déjà envoyée.'
+                    }) }}
+                    <button
+                            type="submit"
+                            name="uploadVideoDetails"
+                            value="1"
+                            class="btn btn-light mt-2"
+                            title="Synchroniser la miniature/titre vers YouTube"
+                    >
+                        {{ icon('refresh-cw') }} Mettre à jour la vidéo
+                    </button>
+                </div>
             </div>
-        </div>
 
-        <div class="grid2">
-            <div class="alert alert-info">💡 Conseil : Rédigé un article détaillé pour accompagné votre vidéo. Cela permettra d'augmenter son référencement et de mieux la comprendre.</div>
-        </div>
+            {# SINON => on affiche deux blocs : "Fournir un ID" ou "Uploader" #}
+        {% else %}
+            <div class="flex flex-col md:flex-row gap-8">
+                {# Bloc 1 : Saisir un ID YouTube #}
+                <div class="flex-1 border rounded-xl p-4 lg:p-6">
+                    <h2 class="h4 mb-3">Option 1 : Vidéo déjà en ligne</h2>
+                    <p class="text-sm text-muted mb-4">
+                        Si la vidéo existe déjà sur YouTube, vous pouvez simplement renseigner
+                        son identifiant (YouTube ID).
+                    </p>
+                    {{ form_row(form.youtubeId, {
+                        label: 'ID YouTube existant',
+                        attr: { placeholder: 'Ex: dQw4w9WgXcQ' }
+                    }) }}
+                    <button
+                            name="validateYoutubeId"
+                            value="1"
+                            type="submit" class="btn btn-primary mt-3">
+                        Valider l’ID
+                    </button>
+                </div>
 
-        {{ form_row(form.content, {label: false}) }}
-    </section>
+                {# Bloc 2 : Upload direct / résumable #}
+                <div class="flex-1 border rounded-xl p-4 lg:p-6">
+                    <h2 class="h4 mb-3">Option 2 : Uploader sur YouTube</h2>
+                    <p class="text-sm text-muted mb-4">
+                        Téléversez votre vidéo directement depuis ce formulaire
+                        (Upload résumable).
+                    </p>
+                    <div id="drop-zone" class="course__upload-dropzone mb-3">
+                        <div class="text-center" id="drop-text">
+                            {{ icon('upload') }}
+                            Glissez votre fichier vidéo ici ou cliquez pour sélectionner
+                        </div>
+                        <div id="file-name" class="text-center text-sm text-muted mt-2"></div>
+                    </div>
 
-    <section>
-        <button type="submit" class="btn btn-primary">Enregistrer</button>
-        {%if entity.id%}
-            <a href="{{ path('app_course_show', {slug: entity.slug}) }}" target="_blank" class="btn btn-light ml-2">Voir en ligne</a>
+                    <div class="flex items-center gap-4">
+                        <button id="upload-btn" type="button" class="btn btn-primary">Uploader</button>
+                        <button id="remove-btn" type="button" class="btn btn-light">Annuler</button>
+                    </div>
+
+                    {# Input masqué pour la sélection de fichier #}
+                    <input type="file" id="file-input" accept="video/*" style="display: none;" />
+
+                    {# Barre de progression #}
+                    <div id="progress-container" class="mt-4 w-full" style="display: none;">
+                        <div class="relative w-full bg-gray-200 rounded-full h-4 overflow-hidden">
+                            <div id="progress-bar" class="bg-blue-500 h-full" style="width: 0;"></div>
+                        </div>
+                        <span id="progress-text" class="ml-2 text-sm text-gray-700">0%</span>
+                    </div>
+                </div>
+            </div>
         {% endif %}
     </section>
 
-    <div class="mb-10">
-        <input type="file" id="file-input" accept="video/*" />
-        <button id="upload-btn" class="btn btn-sm btn-primary">Uploader</button>
-        <div id="progress-container" style="display: none;">
-            <progress id="upload-progress" value="0" max="100"></progress>
-            <span id="progress-text">0%</span>
-        </div>
-    </div>
 
+    {# ============================ #
+       SECTION 3 : PIÈCE JOINTE
+       ============================ #}
+    {% if entity.id %}
+        <div class="divider"></div>
+        <section class="stack-large">
+            <h1 class="h3">Pièce jointe</h1>
+            <p class="text-sm text-muted">
+                Vous pouvez ajouter un code source ou un document complémentaire.
+                Cochez l'option ci-dessous pour l’activer ou le désactiver.
+            </p>
+
+            <div class="stack mb-8">
+                <div>
+                    {{ form_row(form.enableSource, {
+                        label: 'Activer/ Désactiver le code source',
+                    }) }}
+                </div>
+                <div class="grid2">
+                    {{ form_row(form.sourceFile, {
+                        disabled: not entity.id,
+                        label: 'Fichier Code Source'
+                    }) }}
+                </div>
+                <div>
+                    {% if entity.source %}
+                        <a
+                                href="{{ vich_uploader_asset(entity, 'sourceFile') }}"
+                                target="_blank"
+                                download="{{ entity.source }}"
+                                class="btn btn-sm btn-light"
+                        >
+                            Télécharger la source {{ entity.source }}
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+    {% endif %}
+
+    <div class="divider"></div>
+    {# ============================= #
+       SECTION 4 : DESCRIPTION
+       ============================= #}
+    <section class="stack-large">
+        <h1 class="h3">Description</h1>
+        <p class="text-sm text-muted">
+            Rédigez un contenu détaillé pour accompagner votre vidéo.
+            Un contenu riche améliore le référencement et l'impact pédagogique.
+        </p>
+        {{ form_row(form.content, { label: false }) }}
+    </section>
+
+    <div class="divider"></div>
+    {# ============================= #
+       SECTION 5 : BOUTONS DE SOUMISSION
+       ============================= #}
+    <section>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        {% if entity.id and entity.isOnline %}
+            <a href="{{ path('app_course_show', { slug: entity.slug }) }}"
+               target="_blank"
+               class="btn btn-light ml-2"
+            >
+                Voir en ligne
+            </a>
+        {% endif %}
+    </section>
 </section>
+{{ form_end(form) }}
 
+{% if not entity.youtubeId %}
+    {# ============================= #
+       SECTION 6 : UPLOAD RESUMABLE
+       ============================= #}
 
-{#<script type="text/javascript">#}
-{#    async function initializeUpload(videoFile, accessToken) {#}
-{#        const metadata = {#}
-{#            snippet: {#}
-{#                title: "Titre de la vidéo de TEST 2",#}
-{#                description: "Description de la vidéo TEST 2",#}
-{#                tags: ["tag1", "tag2"],#}
-{#                categoryId: 28 // 28 = Education#}
-{#            },#}
-{#            status: {#}
-{#                privacyStatus: "public" // ou 'private', 'unlisted'#}
-{#            }#}
-{#        };#}
-
-{#        try {#}
-{#            const response = await fetch(#}
-{#                "https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&part=snippet,status",#}
-{#                {#}
-{#                    method: "POST",#}
-{#                    headers: {#}
-{#                        Authorization: `Bearer ${accessToken}`,#}
-{#                        "Content-Type": "application/json",#}
-{#                        "X-Upload-Content-Length": videoFile.size,#}
-{#                        "X-Upload-Content-Type": videoFile.type,#}
-{#                    },#}
-{#                    body: JSON.stringify(metadata),#}
-{#                }#}
-{#            );#}
-
-{#            if (response.ok) {#}
-{#                return response.headers.get("location"); // URL d'upload résumable#}
-{#            } else {#}
-{#                throw new Error("Erreur lors de l'initialisation de l'upload.");#}
-{#            }#}
-{#        } catch (error) {#}
-{#            console.error("Erreur :", error.message);#}
-{#            throw error;#}
-{#        }#}
-{#    }#}
-
-{#    async function uploadInChunks(videoFile, uploadUrl) {#}
-{#        const chunkSize = 1024 * 1024 * 5; // 5MB#}
-{#        let uploadedBytes = 0;#}
-{#        const totalBytes = videoFile.size;#}
-{#        const progressBar = document.getElementById("upload-progress");#}
-{#        const progressText = document.getElementById("progress-text");#}
-
-{#        while (uploadedBytes < totalBytes) {#}
-{#            const chunk = videoFile.slice(uploadedBytes, uploadedBytes + chunkSize);#}
-{#            const start = uploadedBytes;#}
-{#            const end = Math.min(start + chunk.size - 1, totalBytes - 1);#}
-
-{#            try {#}
-{#                const response = await fetch(uploadUrl, {#}
-{#                    method: "PUT",#}
-{#                    headers: {#}
-{#                        "Content-Length": chunk.size,#}
-{#                        "Content-Range": `bytes ${start}-${end}/${totalBytes}`,#}
-{#                    },#}
-{#                    body: chunk,#}
-{#                });#}
-
-{#                if (response.ok || response.status === 308) {#}
-{#                    uploadedBytes += chunk.size;#}
-{#                    const progress = Math.min((uploadedBytes / totalBytes) * 100, 100);#}
-{#                    progressBar.value = progress;#}
-{#                    progressText.textContent = `${Math.round(progress)}%`;#}
-{#                } else {#}
-{#                    throw new Error("Erreur lors de l'upload d'un chunk.");#}
-{#                }#}
-{#            } catch (error) {#}
-{#                console.error("Erreur :", error.message);#}
-{#                throw error;#}
-{#            }#}
-{#        }#}
-
-{#        console.log("Upload terminé !");#}
-{#    }#}
-
-{#    document.getElementById("upload-btn").addEventListener("click", async (event) => {#}
-{#        event.preventDefault();#}
-{#        const fileInput = document.getElementById("file-input");#}
-{#        const videoFile = fileInput.files[0];#}
-{#        const accessToken = ""; // Remplacez par un token valide.#}
-
-{#        if (!videoFile) {#}
-{#            alert("Sélectionnez une vidéo avant de continuer !");#}
-{#            return;#}
-{#        }#}
-
-{#        try {#}
-{#            const progressContainer = document.getElementById("progress-container");#}
-{#            progressContainer.style.display = "block";#}
-
-{#            const uploadUrl = await initializeUpload(videoFile, accessToken);#}
-{#            await uploadInChunks(videoFile, uploadUrl);#}
-{#            alert("Vidéo uploadée avec succès !");#}
-{#        } catch (error) {#}
-{#            console.error("Erreur :", error.message);#}
-{#            alert("Une erreur est survenue lors de l'upload.");#}
-{#        }#}
-{#    });#}
-{#</script>#}
-
-
-
-<script type="text/javascript">
+    <script type="text/javascript">
+    /* ========================
+    CONFIG
+    ======================== */
     const courseId = {{ entity.id|json_encode|raw }};
-    console.log(courseId);
+    const chunkSize = 5 * 1024 * 1024; // 5MB
 
-    async function getResumableUploadUrl(courseId) {
-        const response = await fetch(`/wp-admin/videos/init-upload`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ courseId }),
-        });
 
-        if (!response.ok) {
-            throw new Error("Erreur lors de la récupération de l'URL d'upload résumable.");
+    // ====== RÉFÉRENCES DOM ======
+    const dropZone         = document.getElementById("drop-zone");
+    const dropText         = document.getElementById("drop-text");
+    const fileNameDisplay  = document.getElementById("file-name");
+    const removeBtn        = document.getElementById("remove-btn");
+    const fileInput        = document.getElementById("file-input");
+    const uploadBtn        = document.getElementById("upload-btn");
+    const progressContainer= document.getElementById("progress-container");
+    const progressBar      = document.getElementById("progress-bar");
+    const progressText     = document.getElementById("progress-text");
+
+    removeBtn.style.display = "none";
+    // ================================
+    // 1) GESTION DRAG & DROP
+    // ================================
+    // Empêche le navigateur de gérer lui-même le drop
+    ["dragenter", "dragover", "dragleave", "drop"].forEach(eventName => {
+        dropZone.addEventListener(eventName, e => e.preventDefault(), false);
+    });
+
+    // Ajout / retrait d'une classe pour le style "dragover"
+    ["dragenter", "dragover"].forEach(eventName => {
+        dropZone.addEventListener(eventName, () => {
+            dropZone.classList.add("dragover");
+        }, false);
+    });
+    ["dragleave", "drop"].forEach(eventName => {
+        dropZone.addEventListener(eventName, () => {
+            dropZone.classList.remove("dragover");
+        }, false);
+    });
+
+    // Dépose du fichier => on met à jour l'input
+    dropZone.addEventListener("drop", e => {
+        const files = e.dataTransfer.files;
+        if (files.length) {
+            fileInput.files = files;
+            dropText.style.display = "none";
+            removeBtn.style.display = "inline-block";
+            updateFileName(files[0].name);
         }
+    });
 
-        const data = await response.json();
-        return data.uploadUrl; // Retourne l'URL d'upload
+    // Clique sur la zone => ouvre la fenêtre de sélection
+    dropZone.addEventListener("click", () => {
+        fileInput.click();
+    });
+
+    // Quand on sélectionne un fichier depuis l’explorateur
+    fileInput.addEventListener("change", () => {
+        if (fileInput.files.length > 0) {
+            dropText.style.display = "none";
+            removeBtn.style.display = "inline-block";
+            updateFileName(fileInput.files[0].name);
+        }
+    });
+
+    removeBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        // 1. Remet l’input à vide
+        fileInput.value = "";
+
+        // 2. Affiche le texte, efface le nom de fichier
+        dropText.style.display = "block";
+        fileNameDisplay.textContent = "";
+    });
+
+    function updateFileName(name) {
+        fileNameDisplay.textContent = name;
     }
 
-    async function uploadInChunks(videoFile, uploadUrl) {
-        const chunkSize = 1024 * 1024 * 5; // Taille des chunks (5 MB)
-        let uploadedBytes = 0;
-        const totalBytes = videoFile.size;
-        const progressBar = document.getElementById("upload-progress");
-        const progressText = document.getElementById("progress-text");
+    // ================================
+    // 2) LOGIQUE UPLOAD RÉSUMABLE
+    // ================================
 
-        for (let start = 0; start < totalBytes; start += chunkSize) {
-            const chunk = videoFile.slice(start, Math.min(start + chunkSize, totalBytes));
+    uploadBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
 
-            try {
-                const response = await fetch(uploadUrl, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Length": chunk.size,
-                        "Content-Range": `bytes ${start}-${Math.min(start + chunk.size - 1, totalBytes - 1)}/${totalBytes}`,
-                    },
-                    body: chunk,
-                });
-
-                // Gérer la progression
-                if (response.ok || response.status === 308) {
-                    uploadedBytes += chunk.size;
-                    const progress = Math.min((uploadedBytes / totalBytes) * 100, 100);
-                    progressBar.value = progress;
-                    progressText.textContent = `${Math.round(progress)}%`;
-                } else {
-                    throw new Error(`Erreur lors de l'upload d'un chunk : ${response.statusText}`);
-                }
-            } catch (error) {
-                console.error("Erreur lors de l'upload :", error.message);
-                throw new Error("Erreur critique pendant l'upload.");
-            }
-        }
-
-        console.log("Upload terminé !");
-    }
-
-    async function finalizeVideoUpload(courseId, uploadUrl) {
-        const response = await fetch('/wp-admin/videos/finalize-upload-backend', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ courseId, uploadUrl }),
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            console.log("Finalisation réussie :", data);
-            alert("Vidéo finalisée avec succès !");
-        } else {
-            throw new Error("Erreur lors de la finalisation de l'upload.");
-        }
-    }
-
-    document.getElementById("upload-btn").addEventListener("click", async () => {
-        event.preventDefault();
-        const fileInput = document.getElementById("file-input");
-        const videoFile = fileInput.files[0];
-
-        if (!videoFile) {
+        // Vérifie qu'on a bien un fichier
+        if (!fileInput.files.length) {
             alert("Sélectionnez une vidéo avant de continuer !");
             return;
         }
+        const videoFile = fileInput.files[0];
 
         try {
-            const progressContainer = document.getElementById("progress-container");
-            progressContainer.style.display = "block";
+            // Étape 1 : Récupérer token + metadata
+            const { accessToken, metadata } = await fetchMetadata(courseId);
 
-            // Étape 1 : Obtenir l'URL d'upload résumable depuis le backend
-            const uploadUrl = await getResumableUploadUrl(courseId);
+            // Étape 2 : Initialiser l'upload résumable sur YouTube
+            const uploadUrl = await initResumableUpload(videoFile, accessToken, metadata);
 
-            // Étape 2 : Effectuer l'upload en chunks
-            await uploadInChunks(videoFile, uploadUrl);
+            // Étape 3 : Envoi des chunks
+            const youtubeId = await uploadVideoInChunks(videoFile, uploadUrl);
+            alert(`Upload terminé. YouTube ID: ${youtubeId}`);
 
-            // Étape 3 : Finaliser l'upload côté backend
-            // await finalizeVideoUpload(courseId, uploadUrl);
-        } catch (error) {
-            console.error("Erreur :", error.message);
-            alert("Une erreur est survenue lors de l'upload.");
+            // Étape 4 : Enregistrer l’ID dans la BDD
+            await saveYoutubeId(courseId, youtubeId);
+            alert("ID YouTube enregistré en base. Redirection…");
+
+            // (Facultatif) recharger la page pour afficher le nouveau youtubeId
+            location.reload();
+
+        } catch (err) {
+            console.error(err);
+            alert("Erreur: " + err.message);
         }
     });
+
+    // ----------- FONCTIONS EXISTANTES / UTILITAIRES -----------
+
+    async function fetchMetadata(courseId) {
+        const res = await fetch(`/studio/videos/youtube/metadata?courseId=${courseId}`);
+        if (!res.ok) {
+            const errMsg = await res.text();
+            throw new Error(`${errMsg || "Erreur récupération metadata"}`);
+        }
+        return res.json(); // { accessToken, metadata }
+    }
+
+    async function initResumableUpload(videoFile, accessToken, metadata) {
+        const url = "https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&part=snippet,status";
+
+        const body = {
+            snippet: {
+                title: metadata.title,
+                description: metadata.description,
+                categoryId: 28, // Education, par exemple
+            },
+            status: {
+                privacyStatus: metadata.privacy,
+                // publishAt: metadata.publishedAt
+            }
+        };
+
+        const res = await fetch(url, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "Content-Type": "application/json",
+                "X-Upload-Content-Length": videoFile.size,
+                "X-Upload-Content-Type": videoFile.type,
+            },
+            body: JSON.stringify(body)
+        });
+
+        if (!res.ok) {
+            const errMsg = await res.text();
+            throw new Error(`Erreur initResumable: ${errMsg}`);
+        }
+
+        const uploadUrl = res.headers.get("location");
+        if (!uploadUrl) {
+            throw new Error("Aucune URL d’upload résumable retournée par YouTube.");
+        }
+        return uploadUrl;
+    }
+
+    async function uploadVideoInChunks(videoFile, uploadUrl) {
+        const totalBytes = videoFile.size;
+        let uploadedBytes = 0;
+
+        const progressContainer = document.getElementById("progress-container");
+        const progressBar = document.getElementById("progress-bar");
+        const progressText = document.getElementById("progress-text");
+        progressContainer.style.display = "block";
+
+        while (uploadedBytes < totalBytes) {
+            const chunk = videoFile.slice(uploadedBytes, Math.min(uploadedBytes + chunkSize, totalBytes));
+            const end = Math.min(uploadedBytes + chunk.size - 1, totalBytes - 1);
+
+            const res = await fetch(uploadUrl, {
+                method: "PUT",
+                headers: {
+                    "Content-Length": chunk.size,
+                    "Content-Range": `bytes ${uploadedBytes}-${end}/${totalBytes}`
+                },
+                body: chunk
+            });
+
+            // Codes possibles: 308 => Resume Incomplete, 200 => Final chunk
+            if (!res.ok && res.status !== 308) {
+                throw new Error(`Erreur chunk upload: ${res.status} ${res.statusText}`);
+            }
+
+            uploadedBytes += chunk.size;
+            const percent = Math.round((uploadedBytes / totalBytes) * 100);
+            progressBar.style.width = `${percent}%`;
+            progressText.textContent = `${percent}%`;
+
+            // Dernier chunk => code 200
+            if (res.status === 200) {
+                const videoData = await res.json();
+                return videoData.id; // on récupère l'ID YouTube
+            }
+        }
+
+        throw new Error("Upload terminé mais pas de code 200 ?"); // en théorie impossible
+    }
+
+    async function saveYoutubeId(courseId, youtubeId) {
+        const resp = await fetch("/studio/videos/youtube/save-youtube-id", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ courseId, youtubeId })
+        });
+        if (!resp.ok) {
+            const errMsg = await resp.text();
+            throw new Error(`Erreur sauvegarde ID: ${errMsg}`);
+        }
+        return resp.json(); // ou { success: true }
+    }
 </script>
-
-
-{{ form_end(form) }}
+{% endif %}

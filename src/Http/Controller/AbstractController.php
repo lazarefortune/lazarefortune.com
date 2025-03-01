@@ -3,10 +3,13 @@
 namespace App\Http\Controller;
 
 use App\Domain\Auth\Core\Entity\User;
+use App\Infrastructure\Queue\Message\ServiceMethodMessage;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 abstract class AbstractController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
@@ -40,6 +43,18 @@ abstract class AbstractController extends \Symfony\Bundle\FrameworkBundle\Contro
     }
 
     /**
+     * Lance la méthode d'un service de manière asynchrone.
+     */
+    protected function dispatchMethod(
+        MessageBusInterface $messageBus,
+        string $service,
+        string $method,
+        array $params = [],
+    ): Envelope {
+        return $messageBus->dispatch(new ServiceMethodMessage($service, $method, $params), []);
+    }
+
+    /**
      * Show errors as flash messages
      */
     protected function flashErrors( FormInterface $form ) : void
@@ -53,8 +68,13 @@ abstract class AbstractController extends \Symfony\Bundle\FrameworkBundle\Contro
         $this->addFlash( 'error', implode( "\n", $messages ) );
     }
 
+    /**
+     * Check if the user has a specific role
+     * @deprecated
+     */
     protected function hasRole(User $user, string $role): bool
     {
+        trigger_error('The '.__METHOD__.' method is deprecated. Use Symfony security voters instead.', E_USER_DEPRECATED);
         $roles = $user->getRoles();
         $roleHierarchy = [
             'ROLE_SUPER_ADMIN' => ['ROLE_AUTHOR', 'ROLE_ADMIN', 'ROLE_ALLOWED_TO_SWITCH'],

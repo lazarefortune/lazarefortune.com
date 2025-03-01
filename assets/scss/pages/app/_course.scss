@@ -282,3 +282,14 @@
 .scrollbar-hide::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Edge */
 }
+
+
+.course__upload-dropzone {
+    @apply  border-2 border-dashed border-slate-300 dark:border-slate-700 p-10 text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors duration-200;
+}
+.course__upload-dropzone svg {
+    @apply w-12 h-12 mx-auto text-slate-400 dark:text-slate-500;
+}
+.course__upload-dropzone.dragover {
+    @apply border-primary-500 dark:border-primary-500;
+}
