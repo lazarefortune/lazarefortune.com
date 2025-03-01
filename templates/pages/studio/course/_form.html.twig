@@ -469,7 +469,7 @@
                 const videoData = await res.json();
                 return videoData.id; // on récupère l'ID YouTube
             }
-        }}
+        }
 
         throw new Error("Upload terminé mais pas de code 200 ?"); // en théorie impossible
     }
