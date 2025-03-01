@@ -82,15 +82,10 @@ class CourseController extends CrudController
     public function edit(
         Request $request,
         Course $course,
-        UploadHandler $uploaderHelper,
+        EventDispatcherInterface $dispatcher,
         SessionInterface $session
     ): Response {
         $this->denyAccessUnlessGranted(ContentVoter::EDIT, $course);
-
-        if ($request->request->get('validateYoutubeId')) {
-            $session->set(self::SESSION_COURSE_ID, $course->getId());
-            return $this->redirectToRoute('studio_course_upload');
-        }
 
         if ($request->request->get('fetchVideoDuration')) {
             $session->set(self::SESSION_COURSE_ID, $course->getId());
@@ -102,13 +97,26 @@ class CourseController extends CrudController
             return $this->redirectToRoute('studio_course_upload');
         }
 
+        $oldCourse = clone $course;
         $form = $this->createForm(CourseEditForm::class, $course);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $newCourse = $form->getData();
+
             $this->em->flush();
-            # $this->dispatchEvent(new ContentUpdatedEvent($course));
             $this->addFlash('success', 'La vidéo a bien été modifié');
+
+            $dispatcher->dispatch(new ContentUpdatedEvent($oldCourse, $newCourse));
+
+            if ($request->request->get('synchronize')) {
+                $session->set(self::SESSION_COURSE_ID, $course->getId());
+                if (!$course->getYoutubeId()) {
+                    $this->addFlash('danger', 'Veuillez d\'abord téléverser la vidéo sur Youtube ou saisir un Youtube ID');
+                    return $this->redirectToRoute('studio_course_edit', ['id' => $course->getId()]);
+                }
+                return $this->redirectToRoute('studio_course_upload');
+            }
 
             return $this->redirectToRoute('studio_course_edit', ['id' => $course->getId()]);
         }
@@ -117,22 +125,6 @@ class CourseController extends CrudController
             'form' => $form->createView(),
             'entity' => $course,
         ]);
-        /*
-        $data = (new CourseCrudData($course, $uploaderHelper))->setEntityManager($this->em);
-        $response = $this->crudEdit($data);
-
-        if ($request->request->get('uploadVideoDetails')) {
-            $session->set(self::SESSION_COURSE_ID, $course->getId());
-            return $this->redirectToRoute('studio_course_upload');
-        }
-
-        if ($request->request->get('fetchVideoDuration')) {
-            $session->set(self::SESSION_COURSE_ID, $course->getId());
-            return $this->redirectToRoute('studio_course_update_duration');
-        }
-
-        return $response;
-        */
     }
 
     #[Route( path: '/{id<\d+>}', name: 'delete', methods: ['DELETE'] )]

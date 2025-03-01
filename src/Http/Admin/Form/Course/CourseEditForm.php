@@ -35,7 +35,9 @@ class CourseEditForm extends AbstractType
             ->add('slug', TextType::class, [
                 'required' => true,
                 'attr' => [
-                    'class' => 'form-input'
+                    'class' => 'form-input',
+                    'data-slug-editable' => 'false',
+                    'readonly' => true,
                 ]
             ])
             ->add('author', UserChoiceType::class, [

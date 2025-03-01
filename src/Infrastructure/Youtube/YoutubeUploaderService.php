@@ -33,10 +33,12 @@ class YoutubeUploaderService
             $duration = $this->getVideoDuration($courseId, $accessToken);
             $course->setDuration($duration);
             $this->em->flush();
-        } else {
+        } else if ($course->getVideoPath()) {
             $video = $youtube->videos->insert($parts, $video, $this->transformer->videoData($course));
             $course->setYoutubeId($video->getId());
             $this->em->flush();
+        } else {
+            throw new \RuntimeException("Impossible de mettre à jour la vidéo #{$courseId} sur Youtube");
         }
 
         // On met à jour la thumbnail

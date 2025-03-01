@@ -7,11 +7,17 @@ use App\Domain\Attachment\Entity\Attachment;
 use App\Domain\Course\Repository\CourseRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[Vich\Uploadable()]
 #[ORM\Entity(repositoryClass: CourseRepository::class)]
+#[UniqueEntity(
+    fields: ['youtubeThumbnail'],
+    message: 'Cette miniature YouTube est déjà utilisée pour une autre vidéo.'
+)]
 class Course extends Content
 {
     #[ORM\Column(type: Types::SMALLINT, options: ['default' => 0])]

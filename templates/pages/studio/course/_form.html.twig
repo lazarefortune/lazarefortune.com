@@ -5,19 +5,36 @@
        SECTION 1 : INFORMATIONS GÉNÉRALES
        =============================== #}
     <section class="stack">
-        <h1 class="h3">Informations générales</h1>
-        <p class="text-sm text-muted mb-4">
-            Renseignez les informations clés de votre cours. Le titre et l'auteur
-            s'afficheront publiquement. Vous pouvez également planifier sa date de publication.
-        </p>
+        <div>
+            <h1 class="h3">Informations générales</h1>
+            <p class="text-sm text-muted mb-4">
+                Renseignez les informations clés de votre cours. Le titre et l'auteur
+                s'afficheront publiquement. Vous pouvez également planifier sa date de publication.
+            </p>
+        </div>
 
         <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {{ form_row(form.title, {
                 label: 'Titre de la vidéo',
             }) }}
-            {{ form_row(form.slug, {
-                label: 'URL Slug',
-            }) }}
+            <div class="relative">
+                {{ form_row(form.slug, {
+                    label: 'URL Slug',
+                    attr: {
+                        id: 'slug-input',
+                        readonly: true,
+                        class: 'form-input',
+                    }
+                }) }}
+
+                <button id="edit-slug-btn"
+                        type="button"
+                        class="absolute top-9 right-2 mt-2 mr-2 text-slate-400 hover:text-primary-800 transition-colors duration-200">
+                    <span id="slug-icon-edit">{{ icon('pencil') }}</span>
+                    <span id="slug-icon-lock" class="hidden">{{ icon('check') }}</span>
+                </button>
+            </div>
+
             {{ form_row(form.author, {
                 label: 'Auteur',
             }) }}
@@ -34,14 +51,6 @@
             }) }}
         </div>
 
-        <div class="divider"></div>
-
-        <div class="flex flex-col gap-4 mt-6">
-            {{ form_row(form.online, { label: 'En ligne ?' }) }}
-            {{ form_row(form.premium, { label: 'Est-ce un cours Premium ?' }) }}
-        </div>
-
-        <div class="divider"></div>
         <div class="grid2 mt-6">
             {{ form_row(form.mainTechnologies, {
                 label: 'Tags principaux',
@@ -51,6 +60,15 @@
                 label: 'Tags secondaires',
                 help: 'Choisir des tags complémentaires.'
             }) }}
+        </div>
+
+        <div class="grid2 mt-6">
+            <div>
+                {{ form_row(form.online, { label: 'En ligne ?' }) }}
+            </div>
+            <div>
+                {{ form_row(form.premium, { label: 'Est-ce un cours Premium ?' }) }}
+            </div>
         </div>
     </section>
 
@@ -75,7 +93,6 @@
                 row_attr: {
                     class: 'form-attachment'
                 },
-                help: "Cette miniature sera envoyée sur YouTube une fois l'ID renseigné."
             }) }}
         </div>
 
@@ -100,17 +117,7 @@
                 <div>
                     {{ form_row(form.youtubeId, {
                         label: 'YouTube ID',
-                        help: 'Identifiant de la vidéo déjà envoyée.'
                     }) }}
-                    <button
-                            type="submit"
-                            name="uploadVideoDetails"
-                            value="1"
-                            class="btn btn-light mt-2"
-                            title="Synchroniser la miniature/titre vers YouTube"
-                    >
-                        {{ icon('refresh-cw') }} Mettre à jour la vidéo
-                    </button>
                 </div>
             </div>
 
@@ -118,7 +125,7 @@
         {% else %}
             <div class="flex flex-col md:flex-row gap-8">
                 {# Bloc 1 : Saisir un ID YouTube #}
-                <div class="flex-1 border rounded-xl p-4 lg:p-6">
+                <div class="flex-1 border border-slate-200 dark:border-slate-800 rounded-xl p-4 lg:p-6">
                     <h2 class="h4 mb-3">Option 1 : Vidéo déjà en ligne</h2>
                     <p class="text-sm text-muted mb-4">
                         Si la vidéo existe déjà sur YouTube, vous pouvez simplement renseigner
@@ -128,16 +135,10 @@
                         label: 'ID YouTube existant',
                         attr: { placeholder: 'Ex: dQw4w9WgXcQ' }
                     }) }}
-                    <button
-                            name="validateYoutubeId"
-                            value="1"
-                            type="submit" class="btn btn-primary mt-3">
-                        Valider l’ID
-                    </button>
                 </div>
 
                 {# Bloc 2 : Upload direct / résumable #}
-                <div class="flex-1 border rounded-xl p-4 lg:p-6">
+                <div class="flex-1 border border-slate-200 dark:border-slate-800 rounded-xl p-4 lg:p-6">
                     <h2 class="h4 mb-3">Option 2 : Uploader sur YouTube</h2>
                     <p class="text-sm text-muted mb-4">
                         Téléversez votre vidéo directement depuis ce formulaire
@@ -178,11 +179,13 @@
     {% if entity.id %}
         <div class="divider"></div>
         <section class="stack-large">
-            <h1 class="h3">Pièce jointe</h1>
-            <p class="text-sm text-muted">
-                Vous pouvez ajouter un code source ou un document complémentaire.
-                Cochez l'option ci-dessous pour l’activer ou le désactiver.
-            </p>
+            <div>
+                <h1 class="h3">Pièce jointe</h1>
+                <p class="text-sm text-muted">
+                    Vous pouvez ajouter un code source ou un document complémentaire.
+                    Cochez l'option ci-dessous pour l’activer ou le désactiver.
+                </p>
+            </div>
 
             <div class="stack mb-8">
                 <div>
@@ -217,11 +220,13 @@
        SECTION 4 : DESCRIPTION
        ============================= #}
     <section class="stack-large">
-        <h1 class="h3">Description</h1>
-        <p class="text-sm text-muted">
-            Rédigez un contenu détaillé pour accompagner votre vidéo.
-            Un contenu riche améliore le référencement et l'impact pédagogique.
-        </p>
+        <div>
+            <h1 class="h3">Description</h1>
+            <p class="text-sm text-muted">
+                Rédigez un contenu détaillé pour accompagner votre vidéo.
+                Un contenu riche améliore le référencement et l'impact pédagogique.
+            </p>
+        </div>
         {{ form_row(form.content, { label: false }) }}
     </section>
 
@@ -229,17 +234,29 @@
     {# ============================= #
        SECTION 5 : BOUTONS DE SOUMISSION
        ============================= #}
-    <section>
-        <button type="submit" class="btn btn-primary">Enregistrer</button>
+    <div class="flex flex-col justify-start gap-3 md:flex-row-reverse">
+        <button type="submit" class="btn btn-primary">
+            {{ icon('save') }}
+            Enregistrer
+        </button>
+        <button
+                type="submit"
+                name="synchronize"
+                value="1"
+                class="btn btn-outline"
+        >
+            {{ icon('refresh-cw') }} Enregistrer & Synchroniser
+        </button>
         {% if entity.id and entity.isOnline %}
             <a href="{{ path('app_course_show', { slug: entity.slug }) }}"
                target="_blank"
-               class="btn btn-light ml-2"
+               class="btn btn-light"
             >
+                {{ icon('external-link') }}
                 Voir en ligne
             </a>
         {% endif %}
-    </section>
+    </div>
 </section>
 {{ form_end(form) }}
 
@@ -452,7 +469,7 @@
                 const videoData = await res.json();
                 return videoData.id; // on récupère l'ID YouTube
             }
-        }
+        }}
 
         throw new Error("Upload terminé mais pas de code 200 ?"); // en théorie impossible
     }
@@ -471,3 +488,54 @@
     }
 </script>
 {% endif %}
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const titleInput = document.querySelector("[id^='course_edit_form_title']"); // Champ titre
+        const slugInput = document.querySelector("[id^='course_edit_form_slug']"); // Champ slug
+        const editSlugBtn = document.getElementById("edit-slug-btn"); // Bouton Modifier
+        const iconEdit = document.getElementById("slug-icon-edit"); // Icône modifier
+        const iconLock = document.getElementById("slug-icon-lock"); // Icône verrouiller
+
+        if (!titleInput || !slugInput || !editSlugBtn || !iconEdit || !iconLock) {
+            return;
+        }
+
+        let isSlugEditable = false;
+
+        // Fonction pour générer un slug automatiquement
+        function generateSlug(text) {
+            return text.toLowerCase()
+                .trim()
+                .replace(/[àáâãäå]/g, "a")
+                .replace(/[èéêë]/g, "e")
+                .replace(/[ìíîï]/g, "i")
+                .replace(/[òóôõö]/g, "o")
+                .replace(/[ùúûü]/g, "u")
+                .replace(/[ñ]/g, "n")
+                .replace(/[^a-z0-9 -]/g, "") // Supprime les caractères spéciaux
+                .replace(/\s+/g, "-") // Remplace les espaces par des tirets
+                .replace(/-+/g, "-"); // Évite les doubles tirets
+        }
+
+        // Générer le slug en live si l'édition n'est pas activée
+        titleInput.addEventListener("input", function () {
+            if (!isSlugEditable) {
+                slugInput.value = generateSlug(titleInput.value);
+            }
+        });
+
+        // Activer/désactiver l'édition manuelle du slug
+        editSlugBtn.addEventListener("click", function () {
+            isSlugEditable = !isSlugEditable;
+            slugInput.readOnly = !isSlugEditable;
+            slugInput.classList.toggle("border-gray-300", !isSlugEditable);
+            slugInput.classList.toggle("border-blue-500", isSlugEditable);
+
+            // Basculer entre les icônes
+            iconEdit.classList.toggle("hidden", isSlugEditable);
+            iconLock.classList.toggle("hidden", !isSlugEditable);
+        });
+    });
+</script>

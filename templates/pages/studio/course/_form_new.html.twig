@@ -1,6 +1,3 @@
-{# ======================= #
-   FORMULAIRE D’EDITION
-   ======================= #}
 {{ form_start(form, { attr: { class: 'stacked' } }) }}
 
 <div class="stack-large">
@@ -25,9 +22,23 @@
             }) }}
 
             {# ===== Slug ===== #}
-            {{ form_row(form.slug, {
-                label: 'URL Slug',
-            }) }}
+            <div class="relative">
+                {{ form_row(form.slug, {
+                    label: 'URL Slug',
+                    attr: {
+                        id: 'slug-input',
+                        readonly: true,
+                        class: 'form-input',
+                    }
+                }) }}
+
+                <button id="edit-slug-btn"
+                        type="button"
+                        class="absolute top-9 right-2 mt-2 mr-2 text-slate-400 hover:text-primary-800 transition-colors duration-200">
+                    <span id="slug-icon-edit">{{ icon('pencil') }}</span>
+                    <span id="slug-icon-lock" class="hidden">{{ icon('check') }}</span>
+                </button>
+            </div>
 
             {# ===== Auteur ===== #}
             {{ form_row(form.author, {
@@ -55,39 +66,24 @@
             }) }}
         </div>
 
-        <div class="divider"></div>
-
-        <div class="flex flex-col gap-4 mt-6">
-            {# ===== En ligne ? ===== #}
-            <div class="flex-1">
-                {{ form_row(form.online, {
-                    label: 'En ligne ?',
-                }) }}
-            </div>
-
-            {# ===== Premium ? ===== #}
-            <div class="flex-1">
-                {{ form_row(form.premium, {
-                    label: 'Est-ce un cours Premium ?',
-                }) }}
-            </div>
-        </div>
-
-        <div class="divider"></div>
-
         <div class="grid2 mt-6">
-            {# ===== Tags principaux ===== #}
             {{ form_row(form.mainTechnologies, {
                 label: 'Tags principaux',
                 help: 'Choisir les tags les plus importants.'
             }) }}
-
-            {# ===== Tags secondaires ===== #}
             {{ form_row(form.secondaryTechnologies, {
                 label: 'Tags secondaires',
                 help: 'Choisir des tags complémentaires.'
             }) }}
+        </div>
 
+        <div class="grid2 mt-6">
+            <div>
+                {{ form_row(form.online, { label: 'En ligne ?' }) }}
+            </div>
+            <div>
+                {{ form_row(form.premium, { label: 'Est-ce un cours Premium ?' }) }}
+            </div>
         </div>
     </section>
 
@@ -134,10 +130,60 @@
     {# ============================= #
        SECTION 5 : BOUTONS DE SOUMISSION
        ============================= #}
-    <section>
+    <div class="flex justify-end">
         <button type="submit" class="btn btn-primary">Etape suivante</button>
-    </section>
+    </div>
 
 </div>
 
 {{ form_end(form) }}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const titleInput = document.querySelector("[id^='automatic_form_title']"); // Champ titre
+        const slugInput = document.querySelector("[id^='automatic_form_slug']"); // Champ slug
+        const editSlugBtn = document.getElementById("edit-slug-btn"); // Bouton Modifier
+        const iconEdit = document.getElementById("slug-icon-edit"); // Icône modifier
+        const iconLock = document.getElementById("slug-icon-lock"); // Icône verrouiller
+
+        if (!titleInput || !slugInput || !editSlugBtn || !iconEdit || !iconLock) {
+            return;
+        }
+
+        let isSlugEditable = false;
+
+        // Fonction pour générer un slug automatiquement
+        function generateSlug(text) {
+            return text.toLowerCase()
+                .trim()
+                .replace(/[àáâãäå]/g, "a")
+                .replace(/[èéêë]/g, "e")
+                .replace(/[ìíîï]/g, "i")
+                .replace(/[òóôõö]/g, "o")
+                .replace(/[ùúûü]/g, "u")
+                .replace(/[ñ]/g, "n")
+                .replace(/[^a-z0-9 -]/g, "") // Supprime les caractères spéciaux
+                .replace(/\s+/g, "-") // Remplace les espaces par des tirets
+                .replace(/-+/g, "-"); // Évite les doubles tirets
+        }
+
+        // Générer le slug en live si l'édition n'est pas activée
+        titleInput.addEventListener("input", function () {
+            if (!isSlugEditable) {
+                slugInput.value = generateSlug(titleInput.value);
+            }
+        });
+
+        // Activer/désactiver l'édition manuelle du slug
+        editSlugBtn.addEventListener("click", function () {
+            isSlugEditable = !isSlugEditable;
+            slugInput.readOnly = !isSlugEditable;
+            slugInput.classList.toggle("border-gray-300", !isSlugEditable);
+            slugInput.classList.toggle("border-blue-500", isSlugEditable);
+
+            // Basculer entre les icônes
+            iconEdit.classList.toggle("hidden", isSlugEditable);
+            iconLock.classList.toggle("hidden", !isSlugEditable);
+        });
+    });
+</script>
