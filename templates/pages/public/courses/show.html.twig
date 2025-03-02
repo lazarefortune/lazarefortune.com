@@ -118,13 +118,18 @@
 
                     <div class="flex justify-start items-center gap-2">
                         {% if course.source is not empty and app.user %}
-                            <a href="{{ vich_uploader_asset(course, 'sourceFile') }}"
-                               target="_blank"
-                               download="{{ course.source }}"
+                            <a href="{{ path('app_course_download_source', {id: course.id}) }}"
                                class="btn btn-sm btn-light">
                                 {{ icon('download') }}
-                                Code source
+                                Télécharger la source
                             </a>
+{#                            <a href="{{ vich_uploader_asset(course, 'sourceFile') }}"#}
+{#                               target="_blank"#}
+{#                               download="{{ course.source }}"#}
+{#                               class="btn btn-sm btn-light">#}
+{#                                {{ icon('download') }}#}
+{#                                Code source#}
+{#                            </a>#}
                         {% endif %}
                         <div>
                             <div class="inline-block relative">
