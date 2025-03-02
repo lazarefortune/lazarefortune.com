@@ -120,6 +120,28 @@ class AutomaticForm extends AbstractType
                 continue;
             }
 
+            if ( $name === 'theme' ) {
+                $builder->add( $name, ChoiceType::class, [
+                    'label' => 'Thème',
+                    'choices' => [
+                        'Gris' => 'grey',
+                        'Vert' => 'green',
+                        'Bleu' => 'blue',
+                        'Rouge' => 'red',
+                        'Orange' => 'orange',
+                    ],
+                    'required' => true,
+                    'label_attr' => [
+                        'class' => 'label',
+                    ],
+                    'attr' => [
+                        'class' => 'form-input',
+                    ],
+                ] );
+
+                continue;
+            }
+
             if ( array_key_exists( $name, self::NAMES ) ) {
                 $options = [
                     'required' => false,
