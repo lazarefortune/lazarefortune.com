@@ -116,21 +116,7 @@
                         <span title="{{ course.author.fullname }}" class="course__author__name">{{ course.author.fullname }}</span>
                     </a>
 
-                    <div class="flex justify-start items-center gap-2">
-                        {% if course.source is not empty and app.user %}
-                            <a href="{{ path('app_course_download_source', {id: course.id}) }}"
-                               class="btn btn-sm btn-light">
-                                {{ icon('download') }}
-                                Télécharger la source
-                            </a>
-{#                            <a href="{{ vich_uploader_asset(course, 'sourceFile') }}"#}
-{#                               target="_blank"#}
-{#                               download="{{ course.source }}"#}
-{#                               class="btn btn-sm btn-light">#}
-{#                                {{ icon('download') }}#}
-{#                                Code source#}
-{#                            </a>#}
-                        {% endif %}
+                    <div class="flex justify-start items-center gap-2 flex-wrap">
                         <div>
                             <div class="inline-block relative">
                                 <button id="share-button" class="btn btn-sm btn-light flex items-center gap-2">
@@ -152,6 +138,13 @@
                                 </div>
                             </div>
                         </div>
+                        {% if course.source is not empty and app.user %}
+                            <a href="{{ path('app_course_download_source', {id: course.id}) }}"
+                               class="btn btn-sm btn-light">
+                                {{ icon('download') }}
+                                Télécharger le code source
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -172,10 +165,12 @@
             <div class="container-box pb-5 mb-16" id="description">
                 <div class="course-details">
                     <div>
+                        {% if course.content %}
                         <div class="h4 text-lead mb-6" aria-hidden="true">À propos de cette vidéo</div>
                         <div class="formatted">
                             {{ course.content | markdown }}
                         </div>
+                        {% endif %}
 
                         {# <quiz-area content-id="{{ course.id }}" is-user-logged-in="{{ app.user ? true : false }}"></quiz-area>#}
 

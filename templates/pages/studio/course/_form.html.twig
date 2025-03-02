@@ -14,26 +14,24 @@
         </div>
 
         <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            <slug-generator>
             {{ form_row(form.title, {
                 label: 'Titre de la vidéo',
             }) }}
             <div class="relative">
                 {{ form_row(form.slug, {
-                    label: 'URL Slug',
-                    attr: {
-                        id: 'slug-input',
-                        readonly: true,
-                        class: 'form-input',
-                    }
+                    label: 'URL Slug'
                 }) }}
 
                 <button id="edit-slug-btn"
+                        data-slug-edit-btn
                         type="button"
                         class="absolute top-9 right-2 mt-2 mr-2 text-slate-400 hover:text-primary-800 transition-colors duration-200">
-                    <span id="slug-icon-edit">{{ icon('pencil') }}</span>
-                    <span id="slug-icon-lock" class="hidden">{{ icon('check') }}</span>
+                    <span id="slug-icon-edit" data-slug-icon-edit>{{ icon('pencil') }}</span>
+                    <span id="slug-icon-lock" data-slug-icon-lock class="hidden">{{ icon('check') }}</span>
                 </button>
             </div>
+            </slug-generator>
 
             {{ form_row(form.author, {
                 label: 'Auteur',
@@ -489,7 +487,7 @@
 </script>
 {% endif %}
 
-
+<!--
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const titleInput = document.querySelector("[id^='course_edit_form_title']"); // Champ titre
@@ -497,6 +495,11 @@
         const editSlugBtn = document.getElementById("edit-slug-btn"); // Bouton Modifier
         const iconEdit = document.getElementById("slug-icon-edit"); // Icône modifier
         const iconLock = document.getElementById("slug-icon-lock"); // Icône verrouiller
+
+        slugInput.classList.add("bg-zinc-100");
+        slugInput.classList.add("text-slate-700");
+        slugInput.classList.add("dark:bg-slate-800");
+        slugInput.classList.add("dark:text-slate-400");
 
         if (!titleInput || !slugInput || !editSlugBtn || !iconEdit || !iconLock) {
             return;
@@ -530,8 +533,10 @@
         editSlugBtn.addEventListener("click", function () {
             isSlugEditable = !isSlugEditable;
             slugInput.readOnly = !isSlugEditable;
-            slugInput.classList.toggle("border-gray-300", !isSlugEditable);
-            slugInput.classList.toggle("border-blue-500", isSlugEditable);
+            slugInput.classList.toggle("bg-zinc-100", !isSlugEditable);
+            slugInput.classList.toggle("dark:bg-slate-800", !isSlugEditable);
+            slugInput.classList.toggle("text-slate-700", !isSlugEditable);
+            slugInput.classList.toggle("dark:text-slate-400", !isSlugEditable);
 
             // Basculer entre les icônes
             iconEdit.classList.toggle("hidden", isSlugEditable);
@@ -539,3 +544,4 @@
         });
     });
 </script>
+-->

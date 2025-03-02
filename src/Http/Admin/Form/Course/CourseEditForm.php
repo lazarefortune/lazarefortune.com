@@ -29,14 +29,15 @@ class CourseEditForm extends AbstractType
             ->add('title', TextType::class, [
                 'required' => true,
                 'attr' => [
-                    'class' => 'form-input'
+                    'class' => 'form-input',
+                    'data-slug-title' => ''
                 ]
             ])
             ->add('slug', TextType::class, [
                 'required' => true,
                 'attr' => [
-                    'class' => 'form-input',
-                    'data-slug-editable' => 'false',
+                    'class' => 'form-input text-slate-700 dark:bg-slate-800 dark:text-slate-400',
+                    'data-slug-input' => '',
                     'readonly' => true,
                 ]
             ])

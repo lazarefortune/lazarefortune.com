@@ -24,7 +24,7 @@ select {
   @apply dark:bg-primary-950 dark:text-white dark:ring-slate-700 dark:placeholder-gray-400 dark:focus:ring-primary-600;
   /* readonly */
   &[disabled] {
-      @apply bg-zinc-50 text-zinc-400 dark:bg-slate-800 dark:text-slate-600;
+      @apply bg-zinc-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400;
   }
   &[readonly] {
       // @apply bg-zinc-50 text-zinc-400 dark:bg-slate-800 dark:text-slate-600;

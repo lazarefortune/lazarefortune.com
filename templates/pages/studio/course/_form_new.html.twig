@@ -16,9 +16,12 @@
         </div>
 
         <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            {# ===== Titre ===== #}
+            <slug-generator>
             {{ form_row(form.title, {
                 label: 'Titre de la vidéo',
+                attr: {
+                    'data-slug-title': ''
+                }
             }) }}
 
             {# ===== Slug ===== #}
@@ -28,17 +31,20 @@
                     attr: {
                         id: 'slug-input',
                         readonly: true,
-                        class: 'form-input',
+                        class: 'form-input text-slate-700 dark:bg-slate-800 dark:text-slate-400',
+                        'data-slug-input': '',
                     }
                 }) }}
 
                 <button id="edit-slug-btn"
+                        data-slug-edit-btn
                         type="button"
                         class="absolute top-9 right-2 mt-2 mr-2 text-slate-400 hover:text-primary-800 transition-colors duration-200">
-                    <span id="slug-icon-edit">{{ icon('pencil') }}</span>
-                    <span id="slug-icon-lock" class="hidden">{{ icon('check') }}</span>
+                    <span id="slug-icon-edit" data-slug-icon-edit>{{ icon('pencil') }}</span>
+                    <span id="slug-icon-lock" data-slug-icon-lock class="hidden">{{ icon('check') }}</span>
                 </button>
             </div>
+            </slug-generator>
 
             {# ===== Auteur ===== #}
             {{ form_row(form.author, {
@@ -137,53 +143,3 @@
 </div>
 
 {{ form_end(form) }}
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const titleInput = document.querySelector("[id^='automatic_form_title']"); // Champ titre
-        const slugInput = document.querySelector("[id^='automatic_form_slug']"); // Champ slug
-        const editSlugBtn = document.getElementById("edit-slug-btn"); // Bouton Modifier
-        const iconEdit = document.getElementById("slug-icon-edit"); // Icône modifier
-        const iconLock = document.getElementById("slug-icon-lock"); // Icône verrouiller
-
-        if (!titleInput || !slugInput || !editSlugBtn || !iconEdit || !iconLock) {
-            return;
-        }
-
-        let isSlugEditable = false;
-
-        // Fonction pour générer un slug automatiquement
-        function generateSlug(text) {
-            return text.toLowerCase()
-                .trim()
-                .replace(/[àáâãäå]/g, "a")
-                .replace(/[èéêë]/g, "e")
-                .replace(/[ìíîï]/g, "i")
-                .replace(/[òóôõö]/g, "o")
-                .replace(/[ùúûü]/g, "u")
-                .replace(/[ñ]/g, "n")
-                .replace(/[^a-z0-9 -]/g, "") // Supprime les caractères spéciaux
-                .replace(/\s+/g, "-") // Remplace les espaces par des tirets
-                .replace(/-+/g, "-"); // Évite les doubles tirets
-        }
-
-        // Générer le slug en live si l'édition n'est pas activée
-        titleInput.addEventListener("input", function () {
-            if (!isSlugEditable) {
-                slugInput.value = generateSlug(titleInput.value);
-            }
-        });
-
-        // Activer/désactiver l'édition manuelle du slug
-        editSlugBtn.addEventListener("click", function () {
-            isSlugEditable = !isSlugEditable;
-            slugInput.readOnly = !isSlugEditable;
-            slugInput.classList.toggle("border-gray-300", !isSlugEditable);
-            slugInput.classList.toggle("border-blue-500", isSlugEditable);
-
-            // Basculer entre les icônes
-            iconEdit.classList.toggle("hidden", isSlugEditable);
-            iconLock.classList.toggle("hidden", !isSlugEditable);
-        });
-    });
-</script>

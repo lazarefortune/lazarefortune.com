@@ -82,7 +82,12 @@ class CourseController extends AbstractController
     #[Route(path: '/{id}/sources', name: 'download_source', requirements: ['id' => Requirements::ID])]
     public function downloadSource(Course $course, StorageInterface $storage): Response
     {
-        $this->denyAccessUnlessGranted(CourseVoter::DOWNLOAD_SOURCE);
+        try {
+            $this->denyAccessUnlessGranted(CourseVoter::DOWNLOAD_SOURCE);
+        } catch (\Exception $e) {
+            $this->addFlash('error', 'Vous devez être premium pour télécharger les sources des vidéos.');
+            return $this->redirectToRoute('app_premium');
+        }
 
         if (null === $course->getSource()) {
             throw new NotFoundHttpException();

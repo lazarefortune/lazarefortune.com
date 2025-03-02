@@ -25,6 +25,7 @@ import { AutoSubmitForm } from "./AutoSubmitForm";
 import { AutoSubmit } from "./AutoSubmit";
 import { Confetti } from "./Confetti";
 import { BadgeUnlock } from "../components/BadgeUnlock";
+import { SlugGenerator } from "./SlugGenerator";
 
 const NotificationsElement = reactToWebComponent(Notifications, React, ReactDOM, {
     shadow: false,
@@ -63,3 +64,4 @@ customElements.define('file-manager', FileManager);
 customElements.define('notifications-area', NotificationsElement)
 customElements.define('auto-submit-form', AutoSubmitForm);
 customElements.define('auto-submit', AutoSubmit, { extends: 'form' })
+customElements.define("slug-generator", SlugGenerator);
