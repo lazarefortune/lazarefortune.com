@@ -13,8 +13,8 @@
             </p>
         </div>
 
+        <slug-generator>
         <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            <slug-generator>
             {{ form_row(form.title, {
                 label: 'Titre de la vidéo',
             }) }}
@@ -31,7 +31,7 @@
                     <span id="slug-icon-lock" data-slug-icon-lock class="hidden">{{ icon('check') }}</span>
                 </button>
             </div>
-            </slug-generator>
+
 
             {{ form_row(form.author, {
                 label: 'Auteur',
@@ -48,6 +48,7 @@
                 label: 'Remplacé par',
             }) }}
         </div>
+        </slug-generator>
 
         <div class="grid2 mt-6">
             {{ form_row(form.mainTechnologies, {
