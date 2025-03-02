@@ -80,9 +80,8 @@
     <!-- Section droite : Menu utilisateur -->
     <div class="header__right">
         <search-button></search-button>
-        <notifications-area></notifications-area>
-
         {% if app.user %}
+            <notifications-area></notifications-area>
             <!-- Dropdown utilisateur -->
             <div class="relative">
                 <button id="header-dropdown-button" class="header-dropdown flex items-center pr-0 lg:pr-4 gap-2 border border-slate-200 dark:border-slate-700 rounded-full text-md" aria-controls="dropdown-user" aria-expanded="false">
