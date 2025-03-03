@@ -35,15 +35,7 @@ class NewsletterSendingService
         //    - statut = PENDING
         //    - isDraft = false
         //    - sendAt <= now
-        $now = new \DateTimeImmutable();
-        $newsletters = $this->newsletterRepository->createQueryBuilder('n')
-            ->where('n.status = :status')
-            ->andWhere('n.isDraft = false')
-            ->andWhere('n.sendAt <= :now')
-            ->setParameter('status', NewsletterStatus::PENDING)
-            ->setParameter('now', $now)
-            ->getQuery()
-            ->getResult();
+        $newsletters = $this->newsletterRepository->findReadyToSend();
 
         // 2) Pour chacune, envoyer la newsletter
         foreach ($newsletters as $newsletter) {
@@ -78,18 +70,6 @@ class NewsletterSendingService
         // Mettre à jour le statut en SENT après l'envoi
         $newsletter->setStatus(NewsletterStatus::SENT);
         $this->em->flush();
-    }
-
-    /**
-     * Selon la cible (ALL / USERS / SUBSCRIBERS), on récupère la bonne liste d'emails
-     */
-    private function getTargetEmails(NewsletterTargetGroupOptions $targetGroup): array
-    {
-        return match ($targetGroup) {
-            NewsletterTargetGroupOptions::ALL => $this->getAllEmails(),
-            NewsletterTargetGroupOptions::USERS => $this->getUsersEmails(),
-            NewsletterTargetGroupOptions::SUBSCRIBERS => $this->getSubscribersEmails(),
-        };
     }
 
     private function sendToUsers(Newsletter $newsletter): void

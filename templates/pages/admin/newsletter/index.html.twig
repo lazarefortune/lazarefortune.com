@@ -28,7 +28,12 @@
 
     <div class="dashboard-page-table-button">
         <a href="{{ path(prefix ~ '_new') }}">
+            {{ icon('mail-plus') }}
             Créer une newsletter
+        </a>
+        <a href="{{ path('admin_newsletter_subscribers') }}" class="btn btn-light">
+            {{ icon('trending-up') }}
+            Inscriptions
         </a>
     </div>
 
@@ -77,10 +82,10 @@
                             <a href="{{ path(prefix ~ '_edit', {id: row.id}) }}" class="btn-icon">
                                 {{ icon('pencil') }}
                             </a>
-                            <a href="{{ path(prefix ~ '_preview', {id: row.id}) }}" target="_blank" class="btn-icon">
-                                {{ icon('eye') }}
-                            </a>
                         {% endif %}
+                        <a href="{{ path(prefix ~ '_preview', {id: row.id}) }}" target="_blank" class="btn-icon">
+                            {{ icon('eye') }}
+                        </a>
                         {% if is_granted('NEWSLETTER_DELETE', row) %}
                             <ajax-delete class="btn-icon"
                                          target="tr"

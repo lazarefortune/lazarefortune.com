@@ -2,7 +2,9 @@
 
 namespace App\Http\Admin\Controller;
 
+use App\Domain\Auth\Core\Repository\UserRepository;
 use App\Domain\Newsletter\Entity\Newsletter;
+use App\Domain\Newsletter\Repository\NewsletterSubscriberRepository;
 use App\Domain\Newsletter\Service\NewsletterSendingService;
 use App\Http\Admin\Data\Crud\NewsletterCrudData;
 use App\Http\Security\NewsletterVoter;
@@ -59,18 +61,61 @@ class NewsletterController extends CrudController
     #[Route(path: '/previsualisation/{id<\d+>}', name: 'preview', methods: ['GET'])]
     public function preview(Newsletter $newsletter): Response
     {
-        $this->denyAccessUnlessGranted(NewsletterVoter::EDIT, $newsletter);
-
         return $this->render('pages/admin/newsletter/_preview.html.twig', [
             'newsletter' => $newsletter
         ]);
     }
 
-    #[Route(path: '/{id<\d+>}/send', name: 'send', methods: ['GET', 'POST'])]
-    public function testSend(Newsletter $newsletter, NewsletterSendingService $newsletterSendingService): Response
-    {
-        $newsletterSendingService->sendNewsletter($newsletter);
+    #[Route(path: '/inscriptions', name: 'subscribers', methods: ['GET'])]
+    public function stats(
+        UserRepository $userRepository,
+        NewsletterSubscriberRepository $subscriberRepository
+    ): Response {
+        // Nombre d'utilisateurs abonnés
+        $usersSubscribed = $userRepository->createQueryBuilder('u')
+            ->select('COUNT(u.id)')
+            ->where('u.isNewsletterSubscribed = true')
+            ->getQuery()
+            ->getSingleScalarResult();
 
-        return $this->redirectToRoute('admin_newsletter_index');
+        // Nombre d'utilisateurs désabonnés (optionnel, si vous gérez ce cas)
+        $usersUnsubscribed = $userRepository->createQueryBuilder('u')
+            ->select('COUNT(u.id)')
+            ->where('u.isNewsletterSubscribed = false')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        // Nombre d'abonnés visiteurs inscrits
+        $subscribersSubscribed = $subscriberRepository->createQueryBuilder('s')
+            ->select('COUNT(s.id)')
+            ->where('s.isSubscribed = true')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        // Nombre d'abonnés visiteurs désabonnés
+        $subscribersUnsubscribed = $subscriberRepository->createQueryBuilder('s')
+            ->select('COUNT(s.id)')
+            ->where('s.isSubscribed = false')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $users = $userRepository->createQueryBuilder('u')
+            ->where('u.isNewsletterSubscribed = true')
+            ->getQuery()
+            ->getResult();
+
+        $subscribers = $subscriberRepository->createQueryBuilder('s')
+            ->where('s.isSubscribed = true')
+            ->getQuery()
+            ->getResult();
+
+        return $this->render('pages/admin/newsletter/subscribers.html.twig', [
+            'usersSubscribed'        => $usersSubscribed,
+            'usersUnsubscribed'      => $usersUnsubscribed,
+            'subscribersSubscribed'  => $subscribersSubscribed,
+            'subscribersUnsubscribed'=> $subscribersUnsubscribed,
+            'users'                  => $users,
+            'subscribers'            => $subscribers
+        ]);
     }
 }

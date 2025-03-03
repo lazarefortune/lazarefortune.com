@@ -4,9 +4,7 @@
 
 {% block body %}
 
-    {% apply markdown_email %}
-        {{ newsletter.content | markdown }}
-    {% endapply %}
+    {{ newsletter.content | markdown }}
 
     {% apply markdown_email %}
         Cordialement,

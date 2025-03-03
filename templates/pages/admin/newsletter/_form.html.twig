@@ -33,6 +33,12 @@
         {#
         <button type="submit" name="sendNow" class="btn btn-outline">Envoyer maintenant</button>
         #}
+        {% if entity.id %}
+        <a href="{{ path('admin_newsletter_preview', {id: entity.id}) }}" class="btn btn-outline" target="_blank">
+            {{ icon('external-link') }}
+            Prévisualiser
+        </a>
+        {% endif %}
         <button type="submit" class="btn btn-primary" id="submit-button">Programmer l'envoi</button>
     </div>
 
