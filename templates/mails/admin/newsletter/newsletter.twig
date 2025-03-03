@@ -14,4 +14,8 @@
         L'équipe {{ app_name }}
     {% endapply %}
 
+    {% apply markdown_email %}
+        <small>Vous ne souhaitez plus recevoir de newsletter ? [C'est par ici]({{ unsubscribeUrl }})</small>
+    {% endapply %}
+
 {% endblock %}

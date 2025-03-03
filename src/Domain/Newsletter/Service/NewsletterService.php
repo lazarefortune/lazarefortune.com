@@ -46,10 +46,14 @@ class NewsletterService
             $existingSubscriber->setSubscribed(true);
             $this->em->flush();
         } elseif ($existingUser) {
+            /*
             $existingSubscriber = new NewsletterSubscriber();
             $existingSubscriber->setEmail($subscriber->getEmail());
             $existingSubscriber->setSubscribed(true);
             $this->em->persist($existingSubscriber);
+            */
+            $existingUser->setNewsletterSubscribed(true);
+            $this->em->persist($existingUser);
             $this->em->flush();
 
             if (!$existingUser->isNewsletterSubscribed()) {

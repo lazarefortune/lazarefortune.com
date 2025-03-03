@@ -2,7 +2,9 @@
 
 namespace App\Domain\Newsletter\Service;
 
+use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Newsletter\Entity\Newsletter;
+use App\Domain\Newsletter\Entity\NewsletterSubscriber;
 use App\Domain\Newsletter\Enum\NewsletterStatus;
 use App\Domain\Newsletter\Enum\NewsletterTargetGroupOptions;
 use App\Domain\Newsletter\Repository\NewsletterRepository;
@@ -10,6 +12,7 @@ use App\Domain\Auth\Core\Repository\UserRepository;
 use App\Domain\Newsletter\Repository\NewsletterSubscriberRepository;
 use App\Infrastructure\Mailing\MailService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class NewsletterSendingService
 {
@@ -18,7 +21,8 @@ class NewsletterSendingService
         private readonly UserRepository $userRepository,
         private readonly NewsletterSubscriberRepository $subscriberRepository,
         private readonly MailService $mailService,
-        private readonly EntityManagerInterface $em
+        private readonly EntityManagerInterface $em,
+        private readonly UrlGeneratorInterface $urlGenerator,
     ) {
     }
 
@@ -52,23 +56,26 @@ class NewsletterSendingService
      */
     public function sendNewsletter(Newsletter $newsletter): void
     {
-        // 1) Récupérer la liste d'emails
-        $emails = $this->getTargetEmails($newsletter->getTargetGroup());
 
-        // 2) Envoyer le mail à chaque adresse
-        foreach ($emails as $email) {
-            $mail = $this->mailService->prepareEmail(
-                $email,
-                $newsletter->getSubject(),
-                'mails/admin/newsletter/newsletter.twig',
-                [
-                    'newsletter' => $newsletter,
-                ]
-            );
-            $this->mailService->send($mail);
+        // Si la cible est ALL, on envoie aux utilisateurs ET aux abonnés
+        // Si la cible est USERS, on envoie uniquement aux utilisateurs
+        // Si la cible est SUBSCRIBERS, on envoie uniquement aux visiteurs
+
+        if (
+            $newsletter->getTargetGroup() === NewsletterTargetGroupOptions::ALL ||
+            $newsletter->getTargetGroup() === NewsletterTargetGroupOptions::USERS
+        ) {
+            $this->sendToUsers($newsletter);
         }
 
-        // 3) Mettre à jour la newsletter en base
+        if (
+            $newsletter->getTargetGroup() === NewsletterTargetGroupOptions::ALL ||
+            $newsletter->getTargetGroup() === NewsletterTargetGroupOptions::SUBSCRIBERS
+        ) {
+            $this->sendToSubscribers($newsletter);
+        }
+
+        // Mettre à jour le statut en SENT après l'envoi
         $newsletter->setStatus(NewsletterStatus::SENT);
         $this->em->flush();
     }
@@ -85,37 +92,62 @@ class NewsletterSendingService
         };
     }
 
-    private function getAllEmails(): array
+    private function sendToUsers(Newsletter $newsletter): void
     {
-        $users = $this->getUsersEmails();
-        $subs = $this->getSubscribersEmails();
-
-        // Combiner les deux, en supprimant les doublons si besoin
-        $emails = array_unique(array_merge($users, $subs));
-
-        return $emails;
-    }
-
-    private function getUsersEmails(): array
-    {
-        // On récupère juste ceux qui sont abonnés à la newsletter
         $users = $this->userRepository->createQueryBuilder('u')
             ->where('u.isNewsletterSubscribed = true')
             ->getQuery()
             ->getResult();
 
-        // Extraire l'email dans un tableau simple
-        return array_map(fn($user) => $user->getEmail(), $users);
+        /** @var User $user */
+        foreach ($users as $user) {
+            // Générer le lien de désabonnement en se basant sur le token de l'utilisateur
+            $unsubscribeUrl = $this->urlGenerator->generate(
+                'app_newsletter_unsubscribe_user',
+                ['token' => $user->getUnsubscribeNewsletterToken()],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
+
+            $mail = $this->mailService->prepareEmail(
+                $user->getEmail(),
+                $newsletter->getSubject(),
+                'mails/admin/newsletter/newsletter.twig',
+                [
+                    'newsletter'    => $newsletter,
+                    'unsubscribeUrl'=> $unsubscribeUrl,
+                ]
+            );
+            $this->mailService->send($mail);
+        }
     }
 
-    private function getSubscribersEmails(): array
+    private function sendToSubscribers(Newsletter $newsletter): void
     {
-        // On ne prend que ceux qui sont encore abonnés
-        $subs = $this->subscriberRepository->createQueryBuilder('s')
+        $subscribers = $this->subscriberRepository->createQueryBuilder('s')
             ->where('s.isSubscribed = true')
             ->getQuery()
             ->getResult();
 
-        return array_map(fn($sub) => $sub->getEmail(), $subs);
+        /** @var NewsletterSubscriber $subscriber */
+        foreach ($subscribers as $subscriber) {
+            // Générer le lien de désabonnement en se basant sur le token du visiteur
+            $unsubscribeUrl = $this->urlGenerator->generate(
+                'app_newsletter_unsubscribe_subscriber',
+                ['token' => $subscriber->getUnsubscribeToken()],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
+
+            $mail = $this->mailService->prepareEmail(
+                $subscriber->getEmail(),
+                $newsletter->getSubject(),
+                'mails/admin/newsletter/newsletter.twig',
+                [
+                    'newsletter'    => $newsletter,
+                    'unsubscribeUrl'=> $unsubscribeUrl,
+                ]
+            );
+            $this->mailService->send($mail);
+        }
     }
+
 }

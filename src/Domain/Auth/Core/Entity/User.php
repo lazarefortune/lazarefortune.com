@@ -118,6 +118,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
     private bool $isNewsletterSubscribed = false;
 
+    #[ORM\Column(length: 64, unique: true, nullable: true)]
+    private ?string $unsubscribeNewsletterToken = null;
+
     public function __construct()
     {
         $this->fullname = '';
@@ -535,6 +538,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->isNewsletterSubscribed = $subscribe;
         return $this;
     }
+
+    public function getUnsubscribeNewsletterToken(): string
+    {
+        if ($this->unsubscribeNewsletterToken === null) {
+            $this->unsubscribeNewsletterToken = bin2hex(random_bytes(16));
+        }
+        return $this->unsubscribeNewsletterToken;
+    }
+
+    public function setUnsubscribeNewsletterToken(string $token): self
+    {
+        $this->unsubscribeNewsletterToken = $token;
+        return $this;
+    }
+
 
 //    public function __sleep()
 //    {

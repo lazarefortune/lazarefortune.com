@@ -2,6 +2,7 @@
 
 namespace App\Http\Controller\Newsletter;
 
+use App\Domain\Auth\Core\Repository\UserRepository;
 use App\Domain\Newsletter\Entity\NewsletterSubscriber;
 use App\Domain\Newsletter\Form\NewsletterSubscriberType;
 use App\Domain\Newsletter\Repository\NewsletterSubscriberRepository;
@@ -51,4 +52,40 @@ class NewsletterSubscriberController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route('/newsletter/desinscription/subscriber/{token}', name: 'newsletter_unsubscribe_subscriber')]
+    public function unsubscribeSubscriber(
+        string $token,
+        NewsletterSubscriberRepository $repository,
+        EntityManagerInterface $em
+    ): Response {
+        $subscriber = $repository->findOneBy(['unsubscribeToken' => $token]);
+        if ($subscriber) {
+            $subscriber->setSubscribed(false);
+            $em->flush();
+            $message = 'Vous avez bien été désabonné de la newsletter.';
+        } else {
+            $message = 'Aucun abonnement trouvé pour ce token.';
+        }
+        return new Response($message);
+    }
+
+    #[Route('/newsletter/desinscription/user/{token}', name: 'newsletter_unsubscribe_user')]
+    public function unsubscribeUser(
+        string $token,
+        UserRepository $repository,
+        EntityManagerInterface $em
+    ): Response {
+        $user = $repository->findOneBy(['unsubscribeNewsletterToken' => $token]);
+        if ($user) {
+            $user->setNewsletterSubscribed(false);
+            $em->flush();
+            $message = 'Vous avez bien été désabonné de la newsletter.';
+        } else {
+            $message = 'Aucun abonnement trouvé pour ce token.';
+        }
+        return new Response($message);
+    }
+
+
 }

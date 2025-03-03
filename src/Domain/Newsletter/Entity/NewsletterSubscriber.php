@@ -24,6 +24,9 @@ class NewsletterSubscriber
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private \DateTimeImmutable $createdAt;
 
+    #[ORM\Column(length: 64, unique: true, nullable: true)]
+    private ?string $unsubscribeToken = null;
+
     public function __construct(string $email = '')
     {
         $this->email = $email;
@@ -61,6 +64,21 @@ class NewsletterSubscriber
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    public function getUnsubscribeToken(): string
+    {
+        if ($this->unsubscribeToken === null) {
+            // Génère un token de 32 caractères hexadécimaux (16 bytes)
+            $this->unsubscribeToken = bin2hex(random_bytes(16));
+        }
+        return $this->unsubscribeToken;
+    }
+
+    public function setUnsubscribeToken(string $token): self
+    {
+        $this->unsubscribeToken = $token;
+        return $this;
     }
 
     public function unsubscribe(): void
