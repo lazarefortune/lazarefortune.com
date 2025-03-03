@@ -115,8 +115,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: PasswordReset::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $passwordResets;
 
-    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => true])]
-    private bool $isNewsletterSubscribed = true;
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
+    private bool $isNewsletterSubscribed = false;
 
     public function __construct()
     {

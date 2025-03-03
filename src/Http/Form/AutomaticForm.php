@@ -13,6 +13,7 @@ use App\Http\Type\ChoiceMultipleType;
 use App\Http\Type\ContentChoiceType;
 use App\Http\Type\DateTimeType;
 use App\Http\Type\EditorType;
+use App\Http\Type\NewsletterTargetGroupType;
 use App\Http\Type\QuestionsForm;
 use App\Http\Type\SwitchType;
 use Symfony\Component\Form\AbstractType;
@@ -56,6 +57,7 @@ class AutomaticForm extends AbstractType
         'questions' => QuestionsForm::class,
         'targetContent' => ContentChoiceType::class,
         'action' => BadgeActionChoiceType::class,
+        'targetGroup' => NewsletterTargetGroupType::class,
     ];
 
     public function buildForm( FormBuilderInterface $builder, array $options ) : void
@@ -101,6 +103,22 @@ class AutomaticForm extends AbstractType
                     ],
                     'attr' => [
                         'class' => 'flatpickr-date-birthday form-input',
+                        'data-input' => 'true'
+                    ],
+                ] );
+                continue;
+            }
+
+            if ( $name === 'sendAt' ) {
+                $builder->add( $name, DateTimeType::class, [
+                    'label' => 'Date d\'envoi',
+                    'widget' => 'single_text',
+                    'html5' => false,
+                    'label_attr' => [
+                        'class' => 'label',
+                    ],
+                    'attr' => [
+                        'class' => 'flatpickr-datetime-after-today form-input',
                         'data-input' => 'true'
                     ],
                 ] );

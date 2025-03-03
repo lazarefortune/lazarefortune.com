@@ -1,0 +1,99 @@
+{% extends 'layouts/admin/base.html.twig' %}
+
+{% block title %}
+    Gestion des newsletters
+{% endblock %}
+
+{% block body %}
+
+    <div class="dashboard-page-header">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li>
+                    <a href="{{ path('admin_home') }}">
+                        <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                             fill="currentColor" viewBox="0 0 20 20">
+                            <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"></path>
+                        </svg>
+                        Accueil
+                    </a>
+                </li>
+                {{ icon('chevron-right') }}
+                <li>
+                    <span>Newsletters</span>
+                </li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="dashboard-page-table-button">
+        <a href="{{ path(prefix ~ '_new') }}">
+            Créer une newsletter
+        </a>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Objet</th>
+                <th>Date d'envoi</th>
+                <th>Groupe cible</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if rows|length == 0 %}
+                <tr>
+                    <td colspan="5" class="text-center">Aucune newsletter</td>
+                </tr>
+            {% endif %}
+            {% for row in rows %}
+                {% set link = path(prefix ~ '_edit', {id: row.id}) %}
+                <tr>
+                    <td>
+                        <a href="{{ link }}" class="table-cell-link"></a>
+                        {{ row.subject }}
+                    </td>
+                    <td>
+                        {{ row.sendAt|format_datetime('long', 'short') }}
+                    </td>
+                    <td>{{ row.targetGroup.label }}</td>
+                    <td>
+                        {% if row.isDraft %}
+                            <span class="badge badge-danger">Brouillon</span>
+                        {% else %}
+                            <span class="badge {% if row.isSent %}badge-success{% else %}badge-warning{% endif %}">{{ row.status.label }}</span>
+                            {% if (row.sendAt|date('U') <= "now"|date('U')) and not row.isSent %}
+                                <div class="text-danger">
+                                    <small>En attente d'envoi</small>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if is_granted('NEWSLETTER_EDIT', row) %}
+                            <a href="{{ path(prefix ~ '_edit', {id: row.id}) }}" class="btn-icon">
+                                {{ icon('pencil') }}
+                            </a>
+                            <a href="{{ path(prefix ~ '_preview', {id: row.id}) }}" target="_blank" class="btn-icon">
+                                {{ icon('eye') }}
+                            </a>
+                        {% endif %}
+                        {% if is_granted('NEWSLETTER_DELETE', row) %}
+                            <ajax-delete class="btn-icon"
+                                         target="tr"
+                                         url="{{ path(prefix ~ '_delete', {id: row.id}) }}">
+                                {{ icon('trash') }}
+                            </ajax-delete>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {{ paginate(rows) }}
+{% endblock %}

@@ -1,0 +1,26 @@
+<!-- Newsletter Section -->
+<section class="mt-16 reveal" data-delay=".2">
+    <div class="max-w-3xl mx-auto text-center">
+        <h2 class="h1 mb-4">
+            Inscrivez-vous à la <span class="text-lead">newsletter</span>
+        </h2>
+        <p class="text-muted">
+            Recevez les dernières vidéos, playlists et articles directement dans votre boîte de réception.
+            Restez informé et ne manquez aucune nouveauté.
+        </p>
+    </div>
+    <div class="mt-10">
+        {{ form_start(newsletterForm, {attr: {class: 'max-w-3xl mx-auto'}}) }}
+        <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
+            {{ form_widget(newsletterForm.email, {
+                label: none,
+                attr: {
+                    class: 'form-input',
+                    placeholder: 'Entrez votre adresse email',
+                }
+            }) }}
+            <button type="submit" class="btn btn-primary">S'inscrire</button>
+        </div>
+        {{ form_end(newsletterForm) }}
+    </div>
+</section>

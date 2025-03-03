@@ -2,6 +2,8 @@
 
 namespace App\Domain\Newsletter\Entity;
 
+use App\Domain\Newsletter\Enum\NewsletterStatus;
+use App\Domain\Newsletter\Enum\NewsletterTargetGroupOptions;
 use App\Domain\Newsletter\Repository\NewsletterRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,10 +27,13 @@ class Newsletter
     private ?\DateTimeInterface $sendAt = null;
 
     #[ORM\Column(length: 50)]
-    private string $status = 'pending';
+    private NewsletterStatus $status = NewsletterStatus::PENDING;
+
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private bool $isDraft = false;
 
     #[ORM\Column(length: 20)]
-    private string $targetGroup = 'all';
+    private NewsletterTargetGroupOptions $targetGroup = NewsletterTargetGroupOptions::ALL;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
@@ -80,23 +85,34 @@ class Newsletter
         return $this;
     }
 
-    public function getStatus(): string
+    public function getStatus(): NewsletterStatus
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): self
+    public function setStatus(NewsletterStatus $status): self
     {
         $this->status = $status;
         return $this;
     }
 
-    public function getTargetGroup(): string
+    public function isDraft(): bool
+    {
+        return $this->isDraft;
+    }
+
+    public function setIsDraft(bool $isDraft): self
+    {
+        $this->isDraft = $isDraft;
+        return $this;
+    }
+
+    public function getTargetGroup(): NewsletterTargetGroupOptions
     {
         return $this->targetGroup;
     }
 
-    public function setTargetGroup(string $targetGroup): self
+    public function setTargetGroup(NewsletterTargetGroupOptions $targetGroup): self
     {
         $this->targetGroup = $targetGroup;
         return $this;
@@ -116,5 +132,10 @@ class Newsletter
     {
         $this->updatedAt = $updatedAt;
         return $this;
+    }
+
+    public function isSent(): bool
+    {
+        return $this->status == NewsletterStatus::SENT;
     }
 }

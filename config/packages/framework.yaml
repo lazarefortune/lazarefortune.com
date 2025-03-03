@@ -18,6 +18,8 @@ framework:
   #fragments: true
   php_errors:
     log: true
+  router:
+    default_uri: '%env(APP_URL)%'
 
 when@test:
   framework:

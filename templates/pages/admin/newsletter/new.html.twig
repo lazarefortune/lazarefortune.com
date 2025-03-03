@@ -1,6 +1,6 @@
 {% extends 'layouts/admin/base.html.twig' %}
 
-{% block title %}Nouvelle badge{% endblock %}
+{% block title %}Nouvelle newsletter{% endblock %}
 
 {% block body %}
     <div class="dashboard-page-header">
@@ -17,7 +17,7 @@
                 </li>
                 {{ icon('chevron-right') }}
                 <li>
-                    <a href="{{ path('admin_badge_index') }}">Badges</a>
+                    <a href="{{ path('admin_newsletter_index') }}">Newsletters</a>
                 </li>
                 {{ icon('chevron-right') }}
                 <li aria-current="page">
@@ -28,7 +28,7 @@
     </div>
 
     <div class="mt-6">
-        {% include 'pages/admin/badge/_form.html.twig' with {
+        {% include 'pages/admin/newsletter/_form.html.twig' with {
             form: form,
             button_label: 'Enregistrer',
             button_back_to_list: false

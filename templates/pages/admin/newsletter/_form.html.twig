@@ -1,0 +1,60 @@
+{{ form_start(form, {attr: {class: 'stacked'}}) }}
+
+<div class="stack-large">
+
+    <section>
+        <div class="mb-4">
+            <h2 class="h2">Newsletter</h2>
+            <p class="text-muted">Paramétrez votre newsletter</p>
+        </div>
+
+        <div class="stack-large">
+            <div class="grid2">
+                {{ form_row(form.subject, {
+                    label: 'Objet',
+                }) }}
+            </div>
+            {{ form_row(form.isDraft, {
+                label: 'Brouillon',
+                help: 'La newsletter ne sera pas envoyée si elle est en brouillon.'
+            }) }}
+            <div class="grid2">
+                {{ form_row(form.sendAt, {
+                    label: 'Date d\'envoi',
+                    help: 'Si la date est future, la newsletter sera programmée.'
+                }) }}
+                {{ form_row(form.targetGroup) }}
+            </div>
+            {{ form_row(form.content) }}
+        </div>
+    </section>
+
+    <div class="mb-4 flex justify-end items-center space-x-2 gap-2">
+        {#
+        <button type="submit" name="sendNow" class="btn btn-outline">Envoyer maintenant</button>
+        #}
+        <button type="submit" class="btn btn-primary" id="submit-button">Programmer l'envoi</button>
+    </div>
+
+</div>
+
+{{ form_end(form) }}
+
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+        const submitButton = document.getElementById('submit-button');
+        const isDraft = document.getElementById('automatic_form_isDraft');
+
+        if (!isDraft || !submitButton) {
+            return;
+        }
+
+        isDraft.addEventListener('change', function () {
+            if (isDraft.checked) {
+                submitButton.textContent = 'Enregistrer';
+            } else {
+                submitButton.textContent = 'Programmer l\'envoi';
+            }
+        });
+    })
+</script>

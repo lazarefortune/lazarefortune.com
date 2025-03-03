@@ -9,7 +9,13 @@ use App\Domain\Course\Entity\Formation;
 use App\Domain\Course\Repository\TechnologyRepository;
 use App\Domain\History\Entity\Progress;
 use App\Domain\History\Service\HistoryService;
+use App\Domain\Newsletter\Entity\NewsletterSubscriber;
+use App\Domain\Newsletter\Exception\AlreadySubscribedException;
+use App\Domain\Newsletter\Form\NewsletterSubscriberType;
+use App\Domain\Newsletter\Repository\NewsletterSubscriberRepository;
+use App\Domain\Newsletter\Service\NewsletterService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -24,11 +30,28 @@ class HomeController extends AbstractController
     }
 
     #[Route( '/', name: 'home' )]
-    public function index() : Response
+    public function index(Request $request, NewsletterService $newsletterService) : Response
     {
         /** @var User $user */
         $user = $this->getUser();
         $technologies = $this->technologyRepository->findAllWithContentCount();
+
+        $subscriber = new NewsletterSubscriber();
+
+        $newsletterForm = $this->createForm(NewsletterSubscriberType::class, $subscriber);
+
+        $newsletterForm->handleRequest($request);
+
+        if ($newsletterForm->isSubmitted() && $newsletterForm->isValid()) {
+            try {
+                $newsletterService->subscribe($subscriber);
+                $this->addFlash('success', 'Vous êtes abonné à la newsletter!');
+            } catch (AlreadySubscribedException $e) {
+                $this->addFlash('info', $e->getMessage());
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Une erreur est survenue, veuillez réessayer.');
+            }
+        }
 
         if ( $user ) {
             $watchlist = $this->historyService->getLastWatchedContent( $user , 4);
@@ -45,6 +68,7 @@ class HomeController extends AbstractController
                 'latest_content' => $content,
                 'watchlist' => $watchlist,
                 'technologies' => $technologies,
+                'newsletterForm' => $newsletterForm->createView(),
             ]);
         } else {
             $content = $this->em->getRepository( Content::class )
@@ -54,6 +78,7 @@ class HomeController extends AbstractController
             return $this->render( 'pages/public/index.html.twig' , [
                 'latest_content' => $content,
                 'technologies' => $technologies,
+                'newsletterForm' => $newsletterForm->createView(),
             ]);
         }
     }
