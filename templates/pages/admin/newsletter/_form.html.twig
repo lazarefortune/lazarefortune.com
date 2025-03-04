@@ -23,7 +23,10 @@
                     label: 'Date d\'envoi',
                     help: 'Si la date est future, la newsletter sera programmée.'
                 }) }}
-                {{ form_row(form.targetGroup) }}
+                {{ form_row(form.targetGroup, {
+                    label: 'Groupe cible',
+                    help: 'Les utilisateurs du groupe recevront la newsletter.'
+                }) }}
             </div>
             {{ form_row(form.content) }}
         </div>
