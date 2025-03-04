@@ -55,6 +55,12 @@
             return;
         }
 
+        if (isDraft.checked) {
+            submitButton.textContent = 'Enregistrer';
+        } else {
+            submitButton.textContent = 'Programmer l\'envoi';
+        }
+
         isDraft.addEventListener('change', function () {
             if (isDraft.checked) {
                 submitButton.textContent = 'Enregistrer';
