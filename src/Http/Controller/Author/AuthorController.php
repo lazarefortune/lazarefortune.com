@@ -3,6 +3,7 @@
 namespace App\Http\Controller\Author;
 
 use App\Domain\Auth\Core\Entity\User;
+use App\Domain\Badge\BadgeService;
 use App\Domain\Course\Repository\CourseRepository;
 use App\Http\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,6 +14,7 @@ class AuthorController extends AbstractController
 {
     public function __construct(
         public readonly  CourseRepository $courseRepository,
+        private readonly BadgeService     $badgeService,
     )
     {
     }
@@ -27,9 +29,14 @@ class AuthorController extends AbstractController
 
         $courses = $this->courseRepository->findBy(['author' => $user], ['publishedAt' => 'DESC']);
 
+        $badges = $this->badgeService->getBadges();
+        $unlocks = $this->badgeService->getUnlocksForUser($user);
+
         return $this->render('pages/public/author/show.html.twig', [
             'author' => $user,
             'courses' => $courses,
+            'badges' => $badges,
+            'unlocks' => $unlocks,
         ]);
     }
 }
