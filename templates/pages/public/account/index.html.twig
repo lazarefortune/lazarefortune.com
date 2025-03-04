@@ -144,10 +144,30 @@
 
                     {{ form_end(formPassword) }}
 
+                    <div class="stack">
+                        <h3 class="h3">Newsletter</h3>
+
+                        <div>
+                            {% if app.user.isNewsletterSubscribed %}
+                                <p class="text-muted mb-4">Vous êtes abonné à notre newsletter</p>
+                                <a href="{{ path('app_newsletter_unsubscribe_user', {token: app.user.unsubscribeNewsletterToken}) }}" class="btn btn-light">
+                                    {{ icon('mail-minus') }}
+                                    <span>Se désabonner</span>
+                                </a>
+                            {% else %}
+                                <p class="text-muted mb-4">Vous n'êtes pas abonné à notre newsletter</p>
+                                <a href="{{ path('app_newsletter_subscribe') }}"
+                                   class="btn btn-primary">
+                                    {{ icon('mail-plus') }}
+                                    <span>S'abonner</span>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
 
                     {% if not app.user.deletedAt %}
                     <div class="stack">
-                        <h3 class="font-hanken-grotesk text-2xl font-medium text-danger-800 dark:text-danger-300">Zone dangereuse</h3>
+                        <h3 class="text-2xl font-medium text-danger-800 dark:text-danger-300">Zone dangereuse</h3>
 
                             <p>Vous n'êtes pas satisfait de nos services ? Vous pouvez demander la suppression de votre compte.
                                 Vous aurez 5 jours pour changer d'avis. Passé ce délai, votre compte sera supprimé définitivement.</p>
