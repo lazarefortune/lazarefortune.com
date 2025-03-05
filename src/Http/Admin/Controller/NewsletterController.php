@@ -10,8 +10,10 @@ use App\Http\Admin\Data\Crud\NewsletterCrudData;
 use App\Http\Security\NewsletterVoter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/newsletter', name: 'newsletter_')]
+#[IsGranted('ROLE_SUPER_ADMIN')]
 class NewsletterController extends CrudController
 {
     protected string $templatePath = 'newsletter';
