@@ -19,7 +19,12 @@
                     placeholder: 'Entrez votre adresse email',
                 }
             }) }}
+
             <button type="submit" class="btn btn-primary">S'inscrire</button>
+        </div>
+
+        <div class="mt-4">
+            {{ form_row(newsletterForm.captcha) }}
         </div>
         {{ form_end(newsletterForm) }}
     </div>

@@ -3,6 +3,7 @@
 namespace App\Domain\Newsletter\Form;
 
 use App\Domain\Newsletter\Entity\NewsletterSubscriber;
+use App\Http\Type\CaptchaType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -19,6 +20,9 @@ class NewsletterSubscriberType extends AbstractType
                     'placeholder' => 'Entrez votre email',
                     'class' => 'form-input'
                 ]
+            ])
+            ->add('captcha', CaptchaType::class, [
+                'mapped' => false
             ])
         ;
     }
