@@ -27,6 +27,7 @@
         </nav>
     </div>
 
+    {#
     {% if is_granted('ROLE_AUTHOR') %}
         <div class="dashboard-page-table-button">
             <a href="{{ path(prefix ~ '_new') }}">
@@ -34,7 +35,19 @@
             </a>
         </div>
     {% endif %}
+    #}
 
+    {# Section d'information sur l'état des quiz #}
+    <div class="max-w-2xl mx-auto">
+        <div class="alert alert-warning flex flex-col gap-3">
+            <div class="text-lg font-medium">Information importante</div>
+            <p>
+                Les quiz sont désactivés pour le moment. Ils seront bientôt de retour !
+            </p>
+        </div>
+    </div>
+
+    {#
     <div class="table-wrapper">
         <table class="table">
             <thead>
@@ -107,4 +120,6 @@
     </div>
 
     {{ paginate(rows) }}
+
+    #}
 {% endblock %}
