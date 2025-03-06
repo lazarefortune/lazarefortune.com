@@ -156,14 +156,11 @@ function CommentItem({
                                     </div>
                                 </div>
                                 <div className="absolute inset-0 text-center text-2xl flex flex-col justify-center items-center">
-                                    <p className="mb-2">
-                                        Vous devez être connecté pour laisser un commentaire.
-                                    </p>
                                     <a
                                         href={`/connexion?redirect=${encodeURIComponent(window.location.href)}`}
                                         className="btn btn-primary"
                                     >
-                                        Connectez-vous
+                                        Je veux répondre
                                     </a>
                                 </div>
                             </div>

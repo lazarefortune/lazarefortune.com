@@ -206,12 +206,9 @@ function Comments(props) {
                         </div>
                         <div
                             className="absolute inset-0 text-center text-2xl flex flex-col justify-center items-center">
-                            <p className="mb-2">
-                                Connectez-vous pour rejoindre la discussion
-                            </p>
                             <a href={`/connexion?redirect=${encodeURIComponent(window.location.href)}`}
                                className="btn btn-primary">
-                                Rejoindre la discussion
+                                Laisser un commentaire
                             </a>
                         </div>
                     </div>
