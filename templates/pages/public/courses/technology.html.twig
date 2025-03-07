@@ -16,13 +16,13 @@
     </header>
     {% if showTabs %}
         <nav-tabs class="nav-tabs-bar nav-tabs-bar-icons container-box">
-            <a href="#formations" aria-controls="content"  aria-selected="true">
+            <a href="#playlists" aria-controls="content"  aria-selected="true">
                 {{ icon('graduation-cap') }}
-                Formations
+                Playlists
             </a>
-            <a href="#tutoriels" aria-controls="sommaire" >
+            <a href="#videos" aria-controls="sommaire" >
                 {{ icon('youtube') }}
-                Tutoriels
+                Vidéos
             </a>
         </nav-tabs>
     {% endif %}
@@ -36,7 +36,7 @@
                     </alert-message>
                 </div>
             {% else %}
-                <section id="formations">
+                <section id="playlists">
                     {% if formations is not empty %}
                         <h2 class="h3 mb-6">Playlists disponibles pour {{ technology.name }}</h2>
                         <div class="{% if technology.requirements is not empty %}grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3{% else %}formations{% endif %}">
@@ -47,7 +47,7 @@
                     {% endif %}
                 </section>
 
-                <section id="tutoriels" {% if formations is not empty and not showTabs %} class="pt-16" {% endif %}>
+                <section id="videos" {% if formations is not empty and not showTabs %} class="pt-16" {% endif %}>
                     {% if courses is not empty %}
                         <h2 class="h3 mb-6">Découvrez {{ technology.name }} à travers ces vidéos</h2>
                         <div class="{% if technology.requirements is not empty %}grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3{% else %}courses{% endif %}">
