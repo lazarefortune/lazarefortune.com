@@ -3,7 +3,6 @@
 {% block title %}Accueil - Studio{% endblock %}
 
 {% block body %}
-    <div class="container mx-auto px-4 py-6">
         <!-- Header -->
         <div class="mb-8">
             <h1 class="text-3xl font-medium">
@@ -42,5 +41,4 @@
                 {% include 'pages/admin/partials/_last_course.html.twig' with { 'lastCourses': lastCourses } %}
             </div>
         {% endif %}
-    </div>
 {% endblock %}

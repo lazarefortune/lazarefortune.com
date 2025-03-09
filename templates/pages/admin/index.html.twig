@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    <h1 class="h3 mt-4">Salut, <span class="text-lead">{{ app.user.fullname }}</span> </h1>
+    <h1 class="h3 mt-4">Salut, <span class="text-lead">{{ app.user.fullname }}</span></h1>
 
     {% if is_granted('ROLE_SUPER_ADMIN') %}
         <div class="mt-6 grid gap-8 sm:grid-cols-2 xl:grid-cols-4">
