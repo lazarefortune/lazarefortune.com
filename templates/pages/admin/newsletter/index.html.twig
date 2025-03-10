@@ -58,7 +58,9 @@
                 {% set link = path(prefix ~ '_edit', {id: row.id}) %}
                 <tr>
                     <td>
+                        {% if is_granted('NEWSLETTER_EDIT', row) %}
                         <a href="{{ link }}" class="table-cell-link"></a>
+                        {% endif %}
                         {{ row.subject }}
                     </td>
                     <td>
@@ -79,7 +81,7 @@
                     </td>
                     <td>
                         {% if is_granted('NEWSLETTER_EDIT', row) %}
-                            <a href="{{ path(prefix ~ '_edit', {id: row.id}) }}" class="btn-icon">
+                            <a href="{{ link }}" class="btn-icon">
                                 {{ icon('pencil') }}
                             </a>
                         {% endif %}
