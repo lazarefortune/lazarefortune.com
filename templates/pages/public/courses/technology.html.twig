@@ -9,6 +9,14 @@
             <div class="text-lg text-center md:text-left">
                 <p>{{ technology.content }}</p>
             </div>
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <div>
+                    <a href="{{ path('studio_technology_edit', { id: technology.id }) }}" class="btn btn-light" target="_blank">
+                        {{ icon('external-link') }}
+                        Modifier
+                    </a>
+                </div>
+            {% endif %}
         </div>
         <div class="technology__header__logo">
             <img src="{{ vich_uploader_asset(technology, 'imageFile') }}" alt="{{ technology.name }}" class="w-24 h-24">

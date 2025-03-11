@@ -3,11 +3,14 @@ namespace App\Http\Admin\Form\Course;
 
 use App\Domain\Attachment\Type\AttachmentType;
 use App\Domain\Course\Entity\Course;
+use App\Domain\Course\Entity\Technology;
 use App\Http\Admin\Form\Field\TechnologiesType;
 use App\Http\Admin\Form\Field\TechnologyChoiceType;
 use App\Http\Admin\Form\Field\UserChoiceType;
 use App\Http\Type\EditorType;
 use App\Http\Type\SwitchType;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -20,11 +23,15 @@ use Vich\UploaderBundle\Handler\UploadHandler;
 class CourseEditForm extends AbstractType
 {
     public function __construct(
-        private readonly ?UploadHandler $uploaderHandler = null
+        private readonly ?UploadHandler $uploaderHandler = null,
+        private readonly EntityManagerInterface $entityManager,
     ) {}
 
     public function buildForm( FormBuilderInterface $builder, array $options )
     {
+        /** @var Course $course */
+        $course = $options['data'];
+
         $builder
             ->add('title', TextType::class, [
                 'required' => true,
@@ -95,10 +102,18 @@ class CourseEditForm extends AbstractType
             ->add('image', AttachmentType::class)
             ->add('youtubeThumbnail', AttachmentType::class)
             ->add('mainTechnologies', TechnologyChoiceType::class, [
-                'required' => false
+                'required' => false,
+                'mapped'   => false,
+                'data' => $this->entityManager->getRepository(Technology::class)->findBy([
+                    'id' => array_map(fn($t) => $t->getId(), $course->getMainTechnologies())
+                ]),
             ])
             ->add('secondaryTechnologies', TechnologyChoiceType::class, [
-                'required' => false
+                'required' => false,
+                'mapped'   => false,
+                'data' => $this->entityManager->getRepository(Technology::class)->findBy([
+                    'id' => array_map(fn($t) => $t->getId(), $course->getSecondaryTechnologies())
+                ]),
             ])
         ;
 
@@ -109,9 +124,10 @@ class CourseEditForm extends AbstractType
                 return;
             }
 
+            $form = $event->getForm();
+
             // Si la date est déjà passée, on désactive le champ
             if ($course->getPublishedAt() < new \DateTimeImmutable()) {
-                $form = $event->getForm();
                 $form->add('publishedAt', DateTimeType::class, [
                     'label' => 'Date de publication',
                     'widget' => 'single_text',
@@ -128,7 +144,6 @@ class CourseEditForm extends AbstractType
 
             // Si pas de YoutubeID => on supprime le champ duration
             if (!$course->getYoutubeId()) {
-                $form = $event->getForm();
                 $form->remove('duration');
             }
         });
@@ -150,6 +165,29 @@ class CourseEditForm extends AbstractType
 
             if ($course->isPremium() &&  ($course->getPublishedAt() > new \DateTimeImmutable())) {
                 $course->setPublishedAt( new \DateTimeImmutable() );
+            }
+
+            // traitement techno
+            $mainTechnologies = $form->get('mainTechnologies')->getData(); // depuis le formulaire
+            $secondaryTechnologies = $form->get('secondaryTechnologies')->getData(); // depuis le formulaire
+
+            // on les marque comme secondaires ou principales explicitement
+            foreach ($mainTechnologies as $technology) {
+                $technology->setSecondary(false);
+            }
+
+            foreach ($secondaryTechnologies as $technology) {
+                $technology->setSecondary(true);
+            }
+
+            // Sync des technologies
+            $removedUsages = $course->syncTechnologies(
+                array_merge($mainTechnologies, $secondaryTechnologies)
+            );
+
+            // Supprime explicitement les TechnologyUsages retirés de la relation
+            foreach ($removedUsages as $usage) {
+                $this->entityManager->remove($usage);
             }
         });
     }
