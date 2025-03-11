@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class PremiumService
 {
-    private const EXPIRATION_SOON_DAYS = 3;
+    private const EXPIRATION_SOON_DAYS = 1;
 
     public function __construct(
         private readonly UserRepository $userRepository,
