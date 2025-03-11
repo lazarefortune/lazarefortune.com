@@ -16,6 +16,7 @@ export class SlugGenerator extends HTMLElement {
             return;
         }
 
+        this.updateSlugInput()
         this.titleInput.addEventListener("input", () => this.updateSlug());
         this.editSlugBtn.addEventListener("click", () => this.toggleSlugEditing());
     }
@@ -26,13 +27,17 @@ export class SlugGenerator extends HTMLElement {
         }
     }
 
-    toggleSlugEditing() {
-        this.isSlugEditable = !this.isSlugEditable;
+    updateSlugInput() {
         this.slugInput.readOnly = !this.isSlugEditable;
         this.slugInput.classList.toggle("bg-zinc-100", !this.isSlugEditable);
         this.slugInput.classList.toggle("dark:bg-slate-800", !this.isSlugEditable);
         this.slugInput.classList.toggle("text-slate-700", !this.isSlugEditable);
         this.slugInput.classList.toggle("dark:text-slate-400", !this.isSlugEditable);
+    }
+
+    toggleSlugEditing() {
+        this.isSlugEditable = !this.isSlugEditable;
+        this.updateSlugInput()
 
         if (this.iconEdit && this.iconLock) {
             this.iconEdit.classList.toggle("hidden", this.isSlugEditable);

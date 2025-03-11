@@ -20,6 +20,7 @@ class TechnologyController extends CrudController
     protected string $entity = Technology::class;
     protected string $routePrefix = 'studio_technology';
     protected string $searchField = 'name';
+    protected bool   $indexOnSave = false;
 
     #[Route(path: '/', name: 'index', methods: ['GET'])]
     public function index(TechnologyRepository $repository): Response

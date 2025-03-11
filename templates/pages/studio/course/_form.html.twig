@@ -152,7 +152,10 @@
                     </div>
 
                     <div class="flex items-center gap-4">
-                        <button id="upload-btn" type="button" class="btn btn-primary">Uploader</button>
+                        <button id="upload-btn" type="button" class="btn btn-primary">
+                            <span id="upload-btn__icon" class="animate-spin hidden">{{ icon('loader') }}</span>
+                            <span id="upload-btn__text">Téléverser</span>
+                        </button>
                         <button id="remove-btn" type="button" class="btn btn-light">Annuler</button>
                     </div>
 
@@ -279,6 +282,8 @@
     const removeBtn        = document.getElementById("remove-btn");
     const fileInput        = document.getElementById("file-input");
     const uploadBtn        = document.getElementById("upload-btn");
+    const uploadBtnText    = document.getElementById("upload-btn__text");
+    const uploadBtnIcon    = document.getElementById("upload-btn__icon");
     const progressContainer= document.getElementById("progress-container");
     const progressBar      = document.getElementById("progress-bar");
     const progressText     = document.getElementById("progress-text");
@@ -348,8 +353,23 @@
     // 2) LOGIQUE UPLOAD RÉSUMABLE
     // ================================
 
+    function disableUploadButton() {
+        uploadBtn.classList.remove('btn-primary')
+        uploadBtn.classList.add('btn-disabled')
+        uploadBtnIcon.classList.remove('hidden')
+        uploadBtnText.innerHTML = "Patientez"
+    }
+
+    function enableUploadButton() {
+        uploadBtn.classList.add('btn-primary')
+        uploadBtn.classList.remove('btn-disabled')
+        uploadBtnIcon.classList.add('hidden')
+        uploadBtnText.innerHTML = "Téléverser"
+    }
+
     uploadBtn.addEventListener("click", async (e) => {
         e.preventDefault();
+
 
         // Vérifie qu'on a bien un fichier
         if (!fileInput.files.length) {
@@ -359,6 +379,7 @@
         const videoFile = fileInput.files[0];
 
         try {
+            disableUploadButton();
             // Étape 1 : Récupérer token + metadata
             const { accessToken, metadata } = await fetchMetadata(courseId);
 
@@ -378,6 +399,7 @@
 
         } catch (err) {
             console.error(err);
+            enableUploadButton()
             alert("Erreur: " + err.message);
         }
     });

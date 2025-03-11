@@ -12,8 +12,8 @@
             {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <div>
                     <a href="{{ path('studio_technology_edit', { id: technology.id }) }}" class="btn btn-light" target="_blank">
-                        {{ icon('external-link') }}
-                        Modifier
+                        {{ icon('pencil') }}
+                        Editer
                     </a>
                 </div>
             {% endif %}

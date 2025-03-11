@@ -1,35 +1,145 @@
 {{ form_start(form, {attr: {class: 'stacked'}}) }}
 
-<section class="stack-large">
+<section class="stack-large max-w-3xl mx-auto p-6 border border-slate-200 dark:border-slate-800 rounded-xl">
 
-    <section class="stack">
-        <h1 class="h3">
-            Informations générales
-        </h1>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {{ form_row(form.name) }}
-            {{ form_row(form.slug) }}
-            {{ form_row(form.requirements) }}
+    <h1 class="text-2xl font-medium mb-4">Personnalisation du tag</h1>
 
-            {{ form_row(form.imageFile) }}
+    <div class="mb-4 flex flex-col items-center justify-center gap-4">
+        {% if entity.image %}
+            <img src="{{ vich_uploader_asset(entity, 'imageFile') }}"
+                 alt="{{ entity.slug }}-logo"
+                 class="w-32 h-auto rounded">
+        {% endif %}
+
+        <div id="drop-zone" class="border-dashed border-2 border-gray-300 rounded cursor-pointer py-6 px-4 w-full text-center hover:border-gray-400 transition-colors">
+            <div id="drop-text" class="flex flex-col justify-center items-center text-muted">
+                {{ icon('upload') }}
+                Glissez votre image ici ou cliquez pour sélectionner
+            </div>
+            <img id="preview-image" class="hidden mt-4 mx-auto rounded max-h-48 object-contain">
+            <div id="file-name" class="text-sm text-muted mt-2"></div>
+            <button id="remove-image" type="button"
+                    class="hidden mt-2 text-sm text-red-500 hover:underline">Supprimer l'image</button>
         </div>
 
-        <div class="flex items-center">
-            {% if entity.image %}
-                <img src="{{ vich_uploader_asset(entity, 'imageFile') }}" alt="{{ entity.slug }}-logo" class="w-24 h-auto">
-            {% endif %}
-        </div>
+        {{ form_row(form.imageFile, {'label': false, 'attr': {'class': 'hidden'}}) }}
+    </div>
 
-        <div class="w-full">
-            <h2 class="label mb-2">Description</h2>
-            {{ form_row(form.content, {label: false}) }}
-        </div>
-    </section>
+    <slug-generator class="mb-6">
+        {{ form_row(form.name, {'attr': {'data-slug-title': ''}}) }}
 
-    <section>
-        <button type="submit" class="btn btn-primary">Sauvegarder</button>
-    </section>
+        <div class="relative">
+            {{ form_row(form.slug, {'attr': {'data-slug-input': ''}}) }}
+            <button id="edit-slug-btn"
+                    data-slug-edit-btn
+                    type="button"
+                    class="absolute top-9 right-2 mt-2 mr-2 text-slate-400 hover:text-primary-800 transition-colors duration-200">
+                <span data-slug-icon-edit>{{ icon('pencil') }}</span>
+                <span data-slug-icon-lock class="hidden">{{ icon('check') }}</span>
+            </button>
+        </div>
+    </slug-generator>
+
+    <div class="mb-6">
+        {{ form_row(form.requirements) }}
+    </div>
+
+    <div class="mb-6">
+        <label class="block mb-2 font-semibold">Description</label>
+        {{ form_row(form.content, {'label': false}) }}
+    </div>
+
+    <div class="text-right">
+        <button type="submit" class="btn btn-primary px-6">Sauvegarder</button>
+    </div>
 
 </section>
 
 {{ form_end(form) }}
+
+
+{% block javascripts_bottom %}
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const dropZone = document.getElementById("drop-zone");
+        const dropText = document.getElementById("drop-text");
+        const fileInput = document.getElementById("automatic_form_imageFile");
+        const previewImage = document.getElementById("preview-image");
+        const fileNameDisplay = document.getElementById("file-name");
+        const removeImageBtn = document.getElementById("remove-image");
+
+        const acceptedImageTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'];
+
+        const resetFileInput = () => {
+            fileInput.value = '';
+            previewImage.src = '';
+            previewImage.classList.add('hidden');
+            fileNameDisplay.textContent = '';
+            dropText.style.display = 'flex';
+            removeImageBtn.classList.add('hidden');
+        };
+
+        const toggleDragClass = (toggle) => {
+            dropZone.classList.toggle('border-gray-400', toggle);
+        };
+
+        const showPreview = file => {
+            if (!acceptedImageTypes.includes(file.type)) {
+                alert('Merci de sélectionner une image valide (JPG, PNG, GIF, SVG, ou WebP).');
+                resetFileInput();
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = e => {
+                previewImage.src = e.target.result;
+                previewImage.classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+            fileNameDisplay.textContent = file.name;
+            dropText.style.display = "none";
+            removeImageBtn.classList.remove('hidden');
+        };
+
+        // Gestion simplifiée des événements
+        ['dragenter', 'dragover'].forEach(event =>
+            dropZone.addEventListener(event, e => {
+                e.preventDefault();
+                toggleDragClass(true);
+            })
+        );
+
+        ['dragleave', 'drop'].forEach(event =>
+            dropZone.addEventListener(event, e => {
+                e.preventDefault();
+                toggleDragClass(false);
+            })
+        );
+
+        dropZone.addEventListener("drop", e => {
+            const file = e.dataTransfer.files[0];
+            if (file) {
+                fileInput.files = e.dataTransfer.files;
+                showPreview(file);
+            }
+        });
+
+        dropZone.addEventListener("click", () => fileInput.click());
+
+        fileInput.addEventListener("change", () => {
+            const file = fileInput.files[0];
+            if (file) {
+                showPreview(file);
+            }
+        });
+
+        removeImageBtn.addEventListener('click', e => {
+            e.preventDefault();
+            e.stopPropagation();
+            resetFileInput();
+        });
+
+    });
+</script>
+{% endblock %}

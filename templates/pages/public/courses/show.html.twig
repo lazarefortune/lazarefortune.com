@@ -180,10 +180,11 @@
                         <div class="stack-large">
                             <div>
                                 <div class="h4 text-lead mb-4">Tags</div>
-                                <div class="flex flex-wrap gap-1 border-t py-2 border-b border-slate-200 dark:border-slate-600">
+                                <div class="flex flex-wrap items-center gap-1 border-t py-2 border-b border-slate-200 dark:border-slate-600">
                                     {% for technology in course.mainTechnologies %}
                                         <a class="flex items-center gap-2"
                                            href="{{ path('app_technology_show', {slug: technology.slug}) }}">
+                                            <img src="{{ vich_uploader_asset(technology, 'imageFile') }}" class="w-10">
                                             {{ technology.name }}
                                             {% if technology.version %}
                                                 <span class="text-muted">v{{ technology.version }}</span>
