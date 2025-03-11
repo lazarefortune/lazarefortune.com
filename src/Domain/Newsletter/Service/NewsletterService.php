@@ -21,47 +21,49 @@ class NewsletterService
     private const BASE_URL = 'https://www.lazarefortune.com';
 
     public function __construct(
-        private readonly MailService $mailService,
-        private readonly CourseRepository $courseRepository,
-        private readonly UserRepository $userRepository,
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly NewsletterRepository $newsletterRepository,
+        private readonly MailService            $mailService,
+        private readonly CourseRepository       $courseRepository,
+        private readonly UserRepository         $userRepository,
+        private readonly UrlGeneratorInterface  $urlGenerator,
+        private readonly NewsletterRepository   $newsletterRepository,
         private readonly EntityManagerInterface $em
-    ) {}
+    )
+    {
+    }
 
     /**
      * @throws Exception
      */
-    public function subscribe( NewsletterSubscriber $subscriber): void
+    public function subscribe( NewsletterSubscriber $subscriber ) : void
     {
-        $existingSubscriber = $this->em->getRepository(NewsletterSubscriber::class)
-            ->findOneBy(['email' => $subscriber->getEmail()]);
+        $existingSubscriber = $this->em->getRepository( NewsletterSubscriber::class )
+            ->findOneBy( ['email' => $subscriber->getEmail()] );
 
-        $existingUser = $this->userRepository->findOneBy(['email' => $subscriber->getEmail()]);
+        $existingUser = $this->userRepository->findOneBy( ['email' => $subscriber->getEmail()] );
 
-        if ($existingSubscriber) {
-            if ($existingSubscriber->isSubscribed()) {
+        if ( $existingSubscriber ) {
+            if ( $existingSubscriber->isSubscribed() ) {
                 throw new AlreadySubscribedException();
             }
-            $existingSubscriber->setSubscribed(true);
+            $existingSubscriber->setSubscribed( true );
             $this->em->flush();
-        } elseif ($existingUser) {
+        } elseif ( $existingUser ) {
             /*
             $existingSubscriber = new NewsletterSubscriber();
             $existingSubscriber->setEmail($subscriber->getEmail());
             $existingSubscriber->setSubscribed(true);
             $this->em->persist($existingSubscriber);
             */
-            $existingUser->setNewsletterSubscribed(true);
-            $this->em->persist($existingUser);
+            $existingUser->setNewsletterSubscribed( true );
+            $this->em->persist( $existingUser );
             $this->em->flush();
 
-            if (!$existingUser->isNewsletterSubscribed()) {
-                $existingUser->setNewsletterSubscribed(true);
+            if ( !$existingUser->isNewsletterSubscribed() ) {
+                $existingUser->setNewsletterSubscribed( true );
                 $this->em->flush();
             }
         } else {
-            $this->em->persist($subscriber);
+            $this->em->persist( $subscriber );
             $this->em->flush();
         }
     }

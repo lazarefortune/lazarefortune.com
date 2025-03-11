@@ -316,4 +316,20 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    /**
+     * Récupère les utilisateurs dont l'abonnement premium expire dans les 3 prochains jours.
+     */
+    public function findUsersWithPremiumEndingSoon( int $days = 3 ): array
+    {
+        $endDate = (new \DateTime("+{$days} days"))->setTime(23, 59, 59);
+
+        return $this->createQueryBuilder('u')
+            ->where('u.premiumEnd <= :endDate')
+            ->setParameter('endDate', $endDate)
+            ->orderBy('u.premiumEnd', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
 }
