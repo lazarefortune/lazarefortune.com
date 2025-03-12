@@ -1,6 +1,6 @@
 /* Conteneur principal de la popup des notifications */
 .notifications {
-  @apply absolute -right-10 md:right-0 top-[45px] min-w-64 md:min-w-80 bg-white dark:bg-gray-900 shadow-xl rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 transform opacity-0 scale-95 invisible;
+  @apply absolute -right-24 md:right-0 top-[45px] min-w-72 md:min-w-80 bg-white dark:bg-gray-900 shadow-xl rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 transform opacity-0 scale-95 invisible;
   z-index: 1000;
   // On ajoute un pseudo-élément pour le triangle
 }
@@ -12,7 +12,7 @@
 
 /* En-tête de la popup */
 .notifications_title {
-  @apply flex justify-between items-center px-4 py-3 bg-gray-50 dark:bg-primary-950 text-gray-800 dark:text-gray-200 font-medium font-bricolage border-b border-gray-200 dark:border-gray-700;
+  @apply flex justify-between items-center px-4 py-3 bg-white dark:bg-primary-950 text-gray-800 dark:text-gray-200 font-medium font-bricolage border-b border-gray-200 dark:border-gray-700;
 }
 
 /* Bouton de fermeture de la popup */
@@ -22,7 +22,7 @@
 
 /* Corps de la popup */
 .notifications_body {
-  @apply max-h-72 overflow-y-auto p-3 space-y-2 dark:bg-primary-1000;
+  @apply max-h-96 overflow-y-auto py-0 space-y-0 dark:bg-primary-1000;
 }
 
 /* Message affiché s'il n'y a aucune notification */
@@ -37,16 +37,22 @@
 
 /* Style d'une notification */
 .notifications_item {
-  @apply flex flex-col p-3 rounded-lg transition cursor-pointer border border-transparent;
-  @apply bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700;
+  @apply flex flex-col px-6 py-2 transition cursor-pointer border-transparent;
+  @apply bg-white dark:bg-primary-1000 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-primary-900 dark:hover:text-white;
+}
+
+.notifications_item:not(:first-child) {
+  @apply border-t border-gray-200 dark:border-gray-700;
 }
 
 /* Notification marquée comme lue */
-.notifications_item.is-read {
-  @apply opacity-70 bg-gray-100 dark:bg-gray-900;
-}
+//.notifications_item.is-read {
+//  @apply opacity-70 bg-gray-100 dark:bg-gray-900;
+//}
 
 /* Pied de page avec lien vers toutes les notifications */
 .notifications_footer {
-  @apply block text-center py-3 bg-gray-50 dark:bg-primary-950 text-primary-600 dark:text-primary-400 font-medium border-t border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:text-white dark:hover:bg-primary-600 transition;
+  @apply block text-center transition-colors font-medium py-3 bg-white hover:bg-primary-50 text-primary-600 hover:text-primary-600;
+  @apply dark:bg-primary-950 dark:text-white  dark:border-gray-700  dark:hover:text-white dark:hover:bg-primary-900;
+  @apply border-t border-gray-200;
 }

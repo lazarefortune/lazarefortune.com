@@ -107,7 +107,7 @@ function Popup({ notifications = [], onClickOutside = () => {}, loading = false,
     return (
         <div ref={ref} {...props}>
             <div className="notifications_title">
-                <h3 className="h4">Notifications</h3>
+                <h3 className="h5">Notifications</h3>
                 <button aria-label="Fermer" onClick={onClickOutside}>
                     <X size={20} />
                 </button>
@@ -123,7 +123,7 @@ function Popup({ notifications = [], onClickOutside = () => {}, loading = false,
                 )}
             </div>
             <a href="/notifications" className="notifications_footer">
-                Toutes les notifications
+                Voir toutes les notifications
             </a>
         </div>
     )
@@ -133,12 +133,17 @@ function Popup({ notifications = [], onClickOutside = () => {}, loading = false,
  * Représente une notification
  */
 function Notification({ url, message, createdAt, notificationReadAt }) {
-    const isRead = notificationReadAt > createdAt
+    const isRead = notificationReadAt > new Date(createdAt)
     const className = `notifications_item ${isRead ? 'is-read' : ''}`
     const time = Date.parse(createdAt) / 1000
     return (
         <a href={url} className={className}>
-            <div dangerouslySetInnerHTML={{ __html: message }} />
+            <div className="relative">
+                <div dangerouslySetInnerHTML={{ __html: message }} />
+                {!isRead && (
+                    <span className="absolute top-0 -right-2 min-w-2 min-h-2 bg-red-500 rounded-full ml-2"></span>
+                )}
+            </div>
             <small className="text-muted">
                 <time-ago time={time} />
             </small>

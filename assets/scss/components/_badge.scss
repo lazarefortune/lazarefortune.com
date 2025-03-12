@@ -44,7 +44,7 @@
 
 .badge-premium {
   @apply inline-flex items-center gap-2 text-xs bg-primary-200 dark:bg-primary-900 text-primary-600 dark:text-primary-300 rounded-full px-4 py-1;
-  @apply transition-colors hover:bg-primary-300 hover:text-primary-700 dark:hover:bg-primary-700 dark:hover:text-primary-200;
+  //@apply transition-colors hover:bg-primary-300 hover:text-primary-700 dark:hover:bg-primary-700 dark:hover:text-primary-200;
   @apply dark:bg-primary-700 dark:text-primary-200 dark:hover:bg-primary-600 dark:hover:text-primary-100;
 }
 

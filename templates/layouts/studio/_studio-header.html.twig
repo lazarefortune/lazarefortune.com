@@ -15,14 +15,14 @@
             <div class="flex items-center justify-start gap-2 w-full pb-4 border-b border-slate-200 dark:border-slate-700">
                 <img class="h-10 w-10 rounded-full object-cover border border-b-gray-400" src="{{ app.user|avatar }}" alt="{{ app.user.fullname }} avatar">
                 <div class="ml-2 h4">
-                    <div>{{ app.user.fullname }}</div>
+                    <div class="h3">{{ app.user.fullname }}</div>
                     {% if app.user.isPremium %}
-                        <div class="badge-premium">
+                        <div class="badge-premium mt-1">
                             {{ icon('sparkles') }}
                             <span>Compte Premium</span>
                         </div>
                     {% else %}
-                        <a href="{{ path('app_premium') }}" class="badge-standard">Compte Standard</a>
+                        <a href="{{ path('app_premium') }}" class="badge-standard mt-1">Compte Standard</a>
                     {% endif %}
                 </div>
             </div>
