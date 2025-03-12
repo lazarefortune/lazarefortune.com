@@ -4,6 +4,7 @@ namespace App\Domain\Premium;
 
 use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Auth\Core\Repository\UserRepository;
+use App\Domain\Notification\NotificationService;
 use App\Infrastructure\Mailing\MailService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -16,7 +17,8 @@ class PremiumService
         private readonly UserRepository $userRepository,
         private readonly MailService $mailService,
         private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
+        private readonly NotificationService $notificationService,
     ) {
     }
 
@@ -38,6 +40,7 @@ class PremiumService
 
         foreach ($users as $user) {
             try {
+                $this->sendExpirationEmailNotification($user);
                 $this->sendExpirationNotification($user);
                 $this->logger->info(sprintf('Notification envoyée avec succès à %s', $user->getEmail()));
                 $sentEmailsCount++;
@@ -52,7 +55,7 @@ class PremiumService
     /**
      * Prépare et envoie l'email d'expiration à l'utilisateur.
      */
-    private function sendExpirationNotification(User $user): void
+    private function sendExpirationEmailNotification(User $user): void
     {
         $mail = $this->mailService->prepareEmail(
             $user->getEmail(),
@@ -66,6 +69,22 @@ class PremiumService
 
         $this->mailService->send($mail);
     }
+
+    private function sendExpirationNotification(User $user): void
+    {
+        $formatter = new \IntlDateFormatter(
+            'fr_FR',
+            \IntlDateFormatter::LONG,
+            \IntlDateFormatter::NONE,
+            'Europe/Paris'
+        );
+
+        $dateFormatted = $formatter->format($user->getPremiumEnd());
+
+        $message = "Pour rappel, votre abonnement premium doit être renouvelé le {$dateFormatted}.";
+        $this->notificationService->notifyUser($user, $message, $user);
+    }
+
 
     /**
      * Génère un lien absolu vers le profil utilisateur.

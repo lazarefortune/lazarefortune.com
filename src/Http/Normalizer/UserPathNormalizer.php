@@ -12,8 +12,7 @@ class UserPathNormalizer extends Normalizer
     {
         if ($object instanceof User) {
             return [
-                'path' => 'user_show',
-                'params' => ['id' => $object->getId()],
+                'path' => 'app_account_profile',
             ];
         }
         throw new \RuntimeException("Can't normalize path");
