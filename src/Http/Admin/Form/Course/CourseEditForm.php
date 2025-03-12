@@ -23,8 +23,8 @@ use Vich\UploaderBundle\Handler\UploadHandler;
 class CourseEditForm extends AbstractType
 {
     public function __construct(
-        private readonly ?UploadHandler $uploaderHandler = null,
         private readonly EntityManagerInterface $entityManager,
+        private readonly ?UploadHandler $uploaderHandler = null,
     ) {}
 
     public function buildForm( FormBuilderInterface $builder, array $options )
