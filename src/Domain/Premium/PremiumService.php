@@ -5,6 +5,7 @@ namespace App\Domain\Premium;
 use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Auth\Core\Repository\UserRepository;
 use App\Domain\Notification\NotificationService;
+use App\Domain\Premium\Entity\PremiumOffer;
 use App\Infrastructure\Mailing\MailService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -83,6 +84,44 @@ class PremiumService
 
         $message = "Pour rappel, votre abonnement premium doit être renouvelé le {$dateFormatted}.";
         $this->notificationService->notifyUser($user, $message, $user);
+    }
+
+    public function notifyPremiumOfferNotification( User $user, PremiumOffer $premiumOffer): void
+    {
+        $this->sendPremiumOfferMail($user, $premiumOffer);
+        $this->sendPremiumOfferNotification($user, $premiumOffer);
+    }
+
+    private function sendPremiumOfferNotification(User $user, PremiumOffer $premiumOffer): void
+    {
+        $formatter = new \IntlDateFormatter(
+            'fr_FR',
+            \IntlDateFormatter::LONG,
+            \IntlDateFormatter::NONE,
+            'Europe/Paris'
+        );
+
+        $dateFormatted = $formatter->format($user->getPremiumEnd());
+
+        $message = "Bonne nouvelle, {$premiumOffer->getUser()->getFullname()} vous a ajouté {$premiumOffer->getDays()} 
+         jours à votre abonnement Premium, il expire donc le {$dateFormatted}.";
+        $this->notificationService->notifyUser($user, $message, $user);
+    }
+
+    private function sendPremiumOfferMail(User $user, PremiumOffer $premiumOffer): void
+    {
+        $mail = $this->mailService->prepareEmail(
+            $user->getEmail(),
+            "Bonne nouvelle {$user->getFullname()}! Tu as reçu un petit cadeau",
+            'mails/account/premium/offer-days.twig',
+            [
+                'user' => $user,
+                'account' => $this->generateAccountLink(),
+                'premiumOffer' => $premiumOffer,
+            ]
+        );
+
+        $this->mailService->send($mail);
     }
 
 

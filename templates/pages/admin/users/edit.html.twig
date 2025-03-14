@@ -53,7 +53,7 @@
         <div class="divider my-6"></div>
 
         <!-- Informations -->
-        <div class="grid grid-cols-1 gap-10 md:gap-4 md:grid-cols-3">
+        <div class="grid grid-cols-1 gap-10 md:gap-4 md:grid-cols-4">
             <div class="col-span-1">
                 <div class="flex flex-row gap-4">
                     <div class="flex justify-center items-center bg-primary-100 dark:bg-primary-900 rounded-full w-10 h-10 text-primary-800 dark:text-primary-300">
@@ -101,6 +101,23 @@
                     </div>
                 </div>
             </div>
+            <div class="col-span-1">
+                <div class="flex flex-row gap-4">
+                    <div class="flex justify-center items-center bg-primary-100 dark:bg-primary-900 rounded-full w-10 h-10 text-primary-800 dark:text-primary-300">
+                        {{ icon('crown') }}
+                    </div>
+                    <div class="flex flex-col justify-center">
+                        <div class="text-sm text-slate-400 uppercase">Date de fin Premium</div>
+                        <span class="text-base text-slate-900 dark:text-slate-400">
+                            {% if entity.premiumEnd %}
+                                {{ entity.premiumEnd|date('d/m/Y') }}
+                            {% else %}
+                                Inexistante
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="divider my-6"></div>
@@ -120,6 +137,56 @@
 
         <div class="divider my-6"></div>
         {% endif %}
+
+        <!-- premium offer -->
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+        <div>
+            <h4 class="h4">Offre premium</h4>
+            <p class="text-sm text-muted">Vous pouvez prolonger l'offre premium d'un utilisateur</p>
+            <div class="mt-4">
+                <button data-modal-id="addPremium" title="Ajouter des jours premiums" class="btn btn-light">
+                    {{ icon('crown') }}
+                    Ajouter des jours premiums
+                </button>
+                <modal-dialog id="addPremium" hidden="hidden" overlay-close>
+                    <section class="modal-box max-w-lg w-full p-6 bg-white dark:bg-primary-950 rounded shadow-lg">
+                        <div class="flex items-center justify-between mb-2">
+                            <h2 class="text-xl font-semibold text-slate-800 dark:text-slate-100">
+                                Offrez un cadeau premium
+                            </h2>
+                            <button data-dismiss aria-label="Close" class="modal-close text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">
+                                {{ icon('x') }}
+                            </button>
+                        </div>
+
+                        <hr class="my-4 border-slate-200 dark:border-slate-700"/>
+
+                        <form class="mt-5" action="{{ path('admin_premium_days_add') }}" method="post">
+                            <div>
+                                <label for="days" class="label">Combien de jours ?</label>
+                                <input type="number" min="0" name="days" id="days" required class="form-input" />
+                            </div>
+
+                            <div class="mt-4">
+                                <label for="comment" class="label">Commentaire (optionnel)</label>
+                                <textarea name="comment" id="comment" rows="3" class="form-input"></textarea>
+                            </div>
+
+                            <input type="hidden" value="{{ entity.id }}" name="user_id">
+
+                            <div class="flex justify-end gap-x-2 mt-6">
+                                <button type="button" class="btn btn-light" data-dismiss>Annuler</button>
+
+                                <button type="submit" class="btn btn-primary">Continuer</button>
+                            </div>
+                        </form>
+                    </section>
+                </modal-dialog>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="divider my-6"></div>
 
         <!-- User roles -->
         <div>
@@ -141,6 +208,7 @@
         <div class="divider my-6"></div>
 
         <!-- warning zone for impersonate -->
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
         <div>
             <h4 class="font-bricolage text-xl font-medium text-red-700 dark:text-red-300">Prendre le contrôle de cet utilisateur</h4>
             <p class="text-muted max-w-xl">
@@ -153,6 +221,6 @@
                 </a>
             </div>
         </div>
-
+        {% endif %}
 </div>
 {% endblock %}

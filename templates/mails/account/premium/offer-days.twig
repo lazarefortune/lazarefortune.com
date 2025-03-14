@@ -1,0 +1,50 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as element %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+
+        Bonjour {{ user.fullname }} !
+        ===============================
+
+        Bonne nouvelle !
+
+        {% set jourOuJours = premiumOffer.days > 1 ? 'jours' : 'jour' %}
+
+        {{ premiumOffer.admin.fullname }} vous a offert **{{ premiumOffer.days }}** {{ jourOuJours }} supplémentaires
+        à votre abonnement Premium.
+
+        Votre abonnement est désormais valide jusqu'au **{{ user.premiumEnd|format_datetime('long', 'none', locale='fr') }}**.
+
+        {% if premiumOffer.comment %}
+
+            **Commentaire** :
+            > {{ premiumOffer.comment }}
+
+        {% endif %}
+
+        Vous pouvez consulter les détails de votre compte (et profiter de vos avantages Premium) en cliquant sur le bouton ci-dessous.
+
+    {% endapply %}
+
+    {{ element.button('Accéder à mon compte', account | raw ) }}
+
+    {% apply markdown_email %}
+        Cordialement,
+
+        L'équipe {{ app_name }}
+    {% endapply %}
+
+    {# Section de fallback si le bouton ne fonctionne pas #}
+    {% set see_account_section %}
+        {% apply markdown_email %}
+            Si le bouton ne fonctionne pas, vous pouvez copier/coller l'adresse suivante dans votre navigateur :
+            [Accéder à mon compte]({{ account|raw }})
+        {% endapply %}
+    {% endset %}
+
+    {{ element.section(see_account_section) }}
+
+{% endblock %}

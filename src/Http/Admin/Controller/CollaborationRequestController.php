@@ -52,6 +52,7 @@ class CollaborationRequestController extends AbstractController
 
         $this->collaborationRequestService->accept( $collaborationRequest );
 
+        $this->addFlash('success', 'Proposition de collaboration acceptée');
         return $this->redirectToRoute('admin_collaboration_request_index');
     }
 
@@ -68,6 +69,7 @@ class CollaborationRequestController extends AbstractController
 
         $this->collaborationRequestService->reject( $collaborationRequest );
 
+        $this->addFlash('success', 'Proposition de collaboration refusée');
         return $this->redirectToRoute('admin_collaboration_request_index');
     }
 }
