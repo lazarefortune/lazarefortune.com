@@ -1,44 +1,133 @@
 {% extends 'layouts/studio/base.html.twig' %}
 
-{% block title %}Accueil - Studio{% endblock %}
+{% block title %}Accueil du Studio{% endblock %}
 
 {% block body %}
-        <!-- Header -->
-        <div class="mb-8">
-            <h1 class="text-3xl font-medium">
-                Salut, <span class="text-lead">{{ app.user.fullname }}</span> !
+    <!-- Hero / Introduction -->
+    <section class="mt-5 bg-gray-50 dark:bg-primary-1000 rounded-xl p-8 shadow-sm mb-10">
+        <div class="text-center">
+            <h1 class="text-4xl font-medium mb-4 text-slate-700 dark:text-white">
+                Bienvenue, <span class="text-lead">{{ app.user.fullname }}</span> !
             </h1>
-            <p class="mt-2 text-gray-600">
-                Bienvenue dans ton Studio, l'espace où ta créativité prend vie.
-                Découvre tes stats et lance tes projets !
+            <p class="text-lg text-muted max-w-2xl mx-auto">
+                C’est ici que la magie opère et que vos idées deviennent réalité.
+                Consultez vos dernières stats, créez du contenu et inspirez le monde !
+            </p>
+            <div class="mt-8">
+                <a href="{{ path('studio_course_new') }}"
+                   class="btn btn-primary">
+                    Créer une nouvelle vidéo
+                </a>
+            </div>
+        </div>
+    </section>
+
+    {% if is_granted('ROLE_AUTHOR') %}
+        <!-- Statistiques principales -->
+        <!--
+        <section class="grid gap-8 sm:grid-cols-2 xl:grid-cols-4 mb-12">
+            <div class="flex flex-col items-start justify-center p-6 border border-slate-200 dark:border-slate-700 rounded-xl">
+                <div class="flex items-center justify-between w-full">
+                    <span class="text-sm font-medium text-slate-500 dark:text-slate-300 uppercase">
+                        Contributions Vidéos
+                    </span>
+                    <span class="text-slate-500 dark:text-slate-300">
+                        {{ icon('video', 30) }}
+                    </span>
+                </div>
+                <div class="mt-3 text-4xl font-medium text-slate-700 dark:text-white">
+                    {{ countAuthorCourses }}
+                </div>
+            </div>
+            <div class="flex flex-col items-start justify-center p-6 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+                <div class="flex items-center justify-between w-full">
+                    <span class="text-sm font-medium text-slate-500 dark:text-slate-300 uppercase">
+                        Vidéos en ligne
+                    </span>
+                    <span class="text-slate-500 dark:text-slate-300">
+                        {{ icon('video', 30) }}
+                    </span>
+                </div>
+                <div class="mt-3 text-4xl font-medium text-slate-700 dark:text-white">
+                    {{ countOnlineCourses }}
+                </div>
+            </div>
+            <div class="flex flex-col items-start justify-center p-6 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+                <div class="flex items-center justify-between w-full">
+                    <span class="text-sm font-medium text-slate-500 dark:text-slate-300 uppercase">
+                        Nouveaux abonnés
+                    </span>
+                    <span class="text-slate-500 dark:text-slate-300">
+                        {{ icon('user-plus', 30) }}
+                    </span>
+                </div>
+                <div class="mt-3 text-4xl font-medium text-slate-700 dark:text-white">
+                    123
+                </div>
+            </div>
+            <div class="flex flex-col items-start justify-center p-6 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+                <div class="flex items-center justify-between w-full">
+                    <span class="text-sm font-medium text-slate-500 dark:text-slate-300 uppercase">
+                        Vues totales
+                    </span>
+                    <span class="text-slate-500 dark:text-slate-300">
+                        {{ icon('eye', 30) }}
+                    </span>
+                </div>
+                <div class="mt-3 text-4xl font-medium text-slate-700 dark:text-white">
+                    4.5K
+                </div>
+            </div>
+        </section>
+        -->
+
+        <!-- Bloc d’actions rapides -->
+        <section class="grid gap-8 sm:grid-cols-2 mb-12">
+            <div class="border border-slate-200 dark:border-slate-700 p-6 rounded-xl shadow-sm flex flex-col justify-between">
+                <span class="block text-sm font-medium text-slate-500 dark:text-slate-300 uppercase">
+                    Gérer vos Vidéos
+                </span>
+                <div class="mt-3 text-4xl font-medium text-slate-700 dark:text-white">
+                    {{ countAuthorCourses }}
+                </div>
+                <p class="mt-2 text-muted">
+                    Accédez à votre liste de vidéos, modifiez ou supprimez-les rapidement.
+                </p>
+                <div class="mt-4">
+                    <a href="{{ path('studio_course_index') }}"
+                       class="btn btn-light">
+                        Gérer vos vidéos
+                    </a>
+                </div>
+            </div>
+
+            <div class="border border-slate-200 dark:border-slate-700 p-6 rounded-xl shadow-sm flex flex-col justify-between">
+                <span class="block text-sm font-medium text-slate-500 dark:text-slate-300 uppercase">
+                    Découvrir les tendances
+                </span>
+                <div class="mt-3 text-4xl font-medium text-slate-700 dark:text-white">
+                    {{ countOnlineCourses }}
+                </div>
+                <p class="mt-2 text-muted">
+                    Surveille les nouvelles vidéos de la plateforme et reste inspiré !
+                </p>
+                <div class="mt-4">
+                    <a href="{{ path('app_course_index') }}"
+                       class="btn btn-light">
+                        Voir toutes les vidéos
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dernières Vidéos -->
+        {% include 'pages/admin/partials/_last_course.html.twig' with { 'lastCourses': lastCourses } %}
+    {% else %}
+        <div class="bg-slate-100 dark:bg-primary-1000 p-6 rounded-xl shadow-sm">
+            <h2 class="text-xl font-medium text-slate-700 dark:text-white">Accès Restreint</h2>
+            <p class="text-muted mt-2">
+                Vous n’avez pas encore les droits d’auteur pour accéder à cet espace.
             </p>
         </div>
-
-        {% if is_granted('ROLE_AUTHOR') %}
-            <!-- Statistiques -->
-            <div class="grid gap-8 sm:grid-cols-2 xl:grid-cols-4">
-                <div class="p-6 border border-slate-200 dark:border-slate-700 rounded-xl">
-                    <span class="block text-sm font-medium text-gray-500 uppercase">Vos Vidéos</span>
-                    <div class="mt-3 text-4xl font-medium text-gray-800 dark:text-white">
-                        {{ countAuthorCourses }}
-                    </div>
-                    <div class="mt-4">
-                        <a href="{{ path('studio_course_new') }}" class="btn btn-primary">
-                            Créer une vidéo
-                        </a>
-                    </div>
-                </div>
-                <div class="p-6 border border-slate-200 dark:border-slate-700 rounded-xl">
-                    <span class="block text-sm font-medium text-gray-500 uppercase">Vidéos de la chaîne</span>
-                    <div class="mt-3 text-4xl font-medium text-gray-800 dark:text-white">
-                        {{ countOnlineCourses }}
-                    </div>
-                </div>
-            </div>
-
-            <!-- Dernières Vidéos -->
-            <div class="mt-12">
-                {% include 'pages/admin/partials/_last_course.html.twig' with { 'lastCourses': lastCourses } %}
-            </div>
-        {% endif %}
+    {% endif %}
 {% endblock %}
