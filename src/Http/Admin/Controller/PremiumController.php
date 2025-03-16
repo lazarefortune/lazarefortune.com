@@ -57,6 +57,10 @@ class PremiumController extends AbstractController
             $premiumEnd = $now;
         }
 
+        if ( $premiumEnd < $now ) {
+            $premiumEnd = $now;
+        }
+
         // On ajoute le nombre de jours
         $premiumEnd = $premiumEnd->modify( "+{$days} days" );
 
