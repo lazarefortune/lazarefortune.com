@@ -80,7 +80,8 @@ class PremiumController extends AbstractController
 
         $this->eventDispatcher->dispatch( new PremiumOfferReceived( $user, $offer ), PremiumOfferReceived::class );
 
-        $this->addFlash( 'success', "L'abonnement Premium de l'utilisateur a été prolongé de {$days} jours." );
+        $jourOuJours = ($offer->getDays() > 1) ? 'jours' : 'jour';
+        $this->addFlash( 'success', "L'abonnement Premium de l'utilisateur a été prolongé de {$days} {$jourOuJours}." );
 
         return $this->redirectToRoute( 'admin_users_edit', [
             'id' => $user->getId(),
