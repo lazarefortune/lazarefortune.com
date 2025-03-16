@@ -103,8 +103,10 @@ class PremiumService
 
         $dateFormatted = $formatter->format($user->getPremiumEnd());
 
+        $jourOuJours = ($premiumOffer->getDays() > 1) ? 'jours' : 'jour';
+
         $message = "Bonne nouvelle, {$premiumOffer->getUser()->getFullname()} vous a ajouté {$premiumOffer->getDays()} 
-         jours à votre abonnement Premium, il expire donc le {$dateFormatted}.";
+         {$jourOuJours} à votre abonnement Premium, il expire donc le {$dateFormatted}.";
         $this->notificationService->notifyUser($user, $message, $user);
     }
 
