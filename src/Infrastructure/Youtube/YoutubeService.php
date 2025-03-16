@@ -11,7 +11,9 @@ use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
 use Google\Service\Exception;
 use Google\Service\YouTube;
+use Google_Service_YouTube;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Google\Service\YouTube as GoogleYouTube;
 
 class YoutubeService
 {
@@ -349,4 +351,54 @@ class YoutubeService
         return $uploadUrl;
     }
 
+    public function getChannelStats(): array
+    {
+        // Récupère l'entité YoutubeSetting associée (via youtubeAdminService)
+        $youtubeSetting = $this->youtubeAdminService->getAccount();
+        if (!$youtubeSetting || !$youtubeSetting->getAccessToken()) {
+            throw new NotFoundYoutubeAccount('Aucun compte YouTube n\'est lié pour récupérer les informations de la chaîne.');
+        }
+
+        // Authentifie le client (refresh token si besoin)
+        $this->authenticateGoogleClient($youtubeSetting);
+
+        // On essaie d'obtenir l'ID de la chaîne depuis la bdd
+        $channelId = $youtubeSetting->getChannelId();
+        $youtube = new GoogleYouTube($this->googleClient);
+
+        // Si channelId manquant ou invalide, on tente de le récupérer
+        if (!$channelId || preg_match('/\s/', $channelId)) {
+            $response = $youtube->channels->listChannels('snippet', [
+                'mine' => true
+            ]);
+            if (count($response->getItems()) > 0) {
+                $channelId = $response->getItems()[0]->getId();
+                $youtubeSetting->setChannelId($channelId);
+                $this->em->flush();
+            } else {
+                throw new NotFoundYoutubeAccount("Aucune chaîne YouTube trouvée pour l'utilisateur authentifié.");
+            }
+        }
+
+        // Récupération des statistiques
+        $response = $youtube->channels->listChannels('statistics', [
+            'id' => $channelId
+        ]);
+
+        if (count($response->getItems()) === 0) {
+            throw new \RuntimeException("Impossible de trouver la chaîne YouTube avec l'ID fourni : " . $channelId);
+        }
+
+        $statistics = $response->getItems()[0]->getStatistics();
+        if (!$statistics) {
+            throw new \RuntimeException("Les statistiques de la chaîne YouTube n'ont pas pu être récupérées correctement.");
+        }
+
+        // On renvoie un tableau complet
+        return [
+            'subscriberCount' => (int) $statistics->getSubscriberCount(),
+            'viewCount'       => (int) $statistics->getViewCount(),
+            'videoCount'      => (int) $statistics->getVideoCount(),
+        ];
+    }
 }

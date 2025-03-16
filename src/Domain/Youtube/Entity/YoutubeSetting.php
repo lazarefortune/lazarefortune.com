@@ -23,8 +23,11 @@ class YoutubeSetting
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $googleId = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::STRING, nullable: true)]
     private ?string $channelId = null;
+
+    #[ORM\Column(type: Types::STRING, nullable: true)]
+    private ?string $channelName = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $email = null;
@@ -83,6 +86,17 @@ class YoutubeSetting
     public function setChannelId(?string $channelId): self
     {
         $this->channelId = $channelId;
+        return $this;
+    }
+
+    public function getChannelName() : ?string
+    {
+        return $this->channelName;
+    }
+
+    public function setChannelName(?string $channelName): self
+    {
+        $this->channelName = $channelName;
         return $this;
     }
 }
