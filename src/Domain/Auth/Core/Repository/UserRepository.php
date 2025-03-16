@@ -322,10 +322,16 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      */
     public function findUsersWithPremiumEndingSoon( int $days = 3 ): array
     {
+        // Date de début : maintenant
+        $now = new \DateTime();
+
+        // Date de fin : maintenant + $days jours (fin de journée)
         $endDate = (new \DateTime("+{$days} days"))->setTime(23, 59, 59);
 
         return $this->createQueryBuilder('u')
-            ->where('u.premiumEnd <= :endDate')
+            ->where('u.premiumEnd >= :now')
+            ->andWhere('u.premiumEnd <= :endDate')
+            ->setParameter('now', $now)
             ->setParameter('endDate', $endDate)
             ->orderBy('u.premiumEnd', 'ASC')
             ->getQuery()
