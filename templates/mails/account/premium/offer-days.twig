@@ -9,23 +9,28 @@
         Bonjour {{ user.fullname }} !
         ===============================
 
-        Bonne nouvelle !
+        Excellente nouvelle !
 
         {% set jourOuJours = premiumOffer.days > 1 ? 'jours' : 'jour' %}
 
-        {{ premiumOffer.admin.fullname }} vous a offert **{{ premiumOffer.days }}** {{ jourOuJours }} supplémentaires
-        à votre abonnement Premium.
+        {{ premiumOffer.admin.fullname }} vous offre **{{ premiumOffer.days }}** {{ jourOuJours }} d’abonnement **Premium**.
 
-        Votre abonnement est désormais valide jusqu'au **{{ user.premiumEnd|format_datetime('long', 'none', locale='fr') }}**.
+        Votre compte Premium est désormais actif jusqu’au **{{ user.premiumEnd|format_datetime('long', 'none', locale='fr') }}**.
+
+        Profitez-en pour découvrir toutes nos fonctionnalités exclusives :
+        - Accès anticipé aux nouvelles fonctionnalités,
+        - Assistance prioritaire,
+        - Bonus et contenus spéciaux,
+        - Et bien plus encore !
 
         {% if premiumOffer.comment %}
 
-            **Commentaire** :
+            **Message de {{ premiumOffer.admin.fullname }}** :
             > {{ premiumOffer.comment }}
 
         {% endif %}
 
-        Vous pouvez consulter les détails de votre compte (et profiter de vos avantages Premium) en cliquant sur le bouton ci-dessous.
+        Pour accéder à votre espace personnel et bénéficier de vos avantages Premium, cliquez dès maintenant sur le bouton ci-dessous.
 
     {% endapply %}
 
@@ -34,13 +39,13 @@
     {% apply markdown_email %}
         Cordialement,
 
-        L'équipe {{ app_name }}
+        L’équipe {{ app_name }}
     {% endapply %}
 
     {# Section de fallback si le bouton ne fonctionne pas #}
     {% set see_account_section %}
         {% apply markdown_email %}
-            Si le bouton ne fonctionne pas, vous pouvez copier/coller l'adresse suivante dans votre navigateur :
+            Si le bouton ne fonctionne pas, vous pouvez copier/coller l’adresse suivante dans votre navigateur :
             [Accéder à mon compte]({{ account|raw }})
         {% endapply %}
     {% endset %}
