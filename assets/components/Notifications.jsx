@@ -35,16 +35,19 @@ export function Notifications() {
     // Appliquer le hook useClickOutside sur ce conteneur pour fermer la popup
     useClickOutside(containerRef, () => setState(CLOSE))
 
-    // Méthodes
+    // Méthode pour ouvrir la popup sans marquer automatiquement comme lue
     const openMenu = e => {
         e.preventDefault()
         setState(OPEN)
-        if (unreadCount > 0) {
-            setNotificationReadAt(new Date())
-            jsonFetch('/api/notifications/read', { method: 'post' }).catch(console.error)
-        }
+        // Suppression du marquage automatique ici
     }
     const closeMenu = () => setState(CLOSE)
+
+    // Fonction dédiée pour marquer toutes les notifications comme lues
+    const markAsRead = () => {
+        setNotificationReadAt(new Date())
+        jsonFetch('/api/notifications/read', { method: 'post' }).catch(console.error)
+    }
 
     // Charger les notifications au premier affichage
     useAsyncEffect(async () => {
@@ -80,6 +83,7 @@ export function Notifications() {
                     onClickOutside={closeMenu}
                     notifications={notifications}
                     notificationReadAt={notificationReadAt}
+                    onMarkAsRead={markAsRead} // Passe la fonction au composant Popup
                 />
             </SlideIn>
         </div>
@@ -99,9 +103,9 @@ function Badge({ count }) {
 /**
  * Popup contenant les notifications
  */
-function Popup({ notifications = [], onClickOutside = () => {}, loading = false, notificationReadAt, ...props }) {
+function Popup({ notifications = [], onClickOutside = () => {}, loading = false, notificationReadAt, onMarkAsRead, ...props }) {
     const ref = useRef()
-    // commenter ou supprimer la ligne suivante si on ne souhaite pas appliquer de double fermeture.
+    // Vous pouvez activer ou désactiver le double clic extérieur si nécessaire
     // useClickOutside(ref, onClickOutside)
 
     return (
@@ -122,6 +126,14 @@ function Popup({ notifications = [], onClickOutside = () => {}, loading = false,
                     ))
                 )}
             </div>
+            {/* Bouton pour marquer toutes les notifications comme lues */}
+            {notifications.length > 0 && (
+                <div className="notifications_footer">
+                    <button onClick={onMarkAsRead} className="mark-as-read-btn">
+                        Marquer toutes comme lues
+                    </button>
+                </div>
+            )}
             <a href="/notifications" className="notifications_footer">
                 Voir toutes les notifications
             </a>
