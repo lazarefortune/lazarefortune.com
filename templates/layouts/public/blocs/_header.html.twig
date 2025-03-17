@@ -1,6 +1,16 @@
 <nav class="header container-box" id="app-header">
     <!-- Section gauche : Logo et navigation -->
     <ul class="header__left">
+        <!-- Bouton hamburger (visible sur mobile) -->
+        <button id="header-hamburger" class="hamburger">
+            <span class="sr-only">Ouvrir le menu</span>
+            <span class="hamburger__icon">
+                <span aria-hidden="true" class="hamburger__line"></span>
+                <span aria-hidden="true" class="hamburger__line"></span>
+                <span aria-hidden="true" class="hamburger__line"></span>
+            </span>
+        </button>
+
         <!-- Logo -->
         <li class="h-11 flex items-center">
             <a href="{{ path('app_home') }}" {{ menu_active_aria('app_home') }} class="header__logo">
@@ -88,7 +98,7 @@
                     <img class="h-11 min-w-11 rounded-full object-cover border border-b-gray-400" src="{{ app.user|avatar }}" alt="{{ app.user.fullname }} avatar">
                     <span class="hidden lg:inline-flex">{{ app.user.fullname | truncate(15) }}</span>
                 </button>
-                <div id="header-dropdown-menu" class="absolute z-[4000] -right-10 md:right-0 top-[35px] min-w-80 bg-white dark:bg-primary-950 dark:text-white
+                <div id="header-dropdown-menu" class="absolute z-[4000] -right-2 md:right-0 top-[35px] min-w-80 bg-white dark:bg-primary-950 dark:text-white
                  border border-slate-200 dark:border-slate-800 shadow-lg rounded-xl
                  flex flex-col justify-center items-start
                  scale-95 transform transition-all duration-100 ease-out
@@ -165,15 +175,5 @@
                 </a>
             </div>
         {% endif %}
-
-        <!-- Bouton hamburger (visible sur mobile) -->
-        <button id="header-hamburger" class="hamburger">
-            <span class="sr-only">Ouvrir le menu</span>
-            <span class="hamburger__icon">
-                <span aria-hidden="true" class="hamburger__line"></span>
-                <span aria-hidden="true" class="hamburger__line"></span>
-                <span aria-hidden="true" class="hamburger__line"></span>
-            </span>
-        </button>
     </div>
 </nav>

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import ReactDOM from "react-dom";
 import { Loader } from "lucide-react";
 
-// Définition des endpoints (à adapter si besoin)
+// Endpoints (à adapter si besoin)
 const SEARCH_URL = "/recherche";   // Page complète de recherche
 const SEARCH_API = "/api/search";  // API renvoyant un JSON de la forme { items: [...], hits: number }
 
@@ -46,7 +46,8 @@ function formatResult(item, query) {
 }
 
 /**
- * Composant principal : affiche le bouton de recherche qui ouvre la modale.
+ * Composant principal.
+ * Affiche un input en lecture seule et un bouton qui déclenchent tous les deux l'ouverture de la modale.
  */
 export function Search() {
     const [isSearchVisible, setSearchVisible] = useState(false);
@@ -75,22 +76,38 @@ export function Search() {
 
     return (
         <div className="relative flex items-center">
-            <button onClick={toggleSearchBar} aria-label="Rechercher">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="currentColor"
-                    className="w-6 h-6"
+            {/* Conteneur déclencheur */}
+            <div onClick={toggleSearchBar} className="relative flex items-center cursor-pointer">
+                <input
+                    type="text"
+                    placeholder="Rechercher..."
+                    readOnly
+                    className="hidden md:block bg-slate-50 border-slate-200 dark:bg-primary-1000 dark:border-slate-800 px-3 py-2 rounded-xl cursor-pointer pr-10"
+                />
+                <button
+                    aria-label="Rechercher"
+                    onClick={(e) => {
+                        e.stopPropagation(); // pour éviter la propagation du clic sur le conteneur parent
+                        toggleSearchBar();
+                    }}
+                    className="absolute inset-y-0 right-2 flex items-center text-slate-950 md:text-slate-400 dark:text-white  dark:md:text-slate-700"
                 >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"
-                    />
-                </svg>
-            </button>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2}
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"
+                        />
+                    </svg>
+                </button>
+            </div>
             {isSearchVisible && <SearchBar onClose={() => setSearchVisible(false)} />}
         </div>
     );
