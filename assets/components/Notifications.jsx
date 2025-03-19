@@ -35,11 +35,10 @@ export function Notifications() {
     // Appliquer le hook useClickOutside sur ce conteneur pour fermer la popup
     useClickOutside(containerRef, () => setState(CLOSE))
 
-    // Méthode pour ouvrir la popup sans marquer automatiquement comme lue
-    const openMenu = e => {
+    // Fonction pour basculer l'état de la popup
+    const toggleMenu = e => {
         e.preventDefault()
-        setState(OPEN)
-        // Suppression du marquage automatique ici
+        setState(prev => prev === OPEN ? CLOSE : OPEN)
     }
     const closeMenu = () => setState(CLOSE)
 
@@ -73,7 +72,7 @@ export function Notifications() {
 
     return (
         <div ref={containerRef} className="relative flex items-center">
-            <button onClick={openMenu} aria-label="Voir les notifications">
+            <button onClick={toggleMenu} aria-label="Voir les notifications">
                 <Bell size={24} />
             </button>
             <Badge count={unreadCount} />
