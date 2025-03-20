@@ -115,28 +115,36 @@
                 {% else %}
                     {# Pas premium du tout : Nouveau bloc "carte" #}
                     <div class="
-                    border border-slate-200 dark:border-slate-700
-                    rounded-lg px-4 py-5
-                    flex flex-col md:flex-row items-center justify-center gap-3 max-w-2xl
-                ">
-                        <div class="text-primary-500 border border-slate-200 dark:border-slate-700 p-3 rounded-lg flex-shrink-0">
+                        border border-slate-200 dark:border-slate-700
+                        rounded-lg px-4 py-5
+                        flex flex-col md:flex-row items-center gap-4 max-w-2xl
+                        justify-between
+                    ">
+                        <!-- Icône -->
+                        <div class="border border-slate-200 dark:border-slate-700 p-3 rounded-lg flex-shrink-0 text-indigo-500">
                             {{ icon('sparkles', 30) }}
                         </div>
-                        <div class="flex-1 flex flex-col md:flex-row items-center justify-center">
-                            <div>
-                                <p class="text-base text-slate-900 dark:text-white mb-1">
-                                    Vous n'êtes pas abonné à un compte Premium.
-                                </p>
-                                <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">
-                                    Passez au niveau supérieur et débloquez toutes les fonctionnalités !
+
+                        <!-- Texte d'encouragement -->
+                        <div class="flex-1 flex flex-col items-center md:items-start space-y-5">
+                            <div class="text-center md:text-start">
+                                <h3 class="text-base text-slate-900 dark:text-white font-semibold mb-1">
+                                    Passez au Premium
+                                </h3>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">
+                                    Débloquez toutes les fonctionnalités Premium !
                                 </p>
                             </div>
+
+                            <!-- Bouton d’action -->
                             <a href="{{ path('app_premium') }}" class="btn btn-primary inline-flex items-center gap-2">
                                 {{ icon('sparkles') }}
-                                <span>Devenir premium</span>
+                                <span>Découvrir les avantages</span>
                             </a>
                         </div>
+
                     </div>
+
                 {% endif %}
             </section>
 
