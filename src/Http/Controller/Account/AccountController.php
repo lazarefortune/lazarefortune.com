@@ -17,11 +17,13 @@ use App\Domain\History\Service\HistoryService;
 use App\Domain\Premium\Repository\SubscriptionRepository;
 use App\Domain\Premium\Repository\TransactionRepository;
 use App\Http\Controller\AbstractController;
+use App\Infrastructure\Payment\Stripe\StripeApi;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,7 +41,8 @@ class AccountController extends AbstractController
         private readonly HistoryService              $historyService,
         private readonly BadgeService                $badgeService,
         private readonly TransactionRepository       $transactionRepository,
-        private readonly EntityManagerInterface      $em
+        private readonly EntityManagerInterface      $em,
+        private readonly StripeApi                   $api
     )
     {
     }
@@ -48,67 +51,7 @@ class AccountController extends AbstractController
     #[isGranted( 'IS_AUTHENTICATED_FULLY' )]
     public function index( Request $request ) : Response
     {
-        // Profile update form
-        $user = $this->getUserOrThrow();
-
-        $formProfile = $this->createForm( ProfileUpdateForm::class , $user );
-        $formProfile->handleRequest( $request );
-        if ( $formProfile->isSubmitted() && $formProfile->isValid() ) {
-            $data = $formProfile->getData();
-            $this->accountService->updateProfile( $data );
-            $this->addFlash( 'success', 'Informations mises à jour avec succès' );
-        }
-
-        // Email update form
-        $formEmail = $this->createForm( EmailUpdateForm::class );
-        $formEmail->handleRequest( $request );
-        if ($formEmail->isSubmitted() && $formEmail->isValid()) {
-            $data = $formEmail->getData();
-            $newEmail = $data['email'];
-            try {
-                $this->emailChangeService->requestEmailChange($user, $newEmail);
-                $this->addFlash('success', 'Vous allez recevoir un email pour confirmer votre nouvelle adresse email');
-            } catch (\LogicException $e) {
-                $formEmail->get('email')->addError(new FormError($e->getMessage()));
-            } catch (TooManyEmailChangeException) {
-                $this->addFlash('danger', 'Vous avez déjà demandé un changement d\'email, veuillez patienter avant de pouvoir en faire un nouveau');
-            }
-        }
-
-        // Delete account form
-        $formDeleteAccount = $this->createForm( DeleteAccountForm::class );
-        $formDeleteAccount->handleRequest( $request );
-        if ( $formDeleteAccount->isSubmitted() && $formDeleteAccount->isValid() ) {
-            $data = $formDeleteAccount->getData();
-            if ( !$this->passwordHasher->isPasswordValid( $user, $data['password'] ) ) {
-                $this->addFlash( 'error', 'Impossible de supprimer votre compte, mot de passe invalide' );
-                return $this->redirectToRoute( 'app_account_profile' );
-            }
-
-            try {
-                $this->deleteAccountService->requestAccountDeletion( $user, $request );
-            } catch ( \LogicException $e ) {
-                $this->addFlash( 'error', $e->getMessage() );
-                return $this->redirectToRoute( 'app_account_profile' );
-            }
-
-            $this->addFlash( 'info', 'Votre demande de suppression de compte a bien été prise en compte' );
-
-            return $this->redirectToRoute( 'app_account_profile' );
-        }
-
-        // latest email change request for the user
-        $requestEmailChange = $this->emailChangeService->getLatestValidEmailVerification( $user );
-
-        $watchlist = $this->historyService->getLastWatchedContent($user);
-
-        return $this->render( 'pages/public/account/index.html.twig', [
-            'watchlist' => $watchlist,
-            'formProfile' => $formProfile->createView(),
-            'formEmail'   => $formEmail->createView(),
-            'formDeleteAccount' => $formDeleteAccount->createView(),
-            'requestEmailChange' => $requestEmailChange,
-        ] );
+        return $this->render( 'pages/public/account/index.html.twig');
     }
 
     #[IsGranted( 'ROLE_USER' )]
@@ -309,8 +252,6 @@ class AccountController extends AbstractController
         return $this->render( 'pages/public/account/email-settings.html.twig');
     }
 
-
-
     #[Route('/avatar', name: 'avatar' , methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
     public function updateAvatar(
@@ -331,5 +272,20 @@ class AccountController extends AbstractController
         }
 
         return $this->redirectToRoute('app_account_profile');
+    }
+
+    #[Route(path: '/abonnement/stripe', name: 'manage_subscription', methods: ['POST'])]
+    public function manage(): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        $redirectUrl = $this->generateUrl('app_account_subscription_invoices', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        if (null === $user->getStripeId()) {
+            $this->addFlash('error', "Vous n'avez pas d'abonnement actif");
+
+            return $this->redirect($redirectUrl);
+        }
+
+        return $this->redirect($this->api->getBillingUrl($user, $redirectUrl));
     }
 }

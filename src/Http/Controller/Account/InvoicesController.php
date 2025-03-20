@@ -29,7 +29,7 @@ class InvoicesController extends AbstractController
     {
         $transactions = $this->repository->findfor($this->getUser());
 
-        return $this->render('pages/public/account/invoices.html.twig', [
+        return $this->render('pages/public/account/subscription_invoices.html.twig', [
             'transactions' => $transactions,
             'menu' => 'account',
         ]);

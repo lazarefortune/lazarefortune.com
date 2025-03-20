@@ -19,18 +19,18 @@ class SubscriptionController extends AbstractController
     {
     }
 
-    #[Route(path: '/profil/abonnement', name: 'user_subscription', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
-    public function manage(): Response
-    {
-        $user = $this->getUser();
-        $redirectUrl = $this->generateUrl('app_user_invoices', [], UrlGeneratorInterface::ABSOLUTE_URL);
-        if (null === $user->getStripeId()) {
-            $this->addFlash('error', "Vous n'avez pas d'abonnement actif");
-
-            return $this->redirect($redirectUrl);
-        }
-
-        return $this->redirect($this->api->getBillingUrl($user, $redirectUrl));
-    }
+//    #[Route(path: '/mon-compte/abonnement', name: 'user_subscription', methods: ['POST'])]
+//    #[IsGranted('ROLE_USER')]
+//    public function manage(): Response
+//    {
+//        $user = $this->getUser();
+//        $redirectUrl = $this->generateUrl('app_account_subscription_invoices', [], UrlGeneratorInterface::ABSOLUTE_URL);
+//        if (null === $user->getStripeId()) {
+//            $this->addFlash('error', "Vous n'avez pas d'abonnement actif");
+//
+//            return $this->redirect($redirectUrl);
+//        }
+//
+//        return $this->redirect($this->api->getBillingUrl($user, $redirectUrl));
+//    }
 }
