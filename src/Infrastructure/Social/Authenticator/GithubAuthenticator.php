@@ -20,8 +20,9 @@ class GithubAuthenticator extends AbstractOAuthAuthenticator
             throw new \RuntimeException('Expecting GithubResourceOwner as the first parameter');
         }
         $user = $userRepository->findForOauth('github', $resourceOwner->getId(), $resourceOwner->getEmail());
-        if ($user && null === $user->getGithubId()) {
+        if ($user && (null === $user->getGithubId() || null === $user->getGithubEmail())) {
             $user->setGithubId($resourceOwner->getId());
+            $user->setGithubEmail($resourceOwner->getEmail());
             $userRepository->save($user, true);
         }
 

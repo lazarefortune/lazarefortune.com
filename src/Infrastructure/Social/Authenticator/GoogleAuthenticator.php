@@ -26,8 +26,9 @@ class GoogleAuthenticator extends AbstractOAuthAuthenticator
         }
 
         $user = $userRepository->findForOauth('google', $resourceOwner->getId(), $resourceOwner->getEmail());
-        if ($user && null === $user->getGoogleId()) {
+        if ($user && (null === $user->getGoogleId() || null === $user->getGoogleEmail())) {
             $user->setGoogleId($resourceOwner->getId());
+            $user->setGoogleEmail($resourceOwner->getEmail());
             $userRepository->save($user, true);
         }
 

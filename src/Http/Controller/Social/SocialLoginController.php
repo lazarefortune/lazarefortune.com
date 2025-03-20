@@ -42,18 +42,67 @@ class SocialLoginController extends AbstractController
     {
         $this->ensureServiceAccepted($service);
         $method = 'set'.ucfirst($service).'Id';
+        $methodEmail = 'set'.ucfirst($service).'Email';
         /** @var User $user */
         $user = $this->getUser();
         $user->$method(null);
+        $user->$methodEmail(null);
         $userRepository->save($user, true);
         $this->addFlash('success', 'Votre compte a bien été dissocié de '.$service);
 
-        return $this->redirectToRoute('app_account_profile');
+        return $this->redirectToRoute('app_account_security');
     }
 
     #[Route(path: '/oauth/check/{service}', name: 'oauth_check')]
-    public function check(): Response
+    public function check(
+        string $service,
+        UserRepository $userRepository
+    ): Response
     {
-        return new Response();
+        #return new Response();
+
+        // Vérifier que le service est géré (google, github, etc.)
+        $this->ensureServiceAccepted($service);
+
+        // Récupérer le client OAuth correspondant (Google, GitHub...)
+        $client = $this->clientRegistry->getClient($service);
+
+        // Récupérer l'utilisateur "OAuth" (Resource Owner)
+        // ex: GoogleUser ou GithubResourceOwner
+        $oauthUser = $client->fetchUser();
+
+        // Récupérer son email (peut être null si l'utilisateur le masque)
+        $email = $oauthUser->getEmail() ?? null;
+
+        // On suppose que l'utilisateur est déjà connecté
+        // (sinon on fait un authenticator dédié).
+        /** @var User|null $user */
+        $user = $this->getUser();
+        if (!$user) {
+            // si non connecté, on pourrait rediriger vers login
+            return $this->redirectToRoute('app_login');
+        }
+
+        // Stocker l'email "social" si le setter existe
+        // Par ex. "google" => setGoogleEmail($email)
+        $methodEmail = 'set'.ucfirst($service).'Email';
+        if ($email && method_exists($user, $methodEmail)) {
+            $user->$methodEmail($email);
+        }
+
+        // Optionnel : on peut aussi s'assurer qu'on stocke l'ID social
+        // s'il n'est pas déjà mis par l'Authenticator
+        // (dépend de ta configuration)
+        // $methodId = 'set'.ucfirst($service).'Id';
+        // if (method_exists($user, $methodId)) {
+        //     // ex: $user->setGoogleId($oauthUser->getId());
+        // }
+
+        // Sauvegarde en BDD
+        $userRepository->save($user, true);
+
+        // Redirection finale (ex: "Sécurité & Connexion" ou "Mon compte")
+        $this->addFlash('success', "Le compte $service a été lié, email récupéré : $email");
+        return $this->redirectToRoute('app_account_security');
     }
 }

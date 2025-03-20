@@ -106,6 +106,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column( type: Types::STRING, nullable: true )]
     private ?string $githubId = null;
 
+    #[ORM\Column(type: Types::STRING, length: 180, nullable: true)]
+    private ?string $googleEmail = null;
+
+    #[ORM\Column(type: Types::STRING, length: 180, nullable: true)]
+    private ?string $githubEmail = null;
+
+
     #[ORM\Column(type: Types::INTEGER, options: ['default'=>0] )]
     private int $xp = 0;
 
@@ -463,6 +470,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getGithubId() : ?string
     {
         return $this->githubId;
+    }
+
+    public function getGoogleEmail(): ?string
+    {
+        return $this->googleEmail;
+    }
+
+    public function setGoogleEmail(?string $googleEmail): self
+    {
+        $this->googleEmail = $googleEmail;
+        return $this;
+    }
+
+    public function getGithubEmail(): ?string
+    {
+        return $this->githubEmail;
+    }
+
+    public function setGithubEmail(?string $githubEmail): self
+    {
+        $this->githubEmail = $githubEmail;
+        return $this;
     }
 
     public function getXp(): int

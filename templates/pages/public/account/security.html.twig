@@ -57,34 +57,137 @@
             <hr class="border-slate-200 dark:border-slate-700"/>
 
             <!-- Section Comptes externes -->
+            <!-- Section Comptes externes -->
             <div>
                 <h2 class="text-lg font-semibold mb-2">Comptes externes</h2>
                 <p class="text-sm text-slate-600 dark:text-slate-400">
                     Vous pouvez associer (ou dissocier) votre compte Google ou GitHub
                     pour vous connecter rapidement à votre espace.
                 </p>
-                <div class="mt-4 space-y-3">
-                    <a href="{{ path(app.user.googleId ? 'app_oauth_unlink' : 'app_oauth_connect', {service: 'google'}) }}"
-                       class="btn btn-light inline-flex items-center gap-2">
-                        <svg class="w-5 h-5">
-                            <use href="/icons/social.svg#google"></use>
-                        </svg>
-                        <span>
-                        {{ app.user.googleId ? 'Dissocier' : 'Lier' }} votre compte Google
-                    </span>
-                    </a>
 
-                    <a href="{{ path(app.user.githubId ? 'app_oauth_unlink' : 'app_oauth_connect', {service: 'github'}) }}"
-                       class="btn btn-light inline-flex items-center gap-2">
-                        <svg class="w-5 h-5">
-                            <use href="/icons/social.svg#github"></use>
-                        </svg>
-                        <span>
-                        {{ app.user.githubId ? 'Dissocier' : 'Lier' }} votre compte GitHub
+                <div class="mt-4 space-y-6">
+
+                    <!-- BLOC GOOGLE -->
+                    <div class="md:flex md:items-center md:justify-between border border-gray-200 dark:border-slate-700 rounded-xl p-3">
+                        <!-- Infos “Google” -->
+                        <div class="flex items-center gap-4 mb-6 md:mb-0">
+
+                            <!-- Icon Google -->
+                            <div class="border border-gray-200 dark:border-slate-700 rounded-xl p-3 flex justify-center items-center">
+                                <svg width="30" height="30" class="text-red-500">
+                                    <use href="/icons/social.svg#google"></use>
+                                </svg>
+                            </div>
+
+                            <div>
+                                <h3 class="text-lg font-medium text-gray-800 dark:text-slate-100 mb-1">
+                                    Google
+                                    {% if app.user.googleId %}
+                                        <span class="ml-2 text-sm bg-green-100 text-green-800 px-2 py-0.5 rounded-full dark:bg-green-800 dark:text-green-100">
+                                Connecté
+                            </span>
+                                    {% else %}
+                                        <span class="ml-2 text-sm bg-red-100 text-red-800 px-2 py-0.5 rounded-full dark:bg-red-800 dark:text-red-100">
+                                Non connecté
+                            </span>
+                                    {% endif %}
+                                </h3>
+
+                                {% if app.user.googleId %}
+                                    <p class="text-gray-600 dark:text-slate-400 text-sm">
+                                        {{ app.user.googleEmail ?: 'Email inconnu' }}
+                                    </p>
+                                    <p class="text-gray-500 dark:text-slate-500 text-xs mt-1">
+                                        ID Google : {{ app.user.googleId }}
+                                    </p>
+                                    {% if app.user.googleEmail is empty %}
+                                        <p class="text-xs text-red-600 dark:text-red-400">
+                                            Pour obtenir votre email, vous devrez vous reconnecter.
+                                        </p>
+                                    {% endif %}
+                                {% else %}
+                                    <p class="text-gray-600 dark:text-slate-400 text-sm">
+                                        Aucun compte Google n'est connecté
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Bouton action Google -->
+                        <div class="text-center md:text-right">
+                            <a href="{{ path(app.user.googleId ? 'app_oauth_unlink' : 'app_oauth_connect', {service: 'google'}) }}"
+                               class="btn btn-light inline-flex items-center gap-2 px-4 py-2 rounded-md border border-gray-300
+                          text-gray-700 hover:bg-gray-100 dark:text-slate-200 dark:hover:bg-slate-800
+                          transition-colors duration-150">
+                    <span>
+                        {{ app.user.googleId ? 'Dissocier' : 'Lier un compte' }}
                     </span>
-                    </a>
+                            </a>
+                        </div>
+                    </div>
+
+
+                    <!-- BLOC GITHUB -->
+                    <div class="md:flex md:items-center md:justify-between border border-gray-200 dark:border-slate-700 rounded-xl p-3">
+                        <!-- Infos “GitHub” -->
+                        <div class="flex items-center gap-4 mb-6 md:mb-0">
+
+                            <!-- Icon GitHub -->
+                            <div class="border border-gray-200 dark:border-slate-700 rounded-xl p-3 flex justify-center items-center">
+                                <svg width="30" height="30" class="text-gray-700 dark:text-slate-100">
+                                    <use href="/icons/social.svg#github"></use>
+                                </svg>
+                            </div>
+
+                            <div>
+                                <h3 class="text-lg font-medium text-gray-800 dark:text-slate-100 mb-1">
+                                    GitHub
+                                    {% if app.user.githubId %}
+                                        <span class="ml-2 text-sm bg-green-100 text-green-800 px-2 py-0.5 rounded-full dark:bg-green-800 dark:text-green-100">
+                                Connecté
+                            </span>
+                                    {% else %}
+                                        <span class="ml-2 text-sm bg-red-100 text-red-800 px-2 py-0.5 rounded-full dark:bg-red-800 dark:text-red-100">
+                                Non connecté
+                            </span>
+                                    {% endif %}
+                                </h3>
+
+                                {% if app.user.githubId %}
+                                    <p class="text-gray-600 dark:text-slate-400 text-sm">
+                                        {{ app.user.githubEmail ?: 'Email inconnu' }}
+                                    </p>
+                                    <p class="text-gray-500 dark:text-slate-500 text-xs mt-1">
+                                        ID GitHub : {{ app.user.githubId }}
+                                    </p>
+                                    {% if app.user.githubEmail is empty %}
+                                        <p class="text-xs text-red-600 dark:text-red-400">
+                                            Pour obtenir votre email, vous devrez vous reconnecter.
+                                        </p>
+                                    {% endif %}
+                                {% else %}
+                                    <p class="text-gray-600 dark:text-slate-400 text-sm">
+                                        Aucun compte GitHub n'est connecté
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Bouton action GitHub -->
+                        <div class="text-center md:text-right">
+                            <a href="{{ path(app.user.githubId ? 'app_oauth_unlink' : 'app_oauth_connect', {service: 'github'}) }}"
+                               class="btn btn-light inline-flex items-center gap-2 px-4 py-2 rounded-md border border-gray-300
+                          text-gray-700 hover:bg-gray-100 dark:text-slate-200 dark:hover:bg-slate-800
+                          transition-colors duration-150">
+                    <span>
+                        {{ app.user.githubId ? 'Dissocier' : 'Lier un compte' }}
+                    </span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
+
 
             <hr class="border-slate-200 dark:border-slate-700"/>
 

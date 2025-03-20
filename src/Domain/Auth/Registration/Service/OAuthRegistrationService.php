@@ -26,6 +26,7 @@ final class OAuthRegistrationService
                 ->setCgu(true)
                 ->setRoles(['ROLE_USER'])
                 ->setGoogleId($resourceOwner->getId())
+                ->setGoogleEmail($resourceOwner->getEmail())
                 ->setFullname($resourceOwner->getFirstName())
                 ->setPassword(''),
             $resourceOwner instanceof GithubResourceOwner => (new User())
@@ -33,6 +34,7 @@ final class OAuthRegistrationService
                 ->setCgu(true)
                 ->setRoles(['ROLE_USER'])
                 ->setGithubId($resourceOwner->getId())
+                ->setGithubEmail($resourceOwner->getEmail())
                 ->setFullname($resourceOwner->getName())
                 ->setPassword(''),
         };
