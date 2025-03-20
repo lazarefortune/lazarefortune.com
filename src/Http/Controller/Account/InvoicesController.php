@@ -35,7 +35,7 @@ class InvoicesController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/mon-compte/factures', methods: ['POST'])]
+    #[Route(path: '/mon-compte/factures', name: 'user_invoices_save', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
     public function updateInfo(Request $request, EntityManagerInterface $em): RedirectResponse
     {
@@ -45,7 +45,7 @@ class InvoicesController extends AbstractController
         $em->flush();
         $this->addFlash('success', 'Vos informations ont bien été enregistrées');
 
-        return $this->redirectToRoute('app_account_profile');
+        return $this->redirectToRoute('app_account_invoices');
     }
 
     #[Route(path: '/mon-compte/factures/{id}', name: 'user_invoice', requirements: ['id' => Requirements::ID])]

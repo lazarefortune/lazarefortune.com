@@ -32,7 +32,7 @@
 }
 
 .header__nav-link {
-  @apply flex items-center gap-1 text-base text-slate-900 hover:text-primary-800 dark:text-white dark:hover:text-primary-300;
+  @apply hidden md:flex items-center gap-1 text-base text-slate-900 hover:text-primary-800 dark:text-white dark:hover:text-primary-300;
   span {
     @apply no-underline font-medium;
   }

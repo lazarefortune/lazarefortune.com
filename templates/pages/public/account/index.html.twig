@@ -1,306 +1,107 @@
 {% extends 'layouts/public/base.html.twig' %}
-
-{% block title 'Mon compte' %}
+{% block title 'Mon Compte' %}
 
 {% block body %}
-
-    <div class="page-header">
-        <div class="container-box">
-            <div class="stack">
-                <div class="flex flex-col md:flex-row md:justify-start items-center gap-2">
-                    <div class="md:mr-4 flex-shrink-0">
-                        <auto-submit-form>
-                        <form class="profil-header__avatar" enctype="multipart/form-data" method="post" action="{{ path('app_account_avatar') }}">
-                            <img src="{{ app.user | avatar }}" alt="" class="rounded-full w-24 h-24 object-cover border-2 border-primary-900 dark:border-primary-300 p-0.5">
-                            <div class="profil-header__upload">
-                                {{ icon('cloud') }}
-                            </div>
-                            <input type="file" name="avatar" data-auto-submit/>
-                        </form>
-                        </auto-submit-form>
-                    </div>
-                    <div class="text-center md:text-left">
-                        <h2 class="h2">{{ app.user.fullname }}</h2>
-                        {% if app.user.isPremium %}
-                            <div class="badge-premium my-1">
-                                {{ icon('sparkles') }}
-                                <span>Compte Premium</span>
-                            </div>
-                        {% else %}
-                            <a href="{{ path('app_premium') }}" class="badge-standard my-1">
-                                <span>Compte Standard</span>
-                            </a>
-                        {% endif %}
-                        <p class="text-muted text-sm">
-                            <span>Inscrit <span class="lowercase">{{ app.user.createdAt|ago }}</span></span>
-                        </p>
-                    </div>
+    <div class="container-box py-6">
+        <!-- Titre et infos utilisateur -->
+        <div class="stack pt-4">
+            <div class="flex flex-col md:flex-row md:justify-start items-center gap-2">
+                <div class="md:mr-4 flex-shrink-0">
+                    <img src="{{ app.user|avatar }}" alt="Avatar de {{ app.user.fullname }}"
+                         class="rounded-full w-24 h-24 object-cover border-2 border-primary-900 dark:border-primary-300 p-0.5">
                 </div>
-            </div>
-        </div>
-    </div>
+                <div class="text-center md:text-left">
+                    <h2 class="h2">{{ app.user.fullname }}</h2>
 
-    <nav-tabs class="nav-tabs-bar container-box">
-        <a href="#profil" data-tab-id="profil">
-            {{ icon('user') }}
-            Editer
-        </a>
-        <a href="#courses" data-tab-id="courses">
-            {{ icon('history') }}
-            Historique
-        </a>
-        <a href="#badges" data-tab-id="badges">
-            {{ icon('award') }}
-            Badges
-        </a>
-        <a href="#invoices" data-tab-id="invoices">
-            {{ icon('scroll-text') }}
-            Factures
-        </a>
-    </nav-tabs>
-
-    <div class="container-box">
-        <div id="profil" class="pt-5 pb-10 col-span-full">
-            <div class="grid grid-cols-8 gap-4">
-                <div class="stack-large col-span-full lg:col-span-6">
-                    {% if app.user.deletedAt %}
-                        <div class="flex">
-                            <div class="bg-red-50 dark:bg-primary-950 -mx-5 px-5 py-6 rounded-xl">
-                                <h2 class="text-xl text-red-700 dark:text-red-300 font-medium mb-1">Votre compte va être supprimé</h2>
-                                <p class="text-slate-700 dark:text-slate-300 mb-4">
-                                    Vous avez demandé un la suppression de votre compte.
-                                    Il sera supprimé {{ app.user.deletedAt|date_diff }}.
-                                </p>
-                                <a href="{{ path('app_account_delete_cancel') }}" class="btn btn-primary">
-                                    {{ icon('sparkles') }}
-                                    <span>Restaurer mon compte</span>
-                                </a>
-                            </div>
+                    {% if app.user.isPremium %}
+                        <div class="badge-premium my-1 inline-flex items-center gap-1">
+                            {{ icon('sparkles') }}
+                            <span>Compte Premium</span>
                         </div>
-                    {% endif %}
-
-                    {{ form_start(formProfile, {'attr': {'class': 'stack'}}) }}
-                    <h3 class="h3">Mes informations</h3>
-
-                    <div class="grid2">
-                        {{ form_row(formProfile.fullname) }}
-                    </div>
-
-                    <div class="text-start">
-                        <button type="submit" class="btn btn-primary">
-                            {{ icon('save') }}
-                            <span>Enregistrer</span>
-                        </button>
-                    </div>
-                    {{ form_end(formProfile) }}
-
-
-                    <div class="stack">
-                        <h3 class="h3">Adresse email</h3>
-
-                        {% if requestEmailChange and not requestEmailChange.isExpired() %}
-                            <div class="bg-white dark:bg-primary-950 border border-slate-100 dark:border-slate-700 px-4 py-6 rounded-xl">
-                                <h2 class="text-lg font-medium mb-2">Vous avez demandé un changement d'adresse email.</h2>
-                                <p class="text-muted">
-                                    Vérifier votre nouvelle boîte <b>{{ requestEmailChange.email }}</b> pour confirmer.
-                                    Si vous n'avez pas reçu le mail, vous pouvez renouveler dans {{ requestEmailChange.expiresAt|countdown }}
-                                </p>
-                            </div>
-                        {% else %}
-                            {{ form_start(formEmail, {'attr': {'class': 'stack'}}) }}
-                            <div class="grid2">
-                                <div>
-                                    <p class="text-slate-900 dark:text-white mb-2">
-                                        Votre adresse email actuelle est <span class="font-semibold">{{ app.user.email }}</span>.
-                                    </p>
-                                    {{ form_row(formEmail.email) }}
-                                </div>
-                            </div>
-
-                            <div class="text-start">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ icon('mail') }}
-                                    <span>Modifier mon adresse email</span>
-                                </button>
-                            </div>
-                            {{ form_end(formEmail) }}
-                        {% endif %}
-                    </div>
-
-                    {{ form_start(formPassword, {'attr': {'class': 'stack'}}) }}
-                    <h3 class="h3">Mot de passe</h3>
-
-                    <div class="grid2">
-                        {{ form_row(formPassword.currentPassword) }}
-                        {{ form_row(formPassword.newPassword) }}
-                    </div>
-
-                    <div class="text-start">
-                        <button type="submit" class="btn btn-primary">
-                            {{ icon('key') }}
-                            <span>Modifier mon mot de passe</span>
-                        </button>
-                    </div>
-
-                    {{ form_end(formPassword) }}
-
-                    <div class="stack">
-                        <h3 class="h3">Newsletter</h3>
-
-                        <div>
-                            {% if app.user.isNewsletterSubscribed %}
-                                <p class="text-muted mb-4">Vous êtes abonné à notre newsletter</p>
-                                <a href="{{ path('app_newsletter_unsubscribe_user', {token: app.user.unsubscribeNewsletterToken}) }}" class="btn btn-light">
-                                    {{ icon('mail-minus') }}
-                                    <span>Se désabonner</span>
-                                </a>
-                            {% else %}
-                                <p class="text-muted mb-4">Vous n'êtes pas abonné à notre newsletter</p>
-                                <a href="{{ path('app_newsletter_subscribe') }}"
-                                   class="btn btn-primary">
-                                    {{ icon('mail-plus') }}
-                                    <span>S'abonner</span>
-                                </a>
-                            {% endif %}
-                        </div>
-                    </div>
-
-                    {% if not app.user.deletedAt %}
-                    <div class="stack">
-                        <h3 class="text-2xl font-medium text-danger-800 dark:text-danger-300">Zone dangereuse</h3>
-
-                            <p>Vous n'êtes pas satisfait de nos services ? Vous pouvez demander la suppression de votre compte.
-                                Vous aurez 5 jours pour changer d'avis. Passé ce délai, votre compte sera supprimé définitivement.</p>
-
-                        {% if not app.user.deletedAt %}
-                            <div class="text-start">
-                                <button class="btn btn-danger" data-modal-id="deleteAccountModal">
-                                    {{ icon('trash') }}
-                                    <span>Demander la suppression</span>
-                                </button>
-                            </div>
-
-                            <modal-dialog id="deleteAccountModal" hidden="hidden" overlay-close>
-                                <section class="modal-box">
-                                    <header>Confirmer la suppression</header>
-                                    <button data-dismiss aria-label="Close" class="modal-close">
-                                        {{ icon('x') }}
-                                    </button>
-
-                                    <div class="stack">
-                                        <p class="text-muted">
-                                            Vous êtes sur le point de supprimer votre compte. <br>
-                                            Pour confirmer cette demande merci de rentrer votre mot de passe. Le compte sera
-                                            automatiquement supprimé au bout de 7 jours.
-                                        </p>
-
-                                        {{ form_start(formDeleteAccount, {'attr': {'class': 'stack'}}) }}
-
-                                        {{ form_row(formDeleteAccount.password) }}
-
-                                        <div class="text-end">
-                                            <button type="submit" class="btn btn-danger">
-                                                {{ icon('trash') }}
-                                                <span>Confirmer la suppression</span>
-                                            </button>
-                                        </div>
-                                        {{ form_end(formDeleteAccount) }}
-                                    </div>
-
-                                </section>
-                            </modal-dialog>
-                        {% endif %}
-                    </div>
-                    {% endif %}
-                </div>
-                <div class="stack-large col-span-full lg:col-span-2 mt-10 lg:mt-0">
-                    <div>
-                        {{ render(controller(
-                            'App\\Http\\Controller\\Template\\PremiumStateController::state'
-                        )) }}
-                    </div>
-                    <div>
-                        <h3 class="h3">Réseaux sociaux</h3>
-                        <p class="text-muted">Reliez votre compte à un réseau social afin de l'utiliser comme mode de connexion</p>
-                        <div class="stack mt-6">
-                            <div>
-                                <a href="{{ path(app.user.googleId ? 'app_oauth_unlink' : 'app_oauth_connect', {service: 'google'}) }}"
-                                   class="btn btn-light">
-                                    <svg class="social-icon">
-                                        <use href="/icons/social.svg#google"></use>
-                                    </svg>
-                                    <span>{{ app.user.googleId ? 'Dissocier' : 'Lier' }} votre compte Google</span>
-                                </a>
-                            </div>
-                            <div>
-                                <a href="{{ path(app.user.githubId ? 'app_oauth_unlink' : 'app_oauth_connect', {service: 'github'}) }}"
-                                   class="btn btn-light">
-                                    <svg class="social-icon">
-                                        <use href="/icons/social.svg#github"></use>
-                                    </svg>
-                                    <span>{{ app.user.githubId ? 'Dissocier' : 'Lier' }} votre compte GitHub</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container-box">
-        <div id="courses" class="pt-5 pb-10 col-span-full">
-            <div class="stack">
-                {% if watchlist is empty %}
-                    <div class="flex flex-col justify-center items-start">
-                        <h3 class="h3">Ton historique est vide</h3>
-                        <p class="text-muted">Commence à regarder des vidéos pour les retrouver ici</p>
-                        <a href="{{ path('app_course_index') }}" class="btn btn-primary mt-4">
-                            {{ icon('play') }}
-                            <span>Commencer à regarder</span>
+                    {% else %}
+                        <a href="{{ path('app_premium') }}" class="badge-standard my-1 inline-flex items-center gap-1">
+                            {{ icon('sparkles') }}
+                            <span>Compte Standard</span>
                         </a>
-                    </div>
-                {% endif %}
-                {% if watchlist is not empty %}
-                <h3 class="h3">Historique de visionnage</h3>
-                <section>
-                    <div class="courses">
-                        {% for progress in watchlist %}
-                            {% include 'pages/public/account/_progress-card.html.twig' %}
-                        {% endfor %}
-                    </div>
-                </section>
-                {% endif %}
-            </div>
-        </div>
-    </div>
+                    {% endif %}
 
-    <div class="container-box">
-        <div id="badges" class="pt-5 pb-10 col-span-full">
-            <div class="stack">
-                <h3 class="h3">Mes badges</h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                    {% for badge in badges %}
-                        <div class="flex flex-col items-center justify-stretch gap-2">
-                            <div class="badge-icon badge-icon-{{ badge.theme }} {% if unlocks[badge.id] is not defined %}badge-locked{% endif %}">
-                                {{ image(badge) }}
-                            </div>
-                            <div class="text-big bold text-center {% if unlocks[badge.id] is not defined %}text-muted{% endif %}">{{ badge.name }}</div>
-                            <div class="text-muted text-center">{{ badge.description }}</div>
-                        </div>
-                    {% endfor %}
+                    <p class="text-muted text-sm">
+                        Inscrit <span class="lowercase">{{ app.user.createdAt|ago }}</span>
+                    </p>
                 </div>
             </div>
         </div>
-    </div>
 
+        <div class="divider my-6"></div>
 
-    <div class="container-box">
-        <div id="invoices">
-            {% include 'pages/public/account/invoices.html.twig' %}
+        <!-- Cartes d'actions -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pb-10">
+
+            <!-- Carte Profil -->
+            <a href="{{ path('app_account_profile') }}" class="account-card">
+                <div class="account-card__icon">
+                    {{ icon('user', 34) }}
+                </div>
+                <div class="account-card__content">
+                    <h3 class="h5">Mon Profil</h3>
+                    <p>Modifier vos informations personnelles</p>
+                </div>
+            </a>
+
+            <!-- Carte Sécurité & Connexion -->
+            <a href="{{ path('app_account_security') }}" class="account-card">
+                <div class="account-card__icon">
+                    {{ icon('lock', 34) }}
+                </div>
+                <div class="account-card__content">
+                    <h3 class="h5">Sécurité & Connexion</h3>
+                    <p>Gérer email, mot de passe et connexions</p>
+                </div>
+            </a>
+
+            <!-- Carte Notifications -->
+            <a href="{{ path('app_account_notifications_settings') }}" class="account-card">
+                <div class="account-card__icon">
+                    {{ icon('bell', 34) }}
+                </div>
+                <div class="account-card__content">
+                    <h3 class="h5">Notifications</h3>
+                    <p>Paramétrer vos alertes</p>
+                </div>
+            </a>
+
+            <!-- Carte Abonnement & Facturation -->
+            <a href="{{ path('app_account_subscription_invoices') }}" class="account-card">
+                <div class="account-card__icon">
+                    {{ icon('credit-card', 34) }}
+                </div>
+                <div class="account-card__content">
+                    <h3 class="h5">Abonnement & Facturation</h3>
+                    <p>Gérer votre abonnement et paiements</p>
+                </div>
+            </a>
+
+            <!-- Carte Historique -->
+            <a href="{{ path('app_account_history') }}" class="account-card">
+                <div class="account-card__icon">
+                    {{ icon('history', 34) }}
+                </div>
+                <div class="account-card__content">
+                    <h3 class="h5">Historique</h3>
+                    <p>Voir l’historique de vos vidéos</p>
+                </div>
+            </a>
+
+            <!-- Carte Récompenses -->
+            <a href="{{ path('app_account_badges') }}" class="account-card">
+                <div class="account-card__icon">
+                    {{ icon('award', 34) }}
+                </div>
+                <div class="account-card__content">
+                    <h3 class="h5">Récompenses</h3>
+                    <p>Voir vos badges débloqués</p>
+                </div>
+            </a>
         </div>
     </div>
-
-
-
 {% endblock %}

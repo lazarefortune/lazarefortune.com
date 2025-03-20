@@ -1,0 +1,16 @@
+<nav aria-label="breadcrumb" class="mb-4 text-sm text-slate-500 dark:text-slate-400 overflow-x-auto">
+    <ol class="flex items-center space-x-2">
+        {% for item in items %}
+            {% if loop.last %}
+                <li aria-current="page" class="text-nowrap text-slate-700 dark:text-slate-200">
+                    {{ item.label }}
+                </li>
+            {% else %}
+                <li class="flex">
+                    <a href="{{ item.path }}" class="text-nowrap hover:underline">{{ item.label }}</a>
+                    <span class="mx-1">/</span>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ol>
+</nav>

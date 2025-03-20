@@ -16,8 +16,7 @@ class NewsletterSubscriberController extends AbstractController
 {
 
     public function __construct(
-        private EntityManagerInterface $em,
-        private UserRepository $userRepository
+        private readonly EntityManagerInterface $em,
     ) {
     }
 
@@ -29,7 +28,7 @@ class NewsletterSubscriberController extends AbstractController
         $user = $this->getUser();
         $user->setNewsletterSubscribed(true);
         $this->em->flush();
-        return $this->redirectToRoute('app_account_profile');
+        return $this->redirectToRoute('app_account_notifications_settings');
     }
 
     #[Route('/newsletter/desinscription/subscriber/{token}', name: 'newsletter_unsubscribe_subscriber')]
@@ -60,10 +59,13 @@ class NewsletterSubscriberController extends AbstractController
             $user->setNewsletterSubscribed(false);
             $em->flush();
             $message = 'Vous avez bien été désabonné de la newsletter.';
+            $this->addFlash('success', $message);
         } else {
             $message = 'Aucun abonnement trouvé pour ce token.';
+            $this->addFlash('danger', $message);
         }
-        return new Response($message);
+
+        return $this->redirectToRoute('app_account_notifications_settings');
     }
 
 

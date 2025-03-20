@@ -14,10 +14,12 @@ use App\Domain\Auth\Core\Service\DeleteAccountService;
 use App\Domain\Auth\Core\Service\EmailChangeService;
 use App\Domain\Badge\BadgeService;
 use App\Domain\History\Service\HistoryService;
+use App\Domain\Premium\Repository\SubscriptionRepository;
 use App\Domain\Premium\Repository\TransactionRepository;
 use App\Http\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -36,12 +38,13 @@ class AccountController extends AbstractController
         private readonly UserPasswordHasherInterface $passwordHasher,
         private readonly HistoryService              $historyService,
         private readonly BadgeService                $badgeService,
-        private readonly TransactionRepository       $transactionRepository
+        private readonly TransactionRepository       $transactionRepository,
+        private readonly EntityManagerInterface      $em
     )
     {
     }
 
-    #[Route( '/', name: 'profile' )]
+    #[Route( '/', name: 'index' )]
     #[isGranted( 'IS_AUTHENTICATED_FULLY' )]
     public function index( Request $request ) : Response
     {
@@ -72,20 +75,6 @@ class AccountController extends AbstractController
             }
         }
 
-        // Password update form
-        $formPassword = $this->createForm( UpdatePasswordForm::class );
-        $formPassword->handleRequest( $request );
-        if ( $formPassword->isSubmitted() && $formPassword->isValid() ) {
-            // Verify current password
-            $data = $formPassword->getData();
-            if ( !$this->passwordHasher->isPasswordValid( $user, $data['currentPassword'] ) ) {
-                $formPassword->get( 'currentPassword' )->addError( new FormError( 'Mot de passe actuel invalide' ) );
-            } else {
-                $this->accountService->updatePassword( $user, $data['newPassword'] );
-                $this->addFlash( 'success', 'Mot de passe mis à jour avec succès' );
-            }
-        }
-
         // Delete account form
         $formDeleteAccount = $this->createForm( DeleteAccountForm::class );
         $formDeleteAccount->handleRequest( $request );
@@ -113,23 +102,214 @@ class AccountController extends AbstractController
 
         $watchlist = $this->historyService->getLastWatchedContent($user);
 
-        $badges = $this->badgeService->getBadges();
-        $unlocks = $this->badgeService->getUnlocksForUser($this->getUserOrThrow());
-
-        $transactions = $this->transactionRepository->findfor($user);
-
         return $this->render( 'pages/public/account/index.html.twig', [
             'watchlist' => $watchlist,
-            'badges' => $badges,
-            'unlocks' => $unlocks,
             'formProfile' => $formProfile->createView(),
             'formEmail'   => $formEmail->createView(),
-            'formPassword' => $formPassword->createView(),
             'formDeleteAccount' => $formDeleteAccount->createView(),
             'requestEmailChange' => $requestEmailChange,
-            'transactions' => $transactions,
         ] );
     }
+
+    #[IsGranted( 'ROLE_USER' )]
+    #[Route('/profil', name: 'profile')]
+    public function profile( Request $request ) : Response
+    {
+        $user = $this->getUser();
+
+        $formProfile = $this->createForm( ProfileUpdateForm::class , $user );
+        $formProfile->handleRequest( $request );
+
+        if ( $formProfile->isSubmitted() && $formProfile->isValid() ) {
+            $data = $formProfile->getData();
+
+            /** @var UploadedFile|null $avatarFile */
+            $avatarFile = $formProfile->get('avatarFile')->getData();
+            if ($avatarFile) {
+                $data->setAvatarFile($avatarFile);
+            }
+
+            $this->accountService->updateProfile( $data );
+
+            $this->addFlash('success', 'Profil mis à jour avec succès');
+        }
+
+        return $this->render( 'pages/public/account/profile.html.twig', [
+            'formProfile' => $formProfile->createView(),
+        ]);
+    }
+
+    #[Route('/mon-compte/remove-avatar', name: 'remove_avatar', methods: ['POST'])]
+    public function removeAvatar(): Response
+    {
+        $user = $this->getUserOrThrow();
+        $user->setAvatar(null);
+        // $user->setAvatarFile(null); // pas forcément requis,
+        // on flush
+        $this->em->flush();
+
+        $this->addFlash('success', 'Photo de profil supprimée avec succès');
+        return $this->redirectToRoute('app_account_profile');
+        // ou 'app_account_index' si tu préfères
+    }
+
+
+    #[Route( '/securite' , name: 'security' )]
+    #[IsGranted( 'IS_AUTHENTICATED_FULLY' )]
+    public function security( Request $request ) : Response
+    {
+        $user = $this->getUserOrThrow();
+
+        // Delete account form
+        $formDeleteAccount = $this->createForm( DeleteAccountForm::class );
+        $formDeleteAccount->handleRequest( $request );
+        if ( $formDeleteAccount->isSubmitted() && $formDeleteAccount->isValid() ) {
+            $data = $formDeleteAccount->getData();
+            if ( !$this->passwordHasher->isPasswordValid( $user, $data['password'] ) ) {
+                $this->addFlash( 'error', 'Impossible de supprimer votre compte, mot de passe invalide' );
+                return $this->redirectToRoute( 'app_account_security' );
+            }
+
+            try {
+                $this->deleteAccountService->requestAccountDeletion( $user, $request );
+            } catch ( \LogicException $e ) {
+                $this->addFlash( 'error', $e->getMessage() );
+                return $this->redirectToRoute( 'app_account_security' );
+            }
+
+            $this->addFlash( 'info', 'Votre demande de suppression de compte a bien été prise en compte' );
+        }
+
+        return $this->render( 'pages/public/account/security.html.twig', [
+            'formDeleteAccount' => $formDeleteAccount->createView(),
+        ]);
+    }
+
+    #[Route( '/securite/email' , name: 'security_email' )]
+    public function changeEmail( Request $request ) : Response
+    {
+        // Profile update form
+        $user = $this->getUserOrThrow();
+
+        // Email update form
+        $formEmail = $this->createForm( EmailUpdateForm::class );
+        $formEmail->handleRequest( $request );
+        if ($formEmail->isSubmitted() && $formEmail->isValid()) {
+            $data = $formEmail->getData();
+            $newEmail = $data['email'];
+            try {
+                $this->emailChangeService->requestEmailChange($user, $newEmail);
+                $this->addFlash('success', 'Vous allez recevoir un email pour confirmer votre nouvelle adresse email');
+            } catch (\LogicException $e) {
+                $formEmail->get('email')->addError(new FormError($e->getMessage()));
+            } catch (TooManyEmailChangeException) {
+                $this->addFlash('danger', 'Vous avez déjà demandé un changement d\'email, veuillez patienter avant de pouvoir en faire un nouveau');
+            }
+        }
+
+        // latest email change request for the user
+        $requestEmailChange = $this->emailChangeService->getLatestValidEmailVerification( $user );
+
+        return $this->render( 'pages/public/account/security_email.html.twig', [
+            'formEmail'   => $formEmail->createView(),
+            'requestEmailChange' => $requestEmailChange,
+        ] );
+    }
+
+    #[Route( '/securite/mot-de-passe' , name: 'security_password' )]
+    public function passwordChange( Request $request ) : Response
+    {
+        $user = $this->getUserOrThrow();
+
+        // Password update form
+        $formPassword = $this->createForm( UpdatePasswordForm::class );
+        $formPassword->handleRequest( $request );
+        if ( $formPassword->isSubmitted() && $formPassword->isValid() ) {
+            // Verify current password
+            $data = $formPassword->getData();
+            if ( !$this->passwordHasher->isPasswordValid( $user, $data['currentPassword'] ) ) {
+                $formPassword->get( 'currentPassword' )->addError( new FormError( 'Mot de passe actuel invalide' ) );
+            } else {
+                $this->accountService->updatePassword( $user, $data['newPassword'] );
+                $this->addFlash( 'success', 'Mot de passe mis à jour avec succès' );
+            }
+        }
+
+        return $this->render( 'pages/public/account/security_password.html.twig', [
+            'formPassword' => $formPassword->createView(),
+        ] );
+    }
+
+    #[Route('/historique', name: 'history')]
+    public function history(): Response
+    {
+        $user = $this->getUserOrThrow();
+
+        $watchlist = $this->historyService->getLastWatchedContent($user);
+
+        return $this->render('pages/public/account/history.html.twig', [
+            'watchlist' => $watchlist,
+        ]);
+    }
+
+    #[Route('/badges', name: 'badges')]
+    public function badges(): Response
+    {
+        $user = $this->getUserOrThrow();
+
+        $badges = $this->badgeService->getBadges();
+        $unlocks = $this->badgeService->getUnlocksForUser($user);
+
+        return $this->render('pages/public/account/badges.html.twig', [
+            'badges' => $badges,
+            'unlocks' => $unlocks,
+        ]);
+    }
+
+    #[Route( '/abonnement', name: 'subscription' )]
+    #[IsGranted( 'IS_AUTHENTICATED_FULLY' )]
+    public function subscriptions() : Response
+    {
+        return $this->render( 'pages/public/account/subscriptions.html.twig', []);
+    }
+
+    #[Route( '/gestion-abonnement', name: 'subscription_invoices', methods: ['GET', 'POST'] )]
+    public function subscriptionsAndInvoices(Request $request, SubscriptionRepository $repository) : Response
+    {
+        $user = $this->getUserOrThrow();
+
+        $subscription = $repository->findCurrentForUser($user);
+        $transactions = $this->transactionRepository->findfor($user);
+
+        $content = (string) $request->request->get('invoiceInfo');
+        if (!empty($content)) {
+            $user = $this->getUserOrThrow();
+            $user->setInvoiceInfo($content);
+            $this->em->flush();
+
+            $this->addFlash('success', 'Enregistré avec succès');
+        }
+
+        return $this->render( 'pages/public/account/subscription_invoices.html.twig', [
+            'transactions' => $transactions,
+            'subscription' => $subscription,
+        ]);
+    }
+
+    #[Route( '/gestion-notifications', name: 'notifications_settings' )]
+    public function notificationsSettings() : Response
+    {
+        return $this->render( 'pages/public/account/notifications_settings.html.twig', []);
+    }
+
+    #[Route('/emails-preferences', name: 'emails_preferences' )]
+    #[IsGranted( 'IS_AUTHENTICATED_FULLY' )]
+    public function emailSettings() : Response
+    {
+        return $this->render( 'pages/public/account/email-settings.html.twig');
+    }
+
+
 
     #[Route('/avatar', name: 'avatar' , methods: ['POST'])]
     #[IsGranted('ROLE_USER')]

@@ -1,0 +1,69 @@
+{% extends 'layouts/public/base.html.twig' %}
+{% block title %}Changer mon adresse email{% endblock %}
+
+{% block body %}
+    <div class="container-box py-6">
+
+        <!-- Fil d’Ariane -->
+        {% include 'partials/_breadcrumb.html.twig' with {
+            items: [
+                { label: 'Mon compte', path: path('app_account_index') },
+                { label: 'Sécurité & Connexion', path: path('app_account_security') },
+                { label: 'Changer mon adresse email' },
+            ]
+        } %}
+
+        <!-- Titre et infos -->
+        <div class="mb-6">
+            <h1 class="h2 mb-1">Changer mon adresse email</h1>
+            <p class="text-sm text-slate-600 dark:text-slate-400">
+                Entrez votre nouvelle adresse email ci-dessous.
+                Vous recevrez ensuite un email de confirmation.
+            </p>
+        </div>
+
+        <!-- Carte Email -->
+        <div class="bg-white dark:bg-primary-1000 border border-slate-200 dark:border-slate-800 shadow p-6 sm:p-8 rounded-lg">
+            <h2 class="text-lg font-semibold mb-4">Adresse email actuelle</h2>
+            <p class="text-sm text-slate-600 dark:text-slate-400 mb-6">
+                {{ app.user.email }}
+            </p>
+
+            <hr class="border-slate-200 dark:border-slate-700 mb-4"/>
+
+            <h2 class="text-lg font-semibold mb-2">Nouvelle adresse email</h2>
+            <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">
+                Assurez-vous d’avoir accès à cette adresse, car vous devrez cliquer sur un lien de confirmation.
+            </p>
+
+            {% if requestEmailChange %}
+                <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700
+                        rounded p-4 text-sm text-yellow-800 dark:text-yellow-100 mb-4
+                        overflow-x-auto break-words">
+                    <p class="font-medium">
+                        Une demande de changement d'email est déjà en attente de confirmation.
+                    </p>
+                    <p class="mt-1">
+                        Consultez votre boîte de réception pour valider cette demande
+                        ou renvoyez-la si vous ne l'avez pas reçue.
+                    </p>
+                </div>
+            {% endif %}
+
+            {{ form_start(formEmail, { 'attr': { 'class': 'space-y-4' } }) }}
+            {{ form_row(formEmail.email, {
+                'label': 'Nouvelle adresse email',
+                'attr': {
+                    'class': 'form-input w-full'
+                }
+            }) }}
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">
+                    Confirmer
+                </button>
+            </div>
+            {{ form_end(formEmail) }}
+        </div>
+    </div>
+{% endblock %}

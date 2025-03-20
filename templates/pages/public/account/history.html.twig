@@ -1,0 +1,37 @@
+{% extends 'layouts/public/base.html.twig' %}
+{% block title %}Historique{% endblock %}
+
+{% block body %}
+    <div class="container-box py-6">
+
+        {% include 'partials/_breadcrumb.html.twig' with {
+            items: [
+                { label: 'Mon compte', path: path('app_account_index') },
+                { label: 'Historique' }
+            ]
+        } %}
+
+        <div class="mb-6">
+            <h1 class="h2 mb-1">Mon Historique</h1>
+            <p class="text-sm text-slate-600 dark:text-slate-400">
+                Retrouvez ici la liste de vos dernières vidéos visionnées.
+            </p>
+        </div>
+
+        {% if watchlist is empty %}
+                <p class="text-sm text-muted mb-4">
+                    Vous n'avez encore rien regardé. Commencez à visionner des vidéos pour voir votre historique ici !
+                </p>
+                <a href="{{ path('app_course_index') }}" class="btn btn-primary inline-flex items-center gap-2">
+                    {{ icon('play') }}
+                    <span>Commencer à regarder</span>
+                </a>
+            {% else %}
+                <div class="courses grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    {% for progress in watchlist %}
+                        {% include 'pages/public/account/_progress-card.html.twig' with { progress: progress } %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+    </div>
+{% endblock %}

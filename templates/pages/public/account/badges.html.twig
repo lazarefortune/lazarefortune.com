@@ -1,0 +1,44 @@
+{% extends 'layouts/public/base.html.twig' %}
+{% block title %}Récompenses{% endblock %}
+
+{% block body %}
+    <div class="container-box py-6">
+
+        {% include 'partials/_breadcrumb.html.twig' with {
+            items: [
+                { label: 'Mon compte', path: path('app_account_index') },
+                { label: 'Récompenses' }
+            ]
+        } %}
+
+        <div class="mb-6">
+            <h1 class="h2 mb-1">Mes Récompenses</h1>
+            <p class="text-sm text-slate-600 dark:text-slate-400">
+                Découvrez tous les badges disponibles et lesquels vous avez déjà débloqués.
+            </p>
+        </div>
+
+        <div class="bg-white dark:bg-primary-1000 border border-slate-200 dark:border-slate-800 shadow p-6 sm:p-8 rounded-lg">
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                {% for badge in badges %}
+                    <div class="flex flex-col items-center gap-2">
+                        <div class="
+                        badge-icon
+                        badge-icon-{{ badge.theme }}
+                        {% if unlocks[badge.id] is not defined %}badge-locked{% endif %}
+                        ">
+                            {{ image(badge) }}
+                        </div>
+                        <div class="text-base font-semibold text-center
+                                {% if unlocks[badge.id] is not defined %}text-muted{% endif %}">
+                            {{ badge.name }}
+                        </div>
+                        <div class="text-sm text-slate-500 dark:text-slate-400 text-center">
+                            {{ badge.description }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

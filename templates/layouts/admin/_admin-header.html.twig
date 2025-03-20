@@ -28,32 +28,35 @@
             </div>
 
             <div class="w-full mb-3 border-b border-slate-200 dark:border-slate-700 py-4 grid grid-cols-2 gap-2">
-                <a href="{{ path('app_account_profile') }}#courses" class="flex flex-col items-center bg-slate-100 dark:bg-primary-1000 transition-colors duration-200 p-4 rounded-xl text-slate-900 dark:text-white font-medium hover:text-slate-900 hover:bg-slate-200">
-                    {{ icon('history', 20) }}
-                    <span>Historique</span>
+                <a href="{{ path('app_home') }}" class="flex flex-col items-center {% if not is_granted('ROLE_AUTHOR') %}col-span-2{% endif%} bg-slate-100 dark:bg-primary-1000 transition-colors duration-200 p-4 rounded-xl text-slate-900 dark:text-white font-medium hover:text-slate-900 hover:bg-slate-200">
+                    {{ icon('x', 20) }}
+                    <span>Quitter</span>
                 </a>
-                <a href="{{ path('app_account_profile') }}#badges" class="flex flex-col items-center bg-slate-100 dark:bg-primary-1000 transition-colors duration-200 p-4 rounded-xl text-slate-900 dark:text-white font-medium hover:text-slate-900 hover:bg-slate-200">
-                    {{ icon('award', 20) }}
-                    <span>Badges</span>
-                </a>
+                {% if is_granted('ROLE_AUTHOR') %}
+                    <a href="{{ path('studio_home') }}" class="flex flex-col items-center {% if not is_granted('ROLE_ADMIN') %}col-span-2{% endif%} bg-slate-100 dark:bg-primary-1000 transition-colors duration-200 p-4 rounded-xl text-slate-900 dark:text-white font-medium hover:text-slate-900 hover:bg-slate-200">
+                        {{ icon('clapperboard', 20) }}
+                        <span>Studio</span>
+                    </a>
+                {% endif %}
             </div>
             {% if app.user and is_granted('ROLE_PREVIOUS_ADMIN') %}
                 {#  <a href="{{ path('admin_users_index', {'_switch_user': '_exit'}) }}" class="dropdown-menu-item"> #}
                 <a href="{{ impersonation_exit_path(path('admin_users_index')) }}" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
-                    font-medium">
+                            font-medium">
                     {{ icon('monitor-x') }} <span>Revenir à mon compte</span>
                 </a>
             {% endif %}
-            {% if is_granted('ROLE_AUTHOR') %}
-                <a href="{{ path('studio_home') }}" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
-                    font-medium">
-                    {{ icon('clapperboard', 20) }} <span>Studio</span>
-                </a>
-                <div class="dropdown-divider"></div>
-            {% endif %}
-            <a href="{{ path('app_account_profile') }}" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
-                    font-medium">
-                {{ icon('settings', 20) }} <span>Gérer le compte</span>
+            <a href="{{ path('app_account_index') }}" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
+                            font-medium">
+                {{ icon('user', 20) }} <span>Mon compte</span>
+            </a>
+            <a href="{{ path('app_account_history') }}" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
+                            font-medium">
+                {{ icon('history', 20) }} <span>Historique</span>
+            </a>
+            <a href="{{ path('app_account_badges') }}" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
+                            font-medium">
+                {{ icon('credit-card', 20) }} <span>Badges</span>
             </a>
             <a href="{{ path('app_logout') }}" class="w-full bg-gray-100 dark:bg- rounded-full text-red-600 font-medium mt-3 px-6 py-2.5
                     flex justify-center items-center gap-2 hover:cursor-pointer hover:bg-gray-200 hover:text-red-600

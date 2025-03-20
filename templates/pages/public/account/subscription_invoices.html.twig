@@ -1,0 +1,142 @@
+{% extends 'layouts/public/base.html.twig' %}
+{% block title %}Abonnement & Facturation{% endblock %}
+
+{% block body %}
+    <div class="container-box py-6">
+
+        <!-- Fil d’Ariane -->
+        {% include 'partials/_breadcrumb.html.twig' with {
+            items: [
+                { label: 'Mon compte', path: path('app_account_index') },
+                { label: 'Abonnement & Facturation' }
+            ]
+        } %}
+
+        <!-- Titre principal -->
+        <div class="mb-6">
+            <h1 class="h2 mb-1">Abonnement & Facturation</h1>
+            <p class="text-sm text-slate-600 dark:text-slate-400">
+                Gérez ici votre abonnement Premium et accédez à vos factures.
+            </p>
+        </div>
+
+        <!-- Carte abonnement et factures -->
+        <div class="bg-white dark:bg-primary-1000 border border-slate-200 dark:border-slate-800 shadow p-6 sm:p-8 rounded-lg">
+
+            <!-- Bloc "Mon abonnement" -->
+            <section class="space-y-3 mb-6">
+                <h2 class="text-lg font-semibold">Mon abonnement</h2>
+
+                {% if subscription %}
+                    <!-- S’il y a un objet subscription (cas Stripe ou autre) -->
+                    {% if subscription.active %}
+                        <p class="text-sm text-muted mb-2">
+                            Vous êtes actuellement abonné. Votre prochain prélèvement aura lieu le
+                            <strong>{{ subscription.nextPayment|format_date('short') }}</strong>.
+                        </p>
+                        <form action="{{ path('app_user_subscription') }}" method="post" target="_blank">
+                            <button class="btn btn-primary">
+                                {{ icon('pen') }}
+                                Gérer mon abonnement
+                            </button>
+                        </form>
+                    {% else %}
+                        <p class="text-sm text-muted mb-2">
+                            Vous avez annulé votre abonnement. Il sera suspendu après le
+                            <strong>{{ subscription.nextPayment|format_date('short') }}</strong>.
+                        </p>
+                        <form action="{{ path('app_user_subscription') }}" method="post" target="_blank">
+                            <button class="btn btn-primary">
+                                {{ icon('refresh-cw') }}
+                                Réactiver mon abonnement
+                            </button>
+                        </form>
+                    {% endif %}
+
+                {% elseif app.user.isPremium %}
+                    <!-- Si le user est premium mais pas d'obj subscription (cas buy once, no recurring?) -->
+                    <p class="text-sm text-muted">
+                        Vous êtes actuellement premium jusqu'au
+                        <strong>{{ app.user.premiumEnd|format_date('short') }}</strong>.
+                    </p>
+                {% else %}
+                    <!-- User n’est pas premium du tout -->
+                    <p class="text-sm text-muted mb-2">
+                        Vous n'êtes pas abonné à un compte Premium.
+                    </p>
+                    <a href="{{ path('app_premium') }}" class="btn btn-primary">
+                        {{ icon('sparkles') }}
+                        <span>Devenir premium</span>
+                    </a>
+                {% endif %}
+            </section>
+
+            <hr class="border-slate-200 dark:border-slate-700 my-6"/>
+
+            <!-- Bloc "Derniers paiements" -->
+            <section>
+                <h2 class="text-lg font-semibold mb-4">Mes derniers paiements</h2>
+                {% if transactions is empty %}
+                    <div class="py-4 text-muted text-center">
+                        Vous n'avez aucune facture :(
+                    </div>
+                {% else %}
+                    <div class="table-wrapper overflow-x-auto">
+                        <table class="table min-w-full text-sm">
+                            <thead>
+                            <tr>
+                                <th class="text-left py-2 px-3">Date</th>
+                                <th class="text-left py-2 px-3">Description</th>
+                                <th class="text-left py-2 px-3">Prix</th>
+                                <th class="text-left py-2 px-3"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for transaction in transactions %}
+                                <tr>
+                                    <td class="py-2 px-3">
+                                        {{ transaction.createdAt|format_date('long') }}
+                                    </td>
+                                    <td class="py-2 px-3">
+                                        Compte premium {{ transaction.duration }} mois
+                                    </td>
+                                    <td class="py-2 px-3">
+                                        {{ transaction.price|format_currency('EUR') }}
+                                    </td>
+                                    <td class="py-2 px-3">
+                                        <a target="_blank"
+                                           href="{{ path('app_user_invoice', { id: transaction.id }) }}"
+                                           class="btn-icon">
+                                            {{ icon('download') }}
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+            </section>
+
+            <hr class="border-slate-200 dark:border-slate-700 my-6"/>
+
+            <!-- Bloc "Informations de facturation" -->
+            {% if transactions is not empty %}
+                <aside class="mt-6">
+                    <h2 class="text-lg font-semibold mb-3">
+                        Informations de facturation
+                    </h2>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">
+                        Si vous souhaitez préciser des informations supplémentaires
+                        (n° de TVA, n° de SIRET ou autres), vous pouvez les ajouter ci-dessous.
+                    </p>
+                    <form method="post" class="space-y-3">
+                        <textarea name="invoiceInfo" class="form-input w-full" rows="4"
+                              placeholder="Informations à faire figurer sur chaque facture">{{ app.user.invoiceInfo }}</textarea>
+                        <button class="btn btn-primary">Sauvegarder</button>
+                    </form>
+                </aside>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -61,6 +61,6 @@ class DeleteAccountController extends AbstractController
 
         $this->addFlash( 'success', 'Suppression de compte annulée avec succès' );
 
-        return $this->redirectToRoute( 'app_account_profile' );
+        return $this->redirectToRoute( 'app_account_security' );
     }
 }

@@ -1,0 +1,172 @@
+{% extends 'layouts/public/base.html.twig' %}
+{% block title %}Sécurité & Connexion{% endblock %}
+
+{% block body %}
+    <div class="container-box py-6">
+
+        <!-- Fil d'Ariane -->
+        {% include 'partials/_breadcrumb.html.twig' with {
+            items: [
+                { label: 'Mon compte', path: path('app_account_index') },
+                { label: 'Sécurité & Connexion' }
+            ]
+        } %}
+
+        <!-- Titre principal -->
+        <div class="mb-6">
+            <h1 class="h2 mb-1">Sécurité & Connexion</h1>
+            <p class="text-sm text-slate-600 dark:text-slate-400">
+                Gérez ici votre mot de passe, votre adresse email et vos connexions externes
+                (par exemple via Google ou GitHub).
+            </p>
+        </div>
+
+        <!-- Carte de sections -->
+        <div class="bg-white dark:bg-primary-1000 border border-slate-200 dark:border-slate-800 shadow p-6 sm:p-8 rounded-lg space-y-8">
+
+            <!-- Section Email -->
+            <div>
+                <h2 class="text-lg font-semibold mb-2">Adresse email</h2>
+                <p class="text-sm text-slate-600 dark:text-slate-400">
+                    Vous pouvez modifier votre adresse email principale.
+                    Une fois changée, un email de confirmation vous sera envoyé.
+                </p>
+                <div class="mt-4">
+                    <a href="{{ path('app_account_security_email') }}" class="btn btn-light">
+                        Changer mon email
+                    </a>
+                </div>
+            </div>
+
+            <hr class="border-slate-200 dark:border-slate-700"/>
+
+            <!-- Section Mot de passe -->
+            <div>
+                <h2 class="text-lg font-semibold mb-2">Mot de passe</h2>
+                <p class="text-sm text-slate-600 dark:text-slate-400">
+                    Mettez à jour votre mot de passe en toute sécurité.
+                    Vous devrez saisir votre mot de passe actuel.
+                </p>
+                <div class="mt-4">
+                    <a href="{{ path('app_account_security_password') }}" class="btn btn-light">
+                        Changer mon mot de passe
+                    </a>
+                </div>
+            </div>
+
+            <hr class="border-slate-200 dark:border-slate-700"/>
+
+            <!-- Section Comptes externes -->
+            <div>
+                <h2 class="text-lg font-semibold mb-2">Comptes externes</h2>
+                <p class="text-sm text-slate-600 dark:text-slate-400">
+                    Vous pouvez associer (ou dissocier) votre compte Google ou GitHub
+                    pour vous connecter rapidement à votre espace.
+                </p>
+                <div class="mt-4 space-y-3">
+                    <a href="{{ path(app.user.googleId ? 'app_oauth_unlink' : 'app_oauth_connect', {service: 'google'}) }}"
+                       class="btn btn-light inline-flex items-center gap-2">
+                        <svg class="w-5 h-5">
+                            <use href="/icons/social.svg#google"></use>
+                        </svg>
+                        <span>
+                        {{ app.user.googleId ? 'Dissocier' : 'Lier' }} votre compte Google
+                    </span>
+                    </a>
+
+                    <a href="{{ path(app.user.githubId ? 'app_oauth_unlink' : 'app_oauth_connect', {service: 'github'}) }}"
+                       class="btn btn-light inline-flex items-center gap-2">
+                        <svg class="w-5 h-5">
+                            <use href="/icons/social.svg#github"></use>
+                        </svg>
+                        <span>
+                        {{ app.user.githubId ? 'Dissocier' : 'Lier' }} votre compte GitHub
+                    </span>
+                    </a>
+                </div>
+            </div>
+
+            <hr class="border-slate-200 dark:border-slate-700"/>
+
+            <!-- Section Zone dangereuse : Suppression de compte -->
+            <div class="space-y-3">
+                <h2 class="text-lg font-semibold text-red-600 dark:text-red-400">Zone dangereuse</h2>
+
+                {% if app.user.deletedAt %}
+                    <!-- Si l'utilisateur a déjà demandé la suppression -->
+                    <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700
+                            rounded p-4 text-sm text-red-800 dark:text-red-100
+                            overflow-x-auto break-words">
+
+                        <h3 class="text-md font-medium mb-1">
+                            Suppression de compte en cours
+                        </h3>
+                        <p class="mb-2">
+                            Votre compte sera supprimé le
+                            <b>{{ app.user.deletedAt|format_datetime('long', 'none', locale='fr') }}</b>.
+                        </p>
+                        <p class="text-slate-700 dark:text-slate-300">
+                            Vous pouvez annuler cette demande avant la date de suppression définitive.
+                        </p>
+                        <div class="mt-3">
+                            <a href="{{ path('app_account_delete_cancel') }}" class="btn btn-light text-red-700 dark:text-red-300">
+                                Annuler la suppression
+                            </a>
+                        </div>
+                    </div>
+
+                {% else %}
+                    <!-- Si pas de demande en cours, on propose de demander la suppression -->
+                    <p class="text-sm text-slate-600 dark:text-slate-400">
+                        Si vous n'êtes pas satisfait de nos services, vous pouvez demander la suppression de votre compte.
+                        Vous aurez X jours pour changer d'avis, passé ce délai, la suppression sera définitive.
+                    </p>
+                    <div>
+                        <button class="btn btn-light-danger" data-modal-id="deleteAccountModal">
+                            {{ icon('trash') }}
+                            <span>Demander la suppression</span>
+                        </button>
+                    </div>
+
+                    <!-- Modal pour saisir le mot de passe (formDeleteAccount) -->
+                    <modal-dialog id="deleteAccountModal" hidden="hidden" overlay-close>
+                        <section class="modal-box max-w-md w-full p-6 bg-white dark:bg-primary-950 rounded shadow-lg">
+                            <div class="flex items-center justify-between mb-2">
+                                <h2 class="text-xl font-semibold text-slate-800 dark:text-slate-100">
+                                    Confirmer la suppression
+                                </h2>
+                                <button data-dismiss aria-label="Close" class="modal-close text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">
+                                    {{ icon('x') }}
+                                </button>
+                            </div>
+
+                            <hr class="my-4 border-slate-200 dark:border-slate-700"/>
+
+                            <p class="text-sm text-slate-700 dark:text-slate-300 mb-4">
+                                Pour confirmer cette demande, merci de saisir votre mot de passe.
+                                Votre compte sera supprimé définitivement après X jours.
+                            </p>
+
+                            {{ form_start(formDeleteAccount, {'attr': {'class': 'stack'}}) }}
+                            {{ form_row(formDeleteAccount.password, {
+                                'attr': {
+                                    'class': 'form-input',
+                                    'placeholder': 'Saisissez votre mot de passe'
+                                }
+                            }) }}
+
+                            <div class="mt-4 text-right">
+                                <button type="submit" class="btn btn-danger">
+                                    {{ icon('trash') }}
+                                    <span>Confirmer la suppression</span>
+                                </button>
+                            </div>
+                            {{ form_end(formDeleteAccount) }}
+                        </section>
+                    </modal-dialog>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

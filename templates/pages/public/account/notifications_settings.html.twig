@@ -1,0 +1,70 @@
+{% extends 'layouts/public/base.html.twig' %}
+{% block title %}Notifications{% endblock %}
+
+{% block body %}
+    <div class="container-box py-6">
+
+        <!-- Fil d'Ariane -->
+        {% include 'partials/_breadcrumb.html.twig' with {
+            items: [
+                { label: 'Mon compte', path: path('app_account_index') },
+                { label: 'Notifications' }
+            ]
+        } %}
+
+        <!-- Titre principal -->
+        <div class="mb-6">
+            <h1 class="h2 mb-1">Notifications & Alertes</h1>
+            <p class="text-sm text-slate-600 dark:text-slate-400">
+                Gérez ici vos préférences de notification,
+                que ce soit pour la newsletter ou d'autres alertes par email.
+            </p>
+        </div>
+
+        <!-- Carte Notifications -->
+        <div class="bg-white dark:bg-primary-1000 border border-slate-200 dark:border-slate-800 shadow p-6 sm:p-8 rounded-lg space-y-8">
+
+            <!-- Bloc Newsletter -->
+            <section>
+                <h2 class="text-lg font-semibold">Newsletter</h2>
+
+                {% if app.user.isNewsletterSubscribed %}
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">
+                        Vous recevez actuellement la newsletter.
+                        Vous pourrez ainsi rester informé des dernières nouveautés.
+                    </p>
+                    <a href="{{ path('app_newsletter_unsubscribe_user', {token: app.user.unsubscribeNewsletterToken}) }}"
+                       class="btn btn-light-danger">
+                        {{ icon('mail-minus') }}
+                        <span>Se désabonner</span>
+                    </a>
+                {% else %}
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">
+                        Vous n'êtes pas encore abonné à la newsletter.
+                        Abonnez-vous pour recevoir les dernières actualités.
+                    </p>
+                    <a href="{{ path('app_newsletter_subscribe') }}"
+                       class="btn btn-primary">
+                        {{ icon('mail-plus') }}
+                        <span>S'abonner à la newsletter</span>
+                    </a>
+                {% endif %}
+            </section>
+
+            <!--
+            <hr class="border-slate-200 dark:border-slate-700"/>
+
+            <section class="space-y-3">
+                <h2 class="text-lg font-semibold">Notifications internes</h2>
+                <p class="text-sm text-slate-600 dark:text-slate-400 mb-2">
+                    Recevoir des alertes lors de nouvelles fonctionnalités, etc.
+                </p>
+                <button class="btn btn-primary">
+                    Activer les notifications
+                </button>
+            </section>
+            -->
+
+        </div>
+    </div>
+{% endblock %}

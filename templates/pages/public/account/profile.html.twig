@@ -1,0 +1,151 @@
+{% extends 'layouts/public/base.html.twig' %}
+{% block title %}Mon profil{% endblock %}
+
+{% block body %}
+    <div class="container-box py-6">
+        <!-- Fil d'Ariane -->
+        {% include 'partials/_breadcrumb.html.twig' with {
+            items: [
+                { label: 'Mon compte', path: path('app_account_index') },
+                { label: 'Mon Profil' }
+            ]
+        } %}
+
+        <!-- Titre et infos -->
+        <div class="mb-6">
+            <h1 class="h2 mb-1">Mon profil</h1>
+            <p class="text-sm text-slate-600 dark:text-slate-400">
+                Gérez ici vos informations personnelles.
+                Pour modifier votre mot de passe ou votre email,
+                rendez-vous dans
+                <a href="{{ path('app_account_security') }}" class="text-primary-700 hover:underline">
+                    Sécurité & Connexion
+                </a>.
+            </p>
+        </div>
+
+        <!-- Carte profil -->
+        <div class="bg-white dark:bg-primary-1000 border border-slate-200 dark:border-slate-800 shadow p-6 sm:p-8 rounded-lg flex flex-col md:flex-row items-center gap-10">
+            <!-- Colonne avatar / actions -->
+            <div class="flex flex-col items-center gap-2 relative">
+                <div class="relative group">
+                    <img
+                            id="avatar-preview"
+                            src="{{ app.user|avatar }}"
+                            alt="Avatar de {{ app.user.fullname }}"
+                            class="w-32 h-32 object-cover rounded-full border-2 border-primary-900 dark:border-primary-300 p-0.5"
+                    >
+                    <!-- Bouton "Changer la photo" -->
+                    <button
+                            type="button"
+                            id="change-avatar-btn"
+                            class="hidden group-hover:flex
+                    absolute inset-0 bg-black/50 text-white
+                    items-center justify-center text-sm font-medium
+                    rounded-full transition-colors duration-200
+                    opacity-0 md:opacity-100 hover:opacity-90 cursor-pointer
+                    z-10"
+                    >
+                        {{ icon('camera', 20) }}
+                        <span class="ml-2">Changer</span>
+                    </button>
+                </div>
+
+                <!-- Bouton "Annuler la sélection" (caché par défaut) -->
+                <button
+                        type="button"
+                        id="cancel-upload-btn"
+                        class="hidden text-sm text-danger hover:underline"
+                >
+                    Annuler la sélection
+                </button>
+
+                <!-- Supprimer la photo -->
+                {% if app.user.avatar %}
+                    <form method="post" action="{{ path('app_account_remove_avatar') }}">
+                        <button type="submit" class="text-sm text-danger hover:underline">
+                            Supprimer cette photo
+                        </button>
+                    </form>
+                {% endif %}
+            </div>
+
+            <!-- Formulaire principal -->
+            <div class="w-full md:w-auto flex-1">
+                {{ form_start(formProfile, { 'attr': { 'class': 'space-y-4', 'enctype': 'multipart/form-data' } }) }}
+
+                <!-- 2 lignes, 2 colonnes -->
+                <!-- 1ère ligne: Nom complet / Téléphone -->
+                <!-- 2ème ligne: Date de naissance / Pays -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {{ form_row(formProfile.fullname, { 'label': 'Nom complet' }) }}
+                    {{ form_row(formProfile.phone, { 'label': 'Téléphone' }) }}
+
+                    {{ form_row(formProfile.date_of_birthday, { 'label': 'Date de naissance' }) }}
+                    {{ form_row(formProfile.country, { 'label': 'Pays' }) }}
+                </div>
+
+                <!-- Input file (caché) -->
+                <div class="hidden">
+                    {{ form_row(formProfile.avatarFile, {
+                        'label': false,
+                        'attr': {
+                            'accept': 'image/*',
+                            'id': 'profile_update_form_avatarFile'
+                        }
+                    }) }}
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">
+                        {{ icon('save') }} Enregistrer
+                    </button>
+                </div>
+
+                {{ form_end(formProfile) }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const previewImg = document.getElementById('avatar-preview');
+            const changeBtn = document.getElementById('change-avatar-btn');
+            const fileInput = document.getElementById('profile_update_form_avatarFile');
+            const cancelBtn = document.getElementById('cancel-upload-btn');
+
+            if (!previewImg || !changeBtn || !fileInput) return;
+            const initialSrc = previewImg.src;
+
+            // Au clic sur "Changer la photo", on déclenche l'input file
+            changeBtn.addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    cancelBtn.classList.remove('hidden');
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        previewImg.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    previewImg.src = initialSrc;
+                    cancelBtn.classList.add('hidden');
+                }
+            });
+
+            // Bouton "Annuler la sélection"
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', () => {
+                    fileInput.value = "";
+                    previewImg.src = initialSrc;
+                    cancelBtn.classList.add('hidden');
+                });
+            }
+        });
+    </script>
+{% endblock %}

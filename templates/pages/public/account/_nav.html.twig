@@ -1,0 +1,69 @@
+<!-- Bouton hamburger pour la page “Mon compte” (mobile uniquement) -->
+<div class="block lg:hidden p-4">
+    <button id="accountMenuToggle" class="btn">
+        {{ icon('menu') }}
+        <span>Menu Compte</span>
+    </button>
+</div>
+
+<!-- Le menu qui se superpose (overlay) -->
+<div id="accountMenuOverlay" class="hidden fixed inset-0 bg-black/50 z-50">
+    <aside class="absolute top-0 left-0 w-64 h-full bg-gray-100 dark:bg-gray-900 p-4">
+        <button id="accountMenuClose" class="btn btn-light w-full flex justify-center items-center gap-2">
+            {{ icon('x') }}
+            <span>Fermer</span>
+        </button>
+        <nav class="flex flex-col gap-4 mt-6">
+            <a href="{{ path('app_account_profile') }}" class="nav-link flex gap-2 items-center">
+                {{ icon('user') }} Profil
+            </a>
+            <a href="{{ path('app_account_security') }}" class="nav-link flex gap-2 items-center">
+                {{ icon('lock') }} Sécurité
+            </a>
+            <a href="{{ path('app_account_emails_preferences') }}" class="nav-link flex gap-2 items-center">
+                {{ icon('mail') }} Préférences e-mail
+            </a>
+            <a href="{{ path('app_account_subscription') }}" class="nav-link flex gap-2 items-center">
+                {{ icon('sparkles') }} Abonnement
+            </a>
+            <a href="{{ path('app_account_history') }}" class="nav-link flex gap-2 items-center">
+                {{ icon('history') }} Historique
+            </a>
+            <a href="{{ path('app_account_badges') }}" class="nav-link flex gap-2 items-center">
+                {{ icon('award') }} Badges
+            </a>
+            <a href="{{ path('app_account_invoices') }}" class="nav-link flex gap-2 items-center">
+                {{ icon('scroll-text') }} Factures
+            </a>
+        </nav>
+    </aside>
+</div>
+
+
+<!-- Script JavaScript pour gérer l'affichage/fermeture du menu -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const accountMenuToggle = document.getElementById('accountMenuToggle');
+        const accountMenuOverlay = document.getElementById('accountMenuOverlay');
+        const accountMenuClose = document.getElementById('accountMenuClose');
+
+        // Ouvrir le menu quand on clique sur le bouton hamburger
+        accountMenuToggle.addEventListener('click', () => {
+            accountMenuOverlay.classList.remove('hidden');
+        });
+
+        // Fermer le menu quand on clique sur “Fermer”
+        if (accountMenuClose) {
+            accountMenuClose.addEventListener('click', () => {
+                accountMenuOverlay.classList.add('hidden');
+            });
+        }
+
+        // Optionnel : si on clique en dehors de l'aside, on ferme aussi
+        accountMenuOverlay.addEventListener('click', (event) => {
+            if (event.target === accountMenuOverlay) {
+                accountMenuOverlay.classList.add('hidden');
+            }
+        });
+    });
+</script>
