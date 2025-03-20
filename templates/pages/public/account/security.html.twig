@@ -26,7 +26,7 @@
 
             <!-- Section Email -->
             <div>
-                <h2 class="text-lg font-semibold mb-2">Adresse email</h2>
+                <h2 class="text-lg font-medium mb-2">Adresse email</h2>
                 <p class="text-sm text-slate-600 dark:text-slate-400">
                     Vous pouvez modifier votre adresse email principale.
                     Une fois changée, un email de confirmation vous sera envoyé.
@@ -42,7 +42,7 @@
 
             <!-- Section Mot de passe -->
             <div>
-                <h2 class="text-lg font-semibold mb-2">Mot de passe</h2>
+                <h2 class="text-lg font-medium mb-2">Mot de passe</h2>
                 <p class="text-sm text-slate-600 dark:text-slate-400">
                     Mettez à jour votre mot de passe en toute sécurité.
                     Vous devrez saisir votre mot de passe actuel.
@@ -59,7 +59,7 @@
             <!-- Section Comptes externes -->
             <!-- Section Comptes externes -->
             <div>
-                <h2 class="text-lg font-semibold mb-2">Comptes externes</h2>
+                <h2 class="text-lg font-medium mb-2">Comptes externes</h2>
                 <p class="text-sm text-slate-600 dark:text-slate-400">
                     Vous pouvez associer (ou dissocier) votre compte Google ou GitHub
                     pour vous connecter rapidement à votre espace.
@@ -193,7 +193,7 @@
 
             <!-- Section Zone dangereuse : Suppression de compte -->
             <div class="space-y-3">
-                <h2 class="text-lg font-semibold text-red-600 dark:text-red-400">Zone dangereuse</h2>
+                <h2 class="text-lg font-medium text-red-600 dark:text-red-400">Zone dangereuse</h2>
 
                 {% if app.user.deletedAt %}
                     <!-- Si l'utilisateur a déjà demandé la suppression -->
@@ -235,7 +235,7 @@
                     <modal-dialog id="deleteAccountModal" hidden="hidden" overlay-close>
                         <section class="modal-box max-w-md w-full p-6 bg-white dark:bg-primary-950 rounded shadow-lg">
                             <div class="flex items-center justify-between mb-2">
-                                <h2 class="text-xl font-semibold text-slate-800 dark:text-slate-100">
+                                <h2 class="text-xl font-medium text-slate-800 dark:text-slate-100">
                                     Confirmer la suppression
                                 </h2>
                                 <button data-dismiss aria-label="Close" class="modal-close text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">

@@ -26,7 +26,7 @@
             <!-- Section : Mon abonnement -->
             <section>
                 <div class="flex items-center mb-4 gap-2">
-                    <h2 class="text-lg font-semibold">Mon abonnement</h2>
+                    <h2 class="text-lg font-medium">Mon abonnement</h2>
                 </div>
 
                 {% if subscription %}
@@ -130,7 +130,7 @@
                         <!-- Texte d'encouragement -->
                         <div class="flex-1 flex flex-col items-center md:items-start space-y-5">
                             <div class="text-center md:text-start">
-                                <h3 class="text-base text-slate-900 dark:text-white font-semibold mb-1">
+                                <h3 class="text-base text-slate-900 dark:text-white font-medium mb-1">
                                     Passez au plan Premium
                                 </h3>
                                 <p class="text-sm text-slate-600 dark:text-slate-400">
@@ -155,7 +155,7 @@
             <!-- Section : Derniers paiements -->
             <section>
                 <div class="flex items-center mb-4 gap-2">
-                    <h2 class="text-lg font-semibold">Mes derniers paiements</h2>
+                    <h2 class="text-lg font-medium">Mes derniers paiements</h2>
                 </div>
                 {% if transactions is empty %}
                     <div class="py-4 text-sm text-slate-600 dark:text-slate-300 text-center">
@@ -205,8 +205,7 @@
             {% if transactions is not empty %}
                 <section>
                     <div class="flex items-center mb-4 gap-2">
-                        {{ icon('edit', 24) }}
-                        <h2 class="text-lg font-semibold">Informations de facturation</h2>
+                        <h2 class="text-lg font-medium">Informations de facturation</h2>
                     </div>
                     <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">
                         Si vous souhaitez préciser des informations supplémentaires
