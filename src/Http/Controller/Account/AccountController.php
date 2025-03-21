@@ -209,13 +209,6 @@ class AccountController extends AbstractController
         ]);
     }
 
-    #[Route( '/abonnement', name: 'subscription' )]
-    #[IsGranted( 'IS_AUTHENTICATED_FULLY' )]
-    public function subscriptions() : Response
-    {
-        return $this->render( 'pages/public/account/subscriptions.html.twig', []);
-    }
-
     #[Route( '/gestion-abonnement', name: 'subscription_invoices', methods: ['GET', 'POST'] )]
     public function subscriptionsAndInvoices(Request $request, SubscriptionRepository $repository) : Response
     {
