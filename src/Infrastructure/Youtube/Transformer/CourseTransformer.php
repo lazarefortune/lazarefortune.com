@@ -27,12 +27,14 @@ class CourseTransformer
         $url = 'https://lazarefortune.fr';
         $title = preg_replace('/[<>]/', '', $course->getTitle() ?: '');
         $formation = $course->getFormation();
+        /*
         if ($formation) {
             $title = "{$formation->getTitle()} : {$title}";
         } else {
             # $technologies = collect($course->getMainTechnologies())->map(fn (Technology $t) => $t->getName())->join('/');
             $title = "{$title}";
         }
+        */
 
         // On crée l'objet Vidéo
         $video = new \Google_Service_YouTube_Video();
