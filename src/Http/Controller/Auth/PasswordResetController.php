@@ -22,9 +22,11 @@ class PasswordResetController extends AbstractController
     #[Route( path: '/mot-de-passe-oublie', name: 'forgot_password', methods: ['GET', 'POST'] )]
     public function forgotPassword( Request $request ) : Response
     {
+        /*
         if ( $this->getUser() ) {
             return $this->redirectBack( 'app_home' );
         }
+        */
 
         // si dans la requête il y a l'email on pré-rempli le formulaire
         $email = $request->query->get( 'email' );
