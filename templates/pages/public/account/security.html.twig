@@ -14,11 +14,7 @@
 
         <!-- Titre principal -->
         <div class="mb-6">
-            <h1 class="h2 mb-1">Sécurité & Connexion</h1>
-            <p class="text-sm text-slate-600 dark:text-slate-400">
-                Gérez ici votre mot de passe, votre adresse email et vos connexions externes
-                (par exemple via Google ou GitHub).
-            </p>
+            <h1 class="h2">Sécurité & Connexion</h1>
         </div>
 
         <!-- Carte de sections -->
@@ -26,10 +22,9 @@
 
             <!-- Section Email -->
             <div>
-                <h2 class="text-lg font-medium mb-2">Adresse email</h2>
+                <h2 class="text-lg font-medium mb-1">Adresse email</h2>
                 <p class="text-sm text-slate-600 dark:text-slate-400">
                     Vous pouvez modifier votre adresse email principale.
-                    Une fois changée, un email de confirmation vous sera envoyé.
                 </p>
                 <div class="mt-4">
                     <a href="{{ path('app_account_security_email') }}" class="btn btn-light">
@@ -42,10 +37,9 @@
 
             <!-- Section Mot de passe -->
             <div>
-                <h2 class="text-lg font-medium mb-2">Mot de passe</h2>
+                <h2 class="text-lg font-medium mb-1">Mot de passe</h2>
                 <p class="text-sm text-slate-600 dark:text-slate-400">
                     Mettez à jour votre mot de passe en toute sécurité.
-                    Vous devrez saisir votre mot de passe actuel.
                 </p>
                 <div class="mt-4">
                     <a href="{{ path('app_account_security_password') }}" class="btn btn-light">
@@ -59,14 +53,13 @@
             <!-- Section Comptes externes -->
             <!-- Section Comptes externes -->
             <div>
-                <h2 class="text-lg font-medium mb-2">Comptes externes</h2>
+                <h2 class="text-lg font-medium mb-1">Comptes externes</h2>
                 <p class="text-sm text-slate-600 dark:text-slate-400">
-                    Vous pouvez associer (ou dissocier) votre compte Google ou GitHub
-                    pour vous connecter rapidement à votre espace.
+                    Vous pouvez lier vos réseaux sociaux
+                    pour vous connecter rapidement à votre compte.
                 </p>
 
                 <div class="mt-4 space-y-6">
-
                     <!-- BLOC GOOGLE -->
                     <div class="md:flex md:items-center md:justify-between border border-gray-200 dark:border-slate-700 rounded-xl p-3">
                         <!-- Infos “Google” -->
@@ -125,7 +118,6 @@
                             </a>
                         </div>
                     </div>
-
 
                     <!-- BLOC GITHUB -->
                     <div class="md:flex md:items-center md:justify-between border border-gray-200 dark:border-slate-700 rounded-xl p-3">
@@ -192,8 +184,8 @@
             <hr class="border-slate-200 dark:border-slate-700"/>
 
             <!-- Section Zone dangereuse : Suppression de compte -->
-            <div class="space-y-3">
-                <h2 class="text-lg font-medium text-red-600 dark:text-red-400">Zone dangereuse</h2>
+            <div>
+                <h2 class="text-lg font-medium text-red-600 dark:text-red-400 mb-1">Zone dangereuse</h2>
 
                 {% if app.user.deletedAt %}
                     <!-- Si l'utilisateur a déjà demandé la suppression -->
@@ -211,8 +203,8 @@
                         <p class="text-slate-700 dark:text-slate-300">
                             Vous pouvez annuler cette demande avant la date de suppression définitive.
                         </p>
-                        <div class="mt-3">
-                            <a href="{{ path('app_account_delete_cancel') }}" class="btn btn-light text-red-700 dark:text-red-300">
+                        <div class="mt-4">
+                            <a href="{{ path('app_account_delete_cancel') }}" class="btn btn-primary">
                                 Annuler la suppression
                             </a>
                         </div>
@@ -220,8 +212,8 @@
 
                 {% else %}
                     <!-- Si pas de demande en cours, on propose de demander la suppression -->
-                    <p class="text-sm text-slate-600 dark:text-slate-400">
-                        Si vous n'êtes pas satisfait de nos services, vous pouvez demander la suppression de votre compte.
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">
+                        Si vous n'êtes pas satisfait, vous pouvez demander la suppression de votre compte.
                         Vous aurez 5 jours pour changer d'avis, passé ce délai, la suppression sera définitive.
                     </p>
                     <div>
