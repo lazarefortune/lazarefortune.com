@@ -40,11 +40,7 @@ class CourseTransformer
         $video = new \Google_Service_YouTube_Video();
         $snippet = new \Google_Service_YouTube_VideoSnippet();
         $snippet->setCategoryId('28');
-        $snippet->setDescription("
-        Découvrez la vidéo complète sur https://lazarefortune.com
-        Retrouvez moi sur:
-        Le site ► https://lazarefortune.com
-        Twitter ► https://twitter.com/lazarefortune");
+        $snippet->setDescription($this->buildDescription($course));
         $snippet->setTitle($title);
         $snippet->setDefaultAudioLanguage('fr');
         $snippet->setDefaultLanguage('fr');
@@ -99,4 +95,38 @@ class CourseTransformer
             'uploadType' => 'multipart',
         ];
     }
+
+    private function buildDescription(Course $course): string
+    {
+        $title = $course->getTitle();
+        $url = 'https://lazarefortune.com';
+
+        // Récupération des noms des technos principales
+        $technos = array_map(fn(Technology $tech) => $tech->getName(), $course->getMainTechnologies());
+        $techList = $technos ? implode(', ', $technos) : 'Développement web';
+
+        // Création de hashtags à partir des technos
+        $hashtags = array_map(fn(string $tech) => '#' . preg_replace('/\s+/', '', ucfirst($tech)), $technos);
+        $hashtags[] = '#LazareFortune';
+        $hashtags[] = '#LazareFortuneCode';
+        $hashtags[] = '#DevWeb';
+
+        // On limite à 5 hashtags max
+        $hashtagText = implode(' ', array_slice($hashtags, 0, 5));
+
+        return <<<DESC
+🚀 $title
+
+📚 Technologies abordées : $techList
+
+Toutes mes ressources et vidéos sont centralisées ici 👉 $url  
+Retrouve-moi sur tous les réseaux avec **@lazarefortune**
+
+🔗 Reste curieux, continue de progresser, et partage si ça t’aide !
+
+$hashtagText
+DESC;
+    }
+
+
 }
