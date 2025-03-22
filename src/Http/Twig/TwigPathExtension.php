@@ -43,11 +43,20 @@ class TwigPathExtension extends AbstractExtension
             return null;
         }
 
-//        if ('jpg' !== pathinfo($path, PATHINFO_EXTENSION)) {
-//            return $path;
-//        }
 
+        /*
+         *
+        $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+
+        if (in_array($extension, ['jpg','jpeg']) && null === $width && null === $height) {
+            return $path;
+        }
+
+        # TODO: find the best solution for better image quality
         return $this->imageResizer->resize($this->helper->asset($entity), $width, $height);
+        */
+
+        return $path;
     }
 
     public function imageUrlRaw(?object $entity): string
