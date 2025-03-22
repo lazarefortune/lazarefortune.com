@@ -83,14 +83,15 @@ form.profil-header__avatar:hover img {
 // Classes personnalisées pour les cartes de la page "Mon Compte"
 
 .account-card {
-  @apply flex flex-row md:flex-col gap-4 border p-6 rounded-xl transition-colors duration-200;
+  @apply flex flex-row md:flex-col md:items-start gap-4 border p-4 md:px-6 rounded-xl transition-colors duration-200;
   @apply text-slate-950 dark:text-white;
   @apply border-slate-200 dark:border-slate-700;
   @apply hover:bg-slate-50 dark:hover:bg-primary-1000;
 }
 
 .account-card__icon {
-  @apply text-slate-950 dark:text-white;
+  @apply text-slate-950 dark:text-white border border-slate-200 dark:border-slate-800 p-4 rounded-xl;
+  @apply bg-slate-50 dark:bg-primary-1000;
   @apply flex-shrink-0;
   @apply text-[34px]; // Pour avoir environ 34px
 }
