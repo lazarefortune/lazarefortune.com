@@ -57,17 +57,17 @@
                         {{ row.technologies|join(', ') }}
                     </td>
                     <td>
-                        <div class="flex justify-start items-center gap-2">
-                        {% if row.online and (row.publishedAt|date('U') <= "now"|date('U')) %}
-                            {{ icon('eye') }}
-                            <span>En ligne</span>
-                        {% elseif row.online and (row.publishedAt|date('U') > "now"|date('U')) %}
-                            {{ icon('clock') }}
-                            <span>Planifiée</span>
-                        {% else %}
-                            {{ icon('lock') }}
-                            <span>Privée</span>
-                        {% endif %}
+                        <div class="badge badge-{% if row.online and (row.publishedAt|date('U') <= "now"|date('U')) %}success{% elseif row.online and (row.publishedAt|date('U') > "now"|date('U')) %}info{% else %}warning{% endif %}">
+                            {% if row.online and (row.publishedAt|date('U') <= "now"|date('U')) %}
+                                {{ icon('eye') }}
+                                <span>En ligne</span>
+                            {% elseif row.online and (row.publishedAt|date('U') > "now"|date('U')) %}
+                                {{ icon('clock') }}
+                                <span>Planifiée</span>
+                            {% else %}
+                                {{ icon('lock') }}
+                                <span>Privée</span>
+                            {% endif %}
                         </div>
                     </td>
                     <td>

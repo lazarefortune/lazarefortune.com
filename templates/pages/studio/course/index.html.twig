@@ -77,7 +77,7 @@
                     </td>
                     <td>
                         <a href="{{ link }}" class="table-cell-link"></a>
-                        <div class="flex justify-start items-center gap-2">
+                        <div class="badge badge-{% if row.online and (row.publishedAt|date('U') <= "now"|date('U')) %}success{% elseif row.online and (row.publishedAt|date('U') > "now"|date('U')) %}info{% else %}warning{% endif %}">
                             {% if row.online and (row.publishedAt|date('U') <= "now"|date('U')) %}
                                 {{ icon('eye') }}
                                 <span>En ligne</span>
