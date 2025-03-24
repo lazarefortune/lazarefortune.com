@@ -1,119 +1,137 @@
 {% extends 'layouts/admin/base.html.twig' %}
 
-{% block title %}Contacts{% endblock %}
+{% block title %}Boîte de réception{% endblock %}
 
 {% block body %}
-    <div class="dashboard-page-header">
-        <nav class="breadcrumb" aria-label="Breadcrumb">
-            <ol>
-                <li>
-                    <a href="{{ path('admin_home') }}">
-                        <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                             fill="currentColor" viewBox="0 0 20 20">
-                            <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"></path>
-                        </svg>
-                        Accueil
-                    </a>
-                </li>
-                {{ icon('chevron-right') }}
-                <li aria-current="page">
-                    <span>Contacts reçus</span>
-                </li>
-            </ol>
-        </nav>
+    <div class="dashboard-page-header mt-6 mb-6 flex items-center justify-between flex-wrap gap-3">
+        <h1 class="h4 flex items-center gap-2">
+            {{ icon('inbox', 20) }}
+            Boîte de réception
+        </h1>
     </div>
 
-    <div class="table-wrapper">
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Email</th>
-                <th>Date</th>
-                <th>Objet</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% if contacts is empty %}
-                <tr>
-                    <td colspan="4" class="text-center">
-                        Aucune donnée disponible
-                    </td>
-                </tr>
-            {% endif %}
-            {% for contact in contacts %}
-                <tr>
-                    <td>
-                        {{ contact.email }}
-                    </td>
-                    <td>
-                        {{ contact.createdAt|ago }}
-                    </td>
-                    <td>
-                        {{ contact.subject|truncate(50) }}
-                    </td>
-                    <td>
-                        <!-- Bouton pour ouvrir la modale -->
-                        <button class="btn-icon" data-modal-id="showContact{{ contact.id }}" title="Voir le message">
-                            {{ icon('eye') }}
-                        </button>
-                    </td>
-                </tr>
+    <div class="bg-white dark:bg-primary-950 border border-slate-100 dark:border-slate-800 rounded mb-6 overflow-hidden">
+        {% if contacts is empty %}
+            <div class="p-10 text-center flex flex-col items-center justify-center space-y-5">
+               <div>
+                   <h2 class="text-lg font-medium text-slate-800 dark:text-white">
+                       Aucun message pour le moment
+                   </h2>
+                   <p class="mt-1 text-sm text-muted max-w-md">
+                       Quand quelqu’un te contactera, tu verras le message ici.
+                   </p>
+               </div>
 
-                <!-- Modale affichant le contact sous forme d'email -->
-                <modal-dialog
-                        id="showContact{{ contact.id }}"
-                        hidden="hidden"
-                        overlay-close
+                <img src="{{ asset('images/illustrations/empty-message.png') }}"
+                     alt="Boîte vide"
+                     class="w-full max-w-xs h-auto opacity-90 dark:opacity-80"
                 >
-                    <section class="modal-box max-w-lg w-full p-6 bg-white dark:bg-primary-950 rounded shadow-lg">
-                        <!-- Entête de la modale -->
-                        <div class="flex items-center justify-between mb-2">
-                            <h2 class="text-xl font-semibold text-slate-800 dark:text-slate-100">
-                                {{ contact.subject }}
-                            </h2>
-                            <button data-dismiss aria-label="Close" class="modal-close text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">
-                                {{ icon('x') }}
-                            </button>
-                        </div>
+            </div>
+        {% else %}
+            <ul role="list" class="divide-y divide-gray-100 dark:divide-gray-800">
+                {% for contact in contacts %}
+                    <li class="
+                    relative group
+                    px-4 py-3
+                    {% if not contact.isRead %}bg-sky-50 dark:bg-sky-900/50{% endif %}
+                    hover:bg-gray-50 dark:hover:bg-primary-900
+                    transition
+                ">
+                        <!-- Sur desktop, le lien englobe tout -->
+                        <a href="{{ path('admin_contact_show', { id: contact.id }) }}"
+                           class="no-underline text-slate-700 dark:text-slate-300 block"
+                        >
+                            <!-- Indicateur + Ligne 1 -->
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <!-- Indicateur lu/non-lu -->
+                                    {% if contact.isRead %}
+                                        <span class="inline-block w-2.5 h-2.5 rounded-full bg-gray-300 dark:bg-slate-600"></span>
+                                    {% else %}
+                                        <span class="inline-block w-2.5 h-2.5 rounded-full bg-primary-600"></span>
+                                    {% endif %}
 
-                        <hr class="my-4 border-slate-200 dark:border-slate-700"/>
+                                    <div class="
+                                    text-base
+                                        {% if not contact.isRead %}
+                                            text-slate-800 dark:text-white
+                                        {% else %}
+                                            text-gray-600 dark:text-slate-400
+                                        {% endif %}
+                                        truncate
+                                        max-w-[200px] sm:max-w-[250px]
+                                    ">
+                                        {{ contact.name }}
+                                    </div>
+                                </div>
 
-                        <!-- “En-tête” façon email -->
-                        <div class="mb-3">
-                            <p class="text-sm text-slate-600 dark:text-slate-300">
-                                <strong>De :</strong>
-                                <span class="ml-1 font-medium text-slate-800 dark:text-slate-100">
-                                    {{ contact.email }}
+                                <div class="text-sm text-slate-500 dark:text-slate-400 whitespace-nowrap ml-2">
+                                    {{ contact.createdAt|ago }}
+                                </div>
+                            </div>
+
+                            <!-- Ligne 2 : Sujet + PJ -->
+                            <div class="mt-1 flex items-center justify-between">
+                                <div class="
+                                text-base
+                                {% if not contact.isRead %}
+                                    font-medium text-slate-800 dark:text-white
+                                {% else %}
+                                    text-slate-600 dark:text-slate-400
+                                {% endif %}
+                                whitespace-nowrap overflow-hidden text-ellipsis
+                                flex-1 min-w-0
+                            ">
+                                    {{ contact.subject }}
+                                </div>
+
+                                {% if contact.imageName %}
+                                    <span class="text-sm flex items-center gap-1 text-gray-400 ml-2 shrink-0"
+                                          title="Fichier joint"
+                                    >
+                                    {{ icon('paperclip', 16) }}
+                                    PJ
                                 </span>
-                            </p>
-                            <p class="text-sm text-slate-600 dark:text-slate-300">
-                                <strong>Reçu le :</strong>
-                                <span class="ml-1 font-medium text-slate-800 dark:text-slate-100">
-                                    {{ contact.createdAt|date('d/m/Y H:i') }}
-                                </span>
-                            </p>
-                        </div>
+                                {% endif %}
+                            </div>
+                        </a>
 
-                        <!-- Corps du message -->
-                        <div class="mt-3 text-base leading-relaxed text-slate-700 dark:text-slate-200 whitespace-pre-line">
-                            {% if contact.message is defined %}
-                                {{ contact.message }}
-                            {% else %}
-                                <em>Aucun message fourni.</em>
-                            {% endif %}
-                        </div>
+                        {% if contact.isRead %}
+                            <!-- Version desktop (hover) -->
+                            <div class="
+        hidden md:block
+        absolute top-3 right-3
+        md:opacity-0 md:group-hover:opacity-100
+        transition-opacity duration-150
+    ">
+                                <div class="bg-white/70 dark:bg-primary-800/60 backdrop-blur-sm px-2 py-1 rounded flex items-center gap-1">
+                                    <a href="{{ path('admin_contact_unread', {id: contact.id}) }}"
+                                       class="text-sm text-slate-600 dark:text-slate-200 hover:text-primary-700 dark:hover:text-white"
+                                       title="Marquer comme non lu"
+                                    >
+                                        {{ icon('mail', 16) }}
+                                    </a>
+                                </div>
+                            </div>
 
-                        <!-- Pied de modale (bouton de fermeture) -->
-                        <div class="flex justify-end mt-6">
-                            <button class="btn btn-light" data-dismiss>
-                                Fermer
-                            </button>
-                        </div>
-                    </section>
-                </modal-dialog>
-            {% endfor %}
-            </tbody>
-        </table>
+                            <!-- Version mobile (sous l'heure) -->
+                            <div class="mt-2 md:hidden flex justify-end">
+                                <a href="{{ path('admin_contact_unread', {id: contact.id}) }}"
+                                   class="text-sm text-slate-600 dark:text-slate-200 hover:text-primary-700 dark:hover:text-white inline-flex items-center gap-1"
+                                >
+                                    {{ icon('mail', 16) }}
+                                    <span class="sr-only">Marquer comme non lu</span>
+                                </a>
+                            </div>
+                        {% endif %}
+
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+
+    <div class="flex justify-center mt-6">
+        {{ knp_pagination_render(contacts) }}
     </div>
 {% endblock %}

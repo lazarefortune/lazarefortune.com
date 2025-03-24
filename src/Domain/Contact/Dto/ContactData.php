@@ -21,7 +21,7 @@ class ContactData
     public string $subject;
 
     #[Assert\NotBlank]
-    #[Assert\Length( min: 10, max: 255 )]
+    #[Assert\Length( min: 10 )]
     public string $message;
 
     public ?File $imageFile = null;

@@ -39,6 +39,9 @@ class Contact
     #[ORM\Column(nullable: true)]
     private ?string $imageName = null;
 
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private bool $isRead = false;
+
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
@@ -127,5 +130,16 @@ class Contact
     public function getImageName(): ?string
     {
         return $this->imageName;
+    }
+
+    public function isRead(): bool
+    {
+        return $this->isRead;
+    }
+
+    public function setIsRead(bool $isRead): self
+    {
+        $this->isRead = $isRead;
+        return $this;
     }
 }
