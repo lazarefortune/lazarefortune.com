@@ -46,3 +46,6 @@ phpstan.neon
 ###< phpstan/phpstan ###
 
 /var/GeoLite2-Country.mmdb
+
+data.ms
+NOTES.md

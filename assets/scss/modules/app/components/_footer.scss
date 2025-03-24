@@ -1,7 +1,19 @@
 .footer {
-  @apply bg-white dark:bg-primary-950 py-10 border-t border-gray-200 dark:border-gray-800;
-}
+  @apply bg-white dark:bg-primary-950 border-t border-gray-200 dark:border-gray-800;
 
-.footer__title {
-  @apply h4 mb-4 text-slate-900 dark:text-white;
+  .footer__title {
+    @apply text-lg font-medium text-gray-800 dark:text-white mb-4;
+  }
+
+  .footer__list {
+    @apply space-y-2 text-base;
+
+    a {
+      @apply inline-flex items-center gap-2 text-muted hover:text-primary-600 dark:hover:text-primary-400 transition;
+    }
+  }
+
+  .footer__social {
+    @apply text-muted hover:text-primary-600 dark:hover:text-primary-400 transition;
+  }
 }

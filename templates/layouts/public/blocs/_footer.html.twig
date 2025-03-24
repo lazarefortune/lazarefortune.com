@@ -1,102 +1,54 @@
-<footer class="footer container-box py-10 bg-gray-100 dark:bg-primary-950">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <!-- Section À propos -->
-        <div class="footer__about">
-            <h2 class="footer__title mb-4">À propos</h2>
-            <p class="text-muted">
-                Je suis Lazare Fortune, développeur web PHP FullStack. Passionné par le développement web et les nouvelles technologies, je partage mes connaissances et expériences par passion.
+<footer class="footer container-box py-14 mt-20">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+
+        <!-- À propos -->
+        <div>
+            <h2 class="footer__title">Lazare Fortune</h2>
+            <p class="text-muted text-base leading-relaxed">
+                Développeur web FullStack passionné par la tech, la création et le partage.
             </p>
             <ul class="flex gap-4 mt-6">
-                <li>
-                    <a href="https://github.com/lazarefortune" class="text-muted hover:text-primary-600" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                        {{ icon('github', '24') }}
-                    </a>
-                </li>
-                <li>
-                    <a href="https://www.youtube.com/channel/UCITKwfT7qVXjdHHu84Atodw" class="text-muted hover:text-primary-600" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-                        {{ icon('youtube', '24') }}
-                    </a>
-                </li>
-                <li>
-                    <a href="https://www.linkedin.com/in/lazare-fortune/" class="text-muted hover:text-primary-600" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                        {{ icon('linkedin', '24') }}
-                    </a>
-                </li>
-                <li>
-                    <a href="https://twitter.com/lazarefortune" class="text-muted hover:text-primary-600" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-                        {{ icon('twitter', '24') }}
-                    </a>
-                </li>
+                <li><a href="https://github.com/lazarefortune" target="_blank" class="footer__social" aria-label="GitHub">{{ icon('github', 22) }}</a></li>
+                <li><a href="https://www.youtube.com/channel/UCITKwfT7qVXjdHHu84Atodw" target="_blank" class="footer__social" aria-label="YouTube">{{ icon('youtube', 22) }}</a></li>
+                <li><a href="https://www.linkedin.com/in/lazare-fortune/" target="_blank" class="footer__social" aria-label="LinkedIn">{{ icon('linkedin', 22) }}</a></li>
+                <li><a href="https://twitter.com/lazarefortune" target="_blank" class="footer__social" aria-label="Twitter">{{ icon('twitter', 22) }}</a></li>
             </ul>
         </div>
 
-        <!-- Section Liens rapides -->
-        <div class="footer__links">
-            <h2 class="footer__title mb-4">Liens rapides</h2>
-            <ul class="space-y-2">
-                <li>
-                    <a href="{{ path('app_course_index') }}" class="text-muted hover:text-primary-600 inline-flex items-center gap-2">
-                        {{ icon('video', '20') }}
-                        <span>Vidéos</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ path('app_formation_index') }}" class="text-muted hover:text-primary-600 inline-flex items-center gap-2">
-                        {{ icon('library-big', '20') }}
-                        <span>Playlists</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ path('app_premium') }}" class="text-muted hover:text-primary-600 inline-flex items-center gap-2">
-                        {{ icon('sparkles', '20') }}
-                        <span>Offre Premium</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ path('app_collaboration_request_index') }}" class="text-muted hover:text-primary-600 inline-flex items-center gap-2">
-                        {{ icon('briefcase', '20') }}
-                        <span>Demande de collaboration</span>
-                    </a>
-                </li>
-                {#
-                <li>
-                    <a href="" class="text-muted hover:text-primary-600 flex items-center gap-2">
-                        {{ icon('user', '20') }}
-                        <span>À propos de moi</span>
-                    </a>
-                </li>
-                #}
-                <li>
-                    <a href="{{ path('app_cgu') }}" class="text-muted hover:text-primary-600 inline-flex items-center gap-2">
-                        {{ icon('file-text', '20') }}
-                        <span>CGU</span>
-                    </a>
-                </li>
+        <!-- Navigation rapide -->
+        <div>
+            <h2 class="footer__title">Navigation</h2>
+            <ul class="footer__list">
+                <li><a href="{{ path('app_course_index') }}">{{ icon('video', 18) }}Vidéos</a></li>
+                <li><a href="{{ path('app_formation_index') }}">{{ icon('library-big', 18) }}Playlists</a></li>
+                <li><a href="{{ path('app_premium') }}">{{ icon('sparkles', 18) }}Offre Premium</a></li>
+                <li><a href="{{ path('app_cgu') }}">{{ icon('file-text', 18) }}CGU</a></li>
             </ul>
         </div>
 
-        <!-- Section Me contacter -->
-        <div class="footer__contact">
-            <h2 class="footer__title mb-4">Me contacter</h2>
-            <ul class="space-y-2">
-                <li>
-                    <a href="{{ path('app_contact') }}" class="text-muted hover:text-primary-600 inline-flex items-center gap-2">
-                        {{ icon('message-circle', '20') }}
-                        <span>Formulaire de contact</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="mailto:lazarefortune@gmail.com" class="text-muted hover:text-primary-600 inline-flex items-center gap-2">
-                        {{ icon('mail', '20') }}
-                        <span>lazarefortune@gmail.com</span>
-                    </a>
-                </li>
+        <!-- Contribuer -->
+        <div>
+            <h2 class="footer__title">Contribuer</h2>
+            <ul class="footer__list">
+                <li><a href="{{ path('app_collaboration_request_index') }}">{{ icon('heart-handshake', 18) }}Créer avec moi</a></li>
+                <li><a href="{{ path('app_feedback_idea') }}">{{ icon('lightbulb', 18) }}Proposer une idée</a></li>
+                <li><a href="{{ path('app_feedback_bug') }}">{{ icon('bug', 18) }}Signaler un problème</a></li>
             </ul>
-            <h2 class="footer__title text-xl font-semibold mt-6 mb-4">Thème</h2>
+        </div>
+
+        <!-- Contact -->
+        <div>
+            <h2 class="footer__title">Contact</h2>
+            <ul class="footer__list">
+                <li><a href="{{ path('app_contact') }}">{{ icon('message-circle', 18) }}Formulaire de contact</a></li>
+                <li><a href="mailto:lazarefortune@gmail.com">{{ icon('mail', 18) }}lazarefortune@gmail.com</a></li>
+            </ul>
+            <h2 class="text-base font-semibold mt-6 mb-2 text-gray-800 dark:text-white">Thème</h2>
             <theme-switcher></theme-switcher>
         </div>
     </div>
-    <div class="mt-10 border-t border-gray-200 dark:border-gray-800 pt-6 text-center text-sm text-muted">
+
+    <div class="mt-12 border-t border-gray-200 dark:border-gray-800 pt-6 text-center text-sm text-muted">
         &copy; {{ "now"|date("Y") }} Lazare Fortune. Tous droits réservés.
     </div>
 </footer>
