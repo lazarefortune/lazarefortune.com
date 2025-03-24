@@ -116,3 +116,17 @@
     </div>
 {% endblock %}
 
+{% block dropzone_row %}
+    <div>
+        <label for="{{ id }}" class="label">{{ form_label(form) }}</label>
+        <div class="mt-2">
+            <drop-zone name="{{ full_name }}"></drop-zone>
+        </div>
+        <span class="text-sm text-muted">{{ form_help(form) }}</span>
+        {% if form.vars.errors %}
+            <div class="form-error">
+                {{ form_errors(form) }}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

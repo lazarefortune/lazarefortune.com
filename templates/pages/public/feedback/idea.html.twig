@@ -1,0 +1,70 @@
+{% extends 'layouts/public/base.html.twig' %}
+
+{% block title %}Proposer une idée{% endblock %}
+
+{% block meta %}
+    {{ parent() }}
+    <meta name="description" content="Partagez vos idées pour améliorer lazarefortune.com. Votre avis compte !">
+{% endblock %}
+
+{% block body %}
+    <section class="container-box py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+            <div class="space-y-6">
+                <h1 class="text-3xl md:text-4xl font-semibold text-primary-600 dark:text-white">
+                    💡 Une idée d'amélioration ?
+                </h1>
+                <p class="text-muted text-base md:text-lg dark:text-gray-300">
+                    Que ce soit une fonctionnalité, une remarque ou une suggestion, ton retour est précieux.
+                    Ce formulaire te permet de contribuer directement à l'évolution de la plateforme.
+                </p>
+                <img src="{{ asset('images/illustrations/feedback-idea.png') }}" alt="Illustration idée" class="w-full max-w-52 md:max-w-xs mx-auto lg:mx-0" />
+            </div>
+
+            <div>
+                {{ include('partials/flash.html.twig') }}
+
+                {{ form_start(ideaFeedbackForm, {
+                    'attr': {
+                        'class': 'space-y-6',
+                        'enctype': 'multipart/form-data'
+                    }
+                }) }}
+
+                <div class="space-y-6">
+                    {% if not app.user %}
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {{ form_row(ideaFeedbackForm.firstName) }}
+                            {{ form_row(ideaFeedbackForm.email) }}
+                        </div>
+                    {% endif %}
+
+                    {{ form_row(ideaFeedbackForm.message, {
+                        'label': 'Décris ton idée ici',
+                        'attr': {'placeholder': "Donne-nous un maximum de détails 💡"}
+                    }) }}
+
+                    {{ form_row(ideaFeedbackForm.imageFile, {
+                        'label': 'Ajoute une image ou un exemple (facultatif)'
+                    }) }}
+
+                    {% if not app.user %}
+                        <div>
+                            {{ form_row(ideaFeedbackForm.captcha, {
+                                'attr': {'class': 'border rounded-md shadow-sm'}
+                            }) }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="text-center md:text-left mt-8">
+                    <button type="submit" class="btn btn-primary">
+                        Envoyer mon idée
+                    </button>
+                </div>
+
+                {{ form_end(ideaFeedbackForm) }}
+            </div>
+        </div>
+    </section>
+{% endblock %}

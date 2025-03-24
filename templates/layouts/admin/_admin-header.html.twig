@@ -39,43 +39,7 @@
                     </a>
                 {% endif %}
             </div>
-            {% if app.user and is_granted('ROLE_PREVIOUS_ADMIN') %}
-                {#  <a href="{{ path('admin_users_index', {'_switch_user': '_exit'}) }}" class="dropdown-menu-item"> #}
-                <a href="{{ impersonation_exit_path(path('admin_users_index')) }}" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
-                            font-medium">
-                    {{ icon('monitor-x') }} <span>Revenir à mon compte</span>
-                </a>
-            {% endif %}
-            <a href="{{ path('app_account_index') }}" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
-                            font-medium">
-                {{ icon('user', 20) }} <span>Mon compte</span>
-            </a>
-            <a href="{{ path('app_account_subscription_invoices') }}" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
-                            font-medium">
-                {{ icon('sparkles', 20) }} <span>Mon abonnement</span>
-            </a>
-            <a href="{{ path('app_account_history') }}" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
-                            font-medium">
-                {{ icon('history', 20) }} <span>Historique de visionnage</span>
-            </a>
-            <a href="{{ path('app_account_badges') }}" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
-                            font-medium">
-                {{ icon('award', 20) }} <span>Mes récompenses</span>
-            </a>
-            <a href="#" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
-                            font-medium">
-                {{ icon('lightbulb', 20) }} <span>Proposer une idée</span>
-            </a>
-            <a href="#" class="w-full flex justify-start items-center gap-4 px-6 py-3 text-slate-900 hover:text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:text-white dark:hover:bg-slate-700 rounded-full
-                            font-medium">
-                {{ icon('bug', 20) }} <span>Signaler un problème</span>
-            </a>
-            <a href="{{ path('app_logout') }}" class="w-full bg-gray-100 dark:bg- rounded-full text-red-600 font-medium mt-3 px-6 py-2.5
-                            flex justify-center items-center gap-2 hover:cursor-pointer hover:bg-gray-200 hover:text-red-600
-                            dark:bg-slate-700 dark:text-white dark:hover:text-white dark:hover:bg-slate-600 transition-colors duration-300">
-                {{ icon('log-out', 20) }}
-                <span>Se déconnecter</span>
-            </a>
+            {% include 'layouts/public/blocs/_header_common.html.twig' %}
         </div>
     </div>
 {% endblock %}

@@ -74,6 +74,7 @@ import { Notifications } from "./components/Notifications";
 import { Search, SearchInput } from "./components/Search";
 import { BadgeUnlock } from "./components/BadgeUnlock";
 import { PremiumButton } from "./components/Premium/PremiumButton";
+import DropZone from "./components/DropZone";
 
 const CommentsElement = reactToWebComponent(Comments, React, ReactDOM, {
     shadow: false, // pour ne pas utiliser le Shadow DOM
@@ -114,6 +115,13 @@ const SearchInputElement = reactToWebComponent(SearchInput, React, ReactDOM, {
     shadow: false,
     props: ['defaultValue']
 });
+
+const DropZoneElement = reactToWebComponent(DropZone, React, ReactDOM, {
+    shadow: false,
+    props: ['name'],
+});
+
+customElements.define('drop-zone', DropZoneElement);
 
 customElements.define('search-input', SearchInputElement)
 customElements.define('puzzle-challenge', PuzzleCaptchaElement)

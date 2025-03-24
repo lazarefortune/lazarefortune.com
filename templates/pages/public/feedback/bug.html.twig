@@ -1,0 +1,70 @@
+{% extends 'layouts/public/base.html.twig' %}
+
+{% block title %}Signaler un souci{% endblock %}
+
+{% block meta %}
+    {{ parent() }}
+    <meta name="description" content="Un petit souci sur lazarefortune.com ? Un bouton capricieux ? Une page qui fait n’importe quoi ? Signale-le ici, je m’en occupe 🙏">
+{% endblock %}
+
+{% block body %}
+    <section class="container-box py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+            <div class="space-y-6">
+                <h1 class="text-3xl md:text-4xl font-semibold text-red-600 dark:text-white">
+                    🐞 Un petit souci à corriger ?
+                </h1>
+                <p class="text-muted text-base md:text-lg dark:text-gray-300">
+                    Tu as croisé un bouton qui ne réagit plus ? Une page un peu capricieuse ?
+                    Dis-le moi ici ! Chaque retour m’aide à rendre le site plus fluide et agréable pour tout le monde
+                </p>
+                <img src="{{ asset('images/illustrations/feedback-bug.png') }}" alt="Illustration souci" class="w-full max-w-52 md:max-w-xs mx-auto lg:mx-0" />
+            </div>
+
+            <div>
+                {{ include('partials/flash.html.twig') }}
+
+                {{ form_start(bugFeedbackForm, {
+                    'attr': {
+                        'class': 'space-y-6',
+                        'enctype': 'multipart/form-data'
+                    }
+                }) }}
+
+                <div class="space-y-6">
+                    {% if not app.user %}
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {{ form_row(bugFeedbackForm.firstName) }}
+                            {{ form_row(bugFeedbackForm.email) }}
+                        </div>
+                    {% endif %}
+
+                    {{ form_row(bugFeedbackForm.message, {
+                        'label': 'Explique-moi ce qui t’a embêté',
+                        'attr': {'placeholder': "Exemple : Le bouton 'Envoyer' ne fait rien sur mobile..."}
+                    }) }}
+
+                    {{ form_row(bugFeedbackForm.imageFile, {
+                        'label': 'Ajoute une capture d’écran (facultatif)'
+                    }) }}
+
+                    {% if not app.user %}
+                        <div>
+                            {{ form_row(bugFeedbackForm.captcha, {
+                                'attr': {'class': 'border rounded-md shadow-sm'}
+                            }) }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="text-center md:text-left mt-8">
+                    <button type="submit" class="btn btn-primary">
+                        Je t’envoie ça 📨
+                    </button>
+                </div>
+
+                {{ form_end(bugFeedbackForm) }}
+            </div>
+        </div>
+    </section>
+{% endblock %}
