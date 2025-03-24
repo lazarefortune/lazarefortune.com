@@ -3,60 +3,75 @@
 {% block title %}Me contacter{% endblock %}
 
 {% block meta %}
-    <meta name="description" content="Contactez Lazare Fortune, développeur web PHP FullStack, en remplissant ce formulaire.">
+    <meta name="description" content="Tu as une question, un soucis, une remarque ou simplement envie de dire coucou ? Utilise ce formulaire pour me contacter.">
 {% endblock %}
 
 {% block body %}
-
-    <header class="page-header py-12">
-        <div class="container-box text-center">
-            <h1 class="h1 text-4xl font-extrabold">
-                Me <span class="text-lead">contacter</span>
-            </h1>
-            <p class="text-muted text-lg">
-                Vous pouvez me contacter en remplissant le formulaire ci-dessous
-            </p>
-        </div>
-    </header>
-
     <section class="container-box py-16">
-        <div class="max-w-3xl mx-auto">
-            {{ include('partials/flash.html.twig') }}
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
 
-            {{ form_start(form, {
-                'attr': {'class': 'space-y-6'},
-                'action': path('app_contact'),
-                'method': 'POST'
-            }) }}
-
+            <!-- Texte et illustration -->
             <div class="space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {{ form_row(form.name, {
-                    }) }}
-                    {{ form_row(form.email, {
-                    }) }}
-                </div>
-
-                {{ form_row(form.subject, {
-                }) }}
-                {{ form_row(form.message, {
-                }) }}
-
-                <div class="inline-flex">
-                    {{ form_row(form.captcha, {
-                        'attr': {'class': 'border rounded-md shadow-sm'}
-                    }) }}
-                </div>
+                <h1 class="text-3xl md:text-4xl font-medium text-primary-600 dark:text-white">
+                    📬 Une question ? Un message ?
+                </h1>
+                <p class="text-base text-muted dark:text-gray-300">
+                    Que ce soit une suggestion, un partenariat ou juste un petit coucou, je te répondrai avec plaisir.
+                    Le formulaire est là pour ça
+                </p>
+                <img src="{{ asset('images/illustrations/contact.png') }}" alt="Illustration contact" class="w-full max-w-sm mx-auto lg:mx-0">
             </div>
 
-            <div class="text-center md:text-left mt-8">
-                <button type="submit" class="btn btn-primary">
-                    Envoyer le message
-                </button>
-            </div>
+            <!-- Formulaire -->
+            <div>
+                {{ include('partials/flash.html.twig') }}
 
-            {{ form_end(form) }}
+                {{ form_start(form, {
+                    'attr': {
+                        'class': 'space-y-6',
+                    },
+                }) }}
+
+                <div class="space-y-6">
+                    {% if not app.user %}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {{ form_row(form.name, {
+                            'label': 'Ton prénom'
+                        }) }}
+                        {{ form_row(form.email, {
+                            'label': 'Ton adresse e-mail'
+                        }) }}
+                    </div>
+                    {% endif %}
+
+                    {{ form_row(form.subject, {
+                        'label': 'Sujet du message'
+                    }) }}
+
+                    {{ form_row(form.message, {
+                        'label': 'Ton message',
+                        'attr': {'placeholder': 'Dis-moi tout...'}
+                    }) }}
+
+                    {{ form_row(form.imageFile) }}
+
+                    {% if not app.user %}
+                    <div>
+                        {{ form_row(form.captcha, {
+                            'label': false
+                        }) }}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="text-center md:text-left mt-8">
+                    <button type="submit" class="btn btn-primary">
+                        Envoyer mon message
+                    </button>
+                </div>
+
+                {{ form_end(form) }}
+            </div>
         </div>
     </section>
-
 {% endblock %}

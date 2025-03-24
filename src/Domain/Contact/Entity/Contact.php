@@ -6,8 +6,11 @@ use App\Domain\Contact\Repository\ContactRepository;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity( repositoryClass: ContactRepository::class )]
+#[Vich\Uploadable]
 class Contact
 {
     #[ORM\Id]
@@ -29,6 +32,12 @@ class Contact
 
     #[ORM\Column( type: Types::DATETIME_IMMUTABLE  )]
     private ?\DateTimeInterface $createdAt = null;
+
+    #[Vich\UploadableField(mapping: 'contact_images', fileNameProperty: 'imageName')]
+    private ?File $imageFile = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?string $imageName = null;
 
     public function __construct()
     {
@@ -98,5 +107,25 @@ class Contact
         $this->createdAt = $createdAt;
 
         return $this;
+    }
+
+    public function setImageFile(?File $imageFile): void
+    {
+        $this->imageFile = $imageFile;
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageName(?string $imageName): void
+    {
+        $this->imageName = $imageName;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Domain\Contact\Dto;
 
 use App\Domain\Contact\Entity\Contact;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class ContactData
@@ -23,11 +24,14 @@ class ContactData
     #[Assert\Length( min: 10, max: 255 )]
     public string $message;
 
+    public ?File $imageFile = null;
+
     public function __construct(
         private readonly Contact $contact
-    )
-    {
-        $this->name = (string)$contact->getName();
-        $this->email = (string)$contact->getEmail();
+    ) {
+        $this->name = $contact->getName() ?? '';
+        $this->email = $contact->getEmail() ?? '';
+        $this->subject = $contact->getSubject() ?? '';
+        $this->message = $contact->getMessage() ?? '';
     }
 }

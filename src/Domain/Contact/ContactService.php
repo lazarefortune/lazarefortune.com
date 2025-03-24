@@ -6,6 +6,7 @@ use App\Domain\Contact\Dto\ContactData;
 use App\Domain\Contact\Entity\Contact;
 use App\Domain\Contact\Repository\ContactRepository;
 use App\Infrastructure\Mailing\MailService;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -15,6 +16,7 @@ class ContactService
 {
 
     public function __construct(
+        private readonly EntityManagerInterface $entityManager,
         private readonly ContactRepository $contactRepository,
         private readonly MailService       $mailService,
         private readonly string            $adminEmail
@@ -64,6 +66,7 @@ class ContactService
             ->setSubject( $contactDto->subject )
             ->setMessage( $contactDto->message )
             ->setCreatedAt( new \DateTimeImmutable() );
+        $contact->setImageFile($contactDto->imageFile);
 
         $this->contactRepository->save( $contact, true );
     }

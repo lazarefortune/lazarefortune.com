@@ -59,3 +59,8 @@ vich_uploader:
             uri_prefix: /uploads/feedback
             upload_destination: '%kernel.project_dir%/public/uploads/feedback'
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+
+        contact_images:
+            uri_prefix: /uploads/contact
+            upload_destination: '%kernel.project_dir%/public/uploads/contact'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer

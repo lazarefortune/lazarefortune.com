@@ -13,50 +13,50 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ContactController extends AbstractController
 {
-
     public function __construct(
         private readonly ContactService $contactService,
-    )
-    {
-    }
+    ) {}
 
-    #[Route( '/contact', name: 'contact' )]
-    public function index( Request $request ) : Response
+    #[Route('/contact', name: 'contact')]
+    public function index(Request $request): Response
     {
         $user = $this->getUser();
 
-        [$form, $response] = $this->createContactForm( $request, $user );
+        [$form, $response] = $this->createContactForm($request, $user);
 
-        if ( $response ) {
+        if ($response) {
             return $response;
         }
 
-        return $this->render( 'pages/public/contact.html.twig', [
+        return $this->render('pages/public/contact.html.twig', [
             'form' => $form->createView(),
-        ] );
+        ]);
     }
 
-    private function createContactForm( Request $request, User $user = null ) : array
+    private function createContactForm(Request $request, User $user = null): array
     {
         $contact = new Contact();
-        if ( $user ) {
-            $contact->setEmail( $user->getEmail() );
-            $contact->setName( $user->getFullname() );
+        if ($user) {
+            $contact->setEmail($user->getEmail());
+            $contact->setName($user->getFullname());
         }
 
-        $form = $this->createForm( ContactForm::class, new ContactData( $contact ) );
-        $form->handleRequest( $request );
+        $data = new ContactData($contact);
 
-        if ( $form->isSubmitted() && $form->isValid() ) {
-            $data = $form->getData();
+        $form = $this->createForm(ContactForm::class, $data);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
             try {
-                $this->contactService->sendContactMessage( $data );
-                $this->addFlash( 'success', 'Votre message a bien été envoyé.' );
-            } catch ( \Exception $e ) {
-                $this->addFlash( 'error', 'Une erreur est survenue lors de l\'envoi du message.' );
+                $this->contactService->sendContactMessage($data);
+
+                $this->addFlash('success', 'Votre message a bien été envoyé.');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Une erreur est survenue lors de l\'envoi du message.');
             }
 
-            return [$form, $this->redirectToRoute( 'app_contact' )];
+            return [$form, $this->redirectToRoute('app_contact')];
         }
 
         return [$form, null];
