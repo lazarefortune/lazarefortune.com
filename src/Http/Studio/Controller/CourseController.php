@@ -56,7 +56,9 @@ class CourseController extends CrudController
             ->addSelect('tu', 't')
             ->leftJoin('row.technologyUsages', 'tu')
             ->leftJoin('tu.technology', 't')
+            ->where('row.author = :author')
             ->orderBy('row.createdAt', 'DESC')
+            ->setParameter('author', $this->getUser())
             ->setMaxResults(10);
 
         if ($request->query->has('technology')) {

@@ -69,7 +69,7 @@ export default function DropZone({ name = 'file' }) {
             {!file && (
                 <div className="flex flex-col items-center justify-center gap-2 pointer-events-none">
                     <UploadCloud className="w-8 h-8 text-gray-400" />
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">Glissez un fichier ici ou cliquez pour choisir</p>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm">Glisse un fichier ici ou clique pour choisir</p>
                 </div>
             )}
 

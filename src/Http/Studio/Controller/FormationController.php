@@ -39,7 +39,9 @@ final class FormationController extends CrudController
             ->leftJoin('row.technologyUsages', 'tu')
             ->leftJoin('tu.technology', 't')
             ->addSelect('t', 'tu')
+            ->where('row.author = :author')
             ->orderby('row.createdAt', 'DESC')
+            ->setParameter('author', $this->getUser())
             ->setMaxResults(10)
         ;
 
