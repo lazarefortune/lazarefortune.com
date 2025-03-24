@@ -12,6 +12,7 @@ use App\Http\Type\BadgeActionChoiceType;
 use App\Http\Type\ChoiceMultipleType;
 use App\Http\Type\ContentChoiceType;
 use App\Http\Type\DateTimeType;
+use App\Http\Type\DropZoneFileType;
 use App\Http\Type\EditorType;
 use App\Http\Type\NewsletterTargetGroupType;
 use App\Http\Type\QuestionsForm;
@@ -89,6 +90,14 @@ class AutomaticForm extends AbstractType
                     'label_attr' => [
                         'class' => 'label',
                     ],
+                ] );
+                continue;
+            }
+
+            if ( $name === 'imageFile' ) {
+                $builder->add( $name, DropZoneFileType::class, [
+                    'label' => 'Ajoute une image (Facultatif)',
+                    'required' => false,
                 ] );
                 continue;
             }

@@ -26,6 +26,7 @@ import { AutoSubmit } from "./AutoSubmit";
 import { Confetti } from "./Confetti";
 import { BadgeUnlock } from "../components/BadgeUnlock";
 import { SlugGenerator } from "./SlugGenerator";
+import DropZone from "../components/DropZone";
 
 const NotificationsElement = reactToWebComponent(Notifications, React, ReactDOM, {
     shadow: false,
@@ -35,6 +36,13 @@ const BadgeUnlockElement = reactToWebComponent(BadgeUnlock, React, ReactDOM, {
     shadow: false,
     props: ['name', 'description', 'theme', 'image']
 });
+
+const DropZoneElement = reactToWebComponent(DropZone, React, ReactDOM, {
+    shadow: false,
+    props: ['name'],
+});
+
+customElements.define('drop-zone', DropZoneElement);
 
 
 registerBadgeAlert()

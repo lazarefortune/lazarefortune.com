@@ -11,18 +11,9 @@
                  class="w-32 h-auto rounded">
         {% endif %}
 
-        <div id="drop-zone" class="border-dashed border-2 border-gray-300 rounded cursor-pointer py-6 px-4 w-full text-center hover:border-gray-400 transition-colors">
-            <div id="drop-text" class="flex flex-col justify-center items-center text-muted">
-                {{ icon('upload') }}
-                Glissez votre image ici ou cliquez pour sélectionner
-            </div>
-            <img id="preview-image" class="hidden mt-4 mx-auto rounded max-h-48 object-contain">
-            <div id="file-name" class="text-sm text-muted mt-2"></div>
-            <button id="remove-image" type="button"
-                    class="hidden mt-2 text-sm text-red-500 hover:underline">Supprimer l'image</button>
+        <div class="w-full">
+            {{ form_row(form.imageFile) }}
         </div>
-
-        {{ form_row(form.imageFile, {'label': false, 'attr': {'class': 'hidden'}}) }}
     </div>
 
     <slug-generator class="mb-6">
@@ -56,90 +47,3 @@
 </section>
 
 {{ form_end(form) }}
-
-
-{% block javascripts_bottom %}
-<script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', () => {
-
-        const dropZone = document.getElementById("drop-zone");
-        const dropText = document.getElementById("drop-text");
-        const fileInput = document.getElementById("automatic_form_imageFile");
-        const previewImage = document.getElementById("preview-image");
-        const fileNameDisplay = document.getElementById("file-name");
-        const removeImageBtn = document.getElementById("remove-image");
-
-        const acceptedImageTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'];
-
-        const resetFileInput = () => {
-            fileInput.value = '';
-            previewImage.src = '';
-            previewImage.classList.add('hidden');
-            fileNameDisplay.textContent = '';
-            dropText.style.display = 'flex';
-            removeImageBtn.classList.add('hidden');
-        };
-
-        const toggleDragClass = (toggle) => {
-            dropZone.classList.toggle('border-gray-400', toggle);
-        };
-
-        const showPreview = file => {
-            if (!acceptedImageTypes.includes(file.type)) {
-                alert('Merci de sélectionner une image valide (JPG, PNG, GIF, SVG, ou WebP).');
-                resetFileInput();
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = e => {
-                previewImage.src = e.target.result;
-                previewImage.classList.remove('hidden');
-            };
-            reader.readAsDataURL(file);
-            fileNameDisplay.textContent = file.name;
-            dropText.style.display = "none";
-            removeImageBtn.classList.remove('hidden');
-        };
-
-        // Gestion simplifiée des événements
-        ['dragenter', 'dragover'].forEach(event =>
-            dropZone.addEventListener(event, e => {
-                e.preventDefault();
-                toggleDragClass(true);
-            })
-        );
-
-        ['dragleave', 'drop'].forEach(event =>
-            dropZone.addEventListener(event, e => {
-                e.preventDefault();
-                toggleDragClass(false);
-            })
-        );
-
-        dropZone.addEventListener("drop", e => {
-            const file = e.dataTransfer.files[0];
-            if (file) {
-                fileInput.files = e.dataTransfer.files;
-                showPreview(file);
-            }
-        });
-
-        dropZone.addEventListener("click", () => fileInput.click());
-
-        fileInput.addEventListener("change", () => {
-            const file = fileInput.files[0];
-            if (file) {
-                showPreview(file);
-            }
-        });
-
-        removeImageBtn.addEventListener('click', e => {
-            e.preventDefault();
-            e.stopPropagation();
-            resetFileInput();
-        });
-
-    });
-</script>
-{% endblock %}
