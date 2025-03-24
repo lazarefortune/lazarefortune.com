@@ -71,7 +71,7 @@
                         {% if row.isDraft %}
                             <span class="badge badge-danger">Brouillon</span>
                         {% else %}
-                            <span class="badge {% if row.isSent %}badge-success{% else %}badge-warning{% endif %}">{{ row.status.label }}</span>
+                            <span class="badge {% if row.isSent %}badge-success{% else %}badge-info{% endif %}">{{ row.status.label }}</span>
                             {% if (row.sendAt|date('U') <= "now"|date('U')) and not row.isSent %}
                                 <div class="text-danger">
                                     <small>En attente d'envoi</small>
