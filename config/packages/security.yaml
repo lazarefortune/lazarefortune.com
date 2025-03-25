@@ -29,6 +29,11 @@ security:
     main:
       lazy: true
       provider: app_user_provider
+      remember_me:
+        secret: '%kernel.secret%'
+        lifetime: 604800 # 7 jours
+        path: /
+        name: REMEMBERME
       custom_authenticator:
         - App\Domain\Auth\Core\Security\AppAuthenticator
         - App\Infrastructure\Social\Authenticator\GoogleAuthenticator
