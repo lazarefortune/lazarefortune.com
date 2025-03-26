@@ -56,16 +56,22 @@
                 {% set row = row[0] %}
                 {% set link = path(prefix ~ '_edit', {id: row.id}) %}
                 <tr>
-                    <td>
-                        <a href="{{ link }}" class="table-cell-link"></a>
-                        {% if row.image %}
-                            <div class="inline-flex items-center">
-                                <img src="{{ vich_uploader_asset(row, 'imageFile') }}" alt="" style="width: 30px; margin-right: 8px;" >
-                                {{ row.name }}
-                            </div>
-                        {% else %}
-                            {{ row.name }}
-                        {% endif %}
+                    <td class="flex justify-start items-center gap-4">
+                        <div class="w-40 flex items-center gap-2">
+                            <a href="{{ link }}" class="table-cell-link"></a>
+                            {% if row.image %}
+                                <img class="max-h-16"
+                                     src="{{ vich_uploader_asset(row, 'imageFile') }}"
+                                     alt="{{ row.name }}">
+                            {% else %}
+                                <div class="w-40 h-24 bg-gray-200 dark:bg-slate-700 animate-pulse rounded"></div>
+                            {% endif %}
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <h3 class="text-base font-bricolage font-medium">
+                                {{ row.name | truncate(50) }}
+                            </h3>
+                        </div>
                     </td>
                     <td>
                         <a href="{{ path('studio_course_index', {technology: row.slug}) }}">

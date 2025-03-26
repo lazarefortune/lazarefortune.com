@@ -39,9 +39,9 @@
         <table class="table">
             <thead>
             <tr>
-                <th>Nom</th>
-                <th>Technologies</th>
+                <th>{{ sort_by(rows, 'Playlists', 'row.title') }}</th>
                 <th>Status</th>
+                <th>Technologies</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -49,12 +49,23 @@
             {% for row in rows %}
                 {% set link = path(prefix ~ '_edit', {id: row.id}) %}
                 <tr>
-                    <td>
-                        <a href="{{ link }}" class="table-cell-link"></a>
-                        {{ row.title }}
-                    </td>
-                    <td>
-                        {{ row.technologies|join(', ') }}
+                    <td class="flex justify-start items-center gap-4">
+                        <div class="w-40 flex items-center gap-2">
+                            <a href="{{ link }}" class="table-cell-link"></a>
+                            {% if row.image %}
+                                <img class="course__image"
+                                     src="{{ image_url(row.image, 288, 162) }}"
+                                     alt="{{ row.title }}">
+                            {% else %}
+                                <div class="w-40 h-24 bg-gray-200 dark:bg-slate-700 animate-pulse rounded"></div>
+                            {% endif %}
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <h3 class="text-base font-bricolage font-medium">
+                                {{ row.title | truncate(50) }}
+                            </h3>
+                            <p class="text-sm text-muted">{{ row.content | truncate(50) }}</p>
+                        </div>
                     </td>
                     <td>
                         <div class="badge badge-{% if row.online and (row.publishedAt|date('U') <= "now"|date('U')) %}success{% elseif row.online and (row.publishedAt|date('U') > "now"|date('U')) %}info{% else %}warning{% endif %}">
@@ -69,6 +80,9 @@
                                 <span>Privée</span>
                             {% endif %}
                         </div>
+                    </td>
+                    <td>
+                        {{ row.technologies|join(', ') }}
                     </td>
                     <td>
                         {% if is_granted('edit', row) %}

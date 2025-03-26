@@ -80,7 +80,9 @@ export default function DropZone({ name = 'file' }) {
                             <img src={previewUrl} alt="Preview" className="w-24 h-24 object-cover rounded shadow shadow-slate-400 dark:shadow-primary-500" />
                         )}
                         <div className="flex-1 flex items-center justify-between w-full">
-                            <span className="text-sm truncate text-gray-800 dark:text-gray-200 text-left">{fileName}</span>
+                            <span className="text-sm text-gray-800 dark:text-gray-200 text-left break-words line-clamp-2">
+                              {fileName}
+                            </span>
                             <button
                                 type="button"
                                 className="ml-4 text-danger z-20 pointer-events-auto"
