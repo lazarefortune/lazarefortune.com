@@ -217,20 +217,21 @@ class AccountController extends AbstractController
         $subscription = $repository->findCurrentForUser($user);
         $transactions = $this->transactionRepository->findfor($user);
 
-        $content = (string) $request->request->get('invoiceInfo');
-        if (!empty($content)) {
-            $user = $this->getUserOrThrow();
+        if ($request->request->has('saveInvoiceInfo')) {
+            $content = (string) $request->request->get('invoiceInfo', '');
+
             $user->setInvoiceInfo($content);
             $this->em->flush();
 
             $this->addFlash('success', 'Enregistré avec succès');
         }
 
-        return $this->render( 'pages/public/account/subscription_invoices.html.twig', [
+        return $this->render('pages/public/account/subscription_invoices.html.twig', [
             'transactions' => $transactions,
             'subscription' => $subscription,
         ]);
     }
+
 
     #[Route( '/gestion-notifications', name: 'notifications_settings' )]
     public function notificationsSettings() : Response

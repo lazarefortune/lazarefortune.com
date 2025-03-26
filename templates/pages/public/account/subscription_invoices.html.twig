@@ -212,9 +212,9 @@
                         (n° de TVA, n° de SIRET ou autres), vous pouvez les ajouter ci-dessous.
                     </p>
                     <form method="post" class="space-y-3">
-                    <textarea name="invoiceInfo" class="form-input w-full" rows="4"
+                        <textarea name="invoiceInfo" class="form-input w-full" rows="4"
                               placeholder="Informations à faire figurer sur chaque facture">{{ app.user.invoiceInfo }}</textarea>
-                        <button class="btn btn-primary">
+                        <button class="btn btn-primary" type="submit" name="saveInvoiceInfo">
                             {{ icon('save') }}
                             <span>Sauvegarder</span>
                         </button>
