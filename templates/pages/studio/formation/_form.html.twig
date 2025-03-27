@@ -87,11 +87,15 @@
 <!-- ========================= -->
 <!-- 🎯 SECTION 5 : ACTIONS -->
 <!-- ========================= -->
-<section class="flex items-center justify-end gap-4">
-    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+<section class="flex flex-col justify-start gap-3 md:flex-row-reverse">
+    <button type="submit" class="btn btn-primary">
+        {{ icon('save') }}
+        Sauvegarder
+    </button>
 
     {% if entity.id %}
         <a href="{{ path('app_formation_show', { slug: entity.slug }) }}" target="_blank" class="btn btn-light">
+            {{ icon('external-link') }}
             Voir en ligne
         </a>
     {% endif %}

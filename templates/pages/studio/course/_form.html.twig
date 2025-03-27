@@ -13,25 +13,14 @@
             </p>
         </div>
 
-        <slug-generator>
         <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {{ form_row(form.title, {
                 label: 'Titre de la vidéo',
             }) }}
-            <div class="relative">
-                {{ form_row(form.slug, {
-                    label: 'URL Slug'
-                }) }}
 
-                <button id="edit-slug-btn"
-                        data-slug-edit-btn
-                        type="button"
-                        class="absolute top-9 right-2 mt-2 mr-2 text-slate-400 hover:text-primary-800 transition-colors duration-200">
-                    <span id="slug-icon-edit" data-slug-icon-edit>{{ icon('pencil') }}</span>
-                    <span id="slug-icon-lock" data-slug-icon-lock class="hidden">{{ icon('check') }}</span>
-                </button>
-            </div>
-
+            {{ form_row(form.slug, {
+                label: 'URL'
+            }) }}
 
             {{ form_row(form.author, {
                 label: 'Auteur',
@@ -48,7 +37,6 @@
                 label: 'Remplacé par',
             }) }}
         </div>
-        </slug-generator>
 
         <div class="grid2 mt-6">
             {{ form_row(form.mainTechnologies, {
