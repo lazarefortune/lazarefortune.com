@@ -156,6 +156,17 @@ class FormationEditForm extends AbstractType
             foreach ($removedUsages as $usage) {
                 $this->entityManager->remove($usage);
             }
+
+            $chapters = $form->get('chapters')->getData();
+
+            foreach ($chapters as $chapter) {
+                /** @var Course $course */
+                foreach ($chapter->getModules() as $course) {
+                    $course->setFormation($formation);
+                    $this->entityManager->persist($course);
+                }
+            }
+            $formation->setChapters($chapters);
         });
     }
 }
