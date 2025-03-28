@@ -13,6 +13,7 @@ use App\Http\Admin\Data\Crud\CourseCrudData;
 use App\Http\Admin\Data\Crud\CourseNewCrudData;
 use App\Http\Admin\Form\Course\CourseEditForm;
 use App\Http\Security\ContentVoter;
+use App\Infrastructure\Youtube\Transformer\CourseTransformer;
 use App\Infrastructure\Youtube\YoutubeScopes;
 use App\Infrastructure\Youtube\YoutubeService;
 use App\Infrastructure\Youtube\YoutubeUploaderService;
@@ -305,7 +306,7 @@ class CourseController extends CrudController
     }
 
     #[Route('/youtube/metadata', name: 'youtube_metadata', methods: ['GET'])]
-    public function getYoutubeMetadata(Request $request, YoutubeService $youtubeService): JsonResponse
+    public function getYoutubeMetadata(Request $request, YoutubeService $youtubeService, CourseTransformer $courseTransformer): JsonResponse
     {
         // 1. Récupérer le courseId si besoin
         $courseId = $request->query->get('courseId');
@@ -346,7 +347,7 @@ class CourseController extends CrudController
 
         $metadata = [
             'title' => $course->getTitle(),
-            'description' => $course->getContent(),
+            'description' => $courseTransformer->buildDescription($course),
             'privacy' => $privacy,
             'publishedAt' => $publishedAt ? $publishedAt->format('Y-m-d\TH:i:s\Z') : null,
         ];

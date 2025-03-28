@@ -96,7 +96,7 @@ class CourseTransformer
         ];
     }
 
-    private function buildDescription(Course $course): string
+    public function buildDescription(Course $course): string
     {
         $title = $course->getTitle();
         $url = 'https://lazarefortune.com';
@@ -119,7 +119,7 @@ class CourseTransformer
 
 📚 Technologies abordées : $techList
 
-Toutes mes ressources et vidéos sont centralisées ici 👉 $url  
+Toutes mes ressources et vidéos sont centralisées ici : $url  
 Retrouve-moi sur tous les réseaux avec **@lazarefortune**
 
 🔗 Reste curieux, continue de progresser, et partage si ça t’aide !
