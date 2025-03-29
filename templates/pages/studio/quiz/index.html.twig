@@ -1,9 +1,8 @@
 {% extends 'layouts/studio/base.html.twig' %}
 
 {% block title %}
-    Quiz - Gestion
+    Gestion des Quiz
 {% endblock %}
-
 
 {% block body %}
 
@@ -12,11 +11,7 @@
             <ol>
                 <li>
                     <a href="{{ path('studio_home') }}">
-                        <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                             fill="currentColor" viewBox="0 0 20 20">
-                            <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"></path>
-                        </svg>
-                        Accueil
+                        {{ icon('home') }} Accueil
                     </a>
                 </li>
                 {{ icon('chevron-right') }}
@@ -27,99 +22,72 @@
         </nav>
     </div>
 
-    {#
-    {% if is_granted('ROLE_AUTHOR') %}
-        <div class="dashboard-page-table-button">
-            <a href="{{ path(prefix ~ '_new') }}">
-                Créer un quiz
-            </a>
-        </div>
-    {% endif %}
-    #}
+    {% if app.user.isPremium %}
 
-    {# Section d'information sur l'état des quiz #}
-    <div class="max-w-2xl mx-auto">
-        <div class="alert alert-warning flex flex-col gap-3">
-            <div class="text-lg font-medium">Information importante</div>
-            <p>
-                Les quiz sont désactivés pour le moment. Ils seront bientôt de retour !
-            </p>
-        </div>
-    </div>
-
-    {#
-    <div class="table-wrapper">
-        <table class="table">
-            <thead>
+        <div class="table-wrapper">
+            <table class="table">
+                <thead>
                 <tr>
-                    <th>
-                        {{ sort_by(rows, 'Title', 'row.title') }}
-                    </th>
-                    <th>
-                        {{ sort_by(rows, 'Statut', 'row.isPublished') }}
-                    </th>
-                    <th>
-                        {{ sort_by(rows, 'Contenu associé', 'row.targetContent') }}
-                    </th>
-                    <th>
-                        Actions
-                    </th>
+                    <th>{{ sort_by(rows, 'Titre', 'row.title') }}</th>
+                    <th>{{ sort_by(rows, 'Statut', 'row.isPublished') }}</th>
+                    <th>{{ sort_by(rows, 'Contenu associé', 'row.targetContent') }}</th>
+                    <th>Actions</th>
                 </tr>
-            </thead>
-            <tbody>
-            {% for row in rows %}
-                {% set link = path(prefix ~ '_edit', {id: row.id}) %}
-                <tr>
-                    <td>
-                        <a href="{{ link }}" class="table-cell-link"></a>
-                        {{ row.title | truncate(50) }}
-                    </td>
-                    <td>
-                        <div class="flex justify-start items-center gap-2">
-                            {% if row.isPublished %}
-                                {{ icon('eye') }}
-                                <span>En ligne</span>
-                            {% else %}
-                                {{ icon('lock') }}
-                                <span>Privée</span>
-                            {% endif %}
-                        </div>
-                    </td>
-                    <td>
-                        {{ row.targetContent.title | truncate(50) }}
-                    </td>
-                    <td class="text-end">
-                        {% if is_granted('ROLE_AUTHOR') %}
-                            {% set targetEntity = row.targetContent %}
-                            {% if targetEntity is defined and row.isPublished %}
-                                {% if is_instance_of(targetEntity, 'App\\Domain\\Course\\Entity\\Course') %}
-                                    <a href="{{ path('app_course_show', {slug: targetEntity.slug}) }}" target="_blank" class="btn-icon">
-                                        {{ icon('external-link') }}
-                                    </a>
-                                {% elseif is_instance_of(targetEntity, 'App\\Domain\\Course\\Entityy\\Formation') %}
-                                    <a href="{{ path('app_formation_show', {slug: targetEntity.slug}) }}" target="_blank" class="btn-icon">
-                                        {{ icon('external-link') }}
-                                    </a>
+                </thead>
+                <tbody>
+                {% for row in rows %}
+                    {% set link = path(prefix ~ '_edit', {id: row.id}) %}
+                    <tr>
+                        <td>
+                            <a href="{{ link }}" class="table-cell-link"></a>
+                            {{ row.title | truncate(50) }}
+                        </td>
+                        <td>
+                            <div class="flex items-center gap-2">
+                                {% if row.isPublished %}
+                                    <div class="badge badge-success">
+                                        {{ icon('eye') }} <span>En ligne</span>
+                                    </div>
+                                {% else %}
+                                    <div class="badge badge-warning">
+                                        {{ icon('lock') }} <span>Privée</span>
+                                    </div>
                                 {% endif %}
-                            {% endif %}
+                            </div>
+                        </td>
+                        <td>{{ row.targetContent.title | truncate(50) }}</td>
+                        <td class="text-end">
                             <a href="{{ link }}" class="btn-icon">{{ icon('pencil') }}</a>
-                            <a href="{{ path(prefix ~ '_stats', {id: row.id}) }}" class="btn-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-column"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
-                            </a>
-                            <ajax-delete class="btn-icon"
-                                         target="tr"
-                                         url="{{ path(prefix ~ '_delete', {id: row.id}) }}">
+                            <a href="{{ path(prefix ~ '_stats', {id: row.id}) }}" class="btn-icon">{{ icon('bar-chart') }}</a>
+                            <ajax-delete class="btn-icon" target="tr" url="{{ path(prefix ~ '_delete', {id: row.id}) }}">
                                 {{ icon('trash') }}
                             </ajax-delete>
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
-    {{ paginate(rows) }}
+        {{ paginate(rows) }}
 
-    #}
+    {% else %}
+        <div class="flex flex-col justify-center items-center my-12">
+            <div class="bg-white dark:bg-primary-1000 border border-slate-100 dark:border-slate-900 shadow-lg rounded-xl p-8 max-w-md flex flex-col justify-center items-center text-center">
+                <div class="bg-primary-100 dark:bg-primary-500 text-primary-800 dark:text-slate-100 p-4 rounded-full mb-4">
+                    {{ icon('crown', 25) }}
+                </div>
+                <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-3">
+                    Débloquez la gestion complète des Quiz
+                </h2>
+                <p class="text-gray-600 dark:text-gray-400 mb-6">
+                    Créez, personnalisez et gérez facilement vos propres quiz. Rejoignez les membres premium pour profiter pleinement de cette fonctionnalité !
+                </p>
+                <a href="{{ path('app_premium') }}" class="btn btn-primary">
+                    Je deviens Premium
+                </a>
+            </div>
+        </div>
+
+    {% endif %}
 {% endblock %}
