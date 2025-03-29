@@ -11,7 +11,7 @@
     <header>
         <div class="container-box">
             {{ breadcrumb(formation) }}
-            <div class="pb-8 flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between overflow-hidden">
+            <div class="pb-8 flex flex-col-reverse py-4 gap-10 lg:flex-row lg:items-center lg:justify-between overflow-hidden">
                 <div class="lg:w-1/2 space-y-4">
                     <h1 class="text-3xl font-medium text-gray-800 dark:text-gray-100">
                         {{ formation.title }}
@@ -61,21 +61,13 @@
                                 {{ icon('play') }} <span class="ml-2">Commencer</span>
                             </a>
                         </div>
-                    {% else %}
-                        <div class="mt-4 text-center p-4 border border-blue-400 rounded">
-                            <p class="text-gray-600 dark:text-gray-300">
-                                Aucune vidéo pour le moment dans cette playlist.
-                            </p>
-                        </div>
                     {% endif %}
                 </div>
                 <div class="lg:w-1/2 formation__header__image">
                     {% if formation.image is not empty %}
-                        <img src="{{ formation.image | image }}" alt="{{ formation.title }}"
-                             class="">
+                        <img src="{{ formation.image | image }}" alt="{{ formation.title }}">
                     {% elseif formation.mainTechnologies is not empty %}
-                        <img src="{{ uploads_path('icons/' ~ formation.mainTechnologies[0].image) }}" alt="{{ formation.title }}"
-                             class="">
+                        <img src="{{ uploads_path('icons/' ~ formation.mainTechnologies[0].image) }}" alt="{{ formation.title }}">
                     {% endif %}
                 </div>
             </div>
@@ -93,41 +85,56 @@
         </a>
     </nav-tabs>
 
-        {# Section Chapitres #}
-        <section id="videos" class="container-box pt-5 pb-10">
-            {% if formation.chapters %}
-                {% include 'pages/public/formations/chapters/_list.html.twig' with {chapters: formation.chapters} only %}
-            {% else %}
-                Aucune vidéo pour le moment.
-            {% endif %}
-        </section>
-
-        {# Section Présentation et Auteur #}
-        <section id="details" class="container-box pt-5 pb-10 space-y-6">
-            <div class="formation__summary">
-                <div class="prose dark:prose-dark">
-                    {{ formation.content | raw }}
-                </div>
-                <div class="mt-4 text-gray-500 dark:text-gray-400 text-sm">
-                    {{ formation.publishedAt | ago }}
-                </div>
-                <div class="flex items-center mt-4">
-                    <img class="w-12 h-12 rounded-full mr-4" src="{{ formation.author | avatar }}" alt="{{ formation.author.fullname }}">
-                    <div class="text-gray-700 dark:text-gray-300">
-                        <strong>Auteur :</strong>
-                        <div title="{{ formation.author.fullname }}">
-                            {{ formation.author.fullname }}
+    {# Section Chapitres améliorée lorsqu'il n'y a pas de vidéos #}
+    <section id="videos" class="container-box pt-10 pb-20">
+        {% if formation.chapters %}
+            {% include 'pages/public/formations/chapters/_list.html.twig' with {chapters: formation.chapters} only %}
+        {% else %}
+            <div class="flex flex-col justify-center items-center">
+                <div class="max-w-md py-10 px-6 rounded-xl flex flex-col justify-center items-center">
+                    <div class="mb-4">
+                        <div class="bg-primary-100 dark:bg-primary-500 p-4 rounded-full">
+                            {{ icon('video-off', 25) }}
                         </div>
                     </div>
+                    <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-3">Bientôt disponible !</h2>
+                    <p class="text-gray-600 dark:text-gray-400 mb-6">
+                        Cette playlist est en cours de création, de nouvelles vidéos arrivent bientôt.
+                    </p>
+                    <a href="{{ path('app_course_index') }}" class="btn btn-light">
+                        <span>Explorer d'autres vidéos</span>
+                    </a>
                 </div>
-                {% if is_granted('ROLE_SUPER_ADMIN') %}
-                    <div class="mt-4">
-                        <a href="{{ path('studio_formation_edit', {id: formation.id}) }}" target="_blank"
-                           class="btn btn-light">
-                            {{ icon('pencil') }} <span class="ml-2">Editer la playlist</span>
-                        </a>
-                    </div>
-                {% endif %}
             </div>
-        </section>
+        {% endif %}
+    </section>
+
+    {# Section Présentation et Auteur #}
+    <section id="details" class="container-box pt-5 pb-10 space-y-6">
+        <div class="formation__summary">
+            <div class="prose dark:prose-dark">
+                {{ formation.content | raw }}
+            </div>
+            <div class="mt-4 text-gray-500 dark:text-gray-400 text-sm">
+                {{ formation.publishedAt | ago }}
+            </div>
+            <div class="flex items-center mt-4">
+                <img class="w-12 h-12 rounded-full mr-4" src="{{ formation.author | avatar }}" alt="{{ formation.author.fullname }}">
+                <div class="text-gray-700 dark:text-gray-300">
+                    <strong>Auteur :</strong>
+                    <div title="{{ formation.author.fullname }}">
+                        {{ formation.author.fullname }}
+                    </div>
+                </div>
+            </div>
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <div class="mt-4">
+                    <a href="{{ path('studio_formation_edit', {id: formation.id}) }}" target="_blank"
+                       class="btn btn-light">
+                        {{ icon('pencil') }} <span class="ml-2">Editer la playlist</span>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </section>
 {% endblock %}
