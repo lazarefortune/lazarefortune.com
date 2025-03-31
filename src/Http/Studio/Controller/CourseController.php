@@ -136,6 +136,17 @@ class CourseController extends CrudController
     {
         $this->denyAccessUnlessGranted(ContentVoter::DELETE, $course);
 
+        $this->crudDelete($course);
+
+        return $this->redirectToRoute('studio_course_index');
+    }
+
+    #[Route( path: '/{id<\d+>}', name: 'delete_ajax', methods: ['DELETE'] )]
+    #[IsGranted('ROLE_AUTHOR')]
+    public function jsonDelete(Course $course): Response
+    {
+        $this->denyAccessUnlessGranted(ContentVoter::DELETE, $course);
+
         return $this->crudAjaxDelete($course);
     }
 
