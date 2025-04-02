@@ -28,19 +28,20 @@
 
     {% if rows is empty %}
         <div class="p-10 text-center flex flex-col items-center justify-center space-y-5">
-            <div>
-                <h2 class="text-xl font-semibold text-slate-800 dark:text-white">
-                    Tu n’as encore aucune vidéo !
-                </h2>
-                <p class="mt-2 text-sm text-muted max-w-lg">
-                    Lance-toi dès maintenant et partage ta première création avec ta communauté.
-                </p>
-            </div>
-
             <img src="{{ asset('images/illustrations/video-recording-setup.svg') }}"
                  alt="Créer une vidéo"
                  class="w-full max-w-44 h-auto opacity-90 dark:opacity-80"
             >
+
+            <div>
+                <h2 class="h4">
+                    Aucune vidéo pour le moment
+                </h2>
+                <p class="mt-2 text-sm text-muted max-w-lg">
+                    Lance-toi dès maintenant et partage avec la communauté.
+                </p>
+            </div>
+
 
             {% if is_granted('ROLE_AUTHOR') %}
                 <a href="{{ path(prefix ~ '_new') }}" class="btn btn-primary">

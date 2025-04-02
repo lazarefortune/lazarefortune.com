@@ -1,7 +1,7 @@
 {% extends 'layouts/studio/base.html.twig' %}
 
-{% block title  %}
-    Gestion des vidéos
+{% block title %}
+    Gestion des playlists
 {% endblock %}
 
 {% block body %}
@@ -26,88 +26,109 @@
         </nav>
     </div>
 
-    {% if is_granted('ROLE_AUTHOR') %}
-    <div class="dashboard-page-table-button">
-        <a href="{{ path(prefix ~ '_new') }}">
-            {{ icon('plus') }}
-            Ajouter
-        </a>
-    </div>
+    {% if rows is empty %}
+        <div class="p-10 text-center flex flex-col items-center justify-center space-y-5">
+            <img src="{{ asset('images/illustrations/playlist-website.svg') }}"
+                 alt="Aucune playlist"
+                 class="w-full max-w-44 h-auto opacity-90 dark:opacity-80"
+            >
+            <div>
+                <h2 class="h4">Il n'y a pas encore de playlist</h2>
+                <p class="mt-2 text-sm text-muted max-w-lg">
+                    Créez une playlist pour organiser vos vidéos.
+                </p>
+            </div>
+            {% if is_granted('ROLE_AUTHOR') %}
+                <a href="{{ path(prefix ~ '_new') }}" class="btn btn-primary">
+                    {{ icon('plus') }} Créer une playlist
+                </a>
+            {% endif %}
+        </div>
+    {% else %}
+        {% if is_granted('ROLE_AUTHOR') %}
+            <div class="dashboard-page-table-button">
+                <a href="{{ path(prefix ~ '_new') }}" class="btn btn-primary">
+                    {{ icon('plus') }} Ajouter une playlist
+                </a>
+            </div>
+        {% endif %}
+
+        <div class="table-wrapper">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>{{ sort_by(rows, 'Playlists', 'row.title') }}</th>
+                    <th>{{ sort_by(rows, 'Statut', 'row.online') }}</th>
+                    <th>Technologies</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for row in rows %}
+                    {% set link = path(prefix ~ '_edit', {id: row.id}) %}
+                    <tr>
+                        <td class="flex justify-start items-center gap-4">
+                            <div class="w-40 flex items-center gap-2">
+                                <a href="{{ link }}" class="table-cell-link"></a>
+                                {% if row.image %}
+                                    <img class="course__image"
+                                         src="{{ image_url(row.image, 288, 162) }}"
+                                         alt="{{ row.title }}">
+                                {% else %}
+                                    <div class="w-40 h-24 bg-gray-200 dark:bg-slate-700 animate-pulse rounded"></div>
+                                {% endif %}
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <h3 class="text-base font-bricolage font-medium">
+                                    {{ row.title | truncate(50) }}
+                                </h3>
+                                <p class="text-sm text-muted">{{ row.content | truncate(50) }}</p>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="{{ link }}" class="table-cell-link"></a>
+                            <div class="badge badge-{% if row.online and (row.publishedAt|date('U') <= "now"|date('U')) %}success{% elseif row.online and (row.publishedAt|date('U') > "now"|date('U')) %}info{% else %}warning{% endif %}">
+                                {% if row.online and (row.publishedAt|date('U') <= "now"|date('U')) %}
+                                    {{ icon('eye') }}
+                                    <span>En ligne</span>
+                                {% elseif row.online and (row.publishedAt|date('U') > "now"|date('U')) %}
+                                    {{ icon('clock') }}
+                                    <span>Planifiée</span>
+                                {% else %}
+                                    {{ icon('lock') }}
+                                    <span>Privée</span>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td>
+                            {{ row.technologies|join(', ') }}
+                        </td>
+                        <td>
+                            {% if is_granted('edit', row) %}
+                                <a href="{{ path(prefix ~ '_edit', {id: row.id}) }}" class="btn-icon">
+                                    {{ icon('pencil') }}
+                                </a>
+                            {% endif %}
+                            {% if is_granted('delete', row) %}
+                                <ajax-delete class="btn-icon"
+                                             target="tr"
+                                             url="{{ path(prefix ~ '_delete', {id: row.id}) }}">
+                                    {{ icon('trash') }}
+                                </ajax-delete>
+                            {% endif %}
+                            {% if row.online %}
+                                <a href="{{ path('app_formation_show', {slug: row.slug}) }}" target="_blank" class="btn-icon">
+                                    {{ icon('external-link') }}
+                                </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {{ paginate(rows) }}
     {% endif %}
 
-    <div class="table-wrapper">
-        <table class="table">
-            <thead>
-            <tr>
-                <th>{{ sort_by(rows, 'Playlists', 'row.title') }}</th>
-                <th>Status</th>
-                <th>Technologies</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for row in rows %}
-                {% set link = path(prefix ~ '_edit', {id: row.id}) %}
-                <tr>
-                    <td class="flex justify-start items-center gap-4">
-                        <div class="w-40 flex items-center gap-2">
-                            <a href="{{ link }}" class="table-cell-link"></a>
-                            {% if row.image %}
-                                <img class="course__image"
-                                     src="{{ image_url(row.image, 288, 162) }}"
-                                     alt="{{ row.title }}">
-                            {% else %}
-                                <div class="w-40 h-24 bg-gray-200 dark:bg-slate-700 animate-pulse rounded"></div>
-                            {% endif %}
-                        </div>
-                        <div class="flex flex-col gap-1">
-                            <h3 class="text-base font-bricolage font-medium">
-                                {{ row.title | truncate(50) }}
-                            </h3>
-                            <p class="text-sm text-muted">{{ row.content | truncate(50) }}</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="badge badge-{% if row.online and (row.publishedAt|date('U') <= "now"|date('U')) %}success{% elseif row.online and (row.publishedAt|date('U') > "now"|date('U')) %}info{% else %}warning{% endif %}">
-                            {% if row.online and (row.publishedAt|date('U') <= "now"|date('U')) %}
-                                {{ icon('eye') }}
-                                <span>En ligne</span>
-                            {% elseif row.online and (row.publishedAt|date('U') > "now"|date('U')) %}
-                                {{ icon('clock') }}
-                                <span>Planifiée</span>
-                            {% else %}
-                                {{ icon('lock') }}
-                                <span>Privée</span>
-                            {% endif %}
-                        </div>
-                    </td>
-                    <td>
-                        {{ row.technologies|join(', ') }}
-                    </td>
-                    <td>
-                        {% if is_granted('edit', row) %}
-                        <a href="{{ path(prefix ~ '_edit', {id: row.id}) }}" class="btn-icon">
-                            {{ icon('pencil') }}
-                        </a>
-                        {% endif %}
-                        {% if is_granted('delete', row) %}
-                        <ajax-delete class="btn-icon"
-                                     target="tr"
-                                     url="{{ path(prefix ~ '_delete', {id: row.id}) }}">
-                            {{ icon('trash') }}
-                        </ajax-delete>
-                        {% endif %}
-                        {% if row.online %}
-                            <a href="{{ path('app_formation_show', {slug: row.slug}) }}" target="_blank" class="btn-icon">
-                                {{ icon('external-link') }}
-                            </a>
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-    {{ paginate(rows) }}
 {% endblock %}
