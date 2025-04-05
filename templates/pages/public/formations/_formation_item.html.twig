@@ -44,9 +44,9 @@
 
     <div class="px-2 py-1">
         <div class="formation__info">
-            <div>
+            <a href="{{ path('app_author_show', {id: formation.author.id}) }}" class="formation__author--link">
                 <img class="formation__author__avatar" src="{{ formation.author | avatar }}" alt="{{ formation.author.fullname }}">
-            </div>
+            </a>
             <div class="flex-1 flex flex-col justify-center">
                 <h1 class="text-base font-medium text-slate-900 dark:text-white leading-tight line-clamp-2">{{ formation.title }}</h1>
                 <div class="text-sm text-slate-600 dark:text-slate-400 mt-1">
