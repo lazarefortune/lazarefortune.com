@@ -11,10 +11,14 @@ framework:
                 - new
                 - read
                 - resolved
+                - processed
             transitions:
                 mark_read:
                     from: new
                     to: read
+                mark_processed:
+                    from: read
+                    to: processed
                 mark_resolved:
                     from: read
                     to: resolved

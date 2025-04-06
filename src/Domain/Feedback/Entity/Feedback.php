@@ -34,8 +34,8 @@ class Feedback
     private string $message;
 
     #[ORM\Column(length: 20)]
-    #[Assert\Choice(['nouveau', 'lu', 'resolu'])]
-    private string $status = 'nouveau';
+    #[Assert\Choice(['new', 'read', 'resolved', 'processed'])]
+    private string $status = 'new';
 
     #[ORM\Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $createdAt;

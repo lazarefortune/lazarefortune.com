@@ -108,13 +108,21 @@
                 <input type="hidden" name="_token" value="{{ csrf_token('resolve' ~ feedback.id) }}">
                 <button class="btn btn-success">
                     {{ icon('check-circle', 16) }}
-                    Marquer comme résolu
+                    {% if feedback.type.value == 'bug' %}
+                        Marquer comme résolu
+                    {% elseif feedback.type.value == 'idea' %}
+                        Prendre en compte
+                    {% endif %}
                 </button>
             </form>
         {% elseif feedback.status == 'resolved' %}
             <div class="mt-4 text-green-600 dark:text-green-400 text-sm flex items-center gap-2">
                 {{ icon('check-circle', 16) }}
-                Ce retour est marqué comme <strong>résolu</strong>
+                {% if feedback.type.value == 'bug' %}
+                    Ce bug a été résolu ✅
+                {% elseif feedback.type.value == 'idea' %}
+                    Cette idée a été prise en compte 👍
+                {% endif %}
             </div>
         {% endif %}
     </div>

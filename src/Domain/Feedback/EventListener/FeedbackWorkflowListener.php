@@ -29,7 +29,7 @@ class FeedbackWorkflowListener
             'account' => $accountUrl,
         ])
             ->to($feedback->getEmail())
-            ->subject('Merci pour votre retour, il est maintenant résolu')
+            ->subject('Merci pour ton retour, il est maintenant résolu')
             ->priority(Email::PRIORITY_HIGH);
 
         // Envoie l’email

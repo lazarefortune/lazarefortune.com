@@ -9,12 +9,19 @@
         ==========================
 
         On voulait te dire un grand **merci** pour le message que tu nous as envoyé.
-        On l’a bien pris en compte, et il a maintenant été **traité et marqué comme résolu** par notre équipe ✅
+
+        {% if feedback.type.value == 'bug' %}
+            Ton signalement de bug a bien été **pris en compte** et il a maintenant été **corrigé par notre équipe** 🛠️✅
+        {% elseif feedback.type.value == 'idea' %}
+            Ton idée a bien été **prise en compte**, et elle a été transmise à notre équipe produit pour étude ou mise en place 💡✨
+        {% else %}
+            Il a été **traité et marqué comme résolu** par notre équipe ✅
+        {% endif %}
 
         Voici un petit rappel de ton message :
         > {{ feedback.message|nl2br }}
 
-        Chaque retour compte énormément pour nous — que ce soit une idée, une remarque ou un bug — alors **n'hésite surtout pas à revenir vers nous** si tu veux nous aider à améliorer encore la plateforme 💡🐛
+        Chaque retour compte énormément pour nous — que ce soit une idée, une remarque ou un bug — alors **n'hésite surtout pas à revenir vers nous** si tu veux nous aider à améliorer encore la plateforme
 
     {% endapply %}
 
