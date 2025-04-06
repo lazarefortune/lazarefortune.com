@@ -1,0 +1,37 @@
+{% extends layout %}
+{% import "mails/macros.twig" as element %}
+
+{% block body %}
+    {% apply markdown_email %}
+        Salut {{ feedback.firstname }} 👋,
+
+        Merci pour ton retour !
+        ==========================
+
+        On voulait te dire un grand **merci** pour le message que tu nous as envoyé.
+        On l’a bien pris en compte, et il a maintenant été **traité et marqué comme résolu** par notre équipe ✅
+
+        Voici un petit rappel de ton message :
+        > {{ feedback.message|nl2br }}
+
+        Chaque retour compte énormément pour nous — que ce soit une idée, une remarque ou un bug — alors **n'hésite surtout pas à revenir vers nous** si tu veux nous aider à améliorer encore la plateforme 💡🐛
+
+    {% endapply %}
+
+    {{ element.button('Accéder à mon espace', account | raw) }}
+
+    {% apply markdown_email %}
+        À très vite 👋
+
+        L’équipe {{ app_name }}
+    {% endapply %}
+
+    {% set fallback_section %}
+        {% apply markdown_email %}
+            Si le bouton ne fonctionne pas, copie-colle ce lien dans ton navigateur :
+            [{{ account }}]({{ account }})
+        {% endapply %}
+    {% endset %}
+
+    {{ element.section(fallback_section) }}
+{% endblock %}
