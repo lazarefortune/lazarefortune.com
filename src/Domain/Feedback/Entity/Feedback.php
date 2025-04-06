@@ -169,4 +169,9 @@ class Feedback
     {
         return $this->imageName;
     }
+
+    public function isResolved(): bool
+    {
+        return $this->status === 'resolved';
+    }
 }

@@ -1,0 +1,121 @@
+{% extends 'layouts/admin/base.html.twig' %}
+
+{% block title %}Feedback utilisateur{% endblock %}
+
+{% block body %}
+    <div class="dashboard-page-header">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li>
+                    <a href="{{ path('admin_home') }}">
+                        <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                             fill="currentColor" viewBox="0 0 20 20">
+                            <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"></path>
+                        </svg>
+                        Accueil
+                    </a>
+                </li>
+                {{ icon('chevron-right') }}
+                <li>
+                    <a href="{{ path('admin_feedback_index') }}">
+                        Feedbacks
+                    </a>
+                </li>
+                {{ icon('chevron-right') }}
+                <li>
+                    <span>{{ feedback.id }}</span>
+                </li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="dashboard-page-header mt-6 mb-6 flex items-center justify-between flex-wrap gap-3">
+        <h1 class="h4 flex items-center gap-2">
+            {{ icon('mail', 20) }}
+            Détail du retour
+        </h1>
+    </div>
+
+    <div class="bg-white dark:bg-primary-950 border border-slate-100 dark:border-slate-800 rounded p-6 max-w-4xl mx-auto">
+        <!-- Ligne infos -->
+        <div class="mb-4 flex flex-wrap justify-between gap-4 items-start">
+            <div>
+                <h2 class="text-lg font-semibold text-slate-800 dark:text-white">
+                    {{ feedback.firstname }}
+                </h2>
+                <p class="text-sm text-muted mt-1">
+                    {{ feedback.email }}
+                </p>
+            </div>
+
+            <div class="flex items-center gap-2 flex-wrap">
+                <!-- Type -->
+                <span class="text-xs px-2 py-0.5 rounded-full
+                    {% if feedback.type.value == 'bug' %}
+                        bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200
+                    {% elseif feedback.type.value == 'idea' %}
+                        bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
+                    {% else %}
+                        bg-gray-200 text-gray-800 dark:bg-slate-700 dark:text-slate-200
+                    {% endif %}
+                ">
+                    {{ feedback.type.label }}
+                </span>
+
+                <!-- Statut -->
+                <span class="text-xs px-2 py-0.5 rounded-full
+                    {% if feedback.status == 'new' %}
+                        bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200
+                    {% elseif feedback.status == 'read' %}
+                        bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200
+                    {% else %}
+                        bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
+                    {% endif %}
+                ">
+                    {{ ('feedback.status.' ~ feedback.status)|trans }}
+                </span>
+            </div>
+        </div>
+
+        <!-- Date -->
+        <div class="text-sm text-muted mb-6">
+            Envoyé {{ feedback.createdAt|ago }} (le {{ feedback.createdAt|date('d/m/Y à H:i') }})
+        </div>
+
+        <!-- Message -->
+        <div class="prose dark:prose-invert max-w-none mb-6">
+            {{ feedback.message|nl2br }}
+        </div>
+
+        <!-- Pièce jointe -->
+        {% if feedback.imageName %}
+            <div class="mb-6">
+                <h3 class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                    Pièce jointe :
+                </h3>
+                <a href="{{ vich_uploader_asset(feedback, 'imageFile') }}"
+                   target="_blank"
+                   class="inline-flex items-center gap-2 text-primary-600 dark:text-primary-300 hover:underline text-sm">
+                    {{ icon('paperclip', 16) }}
+                    Voir la pièce jointe
+                </a>
+            </div>
+        {% endif %}
+
+        <!-- Bouton marquer comme résolu -->
+        {% if feedback.status == 'read' %}
+            <form method="post" action="{{ path('admin_feedback_resolve', {id: feedback.id}) }}" class="mt-4">
+                <input type="hidden" name="_token" value="{{ csrf_token('resolve' ~ feedback.id) }}">
+                <button class="btn btn-success">
+                    {{ icon('check-circle', 16) }}
+                    Marquer comme résolu
+                </button>
+            </form>
+        {% elseif feedback.status == 'resolved' %}
+            <div class="mt-4 text-green-600 dark:text-green-400 text-sm flex items-center gap-2">
+                {{ icon('check-circle', 16) }}
+                Ce retour est marqué comme <strong>résolu</strong>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends 'layouts/admin/base.html.twig' %}
+
+{% block title %}Feedbacks{% endblock %}
+
+{% block body %}
+
+    <div class="dashboard-page-header">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li>
+                    <a href="{{ path('admin_home') }}">
+                        <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                             fill="currentColor" viewBox="0 0 20 20">
+                            <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"></path>
+                        </svg>
+                        Accueil
+                    </a>
+                </li>
+                {{ icon('chevron-right') }}
+                <li>
+                    <span>Feedbacks</span>
+                </li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="dashboard-page-header mt-6 mb-6 flex items-center justify-between flex-wrap gap-3">
+        <h1 class="h4 flex items-center gap-2">
+            {{ icon('message-square-heart', 20) }}
+            Feedbacks reçus
+        </h1>
+    </div>
+
+    {% if feedbacks is empty %}
+        <div class="p-10 text-center flex flex-col items-center justify-center space-y-5 bg-white dark:bg-primary-950 border border-slate-100 dark:border-slate-800 rounded">
+            <h2 class="text-lg font-medium text-slate-800 dark:text-white">
+                Aucun feedback pour le moment
+            </h2>
+            <p class="mt-1 text-sm text-muted max-w-md">
+                Dès qu’un utilisateur enverra une idée ou un bug, il s’affichera ici.
+            </p>
+            <img src="{{ asset('images/illustrations/empty-message.png') }}"
+                 alt="Boîte vide"
+                 class="w-full max-w-xs h-auto opacity-90 dark:opacity-80"
+            >
+        </div>
+    {% else %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+            {% for feedback in feedbacks %}
+                <div class="group bg-white dark:bg-primary-950 border border-slate-100 dark:border-slate-800 rounded p-4 hover:shadow-sm transition">
+                    <div class="flex items-start justify-between mb-2">
+                        <!-- Type -->
+                        <span class="text-xs px-2 py-0.5 rounded-full
+                            {% if feedback.type.value == 'bug' %}
+                                bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200
+                            {% elseif feedback.type.value == 'idea' %}
+                                bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
+                            {% else %}
+                                bg-gray-200 text-gray-800 dark:bg-slate-700 dark:text-slate-200
+                            {% endif %}
+                        ">
+                            {{ feedback.type.label }}
+                        </span>
+
+                        <!-- Statut -->
+                        <span class="text-xs px-2 py-0.5 rounded-full
+                            {% if feedback.status == 'new' %}
+                                bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200
+                            {% elseif feedback.status == 'read' %}
+                                bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200
+                            {% else %}
+                                bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
+                            {% endif %}
+                        ">
+                            {{ ('feedback.status.' ~ feedback.status)|trans }}
+                        </span>
+                    </div>
+
+                    <h3 class="text-lg font-semibold text-slate-800 dark:text-white truncate mb-1">
+                        {{ feedback.firstname }}
+                    </h3>
+
+                    <p class="text-base text-slate-600 dark:text-slate-400 line-clamp-2 mb-2">
+                        {{ feedback.message|u.truncate(100, '…') }}
+                    </p>
+
+                    <div class="flex items-center justify-between text-xs text-muted">
+                        <span>{{ feedback.createdAt|ago }}</span>
+
+                        {% if feedback.imageName %}
+                            <span class="flex items-center gap-1" title="Fichier joint">
+                                {{ icon('paperclip', 14) }} PJ
+                            </span>
+                        {% endif %}
+                    </div>
+
+                    <div class="mt-3">
+                        <a href="{{ path('admin_feedback_show', { id: feedback.id }) }}"
+                           class="text-base text-primary-600 hover:text-primary-800 dark:text-primary-300 dark:hover:text-white font-medium inline-flex items-center gap-1">
+                            <span>Voir plus</span>
+                            {{ icon('chevron-right', 16) }}
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="flex justify-center mt-6">
+            {{ knp_pagination_render(feedbacks) }}
+        </div>
+    {% endif %}
+{% endblock %}

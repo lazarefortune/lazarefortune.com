@@ -1,0 +1,20 @@
+framework:
+    workflows:
+        feedback_status:
+            type: 'state_machine'
+            supports:
+                - App\Domain\Feedback\Entity\Feedback
+            marking_store:
+                type: method
+                property: status
+            places:
+                - new
+                - read
+                - resolved
+            transitions:
+                mark_read:
+                    from: new
+                    to: read
+                mark_resolved:
+                    from: read
+                    to: resolved

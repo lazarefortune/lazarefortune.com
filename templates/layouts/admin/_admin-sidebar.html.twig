@@ -62,15 +62,15 @@
                 </li>
                 {% endif %}
                 <li class="sidebar__nav-item">
-                    <a href="{{ path('admin_contact_index') }}" class="sidebar__nav-link {{ menu_active('admin_contact_') }}">
-                        {{ icon('inbox' ) }}
-                        Messages
+                    <a href="{{ path('admin_feedback_index') }}" class="sidebar__nav-link {{ menu_active('admin_feedback_') }}">
+                        {{ icon('message-square-heart' ) }}
+                        Feedback
                     </a>
                 </li>
                 <li class="sidebar__nav-item">
-                    <a href="" class="sidebar__nav-link {{ menu_active('admin_feedback') }}">
-                        {{ icon('message-circle') }}
-                        <span>Retours</span>
+                    <a href="{{ path('admin_contact_index') }}" class="sidebar__nav-link {{ menu_active('admin_contact_') }}">
+                        {{ icon('inbox' ) }}
+                        Messages
                     </a>
                 </li>
             </ul>

@@ -65,11 +65,13 @@
     "symfony/validator": "6.4.*",
     "symfony/web-link": "6.4.*",
     "symfony/webpack-encore-bundle": "^2.1",
+    "symfony/workflow": "6.4.*",
     "symfony/yaml": "6.4.*",
     "symfonycasts/verify-email-bundle": "^1.13",
     "twig/cssinliner-extra": "^3.7",
     "twig/extra-bundle": "^2.12|^3.0",
     "twig/intl-extra": "^3.12",
+    "twig/string-extra": "^3.20",
     "twig/twig": "^2.12|^3.0",
     "vich/uploader-bundle": "^2.1"
   },

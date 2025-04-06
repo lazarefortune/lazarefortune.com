@@ -71,3 +71,6 @@ Sélectionnez un contenu: "Sélectionnez un contenu"
 Email: "Email"
 C'est à propos de ?: "C'est à propos de ?"
 Votre message: "Votre message"
+feedback.status.new: Nouveau
+feedback.status.read: Lu
+feedback.status.resolved: Résolu

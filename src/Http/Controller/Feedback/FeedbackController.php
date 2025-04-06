@@ -3,8 +3,6 @@
 namespace App\Http\Controller\Feedback;
 
 
-use App\Domain\Auth\Core\Entity\User;
-use App\Domain\Feedback\Entity\Feedback;
 use App\Domain\Feedback\Enum\FeedbackType;
 use App\Domain\Feedback\Form\FeedbackForm;
 use App\Domain\Feedback\Service\FeedbackService;
@@ -34,7 +32,7 @@ class FeedbackController extends AbstractController
         if ( $form->isSubmitted() && $form->isValid() ) {
             $this->feedbackService->save( $feedback );
 
-            $this->addFlash( 'success', 'Merci pour votre idée, elle a bien été enregistrée !' );
+            $this->addFlash( 'success', 'Merci pour ton idée, elle a bien été enregistrée !' );
 
             return $this->redirectToRoute( 'app_feedback_idea' );
         }
@@ -56,7 +54,7 @@ class FeedbackController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->feedbackService->save($feedback);
 
-            $this->addFlash('success', 'Merci d’avoir signalé ce bug ! On va jeter un œil 👀');
+            $this->addFlash('success', 'Merci d’avoir signalé ce bug ! On va jeter un œil');
 
             return $this->redirectToRoute('app_feedback_bug');
         }
