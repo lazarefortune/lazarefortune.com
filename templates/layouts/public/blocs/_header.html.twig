@@ -122,13 +122,13 @@
                     {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_AUTHOR') %}
                     <div class="w-full border-b border-slate-200 dark:border-slate-700 py-4 grid grid-cols-2 gap-2">
                         {% if is_granted('ROLE_ADMIN') %}
-                        <a href="{{ path('admin_home') }}" class="flex flex-col items-center {% if not is_granted('ROLE_AUTHOR') %}col-span-2{% endif%} bg-slate-100 dark:bg-primary-1000 transition-colors duration-200 p-4 rounded-xl text-slate-900 dark:text-white font-medium hover:text-slate-900 hover:bg-slate-200">
+                        <a href="{{ path('admin_home') }}" class="flex flex-col items-center {% if not is_granted('ROLE_AUTHOR') %}col-span-2{% endif%} bg-orange-100 dark:bg-primary-1000 transition-colors duration-200 p-4 rounded-xl text-orange-700 dark:text-white font-medium hover:text-orange-700 hover:bg-orange-200">
                             {{ icon('shield', 20) }}
                             <span>Admin</span>
                         </a>
                         {% endif %}
                         {% if is_granted('ROLE_AUTHOR') %}
-                        <a href="{{ path('studio_home') }}" class="flex flex-col items-center {% if not is_granted('ROLE_ADMIN') %}col-span-2{% endif%} bg-slate-100 dark:bg-primary-1000 transition-colors duration-200 p-4 rounded-xl text-slate-900 dark:text-white font-medium hover:text-slate-900 hover:bg-slate-200">
+                        <a href="{{ path('studio_home') }}" class="flex flex-col items-center {% if not is_granted('ROLE_ADMIN') %}col-span-2{% endif%} bg-primary-100 dark:bg-primary-1000 transition-colors duration-200 p-4 rounded-xl text-primary-900 dark:text-white font-medium hover:text-primary-900 hover:bg-primary-200">
                             {{ icon('clapperboard', 20) }}
                             <span>Studio</span>
                         </a>

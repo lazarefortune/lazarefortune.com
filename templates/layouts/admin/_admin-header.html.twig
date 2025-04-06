@@ -28,12 +28,12 @@
             </div>
 
             <div class="w-full mb-3 border-b border-slate-200 dark:border-slate-700 py-4 grid grid-cols-2 gap-2">
-                <a href="{{ path('app_home') }}" class="flex flex-col items-center {% if not is_granted('ROLE_AUTHOR') %}col-span-2{% endif%} bg-slate-100 dark:bg-primary-1000 transition-colors duration-200 p-4 rounded-xl text-slate-900 dark:text-white font-medium hover:text-slate-900 hover:bg-slate-200">
-                    {{ icon('x', 20) }}
-                    <span>Quitter</span>
+                <a href="{{ path('app_home') }}" class="flex flex-col items-center bg-slate-100 dark:bg-primary-1000 transition-colors duration-200 p-4 rounded-xl text-slate-900 dark:text-white font-medium hover:text-slate-900 hover:bg-slate-200">
+                    {{ icon('home', 20) }}
+                    <span>Accueil</span>
                 </a>
                 {% if is_granted('ROLE_AUTHOR') %}
-                    <a href="{{ path('studio_home') }}" class="flex flex-col items-center {% if not is_granted('ROLE_ADMIN') %}col-span-2{% endif%} bg-slate-100 dark:bg-primary-1000 transition-colors duration-200 p-4 rounded-xl text-slate-900 dark:text-white font-medium hover:text-slate-900 hover:bg-slate-200">
+                    <a href="{{ path('studio_home') }}" class="flex flex-col items-center bg-primary-100 dark:bg-primary-1000 transition-colors duration-200 p-4 rounded-xl text-primary-900 dark:text-white font-medium hover:text-primary-900 hover:bg-primary-200">
                         {{ icon('clapperboard', 20) }}
                         <span>Studio</span>
                     </a>
