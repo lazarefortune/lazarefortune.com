@@ -85,4 +85,24 @@ class CommentRepository extends AbstractRepository
             ->where('row.ip LIKE :ip')
             ->setParameter('ip', $ip);
     }
+
+    /**
+     * Récupère les derniers commentaires liés aux vidéos de l'utilisateur connecté.
+     *
+     * @return Comment[]
+     */
+    public function findLastOnUserCourses(User $user, int $limit = 10): array
+    {
+        return $this->createQueryBuilder('c')
+            ->join('c.target', 'content')
+            ->join('content.author', 'author')
+            ->leftJoin('c.author', 'commentAuthor')
+            ->addSelect('content', 'commentAuthor')
+            ->where('author = :user')
+            ->orderBy('c.createdAt', 'DESC')
+            ->setParameter('user', $user)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -120,6 +120,37 @@
             </div>
         </section>
 
+
+        <!-- Les derniers commentaires -->
+        <section class="mb-12">
+            <h2 class="h3 mb-6">Derniers commentaires sur tes vidéos</h2>
+            {% if lastComments is empty %}
+                <div class="text-muted text-sm">Aucun commentaire pour le moment.</div>
+            {% else %}
+                <ul class="space-y-4">
+                    {% for comment in lastComments %}
+                        <li class="flex gap-4 items-start bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-4 rounded-xl shadow-sm">
+                            <div class="flex-shrink-0 w-10 h-10 bg-primary-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
+                                {{ comment.getUsername()[:1]|upper }}
+                            </div>
+                            <div>
+                                <div class="text-sm text-slate-600 dark:text-slate-300 mb-1">
+                                    <span class="font-semibold text-slate-800 dark:text-white">{{ comment.getUsername() }}</span>
+                                    a commenté sur
+                                    <span class="italic">{{ comment.getTarget().getTitle() }}</span>
+                                </div>
+                                <div class="text-slate-700 dark:text-slate-200 text-sm bg-slate-100 dark:bg-slate-800 p-3 rounded-md">
+                                    {{ comment.getContent()|truncate(150) }}
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </section>
+
+        <div class="divider"></div>
+
         <!-- Dernières Vidéos -->
         {% include 'pages/admin/partials/_last_course.html.twig' with { 'lastCourses': lastCourses } %}
     {% else %}
