@@ -31,8 +31,12 @@
 
     <div class="dashboard-page-header mt-6 mb-6 flex items-center justify-between flex-wrap gap-3">
         <h1 class="h4 flex items-center gap-2">
-            {{ icon('mail', 20) }}
-            Détail du retour
+            {{ icon('message-square-heart', 20) }}
+            {% if feedback.type.value == 'bug' %}
+            Un nouveau bug
+            {% elseif feedback.type.value == 'idea' %}
+            Une nouvelle idée
+            {% endif %}
         </h1>
     </div>
 
