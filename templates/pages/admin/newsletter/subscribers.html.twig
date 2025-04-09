@@ -1,124 +1,101 @@
 {% extends 'layouts/admin/base.html.twig' %}
 
 {% block title %}
-    Gestion des newsletters
+    Inscriptions à la newsletter
 {% endblock %}
 
 {% block body %}
-
     <div class="dashboard-page-header">
         <nav class="breadcrumb" aria-label="Breadcrumb">
             <ol>
-                <li>
-                    <a href="{{ path('admin_home') }}">
-                        <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                             fill="currentColor" viewBox="0 0 20 20">
-                            <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"></path>
-                        </svg>
-                        Accueil
-                    </a>
-                </li>
+                <li><a href="{{ path('admin_home') }}">{{ icon('home') }} Accueil</a></li>
                 {{ icon('chevron-right') }}
-                <li>
-                    <a href="{{ path('admin_newsletter_index') }}">
-                        Newsletters
-                    </a>
-                </li>
+                <li><a href="{{ path('admin_newsletter_index') }}">Newsletters</a></li>
                 {{ icon('chevron-right') }}
-                <li>
-                    <span>Inscriptions</span>
-                </li>
+                <li><span>Inscriptions</span></li>
             </ol>
         </nav>
     </div>
 
+    <h1 class="h3 mt-6">📬 Inscriptions à la newsletter</h1>
+    <p class="text-muted mb-10">Visualise en un coup d’œil les personnes abonnées, que ce soient des utilisateurs ou des visiteurs anonymes.</p>
 
-    <h1 class="h3 mt-4">Inscriptions à la Newsletter</h1>
-
-    <!-- Statistiques globales -->
-    <div class="mt-6 grid gap-8 sm:grid-cols-2 xl:grid-cols-4">
-        <div class="relative border border-slate-200 dark:border-slate-700 rounded-xl p-4">
-            <div class="mt-6 text-3xl font-medium sm:text-3xl">{{ usersSubscribed }}</div>
-            <div class="text-lg font-normal sm:text-base text-slate-500 dark:text-slate-300">Utilisateurs abonnés</div>
-            <div class="absolute top-4 right-4 text-slate-500 dark:text-slate-300">
-                {{ icon('users', 30) }}
+    <!-- Résumé Statistiques -->
+    <section class="grid gap-6 sm:grid-cols-2 xl:grid-cols-4 mb-14">
+        {% set stats = [
+            {'title': 'Utilisateurs abonnés', 'count': usersSubscribed, 'icon': 'users', 'color': 'success'},
+            {'title': 'Utilisateurs désabonnés', 'count': usersUnsubscribed, 'icon': 'user-minus', 'color': 'warning'},
+            {'title': 'Visiteurs abonnés', 'count': subscribersSubscribed, 'icon': 'mail', 'color': 'info'},
+            {'title': 'Visiteurs désabonnés', 'count': subscribersUnsubscribed, 'icon': 'mail-minus', 'color': 'danger'}
+        ] %}
+        {% for stat in stats %}
+            <div class="relative border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-5 rounded-xl shadow-sm">
+                <div class="absolute top-4 right-4 text-slate-400 dark:text-slate-500">
+                    {{ icon(stat.icon, 26) }}
+                </div>
+                <div class="text-3xl font-semibold text-slate-800 dark:text-white">{{ stat.count }}</div>
+                <div class="text-sm text-slate-500 dark:text-slate-300 mt-1">{{ stat.title }}</div>
             </div>
-        </div>
-        <div class="relative border border-slate-200 dark:border-slate-700 rounded-xl p-4">
-            <div class="mt-6 text-3xl font-medium sm:text-3xl">{{ usersUnsubscribed }}</div>
-            <div class="text-lg font-normal sm:text-base text-slate-500 dark:text-slate-300">Utilisateurs désabonnés</div>
-            <div class="absolute top-4 right-4 text-slate-500 dark:text-slate-300">
-                {{ icon('user-minus', 30) }}
-            </div>
-        </div>
-        <div class="relative border border-slate-200 dark:border-slate-700 rounded-xl p-4">
-            <div class="mt-6 text-3xl font-medium sm:text-3xl">{{ subscribersSubscribed }}</div>
-            <div class="text-lg font-normal sm:text-base text-slate-500 dark:text-slate-300">Visiteurs abonnés</div>
-            <div class="absolute top-4 right-4 text-slate-500 dark:text-slate-300">
-                {{ icon('mail', 30) }}
-            </div>
-        </div>
-        <div class="relative border border-slate-200 dark:border-slate-700 rounded-xl p-4">
-            <div class="mt-6 text-3xl font-medium sm:text-3xl">{{ subscribersUnsubscribed }}</div>
-            <div class="text-lg font-normal sm:text-base text-slate-500 dark:text-slate-300">Visiteurs désabonnés</div>
-            <div class="absolute top-4 right-4 text-slate-500 dark:text-slate-300">
-                {{ icon('mail-minus', 30) }}
-            </div>
-        </div>
-    </div>
+        {% endfor %}
+    </section>
 
-    <!-- Liste détaillée des utilisateurs abonnés -->
-    <div class="mt-12">
-        <h2 class="h3 mb-4">Détails des utilisateurs abonnés</h2>
-        <div class="table-wrapper">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Email</th>
-                    <th>Nom complet</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for user in users %}
+    <!-- Utilisateurs abonnés -->
+    <section class="mb-14">
+        <h2 class="h4 mb-4">👤 Utilisateurs abonnés</h2>
+        {% if users is empty %}
+            <div class="text-center text-muted py-8">
+                <p>Aucun utilisateur abonné pour l’instant.</p>
+            </div>
+        {% else %}
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead>
                     <tr>
-                        <td>{{ user.email }}</td>
-                        <td>{{ user.fullname }}</td>
+                        <th>Nom complet</th>
+                        <th>Email</th>
                     </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="3">Aucun utilisateur abonné trouvé.</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.fullname }}</td>
+                            <td>{{ user.email }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </section>
 
-    <!-- Liste détaillée des visiteurs abonnés -->
-    <div class="mt-12">
-        <h2 class="h3 mb-4">Détails des visiteurs abonnés</h2>
-        <div class="table-wrapper">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Email</th>
-                    <th>Date d'inscription</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for subscriber in subscribers %}
+    <!-- Visiteurs abonnés -->
+    <section>
+        <h2 class="h4 mb-4">📩 Visiteurs abonnés</h2>
+        {% if subscribers is empty %}
+            <div class="text-center text-muted py-8">
+                <p>Aucun visiteur abonné pour le moment.</p>
+            </div>
+        {% else %}
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead>
                     <tr>
-                        <td>{{ subscriber.email }}</td>
-                        <td>{{ subscriber.createdAt|format_datetime('long', 'short') }}</td>
+                        <th>Nom</th>
+                        <th>Email</th>
+                        <th>Date d’abonnement</th>
                     </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="2">Aucun abonné visiteur trouvé.</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-
+                    </thead>
+                    <tbody>
+                    {% for subscriber in subscribers %}
+                        <tr>
+                            <td>{{ subscriber.name }}</td>
+                            <td>{{ subscriber.email }}</td>
+                            <td>{{ subscriber.createdAt|format_datetime('long', 'short') }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </section>
 {% endblock %}

@@ -15,6 +15,9 @@ class NewsletterSubscriber
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Orm\Column(type: Types::STRING, length: 80, nullable: true)]
+    private ?string $name = null;
+
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
@@ -27,8 +30,9 @@ class NewsletterSubscriber
     #[ORM\Column(length: 64, unique: true, nullable: true)]
     private ?string $unsubscribeToken = null;
 
-    public function __construct(string $email = '')
+    public function __construct(string $name = '', string $email = '')
     {
+        $this->name = $name;
         $this->email = $email;
         $this->isSubscribed = true;
         $this->createdAt = new \DateTimeImmutable();
@@ -37,6 +41,17 @@ class NewsletterSubscriber
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+        return $this;
     }
 
     public function getEmail(): ?string

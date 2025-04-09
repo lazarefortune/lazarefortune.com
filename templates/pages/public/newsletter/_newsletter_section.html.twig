@@ -1,27 +1,52 @@
-<!-- Newsletter Section -->
-<section class="mt-16 reveal" data-delay=".2">
+{% if not app.user %}
+<section class="mt-24 bg-primary-50 dark:bg-primary-1000 rounded-2xl px-6 py-16 shadow-md reveal" data-delay=".2">
     <div class="max-w-3xl mx-auto text-center">
-        <h2 class="h1 mb-4">
-            Inscrivez-vous à la <span class="text-lead">newsletter</span>
+        <h2 class="text-3xl sm:text-4xl font-semibold text-slate-900 dark:text-white mb-4">
+            ✉️ Reste informé des <span class="text-lead">nouvelles vidéos</span>
         </h2>
-        <p class="text-muted">
-            Recevez les dernières vidéos, playlists et articles directement dans votre boîte de réception.
-            Restez informé et ne manquez aucune nouveauté.
+        <p class="text-lg text-muted mb-8">
+            Je partage ce que j'apprends en développement web à travers des vidéos simples, utiles et accessibles. Reçois-les directement dans ta boîte mail !
         </p>
-    </div>
-    <div class="mt-10">
-        {{ form_start(newsletterForm, {attr: {class: 'max-w-3xl mx-auto'}}) }}
-        <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
-            {{ form_widget(newsletterForm.email, {
-                label: none,
+
+        {{ form_start(newsletterForm, {attr: {class: 'w-full'}}) }}
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-xl mx-auto">
+            {{ form_widget(newsletterForm.name, {
+                label: false,
                 attr: {
-                    class: 'form-input',
-                    placeholder: 'Entrez votre adresse email',
+                    class: 'form-input w-full sm:w-auto flex-1',
+                    placeholder: 'Ton prénom...'
                 }
             }) }}
-
-            <button type="submit" class="btn btn-primary">S'inscrire</button>
+            {{ form_widget(newsletterForm.email, {
+                label: false,
+                attr: {
+                    class: 'form-input w-full sm:w-auto flex-1',
+                    placeholder: 'Ton adresse email...'
+                }
+            }) }}
+            <button type="submit" class="btn btn-primary w-full sm:w-auto">
+                Je m'inscris
+            </button>
         </div>
         {{ form_end(newsletterForm) }}
     </div>
 </section>
+{% endif %}
+
+{% if app.user and (not app.user.isNewsletterSubscribed) %}
+    <section class="mt-20 bg-slate-50 dark:bg-primary-1000 rounded-2xl px-6 py-12 shadow-md reveal" data-delay=".2">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-2xl sm:text-3xl font-semibold text-slate-800 dark:text-white mb-2">
+                🔔 Tu ne veux rien rater ?
+            </h2>
+            <p class="text-base sm:text-lg text-muted mb-6">
+                Abonne-toi à la newsletter et reçois mes dernières vidéos, astuces et ressources directement dans ta boîte mail.
+            </p>
+            <a href="{{ path('app_newsletter_subscribe') }}"
+               class="btn btn-primary">
+                {{ icon('mail-plus') }}
+                <span>S’abonner à la newsletter</span>
+            </a>
+        </div>
+    </section>
+{% endif %}
