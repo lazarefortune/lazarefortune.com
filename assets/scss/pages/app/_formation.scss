@@ -69,7 +69,7 @@
   @apply text-sm text-slate-600 dark:text-slate-400 mt-1 flex flex-wrap items-center gap-2;
 }
 .formation__author--link {
-  @apply z-50;
+  @apply z-30;
 }
 .formation__author__avatar {
   @apply w-[50px] h-[50px] rounded-full border-2 border-slate-200 dark:border-slate-700;
