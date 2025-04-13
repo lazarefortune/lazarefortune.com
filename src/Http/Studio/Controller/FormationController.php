@@ -76,7 +76,7 @@ final class FormationController extends CrudController
             $this->em->flush();
             $this->addFlash('success', 'La playlist a bien été modifié');
 
-            $dispatcher->dispatch(new ContentUpdatedEvent($oldFormation, $newFormation));
+            $dispatcher->dispatch(new ContentUpdatedEvent($newFormation, $oldFormation), ContentUpdatedEvent::NAME);
         }
 
         # $data = (new FormationCrudData($formation))->setEntityManager($this->em);

@@ -40,13 +40,12 @@ class ContentSubscriber implements EventSubscriberInterface
     public function onUpdate(ContentUpdatedEvent $event): void
     {
         $content = $event->getContent();
+        $previousContent = $event->getPrevious();
         if ($content instanceof Formation) {
-            $previousOnline = $event->getPrevious()->isOnline();
-            $currentOnline = $content->isOnline();
-
-            if ($previousOnline !== $currentOnline) {
+            if ($previousContent->isOnline() !== $content->isOnline()) {
+                /** @var Course $course */
                 foreach ($content->getCourses() as $course) {
-                    $course->setOnline($currentOnline);
+                    $course->setOnline($content->isOnline());
                 }
                 $this->entityManager->flush();
             }

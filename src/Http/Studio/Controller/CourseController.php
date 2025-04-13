@@ -110,7 +110,7 @@ class CourseController extends CrudController
             $this->em->flush();
             $this->addFlash('success', 'La vidéo a bien été modifié');
 
-            $dispatcher->dispatch(new ContentUpdatedEvent($oldCourse, $newCourse));
+            $dispatcher->dispatch(new ContentUpdatedEvent($newCourse, $oldCourse), ContentUpdatedEvent::NAME);
 
             if ($request->request->get('synchronize')) {
                 $session->set(self::SESSION_COURSE_ID, $course->getId());
