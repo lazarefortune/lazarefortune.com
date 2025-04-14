@@ -113,7 +113,9 @@
     <section id="details" class="container-box pt-5 pb-10 space-y-6">
         <div class="formation__summary">
             <div class="prose dark:prose-dark">
-                {{ formation.content | raw }}
+                <div class="formatted">
+                    {{ formation.content | markdown }}
+                </div>
             </div>
             <div class="mt-4 text-gray-500 dark:text-gray-400 text-sm">
                 {{ formation.publishedAt | ago }}
