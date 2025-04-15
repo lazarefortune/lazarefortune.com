@@ -21,8 +21,8 @@ class IndexerSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            ContentUpdatedEvent::NAME => 'updateContent',
             ContentCreatedEvent::NAME => 'indexContent',
+            ContentUpdatedEvent::NAME => 'updateContent',
             ContentDeletedEvent::NAME => 'removeContent',
         ];
     }

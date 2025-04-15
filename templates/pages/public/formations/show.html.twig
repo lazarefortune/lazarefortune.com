@@ -7,91 +7,96 @@
 {% endblock %}
 
 {% block body %}
-    {# Header de la formation #}
-    <header>
-        <div class="container-box">
-            {{ breadcrumb(formation) }}
-            <div class="pb-8 flex flex-col-reverse py-4 gap-10 lg:flex-row lg:items-center lg:justify-between overflow-hidden">
-                <div class="lg:w-1/2 space-y-4">
-                    <h1 class="text-3xl font-medium text-gray-800 dark:text-gray-100">
+    <header class="bg-gray-50 dark:bg-primary-1000 border-b border-gray-200 dark:border-gray-800">
+        <div class="container-box pb-10 lg:pb-16">
+            <div class="formation__breadcrumb">
+                {{ breadcrumb(formation) }}
+            </div>
+
+            <div class="flex flex-col-reverse lg:flex-row gap-10 items-center">
+                <div class="lg:w-1/2 space-y-6">
+                    {# Badge #}
+                    <span class="inline-block bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300 text-xs font-semibold px-2 py-1 rounded">
+                        {{ formation.publishedAt | ago }}
+                    </span>
+
+                    <h1 class="text-4xl md:text-5xl font-medium text-gray-900 dark:text-white leading-tight">
                         {{ formation.title }}
                     </h1>
+
                     {% if formation.short %}
-                        <p class="text-gray-600 dark:text-gray-300">
+                        <p class="text-lg text-gray-700 dark:text-gray-300">
                             {{ formation.short }}
                         </p>
                     {% else %}
-                        <div class="prose dark:prose-dark">
+                        <div class="prose dark:prose-dark max-w-none">
                             {{ formation.content | raw }}
                         </div>
                     {% endif %}
 
-                    {# Bloc de progression ou call-to-action #}
+                    <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                        <li>✅ Apprends à ton rythme</li>
+                        <li>📈 Suivi de ta progression en temps réel</li>
+                        <li>🎓 Accès à {{ formation.courses|length }} vidéos dès maintenant</li>
+                    </ul>
+
                     {% if progress %}
-                        <div class="mt-4 text-center md:text-left">
-                            <div class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
-                                Ma progression
+                        <div class="pt-4">
+                            <div class="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-1">
+                                Ma progression : {{ (progress.ratio * 100) | round(0) }}%
                             </div>
-                            <div class="flex items-center justify-between">
-                                <div class="text-sm text-gray-600 dark:text-gray-400">
-                                    Vidéo {{ (progress.ratio * (formation.courses | length)) | round(0, 'floor') }} / {{ formation.courses | length }}
-                                </div>
-                            </div>
-                            <div class="w-full bg-gray-200 dark:bg-gray-700 h-2 rounded mt-2">
-                                <div class="h-2 rounded bg-primary-500" style="width: {{ progress.ratio * 100 }}%;"></div>
-                            </div>
-                            <div class="mt-4">
-                                {% if progress.ratio == 1 %}
-                                    <a href="{{ path('app_formation_resume', {slug: formation.slug}) }}#autoplay"
-                                       class="btn btn-primary inline-flex items-center px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white">
-                                        {{ icon('play') }} <span class="ml-2">Revoir la playlist</span>
-                                    </a>
-                                {% else %}
-                                    <a href="{{ path('app_formation_resume', {slug: formation.slug}) }}#autoplay"
-                                       class="btn btn-primary inline-flex items-center px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white">
-                                        {{ icon('play') }} <span class="ml-2">Continuer</span>
-                                    </a>
-                                {% endif %}
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 h-2 rounded overflow-hidden">
+                                <div class="h-2 bg-primary-500" style="width: {{ progress.ratio * 100 }}%;"></div>
                             </div>
                         </div>
-                    {% elseif formation.firstContent %}
-                        <div class="mt-4 text-center md:text-left">
-                            <a href="{{ path('app_course_show', {slug: formation.firstContent.slug}) }}#autoplay"
-                               class="btn btn-primary inline-flex items-center px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white">
-                                {{ icon('play') }} <span class="ml-2">Commencer</span>
+                    {% endif %}
+
+                    <div class="mt-6">
+                        {% if progress %}
+                            <a href="{{ path('app_formation_resume', {slug: formation.slug}) }}#autoplay"
+                               class="btn btn-primary text-lg">
+                                {{ icon('play') }}
+                                <span class="ml-2">
+                                    {{ progress.ratio == 1 ? 'Revoir la playlist' : 'Continuer la playlist' }}
+                                </span>
                             </a>
-                        </div>
-                    {% endif %}
+                        {% elseif formation.firstContent %}
+                            <a href="{{ path('app_course_show', {slug: formation.firstContent.slug}) }}#autoplay"
+                               class="btn btn-primary text-lg">
+                                {{ icon('play') }} <span class="ml-2">Commencer maintenant</span>
+                            </a>
+                        {% endif %}
+                    </div>
                 </div>
+
                 <div class="lg:w-1/2 formation__header__image">
-                    {% if formation.image is not empty %}
-                        <img src="{{ formation.image | image }}" alt="{{ formation.title }}">
-                    {% elseif formation.mainTechnologies is not empty %}
-                        <img src="{{ uploads_path('icons/' ~ formation.mainTechnologies[0].image) }}" alt="{{ formation.title }}">
-                    {% endif %}
+                    <div class="rounded-xl overflow-hidden shadow-lg max-w-xl mx-auto">
+                        {% if formation.image is not empty %}
+                            <img src="{{ formation.image | image }}" alt="{{ formation.title }}" class="w-full object-cover">
+                        {% elseif formation.mainTechnologies is not empty %}
+                            <img src="{{ uploads_path('icons/' ~ formation.mainTechnologies[0].image) }}" alt="{{ formation.title }}" class="w-full object-cover">
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
     </header>
 
     <nav-tabs class="nav-tabs-bar container-box">
-        <a href="#videos" data-tab-id="profil">
-            {{ icon('video') }}
-            Vidéos
-        </a>
         <a href="#details" data-tab-id="courses">
-            {{ icon('info') }}
-            A propos
+            {{ icon('info') }} A propos
+        </a>
+        <a href="#videos" data-tab-id="profil">
+            {{ icon('video') }} Vidéos
         </a>
     </nav-tabs>
 
-    {# Section Chapitres améliorée lorsqu'il n'y a pas de vidéos #}
     <section id="videos" class="container-box pt-10 pb-20">
         {% if formation.chapters %}
             {% include 'pages/public/formations/chapters/_list.html.twig' with {chapters: formation.chapters} only %}
         {% else %}
             <div class="flex flex-col justify-center items-center">
-                <div class="max-w-md py-10 px-6 rounded-xl flex flex-col justify-center items-center">
+                <div class="max-w-md py-10 px-6 rounded-xl flex flex-col justify-center items-center text-center">
                     <div class="mb-4">
                         <div class="bg-primary-100 dark:bg-primary-500 p-4 rounded-full">
                             {{ icon('video-off', 25) }}
@@ -102,38 +107,57 @@
                         Cette playlist est en cours de création, de nouvelles vidéos arrivent bientôt.
                     </p>
                     <a href="{{ path('app_course_index') }}" class="btn btn-light">
-                        <span>Explorer d'autres vidéos</span>
+                        Explorer d'autres vidéos
                     </a>
                 </div>
             </div>
         {% endif %}
     </section>
 
-    {# Section Présentation et Auteur #}
     <section id="details" class="container-box pt-5 pb-10 space-y-6">
         <div class="formation__summary">
-            <div class="prose dark:prose-dark">
+            <div class="prose dark:prose-dark max-w-none">
                 <div class="formatted">
                     {{ formation.content | markdown }}
                 </div>
             </div>
-            <div class="mt-4 text-gray-500 dark:text-gray-400 text-sm">
-                {{ formation.publishedAt | ago }}
-            </div>
-            <div class="flex items-center mt-4">
-                <img class="w-12 h-12 rounded-full mr-4" src="{{ formation.author | avatar }}" alt="{{ formation.author.fullname }}">
-                <div class="text-gray-700 dark:text-gray-300">
-                    <strong>Auteur :</strong>
-                    <div title="{{ formation.author.fullname }}">
-                        {{ formation.author.fullname }}
+
+            <div class="mt-10">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-4 p-6 bg-gray-100 dark:bg-primary-900/30 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                    <img class="w-20 h-20 rounded-full object-cover shadow-sm border-2 border-white dark:border-primary-700"
+                         src="{{ formation.author | avatar }}"
+                         alt="{{ formation.author.fullname }}">
+
+                    <div class="flex-1 space-y-1">
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Créateur de cette playlist</p>
+
+                        <p class="text-xl font-semibold text-gray-900 dark:text-white">
+                            {{ formation.author.fullname }}
+                        </p>
+
+                        {% if formation.author.bio is defined and formation.author.bio %}
+                            <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                                {{ formation.author.bio }}
+                            </p>
+                        {% endif %}
+                    </div>
+
+                    <div class="sm:ml-auto">
+                        <a href="{{ path('app_author_show', {id: formation.author.id}) }}"
+                           class="inline-flex items-center px-4 py-2 text-sm font-medium text-primary-700 dark:hover:text-white dark:text-primary-300 border border-primary-200 dark:border-primary-700 rounded hover:bg-primary-100 dark:hover:bg-primary-800 transition">
+                            {{ icon('user') }}
+                            <span class="ml-2">Voir le profil</span>
+                        </a>
                     </div>
                 </div>
             </div>
+
+
+
             {% if is_granted('ROLE_SUPER_ADMIN') %}
-                <div class="mt-4">
-                    <a href="{{ path('studio_formation_edit', {id: formation.id}) }}" target="_blank"
-                       class="btn btn-light">
-                        {{ icon('pencil') }} <span class="ml-2">Editer la playlist</span>
+                <div class="mt-6">
+                    <a href="{{ path('studio_formation_edit', {id: formation.id}) }}" target="_blank" class="btn btn-light">
+                        {{ icon('pencil') }} <span class="ml-2">Éditer la playlist</span>
                     </a>
                 </div>
             {% endif %}

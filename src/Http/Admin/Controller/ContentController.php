@@ -3,6 +3,7 @@
 namespace App\Http\Admin\Controller;
 
 use App\Domain\Application\Entity\Content;
+use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Course\Entity\Course;
 use App\Domain\Course\Entity\Formation;
 use Doctrine\ORM\EntityManagerInterface;
@@ -38,10 +39,20 @@ final class ContentController extends BaseController
             return new JsonResponse([]);
         }
 
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user) {
+            return new JsonResponse([], 403);
+        }
+
         $courses = $em->getRepository(Course::class)
             ->createQueryBuilder('c')
             ->where('c.title LIKE :query')
-            ->setParameter('query', '%' . $query . '%')
+            ->andWhere('c.author = :user')
+            ->setParameters([
+                'query' => '%' . $query . '%',
+                'user' => $user,
+            ])
             ->setMaxResults(10)
             ->getQuery()
             ->getResult();
