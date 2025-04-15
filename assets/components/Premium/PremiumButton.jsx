@@ -159,7 +159,7 @@ function PaymentPaypal({ planId, price, description, paypalId }) {
     }, [description, planId, price, vat, paypalId])
 
     return (
-        <div className="space-y-4">
+        <div className="space-y-4 max-w-full overflow-hidden">
             <div className="form-group">
                 <label htmlFor="countryCode" className="label">
                     Pays de résidence
@@ -169,14 +169,18 @@ function PaymentPaypal({ planId, price, description, paypalId }) {
                     value={country}
                     onChange={e => setCountry(e.target.value)}
                     required
-                    className="form-select"
+                    className="form-select w-full max-w-xs"
                 />
             </div>
             {country && (
                 <div
                     ref={container}
                     className="min-h-[52px]"
-                    style={{ display: loading ? 'none' : undefined }}
+                    style={{
+                        display: loading ? 'none' : undefined,
+                        maxWidth: '100%',
+                        overflow: 'hidden'
+                    }}
                 />
             )}
             {loading && (
