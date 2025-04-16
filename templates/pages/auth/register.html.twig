@@ -3,126 +3,101 @@
 {% block title %}Inscription{% endblock %}
 
 {% block auth_body %}
-    <div class="mb-4">
-        <h1 class="text-2xl text-gray-600 font-medium leading-tight tracking-tight md:text-3xl dark:text-white mb-2 reveal">
-            <span class="text-primary-900 dark:text-slate-100">Tu nous rejoins ?</span>
+
+    <div class="text-center mb-6">
+        <h1 class="text-2xl text-lead font-medium reveal">
+            Prêt à rejoindre l'aventure ?
         </h1>
-        <p class="text-gray-400 dark:text-gray-400 reveal" data-delay=".2">
-            Accède à tout le contenu en un clic.
+        <p class="text-base text-slate-600 dark:text-slate-300 mt-2 reveal" data-delay=".2">
+            Accède à toutes les formations, sauvegarde ta progression et fais décoller tes compétences.
         </p>
     </div>
 
-
     {{ form_start(registrationForm, {
         attr: {
-            class: 'space-y-4 md:space-y-6 reveal',
+            class: 'space-y-6 reveal',
             'data-delay': '.4'
         }
     }) }}
 
-    <div class="mt-6 w-full flex gap-2 justify-between">
-        <a href="{{ path('app_oauth_connect', {service: 'google'}) }}"
-           class="btn btn-light w-full">
-            <svg class="social-icon">
-                <use href="/icons/social.svg#google"></use>
-            </svg>
-            <span>Google</span>
+    <!-- Connexion sociale -->
+    <div class="grid grid-cols-2 gap-3">
+        <a href="{{ path('app_oauth_connect', {service: 'google'}) }}" class="btn btn-light w-full">
+            <svg class="social-icon"><use href="/icons/social.svg#google"></use></svg>
+            Google
         </a>
-
-        <a href="{{ path('app_oauth_connect', {service: 'github'}) }}"
-           class="btn btn-light w-full">
-            <svg class="social-icon">
-                <use href="/icons/social.svg#github"></use>
-            </svg>
-            <span>GitHub</span>
+        <a href="{{ path('app_oauth_connect', {service: 'github'}) }}" class="btn btn-light w-full">
+            <svg class="social-icon"><use href="/icons/social.svg#github"></use></svg>
+            GitHub
         </a>
     </div>
 
-    <!-- ou divider -->
-    <div class="flex items-center space-x-2">
-        <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
-        <span class="px-1 text-slate-600 dark:text-slate-100">ou continuez avec</span>
-        <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+    <!-- Séparateur -->
+    <div class="flex items-center gap-3 my-4">
+        <div class="flex-grow h-px bg-slate-200 dark:bg-slate-700"></div>
+        <span class="text-sm text-slate-500 dark:text-slate-400">ou crée un compte classique</span>
+        <div class="flex-grow h-px bg-slate-200 dark:bg-slate-700"></div>
     </div>
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger">{{ flash_error }}</div>
-    {% endfor %}
-
+    <!-- Champ Nom complet -->
     <div>
         {{ form_widget(registrationForm.fullname, {
             attr: {
-                placeholder: 'Nom complet',
+                placeholder: 'Ton nom complet'
             }
         }) }}
-        <div class="form-error">
-            {{ form_errors(registrationForm.fullname) }}
-        </div>
+        <div class="form-error">{{ form_errors(registrationForm.fullname) }}</div>
     </div>
 
+    <!-- Champ Email -->
     <div>
         {{ form_widget(registrationForm.email, {
             attr: {
-                placeholder: 'E-mail',
+                placeholder: 'Ton adresse e-mail'
             }
         }) }}
-        <div class="form-error">
-            {{ form_errors(registrationForm.email) }}
-        </div>
+        <div class="form-error">{{ form_errors(registrationForm.email) }}</div>
     </div>
 
+    <!-- Champ Mot de passe -->
     <div>
         {{ form_widget(registrationForm.plainPassword, {
             attr: {
-                placeholder: 'Saisir un mot de passe',
+                placeholder: 'Créer un mot de passe sécurisé'
             }
         }) }}
-        <div class="form-error">
-            {{ form_errors(registrationForm.plainPassword) }}
-        </div>
+        <div class="form-error">{{ form_errors(registrationForm.plainPassword) }}</div>
     </div>
 
-    <div class="flex justify-between flex-col">
-        <div class="flex items-start">
-            <div class="flex items-center h-5">
-                {{ form_widget(registrationForm.agreeTerms, {
-                    'id': 'agreeTerms',
-                    'attr': {
-                        'class': 'form-checkbox'
-                    }
-                }) }}
-            </div>
-            <div class="ml-3 text-base">
-                <label for="agreeTerms" class="text-slate-500 dark:text-slate-300">
-                    J'accepte les <a href="{{ path('app_cgu') }}"
-                                     class="link"
-                                     target="_blank">conditions
-                        d'utilisation</a>
-                </label>
-            </div>
-        </div>
-        <div class="form-error">
-            {{ form_errors(registrationForm.agreeTerms) }}
-        </div>
+    <!-- Acceptation des CGU -->
+    <div class="flex items-start gap-3 text-left">
+        {{ form_widget(registrationForm.agreeTerms, {
+            id: 'agreeTerms',
+            attr: {
+                class: 'form-checkbox mt-1'
+            }
+        }) }}
+        <label for="agreeTerms" class="text-sm text-slate-600 dark:text-slate-300">
+            J'accepte les <a href="{{ path('app_cgu') }}" class="link underline" target="_blank">
+                conditions d’utilisation
+            </a>.
+        </label>
     </div>
+    <div class="form-error">{{ form_errors(registrationForm.agreeTerms) }}</div>
 
-    <div class="">
-        {{ form_row(registrationForm.captcha) }}
+    <!-- Captcha -->
+    {{ form_row(registrationForm.captcha) }}
+
+    <!-- Boutons -->
+    <div class="flex flex-col gap-3 mt-4">
+        <button type="submit" class="btn btn-primary py-4 text-lg">
+            Créer mon compte
+        </button>
+        <a href="{{ path('app_login') }}" class="btn btn-outline w-full">
+            J’ai déjà un compte
+        </a>
     </div>
-
-    <button type="submit"
-            class="btn btn-primary w-full">
-        Créer mon compte
-    </button>
-
-    <a href="{{ path('app_login') }}"
-       class="btn btn-outline w-full">
-        J'ai déjà un compte
-    </a>
 
     {{ form_end(registrationForm) }}
+
 {% endblock %}

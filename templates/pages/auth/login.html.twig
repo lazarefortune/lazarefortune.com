@@ -4,91 +4,59 @@
 
 {% block auth_body %}
 
-    <div class="text-left">
-        <h1 class="text-3xl font-medium text-primary-900 reveal">
-            Bon retour !
+    <div class="w-full flex flex-col items-center text-center">
+        <h1 class="text-3xl sm:text-4xl font-medium text-primary-900 dark:text-white mb-2 reveal">
+            Bienvenue 👋
         </h1>
-        <p class="mt-1 text-base text-slate-400 dark:text-slate-400 reveal" data-delay=".2">
-            Accède à tout le contenu en un clic.
+        <p class="text-slate-600 dark:text-slate-300 max-w-sm text-base mb-6 reveal" data-delay=".2">
+            Connecte-toi pour accéder à tout le contenu, suivre ta progression et débloquer des surprises 💡
         </p>
     </div>
-    <form class="space-y-4 md:space-y-6 reveal" data-delay=".4" action="#" method="post">
 
-        <div class="mt-6 w-full flex gap-2 justify-between">
-            <a href="{{ path('app_oauth_connect', {service: 'google'}) }}"
-               class="btn btn-light w-full">
-                <svg class="social-icon">
-                    <use href="/icons/social.svg#google"></use>
-                </svg>
-                <span>Google</span>
-            </a>
+    <form method="post" class="w-full space-y-6 reveal" data-delay=".4" action="#">
 
-            <a href="{{ path('app_oauth_connect', {service: 'github'}) }}"
-               class="btn btn-light w-full">
-                <svg class="social-icon">
-                    <use href="/icons/social.svg#github"></use>
-                </svg>
-                <span>GitHub</span>
-            </a>
+        {% if error %}
+            <div class="alert alert-danger text-center">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+        <div class="space-y-2">
+            <input type="email" name="email" id="email" value="{{ last_username }}" required class="form-input" placeholder="Adresse e-mail">
+            <input type="password" name="password" id="password" required class="form-input" placeholder="Mot de passe" autocomplete="current-password">
         </div>
 
-        <!-- ou divider -->
-        <div class="flex items-center space-x-2">
-            <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
-            <span class="px-1 text-slate-600 dark:text-slate-100">ou continuez avec</span>
-            <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
-        </div>
-
-        <!-- Display flash messages -->
-        <div class="col-span-full">
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-            {% if error %}
-                <div class="alert alert-danger text-center">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
-            <div class="col-span-full">
-                {{ include('partials/flash.html.twig') }}
-            </div>
-        </div>
-
-        <div class="space-y-1">
-            <input type="email" name="email" id="email" value="{{ last_username }}"
-                   required="" class="form-input" placeholder="E-mail">
-        </div>
-
-        <div class="space-y-3">
-            <input type="password" name="password" id="password" class="form-input"
-                   autocomplete="current-password"
-                   required="" placeholder="Mot de passe">
-
-            <div class="flex items-center justify-between space-y-2 sm:space-y-0">
-                <!-- Lien "Mot de passe oublié" -->
-                <a href="{{ path('app_forgot_password') }}"
-                   class="text-base font-medium text-primary-600 dark:text-primary-500">
-                    Mot de passe oublié ?
-                </a>
-            </div>
-
+        <div class="flex justify-between text-sm text-slate-600 dark:text-slate-400">
+            <a href="{{ path('app_forgot_password') }}" class="text-primary-600 hover:underline dark:text-primary-400">Mot de passe oublié ?</a>
         </div>
 
         <div class="flex flex-col gap-4">
-            <button type="submit"
-                    class="btn btn-primary py-4">
+            <button type="submit" class="btn btn-primary py-4 text-lg">
                 Se connecter
             </button>
-            <a href="{{ path('app_register') }}"
-               class="btn btn-outline">
-                Créer mon compte
+
+            <a href="{{ path('app_register') }}" class="btn btn-outline">
+                Pas encore inscrit ? Créer un compte
             </a>
         </div>
 
+        <div class="flex items-center space-x-2">
+            <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+            <span class="text-slate-500 text-sm">ou</span>
+            <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+        </div>
 
-{#        <p class="text-base font-light text-gray-500 dark:text-gray-400">#}
-{#            Vous n'êtes pas encore membre ?#}
-{#            <a href="{{ path('app_register') }}"#}
-{#               class="font-medium text-primary-600 dark:text-primary-500">#}
-{#                Inscrivez-vous#}
-{#            </a>#}
-{#        </p>#}
+        <div class="grid grid-cols-2 gap-3">
+            <a href="{{ path('app_oauth_connect', {service: 'google', redirect: app.request.uri}) }}" class="btn btn-light w-full">
+                <svg class="social-icon"><use href="/icons/social.svg#google"></use></svg>
+                Google
+            </a>
+
+            <a href="{{ path('app_oauth_connect', {service: 'github', redirect: app.request.uri}) }}" class="btn btn-light w-full">
+                <svg class="social-icon"><use href="/icons/social.svg#github"></use></svg>
+                GitHub
+            </a>
+        </div>
     </form>
 
 {% endblock %}
