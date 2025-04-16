@@ -16,7 +16,7 @@ export function PremiumButton({ children, plan, price, duration, stripeKey, payp
 
     if (!isAuthenticated()) {
         return (
-            <a href="/connexion?redirect=/premium" className="btn btn-primary w-full">
+            <a href="/connexion?redirect=/premium" className="btn btn-premium btn-premium-glow w-full">
                 {children}
             </a>
         )
@@ -24,7 +24,7 @@ export function PremiumButton({ children, plan, price, duration, stripeKey, payp
 
     if (!payment) {
         return (
-            <button className="btn btn-primary w-full" onClick={togglePayment}>
+            <button className="btn btn-premium btn-premium-glow w-full" onClick={togglePayment}>
                 {children}
             </button>
         )
@@ -236,7 +236,7 @@ function PaymentCard({ plan, publicKey }) {
                     </a>.
                 </p>
             )}
-            <button className="btn btn-primary w-full" onClick={startPayment} disabled={loading}>
+            <button className="btn btn-premium btn-premium-glow w-full" onClick={startPayment} disabled={loading}>
                 {loading ? 'Chargement...' : (
                     <>
                         {subscription ? "S'abonner via" : 'Payer via'}{' '}
