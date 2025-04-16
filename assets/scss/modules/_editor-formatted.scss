@@ -3,6 +3,9 @@
 }
 
 .formatted {
+  hr {
+    @apply border border-slate-200 dark:border-slate-700;
+  }
 
   iframe {
     aspect-ratio: 16 / 9;
