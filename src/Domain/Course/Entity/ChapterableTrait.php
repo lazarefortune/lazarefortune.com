@@ -80,4 +80,11 @@ trait ChapterableTrait
     {
         return array_reduce($this->getRawChapters(), fn (array $acc, array $chapter) => array_merge($acc, $chapter['modules']), []);
     }
+
+    public function getTotalCoursesCount(): int
+    {
+        return array_reduce($this->getChapters(), function (int $count, Chapter $chapter) {
+            return $count + count($chapter->getModules());
+        }, 0);
+    }
 }

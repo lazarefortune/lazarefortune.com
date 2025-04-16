@@ -27,6 +27,9 @@ class Formation extends Content
     #[ORM\JoinColumn( onDelete: 'SET NULL' )]
     private ?Formation $deprecatedBy = null;
 
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
+    private bool $isRestrictedToUser = false;
+
     public function __construct()
     {
         $this->courses = new ArrayCollection();
@@ -129,5 +132,16 @@ class Formation extends Content
         }
 
         return $ids[(int) $index + 1] ?? null;
+    }
+
+    public function isRestrictedToUser(): bool
+    {
+        return $this->isRestrictedToUser;
+    }
+
+    public function setIsRestrictedToUser(bool $isRestrictedToUser): self
+    {
+        $this->isRestrictedToUser = $isRestrictedToUser;
+        return $this;
     }
 }

@@ -37,11 +37,11 @@
                     <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
                         <li>✅ Apprends à ton rythme</li>
                         <li>📈 Suivi de ta progression en temps réel</li>
-                        {% if formation.courses|length > 0 %}
+                        {% if formation.totalCoursesCount > 0 %}
                             <li>
-                                🎓 Accès {{ formation.courses|length == 1
+                                🎓 Accès {{ formation.totalCoursesCount == 1
                                 ? 'immédiat à 1 vidéo'
-                                : 'immédiat à ' ~ formation.courses|length ~ ' vidéos'
+                                : 'immédiat à ' ~ formation.totalCoursesCount ~ ' vidéos'
                                 }}
                             </li>
                         {% endif %}

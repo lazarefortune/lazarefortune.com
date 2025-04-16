@@ -30,8 +30,6 @@ class CourseNewCrudData implements CrudDataInterface
     #[Assert\NotBlank]
     public ?\DateTimeInterface $publishedAt;
 
-    public bool $online = false;
-
     public bool $premium = false;
 
     #[Exists(class: Course::class)]
@@ -54,6 +52,8 @@ class CourseNewCrudData implements CrudDataInterface
      */
     public array $secondaryTechnologies = [];
 
+    public bool $isRestrictedToUser = false;
+
     private EntityManagerInterface $em;
 
     public function __construct(
@@ -65,8 +65,8 @@ class CourseNewCrudData implements CrudDataInterface
         $this->author = $entity->getAuthor();
         $this->publishedAt = $entity->getPublishedAt();
         $this->image = $entity->getImage();
-        $this->online = $entity->isOnline();
         $this->premium = $entity->isPremium();
+        $this->isRestrictedToUser = $entity->isRestrictedToUser();
         $this->content = $entity->getContent() ?: '';
         $this->mainTechnologies = $entity->getMainTechnologies();
         $this->secondaryTechnologies = $entity->getSecondaryTechnologies();
@@ -80,10 +80,10 @@ class CourseNewCrudData implements CrudDataInterface
         $this->entity->setTitle($this->title);
         $this->entity->setSlug($this->slug);
         $this->entity->setAuthor($this->author);
+        $this->entity->setIsRestrictedToUser($this->isRestrictedToUser);
         $deprecatedBy = $this->deprecatedBy;
         $this->entity->setDeprecatedBy($deprecatedBy ? $this->em->find(Course::class, $deprecatedBy) : null);
         $this->entity->setImage($this->image);
-        $this->entity->setOnline($this->online);
         $this->entity->setPremium($this->premium);
         $this->entity->setContent($this->content);
         $this->entity->setPublishedAt($this->publishedAt);

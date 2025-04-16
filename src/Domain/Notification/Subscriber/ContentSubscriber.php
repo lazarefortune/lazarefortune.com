@@ -49,6 +49,14 @@ class ContentSubscriber implements EventSubscriberInterface
                 }
                 $this->entityManager->flush();
             }
+
+            if ($content->isRestrictedToUser()) {
+                /** @var Course $course */
+                foreach ($content->getCourses() as $course) {
+                    $course->setIsRestrictedToUser(true);
+                }
+                $this->entityManager->flush();
+            }
         }
 
         if (
@@ -69,9 +77,20 @@ class ContentSubscriber implements EventSubscriberInterface
         $content = $event->getContent();
 
         if ($content instanceof Formation) {
-            foreach ($content->getCourses() as $course) {
-                $course->setOnline($content->isOnline());
+            if ($content->isOnline()) {
+                /** @var Course $course */
+                foreach ($content->getCourses() as $course) {
+                    $course->setOnline($content->isOnline());
+                }
             }
+
+            if ($content->isRestrictedToUser()) {
+                /** @var Course $course */
+                foreach ($content->getCourses() as $course) {
+                    $course->setIsRestrictedToUser(true);
+                }
+            }
+
             $this->entityManager->flush();
         }
 

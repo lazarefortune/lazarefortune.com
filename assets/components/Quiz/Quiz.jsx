@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Loader, Check, Clock } from "lucide-react";
+import { Loader, Check, Clock, PlayCircle } from "lucide-react";
 import QuizResults from "./QuizResults";
 import Question from "./Question";
 
@@ -347,7 +347,7 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
     return (
         <div className="my-8 flex flex-col items-center justify-start">
             {/* Titre et intro */}
-            <div className="w-full px-4 text-left mb-6">
+            <div className="w-full text-left mb-6">
                 <h2 className="text-2xl sm:text-3xl font-medium">
                     Prêt à tester vos connaissances&nbsp;?
                 </h2>
@@ -356,7 +356,7 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                 </p>
             </div>
 
-            <div className="w-full max-w-4xl px-4">
+            <div className="w-full max-w-4xl">
                 <div
                     className={`grid ${
                         quizzes.length === 1
@@ -424,6 +424,7 @@ const Quiz = ({ contentId, isUserLoggedIn }) => {
                                             className="btn btn-primary"
                                             aria-label={`Commencer le quiz ${quiz.title}`}
                                         >
+                                            <PlayCircle />
                                             Commencer
                                         </button>
                                     )}

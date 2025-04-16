@@ -24,7 +24,6 @@ class FormationEditForm extends AbstractType
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly ?UploadHandler $uploaderHandler = null,
     ) {}
 
     public function buildForm( FormBuilderInterface $builder, array $options ): void
@@ -74,6 +73,7 @@ class FormationEditForm extends AbstractType
                 ]
             ])
             ->add('online', SwitchType::class)
+            ->add('isRestrictedToUser', SwitchType::class)
             ->add('image', AttachmentType::class)
             ->add('mainTechnologies', TechnologyChoiceType::class, [
                 'required' => false,

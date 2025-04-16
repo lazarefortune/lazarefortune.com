@@ -49,9 +49,13 @@
             }) }}
         </div>
 
-        <div class="grid2 mt-6">
+        <div class="grid3 mt-6">
             <div>
                 {{ form_row(form.online, { label: 'En ligne ?' }) }}
+            </div>
+            <div>
+                {{ form_row(form.isRestrictedToUser, { label: 'Restreint ?' }) }}
+                <small class="text-sm italic">Contenu destiné uniquement aux membres</small>
             </div>
             <div>
                 {{ form_row(form.premium, { label: 'Est-ce un cours Premium ?' }) }}

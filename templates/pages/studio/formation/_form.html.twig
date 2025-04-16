@@ -25,8 +25,14 @@
         }) }}
     </div>
 
-    <div class="flex flex-wrap gap-6">
-        {{ form_row(form.online, { label: 'En ligne ?' }) }}
+    <div class="grid2 mt-6">
+        <div>
+            {{ form_row(form.online, { label: 'En ligne ?' }) }}
+        </div>
+        <div>
+            {{ form_row(form.isRestrictedToUser, { label: 'Restreint ?' }) }}
+            <small class="text-sm italic">Toutes les vidéos seront destiné uniquement aux membres</small>
+        </div>
     </div>
 </section>
 

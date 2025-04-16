@@ -3,27 +3,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const shareMenu = document.getElementById('share-menu');
     const copyLinkButton = document.getElementById('copy-link');
 
-    if (shareButton && shareMenu && copyLinkButton) {
-        // Toggle the share menu
-        shareButton.addEventListener('click', () => {
-            shareMenu.classList.toggle('show');
-        });
+    const toggleShareMenu = () => {
+        shareMenu.classList.toggle('hidden');
+        shareMenu.classList.toggle('share-button__animate-fade-in');
+    };
 
-        // Copy the link
+    const closeMenu = (e) => {
+        if (!shareMenu.contains(e.target) && !shareButton.contains(e.target)) {
+            shareMenu.classList.add('hidden');
+            shareMenu.classList.remove('share-button__animate-fade-in');
+        }
+    };
+
+    if (shareButton && shareMenu && copyLinkButton) {
+        shareButton.addEventListener('click', toggleShareMenu);
+
         copyLinkButton.addEventListener('click', () => {
             const url = copyLinkButton.dataset.url;
             navigator.clipboard.writeText(url).then(() => {
-                alert('Lien copié dans le presse-papier !');
-            }).catch(err => {
-                console.error('Erreur lors de la copie : ', err);
+                copyLinkButton.innerHTML = '✅ Lien copié !';
+                setTimeout(() => {
+                    copyLinkButton.innerHTML = '📋 Copier le lien';
+                }, 2000);
             });
         });
 
-        // Close the menu if clicked outside
-        document.addEventListener('click', (event) => {
-            if (!shareButton.contains(event.target) && !shareMenu.contains(event.target)) {
-                shareMenu.classList.remove('show');
-            }
-        });
+        document.addEventListener('click', closeMenu);
     }
 });

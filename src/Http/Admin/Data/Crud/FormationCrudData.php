@@ -36,6 +36,8 @@ class FormationCrudData implements CrudDataInterface
 
     public bool $online;
 
+    public bool $isRestrictedToUser = false;
+
     public ?Attachment $image;
 
     /**
@@ -69,6 +71,7 @@ class FormationCrudData implements CrudDataInterface
         $this->publishedAt = $formation->getPublishedAt();
         $this->youtubePlaylist = $formation->getYoutubePlaylist();
         $this->online = $formation->isOnline();
+        $this->isRestrictedToUser = $formation->isRestrictedToUser();
         $this->image = $formation->getImage();
         $this->mainTechnologies = $formation->getMainTechnologies();
         $this->secondaryTechnologies = $formation->getSecondaryTechnologies();
@@ -98,6 +101,7 @@ class FormationCrudData implements CrudDataInterface
         $this->formation->setAuthor($this->author);
         $this->formation->setYoutubePlaylist($this->youtubePlaylist);
         $this->formation->setOnline($this->online);
+        $this->formation->setIsRestrictedToUser($this->isRestrictedToUser);
         $this->formation->setImage($this->image);
         $this->formation->setShort($this->short);
         $this->formation->setContent($this->content);

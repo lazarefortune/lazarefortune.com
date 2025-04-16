@@ -92,6 +92,7 @@ class CourseEditForm extends AbstractType
                 'help' => 'Si la date est future, la vidéo sera planifiée.',
             ])
             ->add('online', SwitchType::class)
+            ->add('isRestrictedToUser', SwitchType::class)
             ->add('premium', SwitchType::class)
             ->add('deprecatedBy', TextType::class, [
                 'required' => false,

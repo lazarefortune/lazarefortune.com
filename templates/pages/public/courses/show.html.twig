@@ -1,104 +1,73 @@
 {% extends 'layouts/public/base.html.twig' %}
 
 {% block title %}
-{% if course.formation %}
-    {{- course.title ~ " — Playlist " ~ course.formation.title -}}
-{% else %}
-    {{- "Tutoriel vidéo " ~ course.mainTechnologies|map(t => "#{t.name}")|join(' & ') ~ ' : ' ~ course.title -}}
-{% endif %}
+    {% if course.formation %}
+        {{- course.title ~ " — Playlist " ~ course.formation.title -}}
+    {% else %}
+        {{- course.title -}}
+    {% endif %}
 {% endblock %}
-
 
 {% block body %}
     <div>
-        <div class="bg-white dark:bg-primary-950 pb-5">
-            <div class="container-box mb-4">
-                {{ breadcrumb(course) }}
+        <div class="container-box">
+            {{ breadcrumb(course) }}
+        </div>
+        <div class="bg-gradient-to-r from-primary-50 dark:from-primary-950 to-white dark:to-primary-900 pt-4 pb-10">
+            <div class="container-box mb-6">
+
                 <div class="{{ course.formation ? 'is-chapter' : 'is-chapter is-folded' }}">
-{#     OLD VERSION  {% if course.scheduled and not userIsPremium %}#}
-                    {% if course.scheduled %}
-                        <div class="course-countdown" style="background-image: url({{ image_url_raw(course.image) }})">
-                            <div class="course-countdown-content">
-                                <em>Disponible dans</em>
-                                <span class="course-countdown_timer">{{ course.publishedAt | countdown }}</span>
-                                {#
-                                <a href="{{ path('app_premium') }}" class="btn btn-primary mt-4">{{ icon('sparkles') }} Devenez premium</a>
-                                #}
+                    {% if course.isRestrictedToUser and not app.user %}
+                        <div class="course-countdown relative rounded-lg overflow-hidden shadow-lg" style="background-image: url({{ image_url_raw(course.image) }})">
+                            <div class="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-center items-center z-10">
+                                <h2 class="text-2xl font-medium text-white mb-4">Réservé aux membres inscrits !</h2>
+                                <a href="{{ path('app_login') }}" class="btn btn-primary">{{ icon('lock') }} Connecte-toi pour accéder</a>
+                            </div>
+                        </div>
+                    {% elseif course.scheduled %}
+                        <div class="course-countdown relative rounded-lg overflow-hidden shadow-lg" style="background-image: url({{ image_url_raw(course.image) }})">
+                            <div class="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-center items-center z-10">
+                                <span class="text-xl text-white">Patience, bientôt disponible !</span>
+                                <span class="course-countdown_timer text-4xl font-medium text-white mt-2">{{ course.publishedAt | countdown }}</span>
                             </div>
                         </div>
                     {% elseif course.premium and not userIsPremium %}
-                        <div class="course-countdown" style="background-image: url({{ image_url_raw(course.image) }})">
-                            <div class="absolute flex flex-col w-full h-full justify-center items-center z-10">
-                                <p class="text-white text-lg mb-3 text-center">Cette vidéo est premium</p>
-                                <a href="{{ path('app_premium') }}" class="btn btn-primary">{{ icon('sparkles') }} Devenez premium</a>
+                        <div class="course-countdown relative rounded-lg overflow-hidden shadow-lg" style="background-image: url({{ image_url_raw(course.image) }})">
+                            <div class="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-center items-center z-10">
+                                <h2 class="text-2xl font-medium text-white mb-4">Vidéo Premium</h2>
+                                <p class="text-white mb-4">Deviens premium et profite de cette vidéo immédiatement !</p>
+                                <a href="{{ path('app_premium') }}" class="btn btn-premium btn-premium-glow">{{ icon('sparkles') }} Je deviens Premium !</a>
                             </div>
                         </div>
-                    {#
-                    {% elseif (course.scheduled or course.premium) and userIsPremium %}
-                        <progress-tracker contentId="{{ course.id }}" data-history="{{ course.id }}" duration="{{ course.duration }}">
-                            <youtube-player
-                                    class="course__player"
-                                    id="course-{{ course.id }}"
-                                    video="{{ course.youtubeId }}"
-                                    poster="{{ image_url(course.image, 1330, 750) }}"
-                                    button="#chapter{{ course.id }} play-button"
-                                    duration="{{ course.duration | duration }}"
-                                    class="shadow">
-                                <a href="https://www.youtube.com/watch?v={{ course.youtubeId }}" target="_blank" rel="noopener" class="course__placeholder">
-                                    <span>Voir la vidéo</span>
-                                    <img src="{{ image_url(course.image, 1330, 750) }}" width="1330" height="750"/>
-                                </a>
-                            </youtube-player>
-                        </progress-tracker>
-                    #}
                     {% else %}
                         <progress-tracker contentId="{{ course.id }}" data-history="{{ course.id }}" duration="{{ course.duration }}">
                             <youtube-player
-                                    class="course__player"
+                                    class="course__player shadow-lg rounded-lg overflow-hidden"
                                     id="course-{{ course.id }}"
                                     video="{{ course.youtubeId }}"
                                     poster="{{ image_url(course.image, 1330, 750) }}"
                                     button="#chapter{{ course.id }} play-button"
-                                    duration="{{ course.duration | duration }}"
-                                    class="shadow">
-                                <a href="https://www.youtube.com/watch?v={{ course.youtubeId }}" target="_blank" rel="noopener" class="course__placeholder">
-                                    <span>Voir la vidéo</span>
-                                    <img src="{{ image_url(course.image, 1330, 750) }}" width="1330" height="750"/>
-                                </a>
+                                    duration="{{ course.duration | duration }}">
                             </youtube-player>
                         </progress-tracker>
                     {% endif %}
 
                     {% if course.formation %}
-                        <!-- Wrapper des chapitres -->
                         <div class="relative">
                             <div class="chapters-wrapper" is="auto-scroll" data-to="{{ course is defined ? '#chapter' ~ course.id : '' }}">
-                                <div class="chapters-wrapper__header">
-                                    <!-- Bouton fermer mobile
-                                <button class="chapters-mobile-close" aria-label="Fermer">
-                                    {{ icon('x') }}
-                                </button>
-                                -->
-                                </div>
-
                                 {% include 'pages/public/formations/chapters/_summary.html.twig' with {chapters: course.formation.chapters, current: course} only %}
                             </div>
                             <div class="chapters-backdrop"></div>
                         </div>
 
-
-                        <!-- Toggle desktop -->
                         <button class="chapters-toggle lg:flex hidden" aria-label="Replier/Déplier">
                             {{ icon('arrow-down') }}
                         </button>
                     {% endif %}
-
                 </div>
 
-                <h1 class="container-box mt-3 mb-2 h3 font-medium lg:text-3xl">
-                    {{- course.title }}
-                </h1>
-                <div class="text-left mb-3">
+                <h1 class="container-box mt-4 mb-2 text-3xl lg:text-4xl font-medium text-slate-900 dark:text-white">{{ course.title }}</h1>
+                <div class="text-left mb-4">
                     <small class="text-muted text-base">
                         {% if course.isScheduled %}
                             Disponible dans {{ course.publishedAt | countdown }}
@@ -108,56 +77,47 @@
                     </small>
                 </div>
 
-                <div class="divider my-4"></div>
+                <div class="divider my-6"></div>
 
                 <div class="flex flex-col items-start gap-4 md:flex-row md:justify-between justify-between">
                     <a class="flex items-center gap-3" href="{{ path('app_author_show', {id: course.author.id}) }}">
                         <img class="course__author__avatar" src="{{ course.author | avatar }}" alt="{{ course.author.fullname }}">
-                        <span title="{{ course.author.fullname }}" class="course__author__name">{{ course.author.fullname }}</span>
+                        <span class="course__author__name">{{ course.author.fullname }}</span>
                     </a>
 
-                    <div class="flex justify-start items-center gap-2 flex-wrap">
-                        <div>
-                            <div class="inline-block relative">
-                                <button id="share-button" class="btn btn-sm btn-light flex items-center gap-2">
-                                    {{ icon('share') }} Partager
+                    <div class="flex gap-2">
+                        <div class="relative inline-block">
+                            <button id="share-button" class="btn btn-sm btn-light flex items-center gap-2">
+                                {{ icon('share') }} Partager
+                            </button>
+                            <div id="share-menu" class="absolute hidden mt-2 right-0 bg-white dark:bg-primary-950 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg overflow-hidden z-50 transition-all duration-200 min-w-[220px]">
+                                <a href="https://twitter.com/intent/tweet?text={{ course.title|url_encode }}&url={{ app.request.uri }}" target="_blank" rel="noopener" class="share-menu-item">
+                                    {{ icon('twitter') }} Twitter
+                                </a>
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.uri }}" target="_blank" rel="noopener" class="share-menu-item">
+                                    {{ icon('facebook') }} Facebook
+                                </a>
+                                <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ app.request.uri }}" target="_blank" rel="noopener" class="share-menu-item">
+                                    {{ icon('linkedin') }} LinkedIn
+                                </a>
+                                <button id="copy-link" data-url="{{ app.request.uri }}" class="share-menu-item">
+                                    {{ icon('copy') }} Copier le lien
                                 </button>
-                                <div id="share-menu" class="absolute hidden">
-                                    <a href="https://twitter.com/intent/tweet?url={{ app.request.uri }}" target="_blank" class="share-menu-item">
-                                        {{ icon('twitter') }} Twitter
-                                    </a>
-                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.uri }}" target="_blank" class="share-menu-item">
-                                        {{ icon('facebook') }} Facebook
-                                    </a>
-                                    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ app.request.uri }}" target="_blank" class="share-menu-item">
-                                        {{ icon('linkedin') }} LinkedIn
-                                    </a>
-                                    <button id="copy-link" data-url="{{ app.request.uri }}" class="share-menu-item">
-                                        {{ icon('copy') }} Copier le lien
-                                    </button>
-                                </div>
                             </div>
                         </div>
+
+
                         {% if course.source is not empty and app.user %}
-                            <a href="{{ path('app_course_download_source', {id: course.id}) }}"
-                               class="btn btn-sm btn-light">
-                                {{ icon('download') }}
-                                Télécharger le code source
-                            </a>
+                            <a href="{{ path('app_course_download_source', {id: course.id}) }}" class="btn btn-sm btn-light">{{ icon('download') }} Code Source</a>
                         {% endif %}
                     </div>
                 </div>
-
-
             </div>
         </div>
 
         {% if course.formation %}
-            <!-- Bouton chapitres mobile -->
-            <div class="chapters-mobile-trigger block">
-                <button id="chapters-mobile-button" class="btn btn-sm btn-light w-full">
-                    {{ icon('gallery-vertical-end') }} Voir la playlist
-                </button>
+            <div class="chapters-mobile-trigger">
+                <button id="chapters-mobile-button" class="btn btn-sm btn-primary btn-block">{{ icon('gallery-vertical-end') }} Voir la playlist complète</button>
             </div>
         {% endif %}
 
@@ -166,48 +126,40 @@
                 <div class="course-details">
                     <div>
                         {% if course.content %}
-                        <div class="h4 text-lead mb-6" aria-hidden="true">À propos de cette vidéo</div>
-                        <div class="formatted">
-                            {{ course.content | markdown }}
-                        </div>
+                            <div class="h4 text-lead mb-6">Ce que tu vas apprendre dans cette vidéo :</div>
+                            <div class="formatted">{{ course.content | markdown }}</div>
                         {% endif %}
-
                         <quiz-area content-id="{{ course.id }}" is-user-logged-in="{{ app.user ? true : false }}"></quiz-area>
-
                         <comments-area content-id="{{ course.id }}"></comments-area>
                     </div>
-                    <div>
-                        <div class="stack-large">
-                            <div>
-                                <div class="h4 text-lead mb-4">Tags</div>
-                                <div class="flex flex-wrap items-center gap-1 border-t py-2 border-b border-slate-200 dark:border-slate-600">
+                    <div class="stack-large">
+                        <div>
+                            <div class="h4 text-lead mb-4">Tags</div>
+                            {% if course.mainTechnologies is not empty %}
+                                <div class="flex flex-wrap items-center gap-3 py-3 px-4 rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-primary-950">
                                     {% for technology in course.mainTechnologies %}
-                                        <a class="flex items-center gap-2"
-                                           href="{{ path('app_technology_show', {slug: technology.slug}) }}">
-                                            <img src="{{ vich_uploader_asset(technology, 'imageFile') }}" class="w-10">
-                                            {{ technology.name }}
+                                        <a href="{{ path('app_technology_show', {slug: technology.slug}) }}"
+                                           class="course__tech shadow hover:shadow-md transition-all duration-200">
+                                            <img src="{{ vich_uploader_asset(technology, 'imageFile') }}"
+                                                 class="w-6 h-6 rounded object-contain" alt="{{ technology.name }}">
+                                            <span>{{ technology.name }}</span>
                                             {% if technology.version %}
                                                 <span class="text-muted">v{{ technology.version }}</span>
                                             {% endif %}
                                         </a>
-                                        {% if not loop.last %}
-                                            <span class="text-muted">•</span>
-                                        {% endif %}
                                     {% endfor %}
                                 </div>
-                            </div>
-                            {% if is_granted('ROLE_SUPER_ADMIN') %}
-                                <div>
-                                    <a href="{{ path('studio_course_edit', {id: course.id}) }}" class="btn btn-light" target="_blank">
-                                        {{ icon('pencil') }} Editer
-                                    </a>
-                                </div>
+                            {% else %}
+                                <div class="text-slate-500 italic dark:text-slate-400">Aucun tag associé à cette vidéo pour l’instant.</div>
                             {% endif %}
                         </div>
+
+                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            <a href="{{ path('studio_course_edit', {id: course.id}) }}" class="btn btn-light" target="_blank">{{ icon('pencil') }} Éditer</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 {% endblock %}

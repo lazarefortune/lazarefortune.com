@@ -45,6 +45,9 @@ class Course extends Content
     #[ORM\JoinColumn(onDelete: 'SET NULL')]
     private ?Formation $formation = null;
 
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
+    private bool $isRestrictedToUser = false;
+
     public function getDuration(): int
     {
         return $this->duration;
@@ -165,5 +168,16 @@ class Course extends Content
         }
 
         return null;
+    }
+
+    public function isRestrictedToUser(): bool
+    {
+        return $this->isRestrictedToUser;
+    }
+
+    public function setIsRestrictedToUser(bool $isRestrictedToUser): self
+    {
+        $this->isRestrictedToUser = $isRestrictedToUser;
+        return $this;
     }
 }
