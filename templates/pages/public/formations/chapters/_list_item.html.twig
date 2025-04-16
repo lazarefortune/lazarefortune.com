@@ -26,6 +26,10 @@
                                             <strong>{{ course.publishedAt|countdown }} </strong>
                                         </div>
                                     </div>
+                                {% elseif course.isRestrictedToUser and (not app.user) %}
+                                    <div class="course__overlay-icon">
+                                        {{ icon('lock', 28) }}
+                                    </div>
                                 {% elseif course.premium and (not app.user or not app.user.premium) %}
                                     <div class="course__overlay-icon">
                                         {{ icon('crown', 28) }}

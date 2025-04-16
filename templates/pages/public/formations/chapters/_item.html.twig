@@ -5,7 +5,7 @@
     </div>
     <div class="chapters__list">
         {% for c in chapter.modules %}
-            {% set isLocked = (c.premium and (not app.user or not app.user.premium)) or c.isScheduled %}
+            {% set isLocked = (c.premium and (not app.user or not app.user.premium)) or c.isScheduled or (c.isRestrictedToUser and (not app.user)) %}
             {% set isScheduled = c.isScheduled and (not app.user or not app.user.premium) %}
 {#            {% set isLocked = (c.premium and (not app.user or not app.user.premium)) or c.isScheduled %}#}
             {% set isCurrentCourse = (currentCourseId == c.id) %}
@@ -21,9 +21,14 @@
                         {{ c.duration | duration }}
                     </div>
 
-                    {% if isLocked and not isScheduled %}
+
+                    {% if c.isRestrictedToUser and (not app.user) %}
                         <div class="chapters__lock">
-                            {{ icon('sparkles') }}
+                            {{ icon('lock') }}
+                        </div>
+                    {% elseif isLocked and not isScheduled %}
+                        <div class="chapters__lock">
+                            {{ icon('crown') }}
                         </div>
                     {% elseif isScheduled %}
                         <div class="chapters__lock">
