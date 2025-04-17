@@ -357,7 +357,7 @@ class CourseController extends CrudController
         }
 
         $metadata = [
-            'title' => $course->getTitle(),
+            'title' => $course->getYoutubeTitle() ?? $course->getTitle(),
             'description' => $courseTransformer->buildDescription($course),
             'privacy' => $privacy,
             'publishedAt' => $publishedAt ? $publishedAt->format('Y-m-d\TH:i:s\Z') : null,

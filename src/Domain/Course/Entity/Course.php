@@ -20,6 +20,9 @@ class Course extends Content
     private int $duration = 0;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $youtubeTitle = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $youtubeId = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -180,4 +183,16 @@ class Course extends Content
         $this->isRestrictedToUser = $isRestrictedToUser;
         return $this;
     }
+
+    public function getYoutubeTitle(): ?string
+    {
+        return $this->youtubeTitle;
+    }
+
+    public function setYoutubeTitle(?string $youtubeTitle): self
+    {
+        $this->youtubeTitle = $youtubeTitle;
+        return $this;
+    }
+
 }

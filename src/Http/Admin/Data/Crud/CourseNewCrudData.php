@@ -21,6 +21,8 @@ class CourseNewCrudData implements CrudDataInterface
     #[Assert\NotBlank]
     public ?string $title = null;
 
+    public ?string $youtubeTitle = null;
+
     #[Slug]
     #[Assert\NotBlank]
     public ?string $slug = null;
@@ -61,6 +63,7 @@ class CourseNewCrudData implements CrudDataInterface
         private readonly ?UploadHandler $uploaderHandler = null
     ) {
         $this->title = $entity->getTitle();
+        $this->youtubeTitle = $entity->getYoutubeTitle();
         $this->slug = $entity->getSlug();
         $this->author = $entity->getAuthor();
         $this->publishedAt = $entity->getPublishedAt();
@@ -78,6 +81,7 @@ class CourseNewCrudData implements CrudDataInterface
     public function hydrate(): void
     {
         $this->entity->setTitle($this->title);
+        $this->entity->setYoutubeTitle($this->youtubeTitle);
         $this->entity->setSlug($this->slug);
         $this->entity->setAuthor($this->author);
         $this->entity->setIsRestrictedToUser($this->isRestrictedToUser);

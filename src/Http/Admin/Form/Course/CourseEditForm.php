@@ -40,6 +40,12 @@ class CourseEditForm extends AbstractType
                     'data-slug-title' => ''
                 ]
             ])
+            ->add('youtubeTitle', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-input',
+                ]
+            ])
             ->add('slug', TextType::class, [
                 'required' => true,
                 'disabled' => true,

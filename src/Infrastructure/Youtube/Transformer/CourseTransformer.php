@@ -25,7 +25,8 @@ class CourseTransformer
         $youtubeId = $course->getYoutubeId();
 //        $url = $this->serializer->serialize($course, 'path', ['url' => true]);
         $url = 'https://lazarefortune.fr';
-        $title = preg_replace('/[<>]/', '', $course->getTitle() ?: '');
+        $courseTitle = $course->getYoutubeTitle() ?? $course->getTitle();
+        $title = preg_replace('/[<>]/', '', $courseTitle ?: '');
         $formation = $course->getFormation();
         /*
         if ($formation) {
