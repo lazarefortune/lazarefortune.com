@@ -72,7 +72,9 @@ final class FormationController extends CrudController
         $form->handleRequest( $request );
 
         if ( $form->isSubmitted() && $form->isValid() ) {
+            /** @var Formation $newFormation */
             $newFormation = $form->getData();
+            $newFormation->setUpdatedAt(new \DateTime());
             $this->em->flush();
             $this->addFlash('success', 'La playlist a bien été modifié');
 
