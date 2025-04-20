@@ -32,6 +32,9 @@ customElements.define('loader-overlay', LoaderOverlay)
 customElements.define('auto-submit-form', AutoSubmitForm);
 customElements.define('auto-submit', AutoSubmit, { extends: 'form' })
 customElements.define('markdown-editor', MarkdownEditor, { extends: 'textarea' })
+customElements.define('filter-select', FilterSelect)
+customElements.define('switch-redirect', SwitchRedirect, { extends: 'input' })
+
 
 /* Modules */
 import './modules/app/chapters'
@@ -75,6 +78,8 @@ import { Search, SearchInput } from "./components/Search";
 import { BadgeUnlock } from "./components/BadgeUnlock";
 import { PremiumButton } from "./components/Premium/PremiumButton";
 import DropZone from "./components/DropZone";
+import { FilterSelect } from "./elements/FilterSelect";
+import { SwitchRedirect } from "./elements/SwitchRedirect";
 
 const CommentsElement = reactToWebComponent(Comments, React, ReactDOM, {
     shadow: false, // pour ne pas utiliser le Shadow DOM

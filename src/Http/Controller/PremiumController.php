@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class PremiumController extends AbstractController
 {
-    #[Route( '/premium' , name: 'premium' )]
+    #[Route( '/abonnement/premium' , name: 'premium' )]
     public function premium(PlanRepository $planRepository): Response
     {
         $plans = $planRepository->findall();

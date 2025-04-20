@@ -16,31 +16,41 @@ class TechnologyRepository extends AbstractRepository
         parent::__construct( $registry, Technology::class );
     }
 
-//    public function findByType(): array
-//    {
-//        $types = [
-//            'Backend' => ['php', 'laravel', 'symfony', 'nodejs'],
-//            'Frontend' => ['html', 'css', 'javascript', 'react'],
-//            'Outils' => ['git', 'docker', 'linux'],
-//        ];
-//        $slugs = [];
-//        foreach ($types as $type) {
-//            $slugs = array_merge($slugs, $type);
-//        }
-//
-//        /** @var Technology[] $technologies */
-//        $technologies = $this->findBy(['slug' => $slugs]);
-//        if (empty($technologies)) {
-//            return [];
-//        }
-//
-//        $technologies = collect($technologies)->keyBy(fn (Technology $t) => $t->getSlug() ?? '')->toArray();
-//        foreach ($types as $k => $v) {
-//            $types[$k] = collect($v)->map(fn (string $slug) => $technologies[$slug] ?? null)->filter()->toArray();
-//        }
-//
-//        return $types;
-//    }
+    public function findByType(): array
+    {
+        $types = [
+            'Backend' => [
+                'php', 'laravel', 'symfony', 'nodejs', 'expressjs', 'adonisjs', 'nestjs',
+                'django', 'flask', 'ruby-on-rails', 'spring', 'aspnet', 'fastapi'
+            ],
+            'Frontend' => [
+                'html', 'css', 'sass', 'javascript', 'typescript', 'react', 'vuejs',
+                'angular', 'svelte', 'tailwindcss', 'bootstrap', 'alpinejs', 'nextjs'
+            ],
+            'Outils' => [
+                'git', 'docker', 'linux', 'mysql', 'postgresql', 'sqlite', 'mongodb',
+                'firebase', 'redis', 'nginx', 'apache', 'bash', 'github-actions', 'heroku'
+            ]
+        ];
+
+        $slugs = [];
+        foreach ($types as $type) {
+            $slugs = array_merge($slugs, $type);
+        }
+
+        /** @var Technology[] $technologies */
+        $technologies = $this->findBy(['slug' => $slugs]);
+        if (empty($technologies)) {
+            return [];
+        }
+
+        $technologies = collect($technologies)->keyBy(fn (Technology $t) => $t->getSlug() ?? '')->toArray();
+        foreach ($types as $k => $v) {
+            $types[$k] = collect($v)->map(fn (string $slug) => $technologies[$slug] ?? null)->filter()->toArray();
+        }
+
+        return $types;
+    }
 
     /**
      * Trouve une technologie par rapport à son nom (non sensible à la casse).

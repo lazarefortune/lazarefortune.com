@@ -6,6 +6,7 @@ use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Course\CourseService;
 use App\Domain\Course\Entity\Course;
 use App\Domain\Course\Repository\CourseRepository;
+use App\Domain\Course\Repository\TechnologyRepository;
 use App\Domain\History\Service\HistoryService;
 use App\Helper\Paginator\PaginatorInterface;
 use App\Http\Controller\AbstractController;
@@ -31,10 +32,22 @@ class CourseController extends AbstractController
     }
 
     #[Route('/', name: 'index', methods: ['GET'])]
-    public function index(Request $request, PaginatorInterface $paginator): Response
+    public function index(CourseRepository $repo, Request $request, PaginatorInterface $paginator, TechnologyRepository $technologyRepository): Response
     {
-        $query = $this->courseService->getCourseList();
+        $isUserPremium = $this->getUser()?->isPremium();
+        $premiumOnly = $request->query->getBoolean('premium');
+        $query = $premiumOnly ? $repo->queryAllPremium() : $repo->queryAll($isUserPremium ?? false);
         $page = $request->query->getInt('page', 1);
+
+        // Filtre par technologie
+        $technologySlug = $request->query->get('technology');
+        $technology = null;
+        if ($technologySlug) {
+            $technology = $technologyRepository->findOneBy(['slug' => $technologySlug]);
+            if (null !== $technology) {
+                $query = $query->setParameter('technology', $technology)->leftJoin('c.technologyUsages', 'tu')->andWhere('tu.technology = :technology');
+            }
+        }
 
         $courses = $paginator->paginate( $query->setMaxResults(12)->getQuery() );
 
@@ -46,8 +59,11 @@ class CourseController extends AbstractController
         return $this->render('pages/public/courses/index.html.twig', [
             'courses' => $courses,
             'page' => $page,
-            'watchlist' => $watchlist ?? []
-        ]);
+            'technology_selected' => $technology,
+            'premium_only' => $premiumOnly,
+            'watchlist' => $watchlist ?? [],
+            'technologies' => $technologyRepository->findByType(),
+        ], new Response('', $courses->count() > 0 ? 200 : 404));
     }
 
     #[Route('/{slug<[a-z0-9A-Z\-]+>}', name: 'show', methods: ['GET'])]

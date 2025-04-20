@@ -1,10 +1,10 @@
 {% extends 'layouts/public/base.html.twig' %}
 
-{% block title 'Toutes les vidéos' ~ ((page > 1) ? (', page' ~ page) : '') %}
+{% block title 'Toutes les vidéos premium' ~ ((page > 1) ? (', page' ~ page) : '') %}
 
 {% block body %}
-    <div>
-        <div class="container-box py-10 stack-large">
+    <div class="">
+        <div class="container-box py-10 space-y-10">
 
             <div class="course__hero">
                 {% if page == 1 %}
@@ -15,16 +15,57 @@
                 {% endif %}
             </div>
 
-            <div class="courses">
+            <div class="course-filter flex flex-col md:flex-row gap-4 md:gap-6 justify-between border border-slate-200 dark:border-slate-700 rounded-md px-4 py-3 shadow-sm bg-slate-50 dark:bg-primary-1000">
+                {# Filtre technologie #}
+                <div class="flex items-center gap-3">
+                    <label for="filter-technology" class="text-base text-slate-600 dark:text-slate-300">Technologie :</label>
+                    <filter-select>
+                        <select id="filter-technology"
+                                name="technology"
+                                data-value="slug"
+                                data-label="name"
+                                class="form-select">
+                            <option value="">Toutes</option>
+                            {% for group, techs in technologies %}
+                                <optgroup label="{{ group }}">
+                                    {% for tech in techs %}
+                                        <option value="{{ tech.slug }}" {% if technology_selected and technology_selected.slug == tech.slug %}selected{% endif %}>
+                                            {{ tech.name }}
+                                        </option>
+                                    {% endfor %}
+                                </optgroup>
+                            {% endfor %}
+                        </select>
+                    </filter-select>
+                </div>
+
+                {# Filtre Premium #}
+                <div class="flex items-center gap-3">
+                    <label for="filter-premium" class="text-base text-slate-600 dark:text-slate-300">
+                        Premium uniquement :
+                    </label>
+                    <input
+                            is="switch-redirect"
+                            type="checkbox"
+                            name="premium"
+                            id="filter-premium"
+                            value="1"
+                            data-redirect
+                            {% if premium_only %}checked{% endif %}
+                            class="form-checkbox"
+                    >
+                </div>
+            </div>
+
+            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {% for course in courses %}
                     {% include 'pages/public/courses/_course_item.html.twig' with { 'course': course } %}
                 {% endfor %}
             </div>
 
-            <div class="flex justify-center mt-6">
+            <div class="flex justify-center mt-8">
                 {{ knp_pagination_render(courses) }}
             </div>
         </div>
     </div>
 {% endblock %}
-

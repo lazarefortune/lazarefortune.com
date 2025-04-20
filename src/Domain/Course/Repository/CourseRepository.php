@@ -36,6 +36,13 @@ class CourseRepository extends AbstractRepository
         return $queryBuilder;
     }
 
+    public function queryAllPremium(): QueryBuilder
+    {
+        return $this->queryAll()
+            ->andWhere('c.premium = :premium OR c.createdAt > NOW()')
+            ->setParameter('premium', true);
+    }
+
     public function countOnlineCourses( User $user = null ) : int
     {
         $queryBuilder = $this->createQueryBuilder( 'c' )

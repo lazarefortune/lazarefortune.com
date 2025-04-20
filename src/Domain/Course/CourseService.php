@@ -15,9 +15,9 @@ class CourseService
     }
 
 
-    public function getCourseList(): QueryBuilder
+    public function getCourseList( $isPremium = false ): QueryBuilder
     {
-        return $this->courseRepository->queryAll();
+        return $this->courseRepository->queryAll( $isPremium );
     }
 
     public function countOnlineCourses( User $user = null ) : int {

@@ -16,11 +16,9 @@
                 <div class="mb-6">
                         <img src="{{ asset('images/illustrations/premium-thank-you.svg') }}" alt="Merci pour votre soutien" class="mx-auto max-w-xs lg:max-w-md" />
                 </div>
-                {#
-                <a class="btn btn-primary" href="/videos-premium">
+                <a class="btn btn-primary" href="{{ path('app_course_index') }}?premium=1">
                     {{ icon('star') }} Voir les vidéos premium
                 </a>
-                #}
             </div>
         </div>
     {% else %}
@@ -127,7 +125,7 @@
                 <p class="mb-6 text-lg">
                     Vous êtes maintenant premium jusqu'au <br/><strong>{{ app.user.premiumEnd | format_date('long') }}</strong>.
                 </p>
-                <a class="btn btn-primary" href="/videos-premium">
+                <a class="btn btn-primary" href="{{ path('app_course_index') }}?premium=1">
                     {{ icon('star') }} Voir les vidéos premium
                 </a>
             </section>

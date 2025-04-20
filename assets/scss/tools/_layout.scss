@@ -84,3 +84,25 @@
 .divider {
   @apply border-t border-slate-200 dark:border-slate-700;
 }
+
+.select2-container--default.select2-tailwind .select2-selection--single {
+  @apply border border-slate-300 dark:border-slate-700 rounded-md bg-white dark:bg-primary-900 text-sm h-10 flex items-center;
+  padding-left: 0.75rem;
+}
+
+.select2-container--default.select2-tailwind .select2-selection__arrow {
+  @apply right-2 top-2;
+}
+
+.select2-container--default.select2-tailwind .select2-results__option--highlighted[aria-selected] {
+  @apply bg-primary-500 text-white;
+}
+
+.select2-container--default.select2-tailwind .select2-results__option[aria-selected=true] {
+  @apply bg-primary-100 dark:bg-primary-800 text-primary-700 dark:text-white;
+}
+
+.select2-container--default.select2-tailwind .select2-selection__rendered {
+  @apply text-slate-700 dark:text-slate-200;
+}
+
