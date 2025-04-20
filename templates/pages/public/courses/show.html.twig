@@ -94,10 +94,17 @@
 
                     <div class="flex gap-2">
                         <div class="relative inline-block">
-                            <button id="share-button" class="btn btn-sm btn-light flex items-center gap-2">
+                            <button id="share-button"
+                                    class="btn btn-sm btn-light flex items-center gap-2"
+                                    data-title="{{ course.title }}"
+                                    data-url="{{ app.request.uri }}"
+                            >
                                 {{ icon('share') }} Partager
                             </button>
-                            <div id="share-menu" class="absolute hidden mt-2 right-0 bg-white dark:bg-primary-950 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg overflow-hidden z-50 transition-all duration-200 min-w-[220px]">
+
+                            <div id="share-menu"
+                                 class="absolute hidden mt-2 -right-20 md:right-0 bg-white dark:bg-primary-950 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg overflow-hidden z-50 transition-all duration-200 min-w-[220px]">
+
                                 <a href="https://twitter.com/intent/tweet?text={{ course.title|url_encode }}&url={{ app.request.uri }}" target="_blank" rel="noopener" class="share-menu-item">
                                     {{ icon('twitter') }} Twitter
                                 </a>
@@ -112,6 +119,7 @@
                                 </button>
                             </div>
                         </div>
+
 
 
                         {% if course.source is not empty and app.user %}
