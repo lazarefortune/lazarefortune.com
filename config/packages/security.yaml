@@ -35,7 +35,7 @@ security:
         path: /
         name: REMEMBERME
         secure: true
-        same_site: lax
+        samesite: lax
       custom_authenticator:
         - App\Domain\Auth\Core\Security\AppAuthenticator
         - App\Infrastructure\Social\Authenticator\GoogleAuthenticator
