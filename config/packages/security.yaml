@@ -34,6 +34,8 @@ security:
         lifetime: 604800 # 7 jours
         path: /
         name: REMEMBERME
+        secure: true
+        same_site: lax
       custom_authenticator:
         - App\Domain\Auth\Core\Security\AppAuthenticator
         - App\Infrastructure\Social\Authenticator\GoogleAuthenticator
