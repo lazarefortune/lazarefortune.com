@@ -12,9 +12,8 @@
 
 /* Header du chapitre */
 .chapters-editor__chapter-header {
-  @apply flex items-center mb-4;
+  @apply flex items-center rounded-xl;
   @apply bg-white dark:bg-primary-1000;
-  @apply border-b border-gray-300 dark:border-primary-950;
 }
 
 /* Handle du chapitre */
@@ -59,7 +58,7 @@
 }
 
 .chapters-editor__course-link {
-  @apply flex-grow text-current no-underline;
+  @apply flex-grow flex items-center gap-2 text-current no-underline;
 }
 
 .chapters-editor__course-delete {
@@ -201,4 +200,8 @@
 
 .chapters-editor__no-results {
   @apply p-2.5 text-sm italic text-center text-gray-500 dark:text-gray-400;
+}
+
+.chapters-editor__chapter-toggle {
+  @apply ml-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-200;
 }

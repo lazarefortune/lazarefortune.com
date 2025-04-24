@@ -27,14 +27,29 @@ function Chapter({ chapter, onUpdate, onRemoveCourse, onAddCourse, editPath, sea
                     <use href="/icons/sprite.svg?#grip-vertical"></use>
                 </svg>
             </div>
+            <button type="button" class="chapters-editor__chapter-toggle">
+                <svg class="w-4 h-4 transition-transform duration-200 ease-in-out" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                    <use href="/icons/sprite.svg?#chevron-down"></use>
+                </svg>
+            </button>
             <button type="button" class="chapters-editor__chapter-delete">
                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
                     <use href="/icons/sprite.svg?#trash-2"></use>
                 </svg>
             </button>
         </div>
-        <ul class="chapters-editor__chapter-courses"></ul>
+        <ul class="chapters-editor__chapter-courses hidden"></ul>
     `;
+
+    const toggleButton = li.querySelector('.chapters-editor__chapter-toggle');
+    const coursesList = li.querySelector('.chapters-editor__chapter-courses');
+    const chevronIcon = toggleButton.querySelector('svg');
+
+    toggleButton.addEventListener('click', () => {
+        coursesList.classList.toggle('hidden');
+        li.classList.toggle('is-open');
+        chevronIcon.classList.toggle('rotate-180'); // rotation visuelle de l'icône
+    });
 
     const titleInput = li.querySelector('.chapters-editor__chapter-input');
     titleInput.addEventListener('blur', onUpdate);
@@ -45,7 +60,6 @@ function Chapter({ chapter, onUpdate, onRemoveCourse, onAddCourse, editPath, sea
         onUpdate();
     });
 
-    const coursesList = li.querySelector('.chapters-editor__chapter-courses');
     chapter.modules.forEach((course) => {
         const courseElement = Course({ course, onRemoveCourse, editPath });
         coursesList.appendChild(courseElement);
@@ -64,7 +78,12 @@ function Course({ course, onRemoveCourse, editPath }) {
     li.dataset.title = course.title;
 
     li.innerHTML = `
-        <a href="${editPath.replace('/0', `/${course.id}`)}" target="_blank" class="chapters-editor__course-link">${course.title}</a>
+        <a href="${editPath.replace('/0', `/${course.id}`)}" target="_blank" class="chapters-editor__course-link">
+            <svg class="min-w-4 min-h-4 max-w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <use href="/icons/sprite.svg?#video"></use>
+            </svg>
+            ${course.title} 
+        </a>
         <div class="chapters-editor__course-handle">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
                 <use href="/icons/sprite.svg?#grip-vertical"></use>
@@ -311,8 +330,7 @@ export class ChaptersEditor extends HTMLElement {
         const url = new URL(this.searchEndpoint, window.location.origin);
         url.searchParams.set('q', query);
         try {
-            const courses = await fetch(url.toString()).then((res) => res.json());
-            return courses;
+            return await fetch(url.toString()).then((res) => res.json());
         } catch (e) {
             console.error('Erreur lors de la recherche des cours.', e);
             return [];
