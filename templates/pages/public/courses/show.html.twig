@@ -21,7 +21,7 @@
                         <div class="course-countdown relative rounded-lg overflow-hidden shadow-lg" style="background-image: url({{ image_url_raw(course.image) }})">
                             <div class="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-center items-center z-10">
                                 <h2 class="text-2xl font-medium text-white mb-4">Réservé aux membres inscrits !</h2>
-                                <a href="{{ path('app_login', {'redirect': app.request.uri}) }}" class="btn btn-primary">{{ icon('lock') }} Connecte-toi pour accéder</a>
+                                <a href="{{ path('app_register', {'redirect': app.request.uri}) }}" class="btn btn-primary">{{ icon('gift') }} Inscris-toi gratuitement</a>
                             </div>
                         </div>
                     {% elseif course.scheduled %}
