@@ -29,7 +29,7 @@ function Chapter({ chapter, onUpdate, onRemoveCourse, onAddCourse, editPath, sea
             </div>
             <button type="button" class="chapters-editor__chapter-toggle">
                 <svg class="w-4 h-4 transition-transform duration-200 ease-in-out" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                    <use href="/icons/sprite.svg?#chevron-down"></use>
+                    <use href="/icons/sprite.svg?#chevron-up"></use>
                 </svg>
             </button>
             <button type="button" class="chapters-editor__chapter-delete">
@@ -38,7 +38,7 @@ function Chapter({ chapter, onUpdate, onRemoveCourse, onAddCourse, editPath, sea
                 </svg>
             </button>
         </div>
-        <ul class="chapters-editor__chapter-courses hidden"></ul>
+        <ul class="chapters-editor__chapter-courses"></ul>
     `;
 
     const toggleButton = li.querySelector('.chapters-editor__chapter-toggle');

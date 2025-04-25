@@ -15,8 +15,6 @@
     <div class="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {{ form_row(form.title) }}
         {{ form_row(form.slug) }}
-        {{ form_row(form.author) }}
-        {{ form_row(form.publishedAt) }}
         {{ form_row(form.youtubePlaylist) }}
         {{ form_row(form.deprecatedBy, { label: 'Déprécié par' }) }}
         {{ form_row(form.image, {
@@ -96,7 +94,15 @@
 <section class="flex flex-col justify-start gap-3 md:flex-row-reverse">
     <button type="submit" class="btn btn-primary">
         {{ icon('save') }}
-        Sauvegarder
+        Enregistrer
+    </button>
+    <button
+            type="submit"
+            name="synchronize"
+            value="1"
+            class="btn btn-outline"
+    >
+        {{ icon('refresh-cw') }} Enregistrer & Synchroniser
     </button>
 
     {% if entity.id %}

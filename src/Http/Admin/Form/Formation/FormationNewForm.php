@@ -20,7 +20,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Vich\UploaderBundle\Handler\UploadHandler;
 
-class FormationEditForm extends AbstractType
+class FormationNewForm extends AbstractType
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
@@ -41,11 +41,9 @@ class FormationEditForm extends AbstractType
             ])
             ->add('slug', TextType::class, [
                 'required' => true,
-                'disabled' => true,
                 'attr' => [
                     'class' => 'form-input text-slate-700 dark:bg-slate-800 dark:text-slate-400',
                     'data-slug-input' => '',
-                    'readonly' => true,
                 ]
             ])
             ->add('youtubePlaylist', TextType::class, [
@@ -81,6 +79,17 @@ class FormationEditForm extends AbstractType
                 ]
             ])
         ;
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            /** @var Formation $formation */
+            $formation = $event->getData();
+            if (!$formation) {
+                return;
+            }
+
+            $form = $event->getForm();
+        });
+
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
             /** @var Formation $formation */

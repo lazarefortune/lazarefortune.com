@@ -131,5 +131,12 @@ class ContentSubscriber implements EventSubscriberInterface
     public function onDelete(ContentDeletedEvent $event): void
     {
         // TODO: Implement onDelete() method.
+
+        $content = $event->getContent();
+
+        if ($content instanceof Formation) {
+            // delete playlist from Youtube
+
+        }
     }
 }
