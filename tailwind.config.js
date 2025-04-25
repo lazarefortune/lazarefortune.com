@@ -165,7 +165,8 @@ module.exports = {
             'fira-sans': ['Fira Sans'],
             'jetbrains-mono': ['JetBrains Mono'],
             'overpass': ['Overpass'],
-            'bricolage': ['Bricolage Grotesque']
+            'bricolage': ['Bricolage Grotesque'],
+            'space-grotesk': ['Space Grotesk']
         }
     },
     plugins: [

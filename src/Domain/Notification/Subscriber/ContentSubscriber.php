@@ -134,9 +134,12 @@ class ContentSubscriber implements EventSubscriberInterface
 
         $content = $event->getContent();
 
-        if ($content instanceof Formation) {
-            // delete playlist from Youtube
+        if ($content instanceof Course) {
+            // TODO: delete video from YouTube
+        }
 
+        if ($content instanceof Formation) {
+            // TODO: delete playlist from YouTube
         }
     }
 }

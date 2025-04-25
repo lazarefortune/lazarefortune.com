@@ -17,6 +17,12 @@
   src: url('../../fonts/Bricolage_Grotesque/BricolageGrotesque-VariableFont_opsz,wdth,wght.ttf');
 }
 
+// --- Space Grotesk ---
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('../../fonts/Space_Grotesk/SpaceGrotesk-VariableFont_wght.ttf');
+}
+
 // ------------------------------ Plus Jakarta Sans ------------------------------
 @font-face {
   font-family: 'Plus Jakarta Sans';
@@ -155,34 +161,35 @@ p {
 }
 
 .h1 {
-  @apply font-hanken-grotesk text-4xl font-medium text-slate-900 dark:text-white;
+  @apply font-space-grotesk text-4xl font-medium text-slate-900 dark:text-white;
 }
 
 .h2 {
-  @apply font-hanken-grotesk text-3xl font-medium text-slate-900 dark:text-white;
+  @apply font-space-grotesk text-3xl font-medium text-slate-900 dark:text-white;
 }
 
 .h3 {
-  @apply font-hanken-grotesk text-2xl font-medium text-slate-900 dark:text-white;
+  @apply font-space-grotesk text-2xl font-medium text-slate-900 dark:text-white;
 }
 
 .h4 {
-  @apply font-hanken-grotesk text-xl font-medium text-slate-900 dark:text-white;
+  @apply font-space-grotesk text-xl font-medium text-slate-900 dark:text-white;
 }
 
 .h5 {
-  @apply font-hanken-grotesk text-lg font-medium text-slate-900 dark:text-white;
+  @apply font-space-grotesk text-lg font-medium text-slate-900 dark:text-white;
 }
 
 .h6 {
-  @apply font-hanken-grotesk text-base font-medium text-slate-900 dark:text-white;
+  @apply font-space-grotesk text-base font-medium text-slate-900 dark:text-white;
 }
 
 h1, h2, h3, h4, h5, h6,
 h1 *, h2 *, h3 *, h4 *, h5 *, h6 *,
 .h1, .h2, .h3, .h4, .h5, .h6,
 .h1 *, .h2 *, .h3 *, .h4 *, .h5 *, .h6 * {
-  @apply font-bricolage text-slate-900 dark:text-white;
+  //@apply font-bricolage text-slate-900 dark:text-white;
+  @apply font-space-grotesk text-slate-900 dark:text-white;
   //@apply font-hanken-grotesk text-slate-900 dark:text-white;
 }
 

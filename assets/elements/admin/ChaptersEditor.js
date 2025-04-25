@@ -16,6 +16,11 @@ function Chapter({ chapter, onUpdate, onRemoveCourse, onAddCourse, editPath, sea
 
     li.innerHTML = `
         <div class="chapters-editor__chapter-header">
+            <button type="button" class="chapters-editor__chapter-toggle">
+                <svg class="questions-editor__icon questions-editor__icon--toggle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                    <use href="/icons/sprite.svg#chevron-up"></use>
+                </svg>
+            </button>
             <input
                 type="text"
                 value="${chapter.title}"
@@ -27,11 +32,6 @@ function Chapter({ chapter, onUpdate, onRemoveCourse, onAddCourse, editPath, sea
                     <use href="/icons/sprite.svg?#grip-vertical"></use>
                 </svg>
             </div>
-            <button type="button" class="chapters-editor__chapter-toggle">
-                <svg class="w-4 h-4 transition-transform duration-200 ease-in-out" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                    <use href="/icons/sprite.svg?#chevron-up"></use>
-                </svg>
-            </button>
             <button type="button" class="chapters-editor__chapter-delete">
                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
                     <use href="/icons/sprite.svg?#trash-2"></use>

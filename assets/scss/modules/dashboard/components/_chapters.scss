@@ -5,7 +5,7 @@
 
 /* Styles du chapitre */
 .chapters-editor__chapter {
-  @apply relative mb-4 p-4 border rounded-xl bg-white dark:bg-primary-1000;
+  @apply relative mb-4 px-2 py-2 border rounded-xl bg-white dark:bg-primary-1000;
   @apply w-full box-border;
   @apply border-gray-300 dark:border-primary-950;
 }
@@ -42,7 +42,7 @@
 
 /* Conteneur des cours du chapitre */
 .chapters-editor__chapter-courses {
-  @apply list-none p-0 m-0;
+  @apply list-none py-0 px-2 m-0;
 }
 
 /* Styles du cours */
