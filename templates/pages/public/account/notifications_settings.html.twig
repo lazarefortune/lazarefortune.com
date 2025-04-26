@@ -22,10 +22,10 @@
 
             <!-- Bloc Newsletter -->
             <section>
-                <h2 class="text-lg font-medium">Newsletter</h2>
+                <h2 class="h3">Newsletter</h2>
 
                 {% if app.user.isNewsletterSubscribed %}
-                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">
+                    <p class="text-base text-slate-600 dark:text-slate-400 mb-4">
                         Vous recevez actuellement la newsletter.
                         Vous pourrez ainsi rester informé des dernières nouveautés.
                     </p>
@@ -35,7 +35,7 @@
                         <span>Se désabonner</span>
                     </a>
                 {% else %}
-                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">
+                    <p class="text-base text-slate-600 dark:text-slate-400 mb-4">
                         Vous n'êtes pas encore abonné à la newsletter.
                         Abonnez-vous pour recevoir les dernières actualités.
                     </p>
@@ -52,7 +52,7 @@
 
             <section class="space-y-3">
                 <h2 class="text-lg font-medium">Notifications internes</h2>
-                <p class="text-sm text-slate-600 dark:text-slate-400 mb-2">
+                <p class="text-base text-slate-600 dark:text-slate-400 mb-2">
                     Recevoir des alertes lors de nouvelles fonctionnalités, etc.
                 </p>
                 <button class="btn btn-primary">

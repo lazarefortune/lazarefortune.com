@@ -26,7 +26,7 @@
                     {{ icon('mail') }}
                     <span>Adresse email</span>
                 </h2>
-                <p class="text-sm text-slate-600 dark:text-slate-400">
+                <p class="text-base text-slate-600 dark:text-slate-400">
                     Vous pouvez modifier votre adresse email principale.
                 </p>
                 <div class="mt-4">
@@ -45,7 +45,7 @@
                     <span>Mot de passe</span>
                 </h2>
                 {% if app.user.password %}
-                    <p class="text-sm text-slate-600 dark:text-slate-400">
+                    <p class="text-base text-slate-600 dark:text-slate-400">
                         Mettez à jour votre mot de passe en toute sécurité.
                     </p>
                     <div class="mt-4">
@@ -54,7 +54,7 @@
                         </a>
                     </div>
                 {% else %}
-                    <p class="text-sm text-slate-600 dark:text-slate-400">
+                    <p class="text-base text-slate-600 dark:text-slate-400">
                         Pour ajouter un premier mot de passe à votre compte,
                         utilisez la <a href="{{ path('app_forgot_password') }}" target="_blank">page de réinitialisation</a> de mot de passe afin de nous permettre de vérifier votre identité.
                     </p>
@@ -70,7 +70,7 @@
                     {{ icon('network') }}
                     <span>Comptes externes</span>
                 </h2>
-                <p class="text-sm text-slate-600 dark:text-slate-400">
+                <p class="text-base text-slate-600 dark:text-slate-400">
                     Vous pouvez lier vos réseaux sociaux
                     pour vous connecter rapidement à votre compte.
                 </p>
@@ -92,18 +92,18 @@
                                 <h3 class="text-lg font-medium text-gray-800 dark:text-slate-100 mb-1">
                                     Google
                                     {% if app.user.googleId %}
-                                        <span class="ml-2 text-sm bg-green-100 text-green-800 px-2 py-0.5 rounded-full dark:bg-green-800 dark:text-green-100">
+                                        <span class="ml-2 text-base bg-green-100 text-green-800 px-2 py-0.5 rounded-full dark:bg-green-800 dark:text-green-100">
                                 Connecté
                             </span>
                                     {% else %}
-                                        <span class="ml-2 text-sm bg-red-100 text-red-800 px-2 py-0.5 rounded-full dark:bg-red-800 dark:text-red-100">
+                                        <span class="ml-2 text-base bg-red-100 text-red-800 px-2 py-0.5 rounded-full dark:bg-red-800 dark:text-red-100">
                                 Non connecté
                             </span>
                                     {% endif %}
                                 </h3>
 
                                 {% if app.user.googleId %}
-                                    <p class="text-gray-600 dark:text-slate-400 text-sm">
+                                    <p class="text-gray-600 dark:text-slate-400 text-base">
                                         {{ app.user.googleEmail ?: 'Email inconnu' }}
                                     </p>
                                     <p class="text-gray-500 dark:text-slate-500 text-xs mt-1">
@@ -115,7 +115,7 @@
                                         </p>
                                     {% endif %}
                                 {% else %}
-                                    <p class="text-gray-600 dark:text-slate-400 text-sm">
+                                    <p class="text-gray-600 dark:text-slate-400 text-base">
                                         Aucun compte Google n'est connecté
                                     </p>
                                 {% endif %}
@@ -151,18 +151,18 @@
                                 <h3 class="text-lg font-medium text-gray-800 dark:text-slate-100 mb-1">
                                     GitHub
                                     {% if app.user.githubId %}
-                                        <span class="ml-2 text-sm bg-green-100 text-green-800 px-2 py-0.5 rounded-full dark:bg-green-800 dark:text-green-100">
+                                        <span class="ml-2 text-base bg-green-100 text-green-800 px-2 py-0.5 rounded-full dark:bg-green-800 dark:text-green-100">
                                 Connecté
                             </span>
                                     {% else %}
-                                        <span class="ml-2 text-sm bg-red-100 text-red-800 px-2 py-0.5 rounded-full dark:bg-red-800 dark:text-red-100">
+                                        <span class="ml-2 text-base bg-red-100 text-red-800 px-2 py-0.5 rounded-full dark:bg-red-800 dark:text-red-100">
                                 Non connecté
                             </span>
                                     {% endif %}
                                 </h3>
 
                                 {% if app.user.githubId %}
-                                    <p class="text-gray-600 dark:text-slate-400 text-sm">
+                                    <p class="text-gray-600 dark:text-slate-400 text-base">
                                         {{ app.user.githubEmail ?: 'Email inconnu' }}
                                     </p>
                                     <p class="text-gray-500 dark:text-slate-500 text-xs mt-1">
@@ -174,7 +174,7 @@
                                         </p>
                                     {% endif %}
                                 {% else %}
-                                    <p class="text-gray-600 dark:text-slate-400 text-sm">
+                                    <p class="text-gray-600 dark:text-slate-400 text-base">
                                         Aucun compte GitHub n'est connecté
                                     </p>
                                 {% endif %}
@@ -206,7 +206,7 @@
                 {% if app.user.deletedAt %}
                     <!-- Si l'utilisateur a déjà demandé la suppression -->
                     <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700
-                            rounded p-4 text-sm text-red-800 dark:text-red-100
+                            rounded p-4 text-base text-red-800 dark:text-red-100
                             overflow-x-auto break-words">
 
                         <h3 class="text-md font-medium mb-1">
@@ -228,7 +228,7 @@
 
                 {% else %}
                     <!-- Si pas de demande en cours, on propose de demander la suppression -->
-                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">
+                    <p class="text-base text-slate-600 dark:text-slate-400 mb-4">
                         Si vous n'êtes pas satisfait, vous pouvez demander la suppression de votre compte.
                         Vous aurez 5 jours pour changer d'avis, passé ce délai, la suppression sera définitive.
                     </p>
@@ -253,7 +253,7 @@
 
                             <hr class="my-4 border-slate-200 dark:border-slate-700"/>
 
-                            <p class="text-sm text-slate-700 dark:text-slate-300 mb-4">
+                            <p class="text-base text-slate-700 dark:text-slate-300 mb-4">
                                 Pour confirmer cette demande, merci de saisir votre mot de passe.
                                 Votre compte sera supprimé définitivement après 5 jours.
                             </p>

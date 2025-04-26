@@ -2,12 +2,12 @@
     <ol class="flex items-center space-x-2">
         {% for item in items %}
             {% if loop.last %}
-                <li aria-current="page" class="text-nowrap text-slate-700 dark:text-slate-200">
+                <li aria-current="page" class="text-base text-nowrap text-slate-700 dark:text-slate-200">
                     {{ item.label }}
                 </li>
             {% else %}
                 <li class="flex">
-                    <a href="{{ item.path }}" class="text-nowrap hover:underline">{{ item.label }}</a>
+                    <a href="{{ item.path }}" class="text-base text-nowrap hover:underline">{{ item.label }}</a>
                     <span class="mx-1">/</span>
                 </li>
             {% endif %}

@@ -83,7 +83,7 @@ form.profil-header__avatar:hover img {
 // Classes personnalisées pour les cartes de la page "Mon Compte"
 
 .account-card {
-  @apply flex flex-row md:flex-col md:items-start gap-4 border p-4 md:px-6 rounded-xl transition-colors duration-200;
+  @apply flex flex-row md:flex-col items-start gap-4 border p-4 md:px-6 rounded-xl transition-colors duration-200;
   @apply text-slate-950 dark:text-white;
   @apply border-slate-200 dark:border-slate-700;
   @apply hover:bg-slate-50 dark:hover:bg-primary-1000;
@@ -101,9 +101,9 @@ form.profil-header__avatar:hover img {
 }
 
 .account-card__content h3 {
-  @apply text-base md:text-lg font-medium;
+  @apply text-lg md:text-xl font-medium;
 }
 
 .account-card__content p {
-  @apply text-sm text-muted;
+  @apply text-base text-muted;
 }

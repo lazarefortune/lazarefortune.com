@@ -12,20 +12,32 @@
         } %}
 
         <div class="mb-6">
-            <h1 class="h2 mb-1">Mon Historique</h1>
-            <p class="text-sm text-slate-600 dark:text-slate-400">
-                Retrouvez ici la liste de vos dernières vidéos visionnées.
-            </p>
+            <h1 class="h2 mb-1">Historique de visionnage</h1>
         </div>
 
         {% if watchlist is empty %}
-                <p class="text-sm text-muted mb-4">
-                    Vous n'avez encore rien regardé. Commencez à visionner des vidéos pour voir votre historique ici !
-                </p>
+            <div class="p-10 text-center flex flex-col items-center justify-center space-y-5">
+                <img src="{{ asset('images/illustrations/playlist-website.svg') }}"
+                     alt="Créer une vidéo"
+                     class="w-full max-w-44 h-auto opacity-90 dark:opacity-80"
+                >
+
+                <div>
+                    <h2 class="h4">
+                        C'est un peu vide ici
+                    </h2>
+                    <p class="mt-2 text-base text-muted max-w-lg">
+                        Commence à regarder des vidéos pour remplir cet espace
+                    </p>
+                </div>
+
+
                 <a href="{{ path('app_course_index') }}" class="btn btn-primary inline-flex items-center gap-2">
                     {{ icon('play') }}
                     <span>Commencer à regarder</span>
                 </a>
+            </div>
+
             {% else %}
                 <div class="courses">
                     {% for progress in watchlist %}
