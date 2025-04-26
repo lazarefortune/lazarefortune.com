@@ -27,7 +27,7 @@
                     <span>Commencer à regarder</span>
                 </a>
             {% else %}
-                <div class="courses grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <div class="courses">
                     {% for progress in watchlist %}
                         {% include 'pages/public/account/_progress-card.html.twig' with { progress: progress } %}
                     {% endfor %}
