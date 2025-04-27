@@ -1,0 +1,31 @@
+{# détecte les rôles #}
+{% set hasStudio = is_granted('ROLE_AUTHOR') %}
+{% set hasAdmin  = is_granted('ROLE_ADMIN') %}
+{% set showBar   = hasStudio or hasAdmin %}   {# au moins 2 liens ? #}
+{% set route     = app.request.attributes.get('_route') %}
+
+{% if showBar %}
+    <nav class="switch-zone flex gap-2">
+        <!-- Accueil -->
+        <a href="{{ path('app_home') }}"
+           class="switch-pill home {{ route starts with 'app_' ? 'is-active' : '' }}">
+            {{ icon('home',20) }} <span>Accueil</span>
+        </a>
+
+        {% if hasStudio %}
+            <!-- Studio -->
+            <a href="{{ path('studio_home') }}"
+               class="switch-pill studio {{ route starts with 'studio_' ? 'is-active' : '' }}">
+                {{ icon('clapperboard',20) }} <span>Studio</span>
+            </a>
+        {% endif %}
+
+        {% if hasAdmin %}
+            <!-- Admin -->
+            <a href="{{ path('admin_home') }}"
+               class="switch-pill admin {{ route starts with 'admin_' ? 'is-active' : '' }}">
+                {{ icon('shield',20) }} <span>Admin</span>
+            </a>
+        {% endif %}
+    </nav>
+{% endif %}

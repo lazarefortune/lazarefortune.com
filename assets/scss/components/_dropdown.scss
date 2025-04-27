@@ -39,3 +39,19 @@
     @apply border-t border-slate-200 dark:border-slate-800 my-1;
   }
 }
+
+.dropdown-menu-item {
+  @apply w-full flex justify-start items-center gap-4 px-6 py-3
+  text-slate-900 dark:text-white
+  hover:bg-slate-200 dark:hover:bg-slate-700
+  rounded-full font-medium transition;
+}
+
+.logout-button {
+  @apply w-full flex justify-center items-center gap-2
+  mt-4 px-6 py-2.5
+  bg-gray-100 dark:bg-slate-700
+  text-red-600 font-medium rounded-full
+  hover:bg-gray-200 dark:hover:bg-slate-600
+  hover:cursor-pointer transition;
+}

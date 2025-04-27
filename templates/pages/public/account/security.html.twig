@@ -89,16 +89,16 @@
                             </div>
 
                             <div>
-                                <h3 class="text-lg font-medium text-gray-800 dark:text-slate-100 mb-1">
-                                    Google
+                                <h3 class="text-lg flex gap-1 md:gap-3 flex-col items-start md:flex-row md:items-center font-medium text-gray-800 dark:text-slate-100 mb-1">
+                                    <span>Google</span>
                                     {% if app.user.googleId %}
-                                        <span class="ml-2 text-base bg-green-100 text-green-800 px-2 py-0.5 rounded-full dark:bg-green-800 dark:text-green-100">
-                                Connecté
-                            </span>
+                                        <span class="text-nowrap text-base bg-green-100 text-green-800 px-2 py-0.5 rounded-full dark:bg-green-800 dark:text-green-100">
+                                            Connecté
+                                        </span>
                                     {% else %}
-                                        <span class="ml-2 text-base bg-red-100 text-red-800 px-2 py-0.5 rounded-full dark:bg-red-800 dark:text-red-100">
-                                Non connecté
-                            </span>
+                                        <span class="text-nowrap text-base bg-red-100 text-red-800 px-2 py-0.5 rounded-full dark:bg-red-800 dark:text-red-100">
+                                            Non connecté
+                                        </span>
                                     {% endif %}
                                 </h3>
 
@@ -148,16 +148,16 @@
                             </div>
 
                             <div>
-                                <h3 class="text-lg font-medium text-gray-800 dark:text-slate-100 mb-1">
-                                    GitHub
+                                <h3 class="text-lg flex gap-1 md:gap-3 flex-col items-start md:flex-row md:items-center font-medium text-gray-800 dark:text-slate-100 mb-1">
+                                    <span>GitHub</span>
                                     {% if app.user.githubId %}
-                                        <span class="ml-2 text-base bg-green-100 text-green-800 px-2 py-0.5 rounded-full dark:bg-green-800 dark:text-green-100">
-                                Connecté
-                            </span>
+                                        <span class="text-nowrap text-base bg-green-100 text-green-800 px-2 py-0.5 rounded-full dark:bg-green-800 dark:text-green-100">
+                                            Connecté
+                                        </span>
                                     {% else %}
-                                        <span class="ml-2 text-base bg-red-100 text-red-800 px-2 py-0.5 rounded-full dark:bg-red-800 dark:text-red-100">
-                                Non connecté
-                            </span>
+                                        <span class="text-nowrap text-base bg-red-100 text-red-800 px-2 py-0.5 rounded-full dark:bg-red-800 dark:text-red-100">
+                                            Non connecté
+                                        </span>
                                     {% endif %}
                                 </h3>
 

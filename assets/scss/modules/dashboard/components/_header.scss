@@ -31,3 +31,29 @@
     @apply translate-y-0 opacity-100 pointer-events-auto;
   }
 }
+
+/* ---------- barre ---------- */
+.switch-zone { @apply w-full mb-4 py-3 border-b border-slate-200 dark:border-slate-700; }
+
+/* ---------- pillule ---------- */
+.switch-pill {
+  @apply flex-1 flex flex-col items-center justify-center gap-1
+  rounded-xl p-3 sm:p-4 font-medium text-sm sm:text-base shadow-sm
+  transition-all duration-150 ease-out;
+
+  /* palette de base */
+  @apply bg-slate-100 text-slate-900 dark:bg-primary-1000 dark:text-white;
+
+  /* hover / focus */
+  @apply hover:-translate-y-[2px] hover:shadow-md
+  hover:bg-primary-100 hover:text-primary-700
+  dark:hover:bg-primary-800/60 dark:hover:text-white;
+
+  /* actif */
+  &.is-active {
+    @apply bg-primary-600 dark:bg-primary-800 text-white shadow-lg hover:text-white;
+  }
+
+  /* labels toujours visibles */
+  span { @apply leading-tight; }
+}
