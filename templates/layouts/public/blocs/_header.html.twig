@@ -122,51 +122,51 @@
                     {% include 'layouts/public/blocs/_switch_zone.html.twig' %}
                     <div class="mb-3"></div>
                     {% include 'layouts/public/blocs/_header_common.html.twig' %}
-                    <modal-dialog id="helpModal" hidden overlay-close>
-                        <section class="modal-box max-w-lg w-full p-6 bg-white dark:bg-primary-950 rounded-2xl shadow-2xl animate-zoom">
-
-                            <!-- En-tête -->
-                            <div class="flex flex-col items-center justify-center mb-6">
-                                <div class="bg-primary-100 dark:bg-primary-900 p-3 rounded-full mb-4">
-                                    {{ icon('help-circle', 32) }}
-                                </div>
-                                <h2 class="text-2xl font-bold text-center text-slate-800 dark:text-slate-100">
-                                    Une question&nbsp;? Un souci&nbsp;?
-                                </h2>
-                                <p class="text-base text-center text-slate-500 dark:text-slate-400 mt-2">
-                                    On est là pour t'accompagner !
-                                </p>
-                            </div>
-
-                            <!-- Actions -->
-                            <div class="flex flex-col gap-4">
-                                <a href="{{ path('app_feedback_idea') }}" class="flex items-center gap-4 p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-gray-50 dark:bg-primary-950 hover:bg-primary-100 dark:hover:bg-primary-1000 transition">
-                                    {{ icon('lightbulb', 24) }}
-                                    <div>
-                                        <div class="text-lg font-medium text-slate-800 dark:text-white">Proposer une idée</div>
-                                        <div class="text-base text-slate-500 dark:text-slate-400">Partage-nous ton idée pour améliorer la plateforme</div>
-                                    </div>
-                                </a>
-                                <a href="{{ path('app_feedback_bug') }}" class="flex items-center gap-4 p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-gray-50 dark:bg-primary-950 hover:bg-primary-100 dark:hover:bg-primary-1000 transition">
-                                    {{ icon('bug', 24) }}
-                                    <div>
-                                        <div class="text-lg font-medium text-slate-800 dark:text-white">Signaler un problème</div>
-                                        <div class="text-base text-slate-500 dark:text-slate-400">Un bug ? Une erreur ? Aide-nous à corriger ça vite</div>
-                                    </div>
-                                </a>
-                            </div>
-
-                            <!-- Bouton de fermeture -->
-                            <div class="flex justify-center mt-6">
-                                <button data-dismiss class="text-base font-medium text-primary-600 dark:text-primary-300 hover:underline">
-                                    Fermer
-                                </button>
-                            </div>
-
-                        </section>
-                    </modal-dialog>
                 </div>
             </div>
+            <modal-dialog id="helpModal" hidden overlay-close>
+                <section class="modal-box max-w-lg w-full p-6 bg-white dark:bg-primary-950 rounded-2xl shadow-2xl animate-zoom">
+
+                    <!-- En-tête -->
+                    <div class="flex flex-col items-center justify-center mb-6">
+                        <div class="bg-primary-100 dark:bg-primary-900 p-3 rounded-full mb-4">
+                            {{ icon('help-circle', 32) }}
+                        </div>
+                        <h2 class="text-2xl font-bold text-center text-slate-800 dark:text-slate-100">
+                            Une question&nbsp;? Un souci&nbsp;?
+                        </h2>
+                        <p class="text-base text-center text-slate-500 dark:text-slate-400 mt-2">
+                            On est là pour t'accompagner !
+                        </p>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex flex-col gap-4">
+                        <a href="{{ path('app_feedback_idea') }}" class="flex items-center gap-4 p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-gray-50 dark:bg-primary-950 hover:bg-primary-100 dark:hover:bg-primary-1000 transition">
+                            {{ icon('lightbulb', 24) }}
+                            <div>
+                                <div class="text-lg font-medium text-slate-800 dark:text-white">Proposer une idée</div>
+                                <div class="text-base text-slate-500 dark:text-slate-400">Partage-nous ton idée pour améliorer la plateforme</div>
+                            </div>
+                        </a>
+                        <a href="{{ path('app_feedback_bug') }}" class="flex items-center gap-4 p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-gray-50 dark:bg-primary-950 hover:bg-primary-100 dark:hover:bg-primary-1000 transition">
+                            {{ icon('bug', 24) }}
+                            <div>
+                                <div class="text-lg font-medium text-slate-800 dark:text-white">Signaler un problème</div>
+                                <div class="text-base text-slate-500 dark:text-slate-400">Un bug ? Une erreur ? Aide-nous à corriger ça vite</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Bouton de fermeture -->
+                    <div class="flex justify-center mt-6">
+                        <button data-dismiss class="text-base font-medium text-primary-600 dark:text-primary-300 hover:underline">
+                            Fermer
+                        </button>
+                    </div>
+
+                </section>
+            </modal-dialog>
         {% else %}
             <div class="header__auth">
                 <a href="{{ path('app_login') }}" class="btn btn-light ml-2">
