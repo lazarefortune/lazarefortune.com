@@ -61,32 +61,6 @@ module.exports = {
                 // 'dark-soft-2': '#1b1e3d',
                 'dark-soft-2': '#0f172a',
                 'dark-soft-3': '#313552',
-                primaryOL: {
-                    '50': '#f4f3ff',
-                    '100': '#ece9fe',
-                    '200': '#dad5ff',
-                    '300': '#bfb4fe',
-                    '400': '#a089fc',
-                    '500': '#8259f9',
-                    '600': '#7136f1',
-                    '700': '#5d21d2',
-                    '800': '#521eb9',
-                    '900': '#451b97',
-                    '950': '#280e67',
-                },
-                primaryddd: {
-                    '50': '#e5e5fa', // couleur plus claire
-                    '100': '#b3b3f0',
-                    '200': '#8080e6',
-                    '300': '#4d4ddc',
-                    '400': '#1a1ad2',
-                    '500': '#0000b8', // couleur principale, légèrement plus claire
-                    '600': '#0000a6',
-                    '700': '#000091', // couleur primaire que tu souhaites
-                    '800': '#00007a',
-                    '900': '#000066', // couleur plus foncée
-                    '950': '#000033',
-                },
                 'primary': {
                     '50': '#f0f7fe',
                     '100': '#ddedfc',
@@ -115,32 +89,6 @@ module.exports = {
                     '800': '#9c3c10',
                     '900': '#7e3310',
                     '950': '#441806',
-                },
-                primaryViolet: {
-                    "50": "#f3f1ff",
-                    "100": "#ebe5ff",
-                    "200": "#d9ceff",
-                    "300": "#bea6ff",
-                    "400": "#9f75ff",
-                    "500": "#843dff",
-                    "600": "#7916ff",
-                    "700": "#6b04fd",
-                    "800": "#5a03d5",
-                    "900": "#5d21d2",
-                    "950": "#441998",
-                },
-                primaryMoreDark: {
-                    "50": "rgb(230 232 236)", // Légèrement plus sombre que le 50 d'origine
-                    "100": "rgb(210 214 220)",
-                    "200": "rgb(170 180 200)",
-                    "300": "rgb(130 145 170)",
-                    "400": "rgb(90 110 140)",
-                    "500": "rgb(60 75 110)",
-                    "600": "rgb(40 55 90)",
-                    "700": "rgb(30 40 70)",
-                    "800": "rgb(20 30 50)",
-                    "900": "rgb(10 20 35)",
-                    "950": "rgb(5 10 20)"  // Approche presque du noir
                 },
                 danger: {
                     "50": "#fff8f8",

@@ -29,14 +29,6 @@
                         </p>
                     {% endif %}
 
-                    <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-                        <li>✅ Apprends à ton rythme</li>
-                        <li>📈 Suivi de ta progression en temps réel</li>
-                        {% if formation.totalCoursesCount > 0 %}
-                            <li>🎓 {{ formation.totalCoursesCount }} vidéo{{ formation.totalCoursesCount > 1 ? 's' : '' }} accessibles immédiatement</li>
-                        {% endif %}
-                    </ul>
-
                     {% if progress %}
                         <div class="pt-4">
                             <div class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">

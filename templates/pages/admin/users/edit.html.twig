@@ -31,116 +31,81 @@
     <div class="mt-6">
 
         <!-- User profile -->
-        <div class="flex items-center gap-x-4 mb-4">
-            <img src="{{ entity|avatar }}" alt="{{ entity.fullname }}" id="avatar-preview"
-                 class="w-16 h-16 rounded-full object-cover border-2 {{ entity.isVerified ? 'border-2 border-green-500' : 'border-2 border-red-500' }} p-0.5">
-            <div>
-                <div class="flex items-center gap-x-1">
-                    <h4 class="h3">{{ entity.fullname }}</h4>
+        <div class="card card-padding flex items-center gap-x-4 mb-4">
+            <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+                <img src="{{ entity|avatar }}" alt="" class="w-20 h-20 rounded-full object-cover border-2
+                 {{ entity.isVerified ? 'border-green-500' : 'border-red-500' }}">
+
+                <div class="flex-1 space-y-1">
+                    <h1 class="text-2xl font-semibold text-slate-900 dark:text-white">{{ entity.fullname }}</h1>
+                    <p class="text-sm text-slate-500">Inscrit {{ entity.createdAt|ago }}</p>
+
+                    {% if entity.isPremium and entity.premiumEnd > 'now'|date %}
+                        <span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-yellow-100 text-yellow-800 text-xs">
+                        {{ icon('crown') }} Premium jusqu’au {{ entity.premiumEnd|date('d/m/Y') }}
+                    </span>
+                    {% else %}
+                        <span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-slate-100 text-slate-600 text-xs">
+                        Compte standard
+                    </span>
+                    {% endif %}
                 </div>
-                {% if entity.isPremium %}
-                    <div class="badge-premium my-1">
-                        {{ icon('sparkles') }}
-                        <span>Compte Premium</span>
-                    </div>
-                {% else %}
-                    <a href="{{ path('app_premium') }}" class="badge-standard my-1">Compte Standard</a>
-                {% endif %}
-                <p class="text-sm text-slate-500">Inscrit <span class="lowercase">{{ entity.createdAt|ago }}</span></p>
             </div>
         </div>
 
-        <div class="divider my-6"></div>
-
         <!-- Informations -->
-        <div class="grid grid-cols-1 gap-10 md:gap-4 md:grid-cols-4">
-            <div class="col-span-1">
-                <div class="flex flex-row gap-4">
-                    <div class="flex justify-center items-center bg-primary-100 dark:bg-primary-900 rounded-full w-10 h-10 text-primary-800 dark:text-primary-300">
-                        {{ icon('mail') }}
-                    </div>
-                    <div class="flex flex-col justify-center">
-                        <div class="text-sm text-slate-400 uppercase">Email</div>
-                        <a href="mailto:{{ entity.email }}" class="text-base text-slate-900 dark:text-slate-400">
+        <div class="mt-7 grid gap-4 md:gap-6 md:grid-cols-3">
+            {% if entity.email %}
+                <div class="admin-user-card">
+                    <div class="admin-user-card__icon">{{ icon('mail') }}</div>
+                    <div>
+                        <h3 class="admin-user-card__label">Email</h3>
+                        <a href="mailto:{{ entity.email }}" class="admin-user-card__value">
                             {{ entity.email }}
                         </a>
                     </div>
                 </div>
-            </div>
-            <div class="col-span-1">
-                <div class="flex flex-row gap-4">
-                    <div class="flex justify-center items-center bg-primary-100 dark:bg-primary-900 rounded-full w-10 h-10 text-primary-800 dark:text-primary-300">
-                        {{ icon('phone') }}
-                    </div>
-                    <div class="flex flex-col justify-center">
-                        <div class="text-sm text-slate-400 uppercase">Téléphone</div>
-                        {% if entity.phone %}
-                            <a href="tel:{{ entity.phone }}" class="border border-primary-800 px-2 py-1 rounded-md text-primary-800 hover:bg-primary-800 hover:text-white">
-                                {{ entity.phone }}
-                            </a>
-                        {% else %}
-                            Non renseigné
-                        {% endif %}
+            {% endif %}
+            {% if entity.phone %}
+                <div class="admin-user-card">
+                    <div class="admin-user-card__icon">{{ icon('phone') }}</div>
+                    <div>
+                        <h3 class="admin-user-card__label">Téléphone</h3>
+                        <a href="tel:{{ entity.phone }}" class="admin-user-card__value">
+                            {{ entity.phone }}
+                        </a>
                     </div>
                 </div>
-            </div>
-            <div class="col-span-1">
-                <div class="flex flex-row gap-4">
-                    <div class="flex justify-center items-center bg-primary-100 dark:bg-primary-900 rounded-full w-10 h-10 text-primary-800 dark:text-primary-300">
-                        {{ icon('calendar') }}
-                    </div>
-                    <div class="flex flex-col justify-center">
-                        <div class="text-sm text-slate-400 uppercase">Date de naissance</div>
-                        <span class="text-base text-slate-900 dark:text-slate-400">
-                            {% if entity.dateOfBirthday %}
-                                {{ entity.dateOfBirthday|date('d/m/Y') }}
-                            {% else %}
-                                Non renseignée
-                            {% endif %}
-                        </span>
+            {% endif %}
+            {% if entity.dateOfBirthday %}
+                <div class="admin-user-card">
+                    <div class="admin-user-card__icon">{{ icon('calendar') }}</div>
+                    <div>
+                        <h3 class="admin-user-card__label">Date de naissance</h3>
+                        <p class="admin-user-card__value">
+                            {{ entity.dateOfBirthday|date('d/m/Y') }}
+                        </p>
                     </div>
                 </div>
-            </div>
-            <div class="col-span-1">
-                <div class="flex flex-row gap-4">
-                    <div class="flex justify-center items-center bg-primary-100 dark:bg-primary-900 rounded-full w-10 h-10 text-primary-800 dark:text-primary-300">
-                        {{ icon('crown') }}
-                    </div>
-                    <div class="flex flex-col justify-center">
-                        <div class="text-sm text-slate-400 uppercase">Date de fin Premium</div>
-                        <span class="text-base text-slate-900 dark:text-slate-400">
-                            {% if entity.premiumEnd %}
-                                {{ entity.premiumEnd|date('d/m/Y') }}
-                            {% else %}
-                                Inexistante
-                            {% endif %}
-                        </span>
-                    </div>
-                </div>
-            </div>
+            {% endif %}
         </div>
-
-        <div class="divider my-6"></div>
 
         <!-- if user is not verified -->
         {% if not entity.isVerified %}
-        <div>
-            <h4 class="h4">Email non vérifié</h4>
-            <p class="text-sm text-muted">Cet utilisateur n'a pas encore vérifié son email</p>
-            <div class="mt-4">
-                <a href="{{ path('admin_users_resend_verification_email', {id: entity.id}) }}" class="btn btn-light">
-                    {{ icon('mail') }}
-                    Renvoyer l'email de vérification
-                </a>
+            <div class="alert-danger mt-10">
+                <h4 class="h4">Email non vérifié</h4>
+                <p class="text-muted">Utilisateur non encore confirmé.</p>
+                <div class="mt-4">
+                    <a href="{{ path('admin_users_resend_verification_email', {id: entity.id}) }}" class="btn btn-primary">
+                        {{ icon('mail') }} Renvoyer l'email de vérification
+                    </a>
+                </div>
             </div>
-        </div>
-
-        <div class="divider my-6"></div>
         {% endif %}
 
         <!-- premium offer -->
         {% if is_granted('ROLE_SUPER_ADMIN') %}
-        <div>
+        <div class="mt-10 bg-white dark:bg-primary-950 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm">
             <h4 class="h4">Offre premium</h4>
             <p class="text-sm text-muted">Vous pouvez prolonger l'offre premium d'un utilisateur</p>
             <div class="mt-4">
@@ -186,10 +151,8 @@
         </div>
         {% endif %}
 
-        <div class="divider my-6"></div>
-
         <!-- User roles -->
-        <div>
+        <div class="mt-10 bg-white dark:bg-primary-950 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm">
             {{ form_start(form) }}
             <div class="mb-4">
                 <h4 class="h4">Accès et rôles</h4>
@@ -205,11 +168,9 @@
             {{ form_end(form) }}
         </div>
 
-        <div class="divider my-6"></div>
-
         <!-- warning zone for impersonate -->
         {% if is_granted('ROLE_SUPER_ADMIN') %}
-        <div>
+        <div class="mt-10 bg-white dark:bg-primary-950 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm">
             <h4 class="font-bricolage text-xl font-medium text-red-700 dark:text-red-300">Prendre le contrôle de cet utilisateur</h4>
             <p class="text-muted max-w-xl">
                 Attention, vous allez prendre le contrôle de cet utilisateur. Il est obligatoire d'avoir l'autorisation de l'utilisateur concerné.
