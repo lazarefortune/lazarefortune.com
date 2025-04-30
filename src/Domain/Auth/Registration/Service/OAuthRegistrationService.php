@@ -24,6 +24,7 @@ final class OAuthRegistrationService
             $resourceOwner instanceof GoogleUser => (new User())
                 ->setEmail($resourceOwner->getEmail())
                 ->setCgu(true)
+                ->setIsVerified(true)
                 ->setRoles(['ROLE_USER'])
                 ->setGoogleId($resourceOwner->getId())
                 ->setGoogleEmail($resourceOwner->getEmail())
@@ -32,6 +33,7 @@ final class OAuthRegistrationService
             $resourceOwner instanceof GithubResourceOwner => (new User())
                 ->setEmail($resourceOwner->getEmail())
                 ->setCgu(true)
+                ->setIsVerified(true)
                 ->setRoles(['ROLE_USER'])
                 ->setGithubId($resourceOwner->getId())
                 ->setGithubEmail($resourceOwner->getEmail())
@@ -41,7 +43,8 @@ final class OAuthRegistrationService
 
         $this->userRepository->save($user, true);
         // dispatch event
-        $this->eventDispatcher->dispatch(new UserCreatedEvent( $user ), UserCreatedEvent::NAME);
+        # TODO: Send just welcome email without account email verification link
+        # $this->eventDispatcher->dispatch(new UserCreatedEvent( $user ), UserCreatedEvent::NAME);
         return $user;
     }
 }
