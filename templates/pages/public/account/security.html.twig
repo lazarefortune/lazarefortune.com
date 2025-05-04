@@ -143,9 +143,6 @@
                                     <p class="text-gray-600 dark:text-slate-400 text-base">
                                         {{ app.user.googleEmail ?: 'Email inconnu' }}
                                     </p>
-                                    <p class="text-gray-500 dark:text-slate-500 text-xs mt-1">
-                                        ID Google : {{ app.user.googleId }}
-                                    </p>
                                     {% if app.user.googleEmail is empty %}
                                         <p class="text-xs text-red-600 dark:text-red-400">
                                             Pour obtenir votre email, vous devrez vous reconnecter.
@@ -201,9 +198,6 @@
                                 {% if app.user.githubId %}
                                     <p class="text-gray-600 dark:text-slate-400 text-base">
                                         {{ app.user.githubEmail ?: 'Email inconnu' }}
-                                    </p>
-                                    <p class="text-gray-500 dark:text-slate-500 text-xs mt-1">
-                                        ID GitHub : {{ app.user.githubId }}
                                     </p>
                                     {% if app.user.githubEmail is empty %}
                                         <p class="text-xs text-red-600 dark:text-red-400">
