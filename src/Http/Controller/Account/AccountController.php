@@ -4,6 +4,7 @@ namespace App\Http\Controller\Account;
 
 use App\Domain\Auth\Core\Dto\AvatarDto;
 use App\Domain\Auth\Core\Entity\User;
+use App\Domain\Auth\Core\Event\Unverified\AccountVerificationRequestEvent;
 use App\Domain\Auth\Core\Exception\TooManyEmailChangeException;
 use App\Domain\Auth\Core\Form\DeleteAccountForm;
 use App\Domain\Auth\Core\Form\EmailUpdateForm;
@@ -19,6 +20,7 @@ use App\Domain\Premium\Repository\TransactionRepository;
 use App\Http\Controller\AbstractController;
 use App\Infrastructure\Payment\Stripe\StripeApi;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -157,6 +159,18 @@ class AccountController extends AbstractController
             'formEmail'   => $formEmail->createView(),
             'requestEmailChange' => $requestEmailChange,
         ] );
+    }
+
+    #[Route( path: '/resend-verification-email', name: 'resend_verification_email', methods: ['GET'] )]
+    public function resendVerificationEmail( EventDispatcherInterface $dispatcher ) : Response
+    {
+        $user = $this->getUserOrThrow();
+
+        $dispatcher->dispatch( new AccountVerificationRequestEvent( $user ) );
+
+        $this->addFlash( 'success', 'Email de vérification envoyé' );
+
+        return $this->redirectToRoute( 'app_account_security');
     }
 
     #[Route( '/securite/mot-de-passe' , name: 'security_password' )]

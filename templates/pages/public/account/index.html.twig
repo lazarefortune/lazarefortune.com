@@ -34,6 +34,37 @@
 
         <div class="divider my-6"></div>
 
+        {% if not app.user.isVerified %}
+            <div class="my-5 bg-yellow-50 dark:bg-yellow-900/10 border-l-4 border-yellow-400 dark:border-yellow-500 p-4 rounded-md shadow-sm">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <!-- Texte -->
+                    <div class="flex flex-col md:flex-row items-start gap-3">
+                        <div class="text-yellow-500 dark:text-yellow-400">
+                            {{ icon('alert-circle') }}
+                        </div>
+                        <div>
+                            <p class="text-base text-yellow-800 dark:text-yellow-200 font-medium mb-1">
+                                Adresse e-mail non confirmée
+                            </p>
+                            <p class="text-sm text-yellow-700 dark:text-yellow-300">
+                                Valide ton e-mail pour sécuriser ton compte.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Bouton -->
+                    <div class="sm:ml-auto">
+                        <a href="{{ path('app_account_resend_verification_email', {id: app.user.id}) }}"
+                           class="btn btn-warn btn-sm">
+                            {{ icon('mail') }}
+                            Renvoyer
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
         <!-- Cartes d'actions -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pb-10">
 
@@ -55,7 +86,7 @@
                 </div>
                 <div class="account-card__content">
                     <h3 class="h5">Sécurité & Connexion</h3>
-                    <p>Gérer email, mot de passe et connexions</p>
+                    <p>Gérer votre email, mot de passe et connexions</p>
                 </div>
             </a>
 

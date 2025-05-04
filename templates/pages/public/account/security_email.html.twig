@@ -17,22 +17,12 @@
         <div class="mb-6">
             <h1 class="h2 mb-1">Changer mon adresse email</h1>
             <p class="text-base text-slate-600 dark:text-slate-400">
-                Entrez votre nouvelle adresse email ci-dessous.
-                Vous recevrez ensuite un email de confirmation.
+                Vous recevrez ensuite un email pour confirmer le changement.
             </p>
         </div>
 
         <!-- Carte Email -->
         <div class="bg-white dark:bg-primary-1000 border border-slate-200 dark:border-slate-800 shadow p-6 sm:p-8 rounded-lg">
-            <h2 class="h3 mb-4">Adresse email actuelle</h2>
-            <p class="text-base text-slate-900 dark:text-slate-100 mb-6">
-                {{ app.user.email }}
-            </p>
-
-            <hr class="border-slate-200 dark:border-slate-700 mb-4"/>
-
-            <h2 class="h3 mb-2">Nouvelle adresse email</h2>
-
             {% if requestEmailChange %}
                 <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700
                         rounded p-4 text-base text-yellow-800 dark:text-yellow-100 mb-4

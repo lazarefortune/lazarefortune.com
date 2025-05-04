@@ -21,43 +21,80 @@
         <div class="bg-white dark:bg-primary-1000 border border-slate-200 dark:border-slate-800 shadow p-6 sm:p-8 rounded-lg space-y-8">
 
             <!-- Section Email -->
-            <div>
-                <h2 class="text-lg font-medium mb-1 flex items-center gap-2">
-                    {{ icon('mail') }}
-                    <span>Adresse email</span>
-                </h2>
-                <p class="text-base text-slate-600 dark:text-slate-400">
-                    Vous pouvez modifier votre adresse email principale.
-                </p>
+            <div class="flex flex-col md:flex-row justify-between">
+                <div>
+                    <h2 class="text-lg font-medium mb-1 flex items-center gap-2">
+                        {{ icon('mail') }}
+                        <span>Adresse e-mail</span>
+                    </h2>
+                    <p class="text-base text-slate-600 dark:text-slate-400">
+                        {{ app.user.email }}
+                    </p>
+                </div>
                 <div class="mt-4">
                     <a href="{{ path('app_account_security_email') }}" class="btn btn-light">
-                        Changer mon email
+                        Modifier
                     </a>
                 </div>
             </div>
+            {% if not app.user.isVerified %}
+                <div class="mt-10 bg-yellow-50 dark:bg-yellow-900/10 border-l-4 border-yellow-400 dark:border-yellow-500 p-4 rounded-md shadow-sm">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <!-- Texte -->
+                        <div class="flex flex-col md:flex-row items-start gap-3">
+                            <div class="text-yellow-500 dark:text-yellow-400">
+                                {{ icon('alert-circle') }}
+                            </div>
+                            <div>
+                                <p class="text-base text-yellow-800 dark:text-yellow-200 font-medium mb-1">
+                                    Adresse e-mail non confirmée
+                                </p>
+                                <p class="text-sm text-yellow-700 dark:text-yellow-300">
+                                    Valide ton e-mail pour sécuriser ton compte.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Bouton -->
+                        <div class="sm:ml-auto">
+                            <a href="{{ path('app_account_resend_verification_email', {id: app.user.id}) }}"
+                               class="btn btn-warn btn-sm">
+                                {{ icon('mail') }}
+                                Renvoyer
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
 
             <hr class="border-slate-200 dark:border-slate-700"/>
 
             <!-- Section Mot de passe -->
-            <div>
-                <h2 class="text-lg font-medium mb-1 flex items-center gap-2">
-                    {{ icon('lock') }}
-                    <span>Mot de passe</span>
-                </h2>
+            <div class="flex flex-col md:flex-row justify-between">
+                <div>
+                    <h2 class="text-lg font-medium mb-1 flex items-center gap-2">
+                        {{ icon('lock') }}
+                        <span>Mot de passe</span>
+                    </h2>
+                    {% if app.user.password %}
+                        <p class="text-base text-slate-600 dark:text-slate-400">
+                            Mettez à jour votre mot de passe en toute sécurité.
+                        </p>
+                    {% else %}
+                        <p class="text-base text-slate-600 dark:text-slate-400">
+                            Pour ajouter un premier mot de passe à votre compte,
+                            utilisez la <a href="{{ path('app_forgot_password') }}" target="_blank">page de réinitialisation</a> de mot de passe afin de nous permettre de vérifier votre identité.
+                        </p>
+                    {% endif %}
+                </div>
                 {% if app.user.password %}
-                    <p class="text-base text-slate-600 dark:text-slate-400">
-                        Mettez à jour votre mot de passe en toute sécurité.
-                    </p>
                     <div class="mt-4">
                         <a href="{{ path('app_account_security_password') }}" class="btn btn-light">
-                            Changer mon mot de passe
+                            Modifier
                         </a>
                     </div>
-                {% else %}
-                    <p class="text-base text-slate-600 dark:text-slate-400">
-                        Pour ajouter un premier mot de passe à votre compte,
-                        utilisez la <a href="{{ path('app_forgot_password') }}" target="_blank">page de réinitialisation</a> de mot de passe afin de nous permettre de vérifier votre identité.
-                    </p>
                 {% endif %}
             </div>
 

@@ -99,11 +99,8 @@
             <div class="w-full md:w-auto flex-1">
                 {{ form_start(formProfile, { 'attr': { 'class': 'space-y-4', 'enctype': 'multipart/form-data' } }) }}
 
-                <!-- 2 lignes, 2 colonnes -->
-                <!-- 1ère ligne: Nom complet / Téléphone -->
-                <!-- 2ème ligne: Date de naissance / Pays -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {{ form_row(formProfile.fullname, { 'label': 'Nom complet' }) }}
+                    {{ form_row(formProfile.fullname, { 'label': 'Nom' }) }}
                     {{ form_row(formProfile.phone, { 'label': 'Téléphone' }) }}
 
                     {{ form_row(formProfile.date_of_birthday, { 'label': 'Date de naissance' }) }}
