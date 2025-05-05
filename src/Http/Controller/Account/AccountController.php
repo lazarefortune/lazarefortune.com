@@ -14,6 +14,8 @@ use App\Domain\Auth\Core\Service\AccountService;
 use App\Domain\Auth\Core\Service\DeleteAccountService;
 use App\Domain\Auth\Core\Service\EmailChangeService;
 use App\Domain\Badge\BadgeService;
+use App\Domain\Badge\Entity\Badge;
+use App\Domain\Badge\Entity\BadgeAction;
 use App\Domain\History\Service\HistoryService;
 use App\Domain\Premium\Repository\SubscriptionRepository;
 use App\Domain\Premium\Repository\TransactionRepository;
@@ -217,9 +219,25 @@ class AccountController extends AbstractController
         $badges = $this->badgeService->getBadges();
         $unlocks = $this->badgeService->getUnlocksForUser($user);
 
+        // Grouper les badges par action
+        $groupedBadges = [];
+
+        foreach ($badges as $badge) {
+            $groupedBadges[$badge->getAction()][] = $badge;
+        }
+
+        // Trier chaque groupe par actionCount croissant
+        foreach ($groupedBadges as &$group) {
+            usort($group, function (Badge $a, Badge $b) {
+                return $a->getActionCount() <=> $b->getActionCount();
+            });
+        }
+        unset($group); // pour éviter toute modification par référence accidentelle
+
         return $this->render('pages/public/account/badges.html.twig', [
-            'badges' => $badges,
+            'groupedBadges' => $groupedBadges,
             'unlocks' => $unlocks,
+            'actionLabels' => BadgeAction::getLabels()
         ]);
     }
 

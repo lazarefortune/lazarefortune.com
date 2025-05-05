@@ -2,6 +2,7 @@
 
 namespace App\Http\Type;
 
+use App\Domain\Badge\Entity\BadgeAction;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -11,11 +12,7 @@ class BadgeActionChoiceType extends AbstractType
     public function configureOptions(OptionsResolver $resolver) : void
     {
         $resolver->setDefaults([
-            'choices' => [
-                'Nombre de commentaires' => 'comments',
-                'Ancienneté en jours' => 'days',
-                'Nombre de vidéos publiées' => 'published_videos',
-            ],
+            'choices' => BadgeAction::getChoices(),
             'attr' => [
                 'class' => 'select2 form-input'
             ],

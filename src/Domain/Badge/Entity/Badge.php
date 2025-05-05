@@ -184,4 +184,14 @@ class Badge
 
         return $this;
     }
+
+    public static function getActionLabels(): array
+    {
+        return BadgeAction::getLabels();
+    }
+
+    public function getActionLabel(): string
+    {
+        return BadgeAction::getLabel($this->action);
+    }
 }
