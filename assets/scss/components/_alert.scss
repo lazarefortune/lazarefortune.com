@@ -5,7 +5,7 @@ alert-message {
 
 .alert {
   display: flex;
-  @apply bg-white border border-[#e6e6e6] border-b-[3px] shadow-soft dark:shadow-primary-900 rounded flex items-center relative text-sm text-slate-900
+  @apply bg-white border border-[#e6e6e6] border-b-[3px] shadow-soft dark:shadow-primary-900 rounded flex items-center relative text-base text-slate-900
   dark:bg-primary-950 dark:border dark:border-slate-700 dark:text-white dark:border-b-[#e6e6e6];
 
   @include transition(all);
@@ -70,7 +70,8 @@ alert-message {
 
   /* Variantes de l'alerte */
   &.alert-danger {
-    @apply border-b-red-500 dark:border-b-red-500;
+    //@apply border-b-red-500 dark:border-b-red-500;
+    @apply rounded-xl bg-red-100 dark:bg-red-950 text-red-800 dark:text-red-200 border border-red-300 dark:border-red-700;
 
     > svg:first-child {
       @apply text-red-500 dark:text-red-500;

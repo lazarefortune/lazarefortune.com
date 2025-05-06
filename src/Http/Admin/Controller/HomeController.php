@@ -6,7 +6,9 @@ use App\Domain\Application\Form\EmailTestForm;
 use App\Domain\Auth\Core\Repository\UserRepository;
 use App\Domain\Course\CourseService;
 use App\Domain\Course\Service\FormationService;
+use App\Domain\Youtube\Entity\YoutubeSetting;
 use App\Domain\Youtube\Exception\NotFoundYoutubeAccount;
+use App\Domain\Youtube\Repository\YoutubeSettingRepository;
 use App\Http\Controller\AbstractController;
 use App\Infrastructure\Mailing\MailService;
 use App\Infrastructure\Youtube\YoutubeService;
@@ -43,34 +45,13 @@ class HomeController extends AbstractController
      * @throws InvalidArgumentException
      */
     #[Route( '/', name: 'home', methods: ['GET', 'POST'] )]
-    public function home( Request $request, MailService $mailService, CacheItemPoolInterface $cache , MessageBusInterface $bus) : Response
+    public function home( Request $request, MailService $mailService, CacheItemPoolInterface $cache , YoutubeSettingRepository $youtubeSettingRepository) : Response
     {
         // if the user is only author
         if ( in_array('ROLE_AUTHOR', $this->getUser()->getRoles()) ) {
             return $this->authorHome();
             #$this->redirectToRoute('admin_home_author');
         }
-
-        /*
-        $youtubeSubscribersCount = $cache->get( 'admin.youtube-subscribers-count',
-            function ( ItemInterface $item ) {
-                $item->expiresAfter( 3600 );
-
-                $countSubscribers = 0;
-
-                try {
-                    return $this->youtubeService->getSubscribersCount();
-                } catch ( NotFoundYoutubeAccount $exception ){
-                    $this->addFlash('error', $exception->getMessage());
-                } catch ( \Exception $e ) {
-                    $this->addFlash( 'error', "Impossible de charger les données depuis YouTube" );
-                }
-
-                return $countSubscribers;
-            } );
-        */
-
-        $youtubeSubscribersCount = 0;
 
         $youtubeSubscribersCount = $cache->get('admin.youtube-subscribers-count', function (ItemInterface $item) {
             $item->expiresAfter(3600);
@@ -127,7 +108,12 @@ class HomeController extends AbstractController
 
         }
 
+        /** @var YoutubeSetting $youtubeAccount */
+        $youtubeAccount = $youtubeSettingRepository->findOneBy( [] );
+        $isYoutubeAccountExist = (bool)$youtubeAccount->getGoogleId();
+
         return $this->render( 'pages/admin/index.html.twig', [
+            'isYoutubeAccountExist' => $isYoutubeAccountExist,
             'youtubeSubscribersCount' => $youtubeSubscribersCount,
             'countUsers' => $countUsers,
             'countOnlineCourses' => $countOnlineCourses,

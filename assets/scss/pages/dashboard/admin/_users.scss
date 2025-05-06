@@ -11,6 +11,7 @@
 .admin-user-card__value {
   @apply text-base font-medium text-slate-900 dark:text-slate-100;
 }
-.alert-danger {
-  @apply bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300 p-6 rounded-xl border border-red-300 dark:border-red-700;
-}
+//.alert-danger {
+//  @apply rounded-xl shadow-none;
+//  @apply bg-red-100 dark:bg-red-950 text-red-800 dark:text-red-300 border border-red-300 dark:border-red-700;
+//}
