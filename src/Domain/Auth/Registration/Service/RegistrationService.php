@@ -52,7 +52,8 @@ class RegistrationService
                     $userDto->plainPassword
                 )
             )
-            ->setCgu( true );
+            ->setCgu( true )
+            ->subscribeToNewsletter();
         $this->entityManager->persist( $user );
         $this->entityManager->flush();
 

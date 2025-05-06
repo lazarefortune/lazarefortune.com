@@ -5,6 +5,7 @@ namespace App\Domain\Auth\Core\Entity;
 use App\Domain\Auth\Core\Repository\UserRepository;
 use App\Domain\Auth\Password\Entity\PasswordReset;
 use App\Domain\Auth\Registration\Entity\EmailVerification;
+use App\Domain\Newsletter\Entity\Newsletter;
 use App\Domain\Notification\Entity\Notifiable;
 use App\Domain\Premium\Entity\PremiumTrait;
 use DateTimeInterface;
@@ -579,6 +580,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUnsubscribeNewsletterToken(string $token): self
     {
         $this->unsubscribeNewsletterToken = $token;
+        return $this;
+    }
+
+    public function subscribeToNewsletter(): self
+    {
+        $this->isNewsletterSubscribed = true;
+        $this->unsubscribeNewsletterToken = bin2hex(random_bytes(16));
         return $this;
     }
 
