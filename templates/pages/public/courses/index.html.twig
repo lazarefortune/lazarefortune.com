@@ -44,16 +44,7 @@
                     <label for="filter-premium" class="text-base text-slate-600 dark:text-slate-300">
                         Premium uniquement :
                     </label>
-                    <input
-                            is="switch-redirect"
-                            type="checkbox"
-                            name="premium"
-                            id="filter-premium"
-                            value="1"
-                            data-redirect
-                            {% if premium_only %}checked{% endif %}
-                            class="form-checkbox"
-                    >
+                    <switch-redirect name="premium" value="1" {% if premium_only %}data-checked{% endif %}></switch-redirect>
                 </div>
             </div>
 

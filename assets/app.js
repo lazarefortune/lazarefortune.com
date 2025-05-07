@@ -33,7 +33,7 @@ customElements.define('auto-submit-form', AutoSubmitForm);
 customElements.define('auto-submit', AutoSubmit, { extends: 'form' })
 customElements.define('markdown-editor', MarkdownEditor, { extends: 'textarea' })
 customElements.define('filter-select', FilterSelect)
-customElements.define('switch-redirect', SwitchRedirect, { extends: 'input' })
+customElements.define('switch-redirect', SwitchRedirect)
 
 
 /* Modules */

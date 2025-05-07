@@ -1,30 +1,38 @@
 import { redirect } from '../functions/url.js'
 
-export class SwitchRedirect extends HTMLInputElement {
+export class SwitchRedirect extends HTMLElement {
     connectedCallback () {
-        if (this.type !== 'checkbox') return
+        if (this.rendered) return; // éviter double appel
+        this.rendered = true
 
-        // Activation uniquement si data-redirect est présent
-        if (this.dataset.redirect === undefined) return
+        const checkbox = document.createElement('input')
+        checkbox.type = 'checkbox'
+        checkbox.name = this.getAttribute('name')
+        checkbox.value = this.getAttribute('value') || '1'
+        checkbox.className = 'form-checkbox'
+        checkbox.id = this.getAttribute('id') || 'switch-redirect-' + Math.random().toString(36).substring(7)
 
-        this.addEventListener('change', () => {
+        if (this.hasAttribute('data-checked')) {
+            checkbox.checked = true
+        }
+
+        // Garde le label associé fonctionnel
+        const label = this.previousElementSibling
+        if (label && label.tagName === 'LABEL') {
+            label.setAttribute('for', checkbox.id)
+        }
+
+        checkbox.addEventListener('change', () => {
             const params = new URLSearchParams(window.location.search)
-
-            if (this.checked) {
-                params.set(this.name, this.value)
+            if (checkbox.checked) {
+                params.set(checkbox.name, checkbox.value)
             } else {
-                params.delete(this.name)
+                params.delete(checkbox.name)
             }
-
-            // On reset la pagination si elle est active
             params.delete('page')
-
             redirect(`${location.pathname}?${params}`)
         })
-    }
 
-    disconnectedCallback () {
-        // Si besoin, tu peux détacher ici les events
-        // this.removeEventListener('change', ...)
+        this.appendChild(checkbox)
     }
 }
