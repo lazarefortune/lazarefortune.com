@@ -94,9 +94,8 @@
             <notifications-area></notifications-area>
             <!-- Dropdown utilisateur -->
             <div class="relative">
-                <button id="header-dropdown-button" class="header-dropdown flex items-center pr-0 lg:pr-4 gap-2 border border-slate-200 dark:border-slate-700 rounded-full text-md" aria-controls="dropdown-user" aria-expanded="false">
+                <button id="header-dropdown-button" class="header-dropdown flex items-center rounded-full text-md" aria-controls="dropdown-user" aria-expanded="false">
                     <img class="h-11 min-w-11 rounded-full object-cover border border-slate-200 dark:border-slate-700" src="{{ app.user|avatar }}" alt="{{ app.user.fullname }} avatar">
-                    <span class="hidden lg:inline-flex">{{ app.user.fullname | truncate(15) }}</span>
                 </button>
                 <div id="header-dropdown-menu" class="absolute z-[4000] -right-2 md:right-0 top-[35px] min-w-80 bg-white dark:bg-primary-950 dark:text-white
                  border border-slate-200 dark:border-slate-800 shadow-lg rounded-xl
