@@ -94,10 +94,22 @@
             <notifications-area></notifications-area>
             <!-- Dropdown utilisateur -->
             <div class="relative">
-                <button id="header-dropdown-button" class="header-dropdown flex items-center rounded-full text-md" aria-controls="dropdown-user" aria-expanded="false">
-                    <img class="h-11 min-w-11 rounded-full object-cover border border-slate-200 dark:border-slate-700" src="{{ app.user|avatar }}" alt="{{ app.user.fullname }} avatar">
-                </button>
-                <div id="header-dropdown-menu" class="absolute z-[4000] -right-2 md:right-0 top-[35px] min-w-80 bg-white dark:bg-primary-950 dark:text-white
+            <button id="header-dropdown-button"
+                    class="relative header-dropdown flex items-center rounded-full text-md"
+                    aria-controls="dropdown-user"
+                    aria-expanded="false">
+
+                <img class="h-11 min-w-11 rounded-full object-cover border border-slate-200 dark:border-slate-700"
+                     src="{{ app.user|avatar }}"
+                     alt="{{ app.user.fullname }} avatar">
+
+                {% if app.user.isPremium %}
+                    <span class="absolute bottom-1 right-1 translate-x-1 translate-y-1 bg-primary-400 text-white p-0.5 rounded-full shadow-md">
+                    {{ icon('sparkles', 16) }}
+                </span>
+                {% endif %}
+            </button>
+            <div id="header-dropdown-menu" class="absolute z-[4000] -right-2 md:right-0 top-[35px] min-w-80 bg-white dark:bg-primary-950 dark:text-white
                  border border-slate-200 dark:border-slate-800 shadow-lg rounded-xl
                  flex flex-col justify-center items-start
                  scale-95 transform transition-all duration-100 ease-out
