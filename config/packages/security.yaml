@@ -36,6 +36,7 @@ security:
         name: REMEMBERME
         secure: true
         samesite: lax
+        always_remember_me: true
       custom_authenticator:
         - App\Domain\Auth\Core\Security\AppAuthenticator
         - App\Infrastructure\Social\Authenticator\GoogleAuthenticator
