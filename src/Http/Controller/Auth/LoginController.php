@@ -14,8 +14,8 @@ class LoginController extends AbstractController
     #[Route( path: '/connexion', name: 'login' )]
     public function login( AuthenticationUtils $authenticationUtils ) : Response
     {
-        if ( $this->getUser() ) {
-            return $this->redirectToRoute( 'app_home' );
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('app_home');
         }
 
         // get the login error if there is one

@@ -52,7 +52,7 @@ class AccountController extends AbstractController
     }
 
     #[Route( '/', name: 'index' )]
-    #[isGranted( 'IS_AUTHENTICATED_FULLY' )]
+    #[isGranted( 'ROLE_USER' )]
     public function index( Request $request ) : Response
     {
         return $this->render( 'pages/public/account/index.html.twig');
@@ -133,6 +133,7 @@ class AccountController extends AbstractController
     }
 
     #[Route( '/securite/email' , name: 'security_email' )]
+    #[IsGranted( 'IS_AUTHENTICATED_FULLY' )]
     public function changeEmail( Request $request ) : Response
     {
         // Profile update form
@@ -176,6 +177,7 @@ class AccountController extends AbstractController
     }
 
     #[Route( '/securite/mot-de-passe' , name: 'security_password' )]
+    #[IsGranted( 'IS_AUTHENTICATED_FULLY' )]
     public function passwordChange( Request $request ) : Response
     {
         $user = $this->getUserOrThrow();
