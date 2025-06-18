@@ -13,8 +13,25 @@
         </p>
     </div>
 
-    <form method="post" class="w-full space-y-6 reveal" data-delay=".4" action="#">
+    <div class="grid grid-cols-2 gap-3 reveal" data-delay=".2">
+        <a href="{{ path('app_oauth_connect', {service: 'google', redirect: app.request.uri}) }}" class="btn btn-light w-full">
+            <svg class="social-icon"><use href="/icons/social.svg#google"></use></svg>
+            Google
+        </a>
 
+        <a href="{{ path('app_oauth_connect', {service: 'github', redirect: app.request.uri}) }}" class="btn btn-light w-full">
+            <svg class="social-icon"><use href="/icons/social.svg#github"></use></svg>
+            GitHub
+        </a>
+    </div>
+
+    <div class="flex items-center space-x-2 reveal mt-3" data-delay=".2">
+        <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+        <span class="text-slate-500 text-sm">ou</span>
+        <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+    </div>
+
+    <form method="post" class="w-full space-y-6 reveal" data-delay=".4" action="#">
         {% if error %}
             <div class="alert alert-danger text-center">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
@@ -37,24 +54,6 @@
 
             <a href="{{ path('app_register') }}" class="btn btn-outline">
                 Pas encore inscrit ? Créer un compte
-            </a>
-        </div>
-
-        <div class="flex items-center space-x-2">
-            <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
-            <span class="text-slate-500 text-sm">ou</span>
-            <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
-            <a href="{{ path('app_oauth_connect', {service: 'google', redirect: app.request.uri}) }}" class="btn btn-light w-full">
-                <svg class="social-icon"><use href="/icons/social.svg#google"></use></svg>
-                Google
-            </a>
-
-            <a href="{{ path('app_oauth_connect', {service: 'github', redirect: app.request.uri}) }}" class="btn btn-light w-full">
-                <svg class="social-icon"><use href="/icons/social.svg#github"></use></svg>
-                GitHub
             </a>
         </div>
     </form>

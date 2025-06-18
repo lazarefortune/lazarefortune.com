@@ -1,0 +1,38 @@
+{% extends 'layouts/public/base-auth.html.twig' %}
+
+{% block title %}Comment dois-je t'appeler ?{% endblock %}
+
+{% block auth_body %}
+
+    <div class="text-center mb-6">
+        <h1 class="text-2xl text-lead font-medium reveal">
+            Comment dois-je t'appeler ?
+        </h1>
+    </div>
+
+    {{ form_start(form, {
+        attr: {
+            class: 'space-y-6 reveal',
+        }
+    }) }}
+
+    <!-- Champ Nom complet -->
+    <div>
+        {{ form_widget(form.fullname, {
+            attr: {
+                placeholder: 'Ton prénom'
+            }
+        }) }}
+        <div class="form-error">{{ form_errors(form.fullname) }}</div>
+    </div>
+
+    <!-- Boutons -->
+    <div class="flex flex-col gap-3 mt-4">
+        <button type="submit" class="btn btn-primary py-4 text-lg">
+            Continuer
+        </button>
+    </div>
+
+    {{ form_end(form) }}
+
+{% endblock %}

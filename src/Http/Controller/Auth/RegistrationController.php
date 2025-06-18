@@ -5,13 +5,16 @@ namespace App\Http\Controller\Auth;
 use App\Domain\Auth\Core\Dto\CreateUserDto;
 use App\Domain\Auth\Core\Entity\User;
 use App\Domain\Auth\Login\Service\LoginService;
+use App\Domain\Auth\Registration\Form\RegisterFullname;
 use App\Domain\Auth\Registration\Form\RegistrationForm;
 use App\Domain\Auth\Registration\Service\RegistrationService;
 use App\Http\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
@@ -43,7 +46,8 @@ class RegistrationController extends AbstractController
             }
 
             try {
-                return $this->loginService->authenticateUser( $user, $request );
+                $this->loginService->authenticateUser( $user, $request );
+                return $this->redirectToRoute( 'app_register_fullname' );
             } catch ( Exception $e ) {
                 $this->addFlash( 'danger', $e->getMessage() );
                 return $this->redirectToRoute( 'app_login' );
@@ -53,6 +57,33 @@ class RegistrationController extends AbstractController
         return $this->render( 'pages/auth/register.html.twig', [
             'registrationForm' => $form->createView(),
         ] );
+    }
+
+    #[Route( '/inscription/nom-complet', name: 'register_fullname', methods: ['GET', 'POST'] )]
+    #[IsGranted('ROLE_USER')]
+    public function registerUserName(Request $request, EntityManagerInterface $em) : Response
+    {
+        $user = $this->getUserOrThrow();
+
+        $fullname = $request->query->get( 'fullname' );
+
+        $form = $this->createForm( RegisterFullname::class, ['fullname' => $fullname] );
+        $form->handleRequest( $request );
+
+        if ( $form->isSubmitted() && $form->isValid() ) {
+            $fullname = $form->get('fullname')->getData();
+            $user->setFullname( $fullname );
+
+            $em->persist( $user );
+            $em->flush();
+
+            $this->addFlash('success', 'Inscription terminée avec succès !');
+            return $this->redirectToRoute( 'app_home' );
+        }
+
+        return $this->render( 'pages/auth/register-user-fullname.html.twig' , [
+            'form' => $form->createView(),
+        ]);
     }
 
     #[Route( '/email/validation', name: 'verify_email' )]

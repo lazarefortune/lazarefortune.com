@@ -9,8 +9,30 @@
             Prêt à rejoindre l'aventure ?
         </h1>
         <p class="text-base text-slate-600 dark:text-slate-300 mt-2 reveal" data-delay=".2">
-            Accède à toutes les formations, sauvegarde ta progression et fais décoller tes compétences.
+            Accède à toutes les playlists, sauvegarde ta progression et fais décoller tes compétences.
         </p>
+    </div>
+
+
+    <div class="reveal" data-delay=".3">
+        <!-- Connexion sociale -->
+        <div class="grid grid-cols-2 gap-3">
+            <a href="{{ path('app_oauth_connect', {service: 'google'}) }}" class="btn btn-light w-full">
+                <svg class="social-icon"><use href="/icons/social.svg#google"></use></svg>
+                Google
+            </a>
+            <a href="{{ path('app_oauth_connect', {service: 'github'}) }}" class="btn btn-light w-full">
+                <svg class="social-icon"><use href="/icons/social.svg#github"></use></svg>
+                GitHub
+            </a>
+        </div>
+
+        <!-- Séparateur -->
+        <div class="flex items-center gap-3 my-4">
+            <div class="flex-grow h-px bg-slate-200 dark:bg-slate-700"></div>
+            <span class="text-sm text-slate-500 dark:text-slate-400">ou crée un compte classique</span>
+            <div class="flex-grow h-px bg-slate-200 dark:bg-slate-700"></div>
+        </div>
     </div>
 
     {{ form_start(registrationForm, {
@@ -19,35 +41,6 @@
             'data-delay': '.4'
         }
     }) }}
-
-    <!-- Connexion sociale -->
-    <div class="grid grid-cols-2 gap-3">
-        <a href="{{ path('app_oauth_connect', {service: 'google'}) }}" class="btn btn-light w-full">
-            <svg class="social-icon"><use href="/icons/social.svg#google"></use></svg>
-            Google
-        </a>
-        <a href="{{ path('app_oauth_connect', {service: 'github'}) }}" class="btn btn-light w-full">
-            <svg class="social-icon"><use href="/icons/social.svg#github"></use></svg>
-            GitHub
-        </a>
-    </div>
-
-    <!-- Séparateur -->
-    <div class="flex items-center gap-3 my-4">
-        <div class="flex-grow h-px bg-slate-200 dark:bg-slate-700"></div>
-        <span class="text-sm text-slate-500 dark:text-slate-400">ou crée un compte classique</span>
-        <div class="flex-grow h-px bg-slate-200 dark:bg-slate-700"></div>
-    </div>
-
-    <!-- Champ Nom complet -->
-    <div>
-        {{ form_widget(registrationForm.fullname, {
-            attr: {
-                placeholder: 'Ton nom complet'
-            }
-        }) }}
-        <div class="form-error">{{ form_errors(registrationForm.fullname) }}</div>
-    </div>
 
     <!-- Champ Email -->
     <div>
@@ -69,22 +62,6 @@
         <div class="form-error">{{ form_errors(registrationForm.plainPassword) }}</div>
     </div>
 
-    <!-- Acceptation des CGU -->
-    <div class="flex items-start gap-3 text-left">
-        {{ form_widget(registrationForm.agreeTerms, {
-            id: 'agreeTerms',
-            attr: {
-                class: 'form-checkbox mt-1'
-            }
-        }) }}
-        <label for="agreeTerms" class="text-sm text-slate-600 dark:text-slate-300">
-            J'accepte les <a href="{{ path('app_cgu') }}" class="link underline" target="_blank">
-                conditions d’utilisation
-            </a>.
-        </label>
-    </div>
-    <div class="form-error">{{ form_errors(registrationForm.agreeTerms) }}</div>
-
     <!-- Captcha -->
     {{ form_row(registrationForm.captcha) }}
 
@@ -97,6 +74,10 @@
             J’ai déjà un compte
         </a>
     </div>
+
+    <p class="text-sm text-center text-slate-600 dark:text-slate-300 max-w-64 mx-auto">
+        En vous inscrivant vous acceptez les <a href="{{ path('app_cgu') }}" class="link underline" target="_blank">conditions d’utilisation</a> du site
+    </p>
 
     {{ form_end(registrationForm) }}
 

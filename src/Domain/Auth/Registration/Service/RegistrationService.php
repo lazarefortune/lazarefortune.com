@@ -45,7 +45,6 @@ class RegistrationService
 
         $user = $userDto->user
             ->setEmail( $userDto->email )
-            ->setFullname( $userDto->fullname )
             ->setPassword(
                 $this->userPasswordHasher->hashPassword(
                     $userDto->user,

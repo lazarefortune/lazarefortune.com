@@ -27,27 +27,16 @@ class RegistrationForm extends AbstractType
                     'class' => 'label',
                 ],
             ] )
-            ->add( 'fullname', TextType::class, [
-                'label' => 'Nom',
-                'attr' => [
-                    'autocomplete' => 'name',
-                    'class' => 'form-input',
-                ],
-                'label_attr' => [
-                    'class' => 'label',
-                ]
-            ] )
-            ->add( 'agreeTerms', CheckboxType::class, [
-                'constraints' => [
-                    new IsTrue( [
-                        'message' => 'Vous devez accepter les conditions d\'utilisation',
-                    ] ),
-                ],
-                'label' => false,
-                'attr' => [
-                    'class' => 'form-checkbox',
-                ],
-            ] )
+//            ->add( 'fullname', TextType::class, [
+//                'label' => 'Nom',
+//                'attr' => [
+//                    'autocomplete' => 'name',
+//                    'class' => 'form-input',
+//                ],
+//                'label_attr' => [
+//                    'class' => 'label',
+//                ]
+//            ] )
             ->add('captcha', CaptchaType::class, [
                 'mapped' => false
             ])
