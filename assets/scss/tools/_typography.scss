@@ -157,31 +157,31 @@ a {
 }
 
 p {
-  @apply text-base text-slate-900 dark:text-white;
+  @apply text-base text-slate-900 dark:text-[#f0f3ff];
 }
 
 .h1 {
-  @apply font-space-grotesk text-4xl font-medium text-slate-900 dark:text-white;
+  @apply font-space-grotesk text-4xl font-medium text-slate-900 dark:text-[#f0f3ff];
 }
 
 .h2 {
-  @apply font-space-grotesk text-3xl font-medium text-slate-900 dark:text-white;
+  @apply font-space-grotesk text-3xl font-medium text-slate-900 dark:text-[#f0f3ff];
 }
 
 .h3 {
-  @apply font-space-grotesk text-2xl font-medium text-slate-900 dark:text-white;
+  @apply font-space-grotesk text-2xl font-medium text-slate-900 dark:text-[#f0f3ff];
 }
 
 .h4 {
-  @apply font-space-grotesk text-xl font-medium text-slate-900 dark:text-white;
+  @apply font-space-grotesk text-xl font-medium text-slate-900 dark:text-[#f0f3ff];
 }
 
 .h5 {
-  @apply font-space-grotesk text-lg font-medium text-slate-900 dark:text-white;
+  @apply font-space-grotesk text-lg font-medium text-slate-900 dark:text-[#f0f3ff];
 }
 
 .h6 {
-  @apply font-space-grotesk text-base font-medium text-slate-900 dark:text-white;
+  @apply font-space-grotesk text-base font-medium text-slate-900 dark:text-[#f0f3ff];
 }
 
 h1, h2, h3, h4, h5, h6,
@@ -189,7 +189,7 @@ h1 *, h2 *, h3 *, h4 *, h5 *, h6 *,
 .h1, .h2, .h3, .h4, .h5, .h6,
 .h1 *, .h2 *, .h3 *, .h4 *, .h5 *, .h6 * {
   //@apply font-bricolage text-slate-900 dark:text-white;
-  @apply font-space-grotesk text-slate-900 dark:text-white;
+  @apply font-space-grotesk text-slate-900 dark:text-[#f0f3ff];
   //@apply font-hanken-grotesk text-slate-900 dark:text-white;
 }
 

@@ -10,12 +10,10 @@
 
 {% block body %}
     <div>
-        <div class="container-box">
-            {{ breadcrumb(course) }}
-        </div>
         <div class="bg-gradient-to-r from-primary-50 dark:from-primary-950 to-white dark:to-primary-900 pt-4 pb-10">
             <div class="container-box mb-6">
-
+                {{ breadcrumb(course) }}
+                <h1 class="container-box mt-3 mb-6 text-3xl lg:text-4xl font-medium text-slate-900 dark:text-white">{{ course.title }}</h1>
                 <div class="{{ course.formation ? 'is-chapter' : 'is-chapter is-folded' }}">
                     {% if course.isRestrictedToUser and not app.user %}
                         <div class="course-countdown relative rounded-lg overflow-hidden shadow-lg" style="background-image: url({{ image_url_raw(course.image) }})">
@@ -68,14 +66,13 @@
                         </div>
 
                         <button class="chapters-toggle lg:flex hidden" aria-label="Replier/Déplier">
-                            {{ icon('arrow-down') }}
+                            {{ icon('chevron-down') }}
                         </button>
                     {% endif %}
                 </div>
 
-                <h1 class="container-box mt-4 mb-2 text-3xl lg:text-4xl font-medium text-slate-900 dark:text-white">{{ course.title }}</h1>
-                <div class="text-left mb-4">
-                    <small class="text-muted text-base">
+                <div class="text-left mt-4 mb-4">
+                    <small class="text-muted text-sm">
                         {% if course.isScheduled %}
                             Disponible dans {{ course.publishedAt | countdown }}
                         {% else %}
@@ -151,7 +148,7 @@
                         <div>
                             <div class="h4 text-lead mb-4">Tags</div>
                             {% if course.mainTechnologies is not empty %}
-                                <div class="flex flex-wrap items-center gap-3 py-3 px-4 rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-primary-950">
+                                <div class="flex flex-wrap items-center gap-3">
                                     {% for technology in course.mainTechnologies %}
                                         <a href="{{ path('app_technology_show', {slug: technology.slug}) }}"
                                            class="course__tech shadow hover:shadow-md transition-all duration-200">

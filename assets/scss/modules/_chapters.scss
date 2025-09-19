@@ -25,7 +25,7 @@
 }
 
 .chapters-wrapper {
-  @apply relative transition-all duration-300 ease-in-out bg-white dark:bg-primary-1000 rounded-xl;
+  @apply relative transition-all duration-300 ease-in-out bg-white dark:bg-primary-1000 rounded-md;
   @apply border border-slate-200 dark:border-slate-800 shadow dark:shadow-primary-700;
 
   @media (min-width: 1100px) {
@@ -75,7 +75,7 @@
 
 /* Le toggle sur desktop */
 .chapters-toggle {
-  @apply absolute lg:flex items-center justify-center cursor-pointer bg-white dark:bg-primary-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700;
+  @apply absolute lg:flex items-center justify-center cursor-pointer bg-white dark:bg-primary-950 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700;
 
   top: 50%;
   transform: translateY(-50%) scale(0.9);

@@ -78,19 +78,13 @@ export function Search() {
         <div className="relative flex items-center">
             {/* Conteneur déclencheur */}
             <div onClick={toggleSearchBar} className="relative flex items-center cursor-pointer">
-                <input
-                    type="text"
-                    placeholder="Rechercher..."
-                    readOnly
-                    className="hidden md:block bg-slate-50 border-slate-200 dark:bg-primary-1000 dark:border-slate-800 px-3 py-2 rounded-xl cursor-pointer pr-10"
-                />
                 <button
                     aria-label="Rechercher"
                     onClick={(e) => {
                         e.stopPropagation(); // pour éviter la propagation du clic sur le conteneur parent
                         toggleSearchBar();
                     }}
-                    className="absolute inset-y-0 right-2 flex items-center text-slate-950 md:text-slate-400 dark:text-white  dark:md:text-slate-700"
+                    className="absolute inset-y-0 right-0 flex items-center"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +92,7 @@ export function Search() {
                         viewBox="0 0 24 24"
                         strokeWidth={2}
                         stroke="currentColor"
-                        className="w-6 h-6"
+                        className="w-5 h-5  text-slate-800 dark:text-slate-200"
                     >
                         <path
                             strokeLinecap="round"
