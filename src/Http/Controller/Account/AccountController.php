@@ -246,6 +246,8 @@ class AccountController extends AbstractController
     #[Route( '/gestion-abonnement', name: 'subscription_invoices', methods: ['GET', 'POST'] )]
     public function subscriptionsAndInvoices(Request $request, SubscriptionRepository $repository) : Response
     {
+        throw $this->createAccessDeniedException('Les abonnements sont temporairement suspendus');
+
         $user = $this->getUserOrThrow();
 
         $subscription = $repository->findCurrentForUser($user);

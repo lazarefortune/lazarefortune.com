@@ -18,11 +18,13 @@
                             {{ icon('sparkles') }}
                             <span>Compte Premium</span>
                         </div>
+                    {#
                     {% else %}
                         <a href="{{ path('app_premium') }}" class="btn-sm btn-premium btn-premium-glow my-1 inline-flex items-center gap-1">
                             {{ icon('sparkles') }}
                             <span>Devenir premium</span>
                         </a>
+                    #}
                     {% endif %}
 
                     <p class="text-muted text-base">
@@ -32,7 +34,7 @@
             </div>
         </div>
 
-        <div class="divider my-6"></div>
+        <div class="my-6"></div>
 
         {% if not app.user.isVerified %}
             <div class="my-5 bg-yellow-50 dark:bg-yellow-900/10 border-l-4 border-yellow-400 dark:border-yellow-500 p-4 rounded-md shadow-sm">
@@ -102,6 +104,7 @@
             </a>
 
             <!-- Carte Abonnement & Facturation -->
+            {#
             <a href="{{ path('app_account_subscription_invoices') }}" class="account-card">
                 <div class="account-card__icon">
                     {{ icon('credit-card', 30) }}
@@ -111,6 +114,7 @@
                     <p>Gérer votre abonnement et paiements</p>
                 </div>
             </a>
+            #}
 
             <!-- Carte Historique -->
             <a href="{{ path('app_account_history') }}" class="account-card">

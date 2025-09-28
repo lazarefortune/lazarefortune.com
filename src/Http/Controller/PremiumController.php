@@ -11,6 +11,8 @@ class PremiumController extends AbstractController
     #[Route( '/abonnement/premium' , name: 'premium' )]
     public function premium(PlanRepository $planRepository): Response
     {
+        throw $this->createAccessDeniedException('Les abonnements sont temporairement suspendus');
+
         $plans = $planRepository->findall();
 
         return $this->render('pages/public/premium/premium.html.twig', [

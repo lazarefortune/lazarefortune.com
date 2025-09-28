@@ -26,9 +26,7 @@
         </nav>
     </div>
 
-    {% if app.user.isPremium %}
-
-        <div class="table-wrapper">
+    <div class="table-wrapper">
             <table class="table">
                 <thead>
                 <tr>
@@ -73,25 +71,6 @@
             </table>
         </div>
 
-        {{ paginate(rows) }}
+    {{ paginate(rows) }}
 
-    {% else %}
-        <div class="flex flex-col justify-center items-center my-12">
-            <div class="bg-white dark:bg-primary-1000 border border-slate-100 dark:border-slate-900 shadow-lg rounded-xl p-8 max-w-md flex flex-col justify-center items-center text-center">
-                <div class="bg-primary-100 dark:bg-primary-500 text-primary-800 dark:text-slate-100 p-4 rounded-full mb-4">
-                    {{ icon('crown', 25) }}
-                </div>
-                <h2 class="text-xl font-medium text-gray-700 dark:text-gray-200 mb-3">
-                    Débloquez la gestion complète des Quiz
-                </h2>
-                <p class="text-gray-600 dark:text-gray-400 mb-6">
-                    Créez, personnalisez et gérez facilement vos propres quiz. Rejoignez les membres premium pour profiter pleinement de cette fonctionnalité !
-                </p>
-                <a href="{{ path('app_premium') }}" class="btn btn-primary">
-                    Je deviens Premium
-                </a>
-            </div>
-        </div>
-
-    {% endif %}
 {% endblock %}
