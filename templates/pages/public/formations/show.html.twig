@@ -57,7 +57,7 @@
                     <div class="pt-4">
                         {% if progress %}
                             <a href="{{ path('app_formation_resume', {slug: formation.slug}) }}#autoplay"
-                               class="inline-flex items-center gap-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold px-8 py-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                               class="inline-flex items-center gap-3 bg-primary-600 hover:bg-primary-700 text-white dark:text-white dark:hover:text-white focus:text-white font-semibold px-8 py-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                                 {{ icon('play', 20) }}
                                 <span>{{ progress.ratio == 1 ? 'Revoir la playlist' : 'Continuer la playlist' }}</span>
                             </a>
@@ -173,7 +173,7 @@
 {#                                        </div>#}
 {#                                    {% endif %}#}
 
-                                    <div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-6">
+                                    <div class="bg-slate-50 dark:bg-primary-1000 rounded-xl p-6">
                                         <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Informations</h3>
                                         <ul class="space-y-2 text-slate-600 dark:text-slate-400">
                                             <li>{{ formation.duration | duration }} de vidéos</li>
@@ -181,23 +181,6 @@
                                         </ul>
                                     </div>
                                 </div>
-
-                                <!-- Prérequis -->
-                                {% if formation.secondaryTechnologies is not empty %}
-                                    <div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-6">
-                                        <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Prérequis</h3>
-                                        <ul class="space-y-2">
-                                            {% for technology in formation.secondaryTechnologies %}
-                                                <li>
-                                                    <a href="{{ path('app_technology_show', {slug: technology.slug}) }}"
-                                                       class="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors">
-                                                        {{ technology.name }}
-                                                    </a>
-                                                </li>
-                                            {% endfor %}
-                                        </ul>
-                                    </div>
-                                {% endif %}
                             </div>
                         </div>
 
@@ -269,23 +252,6 @@
                                     <li>{{ formation.chapters | length }} chapitres</li>
                                 </ul>
                             </div>
-
-                            <!-- Prérequis -->
-                            {% if formation.secondaryTechnologies is not empty %}
-                                <div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-4">
-                                    <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-3">Prérequis</h3>
-                                    <ul class="space-y-2 text-sm">
-                                        {% for technology in formation.secondaryTechnologies %}
-                                            <li>
-                                                <a href="{{ path('app_technology_show', {slug: technology.slug}) }}"
-                                                   class="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors">
-                                                    {{ technology.name }}
-                                                </a>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            {% endif %}
                         </div>
                     </div>
                 </div>

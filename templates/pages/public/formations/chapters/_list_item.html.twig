@@ -1,41 +1,42 @@
 <div class="mb-6">
-    <h2 class="text-xl font-semibold tracking-tight text-slate-800 dark:text-white mb-1">
+    <h2 class="text-xl font-normal tracking-tight text-slate-800 dark:text-slate-200 mb-3">
         {{ chapter.title }}
     </h2>
+    {#
     <p class="text-sm text-slate-500 dark:text-slate-400 mb-3">
         {{ chapter.modules | length }} vidéo{{ chapter.modules | length > 1 ? 's' : '' }}
     </p>
-
-    <div class="divide-y divide-slate-200 dark:divide-slate-700 rounded-xl border-2 border-slate-200 dark:border-slate-700 overflow-hidden">
+    #}
+    <div class="divide-y divide-slate-200 dark:divide-slate-700 rounded-lg border-2 border-slate-200 dark:border-slate-700 overflow-hidden">
         {% for course in chapter.modules %}
             {% set isLocked = (course.premium and (not app.user or not app.user.premium)) or course.isScheduled or (course.isRestrictedToUser and not app.user) %}
             {% set courseUrl = not isLocked ? path('app_course_show', {slug: course.slug}) ~ '#autoplay' : path('app_course_show', {slug: course.slug}) %}
 
             {% set iconType = 'video' %}
-            {% set iconColor = 'text-primary-600 dark:text-primary-400' %}
+            {% set iconColor = 'text-slate-600 dark:text-slate-400' %}
             {% if course.isScheduled %}
                 {% set iconType = 'clock' %}
                 {% set iconColor = 'text-yellow-500 dark:text-yellow-400' %}
             {% elseif course.isRestrictedToUser and not app.user %}
                 {% set iconType = 'lock' %}
-                {% set iconColor = 'text-slate-600 dark:text-slate-500' %}
+                {% set iconColor = 'text-amber-600 dark:text-amber-400' %}
             {% elseif course.premium and (not app.user or not app.user.premium) %}
                 {% set iconType = 'crown' %}
-                {% set iconColor = 'text-amber-500 dark:text-amber-400' %}
+                {% set iconColor = 'text-amber-600 dark:text-amber-400' %}
             {% endif %}
 
             <a href="{{ courseUrl }}"
-               class="group flex justify-between items-center gap-4 p-4 bg-gray-50 dark:bg-primary-1000 hover:bg-primary-50 dark:hover:bg-primary-950 transition">
+               class="group flex justify-between items-center gap-4 p-4 bg-white dark:bg-primary-950 hover:bg-primary-50 dark:hover:bg-primary-1000 transition">
                 <div class="flex items-center gap-3">
                     <div class="{{ iconColor }}">
                         {{ icon(iconType, 20) }}
                     </div>
-                    <h3 class="text-base font-medium text-slate-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 line-clamp-2">
+                    <h3 class="text-base font-inter font-normal text-slate-800 dark:text-slate-100 line-clamp-2">
                         {{ course.title }}
                     </h3>
                 </div>
 
-                <div class="text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap">
+                <div class="text-sm text-slate-500 dark:text-slate-400 whitespace-nowrap">
                     {{ course.duration|duration }}
                 </div>
             </a>

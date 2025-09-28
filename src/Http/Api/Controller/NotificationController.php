@@ -47,7 +47,7 @@ class NotificationController extends AbstractController
         return $this->json($notification, context: ['groups' => ['read:notification']], status: Response::HTTP_CREATED);
     }
 
-    #[Route(path: '/notifications/read', name: 'api_notification_read', methods: ['POST'])]
+    #[Route(path: '/notifications/read', name: 'notification_read', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
     public function readAll(AuthService $auth, NotificationService $service): JsonResponse
     {
