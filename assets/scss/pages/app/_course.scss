@@ -305,3 +305,114 @@
 .share-button__animate-fade-in {
   animation: fade-in 0.2s ease-out;
 }
+
+/* Filtres horizontaux style YouTube */
+.filters-horizontal {
+  @apply mb-8;
+
+  .filters-scroll {
+    @apply flex gap-3 overflow-x-auto pt-2 pb-2;
+    @apply -mx-4 px-4;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+
+    /* Scrollbar personnalisée pour desktop */
+    @media (min-width: 769px) {
+      &::-webkit-scrollbar {
+        height: 6px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 3px;
+      }
+
+      &::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+      }
+
+      /* Dark mode scrollbar */
+      .dark &::-webkit-scrollbar-thumb {
+        background: #475569;
+      }
+
+      .dark &::-webkit-scrollbar-thumb:hover {
+        background: #64748b;
+      }
+    }
+
+    /* Mobile : masquer la scrollbar mais garder le scroll */
+    @media (max-width: 768px) {
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      /* Forcer le scroll horizontal */
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+
+  .filter-chip {
+    @apply flex items-center gap-2 px-4 py-2 text-sm font-medium;
+    @apply bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300;
+    @apply rounded-md border border-slate-200 dark:border-slate-600;
+    @apply transition-all duration-200 whitespace-nowrap;
+    @apply hover:bg-slate-200 dark:hover:bg-slate-600;
+    @apply hover:scale-105 hover:shadow-sm;
+
+    &--active {
+      @apply bg-primary-500 text-white border-primary-500;
+      @apply hover:bg-primary-600 hover:border-primary-600;
+      @apply shadow-sm;
+    }
+  }
+
+  .filter-chip-icon {
+    @apply w-4 h-4;
+  }
+
+  .filter-chip-image {
+    @apply w-5 h-5 object-contain;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .filters-horizontal {
+    .filters-scroll {
+      @apply -mx-2 px-2;
+      /* Améliorer le scroll sur mobile */
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+    }
+
+    .filter-chip {
+      @apply px-3 py-1.5 text-xs;
+      /* Améliorer l'espacement sur mobile */
+      flex-shrink: 0;
+      scroll-snap-align: start;
+    }
+  }
+}
+
+/* Dark mode enhancements */
+.dark .filters-horizontal {
+  .filter-chip {
+    @apply bg-slate-700 text-slate-300 border-slate-600;
+
+    &:hover {
+      @apply bg-slate-600;
+    }
+
+    &--active {
+      @apply bg-primary-500 text-white border-primary-500;
+    }
+  }
+}

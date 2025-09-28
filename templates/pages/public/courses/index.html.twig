@@ -15,36 +15,30 @@
                 {% endif %}
             </div>
 
-            <div class="course-filter flex flex-col md:flex-row gap-4 md:gap-6 justify-between border border-slate-200 dark:border-slate-700 rounded-md px-4 py-3 shadow-sm bg-slate-50 dark:bg-primary-1000">
-                {# Filtre technologie #}
-                <div class="flex items-center gap-3">
-                    <label for="filter-technology" class="text-base text-slate-600 dark:text-slate-300">Technologie :</label>
-                    <filter-select>
-                        <select id="filter-technology"
-                                name="technology"
-                                data-value="slug"
-                                data-label="name"
-                                class="form-select">
-                            <option value="">Toutes</option>
-                            {% for group, techs in technologies %}
-                                <optgroup label="{{ group }}">
-                                    {% for tech in techs %}
-                                        <option value="{{ tech.slug }}" {% if technology_selected and technology_selected.slug == tech.slug %}selected{% endif %}>
-                                            {{ tech.name }}
-                                        </option>
-                                    {% endfor %}
-                                </optgroup>
-                            {% endfor %}
-                        </select>
-                    </filter-select>
-                </div>
+            <!-- Filtres horizontaux style YouTube -->
+            <div class="filters-horizontal">
+                <div class="filters-scroll">
+                    <!-- Bouton "Toutes" -->
+                    <a href="{{ path('app_course_index') }}"
+                       class="filter-chip {% if not technology_selected %}filter-chip--active{% endif %}">
+                        <svg class="filter-chip-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                        </svg>
+                        Toutes
+                    </a>
 
-                {# Filtre Premium #}
-                <div class="flex items-center gap-3">
-                    <label for="filter-premium" class="text-base text-slate-600 dark:text-slate-300">
-                        Premium uniquement :
-                    </label>
-                    <switch-redirect name="premium" value="1" {% if premium_only %}data-checked{% endif %}></switch-redirect>
+                    <!-- Technologies -->
+                    {% for group, techs in technologies %}
+                        {% for tech in techs %}
+                            <a href="{{ path('app_course_index', {'technology': tech.slug}) }}"
+                               class="filter-chip {% if technology_selected and technology_selected.slug == tech.slug %}filter-chip--active{% endif %}">
+                                <img src="{{ uploads_path('icons/' ~ tech.image) }}"
+                                     alt="{{ tech.name }}"
+                                     class="filter-chip-image">
+                                {{ tech.name }}
+                            </a>
+                        {% endfor %}
+                    {% endfor %}
                 </div>
             </div>
 

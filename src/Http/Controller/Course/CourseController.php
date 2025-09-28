@@ -35,8 +35,7 @@ class CourseController extends AbstractController
     public function index(CourseRepository $repo, Request $request, PaginatorInterface $paginator, TechnologyRepository $technologyRepository): Response
     {
         $isUserPremium = $this->getUser()?->isPremium();
-        $premiumOnly = $request->query->getBoolean('premium');
-        $query = $premiumOnly ? $repo->queryAllPremium() : $repo->queryAll($isUserPremium ?? false);
+        $query = $repo->queryAll($isUserPremium ?? false);
         $page = $request->query->getInt('page', 1);
 
         // Filtre par technologie
@@ -49,7 +48,17 @@ class CourseController extends AbstractController
             }
         }
 
-        $courses = $paginator->paginate( $query->setMaxResults(12)->getQuery() );
+        // Tri par défaut (plus récent)
+        $query->orderBy('c.publishedAt', 'DESC');
+
+        // Créer la query finale avec le tri déjà appliqué
+        $finalQuery = $query->setMaxResults(12)->getQuery();
+
+        // Paginer sans tri automatique en désactivant le tri
+        $courses = $paginator->paginate($finalQuery, $page, 12, [
+            'defaultSortFieldName' => 'c.publishedAt',
+            'defaultSortDirection' => 'DESC'
+        ]);
 
         /** @var User $user */
         if (null !== $user = $this->getUser()) {
@@ -60,7 +69,6 @@ class CourseController extends AbstractController
             'courses' => $courses,
             'page' => $page,
             'technology_selected' => $technology,
-            'premium_only' => $premiumOnly,
             'watchlist' => $watchlist ?? [],
             'technologies' => $technologyRepository->findByType(),
         ], new Response('', $courses->count() > 0 ? 200 : 404));

@@ -62,10 +62,8 @@ export class YoutubePlayer extends HTMLElement {
      */
     checkAutoplay() {
         if (window.location.hash === '#autoplay' && !this.getAttribute('autoplay')) {
-            // Délai pour s'assurer que le composant est bien dans le DOM
-            setTimeout(() => {
-                this.startPlay();
-            }, 100);
+            // Déclencher immédiatement comme Grafikart
+            this.startPlay();
         }
     }
 
@@ -102,10 +100,7 @@ export class YoutubePlayer extends HTMLElement {
         await loadYoutubeApi(); // Charger l'API YouTube
         if (this.player) {
             this.player.cueVideoById(youtubeID);
-            // Forcer la lecture immédiatement
-            setTimeout(() => {
-                this.player.playVideo();
-            }, 100);
+            this.player.playVideo();
             return;
         }
         this.player = new YT.Player(this.root.querySelector('.player'), {
@@ -161,9 +156,7 @@ export class YoutubePlayer extends HTMLElement {
 
         // Forcer la lecture si autoplay est activé
         if (this.getAttribute('autoplay')) {
-            setTimeout(() => {
-                e.target.playVideo();
-            }, 100);
+            e.target.playVideo();
         }
 
         this.startTimer();
@@ -214,10 +207,7 @@ export class YoutubePlayer extends HTMLElement {
             this.startPlay();
             return;
         }
-        // Forcer la lecture avec un petit délai
-        setTimeout(() => {
-            this.player.playVideo();
-        }, 50);
+        this.player.playVideo();
     }
 
     /**
