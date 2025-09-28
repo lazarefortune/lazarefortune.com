@@ -1,12 +1,9 @@
 /* Formation Show Page - Modern Design */
 
 /* Background grid pattern */
-.bg-grid-slate-100 {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' opacity='0.4' width='32' height='32' fill='none' stroke='%23e2e8f0'%3e%3cpath d='m0 .5h32m-32 32v-32'/%3e%3c/svg%3e");
-}
-
-.dark .bg-grid-slate-800\/25 {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' opacity='0.08' width='32' height='32' fill='none' stroke='%23374151'%3e%3cpath d='m0 .5h32m-32 32v-32'/%3e%3c/svg%3e");
+.bg-grid {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='%23e2e8f0'%3e%3cpath d='m0 .5h32m-32 32v-32'/%3e%3c/svg%3e");
+  @apply opacity-60 dark:opacity-5;
 }
 
 /* Hero Section Enhancements */

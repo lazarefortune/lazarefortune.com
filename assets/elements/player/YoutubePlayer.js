@@ -51,6 +51,21 @@ export class YoutubePlayer extends HTMLElement {
                 this.removeEventListener('click', onClick);
             };
             this.addEventListener('click', onClick);
+
+            // Vérifier si l'URL contient #autoplay pour lancer automatiquement
+            this.checkAutoplay();
+        }
+    }
+
+    /**
+     * Vérifie si l'autoplay doit être déclenché
+     */
+    checkAutoplay() {
+        if (window.location.hash === '#autoplay' && !this.getAttribute('autoplay')) {
+            // Délai pour s'assurer que le composant est bien dans le DOM
+            setTimeout(() => {
+                this.startPlay();
+            }, 100);
         }
     }
 
@@ -60,12 +75,9 @@ export class YoutubePlayer extends HTMLElement {
     startPlay() {
         this.updatePoster(false); // Masquer le poster
         this.setAttribute('autoplay', 'autoplay'); // Définir l'autoplay
+        this.removeAttribute('poster'); // Supprimer l'attribut poster
         const videoId = this.getAttribute('video'); // Récupérer l'ID de la vidéo
-        if (this.player) {
-            this.player.loadVideoById(videoId); // Charger et jouer la vidéo immédiatement
-        } else {
-            this.loadPlayer(videoId); // Charger le lecteur s'il n'existe pas encore
-        }
+        this.loadPlayer(videoId); // Charger le lecteur
     }
 
     /**
@@ -78,6 +90,7 @@ export class YoutubePlayer extends HTMLElement {
             poster.setAttribute('aria-hidden', visible ? 'false' : 'true');
             poster.style.pointerEvents = visible ? 'auto' : 'none';
             poster.style.opacity = visible ? '1' : '0';
+            poster.style.display = visible ? 'block' : 'none';
         }
     }
 
@@ -88,7 +101,11 @@ export class YoutubePlayer extends HTMLElement {
     async loadPlayer(youtubeID) {
         await loadYoutubeApi(); // Charger l'API YouTube
         if (this.player) {
-            this.player.loadVideoById(youtubeID); // Charger et lire directement
+            this.player.cueVideoById(youtubeID);
+            // Forcer la lecture immédiatement
+            setTimeout(() => {
+                this.player.playVideo();
+            }, 100);
             return;
         }
         this.player = new YT.Player(this.root.querySelector('.player'), {
@@ -96,8 +113,10 @@ export class YoutubePlayer extends HTMLElement {
             host: 'https://www.youtube-nocookie.com',
             playerVars: {
                 autoplay: this.getAttribute('autoplay') ? 1 : 0, // Lecture automatique si demandé
+                loop: 0,
                 modestbranding: 1,
                 controls: 1,
+                showinfo: 0,
                 rel: 0,
                 start: this.getAttribute('start') || 0,
             },
@@ -134,7 +153,19 @@ export class YoutubePlayer extends HTMLElement {
     /**
      * Déclenché lorsque le lecteur YouTube est prêt
      */
-    onYoutubePlayerReady() {
+    onYoutubePlayerReady(e) {
+        const volume = localStorage.getItem('volume');
+        if (volume) {
+            e.target.setVolume(volume * 100);
+        }
+
+        // Forcer la lecture si autoplay est activé
+        if (this.getAttribute('autoplay')) {
+            setTimeout(() => {
+                e.target.playVideo();
+            }, 100);
+        }
+
         this.startTimer();
     }
 
@@ -153,7 +184,17 @@ export class YoutubePlayer extends HTMLElement {
      */
     startTimer() {
         if (this.timer) return;
-        this.timer = setInterval(() => this.dispatchEvent(new Event('timeupdate')), 1000);
+        this.dispatchEvent(new Event('timeupdate'));
+        let volume = parseFloat(localStorage.getItem('volume') ?? '1');
+        this.timer = setInterval(() => {
+            // Update local stored volume
+            const currentVolume = this.player.getVolume() / 100;
+            if (currentVolume !== volume) {
+                localStorage.setItem('volume', currentVolume.toString());
+                volume = currentVolume;
+            }
+            this.dispatchEvent(new Event('timeupdate'));
+        }, 1000);
     }
 
     /**
@@ -173,7 +214,10 @@ export class YoutubePlayer extends HTMLElement {
             this.startPlay();
             return;
         }
-        this.player.playVideo();
+        // Forcer la lecture avec un petit délai
+        setTimeout(() => {
+            this.player.playVideo();
+        }, 50);
     }
 
     /**
@@ -217,8 +261,22 @@ export class YoutubePlayer extends HTMLElement {
         }
     }
 
+    connectedCallback() {
+        // Vérifier l'autoplay quand le composant est ajouté au DOM
+        this.checkAutoplay();
+
+        // Écouter les changements de hash
+        this.hashChangeHandler = () => {
+            this.checkAutoplay();
+        };
+        window.addEventListener('hashchange', this.hashChangeHandler);
+    }
+
     disconnectedCallback() {
         this.stopTimer();
+        if (this.hashChangeHandler) {
+            window.removeEventListener('hashchange', this.hashChangeHandler);
+        }
     }
 }
 

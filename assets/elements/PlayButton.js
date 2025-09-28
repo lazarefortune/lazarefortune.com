@@ -151,8 +151,6 @@ export class PlayButton extends HTMLElement {
         const video = e.target;
         const id = video.id;
 
-        if (!this.video) return;
-
         if (id === this.dataset.videoId) {
             this.attachVideo(video);
         } else if (this.detachVideo) {
@@ -165,20 +163,11 @@ export class PlayButton extends HTMLElement {
         e.preventDefault();
         e.stopPropagation();
 
-        const youtubePlayer = this.video.closest('youtube-player'); // Trouve le composant parent
         if (this.getAttribute('playing')) {
             this.video.pause();
         } else {
             this.video.play();
-            if (youtubePlayer) {
-                youtubePlayer.startPlay(); // Appelle startPlay pour cacher le poster
-            }
         }
-        // if (this.getAttribute('playing')) {
-        //     this.video.pause();
-        // } else {
-        //     this.video.play();
-        // }
     }
 
     disconnectedCallback() {
