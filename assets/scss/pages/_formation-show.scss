@@ -1,0 +1,172 @@
+/* Formation Show Page - Modern Design */
+
+/* Background grid pattern */
+.bg-grid-slate-100 {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' opacity='0.4' width='32' height='32' fill='none' stroke='%23e2e8f0'%3e%3cpath d='m0 .5h32m-32 32v-32'/%3e%3c/svg%3e");
+}
+
+.dark .bg-grid-slate-800\/25 {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' opacity='0.08' width='32' height='32' fill='none' stroke='%23374151'%3e%3cpath d='m0 .5h32m-32 32v-32'/%3e%3c/svg%3e");
+}
+
+/* Hero Section Enhancements */
+.formation__hero {
+  .formation__breadcrumb {
+    @apply mb-8;
+
+    .breadcrumb {
+      @apply bg-transparent text-slate-600 dark:text-slate-400;
+
+      a {
+        @apply hover:text-primary-600 dark:hover:text-primary-400 transition-colors;
+      }
+    }
+  }
+}
+
+/* Progress Bar Animation */
+@keyframes progress-fill {
+  from {
+    width: 0%;
+  }
+  to {
+    width: var(--progress-width);
+  }
+}
+
+.formation__progress-bar {
+  .progress-fill {
+    animation: progress-fill 1.5s ease-out forwards;
+  }
+}
+
+/* Card Hover Effects */
+.formation__card {
+  @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+
+  &:hover {
+    @apply shadow-2xl;
+  }
+}
+
+/* Gradient Text Effects */
+.formation__gradient-text {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Button Enhancements */
+.formation__cta-button {
+  @apply relative overflow-hidden;
+
+  &::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-700 opacity-0 transition-opacity duration-300;
+  }
+
+  &:hover::before {
+    @apply opacity-100;
+  }
+
+  span {
+    @apply relative z-10;
+  }
+}
+
+/* Section Transitions */
+.formation__section {
+  @apply transition-all duration-500 ease-out;
+}
+
+/* Layout 2/3 - 1/3 */
+.formation__main-layout {
+  .formation__chapters {
+    @apply sticky top-8;
+  }
+
+  .formation__presentation {
+    @apply space-y-12;
+  }
+}
+
+/* Image de formation fixe */
+.formation__image-container {
+  @apply relative flex justify-center;
+
+  .formation__image {
+    @apply relative w-80 h-80 rounded-3xl overflow-hidden shadow-2xl;
+
+    img {
+      @apply w-full h-full object-cover;
+    }
+  }
+}
+
+/* Responsive Typography */
+@media (max-width: 640px) {
+  .formation__hero h1 {
+    @apply text-3xl;
+  }
+
+  .formation__hero p {
+    @apply text-lg;
+  }
+
+  .formation__image-container .formation__image {
+    @apply w-64 h-64;
+  }
+}
+
+/* Mobile Layout */
+@media (max-width: 1023px) {
+  .formation__main-layout {
+    .formation__chapters {
+      @apply sticky relative top-0 mb-8;
+    }
+  }
+}
+
+/* Dark Mode Enhancements */
+.dark {
+  //.formation__hero {
+  //  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+  //}
+
+  .formation__card {
+    @apply bg-slate-800 border-slate-700;
+  }
+
+  .formation__gradient-text {
+    background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* Loading States */
+.formation__loading {
+  @apply animate-pulse;
+
+  .skeleton {
+    @apply bg-slate-200 dark:bg-slate-700 rounded;
+  }
+}
+
+/* Focus States for Accessibility */
+.formation__focusable:focus {
+  @apply outline-none ring-2 ring-primary-500 ring-offset-2 dark:ring-offset-slate-900;
+}
+
+/* Print Styles */
+@media print {
+  .formation__hero {
+    @apply bg-white text-black;
+  }
+
+  .formation__card {
+    @apply border border-gray-300 shadow-none;
+  }
+}
