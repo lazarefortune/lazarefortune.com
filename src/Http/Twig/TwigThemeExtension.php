@@ -25,10 +25,11 @@ class TwigThemeExtension extends AbstractExtension
 
     public function getUserTheme(): string
     {
-        // A terme on pourra ajouter un champ dans la table user pour stocker le thème
+        // TODO: A terme on pourra ajouter un champ dans la table user pour stocker le thème
 
         $request = $this->requestStack->getCurrentRequest();
-        $theme = $request?->cookies->get( 'theme' );
+//        $theme = $request?->cookies->get( 'theme' );
+        $theme = $request?->cookies->has( 'theme' );
 
         if($theme) {
             return $theme;

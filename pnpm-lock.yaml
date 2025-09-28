@@ -38,6 +38,12 @@ dependencies:
   htm:
     specifier: ^3.1.1
     version: 3.1.1
+  inputmask:
+    specifier: ^5.0.9
+    version: 5.0.9
+  intl-tel-input:
+    specifier: ^25.3.1
+    version: 25.3.1
   jquery:
     specifier: ^3.6.4
     version: 3.7.1
@@ -3526,10 +3532,18 @@ packages:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
     dev: true
 
+  /inputmask@5.0.9:
+    resolution: {integrity: sha512-s0lUfqcEbel+EQXtehXqwCJGShutgieOaIImFKC/r4reYNvX3foyrChl6LOEvaEgxEbesePIrw1Zi2jhZaDZbQ==}
+    dev: false
+
   /interpret@2.2.0:
     resolution: {integrity: sha512-Ju0Bz/cEia55xDwUWEa8+olFpCiQoypjnQySseKtmjNrnps3P+xfpUmGr90T7yjlVJmOtybRvPXhKMbHr+fWnw==}
     engines: {node: '>= 0.10'}
     dev: true
+
+  /intl-tel-input@25.3.1:
+    resolution: {integrity: sha512-0Xls8/hnvPv6EqfDJ+cz6h/MGvEYiHkerrQBHMmRuuBPZ0MedDyzRqqdSkhFXXGt9YTihmBhXwtWoeHjdouIKA==}
+    dev: false
 
   /ipaddr.js@1.9.1:
     resolution: {integrity: sha512-0KI/607xoxSToH7GjN1FfSbLoU0+btTicjsQSWQlh/hZykN8KpmMf7uYwPW3R+akZ6R/w18ZlXSHBYXiYUPO3g==}

@@ -27,6 +27,7 @@ import { Confetti } from "./Confetti";
 import { BadgeUnlock } from "../components/BadgeUnlock";
 import { SlugGenerator } from "./SlugGenerator";
 import DropZone from "../components/DropZone";
+import { PhoneInput } from "./PhoneInput";
 
 const NotificationsElement = reactToWebComponent(Notifications, React, ReactDOM, {
     shadow: false,
@@ -73,3 +74,4 @@ customElements.define('notifications-area', NotificationsElement)
 customElements.define('auto-submit-form', AutoSubmitForm);
 customElements.define('auto-submit', AutoSubmit, { extends: 'form' })
 customElements.define("slug-generator", SlugGenerator);
+customElements.define('phone-input', PhoneInput);

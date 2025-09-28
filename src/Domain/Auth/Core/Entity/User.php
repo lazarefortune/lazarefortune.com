@@ -133,7 +133,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->fullname = '';
         $this->email = '';
-        $this->phone = '';
+        $this->phone = null;
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
         $this->emailVerifications = new ArrayCollection();

@@ -1,0 +1,27 @@
+parameters:
+  app.name: '%env(APP_NAME)%'
+  admin_prefix: '%env(resolve:ADMIN_PREFIX)%'
+  admin_email: '%env(ADMIN_EMAIL)%'
+  app_email: '%env(APP_EMAIL)%'
+  download_path: '%kernel.project_dir%/downloads'
+  videos_path: '%download_path%/videos'
+  sources_path: '%download_path%/sources'
+  public_path: '%kernel.project_dir%/public'
+  timezone: 'Europe/Paris'
+  realisation_img_dir: '%kernel.project_dir%/public/uploads/images/realisations'
+  upload_images_directory: '%kernel.project_dir%/public/uploads/images'
+  avatar_images: '/uploads/avatars'
+
+  stripe_webhook_secret: '%env(STRIPE_WEBHOOK_SECRET)%'
+  stripe_public_key: '%env(STRIPE_PUBLISHABLE_KEY)%'
+  stripe_secret_key: '%env(STRIPE_SECRET_KEY)%'
+
+  paypal_id: '%env(resolve:PAYPAL_ID)%'
+  paypal_secret: '%env(resolve:PAYPAL_SECRET)%'
+
+  image_resize_key: '%env(resolve:IMAGE_RESIZE_KEY)%'
+
+  meilisearch_default_host: "localhost:7700"
+  empty: ""
+  meilisearch_key: '%env(default:empty:MEILISEARCH_KEY)%'
+  meilisearch_host: '%env(default:meilisearch_default_host:MEILISEARCH_HOST)%'

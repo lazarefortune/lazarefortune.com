@@ -73,7 +73,9 @@ const QuizResults = ({
                             <div className="space-y-2">
                                 {question.answers.map((answer, answerIdx) => {
                                     const isUserSelected = userSelectedAnswers.includes(answer.id);
-                                    const isCorrect = answer.isCorrect;
+                                    // Utiliser les données de validation côté serveur
+                                    const correctAnswers = Array.isArray(userAnswer?.correctAnswers) ? userAnswer.correctAnswers : [];
+                                    const isCorrect = correctAnswers.includes(answer.id);
 
                                     // Conteneur principal de la réponse
                                     let answerWrapperClasses =
@@ -83,14 +85,20 @@ const QuizResults = ({
                                     let letterBlockClasses =
                                         "flex items-center justify-center w-8 h-8 border-2 rounded-tl rounded-tr rounded-bl shrink-0 text-sm font-semibold";
 
-                                    // Logique pour colorer la réponse
-                                    if (isCorrect) {
-                                        // Bonne réponse
+                                    // Logique pour colorer la réponse basée sur les données serveur
+                                    if (isCorrect && isUserSelected) {
+                                        // Bonne réponse sélectionnée
                                         answerWrapperClasses +=
                                             " border-green-600 bg-green-50 dark:bg-green-900 text-green-700 dark:text-green-200";
                                         letterBlockClasses +=
                                             " border-green-600 bg-green-100 dark:bg-green-800 text-green-700 dark:text-green-200";
-                                    } else if (isUserSelected) {
+                                    } else if (isCorrect && !isUserSelected) {
+                                        // Bonne réponse non sélectionnée
+                                        answerWrapperClasses +=
+                                            " border-green-600 bg-green-50 dark:bg-green-800 text-green-700 dark:text-green-200";
+                                        letterBlockClasses +=
+                                            " border-green-600 bg-green-100 dark:bg-green-800 text-green-700 dark:text-green-200";
+                                    } else if (!isCorrect && isUserSelected) {
                                         // Mauvaise réponse sélectionnée
                                         answerWrapperClasses +=
                                             " border-red-600 bg-red-50 dark:bg-red-900 text-red-700 dark:text-red-200";

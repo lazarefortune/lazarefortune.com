@@ -3,6 +3,7 @@
 namespace App\Domain\Auth\Core\Form;
 
 use App\Domain\Auth\Core\Entity\User;
+use App\Http\Type\PhoneType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
@@ -31,6 +32,7 @@ class ProfileUpdateForm extends AbstractType
                 'label' => 'Date de naissance',
                 'widget' => 'single_text',
                 'html5' => false,
+                'required' => false,
                 'label_attr' => [
                     'class' => 'label',
                 ],
@@ -48,14 +50,10 @@ class ProfileUpdateForm extends AbstractType
                     'class' => 'form-select',
                 ]
             ])
-            ->add('phone', TextType::class, [
+            ->add('phone', PhoneType::class, [
                 'label' => 'Téléphone',
                 'required' => false,
                 'label_attr' => ['class' => 'label'],
-                'attr' => [
-                    'class' => 'form-input',
-                    'placeholder' => 'Ex: 06 12 34 56 78'
-                ]
             ])
             // Champ pour uploader un nouvel avatar
             ->add('avatarFile', FileType::class, [

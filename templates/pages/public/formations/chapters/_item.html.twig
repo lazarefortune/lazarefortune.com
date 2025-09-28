@@ -1,7 +1,6 @@
 <div class="chapters__section">
     <div class="chapters__header">
         <h3 class="chapters__header-title">{{ chapter.title }}</h3>
-        <div class="chapters__header-count">{{ chapter.modules | length }} vidéo{{ chapter.modules | length > 1 ? 's' : '' }}</div>
     </div>
     <div class="chapters__list">
         {% for c in chapter.modules %}
@@ -13,27 +12,13 @@
                class="chapters__item {{ isCurrentCourse ? 'is-current' : '' }}"
                id="chapter{{ c.id }}"
                data-locked="{{ isLocked ? 'true' : 'false' }}">
-                <div class="chapters__thumbnail">
-                    <img src="{{ image_url(c.image, 1330, 750) }}" alt="{{ c.title }}" class="chapters__img">
-
-                    <div class="chapters__duration">
-                        {{ icon('clock') }}
-                        {{ c.duration | duration }}
-                    </div>
-
-
+                <div class="chapters__icon">
                     {% if c.isRestrictedToUser and (not app.user) %}
-                        <div class="chapters__lock">
-                            {{ icon('lock') }}
-                        </div>
+                        {{ icon('lock') }}
                     {% elseif isLocked and not isScheduled %}
-                        <div class="chapters__lock">
-                            {{ icon('crown') }}
-                        </div>
+                        {{ icon('crown') }}
                     {% elseif isScheduled %}
-                        <div class="chapters__lock">
-                            {{ icon('clock') }}
-                        </div>
+                        {{ icon('clock') }}
                     {% else %}
                         <play-button
                                 class="chapters__play-button"
@@ -44,15 +29,14 @@
                         </play-button>
                     {% endif %}
                 </div>
-                <div class="chapters__details">
-                    <span class="chapters__title">{{ c.title }}</span>
-                    <span class="chapters__info">
-                            {% if c.isScheduled %}
-                                Disponible dans {{ c.publishedAt | countdown }}
-                            {% else %}
-                                Publié {{ c.publishedAt | ago }}
-                            {% endif %}
+                <div class="chapters__content">
+                    <div class="chapters__title">{{ c.title }}</div>
+                    <div class="chapters__meta">
+                        <span class="chapters__duration">
+{#                            {{ icon('clock') }}#}
+                            {{ c.duration | duration }}
                         </span>
+                    </div>
                 </div>
             </a>
         {% endfor %}

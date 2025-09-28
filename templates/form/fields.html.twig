@@ -130,3 +130,20 @@
         {% endif %}
     </div>
 {% endblock %}
+
+{% block phone_row %}
+    <div class="flex flex-col gap-1">
+        {{ form_label(form, null, { 'label_attr': {'class': 'label'} }) }}
+        <div class="mt-2">
+            <phone-input{% for attrname, attrvalue in wrapper_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+                {{ form_widget(form) }}
+            </phone-input>
+        </div>
+        <span class="text-sm text-muted">{{ form_help(form) }}</span>
+        {% if form.vars.errors %}
+            <div class="form-error">
+                {{ form_errors(form) }}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

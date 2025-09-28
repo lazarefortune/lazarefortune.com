@@ -67,6 +67,110 @@
             </div>
 
         </div>
+
+        <!-- Test du composant téléphone -->
+        <div class="mt-10">
+            <h2 class="h4 mb-4">Composant de saisie téléphone moderne</h2>
+            
+            <div class="card p-6 max-w-lg">
+                <form>
+                    <div class="flex flex-col gap-1">
+                        <label class="label" for="phone_test">Numéro de téléphone</label>
+                        <div class="mt-2">
+                            <phone-input data-initial-country="fr">
+                                <input type="tel" 
+                                       id="phone_test" 
+                                       name="phone_test"
+                                       class="form-input" 
+                                       placeholder="Numéro de téléphone"
+                                       autocomplete="tel">
+                            </phone-input>
+                        </div>
+                        <span class="text-sm text-muted">Sélectionnez votre pays et saisissez votre numéro</span>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <button type="button" class="btn btn-primary" onclick="testPhoneInput()">
+                            Tester la validation
+                        </button>
+                    </div>
+                    
+                    <div id="phone-result" class="mt-4 p-4 bg-gray-50 rounded-lg hidden">
+                        <h3 class="font-medium mb-3 text-gray-800">Résultat :</h3>
+                        <div id="phone-data" class="space-y-2 text-sm"></div>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="card p-6 max-w-lg mt-6">
+                <h3 class="h5 mb-3">Test avec pays limités (FR, GB, US seulement)</h3>
+                <div class="flex flex-col gap-1">
+                    <label class="label" for="phone_test_limited">Téléphone (pays limités)</label>
+                    <div class="mt-2">
+                        <phone-input data-initial-country="gb" data-only-countries="fr,gb,us">
+                            <input type="tel" 
+                                   id="phone_test_limited" 
+                                   name="phone_test_limited"
+                                   class="form-input" 
+                                   placeholder="Numéro de téléphone"
+                                   autocomplete="tel">
+                        </phone-input>
+                    </div>
+                    <span class="text-sm text-muted">Seuls la France, le Royaume-Uni et les États-Unis sont disponibles</span>
+                </div>
+            </div>
+
+            <div class="card p-6 max-w-lg mt-6">
+                <h3 class="h5 mb-3">Design responsive mobile</h3>
+                <div class="flex flex-col gap-1">
+                    <label class="label" for="phone_test_mobile">Téléphone mobile</label>
+                    <div class="mt-2">
+                        <phone-input data-initial-country="us">
+                            <input type="tel" 
+                                   id="phone_test_mobile" 
+                                   name="phone_test_mobile"
+                                   class="form-input" 
+                                   placeholder="Mobile number"
+                                   autocomplete="tel">
+                        </phone-input>
+                    </div>
+                    <span class="text-sm text-muted">Testé pour mobile avec design adaptatif</span>
+                </div>
+            </div>
+        </div>
     </div>
+    
+    <script>
+        function testPhoneInput() {
+            const container = document.querySelector('phone-input');
+            const result = document.getElementById('phone-result');
+            const data = document.getElementById('phone-data');
+            
+            if (container) {
+                const fullNumber = container.getValue();
+                const isValid = container.isValid();
+                
+                data.innerHTML = `
+                    <div class="flex justify-between items-center py-1">
+                        <span class="font-medium text-gray-600">Numéro complet:</span>
+                        <span class="font-mono text-gray-900">${fullNumber || 'N/A'}</span>
+                    </div>
+                    <div class="flex justify-between items-center py-1">
+                        <span class="font-medium text-gray-600">Validation:</span>
+                        <span class="px-2 py-1 rounded-full text-xs font-medium ${isValid ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                            ${isValid ? '✓ Valide' : '✗ Invalide'}
+                        </span>
+                    </div>
+                `;
+                
+                result.classList.remove('hidden');
+            }
+        }
+        
+        // Écouter les événements de changement
+        document.addEventListener('phone-change', function(event) {
+            console.log('Changement du téléphone:', event.detail);
+        });
+    </script>
 {% endblock %}
 

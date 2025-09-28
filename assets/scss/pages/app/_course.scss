@@ -172,7 +172,7 @@
 }
 
 .course__player {
-  @apply border border-slate-200 dark:border-slate-800 rounded-md mx-0 overflow-hidden shadow shadow-primary-900 dark:shadow-primary-800;
+  @apply border border-slate-200 dark:border-slate-800 rounded-none mx-0 overflow-hidden shadow shadow-primary-900 dark:shadow-primary-800;
   --max-height: calc(100vh - 291px);
   --font-family: 'IBM Plex Sans', sans-serif;
 }

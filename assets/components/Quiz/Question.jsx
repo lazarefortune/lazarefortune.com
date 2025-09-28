@@ -127,14 +127,23 @@ const Question = ({
                     let letterBlockClasses =
                         'mr-3 px-2 py-1 border-2 rounded-tl-md rounded-tr-md rounded-bl-md';
 
-                    // Couleurs après soumission
+                    // Couleurs après soumission basées sur les données serveur
                     if (answerSubmitted) {
-                        if (answer.isCorrect) {
-                            // Bonne réponse
+                        // Utiliser les données de validation du serveur
+                        const correctAnswers = Array.isArray(currentQuestion.correctAnswers) ? currentQuestion.correctAnswers : [];
+                        const isCorrectAnswer = correctAnswers.includes(answer.id);
+
+                        if (isCorrectAnswer && isSelected) {
+                            // Bonne réponse sélectionnée
                             wrapperClasses += ' border-green-600';
                             letterBlockClasses +=
                                 ' border-green-600 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-200';
-                        } else if (isSelected && !answer.isCorrect) {
+                        } else if (isCorrectAnswer && !isSelected) {
+                            // Bonne réponse non sélectionnée
+                            wrapperClasses += ' border-green-600';
+                            letterBlockClasses +=
+                                ' border-green-600 bg-green-50 dark:bg-green-800 text-green-700 dark:text-green-200';
+                        } else if (!isCorrectAnswer && isSelected) {
                             // Mauvaise réponse sélectionnée
                             wrapperClasses += ' border-red-600';
                             letterBlockClasses +=
@@ -189,6 +198,11 @@ const Question = ({
 
             {/* Bloc bas : timer + score + actions */}
             <div className="flex flex-col lg:flex-row items-center justify-between gap-4 mt-6">
+                {/* Score */}
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                    Score: {score}
+                </div>
+
                 {/* Timer circulaire */}
                 <div className="relative flex items-center justify-center w-16 h-16">
                     <svg
@@ -214,21 +228,21 @@ const Question = ({
             </div>
 
             {/* Feedback après soumission */}
-            {answerSubmitted && feedbackMessage && (
+            {answerSubmitted && showImmediateFeedback && (
                 <div className="mt-2 flex justify-center">
                     <div
                         className={`
                         px-2 py-1 rounded border text-center w-full max-w-56 text-sm
                         ${
-                                            isCorrectFeedback
-                                                ? 
-                                                'border-green-400 bg-green-50 dark:bg-green-900 text-green-700 dark:text-green-200'
-                                                : 
-                                                'border-red-400 bg-red-50 dark:bg-red-900 text-red-700 dark:text-red-200'
-                                        }
+                            isCorrectFeedback
+                                ?
+                                'border-green-400 bg-green-50 dark:bg-green-900 text-green-700 dark:text-green-200'
+                                :
+                                'border-red-400 bg-red-50 dark:bg-red-900 text-red-700 dark:text-red-200'
+                        }
                       `}
                     >
-                        {feedbackMessage}
+                        {isCorrectFeedback ? 'Bonne réponse !' : 'Mauvaise réponse...'}
                     </div>
                 </div>
             )}

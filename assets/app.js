@@ -11,6 +11,7 @@ import { Alert, FloatingAlert } from './elements/Alert'
 // import {AccordionGroup} from './elements/Accordion'
 /* Libs */
 import './libs/flatpickr'
+import './libs/inputmask'
 
 import { ThemeSwitcher } from "./elements/ThemeSwitcher";
 

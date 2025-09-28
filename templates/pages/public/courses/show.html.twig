@@ -138,7 +138,7 @@
                 <div class="course-details">
                     <div>
                         {% if course.content %}
-                            <div class="h4 text-lead mb-6">Ce que tu vas apprendre dans cette vidéo :</div>
+                            <div class="h4 text-lead mb-6">A propos de cette vidéo</div>
                             <div class="formatted">{{ course.content | markdown }}</div>
                         {% endif %}
                         <quiz-area content-id="{{ course.id }}" is-user-logged-in="{{ app.user ? true : false }}"></quiz-area>

@@ -40,7 +40,7 @@ export class PlayButton extends HTMLElement {
         // Insérer le contenu HTML du bouton
         this.innerHTML = `
             <button class="play-button">
-                <svg class="icon" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                <svg class="" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
                     <circle
                         cx="16"
                         cy="16"

@@ -31,7 +31,6 @@ class TwigBreadcrumbExtension extends AbstractExtension
             }
         }
 
-//        dd($items);
         return $env->render('partials/breadcrumb.html.twig', [
             'items' => $items,
         ]);

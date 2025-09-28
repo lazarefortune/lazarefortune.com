@@ -98,7 +98,7 @@ class HomeController extends AbstractController
     #[Route( '/ui', name: 'ui' )]
     public function ui() : Response
     {
-        return $this->render( 'pages/ui.html.twig' );
+        return $this->render( 'pages/public/ui.html.twig' );
     }
 
     #[Route( '/message', name: 'message' )]
