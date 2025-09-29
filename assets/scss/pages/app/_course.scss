@@ -359,7 +359,7 @@
   }
 
   .filter-chip {
-    @apply flex items-center gap-2 px-4 py-2 text-sm font-medium;
+    @apply flex items-center gap-2 px-4 py-2 text-sm font-medium text-nowrap;
     @apply bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300;
     @apply rounded-md border border-slate-200 dark:border-slate-600;
     @apply transition-all duration-200 whitespace-nowrap;
