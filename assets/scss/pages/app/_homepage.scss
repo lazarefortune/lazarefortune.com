@@ -87,3 +87,39 @@
   @apply bg-gradient-to-br from-primary-50 to-primary-200 dark:from-primary-1000 dark:to-primary-950;
   clip-path: polygon(0% 23%,0% 100%,100% 77%,100% 0%);
 }
+
+// Pattern de grille moderne pour le hero
+.bg-grid-pattern {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.dark .bg-grid-pattern {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+}
+
+// Animation pour les éléments décoratifs
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(5deg);
+  }
+}
+
+.hero-decorative {
+  animation: float 6s ease-in-out infinite;
+}
+
+.hero-decorative:nth-child(2) {
+  animation-delay: -2s;
+}
+
+.hero-decorative:nth-child(3) {
+  animation-delay: -4s;
+}

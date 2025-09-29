@@ -1,31 +1,40 @@
 {% if not app.user %}
-<section class="mt-24 bg-primary-50 dark:bg-primary-1000 rounded-2xl px-6 py-16 shadow-md reveal" data-delay=".2">
-    <div class="max-w-3xl mx-auto text-center">
-        <h2 class="text-3xl sm:text-4xl font-semibold text-slate-900 dark:text-white mb-4">
-            ✉️ Reste informé des <span class="text-lead">nouvelles vidéos</span>
+<section class="mt-24 bg-gradient-to-br from-primary-50 to-blue-50 dark:from-slate-800 dark:to-slate-900 rounded-2xl px-6 py-16 shadow-lg reveal relative overflow-hidden" data-delay=".2">
+    <!-- Décoration de fond -->
+    <div class="absolute top-0 right-0 w-32 h-32 bg-primary-200 dark:bg-primary-800 rounded-full opacity-20 blur-2xl"></div>
+    <div class="absolute bottom-0 left-0 w-24 h-24 bg-blue-200 dark:bg-blue-800 rounded-full opacity-20 blur-2xl"></div>
+
+    <div class="max-w-4xl mx-auto text-center relative z-10">
+        <div class="inline-flex items-center gap-2 bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300 text-sm font-medium px-4 py-2 rounded-full mb-6">
+            <div class="w-2 h-2 bg-primary-500 rounded-full animate-pulse"></div>
+            Newsletter gratuite
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-6">
+            Reste informé des <span class="text-primary-600 dark:text-primary-400">nouvelles vidéos</span>
         </h2>
-        <p class="text-lg text-muted mb-8">
+        <p class="text-lg text-slate-600 dark:text-slate-300 mb-8 max-w-2xl mx-auto leading-relaxed">
             Je partage ce que j'apprends en développement web à travers des vidéos simples, utiles et accessibles. Reçois-les directement dans ta boîte mail !
         </p>
 
         {{ form_start(newsletterForm, {attr: {class: 'w-full'}}) }}
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-xl mx-auto">
+        <div class="flex flex-col sm:flex-row items-stretch justify-center gap-4 max-w-2xl mx-auto">
             {{ form_widget(newsletterForm.name, {
                 label: false,
                 attr: {
-                    class: 'form-input w-full sm:w-auto flex-1',
+                    class: 'form-input w-full sm:w-auto flex-1 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 focus:border-primary-300 dark:focus:border-primary-600 h-14 px-4 rounded-2xl',
                     placeholder: 'Ton prénom...'
                 }
             }) }}
             {{ form_widget(newsletterForm.email, {
                 label: false,
                 attr: {
-                    class: 'form-input w-full sm:w-auto flex-1',
+                    class: 'form-input w-full sm:w-auto flex-1 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 focus:border-primary-300 dark:focus:border-primary-600 h-14 px-4 rounded-2xl',
                     placeholder: 'Ton adresse email...'
                 }
             }) }}
-            <button type="submit" class="btn btn-primary w-full sm:w-auto">
-                Je m'inscris
+            <button type="submit" class="inline-flex items-center justify-center gap-3 bg-primary-600 hover:bg-primary-700 text-white hover:text-white focus:text-white font-semibold px-8 h-14 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 w-full sm:w-auto whitespace-nowrap">
+                {{ icon('mail', '20') }}
+                <span>Je m'inscris</span>
             </button>
         </div>
         {{ form_end(newsletterForm) }}
@@ -34,18 +43,26 @@
 {% endif %}
 
 {% if app.user and (not app.user.isNewsletterSubscribed) %}
-    <section class="mt-20 bg-slate-50 dark:bg-primary-1000 rounded-2xl px-6 py-12 shadow-md reveal" data-delay=".2">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-2xl sm:text-3xl font-semibold text-slate-800 dark:text-white mb-2">
-                🔔 Tu ne veux rien rater ?
+    <section class="mt-20 bg-gradient-to-br from-slate-50 to-primary-50 dark:from-slate-800 dark:to-slate-900 rounded-2xl px-6 py-12 shadow-lg reveal relative overflow-hidden" data-delay=".2">
+        <!-- Décoration de fond -->
+        <div class="absolute top-0 right-0 w-24 h-24 bg-primary-200 dark:bg-primary-800 rounded-full opacity-20 blur-2xl"></div>
+        <div class="absolute bottom-0 left-0 w-20 h-20 bg-blue-200 dark:bg-blue-800 rounded-full opacity-20 blur-2xl"></div>
+
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <div class="inline-flex items-center gap-2 bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300 text-sm font-medium px-4 py-2 rounded-full mb-6">
+                <div class="w-2 h-2 bg-primary-500 rounded-full animate-pulse"></div>
+                Newsletter gratuite
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-4">
+                Tu ne veux rien <span class="text-primary-600 dark:text-primary-400">rater</span> ?
             </h2>
-            <p class="text-base sm:text-lg text-muted mb-6">
+            <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 mb-8 max-w-2xl mx-auto leading-relaxed">
                 Abonne-toi à la newsletter et reçois mes dernières vidéos, astuces et ressources directement dans ta boîte mail.
             </p>
             <a href="{{ path('app_newsletter_subscribe') }}"
-               class="btn btn-primary">
-                {{ icon('mail-plus') }}
-                <span>S’abonner à la newsletter</span>
+               class="inline-flex items-center justify-center gap-3 bg-primary-600 hover:bg-primary-700 text-white hover:text-white focus:text-white font-semibold px-8 py-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 whitespace-nowrap">
+                {{ icon('mail-plus', '20') }}
+                <span>S'abonner à la newsletter</span>
             </a>
         </div>
     </section>

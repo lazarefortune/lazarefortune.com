@@ -14,45 +14,115 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container-box mx-auto px-4 py-16">
-        <!-- Hero Section -->
-        <section class="relative text-center py-10">
-            <h1 class="mx-auto max-w-4xl mb-6 font-display text-4xl lg:text-7xl font-medium lg:font-semibold tracking-normal text-slate-900 sm:text-7xl reveal">
+    <!-- Hero Section avec fond moderne -->
+    <section class="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
+        <!-- Fond dégradé moderne -->
+        <div class="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-primary-950 dark:via-primary-950 dark:to-primary-1000"></div>
+
+        <!-- Grille de fond -->
+        <div class="absolute inset-0 bg-grid-pattern opacity-30 dark:opacity-20"></div>
+
+        <!-- Formes géométriques décoratives -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <!-- Cercle principal -->
+            <div class="absolute top-1/4 -left-32 w-96 h-96 bg-gradient-to-br from-primary-400 to-primary-600 rounded-full opacity-20 dark:opacity-30 blur-3xl"></div>
+
+            <!-- Cercle secondaire -->
+            <div class="absolute bottom-1/4 -right-32 w-80 h-80 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full opacity-20 dark:opacity-30 blur-3xl"></div>
+
+            <!-- Formes géométriques -->
+            <div class="absolute top-1/3 right-1/4 w-32 h-32 bg-gradient-to-br from-purple-400 to-purple-600 rounded-2xl opacity-15 dark:opacity-25 blur-2xl rotate-45"></div>
+            <div class="absolute bottom-1/3 left-1/4 w-24 h-24 bg-gradient-to-br from-green-400 to-green-600 rounded-full opacity-20 dark:opacity-30 blur-2xl"></div>
+        </div>
+
+        <!-- Effet de fondu vers le bas - plus subtil -->
+        <div class="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-white dark:from-slate-900 via-white/90 dark:via-slate-900/90 to-transparent"></div>
+
+        <div class="container-box relative z-10 text-center py-16">
+            <!-- Badge gratuit -->
+            <div class="inline-flex items-center gap-2 bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300 text-sm font-medium px-4 py-2 rounded-full mb-8 reveal">
+                <div class="w-2 h-2 bg-primary-500 rounded-full animate-pulse"></div>
+                Contenu 100% gratuit
+            </div>
+
+            <h1 class="mx-auto max-w-4xl mb-6 font-display text-4xl lg:text-7xl font-medium lg:font-semibold tracking-normal text-slate-900 dark:text-white sm:text-7xl reveal">
                 Comprendre et
-                <span class="relative whitespace-nowrap text-blue-600">
+                <span class="relative whitespace-nowrap text-blue-600 dark:text-blue-400">
                     <svg aria-hidden="true"
                          viewBox="0 0 418 42"
-                         class="absolute left-0 top-2/3 h-[0.58em] w-full fill-blue-300/70"
+                         class="absolute left-0 top-2/3 h-[0.58em] w-full fill-blue-300/70 dark:fill-blue-400/70"
                          preserveAspectRatio="none">
                          <path d="M203.371.916c-26.013-2.078-76.686 1.963-124.73 9.946L67.3 12.749C35.421 18.062 18.2 21.766 6.004 25.934 1.244 27.561.828 27.778.874 28.61c.07 1.214.828 1.121 9.595-1.176 9.072-2.377 17.15-3.92 39.246-7.496C123.565 7.986 157.869 4.492 195.942 5.046c7.461.108 19.25 1.696 19.17 2.582-.107 1.183-7.874 4.31-25.75 10.366-21.992 7.45-35.43 12.534-36.701 13.884-2.173 2.308-.202 4.407 4.442 4.734 2.654.187 3.263.157 15.593-.78 35.401-2.686 57.944-3.488 88.365-3.143 46.327.526 75.721 2.23 130.788 7.584 19.787 1.924 20.814 1.98 24.557 1.332l.066-.011c1.201-.203 1.53-1.825.399-2.335-2.911-1.31-4.893-1.604-22.048-3.261-57.509-5.556-87.871-7.36-132.059-7.842-23.239-.254-33.617-.116-50.627.674-11.629.54-42.371 2.494-46.696 2.967-2.359.259 8.133-3.625 26.504-9.81 23.239-7.825 27.934-10.149 28.304-14.005.417-4.348-3.529-6-16.878-7.066Z"/>
                     </svg>
                     <span class="relative text-lead">partager</span>
                 </span> le Développement Web
             </h1>
-            <p class="mt-6 mb-8 max-w-xl mx-auto text-base lg:text-lg text-slate-600 reveal" data-delay=".1">
-                Rejoignez-moi dans mon parcours d’apprentissage. Découvrez des vidéos et playlists sur le développement web.
+
+            <p class="mt-6 mb-8 max-w-xl mx-auto text-base lg:text-lg text-slate-600 dark:text-slate-300 reveal" data-delay=".1">
+                Rejoignez-moi dans mon parcours d'apprentissage. Découvrez des vidéos et playlists sur le développement web.
             </p>
-            <div class="flex justify-center sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 flex-col sm:flex-row reveal" data-delay=".2">
-                <a href="{{ path('app_course_index') }}" class="btn btn-primary">Voir les vidéos</a>
-                <a href="{{ path('app_contact') }}" class="btn btn-outline">Me contacter</a>
+
+            <!-- CTA modernisés -->
+            <div class="flex justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4 flex-col sm:flex-row reveal" data-delay=".2">
+                <a href="{{ path('app_course_index') }}"
+                   class="inline-flex items-center justify-center gap-3 bg-primary-600 hover:bg-primary-700 dark:bg-primary-600 dark:hover:bg-primary-700 text-white hover:text-white focus:text-white dark:text-white dark:hover:text-white dark:focus:text-white font-semibold px-8 py-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 w-full sm:w-auto">
+                    {{ icon('play', 20) }}
+                    <span>Découvrir les vidéos</span>
+                </a>
+                <a href="{{ path('app_register') }}"
+                   class="inline-flex items-center justify-center gap-3 bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-2 border-slate-200 dark:border-slate-700 hover:border-primary-300 dark:hover:border-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/20 font-semibold px-8 py-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 w-full sm:w-auto">
+                    {{ icon('user-plus', 20) }}
+                    <span>Rejoindre gratuitement</span>
+                </a>
             </div>
 
-            <!-- Cercles floutés -->
-            <div class="absolute -z-10 inset-0 pointer-events-none">
-                <!-- Premier cercle -->
-                <div class="absolute top-0 left-0 w-64 h-64 bg-primary-500 rounded-full
-                opacity-30 blur-[280px]">
+            <!-- Indicateurs de contenu gratuit -->
+            <div class="mt-12 reveal" data-delay=".3">
+                <!-- Desktop: affichage horizontal -->
+                <div class="hidden sm:flex justify-center items-center gap-8 text-sm text-slate-600 dark:text-slate-400">
+                    <div class="flex items-center gap-2">
+                        {{ icon('video', 16) }}
+                        <span>Vidéos gratuites</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        {{ icon('gallery-vertical-end', 16) }}
+                        <span>Playlists complètes</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        {{ icon('code', 16) }}
+                        <span>Code source inclus</span>
+                    </div>
                 </div>
-                <!-- Deuxième cercle -->
-                <div class="absolute -bottom-12 right-72 w-80 h-80 bg-primary-200 dark:bg-primary-500 rounded-full
-                opacity-30 blur-[280px]">
+
+                <!-- Mobile: affichage en grille -->
+                <div class="sm:hidden grid grid-cols-1 gap-3 max-w-sm mx-auto">
+                    <div class="flex items-center justify-center gap-3 text-sm text-slate-600 dark:text-slate-400 py-2">
+                        <div class="w-8 h-8 bg-primary-100 dark:bg-primary-900 rounded-full flex items-center justify-center">
+                            {{ icon('video', 16) }}
+                        </div>
+                        <span>Vidéos gratuites</span>
+                    </div>
+                    <div class="flex items-center justify-center gap-3 text-sm text-slate-600 dark:text-slate-400 py-2">
+                        <div class="w-8 h-8 bg-primary-100 dark:bg-primary-900 rounded-full flex items-center justify-center">
+                            {{ icon('gallery-vertical-end', 16) }}
+                        </div>
+                        <span>Playlists complètes</span>
+                    </div>
+                    <div class="flex items-center justify-center gap-3 text-sm text-slate-600 dark:text-slate-400 py-2">
+                        <div class="w-8 h-8 bg-primary-100 dark:bg-primary-900 rounded-full flex items-center justify-center">
+                            {{ icon('code', 16) }}
+                        </div>
+                        <span>Code source inclus</span>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Latest Videos Section -->
-        {% if latest_content is not empty %}
-            <section class="mt-24 reveal relative" data-delay=".2">
+    <!-- Latest Videos Section -->
+    {% if latest_content is not empty %}
+        <section class="relative -mt-20 pt-28 pb-16 bg-gradient-to-b from-white via-white to-slate-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-900 reveal" data-delay=".2">
+            <div class="container-box mx-auto px-4">
                 <h2 class="h1 text-center mb-6">Dernières Vidéos et Playlists</h2>
 
                 <div style="scroll-snap-type: x proximity;" class="overflow-x-auto -mx-4 px-4 max-h-[52rem] overflow-y-hidden md:overflow-y-hidden scrollbar-hide md:overflow-visible mb-6 py-10">
@@ -75,7 +145,7 @@
                 </div>
 
                 {% if latest_content|length > 8 %}
-                    <div class="z-[20] absolute inset-x-0 bottom-0 hidden md:flex h-36 items-end justify-center bg-gradient-to-t from-white dark:from-primary-950">
+                    <div class="z-[20] absolute inset-x-0 bottom-0 hidden md:flex h-56 items-end justify-center bg-gradient-to-t from-slate-50 dark:from-slate-900 via-slate-50/90 dark:via-slate-900/90 to-transparent">
                         <a href="{{ path('app_course_index') }}" class="rounded-full py-2 px-6 bg-primary-600 text-white border-primary-600 hover:bg-primary-800 hover:border-primary-800 hover:text-white
                 dark:bg-primary-600 dark:text-white dark:border-primary-600 dark:hover:bg-primary-700 dark:hover:text-white dark:hover:border-primary-700
                 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2
@@ -84,18 +154,19 @@
                         </a>
                     </div>
                 {% endif %}
+            </div>
+        </section>
+    {% endif %}
 
-            </section>
-        {% endif %}
-
-        <div class="border-t border-gray-200 dark:border-gray-800 mt-16"></div>
+    <div class="container-box mx-auto px-4 py-4 md:py-16 bg-slate-50 dark:bg-slate-900">
+        <div class="border-t border-gray-200 dark:border-gray-800 mt-4 md:mt-16"></div>
 
         <!-- Technologies Section -->
-        <section class="mt-16 reveal" data-delay=".2">
+        <section class="mt-4 md:mt-16 reveal" data-delay=".2">
             <!-- Titre & description -->
-            <div class="max-w-3xl mx-auto text-center mb-10">
-                <h2 class="h1 mb-3">Explorez par <span class="text-lead">sujet</span></h2>
-                <p class="text-lg text-muted">
+            <div class="max-w-3xl mx-auto text-center mb-6 md:mb-10">
+                <h2 class="text-2xl md:text-4xl font-bold text-slate-900 dark:text-white mb-2 md:mb-3">Explorez par <span class="text-primary-600 dark:text-primary-400">sujet</span></h2>
+                <p class="text-sm md:text-lg text-slate-600 dark:text-slate-400">
                     Explorez les technologies et les sujets que j'aborde dans mes vidéos et playlists.
                 </p>
             </div>
@@ -128,32 +199,40 @@
                             <div
                                     class="snap-start shrink-0
                                w-64 sm:w-72 md:w-80 lg:w-80
-                               border-2 border-slate-100 dark:border-slate-800
-                               hover:bg-primary-50 dark:hover:bg-primary-1000
-                               transition-colors duration-300
+                               bg-white dark:bg-slate-800
+                               border border-slate-200 dark:border-slate-700
+                               hover:border-primary-300 dark:hover:border-primary-600
+                               hover:shadow-lg dark:hover:shadow-primary-900/20
+                               hover:shadow-primary-200/50
+                               transition-all duration-300
                                flex flex-col items-center justify-center
-                               rounded-2xl px-4 py-5"
+                               rounded-2xl px-6 py-8"
                             >
-                                <img
-                                        class="w-12 h-12 mb-2"
-                                        src="{{ uploads_path('icons/' ~ technology.image) }}"
-                                        alt="{{ technology.name }} icon"
-                                        loading="lazy"
-                                >
-                                <h3 class="font-medium text-lg mb-1 text-center">
+                                <div class="w-16 h-16 bg-primary-100 dark:bg-primary-900 rounded-2xl flex items-center justify-center mb-4">
+                                    <img
+                                            class="w-10 h-10"
+                                            src="{{ uploads_path('icons/' ~ technology.image) }}"
+                                            alt="{{ technology.name }} icon"
+                                            loading="lazy"
+                                    >
+                                </div>
+                                <h3 class="font-semibold text-lg mb-2 text-center text-slate-900 dark:text-white">
                                     {{ technology.name }}
                                 </h3>
-                                <p class="text-sm text-slate-600 dark:text-slate-400 text-center">
+                                <p class="text-sm text-slate-600 dark:text-slate-400 text-center mb-4">
                                     {{ technology.formationCount }} Playlist{{ technology.formationCount > 1 ? 's' : '' }}
                                     •
                                     {{ technology.courseCount }} Vidéo{{ technology.courseCount > 1 ? 's' : '' }}
                                 </p>
                                 <a
-                                        class="mt-3 inline-block text-base font-medium text-primary-600 hover:text-primary-700
-                                   dark:text-primary-500 dark:hover:text-primary-400"
+                                        class="inline-flex items-center gap-2 text-sm font-medium text-primary-600 hover:text-primary-700
+                                   dark:text-primary-500 dark:hover:text-primary-400
+                                   hover:bg-primary-50 dark:hover:bg-primary-900/20
+                                   px-4 py-2 rounded-lg transition-all duration-200"
                                         href="{{ path('app_technology_show', { slug: technology.slug }) }}"
                                 >
                                     Découvrir
+                                    {{ icon('arrow-right', 14) }}
                                 </a>
                             </div>
                         {% endfor %}
@@ -178,38 +257,44 @@
         <div class="border-t border-gray-200 dark:border-gray-800 mt-16"></div>
 
         <!-- About Me Section -->
-        <section class="mt-20 reveal" data-delay=".2">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <div>
-                    <img src="{{ asset('images/lazarefortune-profil.png') }}" alt="Photo de Lazare Fortune"
-                         class="rounded-full shadow-lg shadow-primary-500 dark:shadow-primary-200 w-48 mx-auto md:w-64">
+        <section class="mt-16 md:mt-20 reveal" data-delay=".2">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+                <div class="order-2 md:order-1">
+                    <div class="relative w-full max-w-sm mx-auto">
+                        <!-- Décoration appliquée directement sur la photo -->
+                        <div class="absolute top-4 right-4 w-24 h-24 bg-primary-200 dark:bg-primary-800 rounded-full opacity-60 blur-xl"></div>
+                        <div class="absolute bottom-4 left-4 w-16 h-16 bg-blue-200 dark:bg-blue-800 rounded-full opacity-40 blur-xl"></div>
+                        <img src="{{ asset('images/lazarefortune-profil.png') }}" alt="Photo de Lazare Fortune"
+                             class="relative z-10 w-full h-auto">
+                    </div>
                 </div>
-                <div>
-                    <h2 class="h1 mb-6">Qui suis-je ?</h2>
-                    <p class="text-lg text-gray-600 dark:text-gray-300">
+                <div class="order-1 md:order-2">
+                    <div class="inline-flex items-center gap-2 bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300 text-sm font-medium px-4 py-2 rounded-full mb-6">
+                        <div class="w-2 h-2 bg-primary-500 rounded-full animate-pulse"></div>
+                        Développeur passionné
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6">Qui suis-je ?</h2>
+                    <p class="text-lg text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
                         Je suis Lazare Fortune, développeur web passionné par le code et la programmation. À travers mes
                         vidéos, je partage mon apprentissage et mes découvertes sur le développement web.
                     </p>
-                    <ul class="flex justify-start space-x-4 mt-4">
-                        <li>
-                            <a href="https://github.com/lazarefortune" target="_blank"
-                               class="flex flex-col justify-center items-center text-gray-800 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400">
-                                {{ icon('github', '24') }} <span>GitHub</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://www.linkedin.com/in/lazarefortune/" target="_blank"
-                               class="flex flex-col justify-center items-center text-gray-800 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400">
-                                {{ icon('linkedin', '24') }} LinkedIn
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://www.youtube.com/@LazareFortune" target="_blank"
-                               class="flex flex-col justify-center items-center text-gray-800 hover:text-red-600 dark:text-gray-300 dark:hover:text-red-400">
-                                {{ icon('youtube', '24') }} YouTube
-                            </a>
-                        </li>
-                    </ul>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="https://github.com/lazarefortune" target="_blank"
+                           class="inline-flex items-center gap-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-medium px-4 py-3 rounded-xl transition-all duration-300">
+                            {{ icon('github', '20') }}
+                            <span>GitHub</span>
+                        </a>
+                        <a href="https://www.linkedin.com/in/lazarefortune/" target="_blank"
+                           class="inline-flex items-center gap-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-medium px-4 py-3 rounded-xl transition-all duration-300">
+                            {{ icon('linkedin', '20') }}
+                            <span>LinkedIn</span>
+                        </a>
+                        <a href="https://www.youtube.com/@LazareFortune" target="_blank"
+                           class="inline-flex items-center gap-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-medium px-4 py-3 rounded-xl transition-all duration-300">
+                            {{ icon('youtube', '20') }}
+                            <span>YouTube</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -217,58 +302,72 @@
         <div class="border-t border-gray-200 dark:border-gray-800 mt-16"></div>
 
         <!-- Community Section -->
-        <section class="mt-16 py-16 rounded-md reveal"  data-delay=".2">
-            <div class="mx-auto text-center">
-                <div class="px-6 mb-10">
-                    <h2 class="h1 mb-3">
-                        Rejoignez la <span class="text-lead">communauté</span>
+        <section class="mt-16 py-16 bg-gradient-to-br from-primary-50 to-blue-50 dark:from-slate-800 dark:to-slate-900 rounded-2xl reveal" data-delay=".2">
+            <div class="mx-auto text-center max-w-6xl px-4">
+                <div class="mb-12">
+                    <div class="inline-flex items-center gap-2 bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300 text-sm font-medium px-4 py-2 rounded-full mb-6">
+                        <div class="w-2 h-2 bg-primary-500 rounded-full animate-pulse"></div>
+                        Contenu gratuit
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
+                        Découvrez mes <span class="text-primary-600 dark:text-primary-400">contenus</span>
                     </h2>
+                    <p class="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
+                        Accédez gratuitement à mes vidéos, playlists et ressources pour apprendre le développement web.
+                    </p>
                 </div>
 
-                <div class="my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
                     <!-- Card 1 -->
-                    <div class="flex flex-col items-center p-6 text-center">
-                        <div class="text-blue-600 dark:text-blue-400 mb-4">
-                            {{ icon('users', '48') }}
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                            {{ icon('video', '32') }}
                         </div>
-                        <h3 class="h3 mb-2">
-                            Sessions en groupe
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-4">
+                            Vidéos gratuites
                         </h3>
-                        <p class="text-slate-600 dark:text-slate-400">
-                            Posez vos questions et progressez ensemble grâce à des discussions interactives.
+                        <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                            Apprenez avec mes vidéos sur PHP, Symfony, JavaScript et bien plus encore.
                         </p>
                     </div>
 
                     <!-- Card 2 -->
-                    <div class="flex flex-col items-center p-6 text-center">
-                        <div class="text-green-600 dark:text-green-400 mb-4">
-                            {{ icon('code', '48') }}
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                            {{ icon('gallery-vertical-end', '32') }}
                         </div>
-                        <h3 class="h3 mb-2">
-                            Accès au code source
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-4">
+                            Playlists complètes
                         </h3>
-                        <p class="text-slate-600 dark:text-slate-400">
-                            Téléchargez, explorez et apprenez avec des projets open-source détaillés.
+                        <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                            Suivez des parcours d'apprentissage structurés et progressifs.
                         </p>
                     </div>
 
                     <!-- Card 3 -->
-                    <div class="flex flex-col items-center p-6 text-center">
-                        <div class="text-red-600 dark:text-red-400 mb-4">
-                            {{ icon('video', '48') }}
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-primary-100 dark:bg-primary-900 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                            {{ icon('code', '32') }}
                         </div>
-                        <h3 class="h3 mb-2">
-                            Vidéos exclusives
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-4">
+                            Code source inclus
                         </h3>
-                        <p class="text-slate-600 dark:text-slate-400">
-                            Accédez à des vidéos et playlists exclusives pour approfondir vos compétences.
+                        <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                            Téléchargez et explorez le code source de tous mes projets.
                         </p>
                     </div>
                 </div>
 
-                <div class="mt-10">
-                    <a href="{{ path('app_register') }}" class="btn btn-primary">
-                        Rejoindre maintenant
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="{{ path('app_course_index') }}"
+                       class="inline-flex items-center gap-3 bg-primary-600 hover:bg-primary-700 text-white hover:text-white focus:text-white dark:text-white dark:hover:text-white dark:focus:text-white font-semibold px-8 py-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                        {{ icon('play', '20') }}
+                        <span>Découvrir les vidéos</span>
+                    </a>
+                    <a href="{{ path('app_contact') }}"
+                       class="inline-flex items-center gap-3 bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-2 border-slate-200 dark:border-slate-700 hover:border-primary-300 dark:hover:border-primary-600 font-semibold px-8 py-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                        {{ icon('message-circle', '20') }}
+                        <span>Me contacter</span>
                     </a>
                 </div>
             </div>
@@ -276,69 +375,79 @@
 
         <!-- Contribute Section -->
         <section class="mt-16 reveal" data-delay=".2">
-            <div class="max-w-3xl mx-auto text-center">
-                <h2 class="h1 mb-4">
-                    Vous souhaitez <span class="text-lead">contribuer</span> ?
+            <div class="max-w-4xl mx-auto text-center mb-12">
+                <div class="inline-flex items-center gap-2 bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300 text-sm font-medium px-4 py-2 rounded-full mb-6">
+                    <div class="w-2 h-2 bg-primary-500 rounded-full animate-pulse"></div>
+                    Contribuez au projet
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
+                    Vous souhaitez <span class="text-primary-600 dark:text-primary-400">contribuer</span> ?
                 </h2>
+                <p class="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
+                    Rejoignez-nous pour faire grandir cette plateforme et partager vos connaissances.
+                </p>
             </div>
 
-            <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Contribuer au développement -->
-                <div class="flex flex-col items-center text-center border border-slate-200 dark:border-slate-800 rounded-xl px-6 py-14">
-                    <div class="flex justify-center items-center bg-primary-700 text-white p-2 rounded-lg w-10 h-10">
-                        <span>{{ icon('github', 24) }}</span>
+                <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg">
+                    <div class="w-16 h-16 bg-primary-100 dark:bg-primary-900 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        {{ icon('github', '32') }}
                     </div>
-                    <h3 class="h3 mb-2 mt-4">Contribuez au code</h3>
-                    <p class="text-muted mb-6">
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-4">Contribuez au code</h3>
+                    <p class="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
                         Partagez vos idées, résolvez des problèmes et participez activement
                         au développement via GitHub.
                     </p>
-                    <div class="mt-auto">
-                        <a href="https://github.com/lazarefortune/lazarefortune.com"
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           class="btn btn-outline">
-                            Accéder au GitHub
-                            <span class="ml-1">{{ icon('external-link', '16') }}</span>
-                        </a>
-                    </div>
+                    <a href="https://github.com/lazarefortune/lazarefortune.com"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="inline-flex items-center gap-3 bg-primary-600 hover:bg-primary-700 text-white hover:text-white focus:text-white dark:text-white dark:hover:text-white dark:focus:text-white font-semibold px-6 py-3 rounded-xl transition-all duration-300 w-full justify-center">
+                        {{ icon('github', '20') }}
+                        <span>Accéder au GitHub</span>
+                        {{ icon('external-link', '16') }}
+                    </a>
                 </div>
 
                 <!-- Devenir auteur -->
-                <div class="flex flex-col items-center text-center border border-slate-200 dark:border-slate-800 rounded-xl px-6 py-14">
-                    <div class="flex justify-center items-center bg-primary-700 text-white p-2 rounded-lg w-10 h-10">
-                        <span>{{ icon('pencil-line', 24) }}</span>
+                <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg">
+                    <div class="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        {{ icon('pencil-line', '32') }}
                     </div>
-                    <h3 class="h3 mb-2 mt-4">Devenez auteur</h3>
-                    <p class="text-muted mb-6">
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-4">Devenez auteur</h3>
+                    <p class="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
                         Publiez vos propres vidéos ou playlists sur la plateforme.
                         Partagez vos connaissances avec la communauté et faites grandir la plateforme.
                     </p>
-                    <div class="mt-auto">
-                        <a href="{{ path('app_collaboration_request_index') }}"
-                           class="btn btn-outline">
-                            Faire ma demande
-                        </a>
-                    </div>
+                    <a href="{{ path('app_collaboration_request_index') }}"
+                       class="inline-flex items-center gap-3 bg-green-600 hover:bg-green-700 text-white hover:text-white focus:text-white dark:text-white dark:hover:text-white dark:focus:text-white font-semibold px-6 py-3 rounded-xl transition-all duration-300 w-full justify-center">
+                        {{ icon('pencil-line', '20') }}
+                        <span>Faire ma demande</span>
+                    </a>
                 </div>
             </div>
         </section>
 
         <!-- Appointment Section -->
         <section class="mt-16 mb-16 px-4 py-12 relative">
-            <div
-                    class="mx-auto max-w-4xl bg-white dark:bg-slate-900 rounded-xl
-               shadow-lg shadow-primary-300/40 dark:shadow-primary-700/30
-               p-8 text-center"
-            >
-                <h2 class="h1 mb-4">
-                    Besoin d'un échange plus approfondi ?
-                </h2>
-                <p class="text-lg text-slate-600 dark:text-slate-300 mb-6">
-                    Prenons un moment pour discuter de vos projets, questions ou
-                    besoins spécifiques. Réservez un créneau directement via mon
-                    agenda Google.
-                </p>
+            <div class="mx-auto max-w-4xl bg-gradient-to-br from-white to-slate-50 dark:from-slate-800 dark:to-slate-900 rounded-2xl shadow-2xl shadow-primary-300/20 dark:shadow-primary-700/20 p-8 md:p-12 text-center relative overflow-hidden">
+                <!-- Décoration de fond -->
+                <div class="absolute top-0 right-0 w-32 h-32 bg-primary-200 dark:bg-primary-800 rounded-full opacity-20 blur-2xl"></div>
+                <div class="absolute bottom-0 left-0 w-24 h-24 bg-blue-200 dark:bg-blue-800 rounded-full opacity-20 blur-2xl"></div>
+
+                <div class="relative z-10">
+                    <div class="inline-flex items-center gap-2 bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300 text-sm font-medium px-4 py-2 rounded-full mb-6">
+                        <div class="w-2 h-2 bg-primary-500 rounded-full animate-pulse"></div>
+                        Consultation personnalisée
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6">
+                        Besoin d'un échange plus <span class="text-primary-600 dark:text-primary-400">approfondi</span> ?
+                    </h2>
+                    <p class="text-lg text-slate-600 dark:text-slate-300 mb-8 max-w-2xl mx-auto leading-relaxed">
+                        Prenons un moment pour discuter de vos projets, questions ou
+                        besoins spécifiques. Réservez un créneau directement via mon
+                        agenda Google.
+                    </p>
                 <!-- Google Calendar Appointment Scheduling begin -->
                 <link href="https://calendar.google.com/calendar/scheduling-button-script.css" rel="stylesheet">
                 <script src="https://calendar.google.com/calendar/scheduling-button-script.js" async></script>
