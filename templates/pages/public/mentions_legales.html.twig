@@ -1,10 +1,67 @@
 {% extends 'layouts/public/base.html.twig' %}
 
-{% block title %}
-
-{% endblock %}
+{% block title %}Mentions légales{% endblock %}
 
 {% block body %}
+    <div class="container-box py-10 w-full mx-auto">
+        <h1 class="text-center text-2xl sm:text-5xl font-semibold text-gray-800 mt-4 mb-10 sm:mb-16">
+            Mentions légales
+        </h1>
 
+        <section class="space-y-8">
+
+            <div class="border-b border-slate-200 dark:border-slate-800 pb-6">
+                <h3 class="text-xl sm:text-3xl font-semibold text-gray-700">1. Éditeur du site</h3>
+                <p class="text-slate-600 dark:text-slate-300 mt-2">
+                    Le site <a href="https://lazarefortune.com" class="link" target="_blank">https://lazarefortune.com</a>
+                    est édité par <strong>Lazare Fortune</strong>,
+                    entrepreneur individuel immatriculé sous le numéro <strong>SIRET 992 822 510 00010</strong>.<br>
+                    Adresse : <strong>11 avenue Auguste Rodin, 94350 Villiers-sur-Marne, France</strong><br>
+                    Email : <a href="mailto:lazarefortune@gmail.com" class="link">lazarefortune@gmail.com</a><br>
+                    Code APE : 6201Z — Programmation informatique<br>
+                    TVA non applicable – article 293 B du CGI.
+                </p>
+            </div>
+
+            <div class="border-b border-slate-200 dark:border-slate-800 pb-6">
+                <h3 class="text-xl sm:text-3xl font-semibold text-gray-700">2. Hébergeur du site</h3>
+                <p class="text-slate-600 dark:text-slate-300 mt-2">
+                    Le site est hébergé sur un serveur VPS fourni par :<br>
+                    <strong>Hostinger International Ltd.</strong><br>
+                    Adresse : 61 Lordou Vironos Street, 6023 Larnaca, Chypre<br>
+                    Site web : <a href="https://www.hostinger.fr" class="link" target="_blank">https://www.hostinger.fr</a><br>
+                    Téléphone : +33 1 76 54 41 25
+                </p>
+            </div>
+
+
+            <div class="border-b border-slate-200 dark:border-slate-800 pb-6">
+                <h3 class="text-xl sm:text-3xl font-semibold text-gray-700">3. Propriété intellectuelle</h3>
+                <p class="text-slate-600 dark:text-slate-300 mt-2">
+                    L’ensemble des contenus (textes, vidéos, images, logos, code) présents sur le site
+                    sont la propriété exclusive de Lazare Fortune, sauf mention contraire.
+                    Toute reproduction ou diffusion sans autorisation est interdite.
+                </p>
+            </div>
+
+            <div class="border-b border-slate-200 dark:border-slate-800 pb-6">
+                <h3 class="text-xl sm:text-3xl font-semibold text-gray-700">4. Données personnelles</h3>
+                <p class="text-slate-600 dark:text-slate-300 mt-2">
+                    Les informations personnelles collectées via ce site sont utilisées uniquement pour les finalités déclarées
+                    (contact, newsletter, suivi des formations).
+                    Conformément au RGPD, vous disposez d’un droit d’accès, de rectification et de suppression de vos données.
+                    Pour exercer ce droit : <a href="mailto:lazarefortune@gmail.com" class="link">lazarefortune@gmail.com</a>.
+                </p>
+            </div>
+
+            <div>
+                <h3 class="text-xl sm:text-3xl font-semibold text-gray-700">5. Contact</h3>
+                <p class="text-slate-600 dark:text-slate-300 mt-2">
+                    Pour toute question concernant les mentions légales du site, vous pouvez contacter
+                    Lazare Fortune à l’adresse suivante : <a href="mailto:lazarefortune@gmail.com" class="link">lazarefortune@gmail.com</a>.
+                </p>
+            </div>
+
+        </section>
+    </div>
 {% endblock %}
-
