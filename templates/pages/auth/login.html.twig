@@ -4,57 +4,90 @@
 
 {% block auth_body %}
 
-    <div class="w-full flex flex-col items-center text-center">
-        <h1 class="text-3xl sm:text-4xl font-medium text-primary-900 dark:text-white mb-2 reveal">
-            Bienvenue 👋
+    <!-- En-tête avec animation -->
+    <div class="w-full flex flex-col items-center text-center mb-8">
+        <div class="relative mb-4 reveal">
+            <!-- Icône décorative avec gradient -->
+            <div class="absolute inset-0 bg-gradient-to-br from-primary-400 to-primary-600 rounded-2xl opacity-20 blur-xl transform rotate-6"></div>
+            <div class="relative text-5xl sm:text-6xl mb-3">
+                👋
+            </div>
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-semibold bg-gradient-to-r from-primary-600 to-primary-500 dark:from-primary-400 dark:to-primary-300 bg-clip-text text-transparent mb-3 reveal">
+            Bienvenue
         </h1>
-        <p class="text-slate-600 dark:text-slate-300 max-w-sm text-base mb-6 reveal" data-delay=".2">
-            Connecte-toi pour accéder à tout le contenu, suivre ta progression et débloquer des surprises 💡
+        <p class="text-slate-600 dark:text-slate-300 max-w-sm text-base leading-relaxed reveal" data-delay=".1">
+            Connecte-toi pour accéder à tout le contenu, suivre ta progression et débloquer des surprises <span class="inline-block">💡</span>
         </p>
     </div>
 
-    <div class="grid grid-cols-2 gap-3 reveal" data-delay=".2">
+    <!-- Boutons de connexion sociale -->
+    <div class="grid grid-cols-2 gap-3 mb-6 reveal" data-delay=".2">
         <a href="{{ path('app_oauth_connect', {service: 'google', redirect: app.request.uri}) }}" class="btn btn-light w-full">
             <svg class="social-icon"><use href="/icons/social.svg#google"></use></svg>
-            Google
+            <span class="font-medium">Google</span>
         </a>
 
         <a href="{{ path('app_oauth_connect', {service: 'github', redirect: app.request.uri}) }}" class="btn btn-light w-full">
             <svg class="social-icon"><use href="/icons/social.svg#github"></use></svg>
-            GitHub
+            <span class="font-medium">GitHub</span>
         </a>
     </div>
 
-    <div class="flex items-center space-x-2 reveal mt-3" data-delay=".2">
-        <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
-        <span class="text-slate-500 text-sm">ou</span>
-        <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+    <!-- Séparateur amélioré -->
+    <div class="flex items-center gap-4 my-6 reveal" data-delay=".25">
+        <div class="flex-grow h-px bg-gradient-to-r from-transparent via-slate-300 dark:via-slate-600 to-slate-300 dark:to-slate-600"></div>
+        <span class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">ou</span>
+        <div class="flex-grow h-px bg-gradient-to-l from-transparent via-slate-300 dark:via-slate-600 to-slate-300 dark:to-slate-600"></div>
     </div>
 
-    <form method="post" class="w-full space-y-6 reveal" data-delay=".4" action="#">
+    <!-- Formulaire de connexion -->
+    <form method="post" class="w-full space-y-5 reveal" data-delay=".3" action="#">
         {% if error %}
-            <div class="alert alert-danger text-center">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            <div class="alert alert-danger text-center mb-4 rounded-xl border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 py-3 px-4">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
         {% endif %}
 
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-        <div class="space-y-2">
-            <input type="email" name="email" id="email" value="{{ last_username }}" required class="form-input" placeholder="Adresse e-mail">
-            <input type="password" name="password" id="password" required class="form-input" placeholder="Mot de passe" autocomplete="current-password">
+        <!-- Champs du formulaire -->
+        <div class="space-y-4">
+            <div class="relative">
+                <input type="email" name="email" id="email" value="{{ last_username }}" required
+                       class="form-input"
+                       placeholder="jonhdoe@example.com">
+            </div>
+            <div class="relative">
+                <input type="password" name="password" id="password" required
+                       class="form-input"
+                       placeholder="********" autocomplete="current-password">
+            </div>
         </div>
 
-        <div class="flex justify-between text-sm text-slate-600 dark:text-slate-400">
-            <a href="{{ path('app_forgot_password') }}" class="text-primary-600 hover:underline dark:text-primary-400">Mot de passe oublié ?</a>
+        <!-- Lien mot de passe oublié -->
+        <div class="flex justify-end text-sm reveal" data-delay=".35">
+            <a href="{{ path('app_forgot_password') }}"
+               class="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium hover:underline">
+                Mot de passe oublié ?
+            </a>
         </div>
 
-        <div class="flex flex-col gap-4">
-            <button type="submit" class="btn btn-primary py-4 text-lg">
-                Se connecter
+        <!-- Bouton de soumission -->
+        <div class="flex flex-col gap-4 pt-2">
+            <button type="submit"
+                    class="btn btn-primary py-4 text-lg font-semibold">
+                <span>Se connecter</span>
             </button>
 
-            <a href="{{ path('app_register') }}" class="btn btn-outline">
-                Pas encore inscrit ? Créer un compte
-            </a>
+            <!-- Lien vers inscription -->
+            <p class="text-center text-sm text-slate-600 dark:text-slate-400 reveal" data-delay=".4">
+                Pas encore inscrit ?
+                <a href="{{ path('app_register') }}"
+                   class="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-semibold hover:underline ml-1">
+                    Créer un compte
+                </a>
+            </p>
         </div>
     </form>
 
