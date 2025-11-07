@@ -108,9 +108,9 @@ class ContentSubscriber implements EventSubscriberInterface
         $duration = TimeHelper::duration($content->getDuration());
 
         if ($content instanceof Course) {
-            $message = "Nouveau tutoriel {$technologies} !<br> <strong>{$content->getTitle()}</strong> <strong>({$duration})</strong>";
+            $message = "Nouvelle vidéo {$technologies} !<br> <strong>{$content->getTitle()}</strong> <strong>({$duration})</strong>";
         } else {
-            $message = "Nouvelle formation {$technologies} disponible :  <strong>{$content->getTitle()}</strong>";
+            $message = "Nouvelle playlist {$technologies} disponible :  <strong>{$content->getTitle()}</strong>";
         }
 
         // Le contenu est publié de suite
