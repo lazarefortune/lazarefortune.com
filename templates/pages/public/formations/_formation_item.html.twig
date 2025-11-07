@@ -1,5 +1,5 @@
 <article class="formation" style="scroll-snap-align: center">
-    {% set isLocked = (formation.premium and (not app.user or not app.user.premium)) or formation.isScheduled %}
+    {% set isLocked = (formation.premium and (not app.user or not app.user.premium)) %}
     {% set formationUrl = path('app_formation_show', {slug: formation.slug}) %}
 
     <a href="{{ formationUrl }}" class="formation__link block">
@@ -14,14 +14,14 @@
                 </div>
             {% endif %}
 
-            {% if formation.isScheduled %}
-                <div class="formation__overlay-icon">
-                    <div class="formation__countdown">
-                        <em>Disponible dans</em>
-                        <strong>{{ formation.publishedAt|countdown }} </strong>
-                    </div>
-                </div>
-            {% elseif formation.premium and (not app.user or not app.user.premium) %}
+{#            {% if formation.isScheduled %}#}
+{#                <div class="formation__overlay-icon">#}
+{#                    <div class="formation__countdown">#}
+{#                        <em>Disponible dans</em>#}
+{#                        <strong>{{ formation.publishedAt|countdown }} </strong>#}
+{#                    </div>#}
+{#                </div>#}
+            {% if formation.premium and (not app.user or not app.user.premium) %}
                 <div class="formation__overlay-icon">
                     {{ icon('crown', 28) }}
                 </div>
@@ -51,10 +51,10 @@
                 <h1 class="text-base font-medium text-slate-900 dark:text-white leading-tight line-clamp-2">{{ formation.title }}</h1>
                 <div class="text-sm text-slate-600 dark:text-slate-400 mt-1">
                     <span>{{ formation.author.fullname }}</span>
-                    {% if not formation.isScheduled %}
-                        <span>•</span>
-                        <span>{{ formation.publishedAt | ago }}</span>
-                    {% endif %}
+{#                    {% if not formation.isScheduled %}#}
+{#                        <span>•</span>#}
+{#                        <span>{{ formation.publishedAt | ago }}</span>#}
+{#                    {% endif %}#}
                 </div>
             </div>
         </div>
