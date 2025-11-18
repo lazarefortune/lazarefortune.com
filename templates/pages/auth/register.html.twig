@@ -50,9 +50,9 @@
 
     <!-- Champ Email -->
     <div>
+        {{ form_label(registrationForm.email) }}
         {{ form_widget(registrationForm.email, {
             attr: {
-                placeholder: 'Ton adresse e-mail',
                 class: 'form-input'
             }
         }) }}
@@ -61,9 +61,9 @@
 
     <!-- Champ Mot de passe -->
     <div>
+        {{ form_label(registrationForm.plainPassword) }}
         {{ form_widget(registrationForm.plainPassword, {
             attr: {
-                placeholder: 'Créer un mot de passe sécurisé',
                 class: 'form-input'
             }
         }) }}
