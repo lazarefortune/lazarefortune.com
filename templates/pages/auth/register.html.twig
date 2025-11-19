@@ -62,11 +62,18 @@
     <!-- Champ Mot de passe -->
     <div>
         {{ form_label(registrationForm.plainPassword) }}
-        {{ form_widget(registrationForm.plainPassword, {
-            attr: {
-                class: 'form-input'
-            }
-        }) }}
+        <div class="relative password-toggle-group">
+            {{ form_widget(registrationForm.plainPassword, {
+                attr: {
+                    class: 'form-input password-toggle-input'
+                }
+            }) }}
+            <button type="button" class="password-toggle-button">
+                <span class="sr-only">Afficher/Masquer</span>
+                {{ icon('eye', null, 'password-toggle-icon-show') }}
+                {{ icon('eye-off', null, 'password-toggle-icon-hide hidden') }}
+            </button>
+        </div>
         <div class="form-error">{{ form_errors(registrationForm.plainPassword) }}</div>
     </div>
 

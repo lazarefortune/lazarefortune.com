@@ -134,7 +134,7 @@
 {% block phone_row %}
     <div class="flex flex-col gap-1">
         {{ form_label(form, null, { 'label_attr': {'class': 'label'} }) }}
-        <div class="mt-2">
+        <div>
             <phone-input{% for attrname, attrvalue in wrapper_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
                 {{ form_widget(form) }}
             </phone-input>

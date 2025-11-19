@@ -212,12 +212,14 @@ class TwigExtension extends AbstractExtension
             $attrs = " width=\"{$size}px\" height=\"{$size}px\"";
         }
 
+        $class = 'icon';
+
         if ( $additionalClass ) {
-            $attrs .= " class=\"{$additionalClass}\"";
+            $class .= " {$additionalClass}";
         }
 
         return <<<HTML
-            <svg class="icon"
+            <svg class="{$class}"
                  {$attrs}
                  viewBox="0 0 24 24"
                  fill="none"

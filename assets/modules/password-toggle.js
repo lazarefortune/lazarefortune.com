@@ -1,23 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.password-toggle-button').forEach(button => {
-        button.addEventListener('click', (event) => {
-            event.preventDefault();
+    const inputGroups = document.querySelectorAll('.password-toggle-group');
+    inputGroups.forEach((inputGroup) => {
+        inputGroup
+            .querySelector('.password-toggle-button')
+            .addEventListener('click', (e) => {
+                e.preventDefault();
 
-            const passwordField = button.closest('.relative').querySelector('input');
-            const iconEye = button.querySelector('.icon-eye');
-            const iconEyeOff = button.querySelector('.icon-eye-off');
+                const inputToggle = inputGroup.querySelector('.password-toggle-input');
+                const iconToggleShow = inputGroup.querySelector('.password-toggle-icon-show');
+                const iconToggleHide = inputGroup.querySelector('.password-toggle-icon-hide');
 
-            if (passwordField.type === 'password') {
-                passwordField.type = 'text';
-                iconEye.classList.add('hidden');
-                iconEyeOff.classList.remove('hidden');
-            } else {
-                passwordField.type = 'password';
-                iconEye.classList.remove('hidden');
-                iconEyeOff.classList.add('hidden');
-            }
-
-            passwordField.focus();
-        });
-    });
-});
+                if (inputToggle.getAttribute('type') === 'password') {
+                    inputToggle.setAttribute('type', 'text');
+                    iconToggleShow.classList.add('hidden');
+                    iconToggleHide.classList.remove('hidden');
+                } else {
+                    inputToggle.setAttribute('type', 'password');
+                    iconToggleShow.classList.remove('hidden');
+                    iconToggleHide.classList.add('hidden');
+                }
+            })
+    })
+})
