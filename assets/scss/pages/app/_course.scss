@@ -378,7 +378,7 @@
   }
 
   .filter-chip-image {
-    @apply w-5 h-5 object-contain;
+    @apply w-5 h-5 object-contain max-w-none;
   }
 }
 

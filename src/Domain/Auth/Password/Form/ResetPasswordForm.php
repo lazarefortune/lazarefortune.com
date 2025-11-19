@@ -21,12 +21,12 @@ class ResetPasswordForm extends AbstractType
                 'options' => ['attr' => ['class' => 'password-verifier']],
                 'required' => true,
                 'first_options' => [
-                    'label' => 'Mot de passe',
+                    'label' => 'Nouveau mot de passe',
                     'label_attr' => ['class' => 'label'],
                     'attr' => ['class' => 'form-input'],
-                ],
+                ],@
                 'second_options' => [
-                    'label' => 'Répéter le mot de passe',
+                    'label' => 'Confirmer le mot de passe',
                     'label_attr' => ['class' => 'label'],
                     'attr' => ['class' => 'form-input'],
                 ],

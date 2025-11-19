@@ -62,7 +62,7 @@
         {% if formation.mainTechnologies is not empty %}
             <div class="formation__technologies">
                 {% for technology in formation.mainTechnologies %}
-                    <a href="{{ path('app_technology_show', {slug: technology.slug}) }}"
+                      <a href="{{ path('app_technology_show', {slug: technology.slug}) }}"
                        title="Toutes les vidéos {{ technology.name }}"
                        class="formation__tech">
                         <img src="{{ uploads_path('icons/' ~ technology.image) }}" alt="{{ technology.name }}" class="w-4 h-4 object-contain">
