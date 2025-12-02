@@ -60,13 +60,20 @@
             </div>
             <div class="relative">
                 <label for="password" class="label">Mot de passe</label>
-                <input type="password" name="password" id="password" required
-                       class="form-input" autocomplete="current-password">
+                <div class="relative password-toggle-group">
+                    <input type="password" name="password" id="password" required
+                           class="form-input password-toggle-input" autocomplete="current-password">
+                    <button type="button" class="password-toggle-button">
+                        <span class="sr-only">Afficher/Masquer</span>
+                        {{ icon('eye', null, 'password-toggle-icon-show') }}
+                        {{ icon('eye-off', null, 'password-toggle-icon-hide hidden') }}
+                    </button>
+                </div>
             </div>
         </div>
 
         <!-- Lien mot de passe oublié -->
-        <div class="flex justify-end text-sm reveal" data-delay=".35">
+        <div class="flex justify-start text-sm reveal" data-delay=".35">
             <a href="{{ path('app_forgot_password') }}"
                class="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium hover:underline">
                 Mot de passe oublié ?
@@ -91,4 +98,13 @@
         </div>
     </form>
 
+{% endblock %}
+
+{% block javascripts__footer %}
+{{ parent() }}
+    <script>
+        function toggleShowPassword() {
+            console.log("hello")
+        }
+    </script>
 {% endblock %}
