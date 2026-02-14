@@ -172,4 +172,10 @@ class HomeController extends AbstractController
     {
         return $this->render( 'pages/public/politique_confidentialite.html.twig' );
     }
+
+    #[Route( '/valentine', name: 'valentine' )]
+    public function valentines() : Response
+    {
+        return $this->render( 'pages/public/valentines.html.twig' );
+    }
 }

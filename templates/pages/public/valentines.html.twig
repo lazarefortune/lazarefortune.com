@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Tu seras ma Choupentine ? 💕</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;500&display=swap" rel="stylesheet">
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+
+			:root {
+				--rose: #c97b84;
+				--rose-pale: #e8b4bc;
+				--creme: #fdf6f7;
+				--texte: #4a3c3e;
+				--ombre: rgba(201, 123, 132, 0.2);
+			}
+
+			body {
+				min-height: 100vh;
+				background: var(--creme);
+				font-family: 'Outfit', sans-serif;
+				color: var(--texte);
+				overflow: hidden;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				position: relative;
+			}
+
+			/* Cœurs en arrière-plan */
+			.hearts {
+				position: fixed;
+				inset: 0;
+				pointer-events: none;
+				overflow: hidden;
+			}
+
+			.heart {
+				position: absolute;
+				font-size: 1.5rem;
+				opacity: 0.15;
+				animation: float 8s ease-in-out infinite;
+			}
+
+			.heart:nth-child(1) {
+				left: 10%;
+				top: 20%;
+				animation-delay: 0s;
+			}
+			.heart:nth-child(2) {
+				left: 85%;
+				top: 15%;
+				animation-delay: 1s;
+			}
+			.heart:nth-child(3) {
+				left: 70%;
+				top: 70%;
+				animation-delay: 2s;
+			}
+			.heart:nth-child(4) {
+				left: 20%;
+				top: 75%;
+				animation-delay: 3s;
+			}
+			.heart:nth-child(5) {
+				left: 50%;
+				top: 10%;
+				animation-delay: 4s;
+			}
+			.heart:nth-child(6) {
+				left: 30%;
+				top: 50%;
+				animation-delay: 5s;
+			}
+			.heart:nth-child(7) {
+				left: 90%;
+				top: 50%;
+				animation-delay: 6s;
+			}
+
+			@keyframes float {
+				0,
+				100% {
+					transform: translateY(0) scale(1);
+					opacity: 0.15;
+				}
+				50% {
+					transform: translateY(-20px) scale(1.1);
+					opacity: 0.25;
+				}
+			}
+
+			.container {
+				text-align: center;
+				padding: 2rem;
+				max-width: 420px;
+				position: relative;
+				z-index: 1;
+			}
+
+			.question-block h1 {
+				font-family: 'Cormorant Garamond', serif;
+				font-size: clamp(1.8rem, 5vw, 2.4rem);
+				font-weight: 600;
+				color: var(--rose);
+				line-height: 1.3;
+				margin-bottom: 2rem;
+			}
+
+			.question-block h1 em {
+				font-style: italic;
+				font-weight: 400;
+			}
+
+			.buttons {
+				display: flex;
+				gap: 1rem;
+				justify-content: center;
+				align-items: center;
+				flex-wrap: wrap;
+				position: relative;
+				min-height: 120px;
+			}
+
+			.btn {
+				padding: 1rem 2rem;
+				font-family: 'Outfit', sans-serif;
+				font-size: 1.1rem;
+				font-weight: 500;
+				border: none;
+				border-radius: 999px;
+				cursor: pointer;
+				transition: transform 0.2s ease, box-shadow 0.2s ease;
+				position: absolute;
+			}
+
+			.btn-yes {
+				background: linear-gradient(135deg, var(--rose) 0%, #b86a73 100%);
+				color: white;
+				left: 50%;
+				transform: translateX(calc(-50% - 4rem));
+				box-shadow: 0 8px 24px var(--ombre);
+			}
+
+			.btn-yes:hover {
+				transform: translateX(calc(-50% - 4rem)) scale(1.08);
+				box-shadow: 0 12px 32px var(--ombre);
+			}
+
+			.btn-no {
+				background: var(--rose-pale);
+				color: var(--texte);
+				left: 50%;
+				transform: translateX(calc(-50% + 4rem));
+			}
+
+			.btn-no:hover {
+				background: #e0a8b0;
+			}
+
+			/* Écran de succès */
+			.success-block {
+				display: none;
+				animation: fadeIn 0.6s ease;
+			}
+
+			.success-block.visible {
+				display: block;
+			}
+
+			.question-block.hidden {
+				display: none;
+			}
+
+			.screen {
+				display: none;
+			}
+
+			.screen.visible {
+				display: block;
+				animation: fadeIn 0.5s ease;
+			}
+
+			.screen .subtitle {
+				font-size: 0.95rem;
+				font-weight: 300;
+				color: var(--texte);
+				opacity: 0.85;
+				margin-bottom: 1.5rem;
+				font-style: italic;
+			}
+
+			.buttons-inline {
+				display: flex;
+				gap: 1rem;
+				justify-content: center;
+				align-items: center;
+				flex-wrap: wrap;
+			}
+
+			.buttons-inline .btn {
+				position: static;
+				transform: none;
+			}
+
+			.buttons-inline .btn-yes:hover {
+				transform: scale(1.08);
+			}
+
+			@keyframes fadeIn {
+				from {
+					opacity: 0;
+					transform: scale(0.95);
+				}
+				to {
+					opacity: 1;
+					transform: scale(1);
+				}
+			}
+
+			.success-block .big-heart {
+				font-size: 4rem;
+				margin-bottom: 1rem;
+				animation: pulse 1s ease infinite;
+			}
+
+			@keyframes pulse {
+				0,
+				100% {
+					transform: scale(1);
+				}
+				50% {
+					transform: scale(1.15);
+				}
+			}
+
+			.success-block h2 {
+				font-family: 'Cormorant Garamond', serif;
+				font-size: 1.8rem;
+				color: var(--rose);
+				margin-bottom: 0.5rem;
+			}
+
+			.success-block p {
+				font-size: 1rem;
+				font-weight: 300;
+				color: var(--texte);
+				opacity: 0.9;
+			}
+			.dudu-image {
+				width: 100%;
+				max-width: 200px;
+				margin-bottom: 1rem;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="hearts">
+			<span class="heart">♥</span>
+			<span class="heart">♥</span>
+			<span class="heart">♥</span>
+			<span class="heart">♥</span>
+			<span class="heart">♥</span>
+			<span class="heart">♥</span>
+			<span class="heart">♥</span>
+		</div>
+
+		<div
+			class="container">
+			<!-- Écran 1 : question initiale -->
+			<div class="question-block screen visible" id="screen1" data-screen="1">
+				<img src="{{ asset('images/valentin/dudu-triste.png') }}" alt="Dudu triste" class="dudu-image">
+				<h1>Veux-tu être
+					<em>ma CHOUPENTINE</em>
+					?</h1>
+				<div class="buttons">
+					<button type="button" class="btn btn-yes btn-yes-global">Oui 💕</button>
+					<button type="button" class="btn btn-no btn-no-screen">Non</button>
+				</div>
+			</div>
+
+			<div class="question-block screen" id="screen2" data-screen="2">
+				<img src="{{ asset('images/valentin/dudu-pleure.png') }}" alt="Dudu pleure" class="dudu-image">
+				<h1>Non ?
+					<em>Vraiment</em>
+					?</h1>
+				<p class="subtitle">Bon… on reprend. Veux-tu être ma Choupentine ?</p>
+				<div class="buttons-inline">
+					<button type="button" class="btn btn-yes btn-yes-global">Oui 💕</button>
+					<button type="button" class="btn btn-no btn-no-screen">Non</button>
+				</div>
+			</div>
+
+			<div class="question-block screen" id="screen3" data-screen="3">
+				<img src="{{ asset('images/valentin/dudu-fache.png') }}" alt="Dudu fache" class="dudu-image">
+				<h1>Encore
+					<em>Non</em>
+					?</h1>
+				<p class="subtitle">Tu es têtue. Moi aussi. Alors, une dernière fois : ma Choupentine ?</p>
+				<div class="buttons-inline">
+					<button type="button" class="btn btn-yes btn-yes-global">Oui 💕</button>
+					<button type="button" class="btn btn-no btn-no-screen">Non</button>
+				</div>
+			</div>
+
+			<div class="question-block screen" id="screen4" data-screen="4">
+				<img src="{{ asset('images/valentin/bubu-dudu-love.png') }}" alt="Bubu et Dudu amoureux" class="dudu-image">
+				<h1>Tu tiens bon.</h1>
+				<p class="subtitle">Imagine nous ensemble, dans le trou, en train de choupiner. On recommence: Veux-tu être ma Choupentine ?</p>
+				<div class="buttons-inline">
+					<button type="button" class="btn btn-yes btn-yes-global">Oui 💕</button>
+					<button type="button" class="btn btn-no btn-no-screen">Non</button>
+				</div>
+			</div>
+
+			<div class="question-block screen" id="screen5" data-screen="5">
+				<img src="{{ asset('images/valentin/dudu-part.png') }}" alt="Dudu parti" class="dudu-image">
+				<h1>C'est bon, j'abandonne.</h1>
+				<p class="subtitle">… Non je déconne. Clique Oui. Allez ma Choupie. ♥</p>
+				<div class="buttons-inline">
+					<button type="button" class="btn btn-yes btn-yes-global">Oui 💕</button>
+					<button type="button" class="btn btn-no btn-no-screen">Non</button>
+				</div>
+			</div>
+
+			<div class="question-block screen" id="screen6" data-screen="6">
+				<img src="{{ asset('images/valentin/bubu-prison.png') }}" alt="Bubu et Dudu en prison" class="dudu-image">
+				<h1>Il n'y a plus que
+					<em>Oui</em>.</h1>
+				<p class="subtitle">Tu as bien essayé. Maintenant ?</p>
+				<div class="buttons-inline">
+					<button type="button" class="btn btn-yes btn-yes-global">Oui 💕</button>
+				</div>
+			</div>
+
+			<div class="success-block" id="success">
+				<img src="{{ asset('images/valentin/bubu-dudu-loving.png') }}" alt="Bubu et Dudu amoureux" class="dudu-image">
+				<div class="big-heart">♥</div>
+				<h2>De toute façon tu n'avais pas le choix.</h2>
+				<p>Merci ma
+					<b>CHOUPIE</b>
+					d'amourrrrr !</p>
+			</div>
+		</div>
+
+		<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+		<script>
+			const successBlock = document.getElementById('success');
+const totalScreens = 6;
+
+function showScreen(num) {
+document.querySelectorAll('.screen').forEach(function (el) {
+el.classList.remove('visible');
+});
+const screen = document.getElementById('screen' + num);
+if (screen)
+screen.classList.add('visible');
+
+}
+
+function showSuccess() {
+document.querySelectorAll('.screen').forEach(function (el) {
+el.classList.remove('visible');
+});
+successBlock.classList.add('visible');
+
+if (typeof confetti === 'function') {
+const colors = ['#c97b84', '#e8b4bc', '#b86a73', '#fdf6f7'];
+confetti({
+particleCount: 120,
+spread: 70,
+origin: {
+y: 0.6
+},
+colors: colors
+});
+setTimeout(function () {
+confetti({
+particleCount: 80,
+angle: 60,
+spread: 55,
+origin: {
+x: 0
+},
+colors: colors
+});
+confetti({
+particleCount: 80,
+angle: 120,
+spread: 55,
+origin: {
+x: 1
+},
+colors: colors
+});
+}, 200);
+}
+}
+
+document.addEventListener('click', function (e) {
+if (e.target.classList.contains('btn-yes-global')) {
+showSuccess();
+return;
+}
+if (e.target.classList.contains('btn-no-screen')) {
+const screen = e.target.closest('.screen');
+const num = parseInt(screen.getAttribute('data-screen'), 10);
+if (num < totalScreens) {
+showScreen(num + 1);
+}
+}
+});
+		</script>
+	</body>
+</html>
+
