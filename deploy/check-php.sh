@@ -2,7 +2,7 @@
 # Vérifie que le PHP CLI du VPS a tout ce qu'il faut pour Symfony.
 set -euo pipefail
 
-required=(pdo pdo_mysql zip curl xml dom simplexml mbstring intl redis gd bcmath opcache)
+required=(pdo pdo_mysql zip curl xml dom simplexml mbstring intl redis gd bcmath)
 
 missing=()
 for ext in "${required[@]}"; do
