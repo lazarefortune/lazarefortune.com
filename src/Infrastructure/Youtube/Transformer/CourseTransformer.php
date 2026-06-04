@@ -116,14 +116,14 @@ class CourseTransformer
         $hashtagText = implode(' ', array_slice($hashtags, 0, 5));
 
         return <<<DESC
-🚀 $title
+$title
 
-📚 Technologies abordées : $techList
+Technologies abordées : $techList
 
 Toutes mes ressources et vidéos sont centralisées ici : $url  
 Retrouve-moi sur tous les réseaux avec **@lazarefortune**
 
-🔗 Reste curieux, continue de progresser, et partage si ça t’aide !
+Reste curieux, continue de progresser, et partage si ça t’aide !
 
 $hashtagText
 DESC;

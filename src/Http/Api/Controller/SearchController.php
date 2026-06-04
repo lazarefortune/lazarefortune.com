@@ -42,7 +42,7 @@ class SearchController extends AbstractController
         ], $technologies);
 
         // On trouve les contenus qui correspondent à la recheche
-        $results = $this->search->search($q, [], 5);
+        $results = $this->search->search($q, [], 5, 1, ['online' => true]);
         $contentMatches = array_map(fn (SearchResultItemInterface $item) => [
             'title' => $item->getTitle(),
             'url' => $item->getUrl(),

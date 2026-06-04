@@ -26,7 +26,7 @@ class MeilisearchIndexer implements IndexerInterface
                 'url',
             ],
             'sortableAttributes' => ['created_at'],
-            'filterableAttributes' => ['type'],
+            'filterableAttributes' => ['type', 'author_id', 'online', 'technology_slugs'],
         ]);
     }
 

@@ -16,3 +16,47 @@
     @apply btn btn-primary;
   }
 }
+
+.dashboard-page-table-toolbar {
+  @apply flex flex-col gap-3 mb-5 px-2 py-3;
+
+  @screen md {
+    @apply flex-row items-center justify-between gap-4;
+  }
+}
+
+.course-search-form {
+  @apply flex w-full min-w-0 items-stretch gap-2;
+
+  @screen md {
+    @apply max-w-xl flex-1;
+  }
+}
+
+.course-search-field {
+  @apply relative min-w-0 flex-1;
+
+  .form-input {
+    @apply w-full py-2;
+  }
+
+  &:has(.course-search-clear) .form-input {
+    @apply pr-10;
+  }
+}
+
+.course-search-icon {
+  @apply pointer-events-none absolute inset-y-0 left-0 z-10 flex w-10 items-center justify-center text-muted;
+}
+
+.course-search-clear {
+  @apply absolute inset-y-0 right-0 z-10 flex w-10 items-center justify-center text-muted transition-colors hover:text-slate-900 dark:hover:text-white;
+}
+
+.course-search-add {
+  @apply btn btn-primary w-full shrink-0 justify-center;
+
+  @screen md {
+    @apply w-auto;
+  }
+}

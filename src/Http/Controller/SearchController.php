@@ -43,7 +43,7 @@ class SearchController extends AbstractController
         }
 
         $page = $request->query->getInt('page', 1);
-        $results = $search->search($q, [], 10, $page);
+        $results = $search->search($q, [], 10, $page, ['online' => true]);
         $paginableResults = new CallbackPagination(fn () => $results->getTotal(), fn () => $results->getItems());
 
         return $this->render('pages/public/search/search.html.twig', [

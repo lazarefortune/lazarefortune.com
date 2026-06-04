@@ -13,19 +13,27 @@ use App\Http\Admin\Data\Crud\CourseCrudData;
 use App\Http\Admin\Data\Crud\CourseNewCrudData;
 use App\Http\Admin\Form\Course\CourseEditForm;
 use App\Http\Security\ContentVoter;
+use App\Infrastructure\Search\Meilisearch\MeilisearchException;
+use App\Infrastructure\Search\SearchInterface;
+use App\Infrastructure\Search\SearchResultItemInterface;
 use App\Infrastructure\Youtube\Transformer\CourseTransformer;
 use App\Infrastructure\Youtube\YoutubeScopes;
 use App\Infrastructure\Youtube\YoutubeService;
 use App\Infrastructure\Youtube\YoutubeUploaderService;
 use Google_Service_Exception;
+use Knp\Component\Pager\Event\Subscriber\Paginate\Callback\CallbackPagination;
+use Knp\Component\Pager\PaginatorInterface as KnpPaginatorInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Vich\UploaderBundle\Handler\UploadHandler;
 use Vich\UploaderBundle\Storage\StorageInterface;
@@ -42,14 +50,37 @@ class CourseController extends CrudController
     protected string $entity = Course::class;
     protected bool   $indexOnSave = false;
     protected string $routePrefix = 'studio_course';
+    protected string $searchField = 'title';
     protected array $events = [
         'update' => ContentUpdatedEvent::class,
         'delete' => ContentDeletedEvent::class,
         'create' => ContentCreatedEvent::class,
     ];
 
+    public function __construct(
+        EntityManagerInterface $em,
+        \App\Helper\Paginator\PaginatorInterface $paginator,
+        EventDispatcherInterface $dispatcher,
+        RequestStack $requestStack,
+        private readonly SearchInterface $search,
+        private readonly KnpPaginatorInterface $knpPaginator,
+    ) {
+        parent::__construct($em, $paginator, $dispatcher, $requestStack);
+    }
+
     #[Route(path: '/', name: 'index')]
     public function index(Request $request): Response
+    {
+        $q = trim((string) $request->query->get('q', ''));
+
+        if ('' !== $q) {
+            return $this->indexWithSearch($request, $q);
+        }
+
+        return $this->indexWithoutSearch($request);
+    }
+
+    private function indexWithoutSearch(Request $request): Response
     {
         $this->paginator->allowSort('row.id', 'row.online');
         $query = $this->getRepository()
@@ -68,6 +99,96 @@ class CourseController extends CrudController
         }
 
         return $this->crudIndex($query);
+    }
+
+    private function indexWithSearch(Request $request, string $q): Response
+    {
+        $page = max(1, $request->query->getInt('page', 1));
+        $limit = 10;
+        $filters = ['author_id' => $this->getUser()->getId()];
+
+        if ($request->query->has('technology')) {
+            $filters['technology_slugs'] = (string) $request->query->get('technology');
+        }
+
+        try {
+            $result = $this->search->search($q, ['course'], $limit, $page, $filters, ['title']);
+            $ids = array_map(
+                static fn (SearchResultItemInterface $item) => $item->getId(),
+                $result->getItems()
+            );
+            $courses = $this->findCoursesByIds($ids);
+            $pagination = new CallbackPagination(
+                static fn () => $result->getTotal(),
+                static fn () => $courses,
+            );
+            $rows = $this->knpPaginator->paginate($pagination, $page, $limit);
+        } catch (MeilisearchException) {
+            return $this->indexWithSqlSearch($request);
+        }
+
+        return $this->render("{$this->templateDirectory}/{$this->templatePath}/index.html.twig", [
+            'rows' => $rows,
+            'searchable' => true,
+            'menu' => $this->menuItem,
+            'prefix' => $this->routePrefix,
+        ]);
+    }
+
+    private function indexWithSqlSearch(Request $request): Response
+    {
+        $this->paginator->allowSort('row.id', 'row.online');
+        $query = $this->getRepository()
+            ->createQueryBuilder('row')
+            ->addSelect('tu', 't')
+            ->leftJoin('row.technologyUsages', 'tu')
+            ->leftJoin('tu.technology', 't')
+            ->where('row.author = :author')
+            ->orderBy('row.createdAt', 'DESC')
+            ->setParameter('author', $this->getUser())
+            ->setMaxResults(10);
+
+        if ($request->query->has('technology')) {
+            $query->andWhere('t.slug = :technology')
+                ->setParameter('technology', $request->query->get('technology'));
+        }
+
+        return $this->crudIndex($query);
+    }
+
+    /**
+     * @param int[] $ids
+     *
+     * @return Course[]
+     */
+    private function findCoursesByIds(array $ids): array
+    {
+        if ([] === $ids) {
+            return [];
+        }
+
+        /** @var Course[] $courses */
+        $courses = $this->getRepository()
+            ->createQueryBuilder('row')
+            ->addSelect('tu', 't')
+            ->leftJoin('row.technologyUsages', 'tu')
+            ->leftJoin('tu.technology', 't')
+            ->where('row.id IN (:ids)')
+            ->andWhere('row.author = :author')
+            ->setParameter('ids', $ids)
+            ->setParameter('author', $this->getUser())
+            ->getQuery()
+            ->getResult();
+
+        $indexed = [];
+        foreach ($courses as $course) {
+            $indexed[$course->getId()] = $course;
+        }
+
+        return array_values(array_filter(array_map(
+            static fn (int $id) => $indexed[$id] ?? null,
+            $ids
+        )));
     }
 
     #[Route(path: '/nouveau', name: 'new', methods: ['POST', 'GET'])]
@@ -487,5 +608,14 @@ class CourseController extends CrudController
             $settings->setRefreshToken($accessTokenData['refresh_token']);
         }
         $this->em->flush();
+    }
+
+    protected function applySearch(string $search, QueryBuilder $query): QueryBuilder
+    {
+        $term = '%' . strtolower($search) . '%';
+
+        return $query
+            ->andWhere('LOWER(row.title) LIKE :search')
+            ->setParameter('search', $term);
     }
 }

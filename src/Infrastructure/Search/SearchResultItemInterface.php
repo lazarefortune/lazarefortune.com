@@ -4,6 +4,8 @@ namespace App\Infrastructure\Search;
 
 interface SearchResultItemInterface
 {
+    public function getId(): int;
+
     public function getTitle(): string;
 
     public function getExcerpt(): string;

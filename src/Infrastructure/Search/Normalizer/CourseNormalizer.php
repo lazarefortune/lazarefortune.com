@@ -44,9 +44,12 @@ class CourseNormalizer implements NormalizerInterface
             'id' => (string) $object->getId(),
             'title' => $title,
             'category' => array_map(fn ($t) => $t->getName(), $object->getMainTechnologies()),
+            'technology_slugs' => array_map(fn ($t) => $t->getSlug(), $object->getTechnologies()),
             'content' => MarkdownTransformer::toText((string) $object->getContent()),
             'url' => $this->urlGenerator->generate($url['path'], $url['params']),
             'type' => 'course',
+            'author_id' => $object->getAuthor()?->getId(),
+            'online' => $object->isOnline(),
             'created_at' => $object->getCreatedAt()->getTimestamp(),
         ];
     }

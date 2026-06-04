@@ -6,6 +6,9 @@
 
 {% block body %}
 
+    {% set searchQuery = app.request.query.get('q') %}
+    {% set hasFilters = searchQuery %}
+
     <div class="dashboard-page-header">
         <nav class="breadcrumb" aria-label="Breadcrumb">
             <ol>
@@ -26,7 +29,7 @@
         </nav>
     </div>
 
-    {% if rows is empty %}
+    {% if rows is empty and not hasFilters %}
         <div class="p-10 text-center flex flex-col items-center justify-center space-y-5">
             <img src="{{ asset('images/illustrations/playlist-website.svg') }}"
                  alt="Aucune playlist"
@@ -45,90 +48,129 @@
             {% endif %}
         </div>
     {% else %}
-        {% if is_granted('ROLE_AUTHOR') %}
-            <div class="dashboard-page-table-button">
-                <a href="{{ path(prefix ~ '_new') }}" class="btn btn-primary">
-                    {{ icon('plus') }} Ajouter une playlist
-                </a>
-            </div>
-        {% endif %}
+        <div class="dashboard-page-table-toolbar">
+            <form method="get"
+                  action="{{ path(prefix ~ '_index') }}"
+                  class="course-search-form"
+                  role="search">
+                <label for="formation-search" class="sr-only">Rechercher une playlist</label>
+                <div class="course-search-field">
+                    <input type="search"
+                           id="formation-search"
+                           name="q"
+                           value="{{ searchQuery }}"
+                           placeholder="Rechercher une playlist…"
+                           class="form-input"
+                           autocomplete="off">
+                    {% if searchQuery %}
+                        <a href="{{ path(prefix ~ '_index') }}"
+                           class="course-search-clear"
+                           aria-label="Effacer la recherche">
+                            {{ icon('x', 18) }}
+                        </a>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-light" aria-label="Lancer la recherche">
+                    {{ icon('search', 18) }}
+                </button>
+            </form>
 
-        <div class="table-wrapper">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>{{ sort_by(rows, 'Playlists', 'row.title') }}</th>
-                    <th>{{ sort_by(rows, 'Statut', 'row.online') }}</th>
-                    <th>Technologies</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for row in rows %}
-                    {% set link = path(prefix ~ '_edit', {id: row.id}) %}
-                    <tr>
-                        <td class="flex justify-start items-center gap-4">
-                            <div class="w-40 flex items-center gap-2">
-                                <a href="{{ link }}" class="table-cell-link"></a>
-                                {% if row.image %}
-                                    <img class="course__image"
-                                         src="{{ image_url(row.image, 288, 162) }}"
-                                         alt="{{ row.title }}">
-                                {% else %}
-                                    <div class="w-40 h-24 bg-gray-200 dark:bg-slate-700 animate-pulse rounded"></div>
-                                {% endif %}
-                            </div>
-                            <div class="flex flex-col gap-1">
-                                <h3 class="text-base font-bricolage font-medium">
-                                    {{ row.title | truncate(50) }}
-                                </h3>
-                                <p class="text-sm text-muted">{{ row.content | truncate(50) }}</p>
-                            </div>
-                        </td>
-                        <td>
-                            <a href="{{ link }}" class="table-cell-link"></a>
-                            <div class="badge badge-{% if row.online and (row.publishedAt|date('U') <= "now"|date('U')) %}success{% elseif row.online and (row.publishedAt|date('U') > "now"|date('U')) %}info{% else %}warning{% endif %}">
-                                {% if row.online and (row.publishedAt|date('U') <= "now"|date('U')) %}
-                                    {{ icon('eye') }}
-                                    <span>En ligne</span>
-                                {% elseif row.online and (row.publishedAt|date('U') > "now"|date('U')) %}
-                                    {{ icon('clock') }}
-                                    <span>Planifiée</span>
-                                {% else %}
-                                    {{ icon('lock') }}
-                                    <span>Privée</span>
-                                {% endif %}
-                            </div>
-                        </td>
-                        <td>
-                            {{ row.technologies|join(', ') }}
-                        </td>
-                        <td>
-                            {% if is_granted('edit', row) %}
-                                <a href="{{ path(prefix ~ '_edit', {id: row.id}) }}" class="btn-icon">
-                                    {{ icon('pencil') }}
-                                </a>
-                            {% endif %}
-                            {% if is_granted('delete', row) %}
-                                <ajax-delete class="btn-icon"
-                                             target="tr"
-                                             url="{{ path(prefix ~ '_delete', {id: row.id}) }}">
-                                    {{ icon('trash') }}
-                                </ajax-delete>
-                            {% endif %}
-                            {% if row.online %}
-                                <a href="{{ path('app_formation_show', {slug: row.slug}) }}" target="_blank" class="btn-icon">
-                                    {{ icon('external-link') }}
-                                </a>
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+            {% if is_granted('ROLE_AUTHOR') %}
+                <a href="{{ path(prefix ~ '_new') }}" class="course-search-add">
+                    {{ icon('plus') }}
+                    <span>Ajouter une playlist</span>
+                </a>
+            {% endif %}
         </div>
 
-        {{ paginate(rows) }}
+        {% if rows is empty %}
+            <div class="p-10 text-center flex flex-col items-center justify-center space-y-3">
+                <h2 class="h4">Aucun résultat</h2>
+                <p class="text-sm text-muted max-w-lg">
+                    Aucune playlist ne correspond à « {{ searchQuery }} ».
+                </p>
+                <a href="{{ path(prefix ~ '_index') }}" class="btn btn-light">
+                    Voir toutes les playlists
+                </a>
+            </div>
+        {% else %}
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>{{ sort_by(rows, 'Playlists', 'row.title') }}</th>
+                        <th>{{ sort_by(rows, 'Statut', 'row.online') }}</th>
+                        <th>Technologies</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for row in rows %}
+                        {% set link = path(prefix ~ '_edit', {id: row.id}) %}
+                        <tr>
+                            <td class="flex justify-start items-center gap-4">
+                                <div class="w-40 flex items-center gap-2">
+                                    <a href="{{ link }}" class="table-cell-link"></a>
+                                    {% if row.image %}
+                                        <img class="course__image"
+                                             src="{{ image_url(row.image, 288, 162) }}"
+                                             alt="{{ row.title }}">
+                                    {% else %}
+                                        <div class="w-40 h-24 bg-gray-200 dark:bg-slate-700 animate-pulse rounded"></div>
+                                    {% endif %}
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <h3 class="text-base font-bricolage font-medium">
+                                        {{ row.title | truncate(50) }}
+                                    </h3>
+                                    <p class="text-sm text-muted">{{ row.content | truncate(50) }}</p>
+                                </div>
+                            </td>
+                            <td>
+                                <a href="{{ link }}" class="table-cell-link"></a>
+                                <div class="badge badge-{% if row.online and (row.publishedAt|date('U') <= "now"|date('U')) %}success{% elseif row.online and (row.publishedAt|date('U') > "now"|date('U')) %}info{% else %}warning{% endif %}">
+                                    {% if row.online and (row.publishedAt|date('U') <= "now"|date('U')) %}
+                                        {{ icon('eye') }}
+                                        <span>En ligne</span>
+                                    {% elseif row.online and (row.publishedAt|date('U') > "now"|date('U')) %}
+                                        {{ icon('clock') }}
+                                        <span>Planifiée</span>
+                                    {% else %}
+                                        {{ icon('lock') }}
+                                        <span>Privée</span>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td>
+                                {{ row.technologies|join(', ') }}
+                            </td>
+                            <td>
+                                {% if is_granted('edit', row) %}
+                                    <a href="{{ path(prefix ~ '_edit', {id: row.id}) }}" class="btn-icon">
+                                        {{ icon('pencil') }}
+                                    </a>
+                                {% endif %}
+                                {% if is_granted('delete', row) %}
+                                    <ajax-delete class="btn-icon"
+                                                 target="tr"
+                                                 url="{{ path(prefix ~ '_delete', {id: row.id}) }}">
+                                        {{ icon('trash') }}
+                                    </ajax-delete>
+                                {% endif %}
+                                {% if row.online %}
+                                    <a href="{{ path('app_formation_show', {slug: row.slug}) }}" target="_blank" class="btn-icon">
+                                        {{ icon('external-link') }}
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {{ paginate(rows) }}
+        {% endif %}
     {% endif %}
 
 {% endblock %}

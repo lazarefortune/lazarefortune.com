@@ -20,6 +20,11 @@ class MeilisearchItem implements SearchResultItemInterface
     ) {
     }
 
+    public function getId(): int
+    {
+        return (int) $this->item['id'];
+    }
+
     public function getTitle(): string
     {
         return $this->item['_formatted']['title'];
