@@ -48,6 +48,5 @@ phpstan.neon
 /var/GeoLite2-Country.mmdb
 
 data.ms
+.meili-data*/
 NOTES.md
-
-.meili-data-114/

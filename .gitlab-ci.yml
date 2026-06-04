@@ -18,7 +18,8 @@ deploy_new_vps:
     - chmod 644 ~/.ssh/known_hosts
     - ssh -p $SSH_NEW_VPS_PORT -i ~/.ssh/id_rsa $SSH_NEW_VPS_USER@$SSH_NEW_VPS_HOST pwd
     - ssh -p $SSH_NEW_VPS_PORT -i ~/.ssh/id_rsa $SSH_NEW_VPS_USER@$SSH_NEW_VPS_HOST "cd /var/www/lazarefortune && git reset --hard HEAD && git pull gitlab main"
-    - ssh -p $SSH_NEW_VPS_PORT -i ~/.ssh/id_rsa $SSH_NEW_VPS_USER@$SSH_NEW_VPS_HOST "cd /var/www/lazarefortune && composer install --prefer-dist --no-ansi --no-interaction --no-scripts --no-dev --no-plugins && composer dump-autoload --no-dev --classmap-authoritative --no-ansi --no-interaction"
+    - ssh -p $SSH_NEW_VPS_PORT -i ~/.ssh/id_rsa $SSH_NEW_VPS_USER@$SSH_NEW_VPS_HOST "sudo apt-get update -qq && sudo apt-get install -y php8.5-zip php8.5-curl php8.5-xml php8.5-mbstring php8.5-dom php8.5-simplexml php8.5-intl php8.5-redis"
+    - ssh -p $SSH_NEW_VPS_PORT -i ~/.ssh/id_rsa $SSH_NEW_VPS_USER@$SSH_NEW_VPS_HOST "cd /var/www/lazarefortune && composer install --prefer-dist --no-ansi --no-interaction --no-scripts --no-dev --no-plugins --ignore-platform-req=php && composer dump-autoload --no-dev --classmap-authoritative --no-ansi --no-interaction"
     - ssh -p $SSH_NEW_VPS_PORT -i ~/.ssh/id_rsa $SSH_NEW_VPS_USER@$SSH_NEW_VPS_HOST "cd /var/www/lazarefortune && php bin/console doctrine:migrations:migrate --no-interaction"
     - ssh -p $SSH_NEW_VPS_PORT -i ~/.ssh/id_rsa $SSH_NEW_VPS_USER@$SSH_NEW_VPS_HOST "cd /var/www/lazarefortune && pnpm install"
     - ssh -p $SSH_NEW_VPS_PORT -i ~/.ssh/id_rsa $SSH_NEW_VPS_USER@$SSH_NEW_VPS_HOST "cd /var/www/lazarefortune && pnpm run build"
