@@ -14,6 +14,30 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Auth/Entity'
                 prefix: 'App\Auth\Entity'
                 alias: Auth
+            Content:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Content/Entity'
+                prefix: 'App\Content\Entity'
+                alias: Content
+            Video:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Video/Entity'
+                prefix: 'App\Video\Entity'
+                alias: Video
+            Playlist:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Playlist/Entity'
+                prefix: 'App\Playlist\Entity'
+                alias: Playlist
+            Tag:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Tag/Entity'
+                prefix: 'App\Tag\Entity'
+                alias: Tag
 
 when@test:
     doctrine:
