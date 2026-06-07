@@ -1,6 +1,7 @@
 {#
     Props:
     - status (PublicationStatus enum, optional)
+    - content_form_id (optional - id du formulaire contenu pour le bouton Enregistrer)
     - testid (optional data-testid)
 #}
 <div
@@ -14,18 +15,31 @@
             </div>
         {% endif %}
 
-        {% include 'components/button.html.twig' with {
-            label: 'Enregistrer',
-            variant: 'ghost',
-            size: 'sm',
-            icon: 'save',
-            disabled: true,
-            attrs: {
-                'aria-disabled': 'true',
-                'title': 'Disponible une fois l edition des champs activee',
-                'data-testid': 'studio-video-save',
-            },
-        } %}
+        {% if content_form_id is defined and content_form_id %}
+            {% include 'components/button.html.twig' with {
+                label: 'Enregistrer',
+                type: 'submit',
+                variant: 'ghost',
+                size: 'sm',
+                icon: 'save',
+                attrs: {
+                    'form': content_form_id,
+                    'data-testid': 'studio-video-save',
+                },
+            } %}
+        {% else %}
+            {% include 'components/button.html.twig' with {
+                label: 'Enregistrer',
+                variant: 'ghost',
+                size: 'sm',
+                icon: 'save',
+                disabled: true,
+                attrs: {
+                    'aria-disabled': 'true',
+                    'data-testid': 'studio-video-save',
+                },
+            } %}
+        {% endif %}
 
         {% include 'components/publish_split_button.html.twig' with {
             primary_label: 'Publier maintenant',

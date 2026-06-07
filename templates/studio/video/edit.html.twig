@@ -15,6 +15,7 @@
         {% block page_header_actions %}
             {% include 'studio/partials/publish_action_bar.html.twig' with {
                 status: video.status,
+                content_form_id: 'studio-video-content-form',
                 testid: 'studio-video-publish-action-bar',
             } %}
         {% endblock %}
@@ -74,26 +75,71 @@
                     data-studio-tab-panel="content"
                     data-testid="studio-video-panel-content"
                 >
-                    {% include 'components/alert.html.twig' with {
-                        variant: 'info',
-                        message: 'L edition complete de ces champs arrive dans une prochaine etape. Vous pouvez deja verifier les informations du brouillon.',
-                        class: 'mb-5',
-                    } %}
+                    {{ form_start(contentForm, {
+                        attr: {
+                            id: 'studio-video-content-form',
+                            class: 'flex flex-col gap-5',
+                            'data-testid': 'studio-video-content-form',
+                        },
+                    }) }}
+                        <div class="grid gap-5">
+                            <div class="flex flex-col gap-1.5">
+                                {{ form_label(contentForm.title, null, { label_attr: { class: 'ds-label' } }) }}
+                                {{ form_widget(contentForm.title) }}
+                                {{ form_errors(contentForm.title) }}
+                            </div>
 
-                    <dl class="grid gap-4 sm:grid-cols-2">
-                        <div class="flex flex-col gap-1">
-                            <dt class="ds-label mb-0">Titre</dt>
-                            <dd class="text-base">{{ video.title is not empty ? video.title : 'Non renseigne' }}</dd>
+                            <div class="flex flex-col gap-1.5">
+                                {{ form_label(contentForm.slug, null, { label_attr: { class: 'ds-label' } }) }}
+                                {{ form_widget(contentForm.slug) }}
+                                {% if contentForm.slug.vars.help is defined and contentForm.slug.vars.help %}
+                                    <p class="ds-form-help">{{ contentForm.slug.vars.help }}</p>
+                                {% endif %}
+                                {{ form_errors(contentForm.slug) }}
+                            </div>
+
+                            <div class="flex flex-col gap-1.5">
+                                {{ form_label(contentForm.excerpt, null, { label_attr: { class: 'ds-label' } }) }}
+                                {{ form_widget(contentForm.excerpt) }}
+                                {{ form_errors(contentForm.excerpt) }}
+                            </div>
+
+                            <div class="flex flex-col gap-1.5">
+                                {{ form_label(contentForm.description, null, { label_attr: { class: 'ds-label' } }) }}
+                                {{ form_widget(contentForm.description) }}
+                                {{ form_errors(contentForm.description) }}
+                            </div>
+
+                            <div class="grid gap-5 sm:grid-cols-2">
+                                <div class="flex flex-col gap-1.5">
+                                    {{ form_label(contentForm.level, null, { label_attr: { class: 'ds-label' } }) }}
+                                    {{ form_widget(contentForm.level) }}
+                                    {{ form_errors(contentForm.level) }}
+                                </div>
+
+                                <div class="flex flex-col gap-1.5">
+                                    {{ form_label(contentForm.coverImagePath, null, { label_attr: { class: 'ds-label' } }) }}
+                                    {{ form_widget(contentForm.coverImagePath) }}
+                                    {% if contentForm.coverImagePath.vars.help is defined and contentForm.coverImagePath.vars.help %}
+                                        <p class="ds-form-help">{{ contentForm.coverImagePath.vars.help }}</p>
+                                    {% endif %}
+                                    {{ form_errors(contentForm.coverImagePath) }}
+                                </div>
+                            </div>
                         </div>
-                        <div class="flex flex-col gap-1">
-                            <dt class="ds-label mb-0">Slug</dt>
-                            <dd class="text-base font-mono text-sm">{{ video.slug }}</dd>
+
+                        <div class="flex flex-col gap-3 ds-border-t pt-5 sm:flex-row sm:items-center sm:justify-end">
+                            {% include 'components/button.html.twig' with {
+                                label: 'Enregistrer',
+                                type: 'submit',
+                                variant: 'primary',
+                                icon: 'save',
+                                attrs: {
+                                    'data-testid': 'studio-video-save-inline',
+                                },
+                            } %}
                         </div>
-                        <div class="flex flex-col gap-1 sm:col-span-2">
-                            <dt class="ds-label mb-0">Extrait</dt>
-                            <dd class="text-base ds-text-muted">{{ video.excerpt ?? 'Aucun extrait pour le moment.' }}</dd>
-                        </div>
-                    </dl>
+                    {{ form_end(contentForm) }}
                 </section>
 
                 <section
