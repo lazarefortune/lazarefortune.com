@@ -31,6 +31,24 @@ final class DesignSystemAccessTest extends WebTestCase
         $this->assertSelectorExists('[data-studio-page="design-system"]');
     }
 
+    public function testDesignSystemPageContainsThemeToggle(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/design-system');
+
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorExists('[data-theme-toggle]');
+    }
+
+    public function testHtmlHasThemeAttribute(): void
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/design-system');
+
+        $this->assertResponseIsSuccessful();
+        $this->assertSame('light', $crawler->filter('html')->attr('data-theme'));
+    }
+
     public function testDesignSystemPageDoesNotExposeSensitiveData(): void
     {
         $client = static::createClient();

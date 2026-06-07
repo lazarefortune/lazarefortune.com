@@ -5,18 +5,57 @@
 {% block main %}
     <section class="ds-section">
         <div class="ds-container" data-testid="design-system-page">
-            {% include 'components/page_header.html.twig' with {
-                eyebrow: 'Référence UI',
+            {% embed 'components/page_header.html.twig' with {
+                eyebrow: 'Reference UI',
                 title: 'Design system V3',
-                description: 'Composants Twig pour le site public SEO et composants React pour le Studio interactif.',
+                description: 'Tokens CSS legacy, light/dark mode, composants Twig publics et React Studio.',
             } %}
+                {% block page_header_actions %}
+                    {% include 'components/theme_toggle.html.twig' %}
+                {% endblock %}
+            {% endembed %}
+
+            <section class="mb-10" aria-labelledby="theme-section-heading">
+                <h2 id="theme-section-heading" class="mb-4 text-lg font-semibold">Theme</h2>
+                <div class="ds-card px-5 py-4">
+                    <p class="text-sm ds-text-muted">
+                        Utilisez le bouton soleil/lune dans le header ou ci-dessus pour basculer entre light et dark.
+                        Le choix est sauvegarde dans <code class="ds-code">localStorage.theme</code>.
+                    </p>
+                    <p class="mt-3 text-sm">
+                        Theme actif :
+                        <code class="ds-code" data-testid="active-theme-label">light</code>
+                    </p>
+                </div>
+            </section>
 
             <section class="mb-10" aria-labelledby="twig-section-heading" data-testid="twig-design-system">
-                <h2 id="twig-section-heading" class="mb-4 text-lg font-semibold text-slate-900">Twig - Composants publics</h2>
+                <h2 id="twig-section-heading" class="mb-4 text-lg font-semibold">Twig - Composants publics</h2>
 
                 <div class="space-y-8">
                     <div>
-                        <h3 class="mb-3 text-sm font-medium text-slate-700">Boutons</h3>
+                        <h3 class="mb-3 text-sm font-medium ds-text-muted">Navigation / breadcrumb</h3>
+                        <nav aria-label="Exemple breadcrumb Studio" class="ds-breadcrumb" data-testid="design-system-breadcrumb">
+                            <ol class="flex flex-wrap items-center gap-1 sm:gap-1.5">
+                                <li class="flex items-center gap-1">
+                                    <a href="#" class="ds-breadcrumb__link">
+                                        {% include 'components/icon.html.twig' with { name: 'layout-dashboard', size: 14 } %}
+                                        <span>Dashboard</span>
+                                    </a>
+                                </li>
+                                <li class="flex items-center gap-1">
+                                    <span class="ds-breadcrumb__separator" aria-hidden="true">/</span>
+                                    <span class="ds-breadcrumb__current" aria-current="page">
+                                        {% include 'components/icon.html.twig' with { name: 'video', size: 14 } %}
+                                        <span>Videos</span>
+                                    </span>
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+
+                    <div>
+                        <h3 class="mb-3 text-sm font-medium ds-text-muted">Boutons</h3>
                         <div class="flex flex-wrap gap-2">
                             {% include 'components/button.html.twig' with { label: 'Primary', variant: 'primary' } %}
                             {% include 'components/button.html.twig' with { label: 'Secondary', variant: 'secondary' } %}
@@ -26,7 +65,7 @@
                     </div>
 
                     <div>
-                        <h3 class="mb-3 text-sm font-medium text-slate-700">Badges</h3>
+                        <h3 class="mb-3 text-sm font-medium ds-text-muted">Badges</h3>
                         <div class="flex flex-wrap gap-2">
                             {% include 'components/badge.html.twig' with { label: 'Default' } %}
                             {% include 'components/badge.html.twig' with { label: 'Primary', variant: 'primary' } %}
@@ -37,21 +76,29 @@
                     </div>
 
                     <div>
-                        <h3 class="mb-3 text-sm font-medium text-slate-700">Alerts</h3>
-                        <div class="grid max-w-3xl gap-3">
-                            {% include 'components/alert.html.twig' with { variant: 'info', title: 'Info', message: 'Message informatif pour guider l’utilisateur.' } %}
-                            {% include 'components/alert.html.twig' with { variant: 'success', message: 'Opération réussie.' } %}
-                            {% include 'components/alert.html.twig' with { variant: 'warning', message: 'Vérifiez les champs avant publication.' } %}
-                            {% include 'components/alert.html.twig' with { variant: 'danger', message: 'Impossible d’enregistrer pour le moment.' } %}
+                        <h3 class="mb-3 text-sm font-medium ds-text-muted">Inputs</h3>
+                        <div class="grid max-w-md gap-3">
+                            <label class="ds-label" for="ds-demo-input">Titre</label>
+                            <input id="ds-demo-input" type="text" class="ds-input" placeholder="Exemple de champ">
                         </div>
                     </div>
 
                     <div>
-                        <h3 class="mb-3 text-sm font-medium text-slate-700">Card & empty state</h3>
+                        <h3 class="mb-3 text-sm font-medium ds-text-muted">Alerts</h3>
+                        <div class="grid max-w-3xl gap-3">
+                            {% include 'components/alert.html.twig' with { variant: 'info', title: 'Info', message: 'Message informatif pour guider l\'utilisateur.' } %}
+                            {% include 'components/alert.html.twig' with { variant: 'success', message: 'Operation reussie.' } %}
+                            {% include 'components/alert.html.twig' with { variant: 'warning', message: 'Verifiez les champs avant publication.' } %}
+                            {% include 'components/alert.html.twig' with { variant: 'danger', message: 'Impossible d\'enregistrer pour le moment.' } %}
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="mb-3 text-sm font-medium ds-text-muted">Card & empty state</h3>
                         <div class="grid gap-4 lg:grid-cols-2">
                             {% include 'components/card.html.twig' with {
                                 title: 'Card Twig',
-                                content: 'Contenu pédagogique, résumé ou métadonnées.',
+                                content: 'Contenu pedagogique, resume ou metadonnees.',
                                 footer: 'Pied de card optionnel',
                             } %}
                             {% include 'components/empty_state.html.twig' with {
@@ -66,7 +113,7 @@
             </section>
 
             <section aria-labelledby="react-section-heading">
-                <h2 id="react-section-heading" class="mb-4 text-lg font-semibold text-slate-900">React - Composants Studio</h2>
+                <h2 id="react-section-heading" class="mb-4 text-lg font-semibold">React - Composants Studio</h2>
                 <div data-studio-app data-studio-page="design-system"></div>
             </section>
         </div>
@@ -76,4 +123,23 @@
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('studio') }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var label = document.querySelector('[data-testid="active-theme-label"]');
+            if (!label) {
+                return;
+            }
+
+            var syncThemeLabel = function () {
+                label.textContent = document.documentElement.getAttribute('data-theme') || 'light';
+            };
+
+            syncThemeLabel();
+            document.querySelectorAll('[data-theme-toggle]').forEach(function (button) {
+                button.addEventListener('click', function () {
+                    window.setTimeout(syncThemeLabel, 0);
+                });
+            });
+        });
+    </script>
 {% endblock %}

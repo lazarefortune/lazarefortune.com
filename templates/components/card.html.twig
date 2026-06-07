@@ -9,12 +9,12 @@
 
 <article class="ds-card {{ extra_class }}">
     {% if title is defined and title %}
-        <header class="border-b border-slate-100 px-5 py-4">
-            <h3 class="text-base font-semibold text-slate-900">{{ title }}</h3>
+        <header class="ds-card-header px-5 py-4">
+            <h3 class="text-base font-semibold">{{ title }}</h3>
         </header>
     {% endif %}
 
-    <div class="px-5 py-4 text-sm text-slate-600">
+    <div class="px-5 py-4 text-sm ds-text-muted">
         {% if content is defined %}
             {{ content }}
         {% else %}
@@ -23,7 +23,7 @@
     </div>
 
     {% if footer is defined and footer %}
-        <footer class="border-t border-slate-100 px-5 py-3 text-sm text-slate-500">
+        <footer class="ds-card-footer px-5 py-3 text-sm">
             {{ footer }}
         </footer>
     {% endif %}

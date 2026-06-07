@@ -8,13 +8,6 @@
 {% set variant = variant|default('info') %}
 {% set extra_class = class|default('') %}
 
-{% set variant_classes = {
-    'info': 'border-sky-200 bg-sky-50 text-sky-900',
-    'success': 'border-green-200 bg-green-50 text-green-900',
-    'warning': 'border-amber-200 bg-amber-50 text-amber-900',
-    'danger': 'border-red-200 bg-red-50 text-red-900',
-} %}
-
 {% set variant_icons = {
     'info': 'info',
     'success': 'check-circle',
@@ -24,7 +17,7 @@
 
 {% set role = variant == 'danger' ? 'alert' : 'status' %}
 
-<div class="flex gap-3 rounded-lg border px-4 py-3 text-sm {{ variant_classes[variant] }} {{ extra_class }}" role="{{ role }}">
+<div class="ds-alert ds-alert-{{ variant }} {{ extra_class }}" role="{{ role }}">
     <span class="mt-0.5 shrink-0">
         {% include 'components/icon.html.twig' with { name: variant_icons[variant], size: 18 } %}
     </span>

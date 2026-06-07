@@ -1,0 +1,14 @@
+<button
+    type="button"
+    data-theme-toggle
+    class="ds-theme-toggle ds-icon-link"
+    aria-label="Activer le mode sombre"
+    aria-pressed="false"
+>
+    <span data-theme-icon="moon" class="ds-theme-toggle__icon" aria-hidden="true">
+        {% include 'components/icon.html.twig' with { name: 'moon', size: 18 } %}
+    </span>
+    <span data-theme-icon="sun" class="ds-theme-toggle__icon hidden" aria-hidden="true">
+        {% include 'components/icon.html.twig' with { name: 'sun', size: 18 } %}
+    </span>
+</button>

@@ -2,7 +2,7 @@ const { colors: defaultColors, fontFamily: defaultFontFamily } = require('tailwi
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    darkMode: 'class',
+    darkMode: ['selector', '[data-theme="dark"]'],
     content: [
         "./assets/**/*.js",
         "./templates/**/*.html.twig",

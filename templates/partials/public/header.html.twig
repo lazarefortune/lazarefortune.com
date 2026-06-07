@@ -1,29 +1,30 @@
 <header class="ds-site-header sticky top-0 z-40">
     <div class="ds-container flex h-16 items-center justify-between gap-4">
-        <a href="{{ path('app_home') }}" class="ds-focus inline-flex items-center gap-2 text-slate-900 hover:text-primary-700">
-            {% include 'components/icon.html.twig' with { name: 'play-circle', size: 22, class: 'text-primary-600' } %}
+        <a href="{{ path('app_home') }}" class="ds-brand-link">
+            {% include 'components/icon.html.twig' with { name: 'play-circle', size: 22, class: 'text-[var(--ds-primary)]' } %}
             <span class="text-sm font-semibold tracking-tight sm:text-base">{{ app_name }}</span>
         </a>
 
         <nav aria-label="Navigation principale" class="flex items-center gap-1 sm:gap-2">
-            <a href="{{ path('app_design_system') }}" class="ds-focus hidden rounded-full px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 sm:inline-flex">
+            <a href="{{ path('app_design_system') }}" class="ds-nav-link hidden sm:inline-flex">
                 Design system
             </a>
+            {% include 'components/theme_toggle.html.twig' %}
             {% if app.user %}
-                <a href="{{ path('app_account') }}" class="ds-focus inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900">
+                <a href="{{ path('app_account') }}" class="ds-nav-link">
                     {% include 'components/icon.html.twig' with { name: 'user', size: 16 } %}
-                    Mon compte
+                    <span class="hidden sm:inline">Mon compte</span>
                 </a>
                 {% if is_granted('ROLE_ADMIN') %}
-                    <a href="{{ path('studio_home') }}" class="ds-focus inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900">
+                    <a href="{{ path('studio_home') }}" class="ds-nav-link">
                         {% include 'components/icon.html.twig' with { name: 'layout-dashboard', size: 16 } %}
-                        Studio
+                        <span class="hidden sm:inline">Studio</span>
                     </a>
                 {% endif %}
             {% else %}
-                <a href="{{ path('app_login') }}" class="ds-focus inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900">
+                <a href="{{ path('app_login') }}" class="ds-nav-link">
                     {% include 'components/icon.html.twig' with { name: 'log-in', size: 16 } %}
-                    Connexion
+                    <span class="hidden sm:inline">Connexion</span>
                 </a>
             {% endif %}
         </nav>

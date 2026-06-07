@@ -9,17 +9,17 @@
 
 <header class="mb-6 {{ extra_class }}">
     {% if eyebrow is defined and eyebrow %}
-        <p class="mb-1 text-xs font-semibold uppercase tracking-wide text-primary-600">{{ eyebrow }}</p>
+        <p class="ds-eyebrow">{{ eyebrow }}</p>
     {% endif %}
     <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
             <h1 class="ds-heading text-2xl font-bold sm:text-3xl">{{ title }}</h1>
             {% if description is defined and description %}
-                <p class="mt-2 max-w-2xl text-sm text-slate-600 sm:text-base">{{ description }}</p>
+                <p class="mt-2 max-w-2xl text-sm ds-text-muted sm:text-base">{{ description }}</p>
             {% endif %}
         </div>
         {% if block('page_header_actions') is defined %}
-            <div class="flex flex-wrap gap-2">
+            <div class="ds-page-header-actions flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap">
                 {% block page_header_actions %}{% endblock %}
             </div>
         {% endif %}
