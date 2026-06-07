@@ -26,4 +26,24 @@ class ContentRepository extends ServiceEntityRepository
             'status' => PublicationStatus::PUBLISHED,
         ]);
     }
+
+    /**
+     * @return list<Content>
+     */
+    public function findScheduledReadyForPublication(\DateTimeImmutable $now, int $limit = 100): array
+    {
+        /** @var list<Content> $results */
+        $results = $this->createQueryBuilder('content')
+            ->where('content.status = :scheduled')
+            ->andWhere('content.scheduledAt IS NOT NULL')
+            ->andWhere('content.scheduledAt <= :now')
+            ->setParameter('scheduled', PublicationStatus::SCHEDULED)
+            ->setParameter('now', $now)
+            ->orderBy('content.scheduledAt', 'ASC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+
+        return $results;
+    }
 }

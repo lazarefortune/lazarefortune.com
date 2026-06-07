@@ -26,4 +26,24 @@ class PlaylistRepository extends ServiceEntityRepository
             'status' => PublicationStatus::PUBLISHED,
         ]);
     }
+
+    /**
+     * @return list<Playlist>
+     */
+    public function findScheduledReadyForPublication(\DateTimeImmutable $now, int $limit = 100): array
+    {
+        /** @var list<Playlist> $results */
+        $results = $this->createQueryBuilder('playlist')
+            ->where('playlist.status = :scheduled')
+            ->andWhere('playlist.scheduledAt IS NOT NULL')
+            ->andWhere('playlist.scheduledAt <= :now')
+            ->setParameter('scheduled', PublicationStatus::SCHEDULED)
+            ->setParameter('now', $now)
+            ->orderBy('playlist.scheduledAt', 'ASC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+
+        return $results;
+    }
 }

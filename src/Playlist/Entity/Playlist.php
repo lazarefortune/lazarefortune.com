@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Playlist\Entity;
 
 use App\Auth\Entity\User;
-use App\Content\Contract\PubliclyVisible;
+use App\Content\Contract\PublishableResource;
 use App\Content\Entity\PublishableTrait;
 use App\Content\Enum\ContentLevel;
 use App\Playlist\Repository\PlaylistRepository;
@@ -20,7 +20,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index(columns: ['author_id'], name: 'idx_playlist_author')]
 #[ORM\UniqueConstraint(name: 'uniq_playlist_slug', columns: ['slug'])]
 #[ORM\HasLifecycleCallbacks]
-class Playlist implements PubliclyVisible
+class Playlist implements PublishableResource
 {
     use PublishableTrait;
 

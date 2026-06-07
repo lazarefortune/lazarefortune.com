@@ -7,6 +7,7 @@ namespace App\Content\Entity;
 use App\Auth\Entity\User;
 use App\Content\Enum\ContentVisibility;
 use App\Content\Enum\PublicationStatus;
+use App\Content\Service\PublicationGuard;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -74,13 +75,6 @@ trait PublishableTrait
 
     public function isPubliclyVisible(?User $viewer): bool
     {
-        if ($this->status !== PublicationStatus::PUBLISHED) {
-            return false;
-        }
-
-        return match ($this->visibility) {
-            ContentVisibility::PUBLIC => true,
-            ContentVisibility::MEMBERS_ONLY => $viewer !== null,
-        };
+        return PublicationGuard::evaluateVisibility($this->status, $this->visibility, $viewer);
     }
 }

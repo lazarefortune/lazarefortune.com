@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Content\Entity;
 
 use App\Auth\Entity\User;
-use App\Content\Contract\PubliclyVisible;
+use App\Content\Contract\PublishableResource;
 use App\Content\Enum\ContentLevel;
 use App\Content\Enum\ContentType;
 use App\Content\Repository\ContentRepository;
@@ -27,7 +27,7 @@ use Doctrine\ORM\Mapping as ORM;
     ContentType::ARTICLE->value => Article::class,
 ])]
 #[ORM\HasLifecycleCallbacks]
-abstract class Content implements PubliclyVisible
+abstract class Content implements PublishableResource
 {
     use PublishableTrait;
 
