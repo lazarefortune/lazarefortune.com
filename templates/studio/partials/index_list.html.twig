@@ -16,11 +16,11 @@
                             {% include 'studio/partials/publication_status_badge.html.twig' with { status: item.status } %}
                         </div>
                     </div>
-                    <p class="text-sm ds-text-muted">
+                    <p class="ds-text-secondary ds-text-muted">
                         <time datetime="{{ display_date|date('c') }}">
                             {{ display_date|date('d/m/Y H:i') }}
                         </time>
-                        <span class="text-xs ds-text-subtle">
+                        <span class="ds-text-caption ds-text-subtle">
                             · {{ item.publishedAt ? 'Publié' : 'Créé' }}
                         </span>
                     </p>
@@ -31,7 +31,7 @@
 
     <div data-studio-index-table class="hidden lg:block">
         <div class="ds-card overflow-hidden">
-            <table class="w-full text-left text-sm">
+            <table class="ds-table">
                 <thead class="ds-table-head">
                     <tr>
                         <th scope="col" class="px-5 py-3">Titre</th>
@@ -56,9 +56,9 @@
                                     {{ display_date|date('d/m/Y H:i') }}
                                 </time>
                                 {% if item.publishedAt %}
-                                    <span class="block text-xs ds-text-subtle">Publié</span>
+                                    <span class="block ds-text-caption ds-text-subtle">Publié</span>
                                 {% else %}
-                                    <span class="block text-xs ds-text-subtle">Créé</span>
+                                    <span class="block ds-text-caption ds-text-subtle">Créé</span>
                                 {% endif %}
                             </td>
                         </tr>

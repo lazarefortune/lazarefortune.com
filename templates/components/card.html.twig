@@ -14,7 +14,7 @@
         </header>
     {% endif %}
 
-    <div class="px-5 py-4 text-sm ds-text-muted">
+    <div class="px-5 py-4 text-base ds-text-muted">
         {% if content is defined %}
             {{ content }}
         {% else %}
@@ -23,7 +23,7 @@
     </div>
 
     {% if footer is defined and footer %}
-        <footer class="ds-card-footer px-5 py-3 text-sm">
+        <footer class="ds-card-footer px-5 py-3">
             {{ footer }}
         </footer>
     {% endif %}

@@ -1,0 +1,41 @@
+{#
+    Props:
+    - mode: inline|floating (default: inline)
+    - dismissible: bool (default: true in floating, false in inline)
+    - class: optional extra classes on the container
+#}
+{% set mode = mode|default('inline') %}
+{% set dismissible = dismissible is defined ? dismissible : (mode == 'floating') %}
+{% set extra_class = class|default('') %}
+
+{% set flash_types = {
+    'success': 'success',
+    'error': 'danger',
+    'danger': 'danger',
+    'warning': 'warning',
+    'info': 'info',
+} %}
+
+{% set auto_dismiss_types = ['success', 'info'] %}
+
+<div
+    data-flash-messages
+    data-flash-mode="{{ mode }}"
+    class="{% if mode == 'floating' %}ds-flash-floating{% else %}ds-flash-inline{% endif %} {{ extra_class }}"
+    aria-live="polite"
+    aria-label="Notifications"
+>
+    {% for type, variant in flash_types %}
+        {% for message in app.flashes(type) %}
+            {% include 'components/alert.html.twig' with {
+                variant: variant,
+                message: message,
+                dismissible: dismissible,
+                flash_item: true,
+                flash_type: variant,
+                auto_dismiss: mode == 'floating' and type in auto_dismiss_types,
+                class: mode == 'floating' ? 'ds-flash-item' : 'mb-4 last:mb-0',
+            } %}
+        {% endfor %}
+    {% endfor %}
+</div>

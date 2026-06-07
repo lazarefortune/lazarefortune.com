@@ -3,10 +3,18 @@
     - message (required)
     - title (optional)
     - variant: info|success|warning|danger (default: info)
+    - dismissible (bool, default: false)
+    - flash_item (bool, default: false)
+    - flash_type (optional, defaults to variant)
+    - auto_dismiss (bool, default: false)
     - class (extra classes)
 #}
 {% set variant = variant|default('info') %}
 {% set extra_class = class|default('') %}
+{% set dismissible = dismissible|default(false) %}
+{% set flash_item = flash_item|default(false) %}
+{% set flash_type = flash_type|default(variant) %}
+{% set auto_dismiss = auto_dismiss|default(false) %}
 
 {% set variant_icons = {
     'info': 'info',
@@ -16,15 +24,38 @@
 } %}
 
 {% set role = variant == 'danger' ? 'alert' : 'status' %}
+{% set timed_class = auto_dismiss ? 'ds-alert--timed' : '' %}
 
-<div class="ds-alert ds-alert-{{ variant }} {{ extra_class }}" role="{{ role }}">
-    <span class="mt-0.5 shrink-0">
+<div
+    class="ds-alert ds-alert-{{ variant }} {{ timed_class }} {{ extra_class }}"
+    role="{{ role }}"
+    {% if auto_dismiss %}style="--ds-alert-duration: 5000ms"{% endif %}
+    {% if flash_item %}
+        data-flash-item
+        data-flash-type="{{ flash_type }}"
+        {% if auto_dismiss %}data-flash-auto-dismiss="true"{% endif %}
+    {% endif %}
+>
+    <span class="ds-alert__icon mt-0.5 shrink-0">
         {% include 'components/icon.html.twig' with { name: variant_icons[variant], size: 18 } %}
     </span>
-    <div>
+    <div class="min-w-0 flex-1">
         {% if title is defined and title %}
             <p class="mb-1 font-medium">{{ title }}</p>
         {% endif %}
         <p>{{ message }}</p>
     </div>
+    {% if dismissible %}
+        <button
+            type="button"
+            class="ds-flash-dismiss shrink-0"
+            data-flash-dismiss
+            aria-label="Fermer la notification"
+        >
+            {% include 'components/icon.html.twig' with { name: 'x', size: 16 } %}
+        </button>
+    {% endif %}
+    {% if auto_dismiss %}
+        <span class="ds-alert-progress" data-flash-progress aria-hidden="true"></span>
+    {% endif %}
 </div>

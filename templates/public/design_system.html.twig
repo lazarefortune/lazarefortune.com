@@ -8,113 +8,327 @@
             {% embed 'components/page_header.html.twig' with {
                 eyebrow: 'Reference UI',
                 title: 'Design system V3',
-                description: 'Tokens CSS legacy, light/dark mode, composants Twig publics et React Studio.',
+                description: 'Page de test permanente pour valider tokens, composants et themes light/dark.',
             } %}
                 {% block page_header_actions %}
                     {% include 'components/theme_toggle.html.twig' %}
                 {% endblock %}
             {% endembed %}
 
-            <section class="mb-10" aria-labelledby="theme-section-heading">
-                <h2 id="theme-section-heading" class="mb-4 text-lg font-semibold">Theme</h2>
+            <section class="mb-10" data-testid="design-system-tokens" aria-labelledby="tokens-heading">
+                <h2 id="tokens-heading" class="mb-4 text-lg font-semibold">Couleurs / tokens</h2>
+                <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                    {% for token in [
+                        { name: 'bg', var: '--ds-bg' },
+                        { name: 'surface', var: '--ds-surface' },
+                        { name: 'surface-soft', var: '--ds-surface-soft' },
+                        { name: 'text', var: '--ds-text' },
+                        { name: 'text-muted', var: '--ds-text-muted' },
+                        { name: 'border', var: '--ds-border' },
+                        { name: 'primary', var: '--ds-primary' },
+                        { name: 'primary-soft', var: '--ds-primary-soft' },
+                        { name: 'secondary', var: '--ds-secondary' },
+                        { name: 'success', var: '--ds-success' },
+                        { name: 'warning', var: '--ds-warning' },
+                        { name: 'danger', var: '--ds-danger' },
+                    ] %}
+                        <div class="ds-token-swatch">
+                            <span class="ds-token-swatch__color" style="background: var({{ token.var }})"></span>
+                            <div>
+                                <p class="font-medium">{{ token.name }}</p>
+                                <p class="ds-text-caption ds-text-muted">{{ token.var }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section class="mb-10" data-testid="design-system-typography" aria-labelledby="typography-heading">
+                <h2 id="typography-heading" class="mb-4 text-lg font-semibold">Typographie</h2>
                 <div class="ds-card px-5 py-4">
-                    <p class="text-sm ds-text-muted">
-                        Utilisez le bouton soleil/lune dans le header ou ci-dessus pour basculer entre light et dark.
-                        Le choix est sauvegarde dans <code class="ds-code">localStorage.theme</code>.
-                    </p>
-                    <p class="mt-3 text-sm">
-                        Theme actif :
-                        <code class="ds-code" data-testid="active-theme-label">light</code>
-                    </p>
+                    <p class="text-base">Texte principal 16px - Inter</p>
+                    <p class="mt-2 ds-text-secondary ds-text-muted">Texte secondaire 14px</p>
+                    <p class="mt-2 ds-text-caption ds-text-muted">Caption 12px - breadcrumb, badges, hints</p>
+                    <h3 class="ds-heading mt-4 text-xl font-semibold">Titre display - Space Grotesk</h3>
                 </div>
             </section>
 
-            <section class="mb-10" aria-labelledby="twig-section-heading" data-testid="twig-design-system">
-                <h2 id="twig-section-heading" class="mb-4 text-lg font-semibold">Twig - Composants publics</h2>
+            <section class="mb-10" data-testid="design-system-buttons" aria-labelledby="buttons-heading">
+                <h2 id="buttons-heading" class="mb-4 text-lg font-semibold">Buttons</h2>
+                <p class="mb-3 ds-text-secondary ds-text-muted">Variantes</p>
+                <div class="flex flex-wrap gap-2">
+                    {% include 'components/button.html.twig' with { label: 'Primary', variant: 'primary', icon: 'plus' } %}
+                    {% include 'components/button.html.twig' with { label: 'Secondary', variant: 'secondary' } %}
+                    {% include 'components/button.html.twig' with { label: 'Ghost', variant: 'ghost' } %}
+                    {% include 'components/button.html.twig' with { label: 'Danger', variant: 'danger', icon: 'trash-2' } %}
+                    {% include 'components/button.html.twig' with { label: 'Disabled', variant: 'primary', disabled: true } %}
+                </div>
+            </section>
 
-                <div class="space-y-8">
+            <section class="mb-10" data-testid="design-system-button-sizes" aria-labelledby="button-sizes-heading">
+                <h2 id="button-sizes-heading" class="mb-4 text-lg font-semibold">Tailles de boutons</h2>
+                <div class="flex flex-wrap items-end gap-3">
+                    {% include 'components/button.html.twig' with { label: 'Small', variant: 'primary', size: 'sm' } %}
+                    {% include 'components/button.html.twig' with { label: 'Medium', variant: 'primary', size: 'md' } %}
+                    {% include 'components/button.html.twig' with { label: 'Large', variant: 'primary', size: 'lg' } %}
+                </div>
+                <div class="mt-4 flex flex-wrap items-end gap-3">
+                    {% include 'components/button.html.twig' with { label: 'Small', variant: 'secondary', size: 'sm' } %}
+                    {% include 'components/button.html.twig' with { label: 'Medium', variant: 'secondary', size: 'md' } %}
+                    {% include 'components/button.html.twig' with { label: 'Large', variant: 'secondary', size: 'lg' } %}
+                </div>
+            </section>
+
+            <section class="mb-10" data-testid="design-system-forms" aria-labelledby="forms-heading">
+                <h2 id="forms-heading" class="mb-4 text-lg font-semibold">Forms</h2>
+                <div class="grid max-w-xl gap-4">
                     <div>
-                        <h3 class="mb-3 text-sm font-medium ds-text-muted">Navigation / breadcrumb</h3>
-                        <nav aria-label="Exemple breadcrumb Studio" class="ds-breadcrumb" data-testid="design-system-breadcrumb">
-                            <ol class="flex flex-wrap items-center gap-1 sm:gap-1.5">
-                                <li class="flex items-center gap-1">
-                                    <a href="#" class="ds-breadcrumb__link">
-                                        {% include 'components/icon.html.twig' with { name: 'layout-dashboard', size: 14 } %}
-                                        <span>Dashboard</span>
-                                    </a>
-                                </li>
-                                <li class="flex items-center gap-1">
-                                    <span class="ds-breadcrumb__separator" aria-hidden="true">/</span>
-                                    <span class="ds-breadcrumb__current" aria-current="page">
-                                        {% include 'components/icon.html.twig' with { name: 'video', size: 14 } %}
-                                        <span>Videos</span>
-                                    </span>
-                                </li>
-                            </ol>
-                        </nav>
+                        <label class="ds-label" for="ds-form-input">Label</label>
+                        <input id="ds-form-input" type="text" class="ds-input" placeholder="Input texte">
+                        <p class="ds-form-help">Help text secondaire</p>
                     </div>
-
                     <div>
-                        <h3 class="mb-3 text-sm font-medium ds-text-muted">Boutons</h3>
-                        <div class="flex flex-wrap gap-2">
-                            {% include 'components/button.html.twig' with { label: 'Primary', variant: 'primary' } %}
-                            {% include 'components/button.html.twig' with { label: 'Secondary', variant: 'secondary' } %}
-                            {% include 'components/button.html.twig' with { label: 'Ghost', variant: 'ghost' } %}
-                            {% include 'components/button.html.twig' with { label: 'Danger', variant: 'danger' } %}
-                        </div>
+                        <label class="ds-label" for="ds-form-textarea">Textarea</label>
+                        <textarea id="ds-form-textarea" class="ds-input min-h-24" rows="4" placeholder="Zone de texte"></textarea>
                     </div>
-
                     <div>
-                        <h3 class="mb-3 text-sm font-medium ds-text-muted">Badges</h3>
-                        <div class="flex flex-wrap gap-2">
-                            {% include 'components/badge.html.twig' with { label: 'Default' } %}
-                            {% include 'components/badge.html.twig' with { label: 'Primary', variant: 'primary' } %}
-                            {% include 'components/badge.html.twig' with { label: 'Success', variant: 'success' } %}
-                            {% include 'components/badge.html.twig' with { label: 'Warning', variant: 'warning' } %}
-                            {% include 'components/badge.html.twig' with { label: 'Danger', variant: 'danger' } %}
-                        </div>
+                        <label class="ds-label" for="ds-form-select">Select</label>
+                        <select id="ds-form-select" class="ds-input">
+                            <option>Option A</option>
+                            <option>Option B</option>
+                            <option>Option C</option>
+                        </select>
                     </div>
-
                     <div>
-                        <h3 class="mb-3 text-sm font-medium ds-text-muted">Inputs</h3>
-                        <div class="grid max-w-md gap-3">
-                            <label class="ds-label" for="ds-demo-input">Titre</label>
-                            <input id="ds-demo-input" type="text" class="ds-input" placeholder="Exemple de champ">
-                        </div>
-                    </div>
-
-                    <div>
-                        <h3 class="mb-3 text-sm font-medium ds-text-muted">Alerts</h3>
-                        <div class="grid max-w-3xl gap-3">
-                            {% include 'components/alert.html.twig' with { variant: 'info', title: 'Info', message: 'Message informatif pour guider l\'utilisateur.' } %}
-                            {% include 'components/alert.html.twig' with { variant: 'success', message: 'Operation reussie.' } %}
-                            {% include 'components/alert.html.twig' with { variant: 'warning', message: 'Verifiez les champs avant publication.' } %}
-                            {% include 'components/alert.html.twig' with { variant: 'danger', message: 'Impossible d\'enregistrer pour le moment.' } %}
-                        </div>
-                    </div>
-
-                    <div>
-                        <h3 class="mb-3 text-sm font-medium ds-text-muted">Card & empty state</h3>
-                        <div class="grid gap-4 lg:grid-cols-2">
-                            {% include 'components/card.html.twig' with {
-                                title: 'Card Twig',
-                                content: 'Contenu pedagogique, resume ou metadonnees.',
-                                footer: 'Pied de card optionnel',
-                            } %}
-                            {% include 'components/empty_state.html.twig' with {
-                                title: 'Aucune vidéo',
-                                description: 'Commencez par créer votre première vidéo pédagogique.',
-                                action_label: 'Créer une vidéo',
-                                action_href: '#',
-                            } %}
-                        </div>
+                        <label class="ds-label" for="ds-form-error">Erreur</label>
+                        <input id="ds-form-error" type="text" class="ds-input ds-input--error" value="Valeur invalide">
+                        <p class="ds-form-error">Ce champ est obligatoire.</p>
                     </div>
                 </div>
             </section>
 
-            <section aria-labelledby="react-section-heading">
-                <h2 id="react-section-heading" class="mb-4 text-lg font-semibold">React - Composants Studio</h2>
-                <div data-studio-app data-studio-page="design-system"></div>
+            <section class="mb-10" data-testid="design-system-cards" aria-labelledby="cards-heading">
+                <h2 id="cards-heading" class="mb-4 text-lg font-semibold">Cards</h2>
+                <div class="grid gap-4 lg:grid-cols-2">
+                    {% include 'components/card.html.twig' with {
+                        title: 'Card public',
+                        content: 'Surface blanche, bordure, ombre douce et coins arrondis.',
+                        footer: 'Footer secondaire',
+                    } %}
+                    <article class="ds-card ds-studio px-5 py-4">
+                        <h3 class="text-base font-semibold">Card Studio</h3>
+                        <p class="mt-2 ds-text-muted">Meme tokens, contexte dashboard.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="mb-10" data-testid="design-system-badges" aria-labelledby="badges-heading">
+                <h2 id="badges-heading" class="mb-4 text-lg font-semibold">Badges</h2>
+                <p class="mb-3 ds-text-secondary ds-text-muted">Variantes (taille md par defaut)</p>
+                <div class="flex flex-wrap gap-2">
+                    {% include 'components/badge.html.twig' with { label: 'Default' } %}
+                    {% include 'components/badge.html.twig' with { label: 'Primary', variant: 'primary' } %}
+                    {% include 'components/badge.html.twig' with { label: 'Brouillon' } %}
+                    {% include 'components/badge.html.twig' with { label: 'Planifie', variant: 'warning' } %}
+                    {% include 'components/badge.html.twig' with { label: 'Publie', variant: 'success' } %}
+                    {% include 'components/badge.html.twig' with { label: 'Archive' } %}
+                    {% include 'components/badge.html.twig' with { label: 'Info', variant: 'info' } %}
+                    {% include 'components/badge.html.twig' with { label: 'Danger', variant: 'danger' } %}
+                </div>
+            </section>
+
+            <section class="mb-10" data-testid="design-system-badge-sizes" aria-labelledby="badge-sizes-heading">
+                <h2 id="badge-sizes-heading" class="mb-4 text-lg font-semibold">Tailles de badges</h2>
+                <div class="flex flex-wrap items-center gap-3">
+                    {% include 'components/badge.html.twig' with { label: 'Small', variant: 'primary', size: 'sm' } %}
+                    {% include 'components/badge.html.twig' with { label: 'Medium', variant: 'primary', size: 'md' } %}
+                    {% include 'components/badge.html.twig' with { label: 'Large', variant: 'primary', size: 'lg' } %}
+                </div>
+                <div class="mt-4 flex flex-wrap items-center gap-3">
+                    {% include 'components/badge.html.twig' with { label: 'Small', variant: 'success', size: 'sm' } %}
+                    {% include 'components/badge.html.twig' with { label: 'Medium', variant: 'success', size: 'md' } %}
+                    {% include 'components/badge.html.twig' with { label: 'Large', variant: 'success', size: 'lg' } %}
+                </div>
+            </section>
+
+            <section class="mb-10" data-testid="design-system-alerts" aria-labelledby="alerts-heading">
+                <h2 id="alerts-heading" class="mb-4 text-lg font-semibold">Alerts</h2>
+                <div class="grid max-w-3xl gap-3">
+                    {% include 'components/alert.html.twig' with { variant: 'success', message: 'Operation reussie.' } %}
+                    {% include 'components/alert.html.twig' with { variant: 'info', message: 'Information utile pour guider l utilisateur.' } %}
+                    {% include 'components/alert.html.twig' with { variant: 'warning', message: 'Attention: verifiez les champs avant de continuer.' } %}
+                    {% include 'components/alert.html.twig' with { variant: 'danger', message: 'Une erreur bloquante est survenue.' } %}
+                    {% include 'components/alert.html.twig' with {
+                        variant: 'info',
+                        message: 'Alert dismissible avec timer (5 secondes). Survolez pour mettre en pause.',
+                        dismissible: true,
+                        flash_item: true,
+                        flash_type: 'info',
+                        auto_dismiss: true,
+                    } %}
+                </div>
+            </section>
+
+            <section class="mb-10" data-testid="design-system-flash" aria-labelledby="flash-heading">
+                <h2 id="flash-heading" class="mb-4 text-lg font-semibold">Flash messages</h2>
+                <div class="grid max-w-3xl gap-4">
+                    <div>
+                        <p class="mb-2 ds-text-secondary font-medium">Inline</p>
+                        <div data-flash-messages data-flash-mode="inline" class="ds-flash-inline">
+                            {% include 'components/alert.html.twig' with {
+                                variant: 'success',
+                                message: 'Flash inline - reste dans le flux.',
+                                flash_item: true,
+                                flash_type: 'success',
+                                class: 'mb-0',
+                            } %}
+                        </div>
+                    </div>
+                    <div>
+                        <p class="mb-2 ds-text-secondary font-medium">Floating preview</p>
+                        <div class="relative min-h-44 rounded-lg border border-dashed ds-border-dashed p-4">
+                            <div data-flash-messages data-flash-mode="floating" class="ds-flash-floating !relative !left-0 !right-0 !top-0 !max-w-none sm:!max-w-md">
+                                {% include 'components/alert.html.twig' with {
+                                    variant: 'success',
+                                    message: 'Success auto-dismiss 5s avec barre de progression.',
+                                    dismissible: true,
+                                    flash_item: true,
+                                    flash_type: 'success',
+                                    auto_dismiss: true,
+                                    class: 'ds-flash-item mb-3',
+                                } %}
+                                {% include 'components/alert.html.twig' with {
+                                    variant: 'danger',
+                                    message: 'Danger persistent (pas de timer).',
+                                    dismissible: true,
+                                    flash_item: true,
+                                    flash_type: 'danger',
+                                    class: 'ds-flash-item mb-0',
+                                } %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-10" data-testid="design-system-toast" aria-labelledby="toast-heading">
+                <h2 id="toast-heading" class="mb-4 text-lg font-semibold">Toast</h2>
+                <div class="ds-card px-5 py-4">
+                    <p class="ds-text-muted">Toasts en bas a droite. Les variantes success et info incluent un timer de 5 secondes avec barre visible.</p>
+                    <div class="mt-4">
+                        <p class="mb-2 ds-text-secondary font-medium">Avec timer (auto-dismiss)</p>
+                        <div class="flex flex-wrap gap-2">
+                            <button type="button" class="ds-btn ds-btn-md ds-btn-primary" data-toast-trigger="success" data-toast-timer="true">Toast success</button>
+                            <button type="button" class="ds-btn ds-btn-md ds-btn-secondary" data-toast-trigger="info" data-toast-timer="true">Toast info</button>
+                            <button type="button" class="ds-btn ds-btn-md ds-btn-secondary" data-toast-trigger="warning" data-toast-timer="true">Toast warning</button>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <p class="mb-2 ds-text-secondary font-medium">Persistants (sans timer)</p>
+                        <div class="flex flex-wrap gap-2">
+                            <button type="button" class="ds-btn ds-btn-md ds-btn-danger" data-toast-trigger="danger">Toast danger</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-10" data-testid="design-system-tables" aria-labelledby="tables-heading">
+                <h2 id="tables-heading" class="mb-4 text-lg font-semibold">Tables</h2>
+                <div class="ds-card overflow-hidden">
+                    <table class="ds-table">
+                        <thead class="ds-table-head">
+                            <tr>
+                                <th>Titre</th>
+                                <th>Statut</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="ds-table-row">
+                                <td>Introduction Symfony</td>
+                                <td>{% include 'components/badge.html.twig' with { label: 'Publie', variant: 'success' } %}</td>
+                                <td>07/06/2026</td>
+                            </tr>
+                            <tr class="ds-table-row">
+                                <td>Routing avance</td>
+                                <td>{% include 'components/badge.html.twig' with { label: 'Brouillon' } %}</td>
+                                <td>06/06/2026</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="mb-10" data-testid="design-system-breadcrumb" aria-labelledby="breadcrumb-heading">
+                <h2 id="breadcrumb-heading" class="mb-4 text-lg font-semibold">Breadcrumb</h2>
+                <nav aria-label="Exemple breadcrumb public" class="ds-breadcrumb mb-4">
+                    <ol class="flex flex-wrap items-center gap-1 sm:gap-1.5">
+                        <li class="flex items-center gap-1">
+                            <a href="#" class="ds-breadcrumb__link"><span>Accueil</span></a>
+                        </li>
+                        <li class="flex items-center gap-1">
+                            <span class="ds-breadcrumb__separator">/</span>
+                            <span class="ds-breadcrumb__current"><span>Page courante</span></span>
+                        </li>
+                    </ol>
+                </nav>
+                <nav aria-label="Exemple breadcrumb Studio" class="ds-breadcrumb">
+                    <ol class="flex flex-wrap items-center gap-1 sm:gap-1.5">
+                        <li class="flex items-center gap-1">
+                            <a href="#" class="ds-breadcrumb__link">
+                                {% include 'components/icon.html.twig' with { name: 'layout-dashboard', size: 14 } %}
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="flex items-center gap-1">
+                            <span class="ds-breadcrumb__separator">/</span>
+                            <span class="ds-breadcrumb__current">
+                                {% include 'components/icon.html.twig' with { name: 'video', size: 14 } %}
+                                <span>Videos</span>
+                            </span>
+                        </li>
+                    </ol>
+                </nav>
+            </section>
+
+            <section class="mb-10" data-testid="design-system-empty-states" aria-labelledby="empty-heading">
+                <h2 id="empty-heading" class="mb-4 text-lg font-semibold">Empty states</h2>
+                {% include 'components/empty_state.html.twig' with {
+                    title: 'Aucune video',
+                    description: 'Commencez par creer votre premiere video pedagogique.',
+                    action_label: 'Creer une video',
+                    action_href: '#',
+                    icon: 'video',
+                } %}
+            </section>
+
+            <section class="mb-10" data-testid="design-system-studio-preview" aria-labelledby="studio-preview-heading">
+                <h2 id="studio-preview-heading" class="mb-4 text-lg font-semibold">Studio shell preview</h2>
+                <div class="overflow-hidden rounded-2xl border ds-border">
+                    <div class="flex min-h-64">
+                        <div class="hidden w-48 shrink-0 border-r ds-border bg-[var(--ds-studio-surface)] p-4 lg:block">
+                            <p class="text-sm font-bold">Studio</p>
+                            <div class="mt-4 space-y-2">
+                                <div class="rounded-full bg-[var(--ds-primary-soft)] px-4 py-2 text-sm">Videos</div>
+                                <div class="rounded-full px-4 py-2 text-sm ds-text-muted">Articles</div>
+                            </div>
+                        </div>
+                        <div class="flex-1 bg-[var(--ds-studio-bg)]">
+                            <div class="border-b ds-border bg-[var(--ds-studio-surface)] px-4 py-3 text-sm font-semibold">Topbar Studio</div>
+                            <div class="p-4 text-sm ds-text-muted">Zone contenu scrollable</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-10" data-testid="design-system-theme" aria-labelledby="theme-heading">
+                <h2 id="theme-heading" class="mb-4 text-lg font-semibold">Theme toggle</h2>
+                <div class="ds-card px-5 py-4">
+                    {% include 'components/theme_toggle.html.twig' %}
+                    <p class="mt-3 text-sm ds-text-muted">
+                        Theme actif : <code class="ds-code" data-testid="active-theme-label">light</code>
+                    </p>
+                </div>
             </section>
         </div>
     </section>
@@ -126,18 +340,29 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var label = document.querySelector('[data-testid="active-theme-label"]');
-            if (!label) {
-                return;
+            if (label) {
+                var syncThemeLabel = function () {
+                    label.textContent = document.documentElement.getAttribute('data-theme') || 'light';
+                };
+                syncThemeLabel();
+                document.querySelectorAll('[data-theme-toggle]').forEach(function (button) {
+                    button.addEventListener('click', function () {
+                        window.setTimeout(syncThemeLabel, 0);
+                    });
+                });
             }
 
-            var syncThemeLabel = function () {
-                label.textContent = document.documentElement.getAttribute('data-theme') || 'light';
-            };
-
-            syncThemeLabel();
-            document.querySelectorAll('[data-theme-toggle]').forEach(function (button) {
+            document.querySelectorAll('[data-toast-trigger]').forEach(function (button) {
                 button.addEventListener('click', function () {
-                    window.setTimeout(syncThemeLabel, 0);
+                    if (typeof window.dsShowToast !== 'function') {
+                        return;
+                    }
+                    var variant = button.getAttribute('data-toast-trigger') || 'info';
+                    var autoDismiss = button.getAttribute('data-toast-timer') === 'true';
+                    var message = autoDismiss
+                        ? 'Toast ' + variant + ' avec timer de 5 secondes. Survolez pour mettre en pause.'
+                        : 'Toast ' + variant + ' persistant.';
+                    window.dsShowToast(message, variant, autoDismiss);
                 });
             });
         });

@@ -27,6 +27,11 @@ class ContentRepository extends ServiceEntityRepository
         ]);
     }
 
+    public function findOneBySlug(string $slug): ?Content
+    {
+        return $this->findOneBy(['slug' => $slug]);
+    }
+
     /**
      * @return list<Content>
      */

@@ -27,12 +27,13 @@
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
 </head>
-<body class="ds-public min-h-screen flex flex-col">
+<body class="ds-public min-h-screen flex flex-col {% block body_class %}{% endblock %}">
     <a href="#main" class="ds-skip-link">Aller au contenu principal</a>
 
     {% block layout %}
         {% include 'partials/public/header.html.twig' %}
         <main id="main" class="flex-1">
+            {% include 'components/flash_messages.html.twig' with { mode: 'inline' } %}
             {% block main %}{% endblock %}
         </main>
         {% include 'partials/public/footer.html.twig' %}

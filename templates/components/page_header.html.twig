@@ -15,7 +15,7 @@
         <div>
             <h1 class="ds-heading text-2xl font-bold sm:text-3xl">{{ title }}</h1>
             {% if description is defined and description %}
-                <p class="mt-2 max-w-2xl text-sm ds-text-muted sm:text-base">{{ description }}</p>
+                <p class="mt-2 max-w-2xl text-base ds-text-muted">{{ description }}</p>
             {% endif %}
         </div>
         {% if block('page_header_actions') is defined %}

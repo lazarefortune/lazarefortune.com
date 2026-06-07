@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace App\Video\Controller;
 
+use App\Auth\Entity\User;
+use App\Video\Dto\CreateDraftVideoInput;
+use App\Video\Form\CreateDraftVideoType;
 use App\Video\Repository\VideoRepository;
+use App\Video\Service\CreateDraftVideoService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -22,6 +27,37 @@ final class StudioVideoController extends AbstractController
     {
         return $this->render('studio/video/index.html.twig', [
             'videos' => $this->videoRepository->findLatestForStudio(),
+        ]);
+    }
+
+    #[Route('/videos/new', name: 'studio_video_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, CreateDraftVideoService $createDraftVideoService): Response
+    {
+        $input = new CreateDraftVideoInput();
+        $form = $this->createForm(CreateDraftVideoType::class, $input);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->getUser();
+            if (!$user instanceof User) {
+                throw $this->createAccessDeniedException();
+            }
+
+            try {
+                $video = $createDraftVideoService->create($user, $input);
+            } catch (\InvalidArgumentException $exception) {
+                $this->addFlash('error', $exception->getMessage());
+
+                return $this->redirectToRoute('studio_video_new');
+            }
+
+            $this->addFlash('success', sprintf('Le brouillon « %s » a été créé.', $video->getTitle()));
+
+            return $this->redirectToRoute('studio_video_index');
+        }
+
+        return $this->render('studio/video/new.html.twig', [
+            'form' => $form,
         ]);
     }
 }

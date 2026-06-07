@@ -1,59 +1,103 @@
-<footer class="ds-site-footer mt-auto">
-    <div class="ds-container py-12">
-        <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+<footer class="ds-site-footer mt-20">
+    <div class="ds-container py-14">
+        <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
             <div>
-                <h2 class="ds-heading text-lg font-semibold">{{ app_name }}</h2>
-                <p class="mt-3 max-w-sm text-sm leading-relaxed ds-text-muted">
+                <h2 class="ds-site-footer__title">Lazare Fortune</h2>
+                <p class="mt-4 max-w-sm text-base leading-relaxed ds-text-muted">
                     Developpeur web FullStack passionne par la tech, la creation et le partage.
                 </p>
-                <ul class="mt-5 flex gap-2">
+                <ul class="mt-6 flex gap-4">
                     <li>
-                        <a href="https://github.com/lazarefortune" target="_blank" rel="noopener noreferrer" class="ds-icon-link" aria-label="GitHub">
-                            {% include 'components/icon.html.twig' with { name: 'github', size: 18, label: 'GitHub' } %}
+                        <a href="https://github.com/lazarefortune" target="_blank" rel="noopener noreferrer" class="ds-site-footer__social" aria-label="GitHub">
+                            {% include 'components/icon.html.twig' with { name: 'github', size: 22 } %}
                         </a>
                     </li>
                     <li>
-                        <a href="https://www.youtube.com/channel/UCITKwfT7qVXjdHHu84Atodw" target="_blank" rel="noopener noreferrer" class="ds-icon-link" aria-label="YouTube">
-                            {% include 'components/icon.html.twig' with { name: 'youtube', size: 18, label: 'YouTube' } %}
+                        <a href="https://www.youtube.com/channel/UCITKwfT7qVXjdHHu84Atodw" target="_blank" rel="noopener noreferrer" class="ds-site-footer__social" aria-label="YouTube">
+                            {% include 'components/icon.html.twig' with { name: 'youtube', size: 22 } %}
                         </a>
                     </li>
                     <li>
-                        <a href="https://www.linkedin.com/in/lazare-fortune/" target="_blank" rel="noopener noreferrer" class="ds-icon-link" aria-label="LinkedIn">
-                            {% include 'components/icon.html.twig' with { name: 'linkedin', size: 18, label: 'LinkedIn' } %}
+                        <a href="https://www.linkedin.com/in/lazare-fortune/" target="_blank" rel="noopener noreferrer" class="ds-site-footer__social" aria-label="LinkedIn">
+                            {% include 'components/icon.html.twig' with { name: 'linkedin', size: 22 } %}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/lazarefortune" target="_blank" rel="noopener noreferrer" class="ds-site-footer__social" aria-label="Twitter">
+                            {% include 'components/icon.html.twig' with { name: 'twitter', size: 22 } %}
                         </a>
                     </li>
                 </ul>
             </div>
 
             <div>
-                <h2 class="ds-heading text-sm font-semibold uppercase tracking-wide ds-text-muted">Navigation</h2>
-                <ul class="mt-4 space-y-2 text-sm ds-text-muted">
+                <h2 class="ds-site-footer__title">Navigation</h2>
+                <ul class="ds-site-footer__list mt-4">
                     <li>
-                        <a href="{{ path('app_home') }}" class="inline-flex items-center gap-2">
-                            {% include 'components/icon.html.twig' with { name: 'home', size: 16 } %}
+                        <a href="{{ path('app_home') }}">
+                            {% include 'components/icon.html.twig' with { name: 'home', size: 18 } %}
                             Accueil
                         </a>
                     </li>
                     <li>
-                        <a href="{{ path('app_design_system') }}" class="inline-flex items-center gap-2">
-                            {% include 'components/icon.html.twig' with { name: 'palette', size: 16 } %}
+                        <a href="{{ path('app_design_system') }}">
+                            {% include 'components/icon.html.twig' with { name: 'palette', size: 18 } %}
                             Design system
                         </a>
                     </li>
+                    {% if app.user %}
+                        <li>
+                            <a href="{{ path('app_account') }}">
+                                {% include 'components/icon.html.twig' with { name: 'user', size: 18 } %}
+                                Mon compte
+                            </a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{{ path('app_login') }}">
+                                {% include 'components/icon.html.twig' with { name: 'log-in', size: 18 } %}
+                                Connexion
+                            </a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
 
             <div>
-                <h2 class="ds-heading text-sm font-semibold uppercase tracking-wide ds-text-muted">Plateforme</h2>
-                <p class="mt-4 text-sm ds-text-muted">
-                    Reconstruction V3 : site public SEO, Studio productif, contenus pedagogiques.
-                </p>
+                <h2 class="ds-site-footer__title">Plateforme</h2>
+                <ul class="ds-site-footer__list mt-4">
+                    <li>
+                        <a href="{{ path('app_design_system') }}">
+                            {% include 'components/icon.html.twig' with { name: 'layout-dashboard', size: 18 } %}
+                            Reference UI V3
+                        </a>
+                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li>
+                            <a href="{{ path('studio_home') }}">
+                                {% include 'components/icon.html.twig' with { name: 'video', size: 18 } %}
+                                Studio
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+
+            <div>
+                <h2 class="ds-site-footer__title">Contact</h2>
+                <ul class="ds-site-footer__list mt-4">
+                    <li>
+                        <a href="mailto:lazarefortune@gmail.com">
+                            {% include 'components/icon.html.twig' with { name: 'mail', size: 18 } %}
+                            lazarefortune@gmail.com
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
 
-        <div class="mt-10 flex flex-col gap-2 ds-border-t pt-6 text-sm ds-text-muted sm:flex-row sm:items-center sm:justify-between">
-            <p>&copy; {{ 'now'|date('Y') }} {{ app_name }}</p>
-            <p class="ds-text-subtle">Plateforme pedagogique - V3</p>
+        <div class="mt-12 ds-border-t pt-6 text-center text-sm ds-text-muted">
+            &copy; {{ 'now'|date('Y') }} Lazare Fortune. Tous droits reserves.
         </div>
     </div>
 </footer>

@@ -2,11 +2,13 @@
     Props:
     - label (required)
     - variant: default|primary|success|warning|danger|info (default: default)
+    - size: sm|md|lg (default: md)
     - class (extra classes)
 #}
 {% set variant = variant|default('default') %}
+{% set size = size|default('md') %}
 {% set extra_class = class|default('') %}
 
-<span class="ds-badge ds-badge-{{ variant }} {{ extra_class }}">
+<span class="ds-badge ds-badge-{{ size }} ds-badge-{{ variant }} {{ extra_class }}">
     {{ label }}
 </span>

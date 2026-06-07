@@ -13,7 +13,7 @@
         {% block page_header_actions %}
             {% include 'components/button.html.twig' with {
                 label: 'Créer',
-                href: '#',
+                href: path('studio_video_new'),
                 variant: 'primary',
                 icon: 'plus',
             } %}
@@ -25,7 +25,7 @@
             title: 'Aucune vidéo',
             description: 'Commencez par créer votre première vidéo pédagogique.',
             action_label: 'Créer une vidéo',
-            action_href: '#',
+            action_href: path('studio_video_new'),
             icon: 'video',
         } %}
     {% else %}

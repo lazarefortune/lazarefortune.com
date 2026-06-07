@@ -1,0 +1,87 @@
+{% extends 'studio/layout.html.twig' %}
+
+{% block title %}Nouvelle vidéo - Studio{% endblock %}
+
+{% block studio_title %}Nouvelle vidéo{% endblock %}
+
+{% block studio_main %}
+    {% embed 'components/page_header.html.twig' with {
+        eyebrow: 'Studio',
+        title: 'Nouvelle vidéo',
+        description: 'Crée un brouillon avec les informations de base. La source vidéo sera ajoutée ensuite.',
+    } %}
+        {% block page_header_actions %}
+            {% include 'components/button.html.twig' with {
+                label: 'Retour aux vidéos',
+                href: path('studio_video_index'),
+                variant: 'secondary',
+                icon: 'arrow-left',
+            } %}
+        {% endblock %}
+    {% endembed %}
+
+    {% include 'components/alert.html.twig' with {
+        variant: 'info',
+        message: 'Crée d\'abord un brouillon, tu ajouteras la source vidéo ensuite.',
+        class: 'mb-6',
+    } %}
+
+    {% embed 'components/card.html.twig' with { title: 'Informations du brouillon' } %}
+        {% block card_body %}
+            {{ form_start(form, { attr: { class: 'flex flex-col gap-5' } }) }}
+                <div class="grid gap-5">
+                    <div class="flex flex-col gap-1.5">
+                        {{ form_label(form.title, null, { label_attr: { class: 'ds-label' } }) }}
+                        {{ form_widget(form.title) }}
+                        {{ form_errors(form.title) }}
+                    </div>
+
+                    <div class="flex flex-col gap-1.5">
+                        {{ form_label(form.slug, null, { label_attr: { class: 'ds-label' } }) }}
+                        {{ form_widget(form.slug) }}
+                        {% if form.slug.vars.help is defined and form.slug.vars.help %}
+                            <p class="ds-form-help">{{ form.slug.vars.help }}</p>
+                        {% endif %}
+                        {{ form_errors(form.slug) }}
+                    </div>
+
+                    <div class="flex flex-col gap-1.5">
+                        {{ form_label(form.excerpt, null, { label_attr: { class: 'ds-label' } }) }}
+                        {{ form_widget(form.excerpt) }}
+                        {{ form_errors(form.excerpt) }}
+                    </div>
+
+                    <div class="grid gap-5 sm:grid-cols-2">
+                        <div class="flex flex-col gap-1.5">
+                            {{ form_label(form.level, null, { label_attr: { class: 'ds-label' } }) }}
+                            {{ form_widget(form.level) }}
+                            {{ form_errors(form.level) }}
+                        </div>
+
+                        <div class="flex flex-col gap-1.5">
+                            {{ form_label(form.coverImagePath, null, { label_attr: { class: 'ds-label' } }) }}
+                            {{ form_widget(form.coverImagePath) }}
+                            {% if form.coverImagePath.vars.help is defined and form.coverImagePath.vars.help %}
+                                <p class="ds-form-help">{{ form.coverImagePath.vars.help }}</p>
+                            {% endif %}
+                            {{ form_errors(form.coverImagePath) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-3 ds-border-t pt-5 sm:flex-row sm:items-center sm:justify-between">
+                    {% include 'components/button.html.twig' with {
+                        label: 'Créer le brouillon',
+                        type: 'submit',
+                        variant: 'primary',
+                        icon: 'plus',
+                    } %}
+
+                    <a href="{{ path('studio_video_index') }}" class="ds-nav-link justify-center">
+                        Annuler et revenir à la liste
+                    </a>
+                </div>
+            {{ form_end(form) }}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

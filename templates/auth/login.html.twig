@@ -46,7 +46,7 @@
 
                 <div class="flex items-center gap-2">
                     <input type="checkbox" id="remember_me" name="_remember_me" class="rounded border-slate-300">
-                    <label for="remember_me" class="text-sm text-slate-600">Se souvenir de moi</label>
+                    <label for="remember_me" class="ds-text-secondary ds-text-muted">Se souvenir de moi</label>
                 </div>
 
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
@@ -54,7 +54,7 @@
                 {% include 'components/button.html.twig' with { label: 'Se connecter', type: 'submit', variant: 'primary' } %}
             </form>
 
-            <p class="text-center text-sm text-slate-600">
+            <p class="text-center ds-text-secondary ds-text-muted">
                 Pas encore de compte ?
                 <a href="{{ path('app_register') }}" class="font-medium text-primary-600 hover:text-primary-700">Créer un compte</a>
             </p>

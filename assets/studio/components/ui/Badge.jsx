@@ -1,17 +1,23 @@
 import clsx from 'clsx';
 
 const variants = {
-    default: 'bg-slate-100 text-slate-700',
-    primary: 'bg-primary-50 text-primary-700',
-    success: 'bg-green-50 text-green-700',
-    warning: 'bg-amber-50 text-amber-800',
-    danger: 'bg-red-50 text-red-700',
-    info: 'bg-sky-50 text-sky-700',
+    default: 'ds-badge-default',
+    primary: 'ds-badge-primary',
+    success: 'ds-badge-success',
+    warning: 'ds-badge-warning',
+    danger: 'ds-badge-danger',
+    info: 'ds-badge-info',
 };
 
-export function Badge({ children, variant = 'default', className }) {
+const sizes = {
+    sm: 'ds-badge-sm',
+    md: 'ds-badge-md',
+    lg: 'ds-badge-lg',
+};
+
+export function Badge({ children, variant = 'default', size = 'md', className }) {
     return (
-        <span className={clsx('inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium', variants[variant], className)}>
+        <span className={clsx('ds-badge', sizes[size], variants[variant], className)}>
             {children}
         </span>
     );

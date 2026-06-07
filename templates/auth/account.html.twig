@@ -12,18 +12,18 @@
 
             <dl class="ds-card divide-y divide-slate-100">
                 <div class="px-5 py-3">
-                    <dt class="text-xs font-medium uppercase tracking-wide text-slate-500">E-mail</dt>
-                    <dd class="mt-1 text-sm text-slate-900">{{ user.email }}</dd>
+                    <dt class="ds-text-caption font-medium uppercase tracking-wide ds-text-muted">E-mail</dt>
+                    <dd class="mt-1 text-base">{{ user.email }}</dd>
                 </div>
                 {% if user.fullname %}
                     <div class="px-5 py-3">
-                        <dt class="text-xs font-medium uppercase tracking-wide text-slate-500">Nom</dt>
-                        <dd class="mt-1 text-sm text-slate-900">{{ user.fullname }}</dd>
+                        <dt class="ds-text-caption font-medium uppercase tracking-wide ds-text-muted">Nom</dt>
+                        <dd class="mt-1 text-base">{{ user.fullname }}</dd>
                     </div>
                 {% endif %}
                 <div class="px-5 py-3">
-                    <dt class="text-xs font-medium uppercase tracking-wide text-slate-500">Rôles</dt>
-                    <dd class="mt-1 text-sm text-slate-900">{{ user.roles|join(', ') }}</dd>
+                    <dt class="ds-text-caption font-medium uppercase tracking-wide ds-text-muted">Rôles</dt>
+                    <dd class="mt-1 text-base">{{ user.roles|join(', ') }}</dd>
                 </div>
             </dl>
 

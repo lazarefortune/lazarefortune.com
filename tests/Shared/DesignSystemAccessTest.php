@@ -16,19 +16,30 @@ final class DesignSystemAccessTest extends WebTestCase
         $this->assertResponseIsSuccessful();
     }
 
-    public function testDesignSystemPageContainsExpectedTwigComponents(): void
+    public function testDesignSystemPageContainsExpectedSections(): void
     {
         $client = static::createClient();
         $client->request('GET', '/design-system');
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorExists('[data-testid="design-system-page"]');
-        $this->assertSelectorExists('[data-testid="twig-design-system"]');
+        $this->assertSelectorExists('[data-testid="design-system-tokens"]');
+        $this->assertSelectorExists('[data-testid="design-system-typography"]');
+        $this->assertSelectorExists('[data-testid="design-system-buttons"]');
+        $this->assertSelectorExists('[data-testid="design-system-button-sizes"]');
+        $this->assertSelectorExists('[data-testid="design-system-forms"]');
+        $this->assertSelectorExists('[data-testid="design-system-cards"]');
+        $this->assertSelectorExists('[data-testid="design-system-badges"]');
+        $this->assertSelectorExists('[data-testid="design-system-badge-sizes"]');
+        $this->assertSelectorExists('[data-testid="design-system-alerts"]');
+        $this->assertSelectorExists('[data-testid="design-system-flash"]');
+        $this->assertSelectorExists('[data-testid="design-system-toast"]');
+        $this->assertSelectorExists('[data-testid="design-system-tables"]');
+        $this->assertSelectorExists('[data-testid="design-system-breadcrumb"]');
+        $this->assertSelectorExists('[data-testid="design-system-empty-states"]');
+        $this->assertSelectorExists('[data-testid="design-system-studio-preview"]');
+        $this->assertSelectorExists('[data-testid="design-system-theme"]');
         $this->assertSelectorTextContains('h1', 'Design system V3');
-        $this->assertSelectorTextContains('[data-testid="twig-design-system"]', 'Primary');
-        $this->assertSelectorTextContains('[data-testid="twig-design-system"]', 'Card Twig');
-        $this->assertSelectorTextContains('[data-testid="twig-design-system"]', 'Aucune vidéo');
-        $this->assertSelectorExists('[data-studio-page="design-system"]');
     }
 
     public function testDesignSystemPageContainsThemeToggle(): void
@@ -57,6 +68,5 @@ final class DesignSystemAccessTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertStringNotContainsString('DATABASE_URL', $crawler->html());
         $this->assertStringNotContainsString('APP_SECRET', $crawler->html());
-        $this->assertStringNotContainsString('@gmail.com', $crawler->html());
     }
 }

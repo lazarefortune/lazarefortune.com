@@ -14,8 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleButton.setAttribute('aria-expanded', open ? 'true' : 'false');
         drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
         overlay.setAttribute('aria-hidden', open ? 'false' : 'true');
-        drawer.classList.toggle('translate-x-0', open);
-        drawer.classList.toggle('-translate-x-full', !open);
+        drawer.classList.toggle('is-open', open);
         overlay.classList.toggle('hidden', !open);
         document.body.classList.toggle('overflow-hidden', open);
     };

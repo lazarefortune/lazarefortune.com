@@ -117,5 +117,19 @@ module.exports = {
     plugins: [
         require('@tailwindcss/forms'),
     ],
+    safelist: [
+        'ds-alert--timed',
+        'ds-alert-progress',
+        'ds-alert__icon',
+        {
+            pattern: /^ds-badge-(sm|md|lg)$/,
+        },
+        {
+            pattern: /^ds-badge-(default|primary|success|warning|danger|info)$/,
+        },
+        {
+            pattern: /^ds-alert-(info|success|warning|danger)$/,
+        },
+    ],
 }
 
