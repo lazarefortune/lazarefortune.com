@@ -26,4 +26,19 @@ class VideoRepository extends ServiceEntityRepository
             'status' => PublicationStatus::PUBLISHED,
         ]);
     }
+
+    /**
+     * @return list<Video>
+     */
+    public function findLatestForStudio(int $limit = 50): array
+    {
+        /** @var list<Video> $results */
+        $results = $this->createQueryBuilder('video')
+            ->orderBy('video.updatedAt', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+
+        return $results;
+    }
 }

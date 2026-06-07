@@ -1,45 +1,95 @@
 {% extends 'base.html.twig' %}
 
 {% block layout %}
-    <div class="ds-studio flex min-h-screen bg-slate-100">
-        <aside class="hidden w-56 shrink-0 border-r border-slate-200 bg-white lg:block" aria-label="Navigation Studio">
-            <div class="flex h-14 items-center border-b border-slate-200 px-4">
-                <a href="{{ path('studio_home') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-900 hover:text-primary-700">
-                    {% include 'components/icon.html.twig' with { name: 'layout-dashboard', size: 18, class: 'text-primary-600' } %}
+    {% set current_route = app.request.attributes.get('_route') %}
+    {% set nav_items = [
+        { route: 'studio_home', label: 'Tableau de bord', icon: 'layout-dashboard', active: current_route == 'studio_home' },
+        { route: 'studio_video_index', label: 'Vidéos', icon: 'video', active: current_route == 'studio_video_index' },
+        { route: 'studio_article_index', label: 'Articles', icon: 'file-text', active: current_route == 'studio_article_index' },
+        { route: 'studio_playlist_index', label: 'Playlists', icon: 'list-video', active: current_route == 'studio_playlist_index' },
+        { route: 'app_design_system', label: 'Design system', icon: 'palette', active: current_route == 'app_design_system' },
+    ] %}
+
+    <div class="ds-studio flex min-h-screen">
+        <aside class="ds-studio-panel ds-border-r hidden w-56 shrink-0 lg:flex lg:flex-col" aria-label="Navigation Studio">
+            <div class="flex h-14 items-center ds-border-b px-4">
+                <a href="{{ path('studio_home') }}" class="ds-brand-link text-sm font-semibold">
+                    {% include 'components/icon.html.twig' with { name: 'layout-dashboard', size: 18, class: 'text-[var(--ds-primary)]' } %}
                     Studio
                 </a>
             </div>
             <nav class="space-y-1 p-3">
-                {% set nav_items = [
-                    { route: 'studio_home', label: 'Accueil', icon: 'home', active: app.request.attributes.get('_route') == 'studio_home' },
-                    { route: 'app_design_system', label: 'Design system', icon: 'palette', active: false },
-                ] %}
-                {% for item in nav_items %}
-                    <a
-                        href="{{ path(item.route) }}"
-                        class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors {{ item.active ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}"
-                        {% if item.active %}aria-current="page"{% endif %}
-                    >
-                        {% include 'components/icon.html.twig' with { name: item.icon, size: 16 } %}
-                        {{ item.label }}
-                    </a>
-                {% endfor %}
+                {% include 'studio/partials/nav_links.html.twig' %}
+            </nav>
+            <div class="mt-auto ds-border-t p-3">
+                {% include 'components/theme_toggle.html.twig' %}
+            </div>
+        </aside>
+
+        <div
+            data-studio-mobile-overlay
+            class="ds-studio-overlay fixed inset-0 z-40 hidden lg:hidden"
+            aria-hidden="true"
+        ></div>
+
+        <aside
+            data-studio-mobile-drawer
+            id="studio-mobile-drawer"
+            class="ds-studio-panel ds-border-r fixed inset-y-0 left-0 z-50 flex w-72 max-w-[85vw] -translate-x-full transform flex-col transition-transform duration-200 ease-out lg:hidden"
+            aria-hidden="true"
+            aria-label="Menu Studio"
+        >
+            <div class="flex h-14 items-center justify-between ds-border-b px-4">
+                <a href="{{ path('studio_home') }}" class="ds-brand-link text-sm font-semibold">
+                    {% include 'components/icon.html.twig' with { name: 'layout-dashboard', size: 18, class: 'text-[var(--ds-primary)]' } %}
+                    Studio
+                </a>
+                <button
+                    type="button"
+                    data-studio-menu-close
+                    class="ds-icon-link min-h-11 min-w-11"
+                    aria-label="Fermer le menu Studio"
+                >
+                    {% include 'components/icon.html.twig' with { name: 'x', size: 20 } %}
+                </button>
+            </div>
+            <nav class="space-y-1 overflow-y-auto p-3">
+                {% include 'studio/partials/nav_links.html.twig' with { close_on_navigate: true } %}
             </nav>
         </aside>
 
         <div class="flex min-w-0 flex-1 flex-col">
-            <header class="flex h-14 items-center justify-between border-b border-slate-200 bg-white px-4 sm:px-6">
-                <div class="flex items-center gap-3 lg:hidden">
-                    <a href="{{ path('studio_home') }}" class="text-sm font-semibold text-slate-900">Studio</a>
+            <header class="ds-studio-panel flex h-14 items-center justify-between gap-3 ds-border-b px-4 sm:px-6">
+                <div class="flex min-w-0 items-center gap-2 lg:hidden">
+                    <button
+                        type="button"
+                        data-studio-menu-toggle
+                        class="ds-icon-link min-h-11 min-w-11 shrink-0"
+                        aria-expanded="false"
+                        aria-controls="studio-mobile-drawer"
+                        aria-label="Ouvrir le menu Studio"
+                    >
+                        {% include 'components/icon.html.twig' with { name: 'menu', size: 20 } %}
+                    </button>
+                    <p class="truncate text-sm font-semibold">Studio</p>
                 </div>
-                <p class="hidden text-sm text-slate-500 lg:block">{{ block('studio_title') is defined ? block('studio_title') : 'Espace createur' }}</p>
-                <a href="{{ path('app_home') }}" class="inline-flex items-center gap-1.5 text-sm font-medium text-primary-600 hover:text-primary-700">
-                    {% include 'components/icon.html.twig' with { name: 'external-link', size: 14 } %}
-                    Site public
-                </a>
+                <p class="hidden text-sm ds-text-muted lg:block">
+                    {{ block('studio_title') is defined ? block('studio_title') : 'Espace createur' }}
+                </p>
+                <div class="flex shrink-0 items-center gap-1 sm:gap-2">
+                    <span class="lg:hidden">
+                        {% include 'components/theme_toggle.html.twig' %}
+                    </span>
+                    <a href="{{ path('app_home') }}" class="ds-nav-link px-2 sm:px-3">
+                        {% include 'components/icon.html.twig' with { name: 'external-link', size: 14 } %}
+                        <span class="lg:hidden">Site</span>
+                        <span class="hidden lg:inline">Site public</span>
+                    </a>
+                </div>
             </header>
 
-            <main id="main" class="flex-1 p-4 sm:p-6">
+            <main id="main" class="ds-studio-main flex-1 p-4 sm:p-6">
+                {% include 'studio/partials/breadcrumb.html.twig' %}
                 {% block studio_main %}{% endblock %}
             </main>
         </div>

@@ -1,0 +1,16 @@
+{#
+    Props:
+    - status (PublicationStatus enum)
+#}
+{% set status_config = {
+    'draft': { label: 'Brouillon', variant: 'default' },
+    'scheduled': { label: 'Planifié', variant: 'warning' },
+    'published': { label: 'Publié', variant: 'success' },
+    'archived': { label: 'Archivé', variant: 'default' },
+} %}
+{% set config = status_config[status.value] %}
+
+{% include 'components/badge.html.twig' with {
+    label: config.label,
+    variant: config.variant,
+} %}

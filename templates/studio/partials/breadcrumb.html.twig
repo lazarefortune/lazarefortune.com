@@ -1,0 +1,29 @@
+{% if studio_breadcrumb() is not empty %}
+    <nav aria-label="Fil d'Ariane Studio" data-studio-breadcrumb class="ds-breadcrumb">
+        <ol class="flex flex-wrap items-center gap-1 sm:gap-1.5">
+            {% for crumb in studio_breadcrumb() %}
+                <li class="flex min-w-0 items-center gap-1 sm:gap-1.5">
+                    {% if not loop.first %}
+                        <span class="ds-breadcrumb__separator" aria-hidden="true">/</span>
+                    {% endif %}
+
+                    {% if crumb.route %}
+                        <a href="{{ path(crumb.route) }}" class="ds-breadcrumb__link">
+                            {% if crumb.icon %}
+                                {% include 'components/icon.html.twig' with { name: crumb.icon, size: 14, class: 'shrink-0' } %}
+                            {% endif %}
+                            <span class="truncate">{{ crumb.label }}</span>
+                        </a>
+                    {% else %}
+                        <span class="ds-breadcrumb__current" aria-current="page">
+                            {% if crumb.icon %}
+                                {% include 'components/icon.html.twig' with { name: crumb.icon, size: 14, class: 'shrink-0' } %}
+                            {% endif %}
+                            <span class="truncate">{{ crumb.label }}</span>
+                        </span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ol>
+    </nav>
+{% endif %}

@@ -46,4 +46,19 @@ class PlaylistRepository extends ServiceEntityRepository
 
         return $results;
     }
+
+    /**
+     * @return list<Playlist>
+     */
+    public function findLatestForStudio(int $limit = 50): array
+    {
+        /** @var list<Playlist> $results */
+        $results = $this->createQueryBuilder('playlist')
+            ->orderBy('playlist.updatedAt', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+
+        return $results;
+    }
 }

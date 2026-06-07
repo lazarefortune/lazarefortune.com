@@ -26,4 +26,19 @@ class ArticleRepository extends ServiceEntityRepository
             'status' => PublicationStatus::PUBLISHED,
         ]);
     }
+
+    /**
+     * @return list<Article>
+     */
+    public function findLatestForStudio(int $limit = 50): array
+    {
+        /** @var list<Article> $results */
+        $results = $this->createQueryBuilder('article')
+            ->orderBy('article.updatedAt', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+
+        return $results;
+    }
 }

@@ -1,0 +1,11 @@
+{% for item in nav_items %}
+    <a
+        href="{{ path(item.route) }}"
+        class="ds-studio-nav-link {{ item.active ? 'ds-studio-nav-link-active' : '' }}"
+        {% if item.active %}aria-current="page"{% endif %}
+        {% if close_on_navigate|default(false) %}data-studio-nav-link{% endif %}
+    >
+        {% include 'components/icon.html.twig' with { name: item.icon, size: 16 } %}
+        {{ item.label }}
+    </a>
+{% endfor %}

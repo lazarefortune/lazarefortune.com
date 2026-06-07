@@ -1,0 +1,34 @@
+{% extends 'studio/layout.html.twig' %}
+
+{% block title %}Vidéos - Studio{% endblock %}
+
+{% block studio_title %}Vidéos{% endblock %}
+
+{% block studio_main %}
+    {% embed 'components/page_header.html.twig' with {
+        eyebrow: 'Studio',
+        title: 'Vidéos',
+        description: 'Gérez vos vidéos pédagogiques. La création et l’édition complète arriveront dans une prochaine étape.',
+    } %}
+        {% block page_header_actions %}
+            {% include 'components/button.html.twig' with {
+                label: 'Créer',
+                href: '#',
+                variant: 'primary',
+                icon: 'plus',
+            } %}
+        {% endblock %}
+    {% endembed %}
+
+    {% if videos is empty %}
+        {% include 'components/empty_state.html.twig' with {
+            title: 'Aucune vidéo',
+            description: 'Commencez par créer votre première vidéo pédagogique.',
+            action_label: 'Créer une vidéo',
+            action_href: '#',
+            icon: 'video',
+        } %}
+    {% else %}
+        {% include 'studio/partials/index_list.html.twig' with { items: videos } %}
+    {% endif %}
+{% endblock %}
