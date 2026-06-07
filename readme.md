@@ -16,6 +16,12 @@
 - **YouTube** comme hébergeur vidéo
 - **Rôles** : `ROLE_USER`, `ROLE_ADMIN`, `ROLE_SUPER_ADMIN`
 
+## UX responsive
+
+- **Site public (V3)** : mobile-first (~90 % du trafic mobile).
+- **Studio** : responsive mais oriente admin/bureau ; utilisable sur tablette et mobile.
+- **Theme** : tokens CSS legacy (`--ds-*`), light/dark via `data-theme` sur `<html>`.
+
 ## Structure actuelle
 
 ```
