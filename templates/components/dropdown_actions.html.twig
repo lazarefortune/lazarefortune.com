@@ -1,0 +1,58 @@
+{#
+    Props:
+    - trigger_label (required)
+    - menu_id (required, unique id for aria-controls)
+    - items (required): array of { label, icon?, disabled? }
+    - variant: secondary|ghost (default: secondary)
+    - size: sm|md|lg (default: md)
+    - class (extra classes)
+    - testid (optional data-testid)
+    - menu_open (bool, default: false)
+#}
+{% set variant = variant|default('secondary') %}
+{% set size = size|default('md') %}
+{% set menu_open = menu_open|default(false) %}
+{% set extra_class = class|default('') %}
+{% set classes = [
+    'ds-dropdown-actions',
+    'ds-dropdown',
+    extra_class,
+]|join(' ') %}
+
+<div
+    class="{{ classes }}"
+    data-dropdown
+    {% if testid is defined and testid %}data-testid="{{ testid }}"{% endif %}
+>
+    <button
+        type="button"
+        class="ds-dropdown-actions__trigger ds-btn ds-btn-{{ size }} ds-btn-{{ variant }}"
+        data-dropdown-toggle
+        aria-expanded="{{ menu_open ? 'true' : 'false' }}"
+        aria-controls="{{ menu_id }}"
+    >
+        {{ trigger_label }}
+        {% include 'components/icon.html.twig' with { name: 'chevron-down', size: 16 } %}
+    </button>
+    <div
+        id="{{ menu_id }}"
+        class="ds-dropdown-menu"
+        role="menu"
+        data-dropdown-menu
+        {% if not menu_open %}hidden{% endif %}
+    >
+        {% for item in items %}
+            <button
+                type="button"
+                role="menuitem"
+                class="ds-dropdown-menu__item"
+                {% if item.disabled|default(false) %}disabled{% endif %}
+            >
+                {% if item.icon is defined and item.icon %}
+                    {% include 'components/icon.html.twig' with { name: item.icon, size: 16 } %}
+                {% endif %}
+                {{ item.label }}
+            </button>
+        {% endfor %}
+    </div>
+</div>

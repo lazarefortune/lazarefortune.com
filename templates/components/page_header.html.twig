@@ -8,9 +8,6 @@
 {% set extra_class = class|default('') %}
 
 <header class="mb-6 {{ extra_class }}">
-    {% if eyebrow is defined and eyebrow %}
-        <p class="ds-eyebrow">{{ eyebrow }}</p>
-    {% endif %}
     <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
             <h1 class="ds-heading text-2xl font-bold sm:text-3xl">{{ title }}</h1>

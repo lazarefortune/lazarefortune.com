@@ -1,0 +1,200 @@
+{% extends 'studio/layout.html.twig' %}
+
+{% set page_title = video.title is not empty ? video.title : 'Vidéo sans titre' %}
+
+{% block title %}{{ page_title }} - Studio{% endblock %}
+
+{% block studio_title %}{{ page_title }}{% endblock %}
+
+{% block studio_main %}
+    {% embed 'components/page_header.html.twig' with {
+        eyebrow: 'Studio',
+        title: page_title,
+        description: 'Gérez le contenu, la source, le classement et la publication de cette vidéo.',
+    } %}
+        {% block page_header_actions %}
+            {% include 'studio/partials/publish_action_bar.html.twig' with {
+                status: video.status,
+                testid: 'studio-video-publish-action-bar',
+            } %}
+        {% endblock %}
+    {% endembed %}
+
+    <div class="ds-card ds-studio overflow-hidden" data-studio-video-edit data-testid="studio-video-edit-page">
+        <div data-studio-video-tabs data-testid="studio-video-edit-tabs">
+            <div
+                class="ds-tabs__list"
+                role="tablist"
+                aria-label="Sections d edition de la video"
+            >
+                <a
+                    href="#content"
+                    id="tab-content"
+                    class="ds-tabs__tab"
+                    role="tab"
+                    aria-controls="panel-content"
+                    data-studio-tab="content"
+                    data-testid="studio-video-tab-content"
+                >Contenu</a>
+                <a
+                    href="#source"
+                    id="tab-source"
+                    class="ds-tabs__tab"
+                    role="tab"
+                    aria-controls="panel-source"
+                    data-studio-tab="source"
+                    data-testid="studio-video-tab-source"
+                >Source vidéo</a>
+                <a
+                    href="#classification"
+                    id="tab-classification"
+                    class="ds-tabs__tab"
+                    role="tab"
+                    aria-controls="panel-classification"
+                    data-studio-tab="classification"
+                    data-testid="studio-video-tab-classification"
+                >Classement</a>
+                <a
+                    href="#publication"
+                    id="tab-publication"
+                    class="ds-tabs__tab"
+                    role="tab"
+                    aria-controls="panel-publication"
+                    data-studio-tab="publication"
+                    data-testid="studio-video-tab-publication"
+                >Publication</a>
+            </div>
+
+            <div class="ds-tabs__panels px-5 py-5 sm:px-6">
+                <section
+                    id="panel-content"
+                    class="ds-tabs__panel"
+                    role="tabpanel"
+                    aria-labelledby="tab-content"
+                    data-studio-tab-panel="content"
+                    data-testid="studio-video-panel-content"
+                >
+                    {% include 'components/alert.html.twig' with {
+                        variant: 'info',
+                        message: 'L edition complete de ces champs arrive dans une prochaine etape. Vous pouvez deja verifier les informations du brouillon.',
+                        class: 'mb-5',
+                    } %}
+
+                    <dl class="grid gap-4 sm:grid-cols-2">
+                        <div class="flex flex-col gap-1">
+                            <dt class="ds-label mb-0">Titre</dt>
+                            <dd class="text-base">{{ video.title is not empty ? video.title : 'Non renseigne' }}</dd>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <dt class="ds-label mb-0">Slug</dt>
+                            <dd class="text-base font-mono text-sm">{{ video.slug }}</dd>
+                        </div>
+                        <div class="flex flex-col gap-1 sm:col-span-2">
+                            <dt class="ds-label mb-0">Extrait</dt>
+                            <dd class="text-base ds-text-muted">{{ video.excerpt ?? 'Aucun extrait pour le moment.' }}</dd>
+                        </div>
+                    </dl>
+                </section>
+
+                <section
+                    id="panel-source"
+                    class="ds-tabs__panel"
+                    role="tabpanel"
+                    aria-labelledby="tab-source"
+                    data-studio-tab-panel="source"
+                    data-testid="studio-video-panel-source"
+                    hidden
+                >
+                    {% include 'components/empty_state.html.twig' with {
+                        title: 'Aucune source vidéo',
+                        description: 'Ajoutez une source YouTube ou un fichier heberge pour rendre la video consultable.',
+                        icon: 'video',
+                    } %}
+                    <div class="mt-4 flex justify-center">
+                        {% include 'components/button.html.twig' with {
+                            label: 'Ajouter une source',
+                            variant: 'primary',
+                            icon: 'plus',
+                            disabled: true,
+                        } %}
+                    </div>
+                </section>
+
+                <section
+                    id="panel-classification"
+                    class="ds-tabs__panel"
+                    role="tabpanel"
+                    aria-labelledby="tab-classification"
+                    data-studio-tab-panel="classification"
+                    data-testid="studio-video-panel-classification"
+                    hidden
+                >
+                    {% include 'components/empty_state.html.twig' with {
+                        title: 'Aucun tag ni playlist',
+                        description: 'Les tags et playlists permettront de classer la video dans le catalogue pedagogique.',
+                        icon: 'tags',
+                    } %}
+                    <p class="mt-4 text-center ds-text-secondary ds-text-muted">
+                        Selection des tags et rattachement aux playlists : bientot disponible.
+                    </p>
+                </section>
+
+                <section
+                    id="panel-publication"
+                    class="ds-tabs__panel"
+                    role="tabpanel"
+                    aria-labelledby="tab-publication"
+                    data-studio-tab-panel="publication"
+                    data-testid="studio-video-panel-publication"
+                    hidden
+                >
+                    <dl class="grid gap-5 sm:grid-cols-2">
+                        <div class="flex flex-col gap-1">
+                            <dt class="ds-label mb-0">Statut actuel</dt>
+                            <dd>
+                                {% include 'studio/partials/publication_status_badge.html.twig' with { status: video.status } %}
+                            </dd>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <dt class="ds-label mb-0">Visibilite</dt>
+                            <dd class="text-base">
+                                {% if video.visibility.value == 'public' %}
+                                    Public - visible sur le site
+                                {% else %}
+                                    Membres uniquement - reserve aux utilisateurs connectes
+                                {% endif %}
+                            </dd>
+                        </div>
+                        <div class="flex flex-col gap-1 sm:col-span-2">
+                            <dt class="ds-label mb-0">Date programmee</dt>
+                            <dd class="text-base ds-text-muted">
+                                {% if video.scheduledAt %}
+                                    {{ video.scheduledAt|date('d/m/Y H:i') }}
+                                {% else %}
+                                    Aucune date programmee pour le moment.
+                                {% endif %}
+                            </dd>
+                        </div>
+                    </dl>
+
+                    {% include 'components/alert.html.twig' with {
+                        variant: 'info',
+                        message: 'Les actions de publication (Publier maintenant, Programmer, Remettre en brouillon, Archiver) sont accessibles depuis la barre d actions en haut de page. Cet onglet sert aux details et au suivi du statut.',
+                        class: 'mt-5',
+                    } %}
+
+                    <div class="mt-5 space-y-3">
+                        <h3 class="text-base font-semibold">Comment fonctionne la publication</h3>
+                        <ul class="list-inside list-disc space-y-2 ds-text-secondary ds-text-muted">
+                            <li>Un brouillon reste invisible sur le site public tant qu il n est pas publie.</li>
+                            <li>La publication necessite une source video configuree (onglet Source video).</li>
+                            <li>La programmation permet de definir une date de mise en ligne automatique.</li>
+                            <li>Remettre en brouillon retire la video du catalogue public sans la supprimer.</li>
+                            <li>Archiver conserve la video en base mais la retire du catalogue actif.</li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+{% endblock %}

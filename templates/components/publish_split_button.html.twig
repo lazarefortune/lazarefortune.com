@@ -1,0 +1,79 @@
+{#
+    Split button de publication (pattern Gmail).
+    Un seul bloc visuel primary : action principale + chevron integres.
+
+    Props:
+    - primary_label (required)
+    - menu_id (required, unique id for aria-controls)
+    - items (required): array of { label, icon?, disabled? }
+    - disabled (bool, default: false - desactive l action principale, aspect uniforme)
+    - primary_icon (optional Lucide icon name, default: upload)
+    - toggle_label (accessible label for chevron, default: Options de publication)
+    - class (extra classes)
+    - testid (optional data-testid on root)
+    - primary_testid (optional data-testid on primary button)
+    - menu_testid (optional data-testid on menu)
+    - menu_open (bool, default: false - demo statique design system)
+#}
+{% set disabled = disabled|default(false) %}
+{% set primary_icon = primary_icon|default('upload') %}
+{% set toggle_label = toggle_label|default('Options de publication') %}
+{% set menu_open = menu_open|default(false) %}
+{% set extra_class = class|default('') %}
+{% set classes = [
+    'ds-publish-split',
+    'ds-dropdown',
+    disabled ? 'ds-publish-split--disabled' : '',
+    extra_class,
+]|join(' ') %}
+
+<div
+    class="{{ classes }}"
+    data-dropdown
+    {% if testid is defined and testid %}data-testid="{{ testid }}"{% endif %}
+    {% if menu_open %}data-dropdown-static-open="true"{% endif %}
+>
+    <div class="ds-publish-split__control">
+        <button
+            type="button"
+            class="ds-publish-split__action"
+            {% if disabled %}disabled{% endif %}
+            {% if primary_testid is defined and primary_testid %}data-testid="{{ primary_testid }}"{% endif %}
+        >
+            {% include 'components/icon.html.twig' with { name: primary_icon, size: 16 } %}
+            {{ primary_label }}
+        </button>
+        <button
+            type="button"
+            class="ds-publish-split__menu-toggle"
+            data-dropdown-toggle
+            aria-expanded="{{ menu_open ? 'true' : 'false' }}"
+            aria-controls="{{ menu_id }}"
+            aria-label="{{ toggle_label }}"
+        >
+            {% include 'components/icon.html.twig' with { name: 'chevron-down', size: 16 } %}
+        </button>
+    </div>
+    <div
+        id="{{ menu_id }}"
+        class="ds-dropdown-menu"
+        role="menu"
+        data-dropdown-menu
+        {% if not menu_open %}hidden{% endif %}
+        {% if menu_testid is defined and menu_testid %}data-testid="{{ menu_testid }}"{% endif %}
+    >
+        {% for item in items %}
+            <button
+                type="button"
+                role="menuitem"
+                class="ds-dropdown-menu__item"
+                {% if item.disabled|default(false) %}disabled{% endif %}
+            >
+                {% if item.icon is defined and item.icon %}
+                    {% include 'components/icon.html.twig' with { name: item.icon, size: 16 } %}
+                {% endif %}
+                {{ item.label }}
+            </button>
+        {% endfor %}
+    </div>
+</div>

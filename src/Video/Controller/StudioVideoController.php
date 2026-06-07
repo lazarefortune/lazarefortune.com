@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Video\Controller;
 
 use App\Auth\Entity\User;
+use App\Video\Entity\Video;
 use App\Video\Dto\CreateDraftVideoInput;
 use App\Video\Form\CreateDraftVideoType;
 use App\Video\Repository\VideoRepository;
@@ -53,11 +54,24 @@ final class StudioVideoController extends AbstractController
 
             $this->addFlash('success', sprintf('Le brouillon « %s » a été créé.', $video->getTitle()));
 
-            return $this->redirectToRoute('studio_video_index');
+            return $this->redirectToRoute('studio_video_edit', ['id' => $video->getId()]);
         }
 
         return $this->render('studio/video/new.html.twig', [
             'form' => $form,
+        ]);
+    }
+
+    #[Route('/videos/{id}/edit', name: 'studio_video_edit', methods: ['GET'], requirements: ['id' => '\d+'])]
+    public function edit(int $id): Response
+    {
+        $video = $this->videoRepository->find($id);
+        if (!$video instanceof Video) {
+            throw $this->createNotFoundException();
+        }
+
+        return $this->render('studio/video/edit.html.twig', [
+            'video' => $video,
         ]);
     }
 }

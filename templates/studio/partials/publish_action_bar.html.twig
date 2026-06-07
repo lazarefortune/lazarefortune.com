@@ -1,0 +1,44 @@
+{#
+    Props:
+    - status (PublicationStatus enum, optional)
+    - testid (optional data-testid)
+#}
+<div
+    class="ds-publish-action-bar"
+    {% if testid is defined and testid %}data-testid="{{ testid }}"{% endif %}
+>
+    <div class="ds-page-actions">
+        {% if status is defined and status %}
+            <div class="ds-page-actions__status">
+                {% include 'studio/partials/publication_status_badge.html.twig' with { status: status } %}
+            </div>
+        {% endif %}
+
+        {% include 'components/button.html.twig' with {
+            label: 'Enregistrer',
+            variant: 'ghost',
+            size: 'sm',
+            icon: 'save',
+            disabled: true,
+            attrs: {
+                'aria-disabled': 'true',
+                'title': 'Disponible une fois l edition des champs activee',
+                'data-testid': 'studio-video-save',
+            },
+        } %}
+
+        {% include 'components/publish_split_button.html.twig' with {
+            primary_label: 'Publier maintenant',
+            disabled: true,
+            menu_id: 'studio-video-publish-menu',
+            testid: 'studio-video-publish-split',
+            primary_testid: 'studio-video-publish-now',
+            menu_testid: 'studio-video-publish-options',
+            items: [
+                { label: 'Programmer', icon: 'calendar', disabled: true },
+                { label: 'Remettre en brouillon', icon: 'undo-2', disabled: true },
+                { label: 'Archiver', icon: 'archive', disabled: true },
+            ],
+        } %}
+    </div>
+</div>

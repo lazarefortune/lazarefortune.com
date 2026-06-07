@@ -47,7 +47,7 @@ final class StudioVideoCreateTest extends AuthenticatedWebTestCase
         $this->assertSelectorTextContains('[data-studio-breadcrumb]', 'Nouvelle vidéo');
     }
 
-    public function testValidPostCreatesDraftVideoAndRedirectsToIndex(): void
+    public function testValidPostCreatesDraftVideoAndRedirectsToEdit(): void
     {
         $client = $this->createClientWithSchema();
         $admin = $this->persistUser('studio-video-create-admin@example.com', [User::ROLE_ADMIN]);
@@ -63,7 +63,9 @@ final class StudioVideoCreateTest extends AuthenticatedWebTestCase
         ]);
         $client->submit($form);
 
-        $this->assertResponseRedirects('/studio/videos');
+        $this->assertResponseRedirects();
+        $location = (string) $client->getResponse()->headers->get('Location');
+        $this->assertMatchesRegularExpression('#/studio/videos/\d+/edit$#', $location);
         $client->followRedirect();
         $this->assertSelectorExists('[data-flash-messages][data-flash-mode="floating"] [data-flash-item].ds-alert-success');
 
@@ -97,7 +99,8 @@ final class StudioVideoCreateTest extends AuthenticatedWebTestCase
         ]);
         $client->submit($form);
 
-        $this->assertResponseRedirects('/studio/videos');
+        $this->assertResponseRedirects();
+        $this->assertMatchesRegularExpression('#/studio/videos/\d+/edit$#', (string) $client->getResponse()->headers->get('Location'));
 
         /** @var VideoRepository $videoRepository */
         $videoRepository = static::getContainer()->get(VideoRepository::class);
@@ -128,7 +131,8 @@ final class StudioVideoCreateTest extends AuthenticatedWebTestCase
         ]);
         $client->submit($form);
 
-        $this->assertResponseRedirects('/studio/videos');
+        $this->assertResponseRedirects();
+        $this->assertMatchesRegularExpression('#/studio/videos/\d+/edit$#', (string) $client->getResponse()->headers->get('Location'));
 
         /** @var VideoRepository $videoRepository */
         $videoRepository = static::getContainer()->get(VideoRepository::class);
@@ -153,6 +157,10 @@ final class StudioVideoCreateTest extends AuthenticatedWebTestCase
         $client->submit($form);
         $client->followRedirect();
 
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h1', 'Video visible dans la liste');
+
+        $client->request('GET', '/studio/videos');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('[data-studio-index-list]', 'Video visible dans la liste');
     }

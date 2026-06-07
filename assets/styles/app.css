@@ -558,8 +558,150 @@
         color: var(--ds-text);
     }
 
-    .ds-studio .ds-page-header-actions .ds-btn {
-        @apply flex w-full justify-center whitespace-nowrap sm:w-auto;
+    .ds-back-link {
+        @apply text-sm font-medium transition-colors;
+        color: var(--ds-text-muted);
+    }
+
+    .ds-back-link:hover {
+        color: var(--ds-text);
+    }
+
+    .ds-publish-action-bar {
+        @apply w-full;
+    }
+
+    .ds-page-actions {
+        @apply flex w-full flex-col gap-2;
+    }
+
+    .ds-page-actions__status {
+        @apply flex items-center;
+    }
+
+    .ds-page-actions > .ds-btn {
+        @apply w-full justify-center;
+    }
+
+    .ds-page-actions .ds-publish-split {
+        @apply w-full;
+    }
+
+    .ds-publish-split {
+        @apply relative inline-flex;
+    }
+
+    .ds-publish-split__control {
+        @apply inline-flex w-full items-stretch overflow-hidden;
+        border-radius: var(--ds-radius-full);
+        box-shadow: var(--ds-shadow);
+        background-color: var(--ds-primary);
+        border: 1px solid var(--ds-primary);
+        color: #ffffff;
+    }
+
+    .ds-publish-split__action,
+    .ds-publish-split__menu-toggle {
+        @apply inline-flex items-center justify-center gap-2 border-0 font-medium transition-colors;
+        background-color: transparent;
+        color: inherit;
+        font-size: var(--ds-text-base);
+    }
+
+    .ds-publish-split__action {
+        @apply ds-focus flex-1 px-5 py-2;
+    }
+
+    .ds-publish-split__menu-toggle {
+        @apply ds-focus shrink-0 px-2.5 py-2;
+        min-width: 2.75rem;
+        border-left: 1px solid color-mix(in srgb, #ffffff 28%, transparent);
+    }
+
+    .ds-publish-split__control:hover {
+        background-color: var(--ds-primary-hover);
+        border-color: var(--ds-primary-hover);
+    }
+
+    .ds-publish-split--disabled .ds-publish-split__control {
+        @apply cursor-not-allowed;
+        opacity: 0.62;
+    }
+
+    .ds-publish-split--disabled .ds-publish-split__action:disabled {
+        opacity: 1;
+    }
+
+    .ds-publish-split--disabled .ds-publish-split__control:hover {
+        background-color: var(--ds-primary);
+        border-color: var(--ds-primary);
+    }
+
+    .ds-dropdown--open .ds-publish-split__control {
+        background-color: var(--ds-primary-hover);
+        border-color: var(--ds-primary-hover);
+    }
+
+    .ds-dropdown {
+        @apply relative;
+    }
+
+    .ds-dropdown-actions {
+        @apply inline-flex;
+    }
+
+    .ds-dropdown-menu {
+        @apply absolute right-0 z-30 mt-2 flex min-w-56 flex-col gap-0.5 rounded-xl border p-1.5 shadow-lg;
+        top: calc(100% + 0.375rem);
+        background-color: var(--ds-surface);
+        border-color: var(--ds-border);
+    }
+
+    .ds-dropdown-menu[hidden] {
+        display: none;
+    }
+
+    .ds-dropdown-menu__item {
+        @apply ds-focus inline-flex min-h-10 w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50;
+        color: var(--ds-text);
+    }
+
+    .ds-dropdown-menu__item:hover:not(:disabled) {
+        background-color: var(--ds-surface-soft);
+    }
+
+    .ds-dropdown--open .ds-dropdown-actions__trigger {
+        background-color: var(--ds-primary-hover);
+    }
+
+    @media (min-width: 640px) {
+        .ds-publish-action-bar {
+            @apply w-auto;
+        }
+
+        .ds-page-actions {
+            @apply w-auto flex-row flex-wrap items-center justify-end gap-2;
+        }
+
+        .ds-page-actions__status {
+            @apply mr-1;
+        }
+
+        .ds-page-actions > .ds-btn {
+            @apply w-auto;
+        }
+
+        .ds-page-actions .ds-publish-split {
+            @apply w-auto;
+        }
+
+        .ds-publish-split__control {
+            @apply w-auto;
+        }
+
+        .ds-publish-split__action {
+            @apply flex-none;
+        }
     }
 
     .ds-studio [data-studio-index-list] > ul[role='list'] {
@@ -1006,6 +1148,45 @@
 
     .ds-table-divider {
         border-color: var(--ds-border);
+    }
+
+    .ds-tabs__list {
+        display: flex;
+        gap: 0.25rem;
+        overflow-x: auto;
+        border-bottom: 1px solid var(--ds-border);
+        background-color: var(--ds-surface-soft);
+        padding: 0.5rem 0.75rem 0;
+    }
+
+    .ds-tabs__tab {
+        @apply ds-focus whitespace-nowrap px-3 py-2.5 text-base font-medium transition-colors;
+        flex: 1 1 auto;
+        min-width: max-content;
+        border-radius: var(--ds-radius-md) var(--ds-radius-md) 0 0;
+        color: var(--ds-text-muted);
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .ds-tabs__tab:hover {
+        color: var(--ds-text);
+        background-color: var(--ds-surface);
+    }
+
+    .ds-tabs__tab--active,
+    .ds-tabs__tab[aria-selected='true'] {
+        background-color: var(--ds-surface);
+        color: var(--ds-text);
+        box-shadow: inset 0 -2px 0 var(--ds-primary);
+    }
+
+    .ds-tabs__panels {
+        background-color: var(--ds-surface);
+    }
+
+    .ds-tabs__panel[hidden] {
+        display: none;
     }
 
     .ds-token-swatch {

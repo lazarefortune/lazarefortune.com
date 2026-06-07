@@ -29,6 +29,9 @@
             icon: 'video',
         } %}
     {% else %}
-        {% include 'studio/partials/index_list.html.twig' with { items: videos } %}
+        {% include 'studio/partials/index_list.html.twig' with {
+            items: videos,
+            edit_route: 'studio_video_edit',
+        } %}
     {% endif %}
 {% endblock %}

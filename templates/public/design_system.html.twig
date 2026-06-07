@@ -291,6 +291,74 @@
                 </nav>
             </section>
 
+            <section class="mb-10" data-testid="design-system-split-button" aria-labelledby="split-button-heading">
+                <h2 id="split-button-heading" class="mb-4 text-lg font-semibold">Publish split button</h2>
+                <p class="mb-4 ds-text-secondary ds-text-muted">
+                    Composant dedie a la publication Studio : un seul bloc primary avec action principale et chevron integres.
+                </p>
+
+                <div class="mb-6 grid max-w-3xl gap-4">
+                    <div>
+                        <p class="mb-2 text-sm font-medium">Actif</p>
+                        <div class="ds-card px-5 py-4">
+                            {% include 'components/publish_split_button.html.twig' with {
+                                primary_label: 'Publier maintenant',
+                                menu_id: 'design-system-publish-menu-active',
+                                testid: 'design-system-publish-split-active',
+                                items: [
+                                    { label: 'Programmer', icon: 'calendar' },
+                                    { label: 'Remettre en brouillon', icon: 'undo-2' },
+                                    { label: 'Archiver', icon: 'archive' },
+                                ],
+                            } %}
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="mb-2 text-sm font-medium">Desactive (action principale indisponible)</p>
+                        <div class="ds-card px-5 py-4">
+                            {% include 'components/publish_split_button.html.twig' with {
+                                primary_label: 'Publier maintenant',
+                                disabled: true,
+                                menu_id: 'design-system-publish-menu-disabled',
+                                testid: 'design-system-publish-split-disabled',
+                                items: [
+                                    { label: 'Programmer', icon: 'calendar', disabled: true },
+                                    { label: 'Remettre en brouillon', icon: 'undo-2', disabled: true },
+                                    { label: 'Archiver', icon: 'archive', disabled: true },
+                                ],
+                            } %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <p class="mb-2 text-sm font-medium">Barre d actions complete (page edition)</p>
+                    <div class="ds-card max-w-3xl px-5 py-4">
+                        {% include 'studio/partials/publish_action_bar.html.twig' with {
+                            testid: 'design-system-publish-action-bar',
+                        } %}
+                    </div>
+                </div>
+
+                <div>
+                    <p class="mb-2 text-sm font-medium">Menu ouvert (demo statique)</p>
+                    <div class="ds-card max-w-3xl px-5 py-4">
+                        {% include 'components/publish_split_button.html.twig' with {
+                            primary_label: 'Publier maintenant',
+                            menu_id: 'design-system-publish-menu-open',
+                            menu_open: true,
+                            testid: 'design-system-publish-split-open',
+                            items: [
+                                { label: 'Programmer', icon: 'calendar' },
+                                { label: 'Remettre en brouillon', icon: 'undo-2' },
+                                { label: 'Archiver', icon: 'archive' },
+                            ],
+                        } %}
+                    </div>
+                </div>
+            </section>
+
             <section class="mb-10" data-testid="design-system-empty-states" aria-labelledby="empty-heading">
                 <h2 id="empty-heading" class="mb-4 text-lg font-semibold">Empty states</h2>
                 {% include 'components/empty_state.html.twig' with {
