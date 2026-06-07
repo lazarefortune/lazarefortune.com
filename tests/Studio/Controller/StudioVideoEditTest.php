@@ -290,12 +290,13 @@ final class StudioVideoEditTest extends AuthenticatedWebTestCase
         $this->assertSelectorExists('[data-testid="studio-video-publish-options"]');
         $this->assertSelectorExists('[data-testid="studio-video-publish-split"]');
         $this->assertSelectorExists('[data-testid="studio-video-content-form"]');
-        $this->assertSelectorNotExists('[data-testid="studio-video-save"][disabled]');
+        $this->assertSelectorExists('[data-testid="studio-video-publish-form"]');
+        $this->assertSelectorNotExists('[data-testid="studio-video-publish-now"][disabled]');
         $this->assertGreaterThan(0, $crawler->filter('[data-testid="studio-video-publish-now"]')->count());
         $this->assertSelectorTextContains('[data-testid="studio-video-publish-action-bar"]', 'Publier maintenant');
         $this->assertSelectorTextContains('[data-testid="studio-video-publish-options"]', 'Programmer');
-        $this->assertSelectorTextContains('[data-testid="studio-video-publish-options"]', 'Remettre en brouillon');
         $this->assertSelectorTextContains('[data-testid="studio-video-publish-options"]', 'Archiver');
+        $this->assertSelectorNotExists('[data-testid="studio-video-draft-action"]');
         $retourButtons = $crawler
             ->filter('[data-testid="studio-video-publish-action-bar"] .ds-btn')
             ->reduce(static function (\Symfony\Component\DomCrawler\Crawler $node): bool {

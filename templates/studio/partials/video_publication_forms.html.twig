@@ -1,0 +1,30 @@
+{# Hidden POST forms for publication actions triggered from the header split button. #}
+<form
+    id="studio-video-publish-form"
+    method="post"
+    action="{{ path('studio_video_publish', { id: video.id }) }}"
+    class="hidden"
+    data-testid="studio-video-publish-form"
+>
+    <input type="hidden" name="_token" value="{{ csrf_token('studio_video_publish') }}">
+</form>
+
+<form
+    id="studio-video-draft-form"
+    method="post"
+    action="{{ path('studio_video_draft', { id: video.id }) }}"
+    class="hidden"
+    data-testid="studio-video-draft-form"
+>
+    <input type="hidden" name="_token" value="{{ csrf_token('studio_video_draft') }}">
+</form>
+
+<form
+    id="studio-video-archive-form"
+    method="post"
+    action="{{ path('studio_video_archive', { id: video.id }) }}"
+    class="hidden"
+    data-testid="studio-video-archive-form"
+>
+    <input type="hidden" name="_token" value="{{ csrf_token('studio_video_archive') }}">
+</form>

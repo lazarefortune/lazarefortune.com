@@ -5,8 +5,9 @@
     Props:
     - primary_label (required)
     - menu_id (required, unique id for aria-controls)
-    - items (required): array of { label, icon?, disabled? }
-    - disabled (bool, default: false - desactive l action principale, aspect uniforme)
+    - items (required): array of action items with label, icon?, disabled?, form?, href?, testid?
+    - primary_form (optional form id for submit action principale)
+    - disabled (bool, default: false)
     - primary_icon (optional Lucide icon name, default: upload)
     - toggle_label (accessible label for chevron, default: Options de publication)
     - class (extra classes)
@@ -20,10 +21,12 @@
 {% set toggle_label = toggle_label|default('Options de publication') %}
 {% set menu_open = menu_open|default(false) %}
 {% set extra_class = class|default('') %}
+{% set has_secondary_actions = items|length > 0 %}
+{% set primary_enabled = primary_form is defined and primary_form and not disabled %}
 {% set classes = [
     'ds-publish-split',
     'ds-dropdown',
-    disabled ? 'ds-publish-split--disabled' : '',
+    disabled and not primary_enabled ? 'ds-publish-split--disabled' : '',
     extra_class,
 ]|join(' ') %}
 
@@ -33,27 +36,42 @@
     {% if testid is defined and testid %}data-testid="{{ testid }}"{% endif %}
     {% if menu_open %}data-dropdown-static-open="true"{% endif %}
 >
-    <div class="ds-publish-split__control">
-        <button
-            type="button"
-            class="ds-publish-split__action"
-            {% if disabled %}disabled{% endif %}
-            {% if primary_testid is defined and primary_testid %}data-testid="{{ primary_testid }}"{% endif %}
-        >
-            {% include 'components/icon.html.twig' with { name: primary_icon, size: 16 } %}
-            {{ primary_label }}
-        </button>
-        <button
-            type="button"
-            class="ds-publish-split__menu-toggle"
-            data-dropdown-toggle
-            aria-expanded="{{ menu_open ? 'true' : 'false' }}"
-            aria-controls="{{ menu_id }}"
-            aria-label="{{ toggle_label }}"
-        >
-            {% include 'components/icon.html.twig' with { name: 'chevron-down', size: 16 } %}
-        </button>
+    <div class="ds-publish-split__control{% if not has_secondary_actions %} ds-publish-split__control--single{% endif %}">
+        {% if primary_enabled %}
+            <button
+                type="submit"
+                form="{{ primary_form }}"
+                class="ds-publish-split__action"
+                {% if primary_testid is defined and primary_testid %}data-testid="{{ primary_testid }}"{% endif %}
+            >
+                {% include 'components/icon.html.twig' with { name: primary_icon, size: 16 } %}
+                {{ primary_label }}
+            </button>
+        {% else %}
+            <button
+                type="button"
+                class="ds-publish-split__action"
+                disabled
+                {% if primary_testid is defined and primary_testid %}data-testid="{{ primary_testid }}"{% endif %}
+            >
+                {% include 'components/icon.html.twig' with { name: primary_icon, size: 16 } %}
+                {{ primary_label }}
+            </button>
+        {% endif %}
+        {% if has_secondary_actions %}
+            <button
+                type="button"
+                class="ds-publish-split__menu-toggle"
+                data-dropdown-toggle
+                aria-expanded="{{ menu_open ? 'true' : 'false' }}"
+                aria-controls="{{ menu_id }}"
+                aria-label="{{ toggle_label }}"
+            >
+                {% include 'components/icon.html.twig' with { name: 'chevron-down', size: 16 } %}
+            </button>
+        {% endif %}
     </div>
+    {% if has_secondary_actions %}
     <div
         id="{{ menu_id }}"
         class="ds-dropdown-menu"
@@ -63,17 +81,47 @@
         {% if menu_testid is defined and menu_testid %}data-testid="{{ menu_testid }}"{% endif %}
     >
         {% for item in items %}
-            <button
-                type="button"
-                role="menuitem"
-                class="ds-dropdown-menu__item"
-                {% if item.disabled|default(false) %}disabled{% endif %}
-            >
-                {% if item.icon is defined and item.icon %}
-                    {% include 'components/icon.html.twig' with { name: item.icon, size: 16 } %}
-                {% endif %}
-                {{ item.label }}
-            </button>
+            {% if item.form is defined and item.form %}
+                <button
+                    type="submit"
+                    form="{{ item.form }}"
+                    role="menuitem"
+                    class="ds-dropdown-menu__item"
+                    {% if item.disabled|default(false) %}disabled{% endif %}
+                    {% if item.testid is defined and item.testid %}data-testid="{{ item.testid }}"{% endif %}
+                >
+                    {% if item.icon is defined and item.icon %}
+                        {% include 'components/icon.html.twig' with { name: item.icon, size: 16 } %}
+                    {% endif %}
+                    {{ item.label }}
+                </button>
+            {% elseif item.href is defined and item.href %}
+                <a
+                    href="{{ item.href }}"
+                    role="menuitem"
+                    class="ds-dropdown-menu__item"
+                    {% if item.testid is defined and item.testid %}data-testid="{{ item.testid }}"{% endif %}
+                >
+                    {% if item.icon is defined and item.icon %}
+                        {% include 'components/icon.html.twig' with { name: item.icon, size: 16 } %}
+                    {% endif %}
+                    {{ item.label }}
+                </a>
+            {% else %}
+                <button
+                    type="button"
+                    role="menuitem"
+                    class="ds-dropdown-menu__item"
+                    {% if item.disabled|default(false) %}disabled{% endif %}
+                    {% if item.testid is defined and item.testid %}data-testid="{{ item.testid }}"{% endif %}
+                >
+                    {% if item.icon is defined and item.icon %}
+                        {% include 'components/icon.html.twig' with { name: item.icon, size: 16 } %}
+                    {% endif %}
+                    {{ item.label }}
+                </button>
+            {% endif %}
         {% endfor %}
     </div>
+    {% endif %}
 </div>

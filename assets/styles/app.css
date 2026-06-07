@@ -612,6 +612,10 @@
         @apply ds-focus flex-1 px-5 py-2;
     }
 
+    .ds-publish-split__control--single .ds-publish-split__action {
+        @apply rounded-full;
+    }
+
     .ds-publish-split__menu-toggle {
         @apply ds-focus shrink-0 px-2.5 py-2;
         min-width: 2.75rem;
@@ -664,6 +668,7 @@
     .ds-dropdown-menu__item {
         @apply ds-focus inline-flex min-h-10 w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50;
         color: var(--ds-text);
+        text-decoration: none;
     }
 
     .ds-dropdown-menu__item:hover:not(:disabled) {

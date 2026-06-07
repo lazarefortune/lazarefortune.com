@@ -1,8 +1,9 @@
 {#
     Props:
+    - publicationActions (VideoPublicationActionsViewModel, optional)
     - status (PublicationStatus enum, optional)
-    - content_form_id (optional - id du formulaire contenu pour le bouton Enregistrer)
-    - testid (optional data-testid)
+    - content_form_id (optional)
+    - testid (optional)
 #}
 <div
     class="ds-publish-action-bar"
@@ -15,17 +16,30 @@
             </div>
         {% endif %}
 
-        {% if content_form_id is defined and content_form_id %}
-            {% include 'components/button.html.twig' with {
-                label: 'Enregistrer',
-                type: 'submit',
-                variant: 'ghost',
-                size: 'sm',
-                icon: 'save',
-                attrs: {
-                    'form': content_form_id,
-                    'data-testid': 'studio-video-save',
-                },
+        {% if publicationActions is defined and publicationActions %}
+            {% if publicationActions.showStandaloneSave and content_form_id is defined and content_form_id %}
+                {% include 'components/button.html.twig' with {
+                    label: 'Enregistrer',
+                    type: 'submit',
+                    variant: 'ghost',
+                    size: 'sm',
+                    icon: 'save',
+                    attrs: {
+                        'form': content_form_id,
+                        'data-testid': 'studio-video-save',
+                    },
+                } %}
+            {% endif %}
+
+            {% include 'components/publish_split_button.html.twig' with {
+                primary_label: publicationActions.primaryAction.label,
+                primary_form: publicationActions.primaryAction.form,
+                primary_icon: publicationActions.primaryAction.icon,
+                primary_testid: publicationActions.primaryAction.testid,
+                menu_id: 'studio-video-publish-menu',
+                testid: 'studio-video-publish-split',
+                menu_testid: 'studio-video-publish-options',
+                items: publicationActions.secondaryActions,
             } %}
         {% else %}
             {% include 'components/button.html.twig' with {
@@ -39,20 +53,17 @@
                     'data-testid': 'studio-video-save',
                 },
             } %}
-        {% endif %}
 
-        {% include 'components/publish_split_button.html.twig' with {
-            primary_label: 'Publier maintenant',
-            disabled: true,
-            menu_id: 'studio-video-publish-menu',
-            testid: 'studio-video-publish-split',
-            primary_testid: 'studio-video-publish-now',
-            menu_testid: 'studio-video-publish-options',
-            items: [
-                { label: 'Programmer', icon: 'calendar', disabled: true },
-                { label: 'Remettre en brouillon', icon: 'undo-2', disabled: true },
-                { label: 'Archiver', icon: 'archive', disabled: true },
-            ],
-        } %}
+            {% include 'components/publish_split_button.html.twig' with {
+                primary_label: 'Publier maintenant',
+                disabled: true,
+                menu_id: 'design-system-publish-menu-disabled',
+                items: [
+                    { label: 'Programmer', icon: 'calendar', disabled: true },
+                    { label: 'Remettre en brouillon', icon: 'undo-2', disabled: true },
+                    { label: 'Archiver', icon: 'archive', disabled: true },
+                ],
+            } %}
+        {% endif %}
     </div>
 </div>

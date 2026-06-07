@@ -1,0 +1,121 @@
+{#
+    Props:
+    - video (Video entity)
+    - publicationActions (VideoPublicationActionsViewModel)
+#}
+<section
+    id="panel-publication"
+    class="ds-tabs__panel"
+    role="tabpanel"
+    aria-labelledby="tab-publication"
+    data-studio-tab-panel="publication"
+    data-testid="studio-video-panel-publication"
+    hidden
+>
+    <p class="mb-5 text-base ds-text-muted" data-testid="studio-video-publication-intro">
+        {{ publicationActions.panelIntro }}
+    </p>
+
+    {% if publicationActions.panelAlertVariant is defined and publicationActions.panelAlertVariant and publicationActions.panelAlertMessage %}
+        <div data-testid="studio-video-publication-alert">
+            {% include 'components/alert.html.twig' with {
+                variant: publicationActions.panelAlertVariant,
+                message: publicationActions.panelAlertMessage,
+                class: 'mb-5',
+            } %}
+        </div>
+    {% endif %}
+
+    <dl class="grid gap-5 sm:grid-cols-2">
+        <div class="flex flex-col gap-1">
+            <dt class="ds-label mb-0">Statut actuel</dt>
+            <dd data-testid="studio-video-publication-status">
+                {% include 'studio/partials/publication_status_badge.html.twig' with { status: video.status } %}
+            </dd>
+        </div>
+        <div class="flex flex-col gap-1 sm:col-span-2">
+            <dt class="ds-label mb-0">Situation</dt>
+            <dd class="text-base ds-text-muted" data-testid="studio-video-publication-help">
+                {{ publicationActions.statusHelp }}
+            </dd>
+        </div>
+        <div class="flex flex-col gap-1">
+            <dt class="ds-label mb-0">Visibilite</dt>
+            <dd class="text-base">
+                {% if video.visibility.value == 'public' %}
+                    Public - visible sur le site
+                {% else %}
+                    Membres uniquement - reserve aux utilisateurs connectes
+                {% endif %}
+            </dd>
+        </div>
+        {% if publicationActions.isPublished or video.publishedAt %}
+            <div class="flex flex-col gap-1">
+                <dt class="ds-label mb-0">Date de publication</dt>
+                <dd class="text-base ds-text-muted" data-testid="studio-video-published-at">
+                    {% if video.publishedAt %}
+                        {{ video.publishedAt|date('d/m/Y H:i') }}
+                    {% else %}
+                        Non renseignee.
+                    {% endif %}
+                </dd>
+            </div>
+        {% endif %}
+        {% if publicationActions.isScheduled or video.scheduledAt %}
+            <div class="flex flex-col gap-1">
+                <dt class="ds-label mb-0">Date programmee</dt>
+                <dd class="text-base ds-text-muted" data-testid="studio-video-scheduled-at">
+                    {% if video.scheduledAt %}
+                        {{ video.scheduledAt|date('d/m/Y H:i') }}
+                    {% else %}
+                        Aucune date programmee pour le moment.
+                    {% endif %}
+                </dd>
+            </div>
+        {% endif %}
+    </dl>
+
+    {% if publicationActions.showScheduleForm %}
+        <div class="mt-6 rounded-xl border ds-border p-4 sm:p-5" data-testid="studio-video-schedule-section">
+            <h3 class="text-base font-semibold">{{ publicationActions.scheduleFormTitle }}</h3>
+            <p class="mt-2 ds-text-secondary ds-text-muted">
+                La video passera automatiquement en statut publie via la commande
+                <code class="ds-code">app:content:publish-scheduled</code>.
+            </p>
+            <form
+                method="post"
+                action="{{ path('studio_video_schedule', { id: video.id }) }}"
+                class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end"
+                data-testid="studio-video-schedule-form"
+            >
+                <input type="hidden" name="_token" value="{{ csrf_token('studio_video_schedule') }}">
+                <div class="flex flex-1 flex-col gap-1.5">
+                    <label class="ds-label" for="studio-video-scheduled-at-input">Date et heure</label>
+                    <input
+                        id="studio-video-scheduled-at-input"
+                        type="datetime-local"
+                        name="scheduled_at"
+                        class="ds-input"
+                        required
+                        {% if video.scheduledAt %}
+                            value="{{ video.scheduledAt|date('Y-m-d\\TH:i') }}"
+                        {% endif %}
+                    >
+                </div>
+                {% include 'components/button.html.twig' with {
+                    label: publicationActions.scheduleSubmitLabel,
+                    type: 'submit',
+                    variant: 'secondary',
+                    icon: 'calendar',
+                    attrs: { 'data-testid': 'studio-video-schedule-submit' },
+                } %}
+            </form>
+        </div>
+    {% endif %}
+
+    {% include 'components/alert.html.twig' with {
+        variant: 'info',
+        message: 'Les actions de changement de statut sont disponibles dans la barre d actions en haut de page.',
+        class: 'mt-5',
+    } %}
+</section>

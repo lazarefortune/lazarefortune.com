@@ -110,7 +110,11 @@ function initDropdown(root) {
     menu.querySelectorAll('[role="menuitem"]').forEach((item) => {
         item.addEventListener('click', () => {
             closeDropdown(root);
-            toggle.focus();
+
+            const toggle = root.querySelector('[data-dropdown-toggle]');
+            if (item instanceof HTMLButtonElement && toggle instanceof HTMLElement) {
+                toggle.focus();
+            }
         });
     });
 

@@ -15,11 +15,14 @@
         {% block page_header_actions %}
             {% include 'studio/partials/publish_action_bar.html.twig' with {
                 status: video.status,
+                publicationActions: publicationActions,
                 content_form_id: 'studio-video-content-form',
                 testid: 'studio-video-publish-action-bar',
             } %}
         {% endblock %}
     {% endembed %}
+
+    {% include 'studio/partials/video_publication_forms.html.twig' with { video: video } %}
 
     <div class="ds-card ds-studio overflow-hidden" data-studio-video-edit data-testid="studio-video-edit-page">
         <div data-studio-video-tabs data-testid="studio-video-edit-tabs">
@@ -185,61 +188,10 @@
                     </p>
                 </section>
 
-                <section
-                    id="panel-publication"
-                    class="ds-tabs__panel"
-                    role="tabpanel"
-                    aria-labelledby="tab-publication"
-                    data-studio-tab-panel="publication"
-                    data-testid="studio-video-panel-publication"
-                    hidden
-                >
-                    <dl class="grid gap-5 sm:grid-cols-2">
-                        <div class="flex flex-col gap-1">
-                            <dt class="ds-label mb-0">Statut actuel</dt>
-                            <dd>
-                                {% include 'studio/partials/publication_status_badge.html.twig' with { status: video.status } %}
-                            </dd>
-                        </div>
-                        <div class="flex flex-col gap-1">
-                            <dt class="ds-label mb-0">Visibilite</dt>
-                            <dd class="text-base">
-                                {% if video.visibility.value == 'public' %}
-                                    Public - visible sur le site
-                                {% else %}
-                                    Membres uniquement - reserve aux utilisateurs connectes
-                                {% endif %}
-                            </dd>
-                        </div>
-                        <div class="flex flex-col gap-1 sm:col-span-2">
-                            <dt class="ds-label mb-0">Date programmee</dt>
-                            <dd class="text-base ds-text-muted">
-                                {% if video.scheduledAt %}
-                                    {{ video.scheduledAt|date('d/m/Y H:i') }}
-                                {% else %}
-                                    Aucune date programmee pour le moment.
-                                {% endif %}
-                            </dd>
-                        </div>
-                    </dl>
-
-                    {% include 'components/alert.html.twig' with {
-                        variant: 'info',
-                        message: 'Les actions de publication (Publier maintenant, Programmer, Remettre en brouillon, Archiver) sont accessibles depuis la barre d actions en haut de page. Cet onglet sert aux details et au suivi du statut.',
-                        class: 'mt-5',
-                    } %}
-
-                    <div class="mt-5 space-y-3">
-                        <h3 class="text-base font-semibold">Comment fonctionne la publication</h3>
-                        <ul class="list-inside list-disc space-y-2 ds-text-secondary ds-text-muted">
-                            <li>Un brouillon reste invisible sur le site public tant qu il n est pas publie.</li>
-                            <li>La publication necessite une source video configuree (onglet Source video).</li>
-                            <li>La programmation permet de definir une date de mise en ligne automatique.</li>
-                            <li>Remettre en brouillon retire la video du catalogue public sans la supprimer.</li>
-                            <li>Archiver conserve la video en base mais la retire du catalogue actif.</li>
-                        </ul>
-                    </div>
-                </section>
+                {% include 'studio/partials/video_publication_panel.html.twig' with {
+                    video: video,
+                    publicationActions: publicationActions,
+                } %}
             </div>
         </div>
     </div>
