@@ -44,6 +44,12 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Progress/Entity'
                 prefix: 'App\Progress\Entity'
                 alias: Progress
+            Comment:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Comment/Entity'
+                prefix: 'App\Comment\Entity'
+                alias: Comment
 
 when@test:
     doctrine:
