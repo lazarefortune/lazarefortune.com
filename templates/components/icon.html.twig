@@ -1,0 +1,12 @@
+{#
+    Props:
+    - name (required, Lucide icon name in kebab-case)
+    - size (default: 20)
+    - class (optional)
+    - label (optional accessible name, hides decorative icon from AT when omitted)
+#}
+{% set icon_size = size|default(20) %}
+{% set icon_class = class|default('') %}
+{% set icon_label = label|default(null) %}
+
+{{ lucide_icon(name, icon_size, icon_class, icon_label) }}

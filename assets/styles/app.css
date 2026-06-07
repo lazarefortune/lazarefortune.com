@@ -1,3 +1,170 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    :root {
+        --ds-color-surface: theme('colors.white');
+        --ds-color-surface-muted: theme('colors.white-soft');
+        --ds-color-border: theme('colors.slate.200');
+        --ds-color-text: theme('colors.slate.900');
+        --ds-color-text-muted: theme('colors.slate.600');
+        --ds-color-primary: theme('colors.primary.600');
+        --ds-color-primary-hover: theme('colors.primary.700');
+        --ds-color-accent: theme('colors.secondary.500');
+        --ds-color-ring: theme('colors.primary.600');
+        --ds-radius: theme('borderRadius.lg');
+        --ds-radius-public: theme('borderRadius.2xl');
+        --ds-font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        --ds-font-display: 'Space Grotesk', var(--ds-font-sans);
+        --ds-font-mono: 'JetBrains Mono', ui-monospace, 'Fira Code', monospace;
+    }
+
+    html {
+        @apply scroll-smooth;
+    }
+
+    body {
+        font-family: var(--ds-font-sans);
+        @apply text-slate-900 antialiased;
+    }
+
+    :focus {
+        @apply outline-none;
+    }
+
+    :focus-visible {
+        @apply ring-2 ring-primary-600 ring-offset-2 ring-offset-white;
+    }
+
+    a {
+        @apply transition-colors;
+    }
+
+    .ds-public h1,
+    .ds-public h2,
+    .ds-public h3,
+    .ds-public .ds-heading {
+        font-family: var(--ds-font-display);
+        @apply tracking-tight text-slate-900;
+    }
+}
+
+@layer components {
+    .ds-skip-link {
+        @apply sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-primary-600 focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white;
+    }
+
+    .ds-container {
+        @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+    }
+
+    .ds-container-narrow {
+        @apply mx-auto w-full max-w-3xl px-4 sm:px-6 lg:px-8;
+    }
+
+    .ds-section {
+        @apply py-8 sm:py-12;
+    }
+
+    .ds-focus {
+        @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2;
+    }
+
+    .ds-public {
+        @apply bg-white-soft;
+    }
+
+    .ds-public .ds-site-header {
+        @apply border-b border-slate-200 bg-white;
+    }
+
+    .ds-public .ds-site-footer {
+        @apply border-t border-slate-200 bg-white;
+    }
+
+    .ds-public .ds-btn-primary {
+        @apply rounded-full shadow-sm;
+    }
+
+    .ds-public .ds-card {
+        @apply rounded-2xl shadow-soft;
+    }
+
+    .ds-public a:not(.ds-btn) {
+        @apply text-primary-700 hover:text-primary-800;
+    }
+
+    .ds-studio {
+        @apply bg-slate-100 text-slate-900;
+    }
+
+    .ds-studio .ds-btn {
+        @apply rounded-lg;
+    }
+
+    .ds-studio .ds-card {
+        @apply rounded-xl shadow-sm;
+    }
+
+    .ds-btn {
+        @apply ds-focus inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors disabled:pointer-events-none disabled:opacity-50;
+    }
+
+    .ds-btn-sm {
+        @apply px-3 py-1.5 text-sm;
+    }
+
+    .ds-btn-md {
+        @apply px-4 py-2 text-sm;
+    }
+
+    .ds-btn-lg {
+        @apply px-5 py-2.5 text-base;
+    }
+
+    .ds-btn-primary {
+        @apply bg-primary-600 text-white hover:bg-primary-700;
+    }
+
+    .ds-btn-secondary {
+        @apply border border-slate-300 bg-white text-slate-700 hover:bg-slate-50;
+    }
+
+    .ds-btn-ghost {
+        @apply text-slate-700 hover:bg-slate-100;
+    }
+
+    .ds-btn-danger {
+        @apply bg-red-600 text-white hover:bg-red-700;
+    }
+
+    .ds-card {
+        @apply rounded-xl border border-slate-200 bg-white shadow-sm;
+    }
+
+    .ds-input {
+        @apply ds-focus block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400;
+    }
+
+    .ds-label {
+        @apply mb-1 block text-sm font-medium text-slate-700;
+    }
+
+    .ds-code {
+        font-family: var(--ds-font-mono);
+        @apply rounded bg-slate-100 px-1.5 py-0.5 text-sm text-slate-800;
+    }
+
+    .ds-lead {
+        @apply text-primary-700;
+    }
+
+    .ds-muted {
+        @apply text-slate-500;
+    }
+
+    .ds-icon-link {
+        @apply ds-focus inline-flex items-center justify-center rounded-lg p-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-primary-700;
+    }
+}

@@ -1,4 +1,4 @@
-# lazarefortune.com — V3 clean rebuild
+# lazarefortune.com - V3 clean rebuild
 
 > **V3 clean rebuild en cours**
 >
@@ -54,4 +54,4 @@ symfony server:start   # ou votre stack habituelle
 
 ## Licensing
 
-Dual-licensed MPL 2.0 + Commercial — voir `LICENSE-MPL.txt` et `LICENSE-COMMERCIAL.txt`.
+Dual-licensed MPL 2.0 + Commercial - voir `LICENSE-MPL.txt` et `LICENSE-COMMERCIAL.txt`.

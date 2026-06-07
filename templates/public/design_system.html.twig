@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Design system - lazarefortune.com{% endblock %}
+
+{% block main %}
+    <section class="ds-section">
+        <div class="ds-container" data-testid="design-system-page">
+            {% include 'components/page_header.html.twig' with {
+                eyebrow: 'Référence UI',
+                title: 'Design system V3',
+                description: 'Composants Twig pour le site public SEO et composants React pour le Studio interactif.',
+            } %}
+
+            <section class="mb-10" aria-labelledby="twig-section-heading" data-testid="twig-design-system">
+                <h2 id="twig-section-heading" class="mb-4 text-lg font-semibold text-slate-900">Twig - Composants publics</h2>
+
+                <div class="space-y-8">
+                    <div>
+                        <h3 class="mb-3 text-sm font-medium text-slate-700">Boutons</h3>
+                        <div class="flex flex-wrap gap-2">
+                            {% include 'components/button.html.twig' with { label: 'Primary', variant: 'primary' } %}
+                            {% include 'components/button.html.twig' with { label: 'Secondary', variant: 'secondary' } %}
+                            {% include 'components/button.html.twig' with { label: 'Ghost', variant: 'ghost' } %}
+                            {% include 'components/button.html.twig' with { label: 'Danger', variant: 'danger' } %}
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="mb-3 text-sm font-medium text-slate-700">Badges</h3>
+                        <div class="flex flex-wrap gap-2">
+                            {% include 'components/badge.html.twig' with { label: 'Default' } %}
+                            {% include 'components/badge.html.twig' with { label: 'Primary', variant: 'primary' } %}
+                            {% include 'components/badge.html.twig' with { label: 'Success', variant: 'success' } %}
+                            {% include 'components/badge.html.twig' with { label: 'Warning', variant: 'warning' } %}
+                            {% include 'components/badge.html.twig' with { label: 'Danger', variant: 'danger' } %}
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="mb-3 text-sm font-medium text-slate-700">Alerts</h3>
+                        <div class="grid max-w-3xl gap-3">
+                            {% include 'components/alert.html.twig' with { variant: 'info', title: 'Info', message: 'Message informatif pour guider l’utilisateur.' } %}
+                            {% include 'components/alert.html.twig' with { variant: 'success', message: 'Opération réussie.' } %}
+                            {% include 'components/alert.html.twig' with { variant: 'warning', message: 'Vérifiez les champs avant publication.' } %}
+                            {% include 'components/alert.html.twig' with { variant: 'danger', message: 'Impossible d’enregistrer pour le moment.' } %}
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="mb-3 text-sm font-medium text-slate-700">Card & empty state</h3>
+                        <div class="grid gap-4 lg:grid-cols-2">
+                            {% include 'components/card.html.twig' with {
+                                title: 'Card Twig',
+                                content: 'Contenu pédagogique, résumé ou métadonnées.',
+                                footer: 'Pied de card optionnel',
+                            } %}
+                            {% include 'components/empty_state.html.twig' with {
+                                title: 'Aucune vidéo',
+                                description: 'Commencez par créer votre première vidéo pédagogique.',
+                                action_label: 'Créer une vidéo',
+                                action_href: '#',
+                            } %}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section aria-labelledby="react-section-heading">
+                <h2 id="react-section-heading" class="mb-4 text-lg font-semibold text-slate-900">React - Composants Studio</h2>
+                <div data-studio-app data-studio-page="design-system"></div>
+            </section>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('studio') }}
+{% endblock %}

@@ -10,3 +10,7 @@ services:
         resource: '../src/'
         exclude:
             - '../src/Kernel.php'
+
+    App\Shared\Twig\LucideIconExtension:
+        arguments:
+            $projectDir: '%kernel.project_dir%'

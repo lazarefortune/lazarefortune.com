@@ -1,0 +1,49 @@
+{#
+    Props:
+    - label (required)
+    - href (optional - renders <a> instead of <button>)
+    - type (button type, default: button)
+    - variant: primary|secondary|ghost|danger (default: primary)
+    - size: sm|md|lg (default: md)
+    - disabled (bool, default: false)
+    - icon (optional Lucide icon name)
+    - icon_position: left|right (default: left)
+    - class (extra classes)
+    - attrs (array of extra HTML attributes)
+#}
+{% set variant = variant|default('primary') %}
+{% set size = size|default('md') %}
+{% set type = type|default('button') %}
+{% set disabled = disabled|default(false) %}
+{% set extra_class = class|default('') %}
+{% set attrs = attrs|default({}) %}
+{% set icon_position = icon_position|default('left') %}
+
+{% set classes = [
+    'ds-btn',
+    'ds-btn-' ~ size,
+    'ds-btn-' ~ variant,
+    extra_class,
+]|join(' ') %}
+
+{% if href is defined and href %}
+    <a href="{{ href }}" class="{{ classes }}"{% for name, value in attrs %} {{ name }}="{{ value }}"{% endfor %}>
+        {% if icon is defined and icon and icon_position == 'left' %}
+            {% include 'components/icon.html.twig' with { name: icon, size: 16 } %}
+        {% endif %}
+        {{ label }}
+        {% if icon is defined and icon and icon_position == 'right' %}
+            {% include 'components/icon.html.twig' with { name: icon, size: 16 } %}
+        {% endif %}
+    </a>
+{% else %}
+    <button type="{{ type }}" class="{{ classes }}"{% if disabled %} disabled{% endif %}{% for name, value in attrs %} {{ name }}="{{ value }}"{% endfor %}>
+        {% if icon is defined and icon and icon_position == 'left' %}
+            {% include 'components/icon.html.twig' with { name: icon, size: 16 } %}
+        {% endif %}
+        {{ label }}
+        {% if icon is defined and icon and icon_position == 'right' %}
+            {% include 'components/icon.html.twig' with { name: icon, size: 16 } %}
+        {% endif %}
+    </button>
+{% endif %}

@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block layout %}
+    <div class="ds-studio flex min-h-screen bg-slate-100">
+        <aside class="hidden w-56 shrink-0 border-r border-slate-200 bg-white lg:block" aria-label="Navigation Studio">
+            <div class="flex h-14 items-center border-b border-slate-200 px-4">
+                <a href="{{ path('studio_home') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-900 hover:text-primary-700">
+                    {% include 'components/icon.html.twig' with { name: 'layout-dashboard', size: 18, class: 'text-primary-600' } %}
+                    Studio
+                </a>
+            </div>
+            <nav class="space-y-1 p-3">
+                {% set nav_items = [
+                    { route: 'studio_home', label: 'Accueil', icon: 'home', active: app.request.attributes.get('_route') == 'studio_home' },
+                    { route: 'app_design_system', label: 'Design system', icon: 'palette', active: false },
+                ] %}
+                {% for item in nav_items %}
+                    <a
+                        href="{{ path(item.route) }}"
+                        class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors {{ item.active ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}"
+                        {% if item.active %}aria-current="page"{% endif %}
+                    >
+                        {% include 'components/icon.html.twig' with { name: item.icon, size: 16 } %}
+                        {{ item.label }}
+                    </a>
+                {% endfor %}
+            </nav>
+        </aside>
+
+        <div class="flex min-w-0 flex-1 flex-col">
+            <header class="flex h-14 items-center justify-between border-b border-slate-200 bg-white px-4 sm:px-6">
+                <div class="flex items-center gap-3 lg:hidden">
+                    <a href="{{ path('studio_home') }}" class="text-sm font-semibold text-slate-900">Studio</a>
+                </div>
+                <p class="hidden text-sm text-slate-500 lg:block">{{ block('studio_title') is defined ? block('studio_title') : 'Espace createur' }}</p>
+                <a href="{{ path('app_home') }}" class="inline-flex items-center gap-1.5 text-sm font-medium text-primary-600 hover:text-primary-700">
+                    {% include 'components/icon.html.twig' with { name: 'external-link', size: 14 } %}
+                    Site public
+                </a>
+            </header>
+
+            <main id="main" class="flex-1 p-4 sm:p-6">
+                {% block studio_main %}{% endblock %}
+            </main>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% block studio_javascripts %}{% endblock %}
+{% endblock %}

@@ -1,0 +1,21 @@
+{#
+    Props:
+    - label (required)
+    - variant: default|primary|success|warning|danger|info (default: default)
+    - class (extra classes)
+#}
+{% set variant = variant|default('default') %}
+{% set extra_class = class|default('') %}
+
+{% set variant_classes = {
+    'default': 'bg-slate-100 text-slate-700',
+    'primary': 'bg-primary-50 text-primary-700',
+    'success': 'bg-green-50 text-green-700',
+    'warning': 'bg-amber-50 text-amber-800',
+    'danger': 'bg-red-50 text-red-700',
+    'info': 'bg-sky-50 text-sky-700',
+} %}
+
+<span class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium {{ variant_classes[variant] }} {{ extra_class }}">
+    {{ label }}
+</span>

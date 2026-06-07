@@ -1,4 +1,4 @@
-const {colors: defaultColors} = require('tailwindcss/defaultTheme')
+const { colors: defaultColors, fontFamily: defaultFontFamily } = require('tailwindcss/defaultTheme')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -106,15 +106,12 @@ module.exports = {
             }
         },
         fontFamily: {
-            'inter': ['Inter Var'],
-            'plusJakartaSans': ['Plus Jakarta Sans'],
-            'ibmPlexSans': ['IBM Plex Sans'],
-            'hanken-grotesk': ['Hanken Grotesk'],
-            'fira-sans': ['Fira Sans'],
+            sans: ['Inter', ...(defaultFontFamily?.sans ?? ['ui-sans-serif', 'system-ui', 'sans-serif'])],
+            display: ['Space Grotesk', 'Inter', ...(defaultFontFamily?.sans ?? ['ui-sans-serif', 'system-ui', 'sans-serif'])],
+            mono: ['JetBrains Mono', ...(defaultFontFamily?.mono ?? ['ui-monospace', 'monospace'])],
+            inter: ['Inter'],
+            'space-grotesk': ['Space Grotesk'],
             'jetbrains-mono': ['JetBrains Mono'],
-            'overpass': ['Overpass'],
-            'bricolage': ['Bricolage Grotesque'],
-            'space-grotesk': ['Space Grotesk']
         }
     },
     plugins: [

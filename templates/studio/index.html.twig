@@ -1,18 +1,33 @@
-{% extends 'base.html.twig' %}
+{% extends 'studio/layout.html.twig' %}
 
-{% block title %}Studio — lazarefortune.com{% endblock %}
+{% block title %}Studio - lazarefortune.com{% endblock %}
 
-{% block body %}
-    <main class="mx-auto flex min-h-screen max-w-3xl flex-col justify-center gap-6 px-6 py-16">
-        <p class="text-sm font-medium uppercase tracking-wide text-primary-600">Studio V3</p>
-        <h1 class="text-3xl font-bold tracking-tight">Espace créateur</h1>
-        <p class="text-slate-600">
-            Le Studio React embarqué sera branché ici. Pour l’instant, cette page confirme que le socle Symfony répond correctement.
-        </p>
-        <a href="{{ path('app_home') }}" class="text-sm font-medium text-primary-600 hover:text-primary-700">
-            ← Retour au site public
-        </a>
-        <div id="studio-root" data-studio-app></div>
-    </main>
+{% block studio_title %}Accueil Studio{% endblock %}
+
+{% block studio_main %}
+    {% include 'components/page_header.html.twig' with {
+        eyebrow: 'Studio V3',
+        title: 'Espace créateur',
+        description: 'Gérez vos contenus pédagogiques depuis le Studio. Les modules interactifs React seront montés ici progressivement.',
+    } %}
+
+    {% include 'components/card.html.twig' with {
+        title: 'Prochaines étapes',
+        content: 'Video, playlists et publication seront ajoutés après validation du socle UI et Auth.',
+        footer: 'Consultez le design system pour prévisualiser les composants.',
+    } %}
+
+    <div class="mt-4">
+        {% include 'components/button.html.twig' with {
+            label: 'Voir le design system',
+            href: path('app_design_system'),
+            variant: 'primary',
+        } %}
+    </div>
+
+    <div class="mt-8" data-studio-app data-studio-page="home"></div>
+{% endblock %}
+
+{% block studio_javascripts %}
     {{ encore_entry_script_tags('studio') }}
 {% endblock %}

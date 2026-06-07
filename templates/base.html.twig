@@ -3,13 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}lazarefortune.com{% endblock %}</title>
+    <meta name="theme-color" content="#3076e0">
+    <title>{% block title %}{{ app_name }}{% endblock %}</title>
+    {% block meta %}{% endblock %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
 </head>
-<body class="min-h-screen bg-white text-slate-900 antialiased">
-    {% block body %}{% endblock %}
+<body class="ds-public min-h-screen flex flex-col">
+    <a href="#main" class="ds-skip-link">Aller au contenu principal</a>
+
+    {% block layout %}
+        {% include 'partials/public/header.html.twig' %}
+        <main id="main" class="flex-1">
+            {% block main %}{% endblock %}
+        </main>
+        {% include 'partials/public/footer.html.twig' %}
+    {% endblock %}
+
     {% block javascripts %}
         {{ encore_entry_script_tags('app') }}
     {% endblock %}

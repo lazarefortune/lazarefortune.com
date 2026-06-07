@@ -1,0 +1,59 @@
+<footer class="ds-site-footer mt-auto">
+    <div class="ds-container py-12">
+        <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+            <div>
+                <h2 class="ds-heading text-lg font-semibold">{{ app_name }}</h2>
+                <p class="mt-3 max-w-sm text-sm leading-relaxed text-slate-600">
+                    Developpeur web FullStack passionne par la tech, la creation et le partage.
+                </p>
+                <ul class="mt-5 flex gap-2">
+                    <li>
+                        <a href="https://github.com/lazarefortune" target="_blank" rel="noopener noreferrer" class="ds-icon-link" aria-label="GitHub">
+                            {% include 'components/icon.html.twig' with { name: 'github', size: 18, label: 'GitHub' } %}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.youtube.com/channel/UCITKwfT7qVXjdHHu84Atodw" target="_blank" rel="noopener noreferrer" class="ds-icon-link" aria-label="YouTube">
+                            {% include 'components/icon.html.twig' with { name: 'youtube', size: 18, label: 'YouTube' } %}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.linkedin.com/in/lazare-fortune/" target="_blank" rel="noopener noreferrer" class="ds-icon-link" aria-label="LinkedIn">
+                            {% include 'components/icon.html.twig' with { name: 'linkedin', size: 18, label: 'LinkedIn' } %}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <h2 class="ds-heading text-sm font-semibold uppercase tracking-wide text-slate-500">Navigation</h2>
+                <ul class="mt-4 space-y-2 text-sm text-slate-600">
+                    <li>
+                        <a href="{{ path('app_home') }}" class="inline-flex items-center gap-2 hover:text-primary-700">
+                            {% include 'components/icon.html.twig' with { name: 'home', size: 16 } %}
+                            Accueil
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('app_design_system') }}" class="inline-flex items-center gap-2 hover:text-primary-700">
+                            {% include 'components/icon.html.twig' with { name: 'palette', size: 16 } %}
+                            Design system
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <h2 class="ds-heading text-sm font-semibold uppercase tracking-wide text-slate-500">Plateforme</h2>
+                <p class="mt-4 text-sm text-slate-600">
+                    Reconstruction V3 : site public SEO, Studio productif, contenus pedagogiques.
+                </p>
+            </div>
+        </div>
+
+        <div class="mt-10 flex flex-col gap-2 border-t border-slate-200 pt-6 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+            <p>&copy; {{ 'now'|date('Y') }} {{ app_name }}</p>
+            <p class="text-slate-400">Plateforme pedagogique - V3</p>
+        </div>
+    </div>
+</footer>

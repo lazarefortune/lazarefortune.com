@@ -1,18 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil — lazarefortune.com{% endblock %}
+{% block title %}Accueil - lazarefortune.com{% endblock %}
 
-{% block body %}
-    <main class="mx-auto flex min-h-screen max-w-3xl flex-col justify-center gap-6 px-6 py-16">
-        <p class="text-sm font-medium uppercase tracking-wide text-primary-600">V3 clean rebuild</p>
-        <h1 class="text-4xl font-bold tracking-tight">lazarefortune.com</h1>
-        <p class="text-lg text-slate-600">
-            Plateforme vidéo personnelle en reconstruction. Le site public et le Studio seront réimplémentés progressivement.
-        </p>
-        <div class="flex flex-wrap gap-3">
-            <a href="{{ path('studio_home') }}" class="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700">
-                Ouvrir le Studio
-            </a>
+{% block main %}
+    <section class="ds-section">
+        <div class="ds-container-narrow flex flex-col gap-6 py-8 sm:py-16">
+            {% include 'components/page_header.html.twig' with {
+                eyebrow: 'V3 clean rebuild',
+                title: 'lazarefortune.com',
+                description: 'Plateforme vidéo personnelle en reconstruction. Le site public et le Studio seront réimplémentés progressivement.',
+            } %}
+
+            <div class="flex flex-wrap gap-3">
+                {% if is_granted('ROLE_ADMIN') %}
+                    {% include 'components/button.html.twig' with {
+                        label: 'Ouvrir le Studio',
+                        href: path('studio_home'),
+                        variant: 'primary',
+                    } %}
+                {% endif %}
+                {% if app.user %}
+                    {% include 'components/button.html.twig' with {
+                        label: 'Mon compte',
+                        href: path('app_account'),
+                        variant: 'secondary',
+                    } %}
+                {% else %}
+                    {% include 'components/button.html.twig' with {
+                        label: 'Connexion',
+                        href: path('app_login'),
+                        variant: 'secondary',
+                    } %}
+                {% endif %}
+            </div>
         </div>
-    </main>
+    </section>
 {% endblock %}

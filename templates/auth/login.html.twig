@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion - lazarefortune.com{% endblock %}
+
+{% block main %}
+    <section class="ds-section">
+        <div class="ds-container-narrow mx-auto flex max-w-md flex-col justify-center gap-6 py-8 sm:min-h-[60vh] sm:py-16">
+            {% include 'components/page_header.html.twig' with {
+                title: 'Connexion',
+                description: 'Accédez à votre compte lazarefortune.com.',
+            } %}
+
+            {% if error %}
+                {% include 'components/alert.html.twig' with {
+                    variant: 'danger',
+                    message: error.messageKey|trans(error.messageData, 'security'),
+                } %}
+            {% endif %}
+
+            <form method="post" class="flex flex-col gap-4">
+                <div>
+                    <label for="username" class="ds-label">Adresse e-mail</label>
+                    <input
+                        type="email"
+                        id="username"
+                        name="_username"
+                        value="{{ last_username }}"
+                        required
+                        autofocus
+                        autocomplete="username"
+                        class="ds-input"
+                    >
+                </div>
+
+                <div>
+                    <label for="password" class="ds-label">Mot de passe</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="_password"
+                        required
+                        autocomplete="current-password"
+                        class="ds-input"
+                    >
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <input type="checkbox" id="remember_me" name="_remember_me" class="rounded border-slate-300">
+                    <label for="remember_me" class="text-sm text-slate-600">Se souvenir de moi</label>
+                </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                {% include 'components/button.html.twig' with { label: 'Se connecter', type: 'submit', variant: 'primary' } %}
+            </form>
+
+            <p class="text-center text-sm text-slate-600">
+                Pas encore de compte ?
+                <a href="{{ path('app_register') }}" class="font-medium text-primary-600 hover:text-primary-700">Créer un compte</a>
+            </p>
+        </div>
+    </section>
+{% endblock %}
