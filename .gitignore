@@ -50,3 +50,8 @@ phpstan.neon
 data.ms
 .meili-data*/
 NOTES.md
+
+AGENTS.md
+.cursor/
+.claude/
+CLAUDE.md

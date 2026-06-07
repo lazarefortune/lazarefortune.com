@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Studio — lazarefortune.com{% endblock %}
+
+{% block body %}
+    <main class="mx-auto flex min-h-screen max-w-3xl flex-col justify-center gap-6 px-6 py-16">
+        <p class="text-sm font-medium uppercase tracking-wide text-primary-600">Studio V3</p>
+        <h1 class="text-3xl font-bold tracking-tight">Espace créateur</h1>
+        <p class="text-slate-600">
+            Le Studio React embarqué sera branché ici. Pour l’instant, cette page confirme que le socle Symfony répond correctement.
+        </p>
+        <a href="{{ path('app_home') }}" class="text-sm font-medium text-primary-600 hover:text-primary-700">
+            ← Retour au site public
+        </a>
+        <div id="studio-root" data-studio-app></div>
+    </main>
+    {{ encore_entry_script_tags('studio') }}
+{% endblock %}

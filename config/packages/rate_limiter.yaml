@@ -1,7 +1,0 @@
-framework:
-    rate_limiter:
-        quiz_submission_limiter:
-            policy: 'token_bucket'
-            limit: 5
-            interval: '1 minute'
-

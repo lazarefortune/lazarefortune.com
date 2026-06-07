@@ -1,17 +1,8 @@
 twig:
-  form_themes:
-    - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
-    - 'form/fields.html.twig'
-  default_path: '%kernel.project_dir%/templates'
-  globals:
-    app_name: '%app.name%'
-    MERCURE_PUBLIC_URL: '%env(resolve:MERCURE_PUBLIC_URL)%'
-
-  paths:
-    '%kernel.project_dir%/templates/components': components
+    default_path: '%kernel.project_dir%/templates'
+    globals:
+        app_name: '%app.name%'
 
 when@test:
-  twig:
-    strict_variables: true
-
-
+    twig:
+        strict_variables: true

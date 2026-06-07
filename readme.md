@@ -1,27 +1,57 @@
-# lazarefortune.com
+# lazarefortune.com — V3 clean rebuild
 
-[lazarefortune.com](https://lazarefortune.com)
+> **V3 clean rebuild en cours**
+>
+> Cette branche (`v3-clean-rebuild`) repart sur une base applicative neuve.
+> L’ancienne base de code métier (Domain, Http, Infrastructure legacy, Studio V2, CRUD admin, premium, badges, quiz, collaboration…) a été retirée.
+>
+> **Les utilisateurs seront conservés** via un script d’import dédié (à venir).
+> **Nouvelle base de données** et nouvelles entités à définir dans les prochains commits.
 
-[![License](https://img.shields.io/badge/license-MPL%202.0-blue.svg)](LICENSE-MPL.txt)
-[![Commercial License](https://img.shields.io/badge/license-Commercial-orange.svg)](LICENSE-COMMERCIAL.txt)
+## Vision V3
 
-### Installation de la base de données GeoLite2
+- **Symfony** au centre (domaine, sécurité, persistence, jobs)
+- **Site public** SEO en Twig / Symfony UX
+- **Studio** moderne avec React embarqué (Webpack Encore)
+- **YouTube** comme hébergeur vidéo
+- **Rôles** : `ROLE_USER`, `ROLE_ADMIN`, `ROLE_SUPER_ADMIN`
 
-1. Créez un compte sur [MaxMind](https://www.maxmind.com).
-2. Téléchargez la base de données GeoLite2-Country au format `.mmdb`.
-3. Placez le fichier téléchargé dans le dossier `var/` de votre projet :
-   ```
-   var/GeoLite2-Country.mmdb
-   ```
+## Structure actuelle
+
+```
+src/
+├── Shared/      # transversal (controllers socle, helpers futurs)
+├── Auth/        # utilisateurs, sécurité
+├── Video/       # contenu vidéo site
+├── Playlist/    # formations / playlists
+├── Tag/         # technologies / taxonomie
+├── Progress/    # progression utilisateur
+├── Comment/     # commentaires
+├── Youtube/     # intégration YouTube
+└── Studio/      # interface créateur
+
+assets/
+├── app.js
+├── styles/
+└── studio/
+    ├── components/
+    ├── hooks/
+    └── api/
+```
+
+## Démarrage local
+
+```bash
+composer validate
+composer install
+npm install
+npm run build
+php bin/console about
+php bin/console debug:router
+./vendor/bin/phpunit
+symfony server:start   # ou votre stack habituelle
+```
 
 ## Licensing
 
-This project is dual-licensed under the Mozilla Public License 2.0 and a Commercial License.
-
-### Open Source License (MPL 2.0)
-
-The source code is available under the terms of the Mozilla Public License 2.0. See the [LICENSE-MPL.txt](LICENSE-MPL.txt) file for more details.
-
-### Commercial License
-
-For commercial use, you must obtain a separate Commercial License. Please contact [Your Contact Information] for more details. See the [LICENSE-COMMERCIAL.txt](LICENSE-COMMERCIAL.txt) file for more details.
+Dual-licensed MPL 2.0 + Commercial — voir `LICENSE-MPL.txt` et `LICENSE-COMMERCIAL.txt`.
