@@ -9,8 +9,8 @@
 {% block studio_main %}
     {% embed 'components/page_header.html.twig' with {
         eyebrow: 'Studio',
-        title: page_title,
-        description: 'Gérez le contenu, la source, le classement et la publication de cette vidéo.',
+        title: 'Edition de la vidéo',
+        description: '',
     } %}
         {% block page_header_actions %}
             {% include 'studio/partials/publish_action_bar.html.twig' with {
@@ -48,7 +48,7 @@
                     aria-controls="panel-source"
                     data-studio-tab="source"
                     data-testid="studio-video-tab-source"
-                >Source vidéo</a>
+                >Vidéo</a>
                 <a
                     href="#classification"
                     id="tab-classification"
@@ -145,29 +145,7 @@
                     {{ form_end(contentForm) }}
                 </section>
 
-                <section
-                    id="panel-source"
-                    class="ds-tabs__panel"
-                    role="tabpanel"
-                    aria-labelledby="tab-source"
-                    data-studio-tab-panel="source"
-                    data-testid="studio-video-panel-source"
-                    hidden
-                >
-                    {% include 'components/empty_state.html.twig' with {
-                        title: 'Aucune source vidéo',
-                        description: 'Ajoutez une source YouTube ou un fichier heberge pour rendre la video consultable.',
-                        icon: 'video',
-                    } %}
-                    <div class="mt-4 flex justify-center">
-                        {% include 'components/button.html.twig' with {
-                            label: 'Ajouter une source',
-                            variant: 'primary',
-                            icon: 'plus',
-                            disabled: true,
-                        } %}
-                    </div>
-                </section>
+                {% include 'studio/partials/video_source_panel.html.twig' %}
 
                 <section
                     id="panel-classification"
@@ -195,4 +173,8 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block studio_javascripts %}
+    {{ encore_entry_script_tags('studio') }}
 {% endblock %}

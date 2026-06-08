@@ -1,11 +1,17 @@
-{% for item in nav_items %}
-    <a
-        href="{{ path(item.route) }}"
-        class="ds-studio-nav-link {{ item.active ? 'ds-studio-nav-link-active' : '' }}"
-        {% if item.active %}aria-current="page"{% endif %}
-        {% if close_on_navigate|default(false) %}data-studio-nav-link{% endif %}
-    >
-        {% include 'components/icon.html.twig' with { name: item.icon, size: 16 } %}
-        {{ item.label }}
-    </a>
-{% endfor %}
+<ul class="ds-studio-nav-list" role="list">
+    {% for item in nav_items %}
+        <li class="ds-studio-nav-item">
+            <a
+                href="{{ path(item.route) }}"
+                class="flex px-6 py-2 rounded-full items-center gap-3 font-normal transition-colors text-zinc-900 hover:text-primary-800 hover:bg-primary-100
+                dark:text-white dark:hover:text-white dark:hover:bg-primary-700
+                 {{ item.active ? 'text-primary-800 bg-primary-100 hover:bg-primary-200 dark:bg-primary-800 dark:text-white dark:hover:bg-primary-700 dark:hover:text-white' : '' }}"
+                {% if item.active %}aria-current="page"{% endif %}
+                {% if close_on_navigate|default(false) %}data-studio-nav-link{% endif %}
+            >
+                {% include 'components/icon.html.twig' with { name: item.icon, size: 18 } %}
+                <span>{{ item.label }}</span>
+            </a>
+        </li>
+    {% endfor %}
+</ul>

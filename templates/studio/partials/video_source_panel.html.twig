@@ -1,0 +1,19 @@
+<section
+    id="panel-source"
+    class="ds-tabs__panel"
+    role="tabpanel"
+    aria-labelledby="tab-source"
+    data-studio-tab-panel="source"
+    data-testid="studio-video-panel-source"
+    hidden
+>
+    <script type="application/json" id="studio-video-source-config">
+        {{ video_source_config|json_encode|raw }}
+    </script>
+
+    <div
+        data-studio-app
+        data-studio-page="video-source"
+        data-testid="studio-video-source-app"
+    ></div>
+</section>

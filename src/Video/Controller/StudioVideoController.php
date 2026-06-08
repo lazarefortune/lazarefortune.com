@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 namespace App\Video\Controller;
 
-use App\Auth\Entity\User;
 use App\Video\Entity\Video;
-use App\Video\Dto\CreateDraftVideoInput;
 use App\Video\Dto\UpdateVideoContentInput;
 use App\Video\Exception\InvalidPublicationScheduleException;
-use App\Video\Form\CreateDraftVideoType;
 use App\Video\Form\UpdateVideoContentType;
 use App\Video\Repository\VideoRepository;
-use App\Video\Service\CreateDraftVideoService;
 use App\Video\Service\UpdateVideoContentService;
 use App\Video\Service\VideoPublicationService;
 use App\Video\Presenter\VideoPublicationActionsPresenter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -37,34 +35,15 @@ final class StudioVideoController extends AbstractController
         ]);
     }
 
-    #[Route('/videos/new', name: 'studio_video_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, CreateDraftVideoService $createDraftVideoService): Response
+    #[Route('/videos/new', name: 'studio_video_new', methods: ['GET'])]
+    public function new(CsrfTokenManagerInterface $csrfTokenManager): Response
     {
-        $input = new CreateDraftVideoInput();
-        $form = $this->createForm(CreateDraftVideoType::class, $input);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user = $this->getUser();
-            if (!$user instanceof User) {
-                throw $this->createAccessDeniedException();
-            }
-
-            try {
-                $video = $createDraftVideoService->create($user, $input);
-            } catch (\InvalidArgumentException $exception) {
-                $this->addFlash('error', $exception->getMessage());
-
-                return $this->redirectToRoute('studio_video_new');
-            }
-
-            $this->addFlash('success', sprintf('Le brouillon « %s » a été créé.', $video->getTitle()));
-
-            return $this->redirectToRoute('studio_video_edit', ['id' => $video->getId()]);
-        }
-
         return $this->render('studio/video/new.html.twig', [
-            'form' => $form,
+            'video_create_config' => [
+                'createUrl' => $this->generateUrl('studio_api_video_create'),
+                'csrfToken' => $csrfTokenManager->getToken('studio_api_video_create')->getValue(),
+                'indexUrl' => $this->generateUrl('studio_video_index'),
+            ],
         ]);
     }
 
@@ -74,24 +53,22 @@ final class StudioVideoController extends AbstractController
         Request $request,
         UpdateVideoContentService $updateVideoContentService,
         VideoPublicationActionsPresenter $publicationActionsPresenter,
+        CsrfTokenManagerInterface $csrfTokenManager,
     ): Response {
         $video = $this->findVideoOr404($id);
 
-        $input = $this->buildContentInputFromVideo($video);
-        $form = $this->createForm(UpdateVideoContentType::class, $input);
-        $form->handleRequest($request);
+        $contentInput = $this->buildContentInputFromVideo($video);
+        $contentForm = $this->createForm(UpdateVideoContentType::class, $contentInput);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        $contentForm->handleRequest($request);
+
+        if ($contentForm->isSubmitted() && $contentForm->isValid()) {
             try {
-                $video = $updateVideoContentService->update($video, $input);
+                $video = $updateVideoContentService->update($video, $contentInput);
             } catch (\InvalidArgumentException $exception) {
                 $this->addFlash('error', $exception->getMessage());
 
-                return $this->render('studio/video/edit.html.twig', [
-                    'video' => $video,
-                    'contentForm' => $form,
-                    'publicationActions' => $publicationActionsPresenter->present($video),
-                ]);
+                return $this->renderEditPage($video, $contentForm, $publicationActionsPresenter, $csrfTokenManager);
             }
 
             $this->addFlash('success', sprintf('Le contenu de « %s » a ete enregistre.', $video->getTitle()));
@@ -102,11 +79,7 @@ final class StudioVideoController extends AbstractController
             ]);
         }
 
-        return $this->render('studio/video/edit.html.twig', [
-            'video' => $video,
-            'contentForm' => $form,
-            'publicationActions' => $publicationActionsPresenter->present($video),
-        ]);
+        return $this->renderEditPage($video, $contentForm, $publicationActionsPresenter, $csrfTokenManager);
     }
 
     #[Route('/videos/{id}/publish', name: 'studio_video_publish', methods: ['POST'], requirements: ['id' => '\d+'])]
@@ -212,5 +185,49 @@ final class StudioVideoController extends AbstractController
             ->setDescription($video->getDescription())
             ->setLevel($video->getLevel())
             ->setCoverImagePath($video->getCoverImagePath());
+    }
+
+    private function renderEditPage(
+        Video $video,
+        FormInterface $contentForm,
+        VideoPublicationActionsPresenter $publicationActionsPresenter,
+        CsrfTokenManagerInterface $csrfTokenManager,
+    ): Response {
+        return $this->render('studio/video/edit.html.twig', [
+            'video' => $video,
+            'contentForm' => $contentForm,
+            'publicationActions' => $publicationActionsPresenter->present($video),
+            'video_source_config' => $this->buildVideoSourceConfig($video, $csrfTokenManager),
+        ]);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function buildVideoSourceConfig(Video $video, CsrfTokenManagerInterface $csrfTokenManager): array
+    {
+        $videoId = $video->getId();
+        if ($videoId === null) {
+            throw new \RuntimeException('La video n\'a pas d\'identifiant.');
+        }
+
+        $primarySource = $video->getPrimarySource();
+
+        return [
+            'videoId' => $videoId,
+            'updateSourceUrl' => $this->generateUrl('studio_api_video_source_update', ['id' => $videoId]),
+            'csrfToken' => $csrfTokenManager->getToken('studio_api_video_source_update')->getValue(),
+            'initialSource' => $primarySource !== null ? [
+                'provider' => $primarySource->getProvider()->value,
+                'externalId' => $primarySource->getExternalId(),
+                'url' => $primarySource->getUrl(),
+                'visibility' => $primarySource->getVisibility()->value,
+            ] : null,
+            'availableProviders' => [
+                ['id' => 'youtube', 'label' => 'YouTube', 'available' => true],
+                ['id' => 'vimeo', 'label' => 'Vimeo', 'available' => false],
+                ['id' => 'self_hosted', 'label' => 'Auto-heberge', 'available' => false],
+            ],
+        ];
     }
 }

@@ -1,0 +1,53 @@
+{% set display_name = app.user.fullname ?: app.user.email %}
+{% set avatar_initial = display_name|slice(0, 1)|upper %}
+
+<div class="ds-studio-header-user" data-studio-header-user>
+    <button
+        type="button"
+        class="ds-studio-header-user__trigger"
+        data-studio-user-toggle
+        aria-expanded="false"
+        aria-controls="studio-header-user-menu"
+        aria-label="Menu utilisateur"
+        data-testid="studio-header-user-toggle"
+    >
+        <span class="ds-studio-header-user__avatar" aria-hidden="true">{{ avatar_initial }}</span>
+    </button>
+
+    <div
+        id="studio-header-user-menu"
+        class="ds-studio-header-user__menu"
+        data-studio-user-dropdown
+        hidden
+        role="menu"
+        aria-label="Compte utilisateur"
+    >
+        <div class="ds-studio-header-user__identity">
+            <span class="ds-studio-header-user__avatar ds-studio-header-user__avatar--lg" aria-hidden="true">{{ avatar_initial }}</span>
+            <div class="min-w-0">
+                <p class="text-xl font-semibold truncate font-space-grotesk" title="{{ display_name }}">{{ display_name }}</p>
+                {% if app.user.fullname %}
+                    <p class="text-sm text-zinc-500 truncate" title="{{ app.user.email }}">{{ app.user.email }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="ds-studio-header-user__links" data-studio-user-menu>
+            <a href="{{ path('app_account') }}" class="px-3 py-2 rounded-lg flex items-center gap-3 font-medium transition-colors text-zinc-700 hover:text-primary-800 hover:bg-primary-100
+            dark:text-white dark:hover:text-white dark:hover:bg-primary-700" role="menuitem" data-studio-account-link>
+                {% include 'components/icon.html.twig' with { name: 'user', size: 16 } %}
+                Mon compte
+            </a>
+            <a href="{{ path('app_home') }}" class="px-3 py-2 rounded-lg flex items-center gap-3 font-medium transition-colors text-zinc-700 hover:text-primary-800 hover:bg-primary-100
+            dark:text-white dark:hover:text-white dark:hover:bg-primary-700" role="menuitem">
+                {% include 'components/icon.html.twig' with { name: 'external-link', size: 16 } %}
+                Site public
+            </a>
+            <a href="{{ path('app_logout') }}" class="px-3 py-2 rounded-lg flex items-center gap-3 font-medium transition-colors text-danger-900 hover:text-danger-800 hover:bg-danger-100
+            dark:text-danger-500 dark:hover:text-danger-200 dark:hover:bg-danger-500/50" role="menuitem" data-studio-logout-link>
+                {% include 'components/icon.html.twig' with { name: 'log-out', size: 16 } %}
+                Déconnexion
+            </a>
+        </div>
+    </div>
+</div>

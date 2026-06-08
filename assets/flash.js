@@ -124,12 +124,10 @@ function bindAutoDismiss(item) {
 }
 
 function collectFlashItems(root) {
-    if (!(root instanceof HTMLElement)) {
-        return [];
-    }
+    const scope = root instanceof HTMLElement ? root : document;
+    const items = [...scope.querySelectorAll('[data-flash-item]')];
 
-    const items = [...root.querySelectorAll('[data-flash-item]')];
-    if (root.matches('[data-flash-item]')) {
+    if (root instanceof HTMLElement && root.matches('[data-flash-item]')) {
         items.unshift(root);
     }
 
@@ -140,7 +138,7 @@ function initFlashItems(root) {
     const scope = root instanceof HTMLElement ? root : document;
 
     scope.querySelectorAll('[data-flash-dismiss]').forEach(bindDismissButton);
-    collectFlashItems(scope).forEach(bindAutoDismiss);
+    collectFlashItems(root ?? document).forEach(bindAutoDismiss);
 }
 
 function getToastStack() {

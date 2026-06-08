@@ -371,19 +371,39 @@
             </section>
 
             <section class="mb-10" data-testid="design-system-studio-preview" aria-labelledby="studio-preview-heading">
-                <h2 id="studio-preview-heading" class="mb-4 text-lg font-semibold">Studio shell preview</h2>
-                <div class="overflow-hidden rounded-2xl border ds-border">
-                    <div class="flex min-h-64">
-                        <div class="hidden w-48 shrink-0 border-r ds-border bg-[var(--ds-studio-surface)] p-4 lg:block">
-                            <p class="text-sm font-bold">Studio</p>
-                            <div class="mt-4 space-y-2">
-                                <div class="rounded-full bg-[var(--ds-primary-soft)] px-4 py-2 text-sm">Videos</div>
-                                <div class="rounded-full px-4 py-2 text-sm ds-text-muted">Articles</div>
+                <h2 id="studio-preview-heading" class="mb-4 text-lg font-semibold">Studio layout</h2>
+                <p class="mb-4 text-sm ds-text-muted">Preview du shell Studio legacy : sidebar 300px, header fixe, zone main scrollable.</p>
+                <div class="overflow-hidden rounded-2xl border ds-border bg-[var(--ds-studio-bg)]" data-testid="design-system-studio-layout-preview">
+                    <div class="relative flex min-h-[22rem]">
+                        <div class="hidden w-[300px] shrink-0 flex-col gap-4 border-r ds-border bg-[var(--ds-studio-surface)] p-5 lg:flex">
+                            <div class="flex items-center gap-2">
+                                <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[var(--ds-primary)] text-sm font-bold text-white">LF</span>
+                                <span class="text-2xl font-bold">Studio</span>
+                            </div>
+                            <ul class="space-y-1" role="list">
+                                <li><div class="rounded-full px-6 py-2 text-base font-medium text-[var(--ds-studio-nav-active-text)] bg-[var(--ds-studio-nav-active-bg)]">Vidéos</div></li>
+                                <li><div class="rounded-full px-6 py-2 text-base ds-text-muted">Articles</div></li>
+                                <li><div class="rounded-full px-6 py-2 text-base ds-text-muted">Playlists</div></li>
+                            </ul>
+                            <div class="mt-auto border-t ds-border pt-4">
+                                <div class="rounded-full px-6 py-2 text-base ds-text-muted">Quitter le studio</div>
                             </div>
                         </div>
-                        <div class="flex-1 bg-[var(--ds-studio-bg)]">
-                            <div class="border-b ds-border bg-[var(--ds-studio-surface)] px-4 py-3 text-sm font-semibold">Topbar Studio</div>
-                            <div class="p-4 text-sm ds-text-muted">Zone contenu scrollable</div>
+                        <div class="flex min-w-0 flex-1 flex-col">
+                            <div class="flex h-20 items-center justify-between border-b ds-border bg-[var(--ds-studio-surface)] px-4 shadow-sm lg:pl-4">
+                                <div class="inline-flex h-11 w-11 items-center justify-center rounded-md border ds-border lg:hidden" aria-hidden="true">
+                                    <span class="text-xs font-semibold">Menu</span>
+                                </div>
+                                <div class="ml-auto flex items-center gap-2">
+                                    <div class="inline-flex h-10 w-10 items-center justify-center rounded-full border ds-border text-xs">Theme</div>
+                                    <div class="inline-flex h-11 w-11 items-center justify-center rounded-full border ds-border bg-[var(--ds-primary-soft)] text-sm font-bold text-[var(--ds-primary)]">LF</div>
+                                </div>
+                            </div>
+                            <div class="flex-1 p-4 lg:px-8">
+                                <p class="text-xs font-semibold uppercase tracking-wide text-[var(--ds-primary)]">Studio</p>
+                                <h3 class="mt-1 text-lg font-semibold">Zone contenu</h3>
+                                <p class="mt-2 text-sm ds-text-muted">Breadcrumb, titres de page et modules React vivent ici.</p>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -30,7 +30,7 @@ final class StudioBreadcrumbBuilder
             'studio_video_new' => [
                 $this->crumb('Dashboard', 'studio_home', 'layout-dashboard'),
                 $this->crumb('Vidéos', 'studio_video_index', 'video'),
-                $this->crumb('Nouvelle vidéo', null, 'plus'),
+                $this->crumb('Ajouter une vidéo', null, 'plus'),
             ],
             'studio_video_edit' => [
                 $this->crumb('Dashboard', 'studio_home', 'layout-dashboard'),

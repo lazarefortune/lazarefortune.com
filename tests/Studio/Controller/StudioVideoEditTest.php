@@ -63,25 +63,33 @@ final class StudioVideoEditTest extends AuthenticatedWebTestCase
         $this->assertResponseStatusCodeSame(404);
     }
 
-    public function testValidPostRedirectsToStudioVideoEdit(): void
+    public function testApiCreateRedirectsToStudioVideoEdit(): void
     {
         $client = $this->createClientWithSchema();
         $admin = $this->persistUser('studio-video-edit-redirect@example.com', [User::ROLE_ADMIN]);
 
         $client->loginUser($admin);
         $crawler = $client->request('GET', '/studio/videos/new');
+        $config = json_decode($crawler->filter('#studio-video-create-config')->text(), true, 512, JSON_THROW_ON_ERROR);
 
-        $form = $crawler->selectButton('Créer le brouillon')->form([
-            'create_draft_video[title]' => 'Video redirigee vers edit',
-            'create_draft_video[slug]' => 'video-redirigee-vers-edit',
-        ]);
-        $client->submit($form);
+        $client->request(
+            'POST',
+            '/studio/api/videos',
+            server: [
+                'CONTENT_TYPE' => 'application/json',
+                'HTTP_X-CSRF-TOKEN' => $config['csrfToken'],
+            ],
+            content: json_encode([
+                'mode' => 'idea',
+                'title' => 'Video redirigee vers edit',
+            ], JSON_THROW_ON_ERROR),
+        );
 
-        $this->assertResponseRedirects();
-        $location = (string) $client->getResponse()->headers->get('Location');
-        $this->assertMatchesRegularExpression('#/studio/videos/\d+/edit$#', $location);
+        $this->assertResponseIsSuccessful();
+        $payload = json_decode((string) $client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        $this->assertMatchesRegularExpression('~/studio/videos/\d+/edit#content$~', $payload['redirectUrl']);
 
-        $client->followRedirect();
+        $client->request('GET', $payload['redirectUrl']);
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h1', 'Video redirigee vers edit');
         $this->assertSelectorExists('[data-testid="studio-video-edit-tabs"]');

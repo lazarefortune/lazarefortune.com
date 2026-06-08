@@ -1,10 +1,21 @@
 const DEFAULT_TAB = 'content';
 const VALID_TABS = new Set(['content', 'source', 'classification', 'publication']);
+const TAB_ALIASES = {
+    video: 'source',
+};
+
+function resolveTabId(hash) {
+    if (VALID_TABS.has(hash)) {
+        return hash;
+    }
+
+    return TAB_ALIASES[hash] ?? DEFAULT_TAB;
+}
 
 function getTabFromHash() {
     const hash = window.location.hash.replace('#', '');
 
-    return VALID_TABS.has(hash) ? hash : DEFAULT_TAB;
+    return resolveTabId(hash);
 }
 
 function activateTab(tabId) {

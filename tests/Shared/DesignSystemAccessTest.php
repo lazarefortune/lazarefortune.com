@@ -39,6 +39,7 @@ final class DesignSystemAccessTest extends WebTestCase
         $this->assertSelectorExists('[data-testid="design-system-split-button"]');
         $this->assertSelectorExists('[data-testid="design-system-empty-states"]');
         $this->assertSelectorExists('[data-testid="design-system-studio-preview"]');
+        $this->assertSelectorExists('[data-testid="design-system-studio-layout-preview"]');
         $this->assertSelectorExists('[data-testid="design-system-theme"]');
         $this->assertSelectorTextContains('h1', 'Design system V3');
     }

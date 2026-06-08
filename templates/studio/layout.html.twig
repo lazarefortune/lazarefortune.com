@@ -5,7 +5,7 @@
 {% block layout %}
     {% set current_route = app.request.attributes.get('_route') %}
     {% set nav_items = [
-        { route: 'studio_home', label: 'Tableau de bord', icon: 'layout-dashboard', active: current_route == 'studio_home' },
+        { route: 'studio_home', label: 'Accueil', icon: 'home', active: current_route == 'studio_home' },
         { route: 'studio_video_index', label: 'Vidéos', icon: 'video', active: current_route starts with 'studio_video_' },
         { route: 'studio_article_index', label: 'Articles', icon: 'file-text', active: current_route starts with 'studio_article_' },
         { route: 'studio_playlist_index', label: 'Playlists', icon: 'list-video', active: current_route starts with 'studio_playlist_' },
@@ -17,13 +17,13 @@
 
         <aside class="ds-studio-sidebar" data-studio-sidebar aria-label="Navigation Studio">
             <div class="ds-studio-sidebar__header">
-                <a href="{{ path('studio_home') }}" class="ds-studio-sidebar__brand">
-                    {% include 'components/icon.html.twig' with { name: 'layout-dashboard', size: 22, class: 'text-[var(--ds-primary)]' } %}
-                    <span>Studio</span>
+                <a href="{{ path('studio_home') }}" class="ds-studio-sidebar__brand font-space-grotesk">
+                    <span class="ds-studio-sidebar__logo" aria-hidden="true">LF</span>
+                    <span class="ds-studio-sidebar__brand-label">Studio</span>
                 </a>
             </div>
 
-            <nav class="ds-studio-sidebar__nav">
+            <nav class="ds-studio-sidebar__nav" aria-label="Sections Studio">
                 {% include 'studio/partials/nav_links.html.twig' %}
             </nav>
 
@@ -34,7 +34,7 @@
 
         <div
             data-studio-mobile-overlay
-            class="ds-studio-overlay fixed inset-0 z-40 hidden lg:hidden"
+            class="ds-studio-overlay hidden lg:hidden"
             aria-hidden="true"
         ></div>
 
@@ -47,8 +47,8 @@
         >
             <div class="ds-studio-sidebar__header">
                 <a href="{{ path('studio_home') }}" class="ds-studio-sidebar__brand">
-                    {% include 'components/icon.html.twig' with { name: 'layout-dashboard', size: 22, class: 'text-[var(--ds-primary)]' } %}
-                    <span>Studio</span>
+                    <span class="ds-studio-sidebar__logo" aria-hidden="true">LF</span>
+                    <span class="ds-studio-sidebar__brand-label">Studio</span>
                 </a>
                 <button
                     type="button"
@@ -60,7 +60,7 @@
                 </button>
             </div>
 
-            <nav class="ds-studio-sidebar__nav">
+            <nav class="ds-studio-sidebar__nav" aria-label="Sections Studio">
                 {% include 'studio/partials/nav_links.html.twig' with { close_on_navigate: true } %}
             </nav>
 
@@ -69,39 +69,27 @@
             </div>
         </aside>
 
-        <div class="ds-studio-content" data-studio-content>
+        <div class="ds-studio-main-wrapper" data-studio-content>
             <header class="ds-studio-topbar" data-studio-topbar>
-                <div class="ds-studio-topbar__start">
-                    <button
-                        type="button"
-                        data-studio-menu-toggle
-                        class="ds-icon-link min-h-11 min-w-11 shrink-0 lg:hidden"
-                        aria-expanded="false"
-                        aria-controls="studio-mobile-drawer"
-                        aria-label="Ouvrir le menu Studio"
-                    >
-                        {% include 'components/icon.html.twig' with { name: 'menu', size: 20 } %}
-                    </button>
-                    <div class="min-w-0">
-                        <p class="ds-studio-topbar__eyebrow lg:hidden">Studio</p>
-                        <h1 class="ds-studio-topbar__title truncate">
-                            {{ block('studio_title') is defined ? block('studio_title') : 'Espace createur' }}
-                        </h1>
+                <div class="ds-studio-topbar__container">
+                    <div class="ds-studio-topbar__start">
+                        <button
+                            type="button"
+                            data-studio-menu-toggle
+                            class="ds-studio-topbar__menu-btn lg:hidden"
+                            aria-expanded="false"
+                            aria-controls="studio-mobile-drawer"
+                            aria-label="Ouvrir le menu Studio"
+                            data-testid="studio-menu-toggle"
+                        >
+                            {% include 'components/icon.html.twig' with { name: 'menu', size: 24 } %}
+                        </button>
                     </div>
-                </div>
 
-                <div class="ds-studio-topbar__actions">
-                    <a href="{{ path('app_account') }}" class="ds-studio-topbar__account hidden sm:inline-flex" data-studio-account-link>
-                        {% include 'components/icon.html.twig' with { name: 'user', size: 16 } %}
-                        <span class="max-w-[12rem] truncate">{{ app.user.fullname ?: app.user.email }}</span>
-                    </a>
-                    <a href="{{ path('app_logout') }}" class="ds-studio-topbar__logout hidden md:inline-flex" data-studio-logout-link>
-                        {% include 'components/icon.html.twig' with { name: 'log-out', size: 16 } %}
-                        <span>Déconnexion</span>
-                    </a>
-                    <span class="lg:hidden">
+                    <div class="ds-studio-topbar__actions">
                         {% include 'components/theme_toggle.html.twig' %}
-                    </span>
+                        {% include 'studio/partials/header_user_menu.html.twig' %}
+                    </div>
                 </div>
             </header>
 

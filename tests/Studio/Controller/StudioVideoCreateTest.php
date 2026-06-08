@@ -5,13 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Studio\Controller;
 
 use App\Auth\Entity\User;
-use App\Content\Enum\ContentLevel;
-use App\Content\Enum\ContentVisibility;
-use App\Content\Enum\PublicationStatus;
 use App\Tests\Auth\Security\AuthenticatedWebTestCase;
-use App\Video\Entity\Video;
 use App\Video\Repository\VideoRepository;
-use Doctrine\ORM\EntityManagerInterface;
 
 final class StudioVideoCreateTest extends AuthenticatedWebTestCase
 {
@@ -34,7 +29,7 @@ final class StudioVideoCreateTest extends AuthenticatedWebTestCase
         $this->assertResponseStatusCodeSame(403);
     }
 
-    public function testRoleAdminCanAccessStudioVideoNew(): void
+    public function testRoleAdminCanAccessStudioVideoNewWithReactMount(): void
     {
         $client = $this->createClientWithSchema();
         $admin = $this->persistUser('studio-video-new-admin@example.com', [User::ROLE_ADMIN]);
@@ -43,119 +38,35 @@ final class StudioVideoCreateTest extends AuthenticatedWebTestCase
         $client->request('GET', '/studio/videos/new');
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Nouvelle vidéo');
-        $this->assertSelectorTextContains('[data-studio-breadcrumb]', 'Nouvelle vidéo');
+        $this->assertSelectorTextContains('h1', 'Ajouter une vidéo');
+        $this->assertSelectorExists('[data-testid="studio-video-create-app"]');
+        $this->assertSelectorExists('#studio-video-create-config');
+        $this->assertSelectorExists('script[src*="/build/studio"]');
     }
 
-    public function testValidPostCreatesDraftVideoAndRedirectsToEdit(): void
-    {
-        $client = $this->createClientWithSchema();
-        $admin = $this->persistUser('studio-video-create-admin@example.com', [User::ROLE_ADMIN]);
-
-        $client->loginUser($admin);
-        $crawler = $client->request('GET', '/studio/videos/new');
-
-        $form = $crawler->selectButton('Créer le brouillon')->form([
-            'create_draft_video[title]' => 'Ma premiere video pedagogique',
-            'create_draft_video[slug]' => 'ma-premiere-video-pedagogique',
-            'create_draft_video[excerpt]' => 'Un extrait court pour la liste.',
-            'create_draft_video[level]' => ContentLevel::BEGINNER->value,
-        ]);
-        $client->submit($form);
-
-        $this->assertResponseRedirects();
-        $location = (string) $client->getResponse()->headers->get('Location');
-        $this->assertMatchesRegularExpression('#/studio/videos/\d+/edit$#', $location);
-        $client->followRedirect();
-        $this->assertSelectorExists('[data-flash-messages][data-flash-mode="floating"] [data-flash-item].ds-alert-success');
-
-        /** @var VideoRepository $videoRepository */
-        $videoRepository = static::getContainer()->get(VideoRepository::class);
-        $video = $videoRepository->findOneBy(['slug' => 'ma-premiere-video-pedagogique']);
-
-        $this->assertInstanceOf(Video::class, $video);
-        $this->assertSame('Ma premiere video pedagogique', $video->getTitle());
-        $this->assertSame(PublicationStatus::DRAFT, $video->getStatus());
-        $this->assertSame(ContentVisibility::PUBLIC, $video->getVisibility());
-        $this->assertSame(ContentLevel::BEGINNER, $video->getLevel());
-        $this->assertSame('Un extrait court pour la liste.', $video->getExcerpt());
-        $this->assertSame($admin->getId(), $video->getAuthor()->getId());
-        $this->assertNull($video->getPublishedAt());
-        $this->assertNull($video->getScheduledAt());
-        $this->assertCount(0, $video->getSources());
-    }
-
-    public function testSlugIsGeneratedFromTitleWhenEmpty(): void
-    {
-        $client = $this->createClientWithSchema();
-        $admin = $this->persistUser('studio-video-slug-auto@example.com', [User::ROLE_ADMIN]);
-
-        $client->loginUser($admin);
-        $crawler = $client->request('GET', '/studio/videos/new');
-
-        $form = $crawler->selectButton('Créer le brouillon')->form([
-            'create_draft_video[title]' => 'Hello Symfony World',
-            'create_draft_video[slug]' => '',
-        ]);
-        $client->submit($form);
-
-        $this->assertResponseRedirects();
-        $this->assertMatchesRegularExpression('#/studio/videos/\d+/edit$#', (string) $client->getResponse()->headers->get('Location'));
-
-        /** @var VideoRepository $videoRepository */
-        $videoRepository = static::getContainer()->get(VideoRepository::class);
-        $video = $videoRepository->findOneBy(['slug' => 'hello-symfony-world']);
-
-        $this->assertInstanceOf(Video::class, $video);
-    }
-
-    public function testDuplicateSlugGetsNumericSuffix(): void
-    {
-        $client = $this->createClientWithSchema();
-        /** @var EntityManagerInterface $entityManager */
-        $entityManager = static::getContainer()->get(EntityManagerInterface::class);
-        $admin = $this->persistUser('studio-video-slug-dup@example.com', [User::ROLE_ADMIN]);
-
-        $existingVideo = (new Video($admin))
-            ->setTitle('Video existante')
-            ->setSlug('slug-en-doublon');
-        $entityManager->persist($existingVideo);
-        $entityManager->flush();
-
-        $client->loginUser($admin);
-        $crawler = $client->request('GET', '/studio/videos/new');
-
-        $form = $crawler->selectButton('Créer le brouillon')->form([
-            'create_draft_video[title]' => 'Autre video',
-            'create_draft_video[slug]' => 'slug-en-doublon',
-        ]);
-        $client->submit($form);
-
-        $this->assertResponseRedirects();
-        $this->assertMatchesRegularExpression('#/studio/videos/\d+/edit$#', (string) $client->getResponse()->headers->get('Location'));
-
-        /** @var VideoRepository $videoRepository */
-        $videoRepository = static::getContainer()->get(VideoRepository::class);
-        $video = $videoRepository->findOneBy(['slug' => 'slug-en-doublon-2']);
-
-        $this->assertInstanceOf(Video::class, $video);
-        $this->assertSame('Autre video', $video->getTitle());
-    }
-
-    public function testCreatedVideoAppearsOnStudioVideosIndex(): void
+    public function testCreatedVideoViaApiAppearsOnStudioVideosIndex(): void
     {
         $client = $this->createClientWithSchema();
         $admin = $this->persistUser('studio-video-index-visible@example.com', [User::ROLE_ADMIN]);
 
         $client->loginUser($admin);
-        $crawler = $client->request('GET', '/studio/videos/new');
+        $csrfToken = $this->fetchCreateCsrfToken($client);
+        $client->request(
+            'POST',
+            '/studio/api/videos',
+            server: [
+                'CONTENT_TYPE' => 'application/json',
+                'HTTP_X-CSRF-TOKEN' => $csrfToken,
+            ],
+            content: json_encode([
+                'mode' => 'idea',
+                'title' => 'Video visible dans la liste',
+            ], JSON_THROW_ON_ERROR),
+        );
 
-        $form = $crawler->selectButton('Créer le brouillon')->form([
-            'create_draft_video[title]' => 'Video visible dans la liste',
-            'create_draft_video[slug]' => 'video-visible-dans-la-liste',
-        ]);
-        $client->submit($form);
-        $client->followRedirect();
+        $this->assertResponseIsSuccessful();
+        $payload = json_decode((string) $client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        $client->request('GET', $payload['redirectUrl']);
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h1', 'Video visible dans la liste');
@@ -163,5 +74,43 @@ final class StudioVideoCreateTest extends AuthenticatedWebTestCase
         $client->request('GET', '/studio/videos');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('[data-studio-index-list]', 'Video visible dans la liste');
+    }
+
+    public function testApiIdeaCreatesUniqueSlugFromTitle(): void
+    {
+        $client = $this->createClientWithSchema();
+        $admin = $this->persistUser('studio-video-slug-auto@example.com', [User::ROLE_ADMIN]);
+
+        $client->loginUser($admin);
+        $csrfToken = $this->fetchCreateCsrfToken($client);
+        $client->request(
+            'POST',
+            '/studio/api/videos',
+            server: [
+                'CONTENT_TYPE' => 'application/json',
+                'HTTP_X-CSRF-TOKEN' => $csrfToken,
+            ],
+            content: json_encode([
+                'mode' => 'idea',
+                'title' => 'Hello Symfony World',
+            ], JSON_THROW_ON_ERROR),
+        );
+
+        $this->assertResponseIsSuccessful();
+
+        /** @var VideoRepository $videoRepository */
+        $videoRepository = static::getContainer()->get(VideoRepository::class);
+        $video = $videoRepository->findOneBy(['slug' => 'hello-symfony-world']);
+
+        $this->assertNotNull($video);
+        $this->assertSame('Hello Symfony World', $video->getTitle());
+    }
+
+    private function fetchCreateCsrfToken(\Symfony\Bundle\FrameworkBundle\KernelBrowser $client): string
+    {
+        $crawler = $client->request('GET', '/studio/videos/new');
+        $config = json_decode($crawler->filter('#studio-video-create-config')->text(), true, 512, JSON_THROW_ON_ERROR);
+
+        return $config['csrfToken'];
     }
 }

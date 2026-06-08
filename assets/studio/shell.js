@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
+    initMobileDrawer();
+    initHeaderUserMenu();
+});
+
+function initMobileDrawer() {
     const toggleButton = document.querySelector('[data-studio-menu-toggle]');
     const drawer = document.querySelector('[data-studio-mobile-drawer]');
     const overlay = document.querySelector('[data-studio-mobile-overlay]');
@@ -40,4 +45,43 @@ document.addEventListener('DOMContentLoaded', () => {
             toggleButton.focus();
         }
     });
-});
+}
+
+function initHeaderUserMenu() {
+    const root = document.querySelector('[data-studio-header-user]');
+    const toggle = document.querySelector('[data-studio-user-toggle]');
+    const menu = document.querySelector('[data-studio-user-dropdown]');
+
+    if (!(root instanceof HTMLElement) || !(toggle instanceof HTMLButtonElement) || !(menu instanceof HTMLElement)) {
+        return;
+    }
+
+    const setOpen = (open) => {
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        menu.classList.toggle('is-open', open);
+        if (!open) {
+            menu.setAttribute('hidden', '');
+        } else {
+            menu.removeAttribute('hidden');
+        }
+    };
+
+    toggle.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+        setOpen(!isOpen);
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!root.contains(event.target)) {
+            setOpen(false);
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+            setOpen(false);
+            toggle.focus();
+        }
+    });
+}
