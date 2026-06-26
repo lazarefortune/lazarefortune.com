@@ -12,8 +12,8 @@ deploy_new_vps:
     - mkdir -p ~/.ssh
     - echo "$SSH_LAZAREFORTUNE_KEY" | base64 -d > ~/.ssh/id_deploy
     - chmod 600 ~/.ssh/id_deploy
+    - ssh-keygen -lf ~/.ssh/id_deploy
     - ssh-keyscan -p "$SSH_LAZAREFORTUNE_PORT" -H "$SSH_LAZAREFORTUNE_HOST" >> ~/.ssh/known_hosts
-    - chmod 644 ~/.ssh/known_hosts
 
   script:
     - |
